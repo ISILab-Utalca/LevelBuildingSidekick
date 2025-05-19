@@ -10,6 +10,7 @@ using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
 using System.Resources;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -25,21 +26,30 @@ namespace ISILab.LBS.Behaviours.Editor
         #region FIELDS
         private SchemaBehaviour _target;
 
-        private AddSchemaTile createNewRoomNode;
+        private AddSchemaTile addSchemaTile;
         private RemoveSchemaTile removeSchemaTile;
 
-        private SetSchemaTileConnection setTileConnection;
+        private AddSchemaTileConnection addTileConnection;
         private RemoveTileConnection removeTileConnection;
         #endregion
 
         #region VIEW FIELDS
+        private VectorImage icon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Behavior");
         private SimplePallete areaPallete;
         private SimplePallete connectionPallete;
+        private string zoneIconGuid = "76bf813a38668ce439887addd209058c";
+        private string windowConnectionIconGuid = "c0d00de1d82858c4b9d772a012caf67d";
+        private string doorConnectionIconGuid = "cd77d8067cf8b6b44ab23da9a62173c0";
+        private string wallConnectionIconGuid = "b29ab5d90498432409a5fb48f6be7bd5";
+        private string emptyConnectionIconGuid = "072eebdede709814ea347b1cde4b51a2";
+
         #endregion
 
         #region PROPERTIES
         private Color BHcolor => LBSSettings.Instance.view.behavioursColor;
         #endregion
+
+        #region CONSTRUCTORS
 
         public SchemaBehaviourEditor(object target) : base(target)
         {
@@ -48,43 +58,35 @@ namespace ISILab.LBS.Behaviours.Editor
             CreateVisualElement();
         }
 
+
+        #endregion
+
+        #region METHODS
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
-            // Add Zone Tiles
-            icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
-            this.createNewRoomNode = new AddSchemaTile();
-            var t1 = new LBSTool(icon, "Paint Zone", createNewRoomNode);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t1.OnEnd += (l) => areaPallete.Repaint();
-            t1.Init(_target.Owner, _target);
+            addSchemaTile = new AddSchemaTile();
+            var t1 = new LBSTool(addSchemaTile);
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t1.OnEnd += l => areaPallete.Repaint();
+            t1.Init(_target.OwnerLayer, _target);
             
-            // Remove Tiles
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_interior_tile");
-            this.removeSchemaTile = new RemoveSchemaTile();
-            var t2 = new LBSTool(icon, "Remove Tile", removeSchemaTile);
-            t2.Init(_target.Owner, _target);
+            removeSchemaTile = new RemoveSchemaTile();
+            var t2 = new LBSTool(removeSchemaTile);
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t2.Init(_target.OwnerLayer, _target);
             
-            toolKit.AddSeparator();
-
-            // Add Tile connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Set_Connection");
-            this.setTileConnection = new SetSchemaTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", setTileConnection);
-            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t3.Init(_target.Owner, _target);
-       
-
-            // Remove Tile connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_Set_Connection");
-            this.removeTileConnection = new RemoveTileConnection();
-            var t4 = new LBSTool(icon, "Clean connection", removeTileConnection);
-            t4.Init(_target.Owner, _target);
-      
+            addTileConnection = new AddSchemaTileConnection();
+            var t3 = new LBSTool(addTileConnection);
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t3.Init(_target.OwnerLayer, _target);
             
-            createNewRoomNode.SetAddRemoveConnection(removeSchemaTile);
-            setTileConnection.SetAddRemoveConnection(removeTileConnection);
+            removeTileConnection = new RemoveTileConnection();
+            var t4 = new LBSTool(removeTileConnection);
+            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            t4.Init(_target.OwnerLayer, _target);
+            
+            addSchemaTile.SetRemover(removeSchemaTile);
+            addTileConnection.SetRemover(removeTileConnection);
             
             toolKit.AddTool(t1);
             toolKit.AddTool(t2);
@@ -131,9 +133,10 @@ namespace ISILab.LBS.Behaviours.Editor
 
         private void SetAreaPallete()
         {
+            if (areaPallete == null) return;
+            
             areaPallete.ShowGroups = false;
             areaPallete.SetName("Zones");
-            var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             areaPallete.SetIcon(icon, BHcolor);
 
             var zones = _target.Zones;
@@ -172,6 +175,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 var area = (Zone)option;
                 optionView.Label = area.ID; // ID or name (??)
                 optionView.Color = area.Color;
+                optionView.Icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(zoneIconGuid);
 
             });
 
@@ -200,7 +204,7 @@ namespace ISILab.LBS.Behaviours.Editor
                     return;
 
                 _target.RemoveZone(option as Zone);
-                ToolKit.Instance.SetActive("Paint Zone");
+                ToolKit.Instance.SetActive(typeof(AddSchemaTile));
 
                 DrawManager.ReDraw();
                 areaPallete.Repaint();
@@ -216,9 +220,9 @@ namespace ISILab.LBS.Behaviours.Editor
             connectionPallete.ShowGroups = false;
             connectionPallete.ShowRemoveButton = false;
             connectionPallete.ShowAddButton = false;
-
+            connectionPallete.ShowNoElement = false;
+            
             connectionPallete.SetName("Connections");
-            var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
             connectionPallete.SetIcon(icon, BHcolor);
 
   
@@ -235,7 +239,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 // var tk = ToolKit.Instance;
                 _target.conectionToSet = selected as string;
                 //setTileConnection.ToSet = selected as string;
-                ToolKit.Instance.SetActive("Set connection");
+                ToolKit.Instance.SetActive(typeof(AddSchemaTileConnection));
             };
 
             // Init options}
@@ -254,13 +258,15 @@ namespace ISILab.LBS.Behaviours.Editor
             connectionPallete.Repaint();
         }
 
-        Texture2D GetOptionIcon(string label)
+        VectorImage GetOptionIcon(string label)
         {
-            if(label == "Empty") return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
-            if(label == "Wall") return Resources.Load<Texture2D>("Icons/Behaviors/IconWallConnection");
-            if(label == "Door") return Resources.Load<Texture2D>("Icons/Behaviors/IconDoorConnection");
-            if(label == "Window") return Resources.Load<Texture2D>("Icons/Behaviors/IconWindowsConnection");
-            return Resources.Load<Texture2D>("Icons/Behaviors/IconEmptyConnection");
+            if(label == "Empty") return LBSAssetMacro.LoadAssetByGuid<VectorImage>(emptyConnectionIconGuid);
+            if(label == "Wall") return LBSAssetMacro.LoadAssetByGuid<VectorImage>(wallConnectionIconGuid);
+            if(label == "Door") return LBSAssetMacro.LoadAssetByGuid<VectorImage>(doorConnectionIconGuid);
+            if(label == "Window") return LBSAssetMacro.LoadAssetByGuid<VectorImage>(windowConnectionIconGuid);
+            return LBSAssetMacro.LoadAssetByGuid<VectorImage>(zoneIconGuid);
         }
+        
+        #endregion
     }
 }

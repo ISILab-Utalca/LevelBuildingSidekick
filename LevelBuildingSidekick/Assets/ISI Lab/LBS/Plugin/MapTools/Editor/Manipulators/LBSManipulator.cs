@@ -5,13 +5,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
-using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
-using LBS;
-using UnityEditor;
+using ISILab.Macros;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -20,40 +17,53 @@ namespace ISILab.LBS.Manipulators
     {
         #region FIELDS
 
+        #region DATA
         protected LBSLayer lbsLayer;
         
         protected Feedback feedback;
-
-        private bool started = false;
-        private bool ended = false;
-        private bool isRightClick = false;
-        // referenced by adders. usable by right click
-        private LBSManipulator remover;
-
-   
-        // referenced by deleters. If activatedByOther, sets adder as manipulator in MainView
-        private LBSManipulator adder;
         
+        protected VectorImage icon;
+
+        protected string name;
+        
+        protected string description;
+        #endregion
+        
+        #region STATES
+        private bool started;
+        private bool ended;
+        private bool isRightClick;
+        #endregion
+        
+        #region POSITIONS
         private Vector2Int startClickPosition = Vector2Int.zero;
         private Vector2Int moveClickPosition = Vector2Int.zero;
         private Vector2Int endClickPosition = Vector2Int.zero;
         #endregion
+        
+        #region MANIPULATOR ADDER AND REMOVER
+        /// <summary>
+        /// referenced by adders. usable by right click
+        /// </summary>
+        private LBSManipulator remover;
+        
+        /// <summary>
+        /// referenced by deleters. If activatedByOther, sets adder as manipulator in MainView
+        /// </summary>
+        private LBSManipulator adder;
+        #endregion
+        
+        #endregion
 
         #region PROPERTIES
-        public bool IsRightClick
-        {
-            get { return isRightClick; }
-            set { isRightClick = value; }
-        }
-        public LBSManipulator Adder
-        {
-            get { return adder; }
-        }
-        public LBSManipulator Remover
-        {
-            get { return remover; }
-        }
-        
+        public string Description => description;
+        public string Name => name;
+        protected abstract string IconGuid { get; }
+
+        public VectorImage Icon => icon;
+        public LBSManipulator Adder => adder;
+        public LBSManipulator Remover => remover;
+
         public Vector2Int StartPosition
         {
             get
@@ -62,29 +72,11 @@ namespace ISILab.LBS.Manipulators
                 {
                     return startClickPosition;
                 }
-                else
-                {
-                    Debug.LogWarning("[ISI Lab]: no puedes acceder a la variable 'StartPosition' fuera de la accion.");
-                    return default;
-                }
+
+                Debug.LogWarning("[ISI Lab]: no puedes acceder a la variable 'StartPosition' fuera de la accion.");
+                return default;
             }
             set => startClickPosition = value;
-        }
-
-        public Vector2Int CurrentPosition
-        {
-            get
-            {
-                if (started)
-                {
-                    return moveClickPosition;
-                }
-                else
-                {
-                    Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                    return default;
-                }
-            }
         }
 
         public Vector2Int EndPosition
@@ -95,15 +87,18 @@ namespace ISILab.LBS.Manipulators
                 {
                     return endClickPosition;
                 }
-                else
-                {
-                    Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
-                    return default;
-                }
+
+                Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
+                return default;
             }
         }
 
-        public void SetAddRemoveConnection(LBSManipulator remover)
+        /// <summary>
+        /// Sets the manipulator that removes for the current manipulator's adding function.
+        /// Only assign this from an Adder manipulator.
+        /// </summary>
+        /// <param name="remover"></param>
+        public void SetRemover(LBSManipulator remover)
         {
             this.remover = remover;
             remover.adder = this;
@@ -111,12 +106,21 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region EVENTS
+        /* meant to call the default description message of a manipulator in case it is overwritten for unique cases */
+        public Action OnManipulationNotification;
         public Action OnManipulationUnpressed;
         public Action OnManipulationStart;
         public Action OnManipulationUpdate;
         public Action OnManipulationEnd;
         public Action OnManipulationRightClick;
         public Action OnManipulationRightClickEnd;
+        #endregion
+        
+        #region CONSTRUCTORS
+        protected LBSManipulator()
+        {
+            icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(IconGuid);
+        }    
         #endregion
 
         #region METHODS
@@ -127,10 +131,14 @@ namespace ISILab.LBS.Manipulators
         /// </summary>
         protected override void RegisterCallbacksOnTarget()
         {
-            target.AddManipulator(new ContextualMenuManipulator((evt) => { evt.menu.ClearItems(); }));
+            target.AddManipulator(new ContextualMenuManipulator(evt => { evt.menu.ClearItems(); }));
             target.RegisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.RegisterCallback<MouseMoveEvent>(OnInternalMouseMove);
+            target.RegisterCallback<MouseLeaveEvent>(OnInternalMouseLeave);
             target.RegisterCallback<MouseUpEvent>(OnInternalMouseUp);
+            target.RegisterCallback<KeyDownEvent>(OnKeyDown);
+            target.RegisterCallback<KeyUpEvent>(OnKeyUp);
+            target.RegisterCallback<WheelEvent>(OnWheelEvent);
         }
 
         /// <summary>
@@ -140,7 +148,10 @@ namespace ISILab.LBS.Manipulators
         {
             target.UnregisterCallback<MouseDownEvent>(OnInternalMouseDown);
             target.UnregisterCallback<MouseMoveEvent>(OnInternalMouseMove);
+            target.UnregisterCallback<MouseLeaveEvent>(OnInternalMouseLeave);
             target.UnregisterCallback<MouseUpEvent>(OnInternalMouseUp);
+            target.UnregisterCallback<KeyDownEvent>(OnKeyDown);
+            target.UnregisterCallback<WheelEvent>(OnWheelEvent);
         }
 
         // if it has an adder ref it means the manipulator's function is to delete
@@ -210,18 +221,23 @@ namespace ISILab.LBS.Manipulators
             if (e.button != 0 && e.button != 1)
                 return;
             
+            OnManipulationNotification?.Invoke();
             startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
 
             // right click tries deleting 
             if (e.button == 1 && remover != null)
             {
                 remover.isRightClick = true;
+                
+                LBSMainWindow.WarningManipulator("Remover Activated."); // notify remover use
+                ToolKit.Instance.SetActive(remover.GetType());
                 OnManipulationRightClick?.Invoke();
                 
                 var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
                 ne.target = e.target as VisualElement;
-                e.StopImmediatePropagation();
+
                 remover.OnInternalMouseDown(ne);
+                e.StopImmediatePropagation();
                 return;
             }
             
@@ -235,9 +251,13 @@ namespace ISILab.LBS.Manipulators
             // check if last called by adder
             if (isRightClick && adder != null)
             {
-                OnManipulationRightClickEnd?.Invoke();
-                adder.OnInternalMouseDown(e);
+ 
             }
+        }
+
+        protected void OnInternalMouseLeave(MouseLeaveEvent e)
+        {
+            OnMouseLeave(e.target as VisualElement, e);
         }
 
         /// <summary>
@@ -247,14 +267,13 @@ namespace ISILab.LBS.Manipulators
         protected void OnInternalMouseMove(MouseMoveEvent e)
         {
             moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
-            
+
             // Display grid position
             if (lbsLayer != null)
             {
                 Vector2 pos = lbsLayer.ToFixedPosition(moveClickPosition);
-                LBSMainWindow.GridPosition("Grid Position: " +  pos.ToInt());
+                LBSMainWindow.GridPosition(pos);
             }
-
    
             // button functionalities
             if (e.button != 0 && e.button != 1)
@@ -271,8 +290,6 @@ namespace ISILab.LBS.Manipulators
                 remover.OnInternalMouseMove(ne);
                 return;
             }
-            
-          
 
             OnMouseMove(e.target as VisualElement, moveClickPosition, e);
             UpdateFeedback();
@@ -307,11 +324,14 @@ namespace ISILab.LBS.Manipulators
             if (e.button == 1 && remover != null)
             {
                 OnManipulationRightClick?.Invoke();
+                remover.OnManipulationNotification?.Invoke();
+                
                 return;
             }
             
             if (!e.altKey)
             {
+                e.StopPropagation();
                 OnMouseUp(e.target as VisualElement, endClickPosition, e);
                 OnManipulationEnd?.Invoke();
             }
@@ -323,6 +343,7 @@ namespace ISILab.LBS.Manipulators
             {
                 isRightClick = false;
                 OnManipulationRightClickEnd?.Invoke();
+                LBSMainWindow.WarningManipulator(); // finished using a remover
             }
         }
         
@@ -335,10 +356,18 @@ namespace ISILab.LBS.Manipulators
         }
 
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
+        
+        protected virtual void OnMouseLeave(VisualElement target, MouseLeaveEvent e) { }
 
         protected virtual void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e) { }
 
         protected virtual void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e) { }
+        
+        protected virtual void OnKeyDown(KeyDownEvent e) { }
+        
+        protected virtual void OnKeyUp(KeyUpEvent e) { }
+        
+        protected virtual void OnWheelEvent(WheelEvent e) { }
         #endregion
     }
 

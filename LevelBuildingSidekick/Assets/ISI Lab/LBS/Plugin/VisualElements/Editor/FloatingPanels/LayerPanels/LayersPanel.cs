@@ -7,7 +7,6 @@ using ISILab.LBS.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -17,20 +16,12 @@ using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-
-    public struct SavedLayerPanel
-    {
-        public LBSLevelData data;
-        public LBSLayer selectedLayer;
-    }
-    
     [UxmlElement]
     public partial class LayersPanel : VisualElement
     {
-
         
         #region FACTORY
-        //public new class UxmlFactory : UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
+        //public new class UxmlFactory: UxmlFactory<LayersPanel, VisualElement.UxmlTraits> { }
         #endregion
 
         #region FIELDS
@@ -39,15 +30,11 @@ namespace ISILab.LBS.VisualElements.Editor
         
         // templates
         private List<LayerTemplate> templates;
-
-
         #endregion
 
         #region FIELD VIEW
         private ListView list;
         private TextField nameField;
-        private ToolbarMenu addButtonMenu;   
-        private DropdownField typeDropdown;
         private List<VisualElement> noLayerNotificators; 
 
         private VisualElement noSelectedLayerNotificator;
@@ -58,7 +45,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnAddLayer;
         public event Action<LBSLayer> OnRemoveLayer;
         public event Action<LBSLayer> OnSelectLayer; // click simple (!)
-        public event Action<LBSLayer> OnDoubleSelectLayer; // doble click (!)
+        public event Action<LBSLayer> OnDoubleSelectLayer; // double click (!)
         public event Action<LBSLayer> OnLayerVisibilityChange;
         #endregion
 
@@ -74,53 +61,56 @@ namespace ISILab.LBS.VisualElements.Editor
             this.templates = templates;
 
             //Event self conection
-            this.OnAddLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
-            this.OnRemoveLayer += (LBSLayer layer) => OnLayerChangeEventHandle(layer);
-            this.OnSelectLayer += (LBSLayer layer) => OnLayerSelectedEventHandle(layer);
+            OnAddLayer += OnLayerChangeEventHandle;
+            OnRemoveLayer += OnLayerChangeEventHandle;
+            OnSelectLayer += OnLayerSelectedEventHandle;
 
             // LayerList
             list = this.Q<ListView>("List");
 
-            Func<VisualElement> makeItem = () =>
+            VisualElement MakeItem()
             {
                 return new LayerView();
-            };
+            }
 
             list.bindItem += (item, index) =>
             {
                 if (index >= this.data.LayerCount)
                     return;
 
-                var view = (item as LayerView);
+                var view = item as LayerView;
                 var layer = this.data.GetLayer(index);
+                if (view == null) return;
                 view.SetInfo(layer);
-                view.OnVisibilityChange += () => { OnLayerVisibilityChange(layer); };
+                view.OnVisibilityChange += () => OnLayerVisibilityChange(layer);
             };
 
             // list configuration
             list.fixedItemHeight = 24;
             list.itemsSource = data.Layers;
-            list.makeItem += makeItem;
+            list.makeItem += MakeItem;
             list.itemsChosen += ItemChosen;
             list.selectionChanged += SelectionChange;
 
             // NameField
             nameField = this.Q<TextField>("NameField");
 
-            // TypeDropdown
-            typeDropdown = this.Q<DropdownField>("TypeDropdown");
-            typeDropdown.choices = templates.Select(t => t.name).ToList();
-            typeDropdown.index = 0;
-            
             //Add Layer Button Menu
-            addButtonMenu = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            foreach (var ve in addLayerButton.Children())
+            {
+                if (ve != addLayerButton.Children().Last())
+                {
+                    ve.style.display = DisplayStyle.None; // Hide button dropdown, ugly af
+                }
+            }
+            
             for(int i = 0; i < templates.Count; i++)
             {
                 int x = i;
-                addButtonMenu.menu.AppendAction(templates[i].name, (DropdownMenuAction dma) => {
-                    AddLayer(x);
-                });
+                addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayer(x));
             }
+
 
             // AddLayerButton
             // var addLayerBtn = this.Q<Button>("AddLayerButton");
@@ -144,21 +134,21 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region METHODS
-        private LBSLayer CreateLayer(int _index)
+        private LBSLayer CreateLayer(int index)
         {
             var layers = templates.Select(t => t.layer).ToList();
-            return layers[_index].Clone() as LBSLayer;
+            return layers[index].Clone() as LBSLayer;
         }
 
-        public void AddLayer(int _index)
+        private void AddLayer(int index)
         {
-            if (_index < 0)
+            if (index < 0)
             {
                 Debug.LogWarning("No layer type has been selected yet, make sure to select one.");
                 return;
             }
 
-            var layer = CreateLayer(_index);
+            var layer = CreateLayer(index);
 
             layer.Name = LBSSettings.Instance.general.baseLayerName;
 
@@ -172,14 +162,13 @@ namespace ISILab.LBS.VisualElements.Editor
             data.AddLayer(layer);
             
             list.SetSelectionWithoutNotify(new List<int>() {0});
-
             OnAddLayer?.Invoke(layer);
-
+            OnLayerSelectedEventHandle(layer);
             LBSMainWindow.MessageNotify("New Data layer created");
             list.Rebuild();
         }
-        
-        public void RemoveSelectedLayer()
+
+        private void RemoveSelectedLayer()
         {
             if (data.Layers.Count <= 0)
                 return;
@@ -197,6 +186,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
 
             var layer = data.RemoveAt(index);
+
+            //Select a new layer
+            if(data.LayerCount != 0)
+            {
+                if (index >= data.LayerCount) list.selectedIndex--;
+                else OnSelectLayer(data.GetLayer(list.selectedIndex));
+            }
+
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
@@ -204,24 +201,27 @@ namespace ISILab.LBS.VisualElements.Editor
             DrawManager.ReDraw();
         }
 
-        // Simple Click over element
+        // Simple Click over an element
         private void SelectionChange(IEnumerable<object> objs)
         {
-            if (objs.Count() <= 0) {
-                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
+            if (!objs.Any()) 
+            {
                 return;
-                }
+            }
 
             var selected = objs.ToList()[0] as LBSLayer;
             OnSelectLayer?.Invoke(selected);
+            
         }
-
-        // Double Click over element
+        
+        // Double Click over an element
         private void ItemChosen(IEnumerable<object> objs)
         {
-            if (objs.Count() <= 0)
+            if (!objs.Any())
+            {
+                noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 return;
-
+            }
             var selected = objs.ToList()[0] as LBSLayer;
             OnDoubleSelectLayer?.Invoke(selected);
         }
@@ -232,11 +232,11 @@ namespace ISILab.LBS.VisualElements.Editor
             //list.RemoveFromSelection(list.selectedIndex);
         }
 
-        void OnLayerChangeEventHandle(LBSLayer _layer)
+        private void OnLayerChangeEventHandle(LBSLayer _layer)
         {
             bool hasItems = list.itemsSource.Count > 0;
             DisplayStyle notificatorsDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
-            DisplayStyle noSelectedDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
+            DisplayStyle noSelectedDisplay = _layer is null && hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             
             DisplayStyle settingsDisplay = (_layer!=null && hasItems) ? DisplayStyle.Flex : DisplayStyle.None;
@@ -251,20 +251,22 @@ namespace ISILab.LBS.VisualElements.Editor
         }
 
 
-        void OnLayerSelectedEventHandle(LBSLayer _layer){
-            if (_layer != null)
+        private void OnLayerSelectedEventHandle(LBSLayer layer){
+            if (layer is not null)
             {
+                LBSInspectorPanel.ActivateDataTab();
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
                 layerSettings.style.display = DisplayStyle.Flex;
-            } else 
+            } 
+            else 
             {
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 layerSettings.style.display = DisplayStyle.None;
             }
         }
-        
 
-        void OnKeyDown(KeyDownEvent evt)
+
+        private void OnKeyDown(KeyDownEvent evt)
         {
             // delete selected layer
             if (evt.keyCode == KeyCode.Delete)
@@ -295,9 +297,6 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             if (evt.keyCode == KeyCode.Z)
             {
-                //Debugging here
-                Debug.Log("printe me");
-                
                 evt.StopPropagation(); 
             }
 

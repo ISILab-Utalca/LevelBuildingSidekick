@@ -12,7 +12,14 @@ namespace ISILab.LBS.Manipulators
     public class RemoveTileExterior : ManipulateTeselation
     {
         private ExteriorBehaviour exterior;
-
+        protected override string IconGuid => "ce08b36a396edbf4394f7a4e641f253d";
+        
+        public RemoveTileExterior() : base()
+        {
+            name = "Remove Tile";
+            description = "Click on a Tile or select an area to remove multiple tiles.";
+        }
+        
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);
@@ -27,7 +34,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Tiles");
 
-            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {

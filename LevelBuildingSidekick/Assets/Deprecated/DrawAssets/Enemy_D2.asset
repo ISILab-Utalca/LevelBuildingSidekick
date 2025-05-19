@@ -12,20 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Enemy_D2
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 0.7169812, g: 0.050053377, b: 0.4515097, a: 1}
   icon: {fileID: 2800000, guid: 36612891cca70e046b0e30e5e2fc8bbc, type: 3}
-  childsBundles: []
   assets:
   - obj: {fileID: 7019566102101423119, guid: 6e562665a176d6348b163111177bb703, type: 3}
     probability: 1
   characteristics:
   - rid: 5607495160444747959
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
     - rid: 5607495160444747959
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}

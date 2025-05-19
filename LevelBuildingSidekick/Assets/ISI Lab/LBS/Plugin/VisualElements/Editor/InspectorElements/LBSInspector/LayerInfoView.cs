@@ -53,7 +53,7 @@ namespace LBS.VisualElements
         public void SetInfo(LBSLayer layer)
         {
             textField.value = layer.Name;
-            objectField.value = AssetDatabase.LoadAssetAtPath<Texture2D>(layer.iconPath);
+            objectField.value = AssetDatabase.LoadAssetAtPath<Texture2D>(layer.iconGuid);
             sizeField.value = layer.TileSize;
         }
     }

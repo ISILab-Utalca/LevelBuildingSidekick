@@ -16,10 +16,17 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
+    //TODO:
+    //AssistantMapEliteEditor debe volverse el objeto principal.
+    /// <summary>
+    /// Reemplazar los VisualElements de Configuration y Content con PopulationAssistantWindow para permitirles ser una ventana independiente.
+    /// </summary>
+
     [LBSCustomEditor("Assistant Map Elite", typeof(AssistantMapElite))]
     public class AssistantMapEliteEditor : LBSCustomEditor, IToolProvider
     {
@@ -28,11 +35,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private object locker = new object();
 
-        ActOnRect ActOnRect;
+        private MapEliteAreaSelector _mapEliteAreaSelector;
+        private AssistantMapElite assistant;
 
         public AssistantMapEliteEditor(object target) : base(target)
         {
-            Add(CreateVisualElement());
+            Add(new PopulationAssistantTab(target as AssistantMapElite));
             SetInfo(target);
         }
 
@@ -40,29 +48,32 @@ namespace ISILab.LBS.AI.Assistants.Editor
         {
             var assitant = target as AssistantMapElite;
 
-            if (assitant.Running)
+            if (assitant is { Running: true })
                 return;
 
             content.Reset();
-            assitant.LoadPresset(config.GetPresset());
-            if (assitant.RawToolRect.width == 0 || assitant.RawToolRect.height == 0)
+           
+            if (assitant != null)
             {
-                Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
-                return;
+                assitant.LoadPresset(config.GetPresset());
+                if (assitant.RawToolRect.width == 0 || assitant.RawToolRect.height == 0)
+                {
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    return;
+                }
+
+                SetBackgorundTexture(assitant.RawToolRect);
+                assitant.SetAdam(assitant.RawToolRect);
+                assitant.Execute();
             }
 
-            SetBackgorundTexture(assitant.RawToolRect);
-            assitant.SetAdam(assitant.RawToolRect);
-            assitant.Execute();
             LBSMainWindow.OnWindowRepaint += RepaintContent; 
         }
 
         private void RepaintContent()
         {
-
-            var assitant = target as AssistantMapElite;
             content.UpdateContent();
-            if (assitant.Finished)
+            if (assistant.Finished)
                 LBSMainWindow.OnWindowRepaint -= RepaintContent;
         }
 
@@ -75,18 +86,16 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void Continue()
         {
-            var assitant = target as AssistantMapElite;
-            assitant.Continue();
+            assistant.Continue();
         }
 
         public override void SetInfo(object target)
         {
+            assistant = target as AssistantMapElite;
         }
 
         protected override VisualElement CreateVisualElement()
         {
-            var assistant = target as AssistantMapElite;
-
             var ve = new VisualElement();
             config = new MAPEliteConfiguration();
             content = new MAPEliteContent(assistant);
@@ -96,14 +105,14 @@ namespace ISILab.LBS.AI.Assistants.Editor
             config.OnPressetChange += (p) =>
             {
                 ChangePresset();
-                ToolKit.Instance.SetActive("Select area to evaluate");
+                ToolKit.Instance.SetActive(typeof(MapEliteAreaSelector));
             };
 
             content.OnSelectOption += (s) =>
             {
                 // Save history version to revert
-                var x = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(x, "Select Suggestion");
+                var level = LBSController.CurrentLevel;
+                Undo.RegisterCompleteObjectUndo(level, "Select Suggestion");
                 EditorGUI.BeginChangeCheck();
 
                 // Apply suggestion
@@ -112,11 +121,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 // Mark as dirty
                 if (EditorGUI.EndChangeCheck())
                 {
-                    EditorUtility.SetDirty(x);
+                    EditorUtility.SetDirty(level);
                 }
             };
-
-
+            
             ve.Add(content);
             ve.Add(config);
             return ve;
@@ -124,22 +132,17 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public void SetTools(ToolKit toolkit)
         {
-            toolkit.AddSeparator();
-
-            var assitant = target as AssistantMapElite;
-            var icon = Resources.Load<Texture2D>("Icons/Tools/Area_MapElite");
-            ActOnRect = new ActOnRect((r) => assitant.RawToolRect = r);
-            var t1 = new LBSTool(icon, "Select area to evaluate", ActOnRect);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector(LBSInspectorPanel.DataTab);
-            t1.Init(assitant.Owner, assitant);
+            _mapEliteAreaSelector = new MapEliteAreaSelector((r) => assistant.RawToolRect = r);
+            var t1 = new LBSTool(_mapEliteAreaSelector);
+            t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
+            t1.Init(assistant.OwnerLayer, assistant);
             toolkit.AddTool(t1);
         }
 
         public void SetBackgorundTexture(Rect rect)
         {
-            var assitant = target as AssistantMapElite;
-            var behaviours = assitant.Owner.Parent.Layers.SelectMany(l => l.Behaviours);
-            var bh = assitant.Owner.Behaviours.Find(b => b is PopulationBehaviour);
+            var behaviours = assistant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;
 

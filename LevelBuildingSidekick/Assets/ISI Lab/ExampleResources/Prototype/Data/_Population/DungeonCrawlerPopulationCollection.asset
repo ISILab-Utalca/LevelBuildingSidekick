@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2985e634a09bd034bb9dc5096e94627a, type: 3}
+  m_Name: DungeonCrawlerPopulationCollection
+  m_EditorClassIdentifier: 
+  collectionType: 2
+  color: {r: 0.44421327, g: 0.6320754, b: 0.033790153, a: 0.6}
+  icon: {fileID: 2800000, guid: 6351057aa17189c44902075c0b9353fd, type: 3}
+  collection:
+  - {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
+  - {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
+  - {fileID: 11400000, guid: f165a46bac1fc294887ab889baa0650f, type: 2}
+  - {fileID: 11400000, guid: d5af553499fddd04dacff4f048c85d10, type: 2}
+  - {fileID: 11400000, guid: 88e22348cba23e1479786414f02e8f4d, type: 2}
+  - {fileID: 11400000, guid: 44847ddc27dccc640a954ebff4f861e9, type: 2}
+  - {fileID: 11400000, guid: cb460c6ce44590347afa406cfa6450c0, type: 2}
+  - {fileID: 11400000, guid: b27b53884401ce9458068046439a15d4, type: 2}
+  - {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
+  - {fileID: 11400000, guid: 1fe18346ae9efce4187df492c2b751a1, type: 2}
+  - {fileID: 11400000, guid: 60222196b42cc3c40abd97628df94326, type: 2}
+  - {fileID: 11400000, guid: e110dc866a7428f418b238712afecaaf, type: 2}
+  - {fileID: 11400000, guid: ba23adec0178df642b196d07637c66a0, type: 2}
+  - {fileID: 11400000, guid: 4a337b02f45cffc429137a953fd37754, type: 2}
+  - {fileID: 11400000, guid: 970d7dc28a8eabe4981202b518f3ae16, type: 2}
+  - {fileID: 11400000, guid: 78a1daeaef6726d4cb74fb91824059ad, type: 2}

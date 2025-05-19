@@ -70,5 +70,10 @@ namespace ISILab.AI.Optimization
 
             return distValue / edgeCount;
         }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

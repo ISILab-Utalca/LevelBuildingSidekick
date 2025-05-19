@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Enemy
+  m_EditorClassIdentifier: 
+  layerContentFlags: 0
+  type: 2
+  anchorPosition: 0
+  color: {r: 0.854902, g: 0.68235296, b: 0.5882353, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 6a4e009a980c9034ea12c8c670625f8d, type: 3}
+  assets:
+  - obj: {fileID: 8272943599224061573, guid: 47b41978aba272c47ae5f4a2f7179c61, type: 3}
+    probability: 1
+  - obj: {fileID: 3235565414987765396, guid: a620458849218ac4d9ce56dd0d976909, type: 3}
+    probability: 1
+  - obj: {fileID: 4800839809881058091, guid: 9e0a093a368ee4f10b7c6c056f5f7077, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 4305865204711817727
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 3
+    margin:
+      negativeX: 0.8
+      positiveX: 0.8
+      negativeZ: 0.8
+      positiveZ: 0.8
+  references:
+    version: 2
+    RefIds:
+    - rid: 4305865204711817727
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}

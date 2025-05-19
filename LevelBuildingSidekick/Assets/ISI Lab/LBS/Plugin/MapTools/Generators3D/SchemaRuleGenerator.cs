@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,11 +143,12 @@ namespace ISILab.LBS.Generators
                 var pref = current.Assets.RandomRullete(a => a.probability).obj;
 
                 // Create part
-                CreateObject(pref, pivot.transform);
+                var obj = CreateObject(pref, pivot.transform);
                 
                 // Add ref component
-                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                LBSGenerated generatedComponent = obj.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
+    
             }
 
             return pivot;
@@ -200,7 +202,7 @@ namespace ISILab.LBS.Generators
                     settings.scale.y / 2f * -obj.transform.forward.z) * deltaWall;
                 
                 // Add ref component
-                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                LBSGenerated generatedComponent = obj.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
             }
 
@@ -263,7 +265,7 @@ namespace ISILab.LBS.Generators
                     instance.transform.rotation = Quaternion.Euler(0, -90 * (rot + 1), 0);
                     
                     // Add ref component
-                    LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                    LBSGenerated generatedComponent = instance.AddComponent<LBSGenerated>();
                     generatedComponent.BundleRef = current;
                 }
 
@@ -278,7 +280,7 @@ namespace ISILab.LBS.Generators
         /// <param name="layer"></param>
         /// <param name="settings"></param>
         /// <returns></returns>
-        public override GameObject  Generate(LBSLayer layer, Generator3D.Settings settings)
+        public override Tuple<GameObject,string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Init values
             Init(layer, settings);
@@ -305,7 +307,6 @@ namespace ISILab.LBS.Generators
                 {
                     Debug.LogWarning("[ISI Lab]: Could not finish generating zone '" + zone.ID + "'" +
                     " since it does not contain bundles defining its interior style");
-
                     continue;
                 }
 
@@ -379,8 +380,7 @@ namespace ISILab.LBS.Generators
             
             if (tiles.Count <= 0)
             {
-                Debug.LogWarning("[ISI Lab]: Not tiles found");
-                return mainPivot;
+                return Tuple.Create<GameObject,string>(mainPivot, "[ISI Lab]: Not tiles found");
             }
             
             // tiles
@@ -410,9 +410,8 @@ namespace ISILab.LBS.Generators
                 }
                 probePivot.transform.SetParent(mainPivot.transform);
             }
-  
             
-            // light volumes - 
+            // light volumes
             if (lightVolumes.Count > 0)
             {
                 var px = lightVolumes.Min(t => t.transform.position.x);
@@ -432,11 +431,8 @@ namespace ISILab.LBS.Generators
 
             // main
             mainPivot.transform.position += settings.position;
-
             
-
-            
-            return mainPivot;
+            return Tuple.Create<GameObject, string>(mainPivot, null);
         }
 
         private GameObject CreateObject(GameObject pref, Transform pivot)

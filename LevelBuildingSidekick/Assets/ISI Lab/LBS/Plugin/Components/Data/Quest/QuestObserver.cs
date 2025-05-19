@@ -11,15 +11,15 @@ namespace ISILab.LBS
     [System.Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        [SerializeField, HideInInspector]
+        [SerializeField]//, HideInInspector]
         private QuestGraph questGraph;
 
         [SerializeField, HideInInspector]
         private List<QuestStep> questTriggers;
 
-        [SerializeField, SerializeReference, HideInInspector]
+        [SerializeField, SerializeReference]//, HideInInspector]
         private List<QuestTrigger> activeTriggers = new List<QuestTrigger>();
-
+        
         public Action<QuestNode, QuestTrigger> OnQuestComplete;
 
         bool questComplete = false;
@@ -114,7 +114,7 @@ namespace ISILab.LBS
         {
             var branches = questGraph.GetBranches(questGraph.Root);
 
-            var firstNode = branches[0].Second;
+            var firstNode = branches[0].First;
             var trigger = questTriggers.Find(t => t.Node == firstNode).Trigger;
 
             trigger.gameObject.SetActive(true);

@@ -5,6 +5,7 @@ using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,11 +16,16 @@ namespace ISILab.LBS.Manipulators
         QuestGraph quest;
 
         public QuestNode first;
-
+        protected override string IconGuid { get => "ec280cec81783e94cb5df0b0b40dec7e"; }
+        
         public ConnectQuestNodes() : base()
         {
             feedback = new ConnectedLine();
+            name = "Connect Quest Node";
+            description = "Click on a starting node, then release on the follow up node.";
         }
+
+
 
         public override void Init(LBSLayer layer, object provider)
         {
@@ -36,8 +42,10 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
             var second = quest.GetQuestNode(endPosition);
-            quest.AddConnection(first, second);
-
+            var result = quest.AddEdge(first, second);
+            LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
+           
+            OnManipulationEnd.Invoke();
         }
 
     }

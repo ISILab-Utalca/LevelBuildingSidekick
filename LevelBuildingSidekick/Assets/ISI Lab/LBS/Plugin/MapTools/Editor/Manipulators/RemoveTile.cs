@@ -9,6 +9,10 @@ namespace ISILab.LBS.Manipulators
 {
     public class RemoveTile : ManipulateTeselation
     {
+        protected override string IconGuid { get => "ce08b36a396edbf4394f7a4e641f253d"; }
+
+        public RemoveTile():base(){}
+        
         public override void Init(LBSLayer layer, object behaviour)
         {
             base.Init(layer, behaviour);
@@ -16,8 +20,8 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            var min = module.Owner.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
-            var max = module.Owner.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
+            var min = module.OwnerLayer.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
+            var max = module.OwnerLayer.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));
 
             for (int i = min.x; i <= max.x; i++)
             {

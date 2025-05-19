@@ -4,6 +4,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 
 using System.Collections.Generic;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,7 @@ namespace ISILab.LBS.Manipulators
     public class AddSchemaTile : LBSManipulator
     {
         private SchemaBehaviour schema;
+        protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
         public Zone ToSet
         {
@@ -22,6 +24,9 @@ namespace ISILab.LBS.Manipulators
 
         public AddSchemaTile() : base()
         {
+            name = "Paint Zone";
+            description = "Add a new zone in the inspector and then paint in the graph. Hold CTRL and select an area to auto-generate a new zone.";
+            
             feedback = new AreaFeedback();
             feedback.fixToTeselation = true;
         }
@@ -35,6 +40,17 @@ namespace ISILab.LBS.Manipulators
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding New Zone");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
@@ -49,17 +65,17 @@ namespace ISILab.LBS.Manipulators
 
                 ToSet = newZone;
             }
-
+            
             if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
 
             if (ToSet == null)
             {
-                Debug.LogWarning("You don't have any selected area to place.");
+                LBSMainWindow.MessageNotify("You don't have any selected area to place. Create a new Zone in the panel or press 'CTRL' when left clicking.", LogType.Error, 8);
                 return;
             }
 
 
-            var corners = schema.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -74,7 +90,7 @@ namespace ISILab.LBS.Manipulators
                 }
             }
 
-            LBSInspectorPanel.Instance.SetTarget(schema.Owner);
+            LBSInspectorPanel.Instance.SetTarget(schema.OwnerLayer);
 
             schema.RecalculateWalls();
 

@@ -12,6 +12,7 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -38,11 +39,11 @@ namespace ISILab.LBS.Behaviours
 
         #region FIELDS
         [JsonIgnore]
-        private TileMapModule tileMap => Owner.GetModule<TileMapModule>();
+        private TileMapModule tileMap => OwnerLayer.GetModule<TileMapModule>();
         [JsonIgnore]
-        private ConnectedTileMapModule tileConnections => Owner.GetModule<ConnectedTileMapModule>();
+        private ConnectedTileMapModule tileConnections => OwnerLayer.GetModule<ConnectedTileMapModule>();
         [JsonIgnore]
-        private SectorizedTileMapModule areas => Owner.GetModule<SectorizedTileMapModule>();
+        private SectorizedTileMapModule areas => OwnerLayer.GetModule<SectorizedTileMapModule>();
 
         [SerializeField]
         private string pressetInsideStyle = "Castle_Wooden";
@@ -93,7 +94,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region CONSTRUCTORS
-        public SchemaBehaviour(Texture2D icon, string name) : base(icon, name) { }
+        public SchemaBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
         #endregion
 
         #region METHODS
@@ -105,7 +106,7 @@ namespace ISILab.LBS.Behaviours
         
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
@@ -123,7 +124,7 @@ namespace ISILab.LBS.Behaviours
 
         public Zone AddZone()
         {
-            string prefix = "Zone\n";
+            string prefix = "Zone: ";
             int counter = 0;
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
@@ -137,13 +138,6 @@ namespace ISILab.LBS.Behaviours
                
             }
 
-            /*
-            int r = (int)((Random.value * (256 - 32)) / 16);
-            int g = (int)((Random.value * (256 - 32)) / 16);
-            int b = (int)((Random.value * (256 - 32)) / 16);
-
-            var c = new Color(r * 16 / 256f, g * 16 / 256f, b * 16 / 256f);
-            */
             var c = new Color().RandomColorHSV();
             var zone = new Zone(name, c);
 
@@ -266,7 +260,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new SchemaBehaviour(this.Icon, this.Name);
+            return new SchemaBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override bool Equals(object obj)

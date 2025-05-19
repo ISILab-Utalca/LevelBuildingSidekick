@@ -9,6 +9,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
 using ISILab.Commons.VisualElements;
+using ISILab.LBS.Editor.Windows;
 using UnityEditor;
 
 namespace ISILab.LBS.Manipulators
@@ -22,7 +23,8 @@ namespace ISILab.LBS.Manipulators
 
         private ConnectedConrnerLine lineFeedback = new ConnectedConrnerLine();
         private Feedback areaFeedback = new AreaFeedback();
-
+        protected override string IconGuid => "89403d16440c74442a7260e1a2fe2a40";
+        
         public LBSTag ToSet
         {
             get => exterior.identifierToSet;
@@ -34,6 +36,9 @@ namespace ISILab.LBS.Manipulators
             lineFeedback.fixToTeselation = true;
             areaFeedback.fixToTeselation = true;
             feedback = lineFeedback;
+
+            name = "Set connection";
+            description = "Paint line across tiles to make connections. Hold CTRL to connect areas.";
         }
 
         public override void Init(LBSLayer layer, object behaviour)
@@ -49,9 +54,20 @@ namespace ISILab.LBS.Manipulators
             };
         }
 
+        protected override void OnKeyDown(KeyDownEvent e)
+        {
+            base.OnKeyDown(e);
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding connections in area");
+        }
+        
+        protected override void OnKeyUp(KeyUpEvent e)
+        {
+            LBSMainWindow.WarningManipulator();
+        }
+        
         protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
         {
-            first = exterior.Owner.ToFixedPosition(position);
+            first = exterior.OwnerLayer.ToFixedPosition(position);
         }
 
         protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
@@ -81,7 +97,7 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(x, "Add Conections");
 
             // Get end position
-            var end = exterior.Owner.ToFixedPosition(position);
+            var end = exterior.OwnerLayer.ToFixedPosition(position);
 
             if (!e.ctrlKey)
             {
@@ -96,6 +112,7 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+            
         }
 
         public void LineEffect(Vector2Int end, MouseUpEvent e)
@@ -151,7 +168,7 @@ namespace ISILab.LBS.Manipulators
 
         public void AreaEffect(Vector2Int end, MouseUpEvent e)
         {
-            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {

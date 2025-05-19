@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,7 +116,7 @@ namespace ISILab.LBS.Generators
                 obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.eulerAngles + new Vector3(0, 90 * 2, 0));
                 
                 // Add ref component
-                LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                LBSGenerated generatedComponent = obj.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
                 
             }
@@ -163,7 +164,7 @@ namespace ISILab.LBS.Generators
                     instance.transform.rotation = Quaternion.Euler(0, -90 * rot, 0);
                     
                     // Add ref component
-                    LBSGenerated generatedComponent = pivot.AddComponent<LBSGenerated>();
+                    LBSGenerated generatedComponent = instance.AddComponent<LBSGenerated>();
                     generatedComponent.BundleRef = current;
                     
                 }
@@ -172,7 +173,7 @@ namespace ISILab.LBS.Generators
             return pivot;
         }
 
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        public override Tuple<GameObject,string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             // Init values
             Init(layer, settings);
@@ -222,8 +223,7 @@ namespace ISILab.LBS.Generators
 
             if (tiles.Count <= 0)
             {
-                Debug.LogWarning("Could not finish generating zone, no tiles found");
-                return mainPivot;
+                return Tuple.Create<GameObject,string>(mainPivot,"Could not finish generating zone, no tiles found");
             }
             
             var x = tiles.Average(t => t.transform.position.x);
@@ -239,7 +239,7 @@ namespace ISILab.LBS.Generators
 
             mainPivot.transform.position += settings.position;
 
-            return mainPivot;
+            return Tuple.Create<GameObject,string>(mainPivot, null);
         }
 
         public override object Clone()

@@ -16,10 +16,15 @@ namespace ISILab.LBS.Manipulators
         private HillClimbingAssistant assistant;
         private Vector2Int first;
 
+        protected override string IconGuid { get => "9205ce0b509ff9442963e8161b25d8a2"; }
+        
         public SetZoneConnection() : base()
         {
             feedback = new ConnectedLine();
             feedback.fixToTeselation = false;
+
+            name = "Add Assistant zone connection";
+            description = "Select an start and end point between zones to create a connection.";
         }
 
         public override void Init(LBSLayer layer, object provider)

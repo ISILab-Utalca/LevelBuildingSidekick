@@ -1,7 +1,13 @@
+using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
+using LBS.VisualElements;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Drawers
@@ -9,6 +15,8 @@ namespace ISILab.LBS.Drawers
     [Drawer(typeof(PopulationBehaviour))]
     public class PopulationDrawer : Drawer
     {
+
+        private Rect previousRect;
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             var population = target as PopulationBehaviour;
@@ -18,21 +26,43 @@ namespace ISILab.LBS.Drawers
                 return;
             }
 
-            foreach (var t in population.Tilemap)
+            TileBundleGroup rotationHighlightedTile = null;
+            var manipulator = ToolKit.Instance.GetActiveManipulator();
+            if (manipulator is RotatePopulationTile { Selected: not null } rotate)
             {
-                var v = new PopulationTileView(t);
-                var size = population.Owner.TileSize * LBSSettings.Instance.general.TileSize;
-                var bundleSize = t.GetBundleSize();
+                rotationHighlightedTile = rotate.Selected;
+            }
+            
+            foreach (TileBundleGroup tileBundleGroup in population.Tilemap)
+            {
+                PopulationTileView tileView = new PopulationTileView(tileBundleGroup);
+                Vector2 size = population.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
+                Vector2Int bundleSize = tileBundleGroup.GetBundleSize();
                 //This sets the size of the group tile to draw and seems to work. Yay!
-                v.SetSize(size * bundleSize);
+                tileView.SetSize(size * bundleSize);
 
-                v.SetPivot(new Vector2(LBSSettings.Instance.general.TileSize.x * bundleSize.x, LBSSettings.Instance.general.TileSize.y * bundleSize.y));
+                tileView.SetPivot(new Vector2(LBSSettings.Instance.general.TileSize.x * bundleSize.x, LBSSettings.Instance.general.TileSize.y * bundleSize.y));
+
+                tileView.Highlight(false);
+                // Check for rotation manipulator highlight
+                if (rotationHighlightedTile != null && Equals(tileBundleGroup, rotationHighlightedTile))
+                {
+                    tileView.Highlight(true);
+                } 
+                    
+                ToolKit.Instance.GetActiveManipulator();
+            
                 
-                var p = new Vector2(t.GetBounds().x, -t.GetBounds().y);
-                v.SetPosition(new Rect(p * size, size));
-                view.AddElement(v);
+                Vector2 position = new Vector2(tileBundleGroup.GetBounds().x, -tileBundleGroup.GetBounds().y);
+                tileView.SetPosition(new Rect(position * size, size));
+                view.AddElement(population.OwnerLayer,this,tileView);
                 
             }
+
+            var layer = population.OwnerLayer;
+            var assistant = LBSLayerHelper.GetObjectFromLayer<AssistantMapElite>(layer);
+            if (assistant == null) return;
+            
         }
     }
 }

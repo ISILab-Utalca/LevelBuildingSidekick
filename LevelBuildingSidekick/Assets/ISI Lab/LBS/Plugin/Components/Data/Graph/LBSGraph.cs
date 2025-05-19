@@ -71,7 +71,7 @@ namespace ISILab.LBS.Modules
         {
             foreach (var n in nodes)
             {
-                var r = new Rect(n.Position, Owner.TileSize * LBSSettings.Instance.general.TileSize);
+                var r = new Rect(n.Position, OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize);
 
                 if (r.Contains(position))
                     return n;

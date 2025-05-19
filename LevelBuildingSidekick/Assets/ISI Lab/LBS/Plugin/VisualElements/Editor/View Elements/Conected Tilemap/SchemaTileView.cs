@@ -68,11 +68,15 @@ namespace ISILab.LBS.VisualElements
 
         public void SetConnections(string[] tags)
         {
-            right.SetDisplay(tags[0].Equals("Door"));
-            top.SetDisplay(tags[1].Equals("Door"));
-            left.SetDisplay(tags[2].Equals("Door"));
-            bottom.SetDisplay(tags[3].Equals("Door"));
-
+           // right.SetDisplay(tags[0].Equals("Door"));
+           // top.SetDisplay(tags[1].Equals("Door"));
+            //left.SetDisplay(tags[2].Equals("Door"));
+            //bottom.SetDisplay(tags[3].Equals("Door"));
+            right.SetDisplay(false);
+            top.SetDisplay(false);
+            left.SetDisplay(false);
+            bottom.SetDisplay(false);
+            
             border.style.borderRightWidth = tags[0].Equals("Empty") ? 0f : borderThickness;
             border.style.borderTopWidth = tags[1].Equals("Empty") ? 0f : borderThickness;
             border.style.borderLeftWidth = tags[2].Equals("Empty") ? 0f : borderThickness;

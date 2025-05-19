@@ -14,12 +14,18 @@ namespace ISILab.LBS.VisualElements.Editor
 {
     public class LayerContainer
     {
-        private Dictionary<object, GraphElement> pairs = new();
+        private Dictionary<object, List<GraphElement>> pairs = new();
 
         public void AddElement(object obj, GraphElement element)
         {
-            pairs.Add(obj, element);    
+            if (!pairs.TryGetValue(obj, out var list))
+            {
+                list = new List<GraphElement>();
+                pairs[obj] = list;
+            }
+            list.Add(element);
         }
+
 
         public void Actualize(object obj, object other)
         {
@@ -28,15 +34,20 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void Repaint(object obj)
         {
-            GraphElement ve = pairs[obj];
-            ve.MarkDirtyRepaint();
+            List<GraphElement> ve = pairs[obj].ToList();
+            foreach (GraphElement element in ve)
+            {
+                element.MarkDirtyRepaint();
+            }
+            
         }
 
-        public List<GraphElement> Clear()
+        public  List<List<GraphElement>> Clear()
         {
-            var elements = new List<GraphElement>(pairs.Values);
+            List<List<GraphElement>> elements = pairs.Values.ToList();
             pairs.Clear();
             return elements;
+            
         }
     }
 
@@ -70,6 +81,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private Dictionary<LBSLayer, LayerContainer> layers = new Dictionary<LBSLayer, LayerContainer>();
         // shared manipulators such as drag, zoom
         private List<Manipulator> defaultManipulators = new List<Manipulator>();
+        private ContentZoomer zoomer;
+        private ContentDragger cDragger;
+        private SelectionDragger sDragger;
+        private bool zoomEnabled = true;
+
         #endregion
 
         #region EVENTS
@@ -124,11 +140,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region METHODS_MANIPULATORS
 
-        public void SetBasicManipulators() // (?) necesario aqui 
+        public void SetBasicManipulators()
         {
             var setting = LBSSettings.Instance.general;
 
-            var zoomer = new ContentZoomer();
+            zoomer = new ContentZoomer();
 
             setting.OnChangeZoomValue = (min, max) =>
             {
@@ -139,8 +155,10 @@ namespace ISILab.LBS.VisualElements.Editor
             zoomer.maxScale = setting.zoomMax;
             zoomer.minScale = setting.zoomMin;
 
-            var cDragger = new ContentDragger();
-            var sDragger = new SelectionDragger();
+            RegisterCallback<WheelEvent>(evt => { zoomer.target = !zoomEnabled ? null : this; });
+            
+            cDragger = new ContentDragger();
+            sDragger = new SelectionDragger();
 
             var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
             defaultManipulators = manis;
@@ -217,7 +235,10 @@ namespace ISILab.LBS.VisualElements.Editor
             return manipulators.Any(m => m is T);
         }
 
-
+        public void SetManipulatorZoom(bool enable)
+        {
+            zoomEnabled = enable;
+        }
 
         #endregion
 
@@ -242,8 +263,15 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             var l = layers[layer];
-            var elements = l.Clear();
-            elements.ForEach(e => this.RemoveElement(e));
+            var graphs = l.Clear();
+            foreach (var graph in graphs)
+            {
+                foreach (var element in graph)
+                {
+                   RemoveElement(element); 
+                }
+            }
+            
         }
 
         public void AddElement(object obj, GraphElement element)

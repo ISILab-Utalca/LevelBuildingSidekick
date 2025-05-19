@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,11 +13,14 @@ namespace ISILab.LBS.Manipulators
     public class RemovePopulationTile : LBSManipulator
     {
         PopulationBehaviour population;
-
+        protected override string IconGuid { get => "ce08b36a396edbf4394f7a4e641f253d"; }
+        
         public RemovePopulationTile() : base()
         {
             feedback = new AreaFeedback();
             feedback.fixToTeselation = true;
+            name = "Remove Tile";
+            description = "Click on an item in the graph to remove it.";
         }
 
         public override void Init(LBSLayer layer, object owner)
@@ -34,7 +38,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove element population");
 
-            var corners = population.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -48,6 +52,7 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+            
         }
     }
 }

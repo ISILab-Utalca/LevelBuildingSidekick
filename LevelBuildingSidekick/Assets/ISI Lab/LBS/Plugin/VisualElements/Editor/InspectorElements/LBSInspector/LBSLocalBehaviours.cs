@@ -1,16 +1,16 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
-using LBS.VisualElements;
+using ISILab.LBS.Settings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
+using ISILab.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 using ISILab.LBS.Editor;
+using ISILab.Macros;
+using LBS.VisualElements;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -49,6 +49,7 @@ namespace ISILab.LBS.VisualElements
             contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
 
             this.Q<Button>("Add").SetEnabled(false);
+            this.Q<Button>("Add").SetDisplay(false);
         }
         #endregion
 
@@ -76,7 +77,7 @@ namespace ISILab.LBS.VisualElements
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
-                if (ves.Count() == 0)
+                if (!ves.Any())
                 {
                     Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
                     continue;
@@ -84,7 +85,7 @@ namespace ISILab.LBS.VisualElements
 
                 var ovg = ves.First().Item1;
                 if(ovg == null) continue;
-                var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
+                 var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
                 if (!(ve is VisualElement))
                 {
                     Debug.LogWarning("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
@@ -92,8 +93,8 @@ namespace ISILab.LBS.VisualElements
                 }
 
                 CustomEditors.Add(ve as LBSCustomEditor);
-
-                var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, color);
+                
+                var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, behaviour.ColorTint);
                 contentBehaviour.Add(content);
 
             }

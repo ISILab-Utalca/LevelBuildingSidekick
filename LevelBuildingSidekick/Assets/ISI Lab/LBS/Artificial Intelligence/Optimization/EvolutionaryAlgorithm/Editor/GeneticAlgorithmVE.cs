@@ -5,9 +5,12 @@ using ISILab.AI.Optimization;
 using ISILab.AI.Optimization.Selections;
 using ISILab.AI.Optimization.Terminations;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -16,15 +19,23 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("GeneticAlgorithm", typeof(GeneticAlgorithm))]
     public class GeneticAlgorithmVE : LBSCustomEditor
     {
+        [UxmlAttribute]
         DynamicFoldout evaluator;
+        [UxmlAttribute]
         DynamicFoldout selection;
+        [UxmlAttribute]
         DynamicFoldout termination;
 
+        [UxmlAttribute]
         DynamicFoldout mutation;
         FloatField mutationProbability;
 
+        [UxmlAttribute]
         DynamicFoldout crossover;
         FloatField crossoverProbability;
+
+        //Button saveOptimizerPreset;
+        //Button loadOptimizerPreset;
 
         public GeneticAlgorithmVE(object target) : base(target)
         {
@@ -131,7 +142,33 @@ namespace ISILab.LBS.VisualElements
             mutationProbability = new FloatField();
             mutationProbability.label = "Mutation Probability";
             mutationProbability.RegisterValueChangedCallback(e => { genetic.MutationProbability = e.newValue; });
+/*
+            saveOptimizerPreset = new Button();
+            saveOptimizerPreset.text = "Save Preset";
+            saveOptimizerPreset.clicked += () =>
+            {
+                var settings = LBSSettings.Instance;
+                var optimizerPresetPath = settings.paths.assistantOptimizerPresetPath;
+                var folderPath = Path.GetDirectoryName(optimizerPresetPath);
 
+                //Directory making
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var optPreset = ScriptableObject.CreateInstance<BaseOptimizerPreset>();
+
+                optPreset.evaluator
+                //Make the asset
+                //AssetDatabase.CreateAsset(genetic, folderPath + "/Optimizer");
+                AssetDatabase.SaveAssets();
+            };
+
+            loadOptimizerPreset = new Button();
+            loadOptimizerPreset.text = "Load Preset";
+
+            */
             ve.Add(evaluator);
             ve.Add(selection);
             ve.Add(termination);
@@ -143,4 +180,5 @@ namespace ISILab.LBS.VisualElements
             return ve;
         }
     }
+
 }

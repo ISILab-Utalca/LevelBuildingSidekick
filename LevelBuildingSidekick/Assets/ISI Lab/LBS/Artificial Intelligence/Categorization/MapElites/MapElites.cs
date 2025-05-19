@@ -40,6 +40,7 @@ namespace ISILab.LBS.AI.Categorization
         public List<int> changedSample;
 
         private Thread thread;
+
         #endregion
 
         #region FIELDS
@@ -313,6 +314,13 @@ namespace ISILab.LBS.AI.Categorization
                 OnEnd?.Invoke();
 
             };
+            thread.Start();
+        }
+
+        public void Stop()
+        {
+            //TODO: Investigate what parts break if this gets to be used
+            thread = new Thread(Optimizer.Stop);
             thread.Start();
         }
 

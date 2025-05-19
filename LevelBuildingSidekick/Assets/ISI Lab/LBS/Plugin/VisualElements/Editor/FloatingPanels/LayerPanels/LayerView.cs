@@ -3,6 +3,7 @@ using LBS.Components;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -64,17 +65,17 @@ namespace ISILab.LBS.VisualElements.Editor
             layerName.value = name;
         }
 
-        private void SetIcon(string path)
+        private void SetIcon(string guid)
         {
-            Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            layerIcon.style.backgroundImage = texture;
+            VectorImage icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(guid);
+            layerIcon.style.backgroundImage = new StyleBackground(icon);
         }
 
         public void SetInfo(LBSLayer layer)
         {
             this.target = layer;
 
-            SetIcon(layer.iconPath);
+            SetIcon(layer.iconGuid);
             SetName(layer.Name);
 
             layer.OnAddModule += (layer, module) =>

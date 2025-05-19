@@ -39,6 +39,8 @@ namespace ISILab.LBS.VisualElements
             ActualizePositions(sPos1, sPos2);
 
             SetPosition(new Rect(pos1, new Vector2(10, 10)));
+            
+            generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 
@@ -48,17 +50,11 @@ namespace ISILab.LBS.VisualElements
             // line
             painter.DrawDottedLine(Vector2.zero , pos2 - pos1, Color.white, 3f, 5f);
             
-
             // arrow
             Vector2Int pos = pos2 - pos1;
             Vector2 midpoint = (pos2 - pos1) / 2;
             Vector2 direction = new Vector2(pos.x, pos.y).normalized;
-            
-            // points
-            //painter.DrawCircle(Vector2.zero + direction * 24f, 2f, Color.white);
-            //painter.DrawCircle(pos - direction * 24f, 2f, Color.white);
 
-            
             painter.DrawEquilateralArrow(midpoint, direction, 15f, Color.white);
             
         }

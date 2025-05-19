@@ -1,13 +1,9 @@
-using ISILab.Commons.Utility.Editor;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using System.Linq;
+using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using ISILab.Extensions;
-using System.Linq;
 
 namespace LBS.VisualElements
 {
@@ -70,22 +66,27 @@ namespace LBS.VisualElements
 
         public bool ShowGroups
         {
-            set => this.dropdownGroup.SetDisplay(value);
+            set => dropdownGroup.SetDisplay(value);
         }
 
         public bool ShowRemoveButton
         {
-            set => this.removeButton.SetDisplay(value);
+            set => removeButton.SetDisplay(value);
         }
 
         public bool ShowAddButton
         {
-            set => this.addButton.SetDisplay(value);
+            set => addButton.SetDisplay(value);
         }
         
         public bool ShowNoElement
         {
-            set => this.noElement.SetDisplay(value);
+            set => noElement.SetDisplay(value);
+        }
+        
+        public bool ShowDropdown
+        {
+            set => dropdownGroup.SetDisplay(value);
         }
         
         #endregion
@@ -98,28 +99,31 @@ namespace LBS.VisualElements
             visualTree.CloneTree(this);
 
             // Content
-            this.content = this.Q<VisualElement>("Content");
-
+            content = this.Q<VisualElement>("Content");
+            content.style.flexDirection = FlexDirection.Row;         // Horizontal layout
+            content.style.justifyContent = Justify.FlexStart;     // Space items evenly
+            content.style.alignItems = Align.Stretch;                 // Vertically center them
+            
             // Change Group
-            this.dropdownGroup = this.Q<DropdownField>("DropdownGroup");
+            dropdownGroup = this.Q<DropdownField>("DropdownGroup");
             dropdownGroup.RegisterCallback<ChangeEvent<string>>(evt => OnChangeGroup?.Invoke(evt));
 
             // NameLabel
-            this.nameLabel = this.Q<Label>("NameLabel");
+            nameLabel = this.Q<Label>("NameLabel");
 
             // AddButton
-            this.addButton = this.Q<Button>("AddButton");
+            addButton = this.Q<Button>("AddButton");
             addButton.clicked += () => OnAddOption?.Invoke();
 
             // removeButton
-            this.removeButton = this.Q<Button>("DeleteButton");
+            removeButton = this.Q<Button>("DeleteButton");
             removeButton.clicked += () => OnRemoveOption?.Invoke(selected);
 
             // NoElement
-            this.noElement = this.Q<Button>("NoElement");
+            noElement = this.Q<Button>("NoElement");
 
             // Icon
-            this.icon = this.Q<VisualElement>("IconPallete");
+            icon = this.Q<VisualElement>("IconPallete");
 
         }
         #endregion
@@ -153,16 +157,15 @@ namespace LBS.VisualElements
             this.onSetView = onSetView;
         }
         
-
-        public void SetIcon(Texture2D icon, Color color)
+        public void SetIcon(VectorImage icon, Color color)
         {
-            this.icon.style.backgroundImage = icon;
+            this.icon.style.backgroundImage = new StyleBackground(icon);
             this.icon.style.unityBackgroundImageTintColor = color;
         }
-
+        
         public void SetName(string name)
         {
-            this.nameLabel.text = name;
+            nameLabel.text = name;
         }
 
         public void DisplayContent(bool show)
@@ -179,7 +182,7 @@ namespace LBS.VisualElements
 
             if (options != null && options.Length > 0)
             {
-                this.optionViews = new OptionView[options.Length];
+                optionViews = new OptionView[options.Length];
 
                 for (int i = 0; i < options.Length; i++)
                 {
@@ -200,7 +203,9 @@ namespace LBS.VisualElements
 
             if(selected != null)
             {
-                var ov = optionViews.ToList().Find(o => o.target != null && o.target.Equals(selected));
+                var ov = optionViews?.ToList().Find(o 
+                    => o != null && o.target != null && selected != null && o.target.Equals(selected));
+
                 if (ov != null)  ov.SetSelected(true);
             }
         }

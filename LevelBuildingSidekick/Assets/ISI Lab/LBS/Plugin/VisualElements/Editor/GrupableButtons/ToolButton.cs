@@ -3,6 +3,7 @@ using LBS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,8 +12,8 @@ namespace ISILab.LBS.VisualElements
     public class ToolButton : VisualElement, IGrupable
     {
         #region FIELDS
-        public Color color = new Color(72f / 255f, 72f / 255f, 72f / 255f);
-        public Color selected = new Color(161f / 255f, 81f / 255f, 21f / 255f);
+        public Color color = LBSSettings.Instance.view.toolkitNormal;
+        private Color selected = LBSSettings.Instance.view.newToolkitSelected;
         #endregion
 
         #region FIELDS VIEW
@@ -30,14 +31,13 @@ namespace ISILab.LBS.VisualElements
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolButton");
             visualTree.CloneTree(this);
-
-            // Button
+            
             button = this.Q<Button>("Button");
-
-            // Icon
+            
             icon = this.Q<VisualElement>("Icon");
-            icon.style.backgroundImage = tool.Icon;
-
+            if (tool.Icon == null) return;
+            icon.style.backgroundImage = new StyleBackground(tool.Icon); 
+            
             tooltip = tool.Name;
         }
         #endregion

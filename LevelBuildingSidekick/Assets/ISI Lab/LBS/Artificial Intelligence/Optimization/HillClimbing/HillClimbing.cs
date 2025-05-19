@@ -12,6 +12,7 @@ using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.AI.Optimization
 {
@@ -69,6 +70,12 @@ namespace ISILab.AI.Optimization
             NNlog= offsprings.Count;
             //var offsprings = GetNeighbors?.Invoke(BestCandidate); // poner exepcion por si neigthbor es null (!!!)
 
+            if (offsprings.Count == 0)
+            {
+                Debug.LogError("No offspring!");
+                return;
+            }
+            
             clock.Restart();
             EvaluateFitness(offsprings);
             clock.Stop();
@@ -90,6 +97,11 @@ namespace ISILab.AI.Optimization
             UnityEngine.Debug.Log("Neighbors: " + _nbrsTimer + "s.");
             UnityEngine.Debug.Log("Fitness: " + _fitTimer + "s.");
 
+        }
+
+        public override void InitializeDefault()
+        {
+            throw new NotImplementedException();
         }
     }
 }

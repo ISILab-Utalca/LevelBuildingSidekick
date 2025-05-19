@@ -5,10 +5,12 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS
 {
@@ -39,6 +41,7 @@ namespace ISILab.LBS
 
         [JsonIgnore]
         public Action OnReload;
+
         #endregion
 
         #region METHODS
@@ -60,7 +63,7 @@ namespace ISILab.LBS
 
             OnReload?.Invoke();
         }
-
+        
         public LBSLayer GetLayer(int index)
         {
             return layers[index];
@@ -148,13 +151,14 @@ namespace ISILab.LBS
 
             quest.ID = name;
             quest.Name = name;
-            quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
+            quest.iconGuid = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
             quest.TileSize = new Vector2Int(2, 2);
             quest.AddGeneratorRule(new QuestRuleGenerator());
 
-            var grammarIcon = Resources.Load<Texture2D>("Icons/Quest_Icon/IconQuestTitle2");
-            var behaviour = new QuestBehaviour(grammarIcon, "Quest");
-            var assistant = new GrammarAssistant(grammarIcon, "Grammar");
+            string questBehaviorGuidIcon = "49b9448c876b36c4ba26740d7deae035";
+            var grammarIcon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(questBehaviorGuidIcon);
+            var behaviour = new QuestBehaviour(grammarIcon, "Quest", Settings.LBSSettings.Instance.view.behavioursColor);
+            var assistant = new GrammarAssistant(grammarIcon, "Grammar", Settings.LBSSettings.Instance.view.assistantColor);
             quest.AddAssistant(assistant);
             quest.AddBehaviour(behaviour);
             quests.Add(quest);

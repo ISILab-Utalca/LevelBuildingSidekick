@@ -12,6 +12,10 @@ namespace ISILab.LBS.Manipulators
     {
         private ExteriorBehaviour exterior;
 
+        protected override string IconGuid { get => "ce08b36a396edbf4394f7a4e641f253d"; }
+
+        public RemoveConnectionInArea():base(){}
+
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);
@@ -22,7 +26,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
-            var corners = exterior.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {

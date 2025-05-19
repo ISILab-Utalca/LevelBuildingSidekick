@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="MarginGraph" style="flex-grow: 1; top: auto; flex-wrap: nowrap; width: 200px; align-self: center; height: 200px;">
+        <ui:FloatField value="1" name="positiveZ" style="align-self: center; width: 25px; height: 25px;" />
+        <ui:VisualElement name="VisualElement" style="flex-grow: 1; align-content: auto; align-self: auto; justify-content: space-between; align-items: center; flex-direction: row; width: auto; height: 125px;">
+            <ui:FloatField value="1" name="negativeX" style="height: 25px; width: 25px; justify-content: flex-start; align-content: auto; align-self: auto; align-items: stretch;" />
+            <ui:FloatField value="1" name="positiveX" style="justify-content: flex-start; height: 25px; width: 25px; align-self: auto; align-content: auto;" />
+        </ui:VisualElement>
+        <ui:FloatField value="1" name="negativeZ" style="align-content: flex-start; align-self: center; width: 25px; height: 25px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -12,6 +12,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LBS.Components
 {
@@ -25,8 +26,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [SerializeField, JsonRequired]
-        public string iconPath = "Icon/Default";
+        [FormerlySerializedAs("iconGUID")] [FormerlySerializedAs("iconPath")] [SerializeField, JsonRequired]
+        public string iconGuid = "Icon/Default";
         #endregion
 
         #region FIELDS
@@ -150,6 +151,8 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
+
+        public event Action OnChange; // call whenever needing to update a change on a single layer
         public event Action<Vector2Int> OnTileSizeChange;
         public event Action<LBSLayer, LBSModule> OnAddModule;
         public event Action<LBSLayer, LBSModule> OnReplaceModule;
@@ -170,7 +173,7 @@ namespace LBS.Components
             IEnumerable<LBSAssistant> assistant,
             IEnumerable<LBSGeneratorRule> rules,
             IEnumerable<LBSBehaviour> behaviours,
-            string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
+            string ID, bool visible, string name, string iconGuid, Vector2Int tileSize)
         {
             foreach (var m in modules)
             {
@@ -195,7 +198,7 @@ namespace LBS.Components
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
-            this.iconPath = iconPath;
+            this.iconGuid = iconGuid;
             this.TileSize = tileSize;
         }
         #endregion
@@ -420,7 +423,7 @@ namespace LBS.Components
             modules[index].OnDetach(this);
             modules[index] = module;
             modules[index].OnAttach(this);
-            modules[index].Owner = this;
+            modules[index].OwnerLayer = this;
         }
 
         // esto tiene que ir en una extension (?)
@@ -439,11 +442,12 @@ namespace LBS.Components
             return pos.ToInt();
         }
 
-        public Vector2 FixedToPosition(Vector2Int position) 
+        public Vector2 FixedToPosition(Vector2Int position, bool invertY = false) 
         {
-            var x = position.x * (TileSize.x * LBSSettings.Instance.general.TileSize.x);
-            var y = position.y * (TileSize.y * LBSSettings.Instance.general.TileSize.y);
-            return new Vector2(Mathf.Ceil(x), Mathf.Ceil(y));
+            var tileSizeX = TileSize.x * LBSSettings.Instance.general.TileSize.x;
+            var tileSizeY = TileSize.y * LBSSettings.Instance.general.TileSize.y;
+            if(invertY) tileSizeY = -tileSizeY;
+            return new Vector2(position.x * tileSizeX, position.y * tileSizeY);
         }
         
         public (Vector2Int,Vector2Int) ToFixedPosition(Vector2 startPos, Vector2 endPos)
@@ -467,10 +471,10 @@ namespace LBS.Components
         {
             var modules = this.modules.Clone(); // CloneRef
             var assistants = this.assistants.Select(a => a.Clone() as LBSAssistant);
-            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
+            var rules = generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
-            var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
+            var layer = new LBSLayer(modules, assistants, rules, behaviours, id, visible, name, iconGuid, TileSize);
             return layer;
         }
 
@@ -583,7 +587,12 @@ namespace LBS.Components
             return module;
         }
         */
+        public void OnChangeUpdate()
+        {
+            OnChange?.Invoke();
+        }
         #endregion
     }
+
 }
 

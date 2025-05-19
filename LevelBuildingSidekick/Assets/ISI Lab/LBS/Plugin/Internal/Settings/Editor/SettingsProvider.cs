@@ -230,7 +230,7 @@ namespace ISILab.LBS.Settings
 
                     // Toolkit Color
                     EditorGUILayout.BeginHorizontal();
-                    settings.view.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.view.toolkitSelected);
+                    settings.view.newToolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.view.newToolkitSelected);
                     EditorGUILayout.EndHorizontal();
 
                     // Header Inspectors
@@ -276,7 +276,7 @@ namespace ISILab.LBS.Settings
                     {
                         var newSettings = new LBSSettings();
 
-                        settings.view.toolkitSelected = newSettings.view.toolkitSelected;
+                        settings.view.newToolkitSelected = newSettings.view.newToolkitSelected;
 
                         settings.view.bundlesColor = newSettings.view.bundlesColor;
                         settings.view.tagsColor = newSettings.view.tagsColor;

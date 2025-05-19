@@ -12,7 +12,8 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class DynamicFoldout : VisualElement
+    [UxmlElement]
+    public partial class DynamicFoldout : VisualElement
     {
         ClassDropDown dropdown;
         VisualElement content;
@@ -37,12 +38,16 @@ namespace ISILab.LBS.VisualElements
 
         public Action OnChoiceSelection;
 
+        public DynamicFoldout()
+        {
+            visualTree.CloneTree(this);
+        }
+        
         public DynamicFoldout(Type type)
         {
             visualTree.CloneTree(this);
 
             var foldout = this.Q<ClassFoldout>();
-
             dropdown = foldout.Q<ClassDropDown>();
             dropdown.RegisterValueChangedCallback(ApplyChoice);
             dropdown.Type = type;

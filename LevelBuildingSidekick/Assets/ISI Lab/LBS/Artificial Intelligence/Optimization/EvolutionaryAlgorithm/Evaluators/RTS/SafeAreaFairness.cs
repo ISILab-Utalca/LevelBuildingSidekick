@@ -5,6 +5,7 @@ using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace ISILab.AI.Categorization
         public float MinValue => 0;
 
         [SerializeField, SerializeReference]
-        public LBSCharacteristic playerCharacteristc;
+        public LBSCharacteristic playerCharacteristic;
 
         public float Evaluate(IOptimizable evaluable)
         {
@@ -32,7 +33,7 @@ namespace ISILab.AI.Categorization
 
             var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
-            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristc)));
+            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
 
             if (players.Count() < 2)
             {
@@ -59,8 +60,13 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             var e = new SafeAreaFairness();
-            e.playerCharacteristc = playerCharacteristc;
+            e.playerCharacteristic = playerCharacteristic;
             return e;
+        }
+
+        public void InitializeDefault()
+        {
+            playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
         }
     }
 }

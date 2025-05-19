@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements
 
             label.text = target.name;
 
-            icon.style.backgroundImage = target.Icon;
+            icon.style.backgroundImage = new StyleBackground(target.Icon);
 
             tab.style.width = 20 * value;
         }

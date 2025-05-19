@@ -4,6 +4,8 @@ using ISILab.LBS.Modules;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Characteristics;
+using LBS.Bundles;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -18,7 +20,9 @@ namespace ISILab.LBS.VisualElements
         VisualElement main;
         VisualElement icon;
         VisualElement bg;
-
+        
+        float borderWidth = 2f;
+        
         public PopulationTileView(TileBundleGroup tile)
         {
             if (view == null)
@@ -36,11 +40,21 @@ namespace ISILab.LBS.VisualElements
             icon = this.Q<VisualElement>(name: "Icon");
             bg = this.Q<VisualElement>(name: "Background");
 
-            var id = tile.BundleData.Bundle;
-            SetColor(id.Color);
-            SetImage(id.Icon);
+            Bundle bundle = tile.BundleData.Bundle;
+            SetColor(bundle.Color);
+            SetImage(bundle.Icon);
             SetDirection(tile.Rotation);
+            
+            if (bundle.GetHasTagCharacteristic("NonRotate"))
+            {
+                foreach (var arrow in arrows)
+                {
+                    arrow.style.display = DisplayStyle.None;
+                }
+            }
 
+
+           // borderWidth = bg.style.borderBottomWidth.value;
         }
 
         public void SetDirection(Vector2 vector)
@@ -71,9 +85,18 @@ namespace ISILab.LBS.VisualElements
             bg.style.backgroundColor = color;
         }
 
-        public void SetImage(Texture2D image)
+        public void SetImage(VectorImage icon)
         {
-            icon.style.backgroundImage = image;
+            this.icon.style.backgroundImage = new StyleBackground(icon);
+        }
+
+        public void Highlight(bool highlight)
+        {
+            var newBorderWidth = highlight ? borderWidth*3 : borderWidth;
+            bg.style.borderBottomWidth = newBorderWidth;
+            bg.style.borderTopWidth = newBorderWidth;
+            bg.style.borderLeftWidth = newBorderWidth;
+            bg.style.borderRightWidth = newBorderWidth;
         }
     }
 }

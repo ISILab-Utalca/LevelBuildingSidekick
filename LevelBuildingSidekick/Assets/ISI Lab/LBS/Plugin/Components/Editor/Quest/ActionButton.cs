@@ -9,8 +9,8 @@ namespace ISILab.LBS.VisualElements
 {
     public class ActionButton : VisualElement
     {
-        Label text;
-        Button button;
+        public Label text;
+        public Button button;
 
         public ActionButton()
         {
@@ -23,7 +23,7 @@ namespace ISILab.LBS.VisualElements
 
         public ActionButton(string text, Action action) : this()
         {
-            this.text.text = text;
+            this.text.text = char.ToUpper(text[0]) + text.Substring(1);
             button.clicked += action;
         }
     }

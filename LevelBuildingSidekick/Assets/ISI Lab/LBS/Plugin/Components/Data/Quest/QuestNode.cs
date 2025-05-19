@@ -8,11 +8,30 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    [System.Serializable]
+
+    public enum NodeType
+    {
+        start, middle, goal
+    }
+
+    public enum QuestState
+    {
+        blocked, active, completed, failed
+    }
+    
+
+[System.Serializable]
     public class QuestNode : ICloneable
     {
 
         #region FIELD
+
+        [SerializeField] 
+        private string nodeDataJson;
+        
+        [SerializeField, SerializeReference][JsonRequired]
+        private BaseQuestNodeData nodeData;
+        
         [SerializeField, HideInInspector, JsonRequired]
         private int x, y;
 
@@ -27,14 +46,32 @@ namespace ISILab.LBS.Components
 
         [SerializeField, JsonRequired]
         private bool mapCheck;
+        
+        [SerializeField, JsonRequired]
+        private NodeType nodeType;
+        
+        [SerializeField, JsonRequired]
+        private QuestState questState = Components.QuestState.blocked;
+        
+        [SerializeField, JsonRequired]
+        private bool valid;
+        
         #endregion
 
         [SerializeField, JsonRequired, SerializeReference]
         private QuestTarget target;
 
+        [SerializeField, JsonRequired, SerializeReference]
         private QuestGraph graph;
-
+        
         #region PROPERTIES
+        [JsonIgnore]
+        public BaseQuestNodeData NodeData
+        {
+            get => nodeData;
+            set => nodeData = value;
+        }
+        
         [JsonIgnore]
         public QuestGraph Graph
         {
@@ -95,29 +132,88 @@ namespace ISILab.LBS.Components
             get => target;
             set => target = value;
         }
+        
+        
+        [JsonIgnore]
+        public bool Valid
+        {
+            get => valid;
+            set => valid = value;
+        }
+        
+        [JsonIgnore]
+        public NodeType NodeType
+        {
+            get => nodeType;
+            set => nodeType = value;
+        }
+
+
+        [JsonIgnore]
+        public QuestState QuestState { get; set; }
+
+
         #endregion
 
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool grammarCheck = false)
         {
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
-            this.questAction = action;
+            questAction = action;
+            
+            InstanceDataByAction(action);
             this.graph = graph;
+            this.grammarCheck = grammarCheck;
             target = new QuestTarget();
+            
+            LoadNodeFromJson();
         }
+
+        private void InstanceDataByAction(string action)
+        {
+            nodeData = QuestNodeDataFactory.CreateByTag(action, this);
+            SaveNodeAsJson();
+        }
+
         #endregion
 
+        public bool HasEdges()
+        {
+            return graph != null && graph.HasRequiredConnection(this);
+        }
+        
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph);
-
-            node.target = target.Clone() as QuestTarget;
+            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
+            {
+                target = target.Clone() as QuestTarget
+            };
 
             return node;
+        }
+        
+        /// <summary>
+        /// Saves the changes from the dataJson whenever the SetGoal is called (whenever it is changed)
+        /// </summary>
+        public void SaveNodeAsJson()
+        {
+            return;
+            nodeDataJson =  JsonUtility.ToJson(nodeData);
+        }
+
+        /// <summary>
+        /// Load from json as it is easier to load polyformism
+        /// </summary>
+        public void LoadNodeFromJson()
+        {
+            return;
+            if (string.IsNullOrEmpty(nodeDataJson)) return;
+            nodeData = JsonUtility.FromJson<BaseQuestNodeData>(nodeDataJson);
+   
         }
     }
 
@@ -127,7 +223,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired, SerializeReference]
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSTag> tags = new List<LBSTag>();
+        private List<LBSTag> tags = new();
 
         [JsonIgnore]
         public Rect Rect
@@ -148,5 +244,7 @@ namespace ISILab.LBS.Components
             target.rect = rect;
             return target;
         }
+        
+        
     }
 }

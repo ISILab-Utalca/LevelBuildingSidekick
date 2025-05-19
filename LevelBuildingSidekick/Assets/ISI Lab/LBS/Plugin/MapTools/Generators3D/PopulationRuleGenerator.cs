@@ -40,13 +40,15 @@ namespace ISILab.LBS.Generators
         {
             return base.GetHashCode();
         }
-
-        public override GameObject Generate(LBSLayer layer, Generator3D.Settings settings)
+        
+        public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
+            //Get references
             var data = layer.GetModule<BundleTileMap>();
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
             var scale = settings.scale;
 
+            //Create container objects
             var parent = new GameObject("Types");
 
             var parentEntity = new GameObject("Entity");
@@ -57,22 +59,19 @@ namespace ISILab.LBS.Generators
             var parentMisc = new GameObject("Misc");
 
             var groups = data.Groups;
-
             var objects = new Dictionary<GameObject, Bundle.PopulationTypeE>();
 
             foreach (TileBundleGroup group in groups)
             {
-                Vector2Int centerposition = Vector2Int.zero;
+                //Get tile positions
+                Vector2 centerposition = Vector2.zero;
                 List<Vector2Int> positions = new List<Vector2Int>();
                 foreach (var tile in group.TileGroup)
                 {
-                    Debug.Log(tile + tile.Position.ToString());
                     // get interpolated center
                     positions!.Add(tile.Position);
                 }
-                
-               
-                
+ 
                 int sumX = 0;
                 int sumY = 0;
 
@@ -81,8 +80,9 @@ namespace ISILab.LBS.Generators
                     sumX += pos.x;
                     sumY += pos.y;
                 }
-                centerposition = new Vector2Int(sumX / positions.Count, sumY / positions.Count);
-            
+                centerposition = new Vector2(sumX / (float)positions.Count, sumY / (float)positions.Count);
+                
+                //Get bundle
                 Bundle current = null;
                 foreach (var b in bundles)
                 {
@@ -93,58 +93,49 @@ namespace ISILab.LBS.Generators
                 }
                 if (current == null) continue;
                 
-                Debug.Log("for " + current.Name + "\n");
-                /*
-                if (bundles == null)
-                {
-                    Debug.LogWarning("[ISI Lab]: There is no asset named '" + tile.BundleData.BundleName +
-                    "'. Please verify the bundles present in the project or the elements assigned in the level.");
-                    continue;
-                }*/
-
-
-
+                //Get asset from bundle
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
                 if (pref == null)
                 {
                     Debug.LogError("Null reference in asset: " + current.Name);
                     continue;
                 }
-
+                
+                //Instantiate prefab
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
 #else
-                    var go = GameObject.Instantiate(pref.obj);
+                var go = GameObject.Instantiate(pref.obj);
 #endif
                 if (go == null)
                 {
                     Debug.LogError("Could not find prefab for: " + current.Name);
                     continue;
                 }
-
+                
+                //Set rotation
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
-                go.transform.rotation = Quaternion.Euler(0, -90 * (r - 1), 0);
-
-                if (settings.useBundleSize)
-                    if (current != null)
-                        scale = current.TileSize;
-
+                go.transform.rotation = Quaternion.Euler(0, 90 * (r + 1), 0);
+                
                 // Set General position
                 go.transform.position =
                     settings.position +
                     new Vector3(centerposition.x * scale.x, 0, centerposition.y * scale.y) +
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
+                
+                //Micro population tool
+                go.transform.position += current.microGenTool.MicroPosVector(go.transform, scale, r);
 
+                //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
+                
                 objects.Add(go, current.PopulationType);
-               
             }
             
             if(objects.Count == 0)
             {
-                Debug.LogWarning("No population objects were created. Assign a valid bundle type");
-                return parent;
+                return Tuple.Create<GameObject, string>(parent, "No population objects were created. Assign a valid bundle type");
             }
             
             
@@ -189,11 +180,10 @@ namespace ISILab.LBS.Generators
             parentArea.transform.SetParent(parent.transform);
             parentProp.transform.SetParent(parent.transform);
             
-            
             parentMisc.transform.SetParent(parent.transform);
             parent.transform.position += settings.position;
             
-            return parent;
+            return Tuple.Create<GameObject,string>(parent, null);
         }
     }
 

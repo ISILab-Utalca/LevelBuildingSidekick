@@ -3,12 +3,10 @@ using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using ISILab.LBS.Settings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 using ISILab.LBS.Editor;
 
 namespace ISILab.LBS.VisualElements
@@ -20,7 +18,7 @@ namespace ISILab.LBS.VisualElements
         //public new class UxmlFactory : UxmlFactory<LBSLocalAssistants, UxmlTraits> { }
         #endregion
 
-        private Color color => LBSSettings.Instance.view.assistantColor;
+        private Color color;
 
         private VisualElement content;
         private VisualElement noContentPanel;
@@ -34,35 +32,30 @@ namespace ISILab.LBS.VisualElements
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalAssistants");
             visualTree.CloneTree(this);
-
-            content = this.Q<VisualElement>("Content");
+            
+            content = this.Q<VisualElement>("Content"); 
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
             contentAssist = this.Q<VisualElement>("ContentAssist");
-
+            color = LBSSettings.Instance.view.assistantColor;
+            
             this.Q<Button>("Add").SetEnabled(false);
         }
 
         public void SetInfo(LBSLayer target)
         {
+           // this.content.Clear(); // clear all content before setting, based on the layer's assistants
             contentAssist.Clear();
-
             this.target = target;
-
-            if (target.Assistants.Count <= 0)
-            {
-                noContentPanel.SetDisplay(true);
-                return;
-            }
-
-            noContentPanel.SetDisplay(false);
-
+            bool assitants = target.Assistants.Any();
+            noContentPanel.style.display = assitants ? DisplayStyle.None : DisplayStyle.Flex;
+            
             foreach (var assist in target.Assistants)
             {
                 var type = assist.GetType();
                 var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                     .Where(t => t.Item2.Any(v => v.type == type));
 
-                if (ves.Count() == 0)
+                if (!ves.Any())
                 {
                     Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
                     continue;
@@ -77,13 +70,13 @@ namespace ISILab.LBS.VisualElements
                 }
 
                 CustomEditors.Add(ve as LBSCustomEditor);
-
-                var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, color);
+                
+                var content = new BehaviourContent(ve as LBSCustomEditor, assist.Name, assist.Icon, assist.ColorTint);
                 contentAssist.Add(content);
 
                 assist.OnTermination += () =>
                 {
-                    LBSInspectorPanel.Instance.SetTarget(assist.Owner);
+                    LBSInspectorPanel.Instance.SetTarget(assist.OwnerLayer);
                     Debug.Log("OnTermination");
                 };
             }

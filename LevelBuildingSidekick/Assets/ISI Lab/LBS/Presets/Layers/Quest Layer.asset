@@ -15,18 +15,23 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+    iconGUID: 9fc8ac6f82a8b39458c73185d378ffbf
     id: Quest
     name: Layer Quest
     modules:
     - rid: 1248747549014622361
     behaviours:
+    - rid: 8325711621806097963
     - rid: 1248747549014622362
+    - rid: 6953538662824935526
     assistants:
     - rid: 1248747549014622363
     generatorRules:
     - rid: 1248747549014622364
     settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
@@ -34,14 +39,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 1248747549014622361
       type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: QuestGraph
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
           id: Quest
           name: Layer Quest
           modules:
@@ -53,33 +60,78 @@ MonoBehaviour:
           generatorRules:
           - rid: 1248747549014622364
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Quest
         nodeSize: {x: 3, y: 1}
         grammarName: 
-        questNodes:
-        - rid: 1248747549014622365
+        questNodes: []
         questEdges: []
         root:
           rid: 1248747549014622365
+        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
     - rid: 1248747549014622362
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
-        icon: {fileID: 2800000, guid: 771d36a714319204ea4ddcbecdc2006e, type: 3}
-        name: Quest Behavior
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
     - rid: 1248747549014622363
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Grammar Assistant
     - rid: 1248747549014622364
       type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
@@ -88,14 +140,22 @@ MonoBehaviour:
     - rid: 1248747549014622365
       type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
       data:
+        nodeDataJson: 
+        nodeData:
+          rid: -2
         x: 0
         y: 0
-        id: Start Node
-        questAction: Start Node
+        id: null
+        questAction: null
         grammarCheck: 0
         mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
         target:
           rid: 1248747549014622366
+        graph:
+          rid: -2
     - rid: 1248747549014622366
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -106,3 +166,59 @@ MonoBehaviour:
           width: 0
           height: 0
         tags: []
+    - rid: 6953538662824935526
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Flow
+    - rid: 8325711621806097963
+      type: {class: QuestNodeBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          id: Quest
+          name: Layer Quest
+          modules:
+          - rid: 1248747549014622361
+          behaviours:
+          - rid: 1248747549014622362
+          - rid: 6953538662824935526
+          - rid: 8325711621806097963
+          assistants:
+          - rid: 1248747549014622363
+          generatorRules:
+          - rid: 1248747549014622364
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Quest
+        icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
+        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        name: Selected Action Config

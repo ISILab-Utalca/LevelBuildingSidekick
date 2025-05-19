@@ -91,6 +91,8 @@ namespace ISILab.LBS.Settings
             // Folders presets
             public string layerPressetFolderPath = "Assets/ISI Lab/LBS/Presets/Layers";
             public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
+            public string assistantOptimizerPresetPath = "Assets/ISI Lab/LBS/Presets/Optimizers";
+            public string assistantEvaluatorPresetPath = "Assets/ISI Lab/LBS/Presets/Evaluators";
             public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
             public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
 
@@ -99,9 +101,10 @@ namespace ISILab.LBS.Settings
         [System.Serializable]
         public class Interface
         {
-            public Color toolkitSelected = new Color(1f, 0.46f, 0.41f);
+            public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
+            public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);
-            [FormerlySerializedAs("assitantsColor")] public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
+            public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
             public Color bundlesColor = new Color(0.5f, 0.69f, 0.98f);
             public Color tagsColor = new Color(0.93f, 0.81f, 0.42f);
 
@@ -111,6 +114,7 @@ namespace ISILab.LBS.Settings
             public Color successColor = new Color(0f, 1f, 0.68f);
             
         }
+        
     }
 
 

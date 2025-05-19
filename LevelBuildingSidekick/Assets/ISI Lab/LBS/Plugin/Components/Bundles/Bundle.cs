@@ -12,7 +12,6 @@ using UnityEngine.UIElements;
 
 namespace LBS.Bundles
 {
-
     [System.Flags]
     public enum BundleFlags
     {
@@ -94,7 +93,7 @@ namespace LBS.Bundles
         private Color color;
 
         [SerializeField]
-        private Texture2D icon;
+        private VectorImage icon;
         
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
@@ -113,16 +112,16 @@ namespace LBS.Bundles
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
+        
+        [SerializeField]
+        public MicroGenTool microGenTool = new MicroGenTool();
 
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon
+        public VectorImage Icon
         {
-            get
-            {
-                return (icon == null) ? null : icon;
-            }
+            get => !icon ? null : icon;
             set => icon = value;
         }
         public Color Color => color;
@@ -386,6 +385,18 @@ namespace LBS.Bundles
 
             return other;
         }
+        
+        public bool GetHasTagCharacteristic(string label)
+        {
+            bool exists = Characteristics
+                .OfType<LBSTagsCharacteristic>()
+                .Any(c => c.Value != null && c.Value.Label == label);
+
+            //if (!exists)  Debug.Log($"Tag characteristic with label '{label}' was not found.");
+            return exists;
+        }
+
+        
         #endregion
 
         #region STATIC FUNCTIONS
@@ -407,6 +418,8 @@ namespace LBS.Bundles
         }
 
         #endregion
+
+   
     }
 
     public static class BundleExtensions

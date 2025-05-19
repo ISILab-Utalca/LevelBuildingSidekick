@@ -12,15 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Corner_Draw
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 2
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 8615386448594486086, guid: 858a51a7b619014469cac4a3c3b7fd2a, type: 3}
     probability: 0.5
   characteristics: []
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds: []

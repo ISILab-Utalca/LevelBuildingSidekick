@@ -12,18 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Sci-fi_fiber_interior 2
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
+  assets: []
+  characteristics: []
+  populationType: 0
+  tileSize: {x: 1, y: 1}
   childsBundles:
   - {fileID: 11400000, guid: 3df41e25206f77d40b6ec1966f581ba2, type: 2}
   - {fileID: 11400000, guid: 06504b9c929acaf4eafc1fc3b2fd654c, type: 2}
   - {fileID: 11400000, guid: 22e1fa0bf02fedb4c9e5725bd13884c9, type: 2}
   - {fileID: 11400000, guid: f3711301554ae2949bd77f46478e60fa, type: 2}
   - {fileID: 11400000, guid: 9d5e70310bf40a547b42320ef5694c72, type: 2}
-  assets: []
-  characteristics: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds: []

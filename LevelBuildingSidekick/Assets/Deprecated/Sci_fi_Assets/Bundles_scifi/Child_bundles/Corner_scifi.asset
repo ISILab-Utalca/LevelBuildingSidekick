@@ -12,20 +12,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Corner_scifi
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 2
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
-  childsBundles: []
   assets:
   - obj: {fileID: 2923813044562389876, guid: 0177ebc274752f14992e7d251d1f82c8, type: 3}
     probability: 0.5
   characteristics:
   - rid: 279245815319625882
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:
     - rid: 279245815319625882
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}

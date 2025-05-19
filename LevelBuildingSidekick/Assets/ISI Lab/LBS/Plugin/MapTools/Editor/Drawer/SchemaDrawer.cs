@@ -22,9 +22,9 @@ namespace ISILab.LBS.Drawers
             var schema = target as SchemaBehaviour;
 
             // Get modules
-            var tilesMod = schema.Owner.GetModule<TileMapModule>();
-            var zonesMod = schema.Owner.GetModule<SectorizedTileMapModule>();
-            var connectionsMod = schema.Owner.GetModule<ConnectedTileMapModule>();
+            var tilesMod = schema.OwnerLayer.GetModule<TileMapModule>();
+            var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
+            var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             foreach (var t in tilesMod.Tiles)
             {
@@ -33,8 +33,8 @@ namespace ISILab.LBS.Drawers
                 var conections = connectionsMod.GetConnections(t);
 
                 var tView = GetTileView(t, zone, conections, teselationSize);
-
-                view.AddElement(tView);
+                
+                view.AddElement(schema.OwnerLayer, this, tView);
             }
         }
 
@@ -92,7 +92,7 @@ namespace ISILab.LBS.Drawers
             tView.SetConnections(connections.ToArray());
 
             var Connections = SchemaTileView.GetConnectionPoints(connections);
-            var tempSchemaBehaviour = new SchemaBehaviour(new Texture2D(0,0), "temp");
+            var tempSchemaBehaviour = new SchemaBehaviour(ScriptableObject.CreateInstance<VectorImage>(), "temp", Color.clear);
             
             foreach (var connection in Connections)
             {

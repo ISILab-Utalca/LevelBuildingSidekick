@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Celling_scifi
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   icon: {fileID: 2800000, guid: 497d733675f57de4ca54d01f9b788a5b, type: 3}
-  childsBundles: []
   assets:
   - obj: {fileID: 4172231169517024291, guid: 35921f162d30dbe4fafe59cb8336de4e, type: 3}
     probability: 0.516
@@ -24,6 +24,16 @@ MonoBehaviour:
     probability: 0.516
   characteristics:
   - rid: 5018258080767934760
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:

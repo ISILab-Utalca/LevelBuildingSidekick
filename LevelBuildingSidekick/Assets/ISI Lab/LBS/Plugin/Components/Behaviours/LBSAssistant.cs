@@ -1,16 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using LBS.Components;
-using LBS.Components.Graph;
-using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Assistants
 {
-    [System.Serializable]
+    [Serializable]
     public abstract class LBSAssistant : ICloneable
     {
         #region META-FIELDS
@@ -19,24 +16,34 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region FIELDS
-        [NonSerialized, HideInInspector, JsonIgnore]
-        private LBSLayer owner;
-        [NonSerialized, HideInInspector, JsonIgnore]
-        private Texture2D icon;
+        [SerializeField, HideInInspector, JsonIgnore]
+        private LBSLayer ownerLayer;
+        [SerializeField, JsonRequired]//, JsonIgnore]
+        private VectorImage icon;
+        [SerializeField, JsonRequired]//, JsonIgnore]
+        private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;
         #endregion
-
+        
         #region PROPERTIES
+        
         [JsonIgnore]
-        public LBSLayer Owner
+        public Color ColorTint
         {
-            get => owner;
-            set => owner = value;
+            get => colorTint;
+            set => colorTint = value;
+        }
+        
+        [JsonIgnore]
+        public LBSLayer OwnerLayer
+        {
+            get => ownerLayer;
+            set => ownerLayer = value;
         }
 
         [JsonIgnore]
-        public Texture2D Icon
+        public VectorImage Icon
         {
             get => icon;
         }
@@ -46,6 +53,7 @@ namespace ISILab.LBS.Assistants
         {
             get => name;
         }
+
         #endregion
 
         #region EVENTS
@@ -56,22 +64,24 @@ namespace ISILab.LBS.Assistants
         #endregion
 
         #region CONSTRUCTORS
-        public LBSAssistant(Texture2D icon, string name)
+        public LBSAssistant(VectorImage icon, string name, Color colorTint)
         {
             this.icon = icon;
             this.name = name;
+            this.colorTint = colorTint;
         }
+
         #endregion
 
         #region METHODS
         public virtual void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
+            OwnerLayer = layer;
         }
 
         public virtual void OnDetachLayer(LBSLayer layer)
         {
-            Owner = null;
+            OwnerLayer = null;
         }
 
         public List<Type> GetRequieredModules()

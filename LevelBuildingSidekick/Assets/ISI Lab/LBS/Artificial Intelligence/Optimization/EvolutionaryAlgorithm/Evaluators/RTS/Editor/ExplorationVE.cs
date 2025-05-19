@@ -11,6 +11,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("Exploration", typeof(Exploration))]
     public class ExplorationVE : LBSCustomEditor
     {
+        [UxmlAttribute]
         DynamicFoldout colliderCharacteristic;
 
         public ExplorationVE(object target) : base(target)
@@ -33,7 +34,7 @@ namespace ISILab.LBS.VisualElements
                 colliderCharacteristic.Data = eval.colliderCharacteristic;
             }
 
-            colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSCharacteristic; };
+            colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSTagsCharacteristic; };
         }
 
         protected override VisualElement CreateVisualElement()
