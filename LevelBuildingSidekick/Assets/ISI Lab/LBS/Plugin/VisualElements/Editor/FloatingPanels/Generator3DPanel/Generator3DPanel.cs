@@ -11,6 +11,7 @@ using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
+using LBS.Bundles;
 using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -114,10 +115,10 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             this.layer = layer;
-            this.generator = new Generator3D();
+            generator = new Generator3D();
 
             generator.settings = settings;
-            this.settings = layer.Settings;
+            settings = layer.Settings;
 
 
             if (generator != null)
@@ -171,12 +172,12 @@ namespace ISILab.LBS.VisualElements.Editor
             GenerateSingleLayer();
             OnFinishGenerate();
         }
-        
-        public void GenerateSingleLayer()
+
+        private void GenerateSingleLayer()
         {
             string ifReplace = "";
             
-            if (this.layer == null)
+            if (layer == null)
             {
                 LBSMainWindow.MessageNotify("There is no reference for any layer to generate.", LogType.Error, 2);
                 return;
@@ -184,14 +185,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (replacePrev.value)
             {
-                GameObject[] allObjects = UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
-                List<GameObject> prevs = new List<GameObject>();
+                GameObject[] allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+                List<GameObject> previousObjects = new List<GameObject>();
 
                 foreach (var generic in allObjects)
                 {
-                    if (generic.name == layer.Name)  prevs.Add(generic);
+                    if (generic.name == layer.Name)  previousObjects.Add(generic);
                 }
-                foreach (var prev in prevs)
+                foreach (var prev in previousObjects)
                 {
                     if(prev == null) continue;
                     ifReplace = "Previous layer replaced.";
@@ -199,15 +200,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
-            if (generator == null)
-            {
-                generator = dropDownField.GetChoiceInstance() as Generator3D;
-            }
+            generator ??= dropDownField.GetChoiceInstance() as Generator3D;
 
-            var settings = new Generator3D.Settings
+            settings = new Generator3D.Settings
             {
                 name = layer.Name,
-                //name = nameField.value != "" ? name = nameField.value : layer.Name,
                 position = positionField.value,
                 resize = resizeField.value,
                 scale = scaleField.value,
@@ -218,14 +215,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (generator == null) return;
             
-            // Tuple of game object and error messages
-            var generated = generator.Generate(this.layer, this.layer.GeneratorRules, settings);
+            // Generation Call
+            var generated = generator.Generate(layer, layer.GeneratorRules, settings);
             
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||
                 !generated.Item1.GetComponentsInChildren<Transform>().Any() || generated.Item2.Any())
             {
-                LBSMainWindow.MessageNotify("Layer " + layer.Name + " could not be created.", LogType.Error, 3);
+                LBSMainWindow.MessageNotify("Layer " + layer.Name + " could not be created.", LogType.Error);
                 foreach (var message in generated.Item2)
                 {
                     LBSMainWindow.MessageNotify("   " + message, LogType.Error, 6);
@@ -235,7 +232,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
             
-            LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace, LogType.Log, 3);
+            LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace);
             if (bakeLights.value)
             {
                 StaticObjs(generated.Item1);
@@ -245,7 +242,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if (buildLightProbes.value)
             {
                 LightProbeCubeGenerator[] allLightProbes = 
-                    UnityEngine.Object.FindObjectsByType<LightProbeCubeGenerator>(FindObjectsSortMode.None);
+                    Object.FindObjectsByType<LightProbeCubeGenerator>(FindObjectsSortMode.None);
                 foreach (var lpcg in allLightProbes) lpcg.Execute();
             }
 
@@ -253,7 +250,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void BakeReflections()
         {
-            ReflectionProbe[] probes = UnityEngine.Object.FindObjectsByType<ReflectionProbe>(FindObjectsSortMode.None);
+            ReflectionProbe[] probes = Object.FindObjectsByType<ReflectionProbe>(FindObjectsSortMode.None);
             foreach (var probe in probes)
             {
                 probe.RenderProbe();
@@ -265,6 +262,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var lbsGen = obj.GetComponent<LBSGenerated>();
             if (lbsGen != null)
             {
+                if (lbsGen.BundleRef.PopulationType == Bundle.PopulationTypeE.Character) return;
                 if (lbsGen.HasLBSTag("NoBake")) return;
             }
             
