@@ -1,12 +1,11 @@
-using ISILab.Commons.Utility.Editor;
-using LBS.Components;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.Extensions;
+using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor.Windows;
-using UnityEngine;
+using ISILab.LBS.Template;
+using LBS.Components;
+using LBS.VisualElements;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -20,13 +19,8 @@ namespace ISILab.LBS.VisualElements
 
         #region SINGLETON
         private static LBSInspectorPanel instance;
-        public static LBSInspectorPanel Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
+        public static LBSInspectorPanel Instance => instance;
+
         #endregion
 
         #region FIELDS
@@ -55,43 +49,49 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public LBSInspectorPanel()
         {
+            instance = this;
+            
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSInspectorPanel");
             visualTree.CloneTree(this);
-
-            // Tabs
+            
             tabsGroup = this.Q<ButtonGroup>("SubTabs");
-            InitTabs();
-
-            // Content
             content = this.Q<VisualElement>("InspectorContent");
-
-            SetSelectedTab(DataTab);
-
-            instance = this;
         }
         #endregion
 
         #region METHODS
-        public void InitTabs()
+        
+        /// <summary>
+        /// Call after constructor in LBSMainWindow
+        /// </summary>
+        /// <param name="layers"></param>
+        public void InitTabs(ref List<LayerTemplate> layers)
         {
-            this.data = new LBSLocalCurrent();
+            var layersList = layers.Select(t => t.layer).ToList();
+            
+            data = new LBSLocalCurrent();
+            data.InitCustomEditors(ref layersList);
             AddTab(DataTab, data);
 
-            this.behaviours = new LBSLocalBehaviours();
+            behaviours = new LBSLocalBehaviours();
+            behaviours.InitCustomEditors(ref layersList);
             AddTab(BehavioursTab, behaviours);
 
-            this.assistants = new LBSLocalAssistants();
+            assistants = new LBSLocalAssistants();
+            assistants.InitCustomEditors(ref layersList);
             AddTab(AssistantsTab, assistants);
-
             
-            tabsGroup.OnChangeTab += (tab) =>
+            
+            tabsGroup.OnChangeTab += tab =>
             {
-                this.ClearContent();
+                ClearContent();
                 VEs.TryGetValue(tab, out var inspct);
-                this.SetContent(inspct);
+                SetContent(inspct);
 
                 OnChangeTab?.Invoke(tab);
             }; 
+            
+            SetSelectedTab(DataTab);
         }
 
         private void AddTab(string tab, LBSInspector element)
@@ -99,21 +99,21 @@ namespace ISILab.LBS.VisualElements
             VEs.Add(tab, element);
             SetContent(element);
    
-            tabsGroup.AddChoice(tab, (btn) =>
+            tabsGroup.AddChoice(tab, btn =>
             {
                 var grupableBtn = btn as GrupalbeButton;
-                this.ClearContent();
+                ClearContent();
                 VEs.TryGetValue(grupableBtn.text, out var inspct);
-            this.SetContent(inspct);
+            SetContent(inspct);
             });
             
         }
 
         public void SetSelectedTab(string name)
         {
-            this.ClearContent();
+            ClearContent();
             VEs.TryGetValue(name, out var ve);
-            this.SetContent(ve);
+            SetContent(ve);
 
             OnChangeTab?.Invoke(name);
         }
@@ -134,13 +134,11 @@ namespace ISILab.LBS.VisualElements
 
         internal void SetTarget(LBSLayer layer)
         {
-            foreach (var ve in VEs)
+            foreach (KeyValuePair<string, LBSInspector> ve in VEs)
             {
                 var inspector = ve.Value;
                 inspector.SetTarget(layer);
             }
-
-            // repaint current inspector
         }
 
         public void Repaint()

@@ -12,6 +12,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Components;
+using ISILab.LBS.Template;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -144,6 +145,11 @@ namespace ISILab.LBS.VisualElements
         private void SelectedTagChange(LBSTag tag)
         {
             tagInfo.SetInfo(tag);
+        }
+
+        public override void InitCustomEditors(ref List<LBSLayer> layers)
+        {
+            throw new NotImplementedException();
         }
 
         public override void SetTarget(LBSLayer layer)
