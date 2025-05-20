@@ -34,6 +34,7 @@ using UnityEditor.Graphs;
 using UnityEngine.PlayerLoop;
 using System.Collections.Concurrent;
 using static UnityEngine.GraphicsBuffer;
+using ISILab.AI.Categorization;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -388,7 +389,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if((currentOptimizer is GeneticAlgorithm)&&(currentOptimizer!=null))
             {
-                Debug.Log("optimizer is compatible");
+                //Debug.Log("optimizer is compatible");
                 optimizerEditor = new GeneticAlgorithmVE(mapEliteBundle.Optimizer);
 
                 var optimizerWindow = ScriptableObject.CreateInstance<EditorWindow>();
@@ -397,8 +398,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 optimizerWindow.Show();
                 optimizerWindow.rootVisualElement.Add(optimizerEditor);
             }
-
-            
         }
 
         private void UpdateGrid()
@@ -456,9 +455,17 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
                 }
+                veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i].Data);
                 veChildren[i].UpdateLabel();
             }
             assistant.toUpdate.Clear();
+        }
+
+        public void ShowResults(object data)
+        {
+            var dataVariable = data as IOptimizable;
+            //Debug.Log("X: " + dataVariable.Fitness);
+
         }
 
         public MAPElitesPreset GetPresset()
@@ -512,7 +519,7 @@ namespace ISILab.LBS.VisualElements.Editor
             gridSquare.SetTexture(texture);
             //veChildren.First().SetColor(new Color(0, 1, 0, 1));
 
-            Debug.Log("texture changed");
+            //Debug.Log("texture changed");
             
             //content.background = texture;
         }

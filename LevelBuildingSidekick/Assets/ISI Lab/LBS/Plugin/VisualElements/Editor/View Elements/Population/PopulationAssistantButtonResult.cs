@@ -29,9 +29,9 @@ namespace ISILab.LBS.VisualElements.Editor
         // display 2 decimals only
         private Label scoreLabel;
         // image displaying 3 dots and eventually the generated data
-        private VisualElement image;
+        private VisualElement loadingIcon;
         private VisualElement customImage;
-        private Button selectButton;
+        public Button selectButton;
 
         public Texture2D backgroundTexture;
         private Texture2D defaultImage;
@@ -43,12 +43,15 @@ namespace ISILab.LBS.VisualElements.Editor
         private object data;
         // value/score of the generated result
         private string score;
+        //Can this be selected?
+        private bool canHighlight;
         
         #endregion
 
         #region EVENTS
         public Action OnExecute;
         public Action OnImageChange;
+        public Action OnButtonClicked;
         #endregion
 
         #region PROPERTIES
@@ -74,12 +77,17 @@ namespace ISILab.LBS.VisualElements.Editor
             background = this.Q<VisualElement>("Background");
             scoreLabel = this.Q<Label>("ScoreValue");
             selectButton = this.Q<Button>("SelectButton");
-            selectButton.clicked += () => { Debug.Log("button pressed"); };
+            //selectButton.clicked += ButtonClicked;
             selectButton.visible = false;
 
-            image = this.Q<VisualElement>("Image");
+            loadingIcon = this.Q<VisualElement>("LoadingImage");
             customImage = this.Q<VisualElement>("CustomImage");
-            OnImageChange += () => image.visible = customImage.style.backgroundImage != null ? false : true;
+            OnImageChange += () =>
+            {
+
+                loadingIcon.visible = customImage.style.backgroundImage != null ? false : true;
+                canHighlight = customImage.style.backgroundImage != null ? true : false;
+            };
 
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
@@ -89,7 +97,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void OnMouseEnter(MouseEnterEvent evt)
         {
-            if (customImage.style.backgroundImage != null)
+            if (canHighlight)
             {
                 selectButton.visible = true;
             }
