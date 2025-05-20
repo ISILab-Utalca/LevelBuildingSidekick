@@ -257,11 +257,6 @@ namespace ISILab.LBS.VisualElements.Editor
             if (layers.Keys.Count <= 0)
                 return;
 
-            if (!layers.TryGetValue(layer, out LayerContainer container))
-            {
-                return;
-            }
-
             var l = layers[layer];
             var graphs = l.Clear();
             foreach (var graph in graphs)

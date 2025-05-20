@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 using System.Linq;
 using ISILab.Commons.Utility;
 using ISILab.LBS.Settings;
@@ -55,6 +56,8 @@ namespace LBS.VisualElements
         private int choiceCount;
 
         private VisualElement content;
+        private List<VisualElement> separators = new();
+
         #endregion
 
         #region SINGLETON
@@ -109,22 +112,11 @@ namespace LBS.VisualElements
         #region METHODS
         
         public void InitGeneralTools(LBSLayer layer)
-        {
-            var entry = GetTool(typeof(Select));
-            LBSTool toolInstance;
-            
-            if (entry.Key == null || entry.Value.Item1 == null)
-            {
-                toolInstance = new LBSTool(new Select());
-                AddTool(toolInstance);
-            }
-            else
-            {
-                toolInstance = entry.Value.Item1;
-            }
-            
-            toolInstance.Init(layer, this);
-            toolInstance.OnSelect += LBSInspectorPanel.ActivateDataTab;
+        { 
+            LBSTool selectTool = new LBSTool(new Select());
+            ActivateTool(selectTool,layer,layer.Modules);
+            selectTool.Init(layer, this);
+            selectTool.OnSelect += LBSInspectorPanel.ActivateDataTab;
         }
         
         public object GetActiveManipulator()
@@ -189,9 +181,49 @@ namespace LBS.VisualElements
                 }
             };
             content.Add(separator);
+            separators.Add(separator);
         }
 
-        public void AddTool(LBSTool tool)
+        private void ClearSeparators()
+        {
+            foreach (var separator in separators)
+            {
+                separator.style.display = DisplayStyle.None;
+            }
+            separators.Clear();
+        }
+
+        public void ActivateTool(LBSTool tool, LBSLayer layer, object behaviour)
+        {
+            LBSTool existingTool = null;
+            ToolButton existingButton = null;
+            if (tool?.Manipulator != null && tools.TryGetValue(tool.Manipulator.GetType(), out (LBSTool, ToolButton) tuple))
+            {
+                existingTool = tuple.Item1;
+                existingButton = tuple.Item2;
+            }
+
+            if (existingTool is not null && existingButton is not null)
+            {
+                existingButton.style.display = DisplayStyle.Flex;
+                existingTool.Init(layer, behaviour);
+                
+                // Remove previous events
+                existingTool.OnStart -= (_) => { OnStartAction?.Invoke(existingTool.Manipulator.Layer); };
+                existingTool.OnEnd -= (_) => { OnEndAction?.Invoke(existingTool.Manipulator.Layer); };
+                
+                // add new ones
+                existingTool.OnStart += (_) => { OnStartAction?.Invoke(layer); };
+                existingTool.OnEnd += (_) => { OnEndAction?.Invoke(layer); };
+            }
+            else
+            {
+                AddTool(tool);
+            }
+
+        }
+
+        private void AddTool(LBSTool tool)
         {
             var button = new ToolButton(tool);
             tool.BindButton(button);
@@ -204,8 +236,8 @@ namespace LBS.VisualElements
             
             SetUpAdderRemover(tool);
 
-            tool.OnStart += (l) => { OnStartAction?.Invoke(l); };
-            tool.OnEnd += (l) => { OnEndAction?.Invoke(l); };
+            tool.OnStart += (_) => { OnStartAction?.Invoke(tool.Manipulator.Layer); };
+            tool.OnEnd += (_) => { OnEndAction?.Invoke(tool.Manipulator.Layer); };
         }
 
         private void SetUpAdderRemover(LBSTool tool)
@@ -258,8 +290,13 @@ namespace LBS.VisualElements
         {
             if (!tools.Any()) return;
             current.Item2?.OnBlur();
-            tools.Clear();
-            content.Clear();
+            foreach ((LBSTool, ToolButton) toolPair in tools.Values)
+            {
+                toolPair.Item2.style.display = DisplayStyle.None;
+            }
+
+            ClearSeparators();
+            // No longer readding the buttons instead hide them when not usedcontent.Clear();
         }
         
         #endregion

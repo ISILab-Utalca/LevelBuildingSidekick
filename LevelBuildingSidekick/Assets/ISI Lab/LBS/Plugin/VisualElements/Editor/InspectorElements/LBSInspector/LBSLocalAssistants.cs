@@ -20,9 +20,6 @@ namespace ISILab.LBS.VisualElements
 
         private LBSLayer target;
         
-        private VisualElement noContentPanel;
-        private VisualElement contentAssist;
-
         #region CONSTRUCTORS
         public LBSLocalAssistants()
         {
@@ -30,7 +27,7 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
-            contentAssist = this.Q<VisualElement>("ContentAssist");
+            contentPanel = this.Q<VisualElement>("ContentAssist");
             
             this.Q<Button>("Add").SetEnabled(false);
         }
@@ -65,19 +62,15 @@ namespace ISILab.LBS.VisualElements
 
         public override void SetTarget(LBSLayer layer)
         {
-            visualElements.Clear();
             if (layer == null)
                 return;
             
-            //  this.content.Clear();
-            // TODO UNCOMMENT THIS? contentBehaviour.Clear();
-            
             target = layer;
             noContentPanel.SetDisplay(!target.Assistants.Any());
-     
+            contentPanel.Clear();
             
-            // Add the tools into the toolkit and set the data of behaviour
             ToolKit.Instance.AddSeparator();
+            // Add the tools into the toolkit and set the data of behaviour
             foreach (var assistant in target.Assistants)
             {
                 Type editorType = customEditor.GetValueOrDefault(assistant.GetType());
@@ -86,8 +79,7 @@ namespace ISILab.LBS.VisualElements
                 LBSCustomEditor instance = Activator.CreateInstance(editorType, assistant) as LBSCustomEditor;
                 ToolKit.Instance.SetTarget(instance);
                 var content = new InspectorContentPanel(instance, assistant.Name, assistant.Icon, assistant.ColorTint);
-                contentAssist.Add(content);
-                visualElements.Add(instance);
+                contentPanel.Add(content);
                 
                 assistant.OnTermination += () =>
                 {
@@ -95,17 +87,13 @@ namespace ISILab.LBS.VisualElements
                     Debug.Log("OnTermination");
                 };
             }
+         
         }
         
         public override void Repaint()
         {
-            if(!visualElements.Any()) return;
-            foreach (var ve in visualElements)
-            {
-                ve.Repaint(); // TODO may comment
-            }
-
-            // TODO may uncomment SetTarget(target);
+            MarkDirtyRepaint();
+            if(target is not null)SetTarget(target);
         }
         #endregion
     }

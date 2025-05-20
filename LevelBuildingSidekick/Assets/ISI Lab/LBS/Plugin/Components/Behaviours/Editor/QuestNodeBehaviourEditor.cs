@@ -193,9 +193,7 @@ namespace ISILab.LBS.VisualElements
             var questPicker = new QuestPicker();
             var t1 = new LBSTool(questPicker);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.Init(behaviour?.OwnerLayer, target);
-            
-            toolkit.AddTool(t1);
+            toolkit.ActivateTool(t1,behaviour?.OwnerLayer, target);
             
         }
 

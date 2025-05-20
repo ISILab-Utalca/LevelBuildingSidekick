@@ -14,8 +14,7 @@ namespace ISILab.LBS.VisualElements
     public partial class LBSLocalCurrent : LBSInspector
     {
         private LBSLayer target;
-
-        private VisualElement selectedContent;
+        
         private ModulesPanel modulesPanel;
         private LayerInfoView layerInfoView;
 
@@ -25,7 +24,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalCurrent");
             visualTree.CloneTree(this);
 
-            selectedContent = this.Q<VisualElement>("SelectedContent");
+            contentPanel = this.Q<VisualElement>("SelectedContent");
 
             modulesPanel = this.Q<ModulesPanel>();
             layerInfoView = this.Q<LayerInfoView>();
@@ -40,10 +39,9 @@ namespace ISILab.LBS.VisualElements
 
         public override void SetTarget(LBSLayer target)
         {
-            // SetLayer reference
+            Clear();
             this.target = target;
-            visualElements.Clear();
-
+            
             ToolKit.Instance.InitGeneralTools(this.target);
             
             modulesPanel.SetInfo(target.Modules);
@@ -52,26 +50,21 @@ namespace ISILab.LBS.VisualElements
 
         public override void Repaint()
         {
-            if(!visualElements.Any()) return;
-            foreach (var ve in visualElements)
-            {
-                ve.Repaint(); // TODO may comment
-            }
-
-            // TODO may uncomment SetTarget(target);
+            MarkDirtyRepaint();
+            if(target is not null)SetTarget(target);
         }
 
         public void SetSelectedVE(List<object> objs)
         {
-            // Clear previous view
-           // selectedContent.Clear();
+  
+            contentPanel.Clear();
 
             foreach (var obj in objs)
             {
                 // Check if obj is valid
                 if (obj == null)
                 {
-                    selectedContent.Add(new Label("[NULL]"));
+                    contentPanel.Add(new Label("[NULL]"));
                     continue;
                 }
 
@@ -85,7 +78,7 @@ namespace ISILab.LBS.VisualElements
                 if (ves.Count <= 0)
                 {
                     // Add basic label if no have specific editor
-                    selectedContent.Add(new Label("'" + type + "' does not contain a visualization."));
+                    contentPanel.Add(new Label("'" + type + "' does not contain a visualization."));
                     continue;
                 }
 
@@ -101,9 +94,7 @@ namespace ISILab.LBS.VisualElements
                 
                 // create content container
                 var container = new DataContent(ve, ves.First().Item2.First().name);
-                visualElements.Add(ve);
-                // Add custom editor
-                selectedContent.Add(container);
+                contentPanel.Add(container);
             }
         }
         #endregion

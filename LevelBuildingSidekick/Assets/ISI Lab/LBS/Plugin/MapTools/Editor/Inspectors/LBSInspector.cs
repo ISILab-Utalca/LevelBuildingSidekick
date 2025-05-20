@@ -13,8 +13,8 @@ namespace ISILab.LBS.VisualElements
         /// Dictionary for behaviour, assistants, it assumes each one only has 1 editor!
         /// </summary>
         protected Dictionary<Type, Type> customEditor = new();
-
-        protected List<LBSCustomEditor> visualElements = new();
+        protected VisualElement noContentPanel;
+        protected VisualElement contentPanel;
         
         public abstract void InitCustomEditors(ref List<LBSLayer> layers);
         public abstract void SetTarget(LBSLayer layer);

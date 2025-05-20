@@ -136,6 +136,7 @@ namespace ISILab.LBS.VisualElements
         {
             foreach (KeyValuePair<string, LBSInspector> ve in VEs)
             {
+                // Update the inspector with the new layer data
                 var inspector = ve.Value;
                 inspector.SetTarget(layer);
             }
