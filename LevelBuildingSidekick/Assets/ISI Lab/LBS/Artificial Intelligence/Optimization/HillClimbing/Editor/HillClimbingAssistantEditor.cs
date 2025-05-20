@@ -72,13 +72,12 @@ namespace ISILab.LBS.VisualElements
             var t1 = new LBSTool(setZoneConnection);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
             t1.Init(hillClimbing.OwnerLayer, hillClimbing);
-            toolKit.AddTool(t1);
+            toolKit.ActivateTool(t1,hillClimbing.OwnerLayer, hillClimbing);
             
             removeZoneConnection = new RemoveZoneConnection();
             var t2 = new LBSTool(removeZoneConnection);
             t2.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
-            t2.Init(hillClimbing.OwnerLayer, hillClimbing);
-            toolKit.AddTool(t2);
+            toolKit.ActivateTool(t2,hillClimbing.OwnerLayer, hillClimbing);
             
             setZoneConnection.SetRemover(removeZoneConnection);
         }

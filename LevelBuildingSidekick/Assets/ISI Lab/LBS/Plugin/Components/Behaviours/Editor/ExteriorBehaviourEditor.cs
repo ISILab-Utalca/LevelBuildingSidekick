@@ -69,27 +69,25 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolKit)
         {
-            
             addExteriorTile = new AddExteriorTile();
             var t1 = new LBSTool(addExteriorTile);
-            t1.Init(exterior.OwnerLayer, exterior);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
             removeTile = new RemoveTileExterior();
             var t2 = new LBSTool(removeTile);
-            t2.Init(exterior.OwnerLayer, exterior);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
             setConnection = new SetExteriorTileConnection();
             var t3 = new LBSTool(setConnection);
-            t3.Init(exterior.OwnerLayer, exterior);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
+                        
             addExteriorTile.SetRemover(removeTile);
             
-            toolKit.AddTool(t1);
-            toolKit.AddTool(t2);
-            toolKit.AddTool(t3);
+            toolKit.ActivateTool(t1,exterior.OwnerLayer, exterior);
+            toolKit.ActivateTool(t2,exterior.OwnerLayer, exterior);
+            toolKit.ActivateTool(t3,exterior.OwnerLayer, exterior);
+            
+       
         }
 
         private void CheckTargetBundle() 

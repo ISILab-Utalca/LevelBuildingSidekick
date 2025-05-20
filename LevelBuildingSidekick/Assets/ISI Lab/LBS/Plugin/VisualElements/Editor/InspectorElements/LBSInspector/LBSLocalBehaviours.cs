@@ -16,10 +16,6 @@ namespace ISILab.LBS.VisualElements
     public partial class LBSLocalBehaviours : LBSInspector
     {
         private LBSLayer target;
-        
-        private VisualElement noContentPanel;
-        private VisualElement contentBehaviour;
-        
 
         #region CONSTRUCTORS
         public LBSLocalBehaviours()
@@ -28,7 +24,7 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
 
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
-            contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
+            contentPanel = this.Q<VisualElement>("ContentBehaviour");
 
             this.Q<Button>("Add").SetEnabled(false);
             this.Q<Button>("Add").SetDisplay(false);
@@ -70,15 +66,12 @@ namespace ISILab.LBS.VisualElements
             if (layer == null)
                 return;
             
-            //  this.content.Clear();
-            // TODO UNCOMMENT THIS? contentBehaviour.Clear();
-            
             target = layer;
             noContentPanel.SetDisplay(!target.Behaviours.Any());
-            visualElements.Clear();
+            contentPanel.Clear();
             
-            // Add the tools into the toolkit and set the data of behaviour
             ToolKit.Instance.AddSeparator();
+            // Add the tools into the toolkit and set the data of behaviour
             foreach (var behaviour in target.Behaviours)
             {
                 Type editorType = customEditor.GetValueOrDefault(behaviour.GetType());
@@ -86,21 +79,16 @@ namespace ISILab.LBS.VisualElements
                 LBSCustomEditor instance = Activator.CreateInstance(editorType, behaviour) as LBSCustomEditor;
                 ToolKit.Instance.SetTarget(instance);
                 var content = new InspectorContentPanel(instance, behaviour.Name, behaviour.Icon, behaviour.ColorTint);
-                contentBehaviour.Add(content);
-                visualElements.Add(instance);
+                contentPanel.Add(content);
+  
             }
 
         }
 
         public override void Repaint()
         {
-            if(!visualElements.Any()) return;
-            foreach (var ve in visualElements)
-            {
-                ve.Repaint(); // TODO may comment
-            }
-
-           // TODO may uncomment SetTarget(target);
+            MarkDirtyRepaint();
+            if(target is not null)SetTarget(target);
         }
         #endregion
     }

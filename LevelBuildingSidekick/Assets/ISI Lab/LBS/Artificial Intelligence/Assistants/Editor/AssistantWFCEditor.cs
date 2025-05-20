@@ -39,13 +39,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         public void SetTools(ToolKit toolKit)
         {
-            toolKit.AddSeparator();
-
             collapseManipulator = new WaveFunctionCollapseManipulator();
             var t1 = new LBSTool(collapseManipulator);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
-            t1.Init(assistant.OwnerLayer, assistant);
-            toolKit.AddTool(t1);
+            toolKit.ActivateTool(t1,assistant.OwnerLayer, assistant);
         }
 
         protected sealed override VisualElement CreateVisualElement()

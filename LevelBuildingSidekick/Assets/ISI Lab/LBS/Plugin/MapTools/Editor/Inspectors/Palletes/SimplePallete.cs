@@ -176,6 +176,8 @@ namespace LBS.VisualElements
         
         public void Repaint()
         {
+            MarkDirtyRepaint();
+            
             OnRepaint?.Invoke();
 
             content.Clear();
