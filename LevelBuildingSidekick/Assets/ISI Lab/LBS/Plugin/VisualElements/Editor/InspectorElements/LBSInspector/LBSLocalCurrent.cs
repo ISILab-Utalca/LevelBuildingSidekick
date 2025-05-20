@@ -1,12 +1,9 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor;
-using ISILab.LBS.Manipulators;
 using LBS.Components;
-using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UIElements;
@@ -14,70 +11,60 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class LBSLocalCurrent : LBSInspector, IToolProvider
+    public partial class LBSLocalCurrent : LBSInspector
     {
-        #region FACTORY
-    //    public new class UxmlFactory : UxmlFactory<LBSLocalCurrent, UxmlTraits> { }
-        #endregion
+        private LBSLayer target;
 
-        private LBSLayer layer;
-        private UnityEngine.Color colorCurrent => LBSSettings.Instance.view.behavioursColor;
-
-        private VisualElement layerContent;
         private VisualElement selectedContent;
         private ModulesPanel modulesPanel;
         private LayerInfoView layerInfoView;
 
-
+        #region CONSTRUCTORS
         public LBSLocalCurrent()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalCurrent");
             visualTree.CloneTree(this);
-
-            layerContent = this.Q<VisualElement>("LayerContent");
 
             selectedContent = this.Q<VisualElement>("SelectedContent");
 
             modulesPanel = this.Q<ModulesPanel>();
             layerInfoView = this.Q<LayerInfoView>();
         }
-
-        public void SetInfo(LBSLayer target)
+        #endregion
+        
+        #region METHODS
+        public override void InitCustomEditors(ref List<LBSLayer> layers)
         {
-            // SetLayer reference
-            layer = target;
-
-            // Set basic Tool
-            SetTools(ToolKit.Instance);
-
-            // Set simple module info
-            modulesPanel.SetInfo(target.Modules);
-
-            // Set basic layer info
-            layerInfoView.SetInfo(target);
+        
         }
 
-        public override void SetTarget(LBSLayer layer)
+        public override void SetTarget(LBSLayer target)
         {
-            SetInfo(layer);
+            // SetLayer reference
+            this.target = target;
+            visualElements.Clear();
+
+            ToolKit.Instance.InitGeneralTools(this.target);
+            
+            modulesPanel.SetInfo(target.Modules);
+            layerInfoView.SetInfo(target);
         }
 
         public override void Repaint()
         {
-            
-            if(layer != null)
-                SetInfo(layer);
-        }
+            if(!visualElements.Any()) return;
+            foreach (var ve in visualElements)
+            {
+                ve.Repaint(); // TODO may comment
+            }
 
-        public void SetTools(ToolKit toolkit)
-        {
-
+            // TODO may uncomment SetTarget(target);
         }
 
         public void SetSelectedVE(List<object> objs)
         {
             // Clear previous view
-            selectedContent.Clear();
+           // selectedContent.Clear();
 
             foreach (var obj in objs)
             {
@@ -110,13 +97,15 @@ namespace ISILab.LBS.VisualElements
 
                 // set target info on visual element
                 ve.SetInfo(obj);
-
+                ToolKit.Instance.SetTarget(ve);
+                
                 // create content container
                 var container = new DataContent(ve, ves.First().Item2.First().name);
-
+                visualElements.Add(ve);
                 // Add custom editor
                 selectedContent.Add(container);
             }
         }
+        #endregion
     }
 }

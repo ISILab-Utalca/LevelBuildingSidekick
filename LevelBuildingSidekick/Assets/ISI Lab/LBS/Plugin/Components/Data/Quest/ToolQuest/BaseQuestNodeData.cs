@@ -51,7 +51,7 @@ namespace ISILab.LBS.Components
             {
                 if (!QuestNodeActionTag.TagDataTypes.TryGetValue(tag, out var requiredDataTypes))
                 {
-                    Debug.LogError($"No data types defined for tag: '{tag}'");
+//                    Debug.LogError($"No data types defined for tag: '{tag}'");
                     return new BaseQuestNodeData(owner, tag, new Type[0]);
                 }
 

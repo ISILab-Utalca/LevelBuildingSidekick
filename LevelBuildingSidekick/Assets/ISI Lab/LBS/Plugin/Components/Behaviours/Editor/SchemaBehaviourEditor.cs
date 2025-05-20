@@ -139,6 +139,8 @@ namespace ISILab.LBS.Behaviours.Editor
             areaPallete.SetName("Zones");
             areaPallete.SetIcon(icon, BHcolor);
 
+            if (!_target.ValidArea) return;
+            
             var zones = _target.Zones;
             var options = new object[zones.Count];
             for (int i = 0; i < zones.Count; i++)

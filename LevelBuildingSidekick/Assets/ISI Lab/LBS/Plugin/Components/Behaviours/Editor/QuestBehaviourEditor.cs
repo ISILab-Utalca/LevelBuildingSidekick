@@ -36,7 +36,7 @@ namespace ISILab.LBS.VisualElements
         QuestBehaviour behaviour;
         
         public QuestBehaviourEditor(object target) : base(target)
-        {
+        { 
             SetInfo(target);
         }
 
@@ -146,7 +146,7 @@ namespace ISILab.LBS.VisualElements
                 return;
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null)
+            if (quest == null || quest.OwnerLayer == null)
                 return;
 
             if (quest.Grammar == null)

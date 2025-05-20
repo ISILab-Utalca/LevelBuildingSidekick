@@ -27,72 +27,97 @@ namespace ISILab.LBS.Editor.Windows{
     public class LBSMainWindow : EditorWindow
     {
         #region PROPERTIES
+
         private LBSLevelData levelData
         {
-
             get => LBS.loadedLevel.data;
             set => LBS.loadedLevel.data = value;
         }
+
         private LBSLevelData backUpData;
 
         #endregion
 
-        #region FIELDS
+        #region DATA & STATE
+
         // Selected
         private LBSLayer _selectedLayer;
 
         // Templates
         public List<LayerTemplate> layerTemplates;
 
-        // Manager
+        #endregion
+
+        #region MANAGERS
+
         private ToolKit toolkit;
-        private ToolKit questToolkit;
         private DrawManager drawManager;
         private LBSInspectorPanel inspectorManager;
-        private static NotifierViewer notifier;
 
-        //Tool notif
-        private VisualElement toolInformation;
+        #endregion
+
+        #region NOTIFICATIONS
+
+        // Tool notification
         private static Label toolLabel;
 
-        //Warning notif
+        // Warning notification
         private static VisualElement warningNotification;
         private static Label warningLabel;
 
-        [UxmlAttribute]
-        private SplitView splitView;
+        private static NotifierViewer notifier;
+
         #endregion
 
-        #region FIELDS-VIEWS
-        
-        // Visual Elements
-        private MainView mainView; // work canvas
-        
-        private ButtonGroup toolPanel;
-        private VisualElement extraPanel;
+        #region MAIN VIEW
+
+        // Work canvas
+        private MainView mainView;
+
+        // Help overlays
+        private static VisualElement helpOverlay;
+        private static VisualElement toggleButtons;
         private VisualElement noLayerSign;
+
+// Grid position
+        public static Vector2Int _gridPosition;
+
+        #endregion
+
+        #region UI LABELS
+
         private Label selectedLabel;
         private static Label positionLabel;
-        private VisualElement floatingPanelContent;
-        private static VisualElement toggleButtons;
-        private VisualElement hideBar;
-        private VisualElement inspectorPanel;
-        private static VisualElement helpOverlay;
 
-        // Panels
+        #endregion
+
+        #region PANELS & UI SECTIONS
+
         private LayersPanel layerPanel;
         private Generator3DPanel gen3DPanel;
-        
+        private VisualElement inspectorPanel;
+        private VisualElement extraPanel;
+
+        #endregion
+
+        #region INSPECTORS
+
+        [UxmlAttribute]
+        private SplitView splitView;
+
         [UxmlAttribute]
         private LayerInspector layerInspector;
 
-        public static Vector2Int _gridPosition;
+        #endregion
+
+        #region TOGGLES
 
         private static Toggle layerDataButton;
         private static Toggle behaviourButton;
         private static Toggle assistantButton;
 
         #endregion
+
 
         #region EVENTS
         public static Action OnWindowRepaint;
@@ -150,259 +175,241 @@ namespace ISILab.LBS.Editor.Windows{
         /// <summary>
         /// Initialize the window.
         /// </summary>
-        private void Init()
+   private void Init()
+    {
+        #region LOAD & BACKUP LEVEL DATA
+
+        if (LBS.loadedLevel == null)
         {
-
-            if (LBS.loadedLevel == null)
+            if (levelData == null)
             {
-                if(levelData==null)
-                {
-                    LBS.loadedLevel = LBSController.CreateNewLevel();
-                } else
-                {
-                    backUpData = levelData;
-                    LBS.loadedLevel = LBSController.CreateNewLevel();
-                    levelData = backUpData;
-                }
+                LBS.loadedLevel = LBSController.CreateNewLevel();
             }
-
-            levelData!.OnReload += () =>
+            else
             {
-                layerPanel.ResetSelection();
-            };
-
-            VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");
-            visualTree.CloneTree(rootVisualElement);
-
-            // LayerTemplate
-            layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
-
-            // SplitView
-            splitView = rootVisualElement.Q<SplitView>("SplitView");
-            if(splitView == null) Debug.LogError("Cannot find SplitView");
-
-            // Help
-            var helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
-            helpOverlay = new HintsController();
-            helpOverlay.style.position = Position.Absolute; 
-            helpOverlayAnchor.Add(helpOverlay);
-            DisplayHelp();
-            
-            // Message Notifier
-            notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
-            var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
-            var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
-            notifier.SetButtons(cleanButton, disableNotificationButton);
-
-            //Tools
-            toolInformation = rootVisualElement.Q<VisualElement>("ToolInformation");
-            toolLabel = rootVisualElement.Q<Label>("ToolText");
-            
-            //Warning
-            warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
-            warningLabel = rootVisualElement.Q<Label>("WarningText");
-            warningNotification.visible = false;
-
-            // LayerInspector
-            layerInspector = rootVisualElement.Q<LayerInspector>("LayerInspector");
-
-            // MainView 
-            mainView = rootVisualElement.Q<MainView>("MainView");
-            mainView.OnClearSelection += () =>
-            {
-                if (_selectedLayer != null)
-                {
-                    var il = Reflection.MakeGenericScriptable(_selectedLayer);
-                    Selection.SetActiveObjectWithContext(il, il);
-                }
-            };
-
-            // ToolKitManager
-            toolkit = rootVisualElement.Q<ToolKit>(name: "Toolkit");
-            toolkit.OnEndAction += l =>
-            {
-                drawManager.RedrawLayer(l, mainView);
-            };
-            
-            //QuestToolkit
-            questToolkit = rootVisualElement.Q<ToolKit>(name: "QuestToolkit");
-
-            // ToolBar
-            var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-            toolbar.OnNewLevel += data =>
-            {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-            };
-            toolbar.OnLoadLevel += data =>
-            {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-                drawManager.RedrawLevel(levelData, mainView);
-            };
-
-            // NoLayerSign
-            noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
-
-            // SelectedLabel
-            selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
-            
-            // PositionLabel
-            positionLabel = rootVisualElement.Q<Label>("PositionLabel");
-          
-            #region Panels
-            
-            // InspectorContent
-            inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
-            
-            // SubPanelScrollView
-            var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
-            subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
-            subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
-            subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
-            
-            // ToolPanel
-            toolPanel = rootVisualElement.Q<ButtonGroup>("ToolsGroup");
-            
-            // ExtraPanel
-            extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-            
-            // FloatingPanelContent
-            floatingPanelContent = rootVisualElement.Q<VisualElement>("FloatingPanelContent");
-            
-            // LayerPanel
-            layerPanel = new LayersPanel(levelData, ref layerTemplates);
-            extraPanel.Add(layerPanel);
-            layerPanel.style.display = DisplayStyle.Flex;
-
-            layerPanel.OnLayerVisibilityChange += l =>
-            {
-                DrawManager.Instance.RedrawLevel(levelData, mainView);
-            };
-            layerPanel.OnSelectLayer += layer =>
-            {
-                OnSelectedLayerChange(layer);
-            };
-            layerPanel.OnAddLayer += layer =>
-            {
-                var sw = new Stopwatch();
-                sw.Start();
-                OnSelectedLayerChange(layer);
-                sw.Stop();
-                Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
-                sw.Restart();
-                DrawManager.Instance.AddContainer(layer);
-                sw.Stop();
-                Debug.Log("DrawManager.Instance.AddContainer(layer): " + sw.ElapsedMilliseconds + " ms");
-            };
-            layerPanel.OnRemoveLayer += l =>
-            {
-                drawManager.RemoveContainer(l);
-                if(levelData.LayerCount==0)
-                {
-                    toolkit.Clear();
-                }
-            };
-
-            // Gen3DPanel
-            gen3DPanel = new Generator3DPanel();
-            extraPanel.Add(gen3DPanel);
-            gen3DPanel.style.display = DisplayStyle.None;
-            gen3DPanel.OnExecute = () =>
-            {
-                gen3DPanel.Init(_selectedLayer);
-            };
-            #endregion
-            
-            #region Extra Toolbar
-            // LayerButton
-            Toggle layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
-            layerToggleButton.SetValueWithoutNotify(true);
-            layerToggleButton.RegisterCallback<ChangeEvent<bool>>(_event => {
-                layerPanel.style.display = (layerToggleButton.value) ? DisplayStyle.Flex : DisplayStyle.None;
-            });
-
-            // Quest Panel Toggle
-            Toggle toggleQuest = rootVisualElement.Q<Toggle>("QuestToggle");
-
-            // 3D Generator Toggle
-            Toggle toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggle");
-            //Toggle toggleButton3D = Gen3DBtn.Q<Toggle>("ToggleButton");
-            toggleButton3D.RegisterCallback<ChangeEvent<bool>>(evt =>
-            {
-                gen3DPanel.Init(_selectedLayer);
-                //var value = (gen3DPanel.style.display == DisplayStyle.None);
-                gen3DPanel.style.display = (toggleButton3D.value) ? DisplayStyle.Flex : DisplayStyle.None;
-            });
-            
-            // Plus toggle
-            Toggle toggleButtonPlus = rootVisualElement.Q<Toggle>("PlusToggle");
-            
-            
-            // Toggle buttons only one active at a time
-            toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
-            
-   
-            layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
-            layerDataButton.RegisterCallback<ClickEvent>(evt => { ChangeInspectorPanelTab(layerDataButton); });
-            behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
-            behaviourButton.RegisterCallback<ClickEvent>(evt =>  { ChangeInspectorPanelTab(behaviourButton); });
-            assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
-            assistantButton.RegisterCallback<ClickEvent>(evt => { ChangeInspectorPanelTab(assistantButton); });
-
-            Toggle tagsButton = rootVisualElement.Q<Toggle>("TagsButton");  
-            tagsButton.RegisterCallback<ClickEvent>(evt =>
-            {
-                OnToggleButtonClick();
-                tagsButton.SetValueWithoutNotify(true);
-                //LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
-            });
-            
-            Toggle bundlesButton = rootVisualElement.Q<Toggle>("BundlesButton");     
-            bundlesButton.RegisterCallback<ClickEvent>(evt =>
-            {
-                OnToggleButtonClick();
-                bundlesButton.SetValueWithoutNotify(true);
-                //LBSInspectorPanel.ShowInspector(LBSInspectorPanel.AssistantsTab);
-            });
-            
-            #endregion
-            
-            //inspector panel 
-            inspectorPanel = rootVisualElement.Q<VisualElement>("Inspector");
-            // topBar
-            hideBar = rootVisualElement.Q<VisualElement>("HideBar");
-            // Hide toggle
-            Button buttonHideInspector = rootVisualElement.Q<Button>("ButtonDisplayInspector");
-            buttonHideInspector.RegisterCallback<ClickEvent>(evt =>{
-                if (inspectorPanel.ClassListContains("lbs_inspectorhide"))
-                {
-                    inspectorPanel.RemoveFromClassList("lbs_inspectorhide");
-                    splitView.fixedPaneInitialDimension = 400f;
-                }
-                else
-                {
-                    inspectorPanel.AddToClassList("lbs_inspectorhide");
-                    splitView.fixedPaneInitialDimension = 80f;
-                }
-                splitView.MarkDirtyRepaint();
-            });
-        
-
-            
-            #region Main Inits
-            
-            LBSController.OnLoadLevel += l => _selectedLayer = null;
-            OnLevelDataChange(levelData);
-            levelData.OnChanged += OnLevelDataChange;
-            
-            // DrawManager
-            drawManager = new DrawManager(ref mainView);
-            drawManager.RedrawLevel(levelData, mainView);
-            
-            #endregion
-
+                backUpData = levelData;
+                LBS.loadedLevel = LBSController.CreateNewLevel();
+                levelData = backUpData;
+            }
         }
+
+        levelData!.OnReload += () => layerPanel.ResetSelection();
+
+        #endregion
+
+        #region LOAD UI TREE
+
+        VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");
+        visualTree.CloneTree(rootVisualElement);
+
+        #endregion
+
+        #region LOAD SCRIPTABLES
+
+        layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
+
+        #endregion
+
+        #region SPLIT VIEW SETUP
+
+        splitView = rootVisualElement.Q<SplitView>("SplitView");
+        if (splitView == null) Debug.LogError("Cannot find SplitView");
+
+        #endregion
+
+        #region HELP OVERLAY
+
+        var helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
+        helpOverlay = new HintsController();
+        helpOverlay.style.position = Position.Absolute;
+        helpOverlayAnchor.Add(helpOverlay);
+        DisplayHelp();
+
+        #endregion
+
+        #region NOTIFIER
+
+        notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
+        var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
+        var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
+        notifier.SetButtons(cleanButton, disableNotificationButton);
+
+        #endregion
+
+        #region TOOL & WARNING INFO
+
+        toolLabel = rootVisualElement.Q<VisualElement>("ToolInformation").Q<Label>("ToolText");
+        warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
+        warningLabel = rootVisualElement.Q<Label>("WarningText");
+        warningNotification.visible = false;
+
+        #endregion
+
+        #region MAIN VIEW
+
+        mainView = rootVisualElement.Q<MainView>("MainView");
+        mainView.OnClearSelection += () =>
+        {
+            if (_selectedLayer != null)
+            {
+                var il = Reflection.MakeGenericScriptable(_selectedLayer);
+                Selection.SetActiveObjectWithContext(il, il);
+            }
+        };
+
+        #endregion
+
+        #region TOOLBAR
+
+        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+        toolbar.OnNewLevel += data =>
+        {
+            LBS.loadedLevel = data;
+            RefreshWindow();
+        };
+        toolbar.OnLoadLevel += data =>
+        {
+            LBS.loadedLevel = data;
+            RefreshWindow();
+            drawManager.RedrawLevel(levelData, mainView);
+        };
+
+        #endregion
+
+        #region LABELS & MISC UI
+
+        noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
+        selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+        positionLabel = rootVisualElement.Q<Label>("PositionLabel");
+
+        #endregion
+
+        #region PANELS - INSPECTOR, EXTRA, LAYERS, GENERATOR
+
+        inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
+        inspectorManager.InitTabs(ref layerTemplates);
+        
+        var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
+        subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
+        subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
+
+        extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
+
+        layerPanel = new LayersPanel(levelData, ref layerTemplates);
+        extraPanel.Add(layerPanel);
+        layerPanel.style.display = DisplayStyle.Flex;
+
+        layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView);
+        layerPanel.OnSelectLayer += layer => OnSelectedLayerChange(layer);
+        layerPanel.OnAddLayer += layer =>
+        {
+            var sw = new Stopwatch();
+            sw.Start();
+            OnSelectedLayerChange(layer);
+            sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
+            sw.Restart();
+            DrawManager.Instance.AddContainer(layer);
+            sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
+        };
+        layerPanel.OnRemoveLayer += l =>
+        {
+            drawManager.RemoveContainer(l);
+            if (levelData.LayerCount == 0) toolkit.Clear();
+        };
+
+        gen3DPanel = new Generator3DPanel();
+        extraPanel.Add(gen3DPanel);
+        gen3DPanel.style.display = DisplayStyle.None;
+        gen3DPanel.OnExecute = () => gen3DPanel.Init(_selectedLayer);
+
+        #endregion
+
+        #region EXTRA TOOLBAR TOGGLES
+
+        var layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
+        layerToggleButton.SetValueWithoutNotify(true);
+        layerToggleButton.RegisterCallback<ChangeEvent<bool>>(_ =>
+        {
+            layerPanel.style.display = layerToggleButton.value ? DisplayStyle.Flex : DisplayStyle.None;
+        });
+        
+        var toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggle");
+        toggleButton3D.RegisterCallback<ChangeEvent<bool>>(_ =>
+        {
+            gen3DPanel.Init(_selectedLayer);
+            gen3DPanel.style.display = toggleButton3D.value ? DisplayStyle.Flex : DisplayStyle.None;
+        });
+
+        toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
+
+        layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
+        behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
+        assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
+
+        layerDataButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(layerDataButton));
+        behaviourButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(behaviourButton));
+        assistantButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(assistantButton));
+
+        var tagsButton = rootVisualElement.Q<Toggle>("TagsButton");
+        tagsButton.RegisterCallback<ClickEvent>(_ =>
+        {
+            OnToggleButtonClick();
+            tagsButton.SetValueWithoutNotify(true);
+        });
+
+        var bundlesButton = rootVisualElement.Q<Toggle>("BundlesButton");
+        bundlesButton.RegisterCallback<ClickEvent>(_ =>
+        {
+            OnToggleButtonClick();
+            bundlesButton.SetValueWithoutNotify(true);
+        });
+
+        #endregion
+
+        #region INSPECTOR TOGGLE BUTTON
+
+        inspectorPanel = rootVisualElement.Q<VisualElement>("Inspector");
+        var buttonHideInspector = rootVisualElement.Q<Button>("ButtonDisplayInspector");
+        buttonHideInspector.RegisterCallback<ClickEvent>(_ =>
+        {
+            if (inspectorPanel.ClassListContains("lbs_inspectorhide"))
+            {
+                inspectorPanel.RemoveFromClassList("lbs_inspectorhide");
+                splitView.fixedPaneInitialDimension = 400f;
+            }
+            else
+            {
+                inspectorPanel.AddToClassList("lbs_inspectorhide");
+                splitView.fixedPaneInitialDimension = 80f;
+            }
+            splitView.MarkDirtyRepaint();
+        });
+
+        #endregion
+
+        #region TOOLKIT
+
+        toolkit = rootVisualElement.Q<ToolKit>("Toolkit");
+        toolkit.OnEndAction += l =>
+        {
+            drawManager.RedrawLayer(l, mainView);
+        };
+
+        #endregion
+        
+        #region MAIN INIT & EVENTS
+
+        LBSController.OnLoadLevel += _ => _selectedLayer = null;
+        OnLevelDataChange(levelData);
+        levelData.OnChanged += OnLevelDataChange;
+
+        drawManager = new DrawManager(ref mainView);
+        drawManager.RedrawLevel(levelData, mainView);
+
+        #endregion
+    }
+
 
         /// <summary>
         /// Called when changing tabs from the toggle buttons in this class
@@ -472,11 +479,10 @@ namespace ISILab.LBS.Editor.Windows{
         private void OnSelectedLayerChange(LBSLayer layer)
         {
             _selectedLayer = layer;
+            toolkit.Clear();
             
             inspectorManager.SetTarget(layer);
-            
-            toolkit.Clear();
-            toolkit.Init(layer);
+      
             toolkit.SetActive(typeof(Select));
             
             gen3DPanel.Init(layer);
