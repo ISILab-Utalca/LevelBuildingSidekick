@@ -20,6 +20,11 @@ namespace ISILab.Extensions
                 
             */
         }
+        
+        public static bool GetDisplay(this VisualElement element)
+        {
+            return element.style.display == DisplayStyle.Flex;
+        }
 
 
         public static void SetBackgroundColor(this VisualElement element, Color color){
