@@ -41,19 +41,23 @@ namespace LBS.Components
         private LBSLevelData parent;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSModule> modules = new List<LBSModule>();
+        private List<LBSModule> modules = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
+        private List<LBSBehaviour> behaviours = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSAssistant> assistants = new List<LBSAssistant>();
+        private List<LBSAssistant> assistants = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
+        private List<LBSGeneratorRule> generatorRules = new();
 
         [SerializeField, JsonRequired]
-        private Generator3D.Settings settings = new Generator3D.Settings();
+        private Generator3D.Settings settings = new();
+       
+        [SerializeField, JsonRequired]
+        public int index;
+
         #endregion
 
         #region META-PROPERTIES
@@ -104,25 +108,25 @@ namespace LBS.Components
         [JsonIgnore]
         public List<LBSModule> Modules
         {
-            get => new List<LBSModule>(modules);
+            get => new(modules);
         }
 
         [JsonIgnore]
         public List<LBSBehaviour> Behaviours
         {
-            get => new List<LBSBehaviour>(behaviours);
+            get => new(behaviours);
         }
 
         [JsonIgnore]
         public List<LBSAssistant> Assistants
         {
-            get => new List<LBSAssistant>(assistants);
+            get => new(assistants);
         }
 
         [JsonIgnore]
         public List<LBSGeneratorRule> GeneratorRules
         {
-            get => new List<LBSGeneratorRule>(generatorRules);
+            get => new(generatorRules);
         }
 
         [JsonIgnore]

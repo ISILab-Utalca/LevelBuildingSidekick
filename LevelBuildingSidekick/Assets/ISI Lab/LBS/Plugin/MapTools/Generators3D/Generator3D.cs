@@ -160,11 +160,14 @@ namespace ISILab.LBS.Generators
             var name = settings.name;
             var parent = new GameObject(name);
             this.rules = rules;
-
+            
+            parent.transform.position = settings.position;
+            Debug.Log(parent.transform.position);
+            
             if (this.rules.Count <= 0)
             {
                 messages.Add("[ISILab]: Generator contain 0 rules to generate map");
-                return Tuple.Create<GameObject, List<string>>(parent, messages);
+                return Tuple.Create(parent, messages);
             }
             
             for (int i = 0; i < this.rules.Count; i++)
@@ -177,7 +180,7 @@ namespace ISILab.LBS.Generators
                 }
                 ruleParent.Item1.SetParent(parent);
             }
-            return Tuple.Create<GameObject, List<string>>(parent, messages);
+            return Tuple.Create(parent, messages);
         }
         #endregion
 
