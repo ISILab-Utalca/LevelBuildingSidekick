@@ -10,8 +10,10 @@ namespace ISILab.LBS.VisualElements.Editor
     public class BundleManagerElement : VisualElement
     {
         private Bundle _bundleRef;
-        private Label _bundleName;
-        private Button _deleteButton;
+        private ListView _listRef;
+        private readonly Label _bundleName;
+        private bool _isMasterBundle;
+
         public BundleManagerElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleManagerElement");
@@ -19,8 +21,8 @@ namespace ISILab.LBS.VisualElements.Editor
             
             _bundleName = this.Q<Label>("BundleName");
             
-            _deleteButton = this.Q<Button>("DeleteButton");
-            _deleteButton.clickable.clicked += () =>
+            Button deleteButton = this.Q<Button>("DeleteButton");
+            deleteButton.clickable.clicked += () =>
             {
                 var answer = EditorUtility.DisplayDialogComplex(
                     "The bundle will be deleted",
@@ -31,7 +33,12 @@ namespace ISILab.LBS.VisualElements.Editor
                 switch (answer)
                 {
                     case 0: //Delete
-                        FileUtil.DeleteFileOrDirectory(AssetDatabase.GetAssetPath(_bundleRef));
+                        string path = AssetDatabase.GetAssetPath(_bundleRef);
+                        RemoveFromList();
+                        Debug.Log(AssetDatabase.DeleteAsset(path)
+                            ? "File at " + path + " successfully deleted"
+                            : "File failed to delete");
+                        _listRef.RefreshItems();
                         return;
                     case 1: //Cancel
                         return;
@@ -39,45 +46,36 @@ namespace ISILab.LBS.VisualElements.Editor
             };
         }
 
-        public void SetBundleRef(Bundle bundle)
+        public void SetRefs(Bundle bundle, ListView list, bool masterBundle)
         {
             _bundleRef = bundle;
             _bundleName.text = _bundleRef.name;
+            
+            _listRef = list;
+            _isMasterBundle = masterBundle;
         }
-        /*
-         * 
-            string path;
-            FileInfo fileInfo;
-            LBSLevelData data;
-            switch (answer)
+
+        private void RemoveFromList()
+        {
+            if (_isMasterBundle)
             {
-                case 0: // Save
-                    SaveFile();
-                    path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
-                    fileInfo = new System.IO.FileInfo(path);
-                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
-                    CurrentLevel.data.Reload();
-                    return CurrentLevel;
-
-                case 1: // Discard
-                    
-                    LBSMainWindow.MessageNotify("Level discarded.");
-                    
-                    path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
-                    if (path == "")
-                        return null;
-                    fileInfo = new System.IO.FileInfo(path);
-                    data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
-                    CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);
-                    CurrentLevel.data.Reload();
-                    OnLoadLevel?.Invoke(CurrentLevel.data);
-                    return CurrentLevel;
-
-                case 2: //do nothing
-                default:
-                    return null; 
+                foreach (BundleManagerWindow.BundleContainer item in _listRef.itemsSource)
+                {
+                    if (item.GetMainBundle().Equals(_bundleRef))
+                    {
+                        _listRef.itemsSource.Remove(item);
+                        break;
+                    }
+                }
             }
-        */
+            else
+            {
+                _listRef.itemsSource.Remove(_bundleRef);
+                if (_bundleRef.Parent() != null)
+                {
+                    _bundleRef.Parent().RemoveChild(_bundleRef);   
+                }
+            }
+        }
     }
 }

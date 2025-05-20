@@ -10,23 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Walls_scifi
+  m_Name: ERASE THIS ORPHAN
   m_EditorClassIdentifier: 
   layerContentFlags: 0
-  type: 1
-  anchorPosition: 1
-  color: {r: 0, g: 0, b: 0, a: 0}
-  icon: {fileID: 0}
+  type: 2
+  anchorPosition: 0
+  color: {r: 0.47058827, g: 0.4901961, b: 0.38823533, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 126e5fd08a22aed408cb6341da19fda4, type: 3}
   assets:
-  - obj: {fileID: 4451775199137912153, guid: fe4029c9e5b97fb469235e9ad0d173da, type: 3}
-    probability: 0.424
-  - obj: {fileID: 6614448629473472398, guid: da92264d234e07e4b82c68afa4c50212, type: 3}
+  - obj: {fileID: 5292898416574883046, guid: f35773877b15cf64a90f4c1183ac2205, type: 3}
     probability: 1
-  - obj: {fileID: 8106308865659303682, guid: 071dbc4e9bac7c040aa161cc717c66c5, type: 3}
-    probability: 0.109
   characteristics:
-  - rid: 279245815319625889
-  populationType: 0
+  - rid: 4305865204711817731
+  - rid: 4305865204711817732
+  populationType: 4
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
@@ -39,8 +36,13 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 279245815319625889
+    - rid: 4305865204711817731
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 4305865204711817732
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
