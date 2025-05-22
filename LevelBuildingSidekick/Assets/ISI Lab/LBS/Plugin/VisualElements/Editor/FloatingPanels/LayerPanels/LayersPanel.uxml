@@ -17,7 +17,7 @@
         </ui:VisualElement>
         <ui:Instance template="NoLayerNotifyHorizontal" focusable="false" enabled="true" style="opacity: 1; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(48, 48, 48); color: rgb(124, 124, 124);" />
         <ui:ListView focusable="true" reorder-mode="Animated" reorderable="true" show-foldout-header="false" header-title="Layers" show-add-remove-footer="false" horizontal-scrolling="false" selection-type="Single" show-border="false" virtualization-method="DynamicHeight" name="List" show-bound-collection-size="true" fixed-item-height="18" style="padding-left: 0; padding-right: 0; padding-top: 3px; padding-bottom: 3px; background-color: rgba(0, 0, 0, 0); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); margin-top: 3px; display: flex;" />
-        <ui:VisualElement name="LayerSettings" class="lbs-group-box">
+        <ui:VisualElement name="LayerSettings" class="lbs-group-box" style="display: none;">
             <ui:TextField picking-mode="Ignore" label="Name" value="New Layer" name="NameField" style="display: none;" />
             <ui:DropdownField label="Type" index="-1" choices="System.Collections.Generic.List`1[System.String]" name="TypeDropdown" tooltip="Select the type of layer you need for your job" style="display: none;" />
             <LBS.VisualElements.LayerInfoView style="display: flex;" />

@@ -4,8 +4,10 @@ using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Template;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using LBS.VisualElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -39,11 +41,6 @@ namespace ISILab.LBS.VisualElements
         private static string recentTab;
         
         private Dictionary<string, LBSInspector> VEs = new();
-        #endregion
-
-        #region EVENTS
-        public event Action<string> OnChangeTab;
-        
         #endregion
 
         #region CONSTRUCTORS
@@ -81,16 +78,7 @@ namespace ISILab.LBS.VisualElements
             assistants.InitCustomEditors(ref layersList);
             AddTab(AssistantsTab, assistants);
             
-            
-            tabsGroup.OnChangeTab += tab =>
-            {
-                ClearContent();
-                VEs.TryGetValue(tab, out var inspct);
-                SetContent(inspct);
-
-                OnChangeTab?.Invoke(tab);
-            }; 
-            
+            tabsGroup.OnChangeTab += SetSelectedTab; 
             SetSelectedTab(DataTab);
         }
 
@@ -104,7 +92,7 @@ namespace ISILab.LBS.VisualElements
                 var grupableBtn = btn as GrupalbeButton;
                 ClearContent();
                 VEs.TryGetValue(grupableBtn.text, out var inspct);
-            SetContent(inspct);
+                SetContent(inspct);
             });
             
         }
@@ -112,11 +100,15 @@ namespace ISILab.LBS.VisualElements
         public void SetSelectedTab(string name)
         {
             ClearContent();
-            VEs.TryGetValue(name, out var ve);
-            SetContent(ve);
 
-            OnChangeTab?.Invoke(name);
+            if (VEs == null) return;
+            if (string.IsNullOrEmpty(name)) return;
+            if (!VEs.TryGetValue(name, out var ve))  return;
+            if (ve == null) return;
+            
+            SetContent(ve);
         }
+
 
         private void ClearContent()
         {
@@ -125,11 +117,8 @@ namespace ISILab.LBS.VisualElements
 
         private void SetContent(VisualElement inspector)
         {
-            if (inspector == null)
-                return;
-
+            if (inspector == null) return;
             content?.Add(inspector);
-            (inspector as LBSInspector)?.Repaint();
         }
 
         internal void SetTarget(LBSLayer layer)

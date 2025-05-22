@@ -254,10 +254,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void ClearLayerView(LBSLayer layer)
         {
-            if (layers.Keys.Count <= 0)
-                return;
-
-            var l = layers[layer];
+            if (!layers.Keys.Any() || !layers.TryGetValue(layer, out var l))  return;
+            
             var graphs = l.Clear();
             foreach (var graph in graphs)
             {

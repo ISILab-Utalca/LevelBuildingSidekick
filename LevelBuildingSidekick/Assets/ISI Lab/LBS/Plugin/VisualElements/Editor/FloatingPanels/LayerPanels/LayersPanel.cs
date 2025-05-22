@@ -38,7 +38,6 @@ namespace ISILab.LBS.VisualElements.Editor
         private List<VisualElement> noLayerNotificators; 
 
         private VisualElement noSelectedLayerNotificator;
-        private VisualElement layerSettings;
         #endregion
 
         #region EVENTS ACTIONS
@@ -113,18 +112,12 @@ namespace ISILab.LBS.VisualElements.Editor
                 addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayerByTemplate(x));
             }
 
-
-            // AddLayerButton
-            // var addLayerBtn = this.Q<Button>("AddLayerButton");
-            // addLayerBtn.clicked += AddLayer;
-
             // RemoveSelectedButton
             Button RemoveSelectedBtn = this.Q<Button>("RemoveSelectedButton");
             RemoveSelectedBtn.clicked += RemoveSelectedLayer;
 
             noLayerNotificators = this.Query<VisualElement>("NoLayerNotify").ToList();
             noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
-            layerSettings = this.Q<VisualElement>("LayerSettings");
             
             list.style.display = DisplayStyle.None;
             noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
@@ -151,10 +144,10 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             var layer = CreateLayer(index);
-
             layer.Name = LBSSettings.Instance.general.baseLayerName;
 
             AddLayer(layer);
+            list.SetSelection(0); // Select newest
         }
 
         private void AddLayer(LBSLayer layer)
@@ -167,12 +160,10 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             data.AddLayer(layer);
-            
-            list.SetSelectionWithoutNotify(new List<int>() {0});
             OnAddLayer?.Invoke(layer);
-            OnLayerSelectedEventHandle(layer);
-            LBSMainWindow.MessageNotify("New Data layer created");
             list.Rebuild();
+            
+            LBSMainWindow.MessageNotify("New Data layer created");
         }
 
         private void RemoveSelectedLayer()
@@ -204,6 +195,12 @@ namespace ISILab.LBS.VisualElements.Editor
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
+            if (list.childCount == 0)
+            {
+                OnLayerSelectedEventHandle(null);
+                ResetSelection();
+            }
+            
             LBSMainWindow.MessageNotify("Data layer deleted");
             DrawManager.ReDraw();
         }
@@ -246,29 +243,26 @@ namespace ISILab.LBS.VisualElements.Editor
             DisplayStyle noSelectedDisplay = _layer is null && hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             
-            DisplayStyle settingsDisplay = (_layer!=null && hasItems) ? DisplayStyle.Flex : DisplayStyle.None;
-            
             foreach (VisualElement layer in noLayerNotificators)
             {
                 layer.style.display = notificatorsDisplay;
             }
             list.style.display = listDisplay; 
-            layerSettings.style.display = settingsDisplay;
             noSelectedLayerNotificator.style.display = noSelectedDisplay;
         }
         
-        private void OnLayerSelectedEventHandle(LBSLayer layer){
+        private void OnLayerSelectedEventHandle(LBSLayer layer)
+        {
+            selectedLayer = layer;
             if (layer is not null)
             {
                 LBSInspectorPanel.ActivateDataTab();
-                selectedLayer = layer;
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
-                layerSettings.style.display = DisplayStyle.Flex;
             } 
             else 
             {
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
-                layerSettings.style.display = DisplayStyle.None;
+                LBSInspectorPanel.Instance.SetSelectedTab(null);
             }
         }
 

@@ -315,7 +315,11 @@ namespace ISILab.LBS.Editor.Windows{
         layerPanel.OnRemoveLayer += l =>
         {
             drawManager.RemoveContainer(l);
-            if (levelData.LayerCount == 0) toolkit.Clear();
+            if (levelData.LayerCount == 0)
+            {
+                toolkit.Clear();
+                OnSelectedLayerChange(null);
+            }
         };
 
         gen3DPanel = new Generator3DPanel();
@@ -479,15 +483,17 @@ namespace ISILab.LBS.Editor.Windows{
         private void OnSelectedLayerChange(LBSLayer layer)
         {
             _selectedLayer = layer;
+           
             toolkit.Clear();
-            
             inspectorManager.SetTarget(layer);
-      
+            toolkit.SetSeparators();
+            
             toolkit.SetActive(typeof(Select));
             
             gen3DPanel.Init(layer);
             
-            selectedLabel.text = "Selected: " + layer.Name;
+            string layerName = layer is not null ? layer.Name : "-";
+            selectedLabel.text = "Selected: " + layerName;
 
         }
         public static void WarningManipulator(string description = null)

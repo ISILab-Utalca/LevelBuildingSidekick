@@ -2,12 +2,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System;
-using System.Collections;
 using System.Linq;
-using ISILab.Commons.Utility;
 using ISILab.LBS.Settings;
 using ISILab.Commons.Utility.Editor;
-using ISILab.LBS;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
@@ -15,7 +12,7 @@ using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;
-using ISILab.LBS.Template;
+using ISILab.LBS.Modules;
 using LBS.Components;
 
 namespace LBS.VisualElements
@@ -168,10 +165,9 @@ namespace LBS.VisualElements
                 LBSMainWindow.MessageManipulator(manipulator.Description);
             };
             manipulator.OnManipulationNotification?.Invoke();
-            
         }
         
-        public void AddSeparator(int height = 10)
+        private void AddSeparator(int height = 10)
         {
             var separator = new VisualElement
             {
@@ -193,8 +189,10 @@ namespace LBS.VisualElements
             separators.Clear();
         }
 
-        public void ActivateTool(LBSTool tool, LBSLayer layer, object behaviour)
+        public void ActivateTool(LBSTool tool, LBSLayer layer, object provider)
         {
+            if(tool == null) return;
+            
             LBSTool existingTool = null;
             ToolButton existingButton = null;
             if (tool?.Manipulator != null && tools.TryGetValue(tool.Manipulator.GetType(), out (LBSTool, ToolButton) tuple))
@@ -206,7 +204,7 @@ namespace LBS.VisualElements
             if (existingTool is not null && existingButton is not null)
             {
                 existingButton.style.display = DisplayStyle.Flex;
-                existingTool.Init(layer, behaviour);
+                existingTool.Init(layer, provider);
                 
                 // Remove previous events
                 existingTool.OnStart -= (_) => { OnStartAction?.Invoke(existingTool.Manipulator.Layer); };
@@ -219,6 +217,7 @@ namespace LBS.VisualElements
             else
             {
                 AddTool(tool);
+                tool.Init(layer, provider);
             }
 
         }
@@ -228,7 +227,6 @@ namespace LBS.VisualElements
             var button = new ToolButton(tool);
             tool.BindButton(button);
             content.Add(button);
-
             tools[tool.Manipulator.GetType()] = (tool, button);
 
             button.AddGroupEvent(() => SetActive(tool.Manipulator.GetType()));
@@ -301,6 +299,76 @@ namespace LBS.VisualElements
         
         #endregion
 
+
+        public void SetSeparators()
+        {
+            ClearSeparators();
+
+            if (tools == null || tools.Count == 0)
+                return;
+            
+            Dictionary<Type, List<ToolButton>> groupedButtons = new();
+
+            foreach ((LBSTool tool, ToolButton button) in tools.Values)
+            {
+                if (button == null || button.style.display == DisplayStyle.None)
+                    continue;
+
+                Type type = tool?.Manipulator?.ObjectType;
+                if(type is null) continue;
+                
+                if (!groupedButtons.ContainsKey(type))
+                    groupedButtons[type] = new List<ToolButton>();
+
+                groupedButtons[type].Add(button);
+            }
+
+            // presets in desired order!
+            List<Type> presentTypes = new()
+            {
+                typeof(object),
+                typeof(LBSModule),
+                typeof(LBSBehaviour),
+                typeof(LBSAssistant)
+            };
+            
+            List<ToolButton> lastButtonPerType = new();
+            for (int i = 0; i < presentTypes.Count - 1; i++)
+            {
+                if (groupedButtons.TryGetValue(presentTypes[i], out var buttons) && buttons.Count > 0)
+                {
+                    lastButtonPerType.Add(buttons.Last());
+                }
+            }
+            
+            foreach (var button in lastButtonPerType)
+            {
+                InsertSeparatorAfter(button);
+            }
+            
+            MarkDirtyRepaint();
+        }
+        
+        private void InsertSeparatorAfter(VisualElement element)
+        {
+            var separator = new VisualElement();
+            separator.style.height = 1;
+            separator.style.marginTop = 4;
+            separator.style.marginBottom = 4;
+            separator.style.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            separator.style.flexGrow = 1;
+
+            var parent = element.parent;
+            if (parent == null) return;
+
+            int index = parent.IndexOf(element);
+            if (index >= 0)
+            {
+                parent.Insert(index + 1, separator);
+            }
+            
+            separators.Add(separator);
+        }
 
     }
 }
