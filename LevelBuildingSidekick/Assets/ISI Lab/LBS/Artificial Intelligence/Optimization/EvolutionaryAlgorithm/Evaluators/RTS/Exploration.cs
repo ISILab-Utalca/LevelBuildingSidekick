@@ -5,6 +5,9 @@ using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Components;
+using ISILab.LBS.Internal;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -19,6 +22,17 @@ namespace ISILab.AI.Categorization
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic colliderCharacteristic;
+
+        /*public Exploration(LBSTagsCharacteristic colliderCharacteristic)
+        {
+            this.colliderCharacteristic = colliderCharacteristic;
+        }*/
+
+        //Default constructor
+        /*public Exploration()
+        {
+            colliderCharacteristic.Value = LBSAssetMacro.GetLBSTag("Collider");
+        }*/
 
         public float Evaluate(IOptimizable evaluable)
         {
@@ -48,6 +62,11 @@ namespace ISILab.AI.Categorization
             fitness /= (float)genes.Count;
 
             return fitness;
+        }
+
+        public void InitializeDefault()
+        {
+            colliderCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Collider"));
         }
 
         public object Clone()

@@ -330,6 +330,7 @@ namespace ISILab.LBS.AI.Categorization
         /// <param name="samples">The array of evaluables to update the map with.</param>
         public void UpdateSamples(IOptimizable[] samples)
         {
+            Debug.Log("a");
             var max = samples.Select(o => o.Fitness).OrderBy(n => n).ToArray();
 
             var evaluables = MapSamples(samples);
@@ -356,6 +357,7 @@ namespace ISILab.LBS.AI.Categorization
                     xPos = xSampleCount - 1;
 
                 var yPos = (me.yFitness - yLowest) / yStep;
+                
                 if (yPos < 0)
                     yPos = 0;
                 if (yPos >= ySampleCount)

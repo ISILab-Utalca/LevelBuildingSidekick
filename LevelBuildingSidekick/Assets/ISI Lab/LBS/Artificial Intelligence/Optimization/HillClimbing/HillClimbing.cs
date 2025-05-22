@@ -98,5 +98,10 @@ namespace ISILab.AI.Optimization
             UnityEngine.Debug.Log("Fitness: " + _fitTimer + "s.");
 
         }
+
+        public override void InitializeDefault()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

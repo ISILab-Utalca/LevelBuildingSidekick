@@ -47,7 +47,12 @@ namespace GeneticSharp.Domain.Mutations
                     throw new TypeAccessException("Input must be colection of bool");
                 }
                 data[index] = !((bool)data[index]);
-                (evaluable as IChromosome).SetDataSequence(data);
+                var icromosomeCast = evaluable as IChromosome;
+                if(icromosomeCast != null)
+                {
+                    icromosomeCast.SetDataSequence(data);
+                }
+                    
             }
         }
         #endregion

@@ -34,7 +34,7 @@ namespace ISILab.LBS.VisualElements
                 colliderCharacteristic.Data = eval.colliderCharacteristic;
             }
 
-            colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSCharacteristic; };
+            colliderCharacteristic.OnChoiceSelection += () => { eval.colliderCharacteristic = colliderCharacteristic.Data as LBSTagsCharacteristic; };
         }
 
         protected override VisualElement CreateVisualElement()

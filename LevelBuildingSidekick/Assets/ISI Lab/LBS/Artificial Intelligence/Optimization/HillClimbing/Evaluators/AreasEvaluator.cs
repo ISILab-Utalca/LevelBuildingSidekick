@@ -81,5 +81,10 @@ namespace ISILab.AI.Optimization
         {
             throw new System.NotImplementedException(); // TODO: Implement clone method
         }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

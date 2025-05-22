@@ -91,6 +91,8 @@ namespace ISILab.LBS.Settings
             // Folders presets
             public string layerPressetFolderPath = "Assets/ISI Lab/LBS/Presets/Layers";
             public string assistantPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Assistants";
+            public string assistantOptimizerPresetPath = "Assets/ISI Lab/LBS/Presets/Optimizers";
+            public string assistantEvaluatorPresetPath = "Assets/ISI Lab/LBS/Presets/Evaluators";
             public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
             public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
 

@@ -63,7 +63,7 @@ namespace ISILab.LBS.VisualElements
         #region BUTTON METHODS
         private void OnShuffleClicked()
         {
-            if (lbsComponent.BundleTemp.Assets.Count < 2)
+            if (lbsComponent.BundleTemp.Assets.Count >= 2)
             {
                 //Pick an asset
                 lbsComponent.AssetIndex++;

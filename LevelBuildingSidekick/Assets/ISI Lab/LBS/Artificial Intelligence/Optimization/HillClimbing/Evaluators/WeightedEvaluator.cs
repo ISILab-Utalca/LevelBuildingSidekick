@@ -77,5 +77,10 @@ namespace ISILab.AI.Optimization
         {
             throw new NotImplementedException(); // TODO: Implement GetName method
         }
+
+        public void InitializeDefault()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

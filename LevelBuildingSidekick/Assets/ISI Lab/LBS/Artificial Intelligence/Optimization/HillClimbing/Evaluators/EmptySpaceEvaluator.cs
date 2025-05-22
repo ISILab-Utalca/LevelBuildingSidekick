@@ -46,5 +46,10 @@ namespace ISILab.AI.Optimization
             });
             return avg;
         }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

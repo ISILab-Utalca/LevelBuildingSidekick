@@ -5,6 +5,7 @@ using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -97,6 +98,14 @@ namespace ISILab.AI.Categorization
             e.playerCharacteristc = playerCharacteristc;
             e.resourceCharactersitic = new List<LBSCharacteristic>(resourceCharactersitic);
             return e;
+        }
+
+        public void InitializeDefault()
+        {
+            playerCharacteristc = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
+            resourceCharactersitic.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Tree")));
+            resourceCharactersitic.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Food")));
+            resourceCharactersitic.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Rock")));
         }
     }
 }
