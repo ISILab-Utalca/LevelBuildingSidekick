@@ -28,8 +28,8 @@ namespace ISILab.LBS.Behaviours
         {
             "Empty", // for clearing a wall
             "Wall", // default wall connection 
-                "Door", // within wall connection
-                "Window" // within wall connection
+            "Door", // within wall connection
+            "Window" // within wall connection
         };
         
         #endregion

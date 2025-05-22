@@ -74,7 +74,7 @@ namespace ISILab.LBS.Manipulators
                     return startClickPosition;
                 }
 
-                Debug.LogWarning("[ISI Lab]: no puedes acceder a la variable 'StartPosition' fuera de la accion.");
+                Debug.LogWarning("[ISI Lab]: cannot access the variable 'StartPosition' outside the action.");
                 return default;
             }
             set => startClickPosition = value;
@@ -89,7 +89,7 @@ namespace ISILab.LBS.Manipulators
                     return endClickPosition;
                 }
 
-                Debug.LogWarning("[ISI Lab]: no puedes axeder a la variable 'StartPosition' fuera de la accion.");
+                Debug.LogWarning("[ISI Lab]: cannot assign the variable 'StartPosition' outside the action.");
                 return default;
             }
         }
@@ -217,17 +217,17 @@ namespace ISILab.LBS.Manipulators
         /// <summary>
         /// Handles the internal mouse down event.
         /// </summary>
-        /// <param name="e"></param>
-        protected void OnInternalMouseDown(MouseDownEvent e)
+        /// <param name="_event"></param>
+        protected void OnInternalMouseDown(MouseDownEvent _event)
         {
-            if (e.button != 0 && e.button != 1)
+            if (_event.button != 0 && _event.button != 1)
                 return;
             
             OnManipulationNotification?.Invoke();
-            startClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            startClickPosition = MainView.Instance.FixPos(_event.localMousePosition).ToInt();
 
             // right click tries deleting 
-            if (e.button == 1 && remover != null)
+            if (_event.button == 1 && remover != null)
             {
                 remover.isRightClick = true;
                 
@@ -235,11 +235,11 @@ namespace ISILab.LBS.Manipulators
                 ToolKit.Instance.SetActive(remover.GetType());
                 OnManipulationRightClick?.Invoke();
                 
-                var ne = MouseDownEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
-                ne.target = e.target as VisualElement;
+                var ne = MouseDownEvent.GetPooled(_event.localMousePosition, 0, _event.clickCount, _event.mouseDelta, _event.modifiers);
+                ne.target = _event.target as VisualElement;
 
                 remover.OnInternalMouseDown(ne);
-                e.StopImmediatePropagation();
+                _event.StopImmediatePropagation();
                 return;
             }
             
@@ -248,7 +248,7 @@ namespace ISILab.LBS.Manipulators
             StartFeedback();
 
             OnManipulationStart?.Invoke();
-            OnMouseDown(e.target as VisualElement, startClickPosition, e);
+            OnMouseDown(_event.target as VisualElement, startClickPosition, _event);
             
             // check if last called by adder
             if (isRightClick && adder != null)
@@ -265,10 +265,10 @@ namespace ISILab.LBS.Manipulators
         /// <summary>
         /// Handles the internal mouse move event.
         /// </summary>
-        /// <param name="e"></param>
-        protected void OnInternalMouseMove(MouseMoveEvent e)
+        /// <param name="_event"></param>
+        protected void OnInternalMouseMove(MouseMoveEvent _event)
         {
-            moveClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            moveClickPosition = MainView.Instance.FixPos(_event.localMousePosition).ToInt();
 
             // Display grid position
             if (lbsLayer != null)
@@ -278,22 +278,22 @@ namespace ISILab.LBS.Manipulators
             }
    
             // button functionalities
-            if (e.button != 0 && e.button != 1)
+            if (_event.button != 0 && _event.button != 1)
                 return;
             
             // right click tries deleting 
-            if (e.button == 1 && remover != null)
+            if (_event.button == 1 && remover != null)
             {
-                var ne = MouseMoveEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
-                ne.target = e.target as VisualElement;
+                var ne = MouseMoveEvent.GetPooled(_event.localMousePosition, 0, _event.clickCount, _event.mouseDelta, _event.modifiers);
+                ne.target = _event.target as VisualElement;
                 remover.isRightClick = true;
-                e.StopImmediatePropagation();
+                _event.StopImmediatePropagation();
                 MainView.Instance.RemoveManipulator(adder);
                 remover.OnInternalMouseMove(ne);
                 return;
             }
 
-            OnMouseMove(e.target as VisualElement, moveClickPosition, e);
+            OnMouseMove(_event.target as VisualElement, moveClickPosition, _event);
             UpdateFeedback();
 
             OnManipulationUpdate?.Invoke();
@@ -302,28 +302,28 @@ namespace ISILab.LBS.Manipulators
         /// <summary>
         /// Handles the internal mouse up event.
         /// </summary>
-        /// <param name="e"></param>
-        protected void OnInternalMouseUp(MouseUpEvent e)
+        /// <param name="_event"></param>
+        protected void OnInternalMouseUp(MouseUpEvent _event)
         {
-            if (e.button != 0 && e.button != 1)
+            if (_event.button != 0 && _event.button != 1)
                 return;
             ended = true;
-            endClickPosition = MainView.Instance.FixPos(e.localMousePosition).ToInt();
+            endClickPosition = MainView.Instance.FixPos(_event.localMousePosition).ToInt();
             EndFeedback();
 
             // right click tries deleting 
-            if (e.button == 1 && remover != null)
+            if (_event.button == 1 && remover != null)
             {
                 remover.isRightClick = true;
                 OnManipulationRightClick?.Invoke();
-                var ne = MouseUpEvent.GetPooled(e.localMousePosition, 0, e.clickCount, e.mouseDelta, e.modifiers);
-                ne.target = e.target as VisualElement;
-                e.StopImmediatePropagation();
+                var ne = MouseUpEvent.GetPooled(_event.localMousePosition, 0, _event.clickCount, _event.mouseDelta, _event.modifiers);
+                ne.target = _event.target as VisualElement;
+                _event.StopImmediatePropagation();
                 remover.OnInternalMouseUp(ne);
                 return;
             }
             
-            if (e.button == 1 && remover != null)
+            if (_event.button == 1 && remover != null)
             {
                 OnManipulationRightClick?.Invoke();
                 remover.OnManipulationNotification?.Invoke();
@@ -331,10 +331,10 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-            if (!e.altKey)
+            if (!_event.altKey)
             {
-                e.StopPropagation();
-                OnMouseUp(e.target as VisualElement, endClickPosition, e);
+                _event.StopPropagation();
+                OnMouseUp(_event.target as VisualElement, endClickPosition, _event);
                 OnManipulationEnd?.Invoke();
             }
 
@@ -357,13 +357,13 @@ namespace ISILab.LBS.Manipulators
             lbsLayer = layer;
         }
         
-        protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
+        protected virtual void OnMouseDown(VisualElement _target, Vector2Int startPosition, MouseDownEvent e) { }
         
-        protected virtual void OnMouseLeave(VisualElement target, MouseLeaveEvent e) { }
+        protected virtual void OnMouseLeave(VisualElement _target, MouseLeaveEvent e) { }
 
-        protected virtual void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e) { }
+        protected virtual void OnMouseMove(VisualElement _target, Vector2Int movePosition, MouseMoveEvent e) { }
 
-        protected virtual void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e) { }
+        protected virtual void OnMouseUp(VisualElement _target, Vector2Int endPosition, MouseUpEvent e) { }
         
         protected virtual void OnKeyDown(KeyDownEvent e) { }
         

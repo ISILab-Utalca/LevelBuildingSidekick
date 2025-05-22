@@ -17,8 +17,8 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Editor
             LBSGenerated LBSgen = (LBSGenerated)target;
 
             GUI.enabled = false;
-            EditorGUILayout.ObjectField("Original Bundle", LBSgen.BundleRef, typeof(Bundle));
-            EditorGUILayout.ObjectField("Temporal Bundle", LBSgen.BundleTemp, typeof(Bundle));
+            EditorGUILayout.ObjectField("Original Bundle", LBSgen.BundleRef, typeof(Bundle), false);
+            EditorGUILayout.ObjectField("Temporal Bundle", LBSgen.BundleTemp, typeof(Bundle), false);
         }
     }
 }

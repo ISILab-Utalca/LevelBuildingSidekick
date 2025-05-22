@@ -2,7 +2,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -45,7 +45,7 @@ namespace ISILab.LBS.Manipulators
             layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement _target, Vector2Int position, MouseDownEvent e)
         {
             var pos = module.OwnerLayer.ToFixedPosition(position);
             var tile = module.Pairs.Find(t => t.Tile.Position == pos);
@@ -56,7 +56,7 @@ namespace ISILab.LBS.Manipulators
             first = tile;
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement _target, Vector2Int position, MouseUpEvent e)
         {
             if (first == null)
                 return;
