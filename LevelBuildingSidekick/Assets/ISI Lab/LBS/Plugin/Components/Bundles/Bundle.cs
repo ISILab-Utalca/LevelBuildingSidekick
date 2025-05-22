@@ -256,6 +256,18 @@ namespace LBS.Bundles
                 OnRemoveChild?.Invoke(child);
             }
         }
+        
+        public void RemoveNullChildren()
+        {
+            for (int i = 0; i < childsBundles.Count; i++)
+            {
+                if (childsBundles[i] == null)
+                {
+                    childsBundles.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
 
         public void ClearChilds()
         {

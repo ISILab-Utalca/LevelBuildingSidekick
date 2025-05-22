@@ -53,8 +53,8 @@ namespace ISILab.LBS.Manipulators
         
         protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
         {
-            var x = LBSController.CurrentLevel;
-            Undo.RegisterCompleteObjectUndo(x, "Add Zone");
+            var level = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(level, "Add Zone");
             EditorGUI.BeginChangeCheck();
 
             if (e.ctrlKey)
@@ -64,6 +64,8 @@ namespace ISILab.LBS.Manipulators
                 newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
 
                 ToSet = newZone;
+                
+                OnManipulationEnd.Invoke();
             }
             
             if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
@@ -89,14 +91,11 @@ namespace ISILab.LBS.Manipulators
                         );
                 }
             }
-
-            LBSInspectorPanel.Instance.SetTarget(schema.OwnerLayer);
-
             schema.RecalculateWalls();
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
             }
         }
     }

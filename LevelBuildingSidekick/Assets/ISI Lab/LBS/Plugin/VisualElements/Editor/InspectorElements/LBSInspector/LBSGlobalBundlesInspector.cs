@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Template;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -199,6 +200,11 @@ namespace ISILab.LBS.VisualElements
             list.itemsSource = targets;
 
             list.Rebuild();
+        }
+
+        public override void InitCustomEditors(ref List<LBSLayer> layers)
+        {
+            throw new NotImplementedException();
         }
 
         public override void SetTarget(LBSLayer layer)

@@ -2,17 +2,20 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 using System.Linq;
 using ISILab.Commons.Utility;
 using ISILab.LBS.Settings;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Template;
 using LBS.Components;
 
 namespace LBS.VisualElements
@@ -45,13 +48,16 @@ namespace LBS.VisualElements
         
         #region FIELDS
         private Dictionary<Type, (LBSTool, ToolButton)> tools = new();
+        
         private (LBSTool, ToolButton) current;
         private bool Initialized;
-        private Color baseColor = new Color(72f / 255f, 72f / 255f, 72f / 255f);
-        private int index = 0;
-        private int choiceCount = 0;
+        private Color baseColor = new(72f / 255f, 72f / 255f, 72f / 255f);
+        private int index;
+        private int choiceCount;
 
         private VisualElement content;
+        private List<VisualElement> separators = new();
+
         #endregion
 
         #region SINGLETON
@@ -64,8 +70,6 @@ namespace LBS.VisualElements
             }
         }
         #endregion
-
-
         
         #region PROPERTIES
         public Color BaseColor
@@ -99,114 +103,21 @@ namespace LBS.VisualElements
             visualTree.CloneTree(this);
             content = this.Q<VisualElement>("Content");
 
-            if (instance != this)
+            if (!Equals(instance, this))
                 instance = this;
+    
         }
         #endregion
 
         #region METHODS
         
-        #region INITS
-        public void Init(LBSLayer layer)
-        {
-            InitGeneralTools(layer);
-            AddSeparator();
-
-            InitBehavioursTools(layer);
-            AddSeparator();
-
-            InitAssistantsTools(layer);
+        public void InitGeneralTools(LBSLayer layer)
+        { 
+            LBSTool selectTool = new LBSTool(new Select());
+            ActivateTool(selectTool,layer,layer.Modules);
+            selectTool.Init(layer, this);
+            selectTool.OnSelect += LBSInspectorPanel.ActivateDataTab;
         }
-        
-        private void InitGeneralTools(LBSLayer layer)
-        {
-            var entry = GetTool(typeof(Select));
-            LBSTool toolInstance;
-            
-            if (entry.Key == null || entry.Value.Item1 == null)
-            {
-                toolInstance = new LBSTool(new Select());
-                AddTool(toolInstance);
-            }
-            else
-            {
-                toolInstance = entry.Value.Item1;
-            }
-            
-            toolInstance.Init(layer, this);
-            toolInstance.OnSelect += LBSInspectorPanel.ActivateDataTab;
-        }
-        
-        public void InitBehavioursTools(LBSLayer layer)
-        {
-            if (layer == null) return;
-            
-            var editorTypes = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
-                .Where(t => t.Item2.Any(v => v.type != null))
-                .Select(t => new
-                {
-                    EditorType = t.Item1,
-                    BehaviorType = t.Item2.First(v => v.type != null).type // Safely select first non-null type
-                })
-                .Where(x => typeof(IToolProvider).IsAssignableFrom(x.EditorType)) // Only IToolProvider editors
-                .ToList();
-
-            // Cache matching editors for the layer
-            var customEditors = Enumerable.OfType<LBSCustomEditor>(LBSInspectorPanel.Instance.behaviours.CustomEditors)
-                .Where(e => e.Target is LBSBehaviour lb && Equals(lb.OwnerLayer, layer))
-                .ToList();
-
-            foreach (var behaviour in layer.Behaviours)
-            {
-                if (behaviour == null) continue;
-
-                var behaviourType = behaviour.GetType();
-
-                // Find the first editor type matching the behavior
-                var editorType = editorTypes
-                    .FirstOrDefault(x => x.BehaviorType == behaviourType)?.EditorType;
-
-                if (editorType == null) continue;
-
-                // Find the first matching editor instance
-                var editor = customEditors
-                    .FirstOrDefault(e => e.GetType() == editorType && e.Target == behaviour);
-
-                if (editor == null) continue;
-
-                // Update the editor and set tools
-                editor.SetInfo(behaviour);
-                if (editor is IToolProvider toolProvider)
-                {
-                    toolProvider.SetTools(this);
-                }
-            }
-        }
-
-        private void InitAssistantsTools(LBSLayer layer)
-        {
-            foreach (var assist in layer.Assistants)
-            {
-                var type = assist.GetType();
-                var customEditors = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
-                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
-
-                if (!customEditors.Any())
-                    return;
-
-                var customEditor = customEditors.First().Item1;
-                var i = customEditor.GetInterface(nameof(IToolProvider));
-
-                if (i != null)
-                {
-                    var ve = LBSInspectorPanel.Instance.assistants.CustomEditors.First(x => x.GetType() == customEditor);
-                    ve.SetInfo(assist);
-                    ((IToolProvider)ve).SetTools(this);
-                }
-            }
-        }
-        
-        #endregion
         
         public object GetActiveManipulator()
         {
@@ -270,9 +181,49 @@ namespace LBS.VisualElements
                 }
             };
             content.Add(separator);
+            separators.Add(separator);
         }
 
-        public void AddTool(LBSTool tool)
+        private void ClearSeparators()
+        {
+            foreach (var separator in separators)
+            {
+                separator.style.display = DisplayStyle.None;
+            }
+            separators.Clear();
+        }
+
+        public void ActivateTool(LBSTool tool, LBSLayer layer, object behaviour)
+        {
+            LBSTool existingTool = null;
+            ToolButton existingButton = null;
+            if (tool?.Manipulator != null && tools.TryGetValue(tool.Manipulator.GetType(), out (LBSTool, ToolButton) tuple))
+            {
+                existingTool = tuple.Item1;
+                existingButton = tuple.Item2;
+            }
+
+            if (existingTool is not null && existingButton is not null)
+            {
+                existingButton.style.display = DisplayStyle.Flex;
+                existingTool.Init(layer, behaviour);
+                
+                // Remove previous events
+                existingTool.OnStart -= (_) => { OnStartAction?.Invoke(existingTool.Manipulator.Layer); };
+                existingTool.OnEnd -= (_) => { OnEndAction?.Invoke(existingTool.Manipulator.Layer); };
+                
+                // add new ones
+                existingTool.OnStart += (_) => { OnStartAction?.Invoke(layer); };
+                existingTool.OnEnd += (_) => { OnEndAction?.Invoke(layer); };
+            }
+            else
+            {
+                AddTool(tool);
+            }
+
+        }
+
+        private void AddTool(LBSTool tool)
         {
             var button = new ToolButton(tool);
             tool.BindButton(button);
@@ -285,8 +236,8 @@ namespace LBS.VisualElements
             
             SetUpAdderRemover(tool);
 
-            tool.OnStart += (l) => { OnStartAction?.Invoke(l); };
-            tool.OnEnd += (l) => { OnEndAction?.Invoke(l); };
+            tool.OnStart += (_) => { OnStartAction?.Invoke(tool.Manipulator.Layer); };
+            tool.OnEnd += (_) => { OnEndAction?.Invoke(tool.Manipulator.Layer); };
         }
 
         private void SetUpAdderRemover(LBSTool tool)
@@ -326,15 +277,30 @@ namespace LBS.VisualElements
                 };
             }
         }
-
+        
+        public void SetTarget(LBSCustomEditor editor)
+        {
+            if (editor is IToolProvider toolProvider)
+            {
+                toolProvider.SetTools(this);
+            }
+        }
+        
         public new void Clear()
         {
             if (!tools.Any()) return;
             current.Item2?.OnBlur();
-            tools.Clear();
-            content.Clear();
+            foreach ((LBSTool, ToolButton) toolPair in tools.Values)
+            {
+                toolPair.Item2.style.display = DisplayStyle.None;
+            }
+
+            ClearSeparators();
+            // No longer readding the buttons instead hide them when not usedcontent.Clear();
         }
         
         #endregion
+
+
     }
 }

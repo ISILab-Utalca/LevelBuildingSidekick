@@ -56,6 +56,7 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region PROPERTIES
+        public LBSLayer Layer => lbsLayer;
         public string Description => description;
         public string Name => name;
         protected abstract string IconGuid { get; }
@@ -154,6 +155,7 @@ namespace ISILab.LBS.Manipulators
             target.UnregisterCallback<WheelEvent>(OnWheelEvent);
         }
 
+        
         // if it has an adder ref it means the manipulator's function is to delete
         private bool UpdateFeedbackColor()
         {
@@ -354,7 +356,7 @@ namespace ISILab.LBS.Manipulators
         {
             lbsLayer = layer;
         }
-
+        
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }
         
         protected virtual void OnMouseLeave(VisualElement target, MouseLeaveEvent e) { }

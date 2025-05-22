@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using LBS.Bundles;
 using NUnit.Framework;
 using UnityEditor;
@@ -12,20 +13,24 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements.Editor
 {
     public class BundleManagerWindow : EditorWindow
-    {   
+    {
+        // References
+        public VectorImage _arrowDown;
+        public VectorImage _arrowSide;
+        
         // Bundle lists
         private readonly List<Bundle> _allBundles = new List<Bundle>();
-        private readonly List<MasterBundleContainer> _masterBundles = new List<MasterBundleContainer>();
+        private readonly List<BundleContainer> _masterBundles = new();
         
-        private readonly List<MasterBundleContainer> _interiorBundles = new List<MasterBundleContainer>();
-        private readonly List<MasterBundleContainer> _exteriorBundles = new List<MasterBundleContainer>();
-        private readonly List<MasterBundleContainer> _populationBundles = new List<MasterBundleContainer>();
-        private readonly List<MasterBundleContainer> _unassignedBundles = new List<MasterBundleContainer>();
+        private readonly List<BundleContainer> _interiorBundles = new ();
+        private readonly List<BundleContainer> _exteriorBundles = new ();
+        private readonly List<BundleContainer> _populationBundles = new ();
+        private readonly List<BundleContainer> _unassignedBundles = new ();
         
-        private List<Bundle> _subBundles = new List<Bundle>();
-        private readonly List<Bundle> _orphanBundles = new List<Bundle>();
+        private readonly List<BundleContainer> _subBundles = new ();
+        private readonly List<BundleContainer> _orphanBundles = new ();
         
-        // Visual Elements
+        // ListViews
         private ListView _interiorList;
         private ListView _exteriorList;
         private ListView _populationList;
@@ -33,7 +38,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private ListView _subBundleList;
         private ListView _orphanList;
-
+        private ListView _validatorList;
 
         [MenuItem("Window/ISILab/Bundle Manager")]
         public static void ShowWindow()
@@ -43,6 +48,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void CreateGUI()
         {
+            //Set references
+            _arrowDown = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("b570a25de51f01c41bd82dbe5372bb3f")); //GUIDs
+            _arrowSide = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("83eafacbab9ab554299bc4d0f124d980"));
+            
             // Collect all bundles in project
             SearchAllBundles();
             
@@ -53,69 +62,81 @@ namespace ISILab.LBS.VisualElements.Editor
             // Explicit height for every row so ListView can calculate how many items to actually display
             const int itemHeight = 50;
             
-            // Setting interior list
-            SetMasterBundleViewSettings(out _interiorList, "Interior", itemHeight, _interiorBundles);
+            // Setting MasterBundle lists
+            SetBundleViewSettings(out _interiorList, "Interior", itemHeight, _interiorBundles, true);
+            SetBundleViewSettings(out _exteriorList, "Exterior", itemHeight, _exteriorBundles, true);
+            SetBundleViewSettings(out _populationList, "Population", itemHeight, _populationBundles, true);
+            SetBundleViewSettings(out _unassignedList, "Unassigned", itemHeight, _unassignedBundles, true);
             
-            // Setting exterior list
-            SetMasterBundleViewSettings(out _exteriorList, "Exterior", itemHeight, _exteriorBundles);
+            // Setting Bundle lists
+            SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
+            SetBundleViewSettings(out _orphanList, "OrphanBundles", itemHeight, _orphanBundles);
+            SetBundleViewSettings(out _validatorList, "BundleValidator", itemHeight, new List<BundleContainer>());
             
-            // Setting population list
-            SetMasterBundleViewSettings(out _populationList, "Population", itemHeight, _populationBundles);
+            // Setting Expand List Buttons
+            SetExpandButtonSetting("Interior", _interiorList);
+            SetExpandButtonSetting("Exterior", _exteriorList);
+            SetExpandButtonSetting("Population", _populationList);
+            SetExpandButtonSetting("Unassigned", _unassignedList);
+            SetExpandButtonSetting("SubBundles", _subBundleList);
+            SetExpandButtonSetting("OrphanBundles", _orphanList);
+            SetExpandButtonSetting("BundleValidator", _validatorList);
             
-            // Setting unassigned list
-            SetMasterBundleViewSettings(out _unassignedList, "Unassigned", itemHeight, _unassignedBundles);
-            
-            // Setting sub-bundle list
-            //SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
-            _subBundleList = rootVisualElement.Q<VisualElement>("SubBundles").Q<ListView>();
-            
-            _subBundleList.itemsSource = _subBundles;
-            _subBundleList.fixedItemHeight = itemHeight;
-            _subBundleList.makeItem = () => new BundleManagerElement();
-            _subBundleList.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = _subBundles[i].Name;
-            _subBundleList.selectedIndicesChanged += objects =>
+            // Setting other Buttons
+            Button button = rootVisualElement.Q<VisualElement>("BottomBar").Q<Button>("OrganizeButton");
+            button.clickable.clicked += () =>
             {
-                if (objects.Count() <= 0)
-                {
-                    return;
-                }
-                ClearSelectionInOtherLists("SubBundles");
-                Selection.activeObject = _subBundles[objects.First()];
+                SearchAllBundles();
+                _interiorList.RefreshItems();
+                _exteriorList.RefreshItems();
+                _populationList.RefreshItems();
+                _unassignedList.RefreshItems();
+                _subBundleList.RefreshItems();
+                _orphanList.RefreshItems();
             };
             
-            // Setting orphan list
-            SetBundleViewSettings(out _orphanList, "OrphanBundles", itemHeight, _orphanBundles);
+            button = rootVisualElement.Q<VisualElement>("BottomBar").Q<Button>("IssuesButton"); 
         }
         
         void SearchAllBundles()
         {
+            //Clear lists
+            _allBundles.Clear();
+            _masterBundles.Clear();
+            _orphanBundles.Clear();
+            _exteriorBundles.Clear();
+            _interiorBundles.Clear();
+            _populationBundles.Clear();
+            _unassignedBundles.Clear();
+            
+            //Find all bundles in database
             string[] getGUIDs = AssetDatabase.FindAssets("t:Bundle");
             foreach (string guid in getGUIDs)
             {
                 _allBundles.Add((Bundle)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(Bundle)));
             }
             
-            for(int i = 0; i < _allBundles.Count; i++)
+            foreach (var b in _allBundles)
             {
-                if (_allBundles[i].ChildsBundles.Count > 0)
+                switch (b.ChildsBundles.Count)
                 {
-                    MasterBundleContainer mBundle = new MasterBundleContainer(_allBundles[i]);
-                    foreach (var bundle in _allBundles[i].ChildsBundles)
+                    case > 0:   //Bundle has children = MasterBundle
                     {
-                        mBundle.AddSubBundle(bundle);
+                        BundleContainer mBundle = new BundleContainer(b, b.ChildsBundles);
+                        _masterBundles.Add(mBundle);
+                        break;
                     }
-                    _masterBundles.Add(mBundle);
-                }
-                
-                if (_allBundles[i].ChildsBundles.Count <= 0 && _allBundles[i].Parent() == null)
-                {
-                    _orphanBundles.Add(_allBundles[i]);
+                    case <= 0 when b.Parent() == null:  //Bundle has no children and no parent = OrphanBundle
+                        BundleContainer oBundle = new BundleContainer(b);
+                        _orphanBundles.Add(oBundle);
+                        break;
                 }
             }
-
+            
+            //Divide MasterBundles by content
             foreach (var mBundle in _masterBundles)
             {
-                switch (mBundle.GetMasterBundle().LayerContentFlags)
+                switch (mBundle.GetMainBundle().LayerContentFlags)
                 {
                     case BundleFlags.Exterior:
                         _exteriorBundles.Add(mBundle);
@@ -131,8 +152,102 @@ namespace ISILab.LBS.VisualElements.Editor
                         break;
                 }
             }
+            
+            Debug.Log("BundleManagerWindow updated");
         }
+        
+        void SetBundleViewSettings(out ListView listView, string columnName, int itemHeight, List<BundleContainer> masterBundles, bool master = false)
+        {   
+            // Get listView
+            listView = rootVisualElement.Q<VisualElement>(columnName).Q<ListView>();
+            
+            // Set listView params
+            listView.itemsSource = masterBundles;
+            listView.fixedItemHeight = itemHeight;
+            
+            // Set listView methods
+            var view = listView;
+            listView.makeItem = () => new BundleManagerElement();
+            listView.bindItem = (e, i) => ((BundleManagerElement)e).SetRefs(((BundleContainer)view.itemsSource[i]).GetMainBundle(), view, true);
 
+            listView.selectedIndicesChanged += objects =>
+            {
+                // Omit empty selections
+                var selections = objects as int[] ?? objects.ToArray();
+                if (selections.Length <= 0)
+                {
+                    return;
+                }
+                
+                ClearSelectionInOtherLists(columnName);
+                
+                // Set subBundle list
+                if (master)
+                {
+                    // Set _subBundle list of BundleContainer, using subBundles from selected item
+                    List<Bundle> subBundles = ((BundleContainer)view.itemsSource[selections.First()]).GetSubBundles();
+                    _subBundles.Clear();
+                    foreach (Bundle b in subBundles)
+                    {
+                        _subBundles.Add(new BundleContainer(b));
+                    }
+                    
+                    SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
+                    _subBundleList.RefreshItems();
+                    SetExpandButtonSetting("SubBundles", _subBundleList);
+                }
+                
+                // Set validator list
+                SetValidatorViewSettings((BundleContainer)view.itemsSource[selections.First()], master, itemHeight);
+                
+                // Display selection on inspector
+                Selection.activeObject = masterBundles[selections.First()].GetMainBundle();
+            };
+
+            listView.itemsChosen += objects =>
+            {
+                Selection.activeObject = masterBundles[view.selectedIndex].GetMainBundle();
+            };
+        }
+         void SetValidatorViewSettings(BundleContainer selected , bool master, int itemHeight)
+        {   
+            // Get listView
+            _validatorList = rootVisualElement.Q<VisualElement>("BundleValidator").Q<ListView>();
+            
+            // Set listView params
+            _validatorList.itemsSource = selected.GetWarnings();
+            _validatorList.fixedItemHeight = itemHeight;
+            
+            // Set listView methods
+            var view = _validatorList;
+            _validatorList.makeItem = () => new BundleManagerWarning();
+            _validatorList.bindItem = (e, i) => ((BundleManagerWarning)e).SetWarningContent((string)_validatorList.itemsSource[i]);
+
+            _validatorList.selectedIndicesChanged += objects =>
+            {
+                Selection.activeObject = selected.GetMainBundle();
+            };
+
+            _validatorList.itemsChosen += objects =>
+            {
+                Selection.activeObject = selected.GetMainBundle();
+            };
+        }
+        void SetExpandButtonSetting(string columnName, ListView list)
+        {
+            Button button = rootVisualElement.Q<VisualElement>(columnName).Q<Button>("ExpandButton");
+            button.iconImage = Background.FromVectorImage(list.GetDisplay() ? _arrowDown : _arrowSide);
+
+            var auxButton = button;
+            button.clickable.clicked += () =>
+            {
+                list.SetDisplay(!list.GetDisplay());
+                auxButton.iconImage = Background.FromVectorImage(list.GetDisplay() ? _arrowDown : _arrowSide);
+            };
+
+            list.SetDisplay(list.itemsSource.Count > 0);
+            auxButton.iconImage = Background.FromVectorImage(list.GetDisplay() ? _arrowDown : _arrowSide);
+        }
         void ClearSelectionInOtherLists(string noClear)
         {
             if (!noClear.Equals("Interior"))
@@ -159,76 +274,40 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 _orphanList.ClearSelection();
             }
-        }
-
-        void SetMasterBundleViewSettings(out ListView listView, string columnName, int itemHeight, List<MasterBundleContainer> masterBundles)
-        {
-            listView = rootVisualElement.Q<VisualElement>(columnName).Q<ListView>();
-            
-            listView.itemsSource = masterBundles;
-            listView.fixedItemHeight = itemHeight;
-            listView.makeItem = () => new BundleManagerElement();
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = masterBundles[i].GetMasterBundle().Name;
-
-            listView.selectedIndicesChanged += objects =>
+            if (!noClear.Equals("BundleValidator"))
             {
-                //Skip when there's no selection
-                if (objects.Count() <= 0)
-                {
-                    return;
-                }
-                
-                ClearSelectionInOtherLists(columnName);
-                
-                _subBundleList.itemsSource = masterBundles[objects.First()].GetSubBundles();
-                _subBundleList.RefreshItems();
-                
-                Selection.activeObject = masterBundles[objects.First()].GetMasterBundle();
-            };
+                _validatorList.ClearSelection();
+            }
         }
-
-        void SetBundleViewSettings(out ListView listView, string columnName, int itemHeight, List<Bundle> bundles)
-        {
-            listView = rootVisualElement.Q<VisualElement>(columnName).Q<ListView>();
-            
-            listView.itemsSource = bundles;
-            listView.fixedItemHeight = itemHeight;
-            listView.makeItem = () => new BundleManagerElement();
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).bundleName.text = bundles[i].Name;
-            
-            listView.selectedIndicesChanged += objects =>
-            {
-                if (objects.Count() <= 0)
-                {
-                    return;
-                }
-                ClearSelectionInOtherLists(columnName);
-                Selection.activeObject = bundles[objects.First()];
-            };
-        }
-        
-        private class MasterBundleContainer
+        public class BundleContainer
         {
             private Bundle _master;
             private List<Bundle> _subBundles;
+            private List<string> _warnings;
 
-            public MasterBundleContainer(Bundle master)
+            public BundleContainer(Bundle master, List<Bundle> subBundles = null)
             {
                 _master = master;
-                _subBundles = new List<Bundle>();
-            }
-            public void AddSubBundle(Bundle bundle)
-            {
-                _subBundles.Add(bundle);
+                _subBundles = subBundles;   
             }
             
-            public Bundle GetMasterBundle()
+            public Bundle GetMainBundle()
             {
                 return _master;
             }
             public List<Bundle> GetSubBundles()
             {
                 return _subBundles;
+            }
+
+            public List<string> GetWarnings()
+            {
+                return _warnings;
+            }
+
+            public void AddWarning(string warning)
+            {
+                _warnings.Add(warning);
             }
         }
     }

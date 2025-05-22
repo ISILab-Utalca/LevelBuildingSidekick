@@ -71,7 +71,7 @@ namespace ISILab.LBS.VisualElements.Editor
             VisualElement MakeItem()
             {
                 return new LayerView();
-            }
+           }
 
             list.bindItem += (item, index) =>
             {
@@ -80,11 +80,13 @@ namespace ISILab.LBS.VisualElements.Editor
 
                 var view = item as LayerView;
                 var layer = this.data.GetLayer(index);
+                layer.index = list.childCount - index;
                 if (view == null) return;
                 view.SetInfo(layer);
                 view.OnVisibilityChange += () => OnLayerVisibilityChange(layer);
+                ChangeListItemView(item);
             };
-
+            
             // list configuration
             list.fixedItemHeight = 24;
             list.itemsSource = data.Layers;
@@ -108,7 +110,7 @@ namespace ISILab.LBS.VisualElements.Editor
             for(int i = 0; i < templates.Count; i++)
             {
                 int x = i;
-                addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayer(x));
+                addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayerByTemplate(x));
             }
 
 
@@ -128,9 +130,9 @@ namespace ISILab.LBS.VisualElements.Editor
             noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
             
             RegisterCallback<KeyDownEvent>(OnKeyDown);
-
             OnLayerChangeEventHandle(null);
         }
+        
         #endregion
 
         #region METHODS
@@ -140,7 +142,7 @@ namespace ISILab.LBS.VisualElements.Editor
             return layers[index].Clone() as LBSLayer;
         }
 
-        private void AddLayer(int index)
+        private void AddLayerByTemplate(int index)
         {
             if (index < 0)
             {
@@ -152,6 +154,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
             layer.Name = LBSSettings.Instance.general.baseLayerName;
 
+            AddLayer(layer);
+        }
+
+        private void AddLayer(LBSLayer layer)
+        {
             int i = 1;
             while (data.Layers.Any(l => l.Name.Equals(layer.Name)))
             {
@@ -217,19 +224,19 @@ namespace ISILab.LBS.VisualElements.Editor
         // Double Click over an element
         private void ItemChosen(IEnumerable<object> objs)
         {
-            if (!objs.Any())
+            List<object> enumerable = objs.ToList();
+            if (!enumerable.Any())
             {
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 return;
             }
-            var selected = objs.ToList()[0] as LBSLayer;
+            var selected = enumerable.ToList()[0] as LBSLayer;
             OnDoubleSelectLayer?.Invoke(selected);
         }
 
         public void ResetSelection()
         {
             list.ClearSelection();
-            //list.RemoveFromSelection(list.selectedIndex);
         }
 
         private void OnLayerChangeEventHandle(LBSLayer _layer)
@@ -249,12 +256,12 @@ namespace ISILab.LBS.VisualElements.Editor
             layerSettings.style.display = settingsDisplay;
             noSelectedLayerNotificator.style.display = noSelectedDisplay;
         }
-
-
+        
         private void OnLayerSelectedEventHandle(LBSLayer layer){
             if (layer is not null)
             {
                 LBSInspectorPanel.ActivateDataTab();
+                selectedLayer = layer;
                 noSelectedLayerNotificator.style.display = DisplayStyle.None;
                 layerSettings.style.display = DisplayStyle.Flex;
             } 
@@ -265,7 +272,27 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
+        /// <summary>
+        /// Removes the Animation handle and overwrites the padding after the list item container
+        /// overwrites the LayerView padding
+        /// </summary>
+        /// <param name="item"></param>
+        private static void ChangeListItemView(VisualElement item)
+        {
+            var container = item.parent;
+            if (container is null) return;
+            
+            container.style.paddingRight = 5;
+            container.style.paddingLeft = 5;
 
+            var containerParent = item.parent.parent;
+            if (containerParent is null) return;
+            if (!containerParent.Children().Any()) return;
+            
+            var handle = containerParent.Children().First();
+            handle.style.display = DisplayStyle.None;
+        }
+        
         private void OnKeyDown(KeyDownEvent evt)
         {
             // delete selected layer
@@ -295,12 +322,13 @@ namespace ISILab.LBS.VisualElements.Editor
                     return;
                 }
             }
-            if (evt.keyCode == KeyCode.Z)
-            {
-                evt.StopPropagation(); 
-            }
 
+            if (evt.ctrlKey)
+            {
+                if(evt.keyCode == KeyCode.D)  AddLayer(selectedLayer.Clone() as LBSLayer);
+            }
         }
+        
         
         #endregion
 

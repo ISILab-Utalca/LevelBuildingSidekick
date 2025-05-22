@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: proto_leaves_dark_green
+  m_Name: proto_leaves_dark_green 1
   m_Shader: {fileID: -6465566751694194690, guid: 09e0a16a0e93cc445bedfa9bd0a6a82d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -115,6 +115,6 @@ Material:
     m_Colors:
     - _Color: {r: 0.36996683, g: 0.6509434, b: 0.15045391, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-    - _Tint: {r: 0.33361512, g: 0.5943396, b: 0.11494303, a: 1}
+    - _Tint: {r: 0.50012624, g: 0.6320754, b: 0.11031505, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

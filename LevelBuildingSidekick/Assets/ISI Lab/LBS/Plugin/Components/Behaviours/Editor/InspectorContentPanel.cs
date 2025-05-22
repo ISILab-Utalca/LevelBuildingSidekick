@@ -8,12 +8,12 @@ namespace ISILab.LBS.VisualElements
     /// <summary>
     /// Visual Element Class that displays the different behaviors within the behavior's panel
     /// </summary>
-    public class BehaviourContent : VisualElement
+    public class InspectorContentPanel : VisualElement
     {
         // View
         private readonly VisualElement _content;
 
-        public BehaviourContent(LBSCustomEditor content, string name, VectorImage icon, Color color)
+        public InspectorContentPanel(LBSCustomEditor content, string name, VectorImage icon, Color color)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BehaviourContent");
             visualTree.CloneTree(this);

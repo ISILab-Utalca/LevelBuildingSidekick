@@ -1,14 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
-using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -78,6 +75,9 @@ namespace ISILab.LBS.Behaviours
             set => pressetOutsideStyle = value.Name;
         }
 
+        [JsonIgnore]
+        public bool ValidArea => OwnerLayer.GetModule<SectorizedTileMapModule>() is null;
+        
         [JsonIgnore]
         public List<Zone> Zones => areas.Zones;
 

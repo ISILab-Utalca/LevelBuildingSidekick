@@ -1,12 +1,9 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor;
-using ISILab.LBS.Manipulators;
 using LBS.Components;
-using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UIElements;
@@ -14,77 +11,60 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class LBSLocalCurrent : LBSInspector, IToolProvider
+    public partial class LBSLocalCurrent : LBSInspector
     {
-        #region FACTORY
-    //    public new class UxmlFactory : UxmlFactory<LBSLocalCurrent, UxmlTraits> { }
-        #endregion
-
-        private LBSLayer layer;
-        private UnityEngine.Color colorCurrent => LBSSettings.Instance.view.behavioursColor;
-
-        private VisualElement layerContent;
-        private VisualElement selectedContent;
+        private LBSLayer target;
+        
         private ModulesPanel modulesPanel;
         private LayerInfoView layerInfoView;
 
-
+        #region CONSTRUCTORS
         public LBSLocalCurrent()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalCurrent");
             visualTree.CloneTree(this);
 
-            layerContent = this.Q<VisualElement>("LayerContent");
-
-            selectedContent = this.Q<VisualElement>("SelectedContent");
+            contentPanel = this.Q<VisualElement>("SelectedContent");
 
             modulesPanel = this.Q<ModulesPanel>();
             layerInfoView = this.Q<LayerInfoView>();
         }
-
-        public void SetInfo(LBSLayer target)
+        #endregion
+        
+        #region METHODS
+        public override void InitCustomEditors(ref List<LBSLayer> layers)
         {
-            // SetLayer reference
-            layer = target;
-
-            // Set basic Tool
-            SetTools(ToolKit.Instance);
-
-            // Set simple module info
-            modulesPanel.SetInfo(target.Modules);
-
-            // Set basic layer info
-            layerInfoView.SetInfo(target);
+        
         }
 
-        public override void SetTarget(LBSLayer layer)
+        public override void SetTarget(LBSLayer target)
         {
-            SetInfo(layer);
+            Clear();
+            this.target = target;
+            
+            ToolKit.Instance.InitGeneralTools(this.target);
+            
+            modulesPanel.SetInfo(target.Modules);
+            layerInfoView.SetInfo(target);
         }
 
         public override void Repaint()
         {
-            
-            if(layer != null)
-                SetInfo(layer);
-        }
-
-        public void SetTools(ToolKit toolkit)
-        {
-
+            MarkDirtyRepaint();
+            if(target is not null)SetTarget(target);
         }
 
         public void SetSelectedVE(List<object> objs)
         {
-            // Clear previous view
-            selectedContent.Clear();
+  
+            contentPanel.Clear();
 
             foreach (var obj in objs)
             {
                 // Check if obj is valid
                 if (obj == null)
                 {
-                    selectedContent.Add(new Label("[NULL]"));
+                    contentPanel.Add(new Label("[NULL]"));
                     continue;
                 }
 
@@ -98,7 +78,7 @@ namespace ISILab.LBS.VisualElements
                 if (ves.Count <= 0)
                 {
                     // Add basic label if no have specific editor
-                    selectedContent.Add(new Label("'" + type + "' does not contain a visualization."));
+                    contentPanel.Add(new Label("'" + type + "' does not contain a visualization."));
                     continue;
                 }
 
@@ -110,13 +90,13 @@ namespace ISILab.LBS.VisualElements
 
                 // set target info on visual element
                 ve.SetInfo(obj);
-
+                ToolKit.Instance.SetTarget(ve);
+                
                 // create content container
                 var container = new DataContent(ve, ves.First().Item2.First().name);
-
-                // Add custom editor
-                selectedContent.Add(container);
+                contentPanel.Add(container);
             }
         }
+        #endregion
     }
 }

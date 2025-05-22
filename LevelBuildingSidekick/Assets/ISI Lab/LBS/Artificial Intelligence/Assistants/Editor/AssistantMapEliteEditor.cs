@@ -135,8 +135,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             _mapEliteAreaSelector = new MapEliteAreaSelector((r) => assistant.RawToolRect = r);
             var t1 = new LBSTool(_mapEliteAreaSelector);
             t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
-            t1.Init(assistant.OwnerLayer, assistant);
-            toolkit.AddTool(t1);
+            toolkit.ActivateTool(t1,assistant.OwnerLayer, assistant);
         }
 
         public void SetBackgorundTexture(Rect rect)

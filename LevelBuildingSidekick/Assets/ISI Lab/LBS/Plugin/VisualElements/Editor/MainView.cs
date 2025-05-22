@@ -75,12 +75,13 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region FIELDS
         private ExternalBounds bound;
-        private List<Manipulator> manipulators = new List<Manipulator>();
+        private List<Manipulator> manipulators = new();
 
-        private LayerContainer defaultLayer = new LayerContainer();
-        private Dictionary<LBSLayer, LayerContainer> layers = new Dictionary<LBSLayer, LayerContainer>();
+        private LayerContainer defaultLayer = new();
+        private Dictionary<LBSLayer, LayerContainer> layers = new();
+        
         // shared manipulators such as drag, zoom
-        private List<Manipulator> defaultManipulators = new List<Manipulator>();
+        private List<Manipulator> defaultManipulators = new();
         private ContentZoomer zoomer;
         private ContentDragger cDragger;
         private SelectionDragger sDragger;
@@ -120,7 +121,6 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         
         #endregion
-
         
         #region INTERNAL_METHODS
         private void InitBound(int interior, int exterior)
@@ -246,8 +246,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void ClearLevelView()
         {
-            this.graphElements.ForEach(e => this.RemoveElement(e));
-            new List<LayerContainer>(this.layers.Values).ForEach(l => l.Clear());
+            graphElements.ForEach(e => RemoveElement(e));
+            new List<LayerContainer>(layers.Values).ForEach(l => l.Clear());
             defaultLayer.Clear();
             AddElement(bound);
         }
@@ -256,11 +256,6 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if (layers.Keys.Count <= 0)
                 return;
-
-            if (!layers.TryGetValue(layer, out LayerContainer container))
-            {
-                return;
-            }
 
             var l = layers[layer];
             var graphs = l.Clear();
@@ -273,13 +268,6 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             
         }
-
-        public void AddElement(object obj, GraphElement element)
-        {
-            defaultLayer.AddElement(obj, element);
-            base.AddElement(element);
-        }
-
         public void AddContainer(LBSLayer layer)
         {
             layers.Add(layer, new LayerContainer());
@@ -301,6 +289,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 layers.Add(layer, container);
             }
 
+            element.layer = layer.index;
+            
             container.AddElement(obj, element);
             base.AddElement(element);
         }

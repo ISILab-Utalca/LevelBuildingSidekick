@@ -48,12 +48,21 @@ namespace LBS
         #region METHODS
         public virtual void Init(LBSLayer layer, object behaviour)
         {
+            // Layer was assigned already - unsubscribe old methods
+            if(manipulator.Layer != null)
+            {
+                manipulator.OnManipulationStart -= () => { OnStart?.Invoke(manipulator.Layer); };
+                manipulator.OnManipulationUpdate -= () => { OnPressed?.Invoke(manipulator.Layer); };
+                manipulator.OnManipulationEnd -= () => { OnEnd?.Invoke(manipulator.Layer); };
+            }
+            
             manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
             manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
             manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
 
             manipulator.Init(layer, behaviour);
         }
+        
 
         public void BindButton(ToolButton button)
         {

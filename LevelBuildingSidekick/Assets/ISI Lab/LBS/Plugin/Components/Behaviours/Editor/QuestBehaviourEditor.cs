@@ -36,7 +36,7 @@ namespace ISILab.LBS.VisualElements
         QuestBehaviour behaviour;
         
         public QuestBehaviourEditor(object target) : base(target)
-        {
+        { 
             SetInfo(target);
         }
 
@@ -65,29 +65,26 @@ namespace ISILab.LBS.VisualElements
             addNode = new AddQuestNode();
             var t1 = new LBSTool(addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.Init(behaviour?.OwnerLayer, target);
             
             removeNode = new RemoveQuestNode();
             var t2 = new LBSTool(removeNode);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t2.Init(behaviour?.OwnerLayer, target);
             
             connectNodes = new ConnectQuestNodes();
             var t3 = new LBSTool(connectNodes);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t3.Init(behaviour?.OwnerLayer, target);
             
             removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t4.Init(behaviour?.OwnerLayer, target);
+
             
             connectNodes.SetRemover(removeConnection);
             
-            toolkit.AddTool(t1);
-            toolkit.AddTool(t2);
-            toolkit.AddTool(t3);
-            toolkit.AddTool(t4);
+            toolkit.ActivateTool(t1,behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t2,behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t3,behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t4,behaviour?.OwnerLayer, target);
             
             addNode.OnManipulationEnd += RefreshHistoryPanel;
             removeConnection.OnManipulationEnd += RefreshHistoryPanel;
@@ -146,7 +143,7 @@ namespace ISILab.LBS.VisualElements
                 return;
 
             var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null)
+            if (quest == null || quest.OwnerLayer == null)
                 return;
 
             if (quest.Grammar == null)

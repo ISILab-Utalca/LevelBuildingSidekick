@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
 
-        private PopulationBehaviour _target;
+        private PopulationBehaviour behaviour;
 
         private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new();
         private BundleCollection _collection; 
@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public PopulationBehaviourEditor(object target) : base(target)
         {
-            _target = target as PopulationBehaviour;
+            behaviour = target as PopulationBehaviour;
             //_collection = load default collection
             
             List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
@@ -63,9 +63,9 @@ namespace ISILab.LBS.VisualElements
                 Bundle.PopulationTypeE.Character
             };
             
-            _collection = _target.BundleCollection;
-            _target.SelectedFilter = _target.allFilter; 
-            displayChoices.Add(_target.allFilter, allList);
+            _collection = behaviour.BundleCollection;
+            behaviour.SelectedFilter = behaviour.allFilter; 
+            displayChoices.Add(behaviour.allFilter, allList);
             displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
             displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
             displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
@@ -73,7 +73,7 @@ namespace ISILab.LBS.VisualElements
             displayChoices.Add(Bundle.PopulationTypeE.Prop.ToString(), propList);
             displayChoices.Add(Bundle.PopulationTypeE.Misc.ToString(), miscList);
 
-            SetInfo(_target);
+            SetInfo(behaviour);
             CreateVisualElement();
         }
         #endregion
@@ -81,9 +81,9 @@ namespace ISILab.LBS.VisualElements
         #region METHODS
         public sealed override void SetInfo(object target)
         {
-            _target = target as PopulationBehaviour;
-            if(_target == null) return;
-            _collection = _target.BundleCollection;
+            behaviour = target as PopulationBehaviour;
+            if(behaviour == null) return;
+            _collection = behaviour.BundleCollection;
         }
 
         public void SetTools(ToolKit toolkit)
@@ -92,27 +92,24 @@ namespace ISILab.LBS.VisualElements
             addPopulationTile = new AddPopulationTile();
             var t1 = new LBSTool(addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.Init(_target.OwnerLayer, _target);
-            t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
+            t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(removePopulationTile);
-            t2.Init(_target.OwnerLayer, _target);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
+            t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             // Rotate element
             rotatePopulationTile = new RotatePopulationTile();
             var t3 = new LBSTool(rotatePopulationTile);
-            t3.Init(_target.OwnerLayer, _target);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(_target.OwnerLayer, MainView.Instance);
+            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             addPopulationTile.SetRemover(removePopulationTile);
             
-            toolkit.AddTool(t1);
-            toolkit.AddTool(t2);
-            toolkit.AddTool(t3);
+            toolkit.ActivateTool(t1,behaviour.OwnerLayer, behaviour);
+            toolkit.ActivateTool(t2,behaviour.OwnerLayer, behaviour);
+            toolkit.ActivateTool(t3,behaviour.OwnerLayer, behaviour);
         }
 
         protected sealed override VisualElement CreateVisualElement()
@@ -140,11 +137,11 @@ namespace ISILab.LBS.VisualElements
             type.RegisterValueChangedCallback(evt =>
             {
                var filter = evt.newValue;
-               _target.selectedTypeFilter = filter; 
+               behaviour.selectedTypeFilter = filter; 
                 UpdateElementBundles();
             });
 
-            type.SetValueWithoutNotify(_target.SelectedFilter); 
+            type.SetValueWithoutNotify(behaviour.SelectedFilter); 
             
             
             bundlePallete = this.Q<SimplePallete>("ConnectionPallete");
@@ -153,7 +150,7 @@ namespace ISILab.LBS.VisualElements
             SetPallete();
             bundlePallete.Repaint();
             
-            collectionField.SetValueWithoutNotify(_target.BundleCollection);
+            collectionField.SetValueWithoutNotify(behaviour.BundleCollection);
             
             MarkDirtyRepaint();
             
@@ -172,8 +169,8 @@ namespace ISILab.LBS.VisualElements
             
             bundlePallete.OnSelectOption += (selected) =>
             {
-                _target.selectedToSet = selected as Bundle;
-                _target.BundleCollection = _collection;
+                behaviour.selectedToSet = selected as Bundle;
+                behaviour.BundleCollection = _collection;
              
                 ToolKit.Instance.SetActive(typeof(AddPopulationTile));
             };
@@ -196,8 +193,8 @@ namespace ISILab.LBS.VisualElements
 
             bundlePallete.OnRepaint += () =>
             {
-                bundlePallete.Selected = _target.selectedToSet;
-                bundlePallete.CollectionSelected = _target.BundleCollection;
+                bundlePallete.Selected = behaviour.selectedToSet;
+                bundlePallete.CollectionSelected = behaviour.BundleCollection;
             };
             
             
@@ -213,12 +210,12 @@ namespace ISILab.LBS.VisualElements
                 return;
             }
             
-            type.SetValueWithoutNotify(_target.SelectedFilter); 
+            type.SetValueWithoutNotify(behaviour.SelectedFilter); 
             warningPanel.SetDisplay(false);
             bundlePallete.DisplayContent(true);
             var bundles = _collection.Collection;
             var candidates = new List<Bundle>();
-            if (type.value == _target.allFilter)
+            if (type.value == behaviour.allFilter)
             {
                 candidates = bundles
                     .Where(b => b.Type == Bundle.TagType.Element).ToList();
@@ -246,7 +243,7 @@ namespace ISILab.LBS.VisualElements
             });
             
             // Save current selected options in layer
-            _target.BundleCollection = _collection;
+            behaviour.BundleCollection = _collection;
             
             bundlePallete.Repaint();
             
@@ -255,7 +252,7 @@ namespace ISILab.LBS.VisualElements
 
         private void SetCollection(BundleCollection collection)
         {
-            _target.BundleCollection = collection;
+            behaviour.BundleCollection = collection;
             _collection = collection;
         }
 

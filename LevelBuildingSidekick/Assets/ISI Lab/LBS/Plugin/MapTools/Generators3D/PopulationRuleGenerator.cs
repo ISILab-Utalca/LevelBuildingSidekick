@@ -145,6 +145,7 @@ namespace ISILab.LBS.Generators
             
             foreach (var obj in objects)
             {
+                
                 switch(obj.Value)
                 {
                     case Bundle.PopulationTypeE.Character: 
