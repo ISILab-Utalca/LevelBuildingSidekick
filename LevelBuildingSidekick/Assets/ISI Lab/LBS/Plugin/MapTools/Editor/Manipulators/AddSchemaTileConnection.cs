@@ -1,3 +1,4 @@
+using System;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
@@ -61,35 +62,60 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(level, "Add Connection between tile");
             
             // Get second fixed position
-            Vector2Int pos = schema.OwnerLayer.ToFixedPosition(position);
+            Vector2Int lastPos = schema.OwnerLayer.ToFixedPosition(position);
 
             // Get vector direction
-            // var dx = t1.Position.x - pos.x;
-            // var dy = t1.Position.y - pos.y;
-            int dx =  first.x - pos.x;
-            int dy = first.y - pos.y;
+            int dx =  first.x - lastPos.x;
+            int dy = first.y - lastPos.y;
+            
             
             // Get index of directions
-            int fDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-            int tDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            int frontDirIndex = -1;
+            int backDirIndex = -1;
             
-            Debug.Log(fDirIndex);
-            Debug.Log(tDirIndex);
+            float  dLenght =  Mathf.Sqrt(dx * dx  +  dy * dy);
+            
+            if (dLenght>= 2)
+            {
+                int totalConnections = (int)Math.Floor(dLenght);
+                List<LBSTile> selectedTiles = new List<LBSTile>();
+                
+                for (int i = 0; i <= totalConnections; i++)
+                {
+                    //Get the next tile 
+                    selectedTiles.Add(schema.GetTile(first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
+                }
+
+                foreach (var tile in selectedTiles)
+                {
+                    Debug.Log(tile.Position);
+                    //TODO - Allow Paint More Thant 1 Tile 
+                }
+                
+            }
+            else
+            {
+                frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+                backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            }
+            
+            // Debug.Log(fDirIndex);
+            // Debug.Log(tDirIndex);
             
             // Check if index is validate
-            if (fDirIndex < 0 || fDirIndex >= schema.Directions.Count)
+            if (frontDirIndex < 0 || frontDirIndex >= schema.Directions.Count)
                 return;
 
             // Get tile in first position
             LBSTile t1 = schema.GetTile(first);
             // Get tile in second position
-            LBSTile t2 = schema.GetTile(pos);
+            LBSTile t2 = schema.GetTile(lastPos);
 
             if (t1 == null)
             {
                 if (t2 != null)
                 {
-                    schema.SetConnection(t2, tDirIndex, ToSet, false);
+                    schema.SetConnection(t2, frontDirIndex, ToSet, false);
                     return;
                 }
             }
@@ -108,16 +134,13 @@ namespace ISILab.LBS.Manipulators
                 {
                     return;
                 }
-                schema.SetConnection(t1, fDirIndex, ToSet, false);
+                schema.SetConnection(t1, frontDirIndex, ToSet, false);
                 return;
             }
-
-            // if (dx + dy > 1)
-            //     return;
             
             // set both connections
-            schema.SetConnection(t1, fDirIndex, ToSet, false);
-            schema.SetConnection(t2, tDirIndex, ToSet, false);
+            schema.SetConnection(t1, frontDirIndex, ToSet, false);
+            schema.SetConnection(t2, backDirIndex, ToSet, false);
 
             if (EditorGUI.EndChangeCheck())
             {
