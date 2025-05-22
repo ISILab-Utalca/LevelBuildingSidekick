@@ -24,8 +24,6 @@ namespace ISILab.LBS.Drawers.Editor
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
 
-            GraphElement allElements = null;
-            
             foreach (var node in quest.QuestNodes)
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */

@@ -171,17 +171,10 @@ namespace ISILab.LBS.VisualElements
             OnChangeTab?.Invoke(current.GetLabel());
         }
 
-
-        public void ChangeActive(int index)
-        {
-            var current = group[index];
-            ChangeActive(current);
-        }
-
         public void ChangeActive(string label)
         {
-            var current = group.Find(b => b.GetLabel() == label);
-            ChangeActive(current);
+            var activeCurrent = group.Find(b => b.GetLabel() == label);
+            ChangeActive(activeCurrent);
         }
 
         private void Active(IGrupable active)
@@ -191,19 +184,13 @@ namespace ISILab.LBS.VisualElements
                 ChangeActive(active);
                 return;
             }
-            else
+            if (current != active)
             {
-                if (current == active)
-                {
-                    current.OnBlur();
-                    current = null;
-                }
-                else
-                {
-                    ChangeActive(active);
-                    return;
-                }
+                ChangeActive(active);
+                return;
             }
+            current.OnBlur();
+            current = null;
         }
 
         public new void Remove(VisualElement element)

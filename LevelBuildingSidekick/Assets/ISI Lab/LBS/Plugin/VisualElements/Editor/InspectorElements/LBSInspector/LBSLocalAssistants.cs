@@ -62,14 +62,15 @@ namespace ISILab.LBS.VisualElements
 
         public override void SetTarget(LBSLayer layer)
         {
+            noContentPanel.SetDisplay(layer is null);
+            contentPanel.Clear();
+            target = layer;
+            
             if (layer == null)
                 return;
             
-            target = layer;
             noContentPanel.SetDisplay(!target.Assistants.Any());
-            contentPanel.Clear();
             
-            ToolKit.Instance.AddSeparator();
             // Add the tools into the toolkit and set the data of behaviour
             foreach (var assistant in target.Assistants)
             {
@@ -92,8 +93,8 @@ namespace ISILab.LBS.VisualElements
         
         public override void Repaint()
         {
-            MarkDirtyRepaint();
             if(target is not null)SetTarget(target);
+            MarkDirtyRepaint();
         }
         #endregion
     }

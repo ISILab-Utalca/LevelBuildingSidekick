@@ -19,6 +19,11 @@ namespace ISILab.LBS.Manipulators
 
         #region DATA
         protected LBSLayer lbsLayer;
+
+        /// <summary>
+        /// The initializer type which can be a module, behaviour or assistant
+        /// </summary>
+        protected Type objectType;
         
         protected Feedback feedback;
         
@@ -56,6 +61,8 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region PROPERTIES
+
+        public Type ObjectType => objectType;
         public LBSLayer Layer => lbsLayer;
         public string Description => description;
         public string Name => name;
@@ -355,6 +362,7 @@ namespace ISILab.LBS.Manipulators
         public virtual void Init(LBSLayer layer, object provider)
         {
             lbsLayer = layer;
+            objectType = provider.GetType().BaseType ?? typeof(object);
         }
         
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }

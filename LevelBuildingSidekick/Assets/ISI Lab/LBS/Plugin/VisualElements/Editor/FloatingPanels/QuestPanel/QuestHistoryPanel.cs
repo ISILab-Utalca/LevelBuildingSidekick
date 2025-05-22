@@ -23,8 +23,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-
-        private static bool RedrawCalled = false;
+        
         private QuestGraph questGraph = new ();
         private List<QuestEntry> questEntries = new ();
     
