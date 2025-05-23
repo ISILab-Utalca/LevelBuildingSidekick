@@ -111,7 +111,7 @@ namespace LBS.VisualElements
         public void InitGeneralTools(LBSLayer layer)
         { 
             LBSTool selectTool = new LBSTool(new Select());
-            ActivateTool(selectTool,layer,layer.Modules);
+            ActivateTool(selectTool,layer);
             selectTool.Init(layer, this);
             selectTool.OnSelect += LBSInspectorPanel.ActivateDataTab;
         }
@@ -167,19 +167,6 @@ namespace LBS.VisualElements
             manipulator.OnManipulationNotification?.Invoke();
         }
         
-        private void AddSeparator(int height = 10)
-        {
-            var separator = new VisualElement
-            {
-                style =
-                {
-                    height = height
-                }
-            };
-            content.Add(separator);
-            separators.Add(separator);
-        }
-
         private void ClearSeparators()
         {
             foreach (var separator in separators)
@@ -189,36 +176,12 @@ namespace LBS.VisualElements
             separators.Clear();
         }
 
-        public void ActivateTool(LBSTool tool, LBSLayer layer, object provider)
+        public void ActivateTool(LBSTool tool, LBSLayer layer, object provider = null)
         {
             if(tool == null) return;
             
-            LBSTool existingTool = null;
-            ToolButton existingButton = null;
-            if (tool?.Manipulator != null && tools.TryGetValue(tool.Manipulator.GetType(), out (LBSTool, ToolButton) tuple))
-            {
-                existingTool = tuple.Item1;
-                existingButton = tuple.Item2;
-            }
-
-            if (existingTool is not null && existingButton is not null)
-            {
-                existingButton.style.display = DisplayStyle.Flex;
-                existingTool.Init(layer, provider);
-                
-                // Remove previous events
-                existingTool.OnStart -= (_) => { OnStartAction?.Invoke(existingTool.Manipulator.Layer); };
-                existingTool.OnEnd -= (_) => { OnEndAction?.Invoke(existingTool.Manipulator.Layer); };
-                
-                // add new ones
-                existingTool.OnStart += (_) => { OnStartAction?.Invoke(layer); };
-                existingTool.OnEnd += (_) => { OnEndAction?.Invoke(layer); };
-            }
-            else
-            {
-                AddTool(tool);
-                tool.Init(layer, provider);
-            }
+            AddTool(tool);
+            tool.Init(layer, provider);
 
         }
 
@@ -292,9 +255,7 @@ namespace LBS.VisualElements
             {
                 toolPair.Item2.style.display = DisplayStyle.None;
             }
-
             ClearSeparators();
-            // No longer readding the buttons instead hide them when not usedcontent.Clear();
         }
         
         #endregion
@@ -303,7 +264,6 @@ namespace LBS.VisualElements
         public void SetSeparators()
         {
             ClearSeparators();
-
             if (tools == null || tools.Count == 0)
                 return;
             
@@ -326,7 +286,7 @@ namespace LBS.VisualElements
             // presets in desired order!
             List<Type> presentTypes = new()
             {
-                typeof(object),
+                typeof(VisualElement),
                 typeof(LBSModule),
                 typeof(LBSBehaviour),
                 typeof(LBSAssistant)
@@ -369,6 +329,5 @@ namespace LBS.VisualElements
             
             separators.Add(separator);
         }
-
     }
 }

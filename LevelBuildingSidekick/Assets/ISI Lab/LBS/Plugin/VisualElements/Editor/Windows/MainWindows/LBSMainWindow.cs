@@ -306,7 +306,6 @@ namespace ISILab.LBS.Editor.Windows{
         {
             var sw = new Stopwatch();
             sw.Start();
-            OnSelectedLayerChange(layer);
             sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
             sw.Restart();
             DrawManager.Instance.AddContainer(layer);
@@ -486,9 +485,8 @@ namespace ISILab.LBS.Editor.Windows{
            
             toolkit.Clear();
             inspectorManager.SetTarget(layer);
-            toolkit.SetSeparators();
-            
             toolkit.SetActive(typeof(Select));
+            toolkit.SetSeparators();
             
             gen3DPanel.Init(layer);
             

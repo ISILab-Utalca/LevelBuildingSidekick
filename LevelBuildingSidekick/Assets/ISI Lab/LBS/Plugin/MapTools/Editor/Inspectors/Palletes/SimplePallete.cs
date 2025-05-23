@@ -90,8 +90,7 @@ namespace LBS.VisualElements
         }
         
         #endregion
-
-
+        
         #region CONSTRUCTORS
         public SimplePallete()
         {
@@ -131,14 +130,12 @@ namespace LBS.VisualElements
         #region METHODS
         private void OnInternalSelectOption(object obj)
         {
-
             foreach (var optV in optionViews)
             {
                 optV.SetSelected(false);
             }
             selected = obj;
             OnSelectOption?.Invoke(obj);
-
         }
 
         private void OnInternalRemoveOption(object obj)
@@ -179,10 +176,9 @@ namespace LBS.VisualElements
             MarkDirtyRepaint();
             
             OnRepaint?.Invoke();
-
             content.Clear();
 
-            if (options != null && options.Length > 0)
+            if (options.Any())
             {
                 optionViews = new OptionView[options.Length];
 
@@ -203,13 +199,11 @@ namespace LBS.VisualElements
                 }
             }
 
-            if(selected != null)
-            {
-                var ov = optionViews?.ToList().Find(o 
-                    => o != null && o.target != null && selected != null && o.target.Equals(selected));
+            if (selected == null) return;
+            var ov = optionViews?.ToList().Find(o 
+                => o != null && o.target != null && selected != null && o.target.Equals(selected));
 
-                if (ov != null)  ov.SetSelected(true);
-            }
+            ov?.SetSelected(true);
         }
         #endregion
     }

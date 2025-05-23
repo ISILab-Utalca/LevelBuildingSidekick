@@ -1,3 +1,4 @@
+using System;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
@@ -15,7 +16,7 @@ namespace ISILab.LBS.Manipulators
     {
         private SchemaBehaviour schema;
         protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
-
+        
         public Zone ToSet
         {
             get => schema.RoomToSet;
@@ -59,13 +60,7 @@ namespace ISILab.LBS.Manipulators
 
             if (e.ctrlKey)
             {
-                var newZone = schema.AddZone();
-                newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
-                newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
-
-                ToSet = newZone;
-                
-                OnManipulationEnd.Invoke();
+                OnManipulationLeftClickCTRL.Invoke();
             }
             
             if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
@@ -75,8 +70,7 @@ namespace ISILab.LBS.Manipulators
                 LBSMainWindow.MessageNotify("You don't have any selected area to place. Create a new Zone in the panel or press 'CTRL' when left clicking.", LogType.Error, 8);
                 return;
             }
-
-
+            
             var corners = schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)

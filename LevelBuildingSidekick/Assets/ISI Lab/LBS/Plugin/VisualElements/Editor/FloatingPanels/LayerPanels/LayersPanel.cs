@@ -71,7 +71,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 return new LayerView();
            }
-
+            
             list.bindItem += (item, index) =>
             {
                 if (index >= this.data.LayerCount)
@@ -122,6 +122,8 @@ namespace ISILab.LBS.VisualElements.Editor
             list.style.display = DisplayStyle.None;
             noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
             
+            list.Rebuild();
+            
             RegisterCallback<KeyDownEvent>(OnKeyDown);
             OnLayerChangeEventHandle(null);
         }
@@ -147,7 +149,7 @@ namespace ISILab.LBS.VisualElements.Editor
             layer.Name = LBSSettings.Instance.general.baseLayerName;
 
             AddLayer(layer);
-            list.SetSelection(0); // Select newest
+
         }
 
         private void AddLayer(LBSLayer layer)
@@ -160,29 +162,28 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             data.AddLayer(layer);
+            list.SetSelectionWithoutNotify(new List<int>() {0});
             OnAddLayer?.Invoke(layer);
-            list.Rebuild();
-            
+            OnLayerSelectedEventHandle(layer);
             LBSMainWindow.MessageNotify("New Data layer created");
+            list.Rebuild();
         }
 
         private void RemoveSelectedLayer()
         {
-            if (data.Layers.Count <= 0)
-                return;
+            if (!data.Layers.Any()) return;
+                
 
             var index = list.selectedIndex;
-            if (index < 0)
-                return;
+            if (index < 0) return;
 
             var answer = EditorUtility.DisplayDialog("Caution",
             "You are about to delete a layer. If you proceed with this action, all of its" +
             " content will be permanently removed, and you won't be able to recover it. Are" +
             " you sure you want to continue?", "Continue", "Cancel");
 
-            if (!answer)
-                return;
-
+            if (!answer) return;
+            
             var layer = data.RemoveAt(index);
 
             //Select a new layer
@@ -215,7 +216,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
             var selected = objs.ToList()[0] as LBSLayer;
             OnSelectLayer?.Invoke(selected);
-            
         }
         
         // Double Click over an element
@@ -227,7 +227,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 return;
             }
-            var selected = enumerable.ToList()[0] as LBSLayer;
+            var selected = objs.ToList()[0] as LBSLayer;
             OnDoubleSelectLayer?.Invoke(selected);
         }
 
@@ -249,6 +249,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             list.style.display = listDisplay; 
             noSelectedLayerNotificator.style.display = noSelectedDisplay;
+            if(_layer is not null) OnSelectLayer?.Invoke(_layer);
         }
         
         private void OnLayerSelectedEventHandle(LBSLayer layer)
