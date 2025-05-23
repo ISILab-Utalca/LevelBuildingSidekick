@@ -86,10 +86,22 @@ namespace ISILab.LBS.Manipulators
                     selectedTiles.Add(schema.GetTile(first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
                 }
 
-                foreach (var tile in selectedTiles)
+                foreach (LBSTile tile in selectedTiles)
                 {
-                    Debug.Log(tile.Position);
+                    //Debug.Log(tile.Position);
                     //TODO - Allow Paint More Thant 1 Tile 
+                    
+                    if (tile != null)
+                    {
+                        List<string> connections = schema.GetConnections(tile);
+                        foreach (var connection in connections)
+                        {
+                            if (connection == "Wall" && ToSet == "Door")
+                            {
+                                Debug.Log("Place a Door");
+                            }
+                        }
+                    }
                 }
                 
             }
