@@ -5,6 +5,6 @@
             <engine:IMGUIContainer name="IMGUIContainer" style="background-image: resource(&apos;Icons/Vectorial/Icon=Warning&apos;); height: auto; width: auto; -unity-background-image-tint-color: rgb(255, 194, 7); flex-grow: 1; background-size: contain; -unity-background-scale-mode: scale-to-fit; background-position-y: center 0; background-position-x: left 0; flex-direction: row; flex-wrap: nowrap; min-width: auto;" />
         </engine:VisualElement>
         <engine:VisualElement style="flex-grow: 1; background-color: rgb(45, 45, 45); align-self: stretch; width: 1px; min-width: 1px; max-width: 1px;" />
-        <engine:Label text="Warning content" name="WarningContent" style="align-self: center; flex-direction: row; flex-wrap: wrap; margin-top: 4px; padding-right: 0; padding-left: 0; min-width: 100px; margin-right: 10px; margin-left: 10px; font-size: 16px; flex-grow: 1; flex-shrink: 1; text-overflow: ellipsis; -unity-text-align: upper-left; -unity-text-outline-width: 1px; -unity-font-style: bold;" />
+        <engine:Label text="Warning content" name="WarningContent" style="align-self: center; flex-direction: row; flex-wrap: wrap; margin-top: 4px; padding-right: 0; padding-left: 0; min-width: 100px; margin-right: 10px; margin-left: 10px; font-size: 16px; flex-grow: 1; flex-shrink: 1; text-overflow: ellipsis; -unity-text-align: upper-left; -unity-text-outline-width: 1px; -unity-font-style: bold; white-space: normal;" />
     </engine:VisualElement>
 </engine:UXML>

@@ -124,7 +124,7 @@ namespace ISILab.LBS.Generators
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
                 
                 //Micro population tool
-                go.transform.position += current.microGenTool.MicroPosVector(go.transform, scale, r);
+                go.transform.position += current.GetMicroGenTool().MicroPosVector(go.transform, scale, r);
 
                 //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();

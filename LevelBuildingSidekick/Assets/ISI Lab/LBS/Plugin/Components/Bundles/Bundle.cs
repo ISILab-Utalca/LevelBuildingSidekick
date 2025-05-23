@@ -114,7 +114,7 @@ namespace LBS.Bundles
         private List<Bundle> childsBundles = new List<Bundle>();
         
         [SerializeField]
-        public MicroGenTool microGenTool = new MicroGenTool();
+        private MicroGenTool microGenTool = new MicroGenTool();
 
         #endregion
 
@@ -408,7 +408,10 @@ namespace LBS.Bundles
             return exists;
         }
 
-        
+        public MicroGenTool GetMicroGenTool()
+        {
+            return microGenTool;
+        }
         #endregion
 
         #region STATIC FUNCTIONS
@@ -452,6 +455,14 @@ namespace LBS.Bundles
                 .Find(b => b.ChildsBundles.Contains(bundle));
 
             return parent;
+        }
+        
+        public static List<Bundle> Parents(this Bundle bundle)
+        {
+            var parents = LBSAssetsStorage.Instance.Get<Bundle>()
+                .FindAll(b => b.ChildsBundles.Contains(bundle));
+
+            return parents;
         }
     }
     
