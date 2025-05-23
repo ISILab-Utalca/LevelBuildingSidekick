@@ -115,7 +115,7 @@ namespace ISILab.LBS.Manipulators
             {
                 if (t2 != null)
                 {
-                    schema.SetConnection(t2, frontDirIndex, ToSet, false);
+                    schema.SetConnection(t2, backDirIndex, ToSet, false);
                     return;
                 }
             }
