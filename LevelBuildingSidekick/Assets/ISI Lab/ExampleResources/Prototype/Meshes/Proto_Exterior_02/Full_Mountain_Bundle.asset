@@ -24,6 +24,7 @@ MonoBehaviour:
     probability: 0.645
   characteristics:
   - rid: 6598277204649181379
+  - rid: -2
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -37,6 +38,8 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 6598277204649181379
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:

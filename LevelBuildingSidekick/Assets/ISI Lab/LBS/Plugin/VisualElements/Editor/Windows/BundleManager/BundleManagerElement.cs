@@ -4,8 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-
-namespace ISILab.LBS.VisualElements.Editor
+namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
 {
     public class BundleManagerElement : VisualElement
     {
