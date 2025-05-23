@@ -62,7 +62,11 @@ namespace ISILab.LBS.Manipulators
 
         #region PROPERTIES
 
-        public Type ObjectType => objectType;
+        public Type ObjectType
+        {
+            get => objectType;
+            set => objectType = value;
+        }
         public LBSLayer Layer => lbsLayer;
         public string Description => description;
         public string Name => name;
@@ -122,6 +126,7 @@ namespace ISILab.LBS.Manipulators
         public Action OnManipulationEnd;
         public Action OnManipulationRightClick;
         public Action OnManipulationRightClickEnd;
+        public Action OnManipulationLeftClickCTRL;
         #endregion
         
         #region CONSTRUCTORS
@@ -359,10 +364,10 @@ namespace ISILab.LBS.Manipulators
         #endregion
 
         #region VIRTUAL METHODS
-        public virtual void Init(LBSLayer layer, object provider)
+        public virtual void Init(LBSLayer layer, object provider = null)
         {
             lbsLayer = layer;
-            objectType = provider.GetType().BaseType ?? typeof(object);
+            objectType = provider == null ? typeof(Manipulator) : provider.GetType().BaseType;
         }
         
         protected virtual void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e) { }

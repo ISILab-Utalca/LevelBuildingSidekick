@@ -123,6 +123,7 @@ namespace ISILab.LBS.VisualElements
 
         internal void SetTarget(LBSLayer layer)
         {
+            // updates the inspector panel locals and tools
             foreach (KeyValuePair<string, LBSInspector> ve in VEs)
             {
                 // Update the inspector with the new layer data
