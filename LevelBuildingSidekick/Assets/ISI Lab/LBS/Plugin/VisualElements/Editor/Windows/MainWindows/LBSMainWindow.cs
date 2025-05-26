@@ -498,7 +498,7 @@ namespace ISILab.LBS.Editor.Windows{
         {
             if (warningLabel == null) return;
             warningLabel.text = description;
-            warningNotification.visible = description != null ? true : false;
+            warningNotification.visible = description != null;
         }
 
         public List<LBSLayer> GetLayers()

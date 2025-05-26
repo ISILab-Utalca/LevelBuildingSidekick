@@ -158,6 +158,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 ToolKit.Instance.SetActive(typeof(AddSchemaTile));
             };
 
+            areaPallete.OnAddOption -= AddZone;
             areaPallete.OnAddOption += AddZone;
 
             areaPallete.SetOptions(options, (optionView, option) =>

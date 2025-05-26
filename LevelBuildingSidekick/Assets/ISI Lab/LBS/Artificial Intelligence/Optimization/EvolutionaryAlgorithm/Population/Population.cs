@@ -123,15 +123,16 @@ namespace ISILab.AI.Optimization.Populations
         /// <summary>
         /// Creates the initial generation.
         /// </summary>
-        public virtual void CreateInitialGeneration()
+        public virtual void CreateInitialGeneration(int GenSize = 0)
         {
+            if(GenSize == 0) GenSize = MinSize;
+            
             Generations = new List<Generation>();
             GenerationsNumber = 0;
 
             var evaluables = new List<IOptimizable>();
             evaluables.Add(Adam);
-
-            for (int i = 1; i < MinSize; i++)
+            for (int i = 1; i < GenSize; i++)
             {
                 var c = Adam.CreateNew();
 

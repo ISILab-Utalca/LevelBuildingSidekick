@@ -247,34 +247,60 @@ namespace ISILab.LBS.AI.Categorization
 
             Optimizer.Adam = Adam;
             Clear();
+            SetupCallbacks();
+
+            thread = new Thread(Optimizer.Start);
+            TryStartThread();
+        }
+
+        public void Restart()
+        {
+            SetupCallbacks();
+
+            thread = new Thread(Optimizer.Restart);
+            TryStartThread();
+        }
+
+        private void SetupCallbacks()
+        {
             Optimizer.OnGenerationRan = () =>
             {
                 UpdateSamples(Optimizer.LastGeneration);
             };
+
             Optimizer.OnTerminationReached = () =>
             {
-                int c = 0;
-                for (int j = 0; j < BestSamples.GetLength(1); j++)
-                {
-                    for (int i = 0; i < BestSamples.GetLength(0); i++)
-                    {
-                        if (BestSamples[j, i] != null)
-                        {
-                            c++;
-                            UpdateSample(i, j, BestSamples[j, i]);
-                        }
-                    }
-                }
-
+                int count = UpdateBestSamples();
                 if (Running)
                 {
-                    thread.Join();
+                    thread.Join(); // or thread.Abort() depending on context
                 }
+
+                Debug.Log("Finished: " + count);
                 Optimizer.State = Op_State.TerminationReached;
                 OnEnd?.Invoke();
-
             };
-            thread = new Thread(Optimizer.Start);
+        }
+
+        private int UpdateBestSamples()
+        {
+            int c = 0;
+            for (int j = 0; j < BestSamples.GetLength(1); j++)
+            {
+                for (int i = 0; i < BestSamples.GetLength(0); i++)
+                {
+                    if (BestSamples[j, i] != null)
+                    {
+                        c++;
+                        UpdateSample(i, j, BestSamples[j, i]);
+                    }
+                }
+            }
+            return c;
+        }
+
+        private void TryStartThread()
+        {
             try
             {
                 thread.Start();
@@ -285,37 +311,6 @@ namespace ISILab.LBS.AI.Categorization
             }
         }
 
-        public void Restart()
-        {
-            thread = new Thread(Optimizer.Restart);
-            Optimizer.OnGenerationRan = () =>
-            {
-                UpdateSamples(Optimizer.LastGeneration);
-            };
-            Optimizer.OnTerminationReached = () =>
-            {
-                int c = 0;
-                for (int j = 0; j < BestSamples.GetLength(1); j++)
-                {
-                    for (int i = 0; i < BestSamples.GetLength(0); i++)
-                    {
-                        if (BestSamples[j, i] != null)
-                        {
-                            c++;
-                            UpdateSample(i, j, BestSamples[j, i]);
-                        }
-                    }
-                }
-                if (Running)
-                {
-                    thread.Abort();
-                }
-                Debug.Log("Finished: " + c);
-                OnEnd?.Invoke();
-
-            };
-            thread.Start();
-        }
 
         public void Stop()
         {
@@ -324,17 +319,46 @@ namespace ISILab.LBS.AI.Categorization
             thread.Start();
         }
 
+        public void UpdateSamples(IOptimizable[] samples)
+        {
+            var evaluables = MapSamples(samples);
+
+            int totalCells = xSampleCount * ySampleCount; 
+            if (evaluables.Count > totalCells)
+            {
+                Debug.LogWarning("More evaluables than grid cells. Some evaluables will be ignored.");
+                evaluables = evaluables.Take(totalCells).ToList(); // Prevent overflow
+            }
+
+            // Sort evaluables by xFitness, then yFitness
+            evaluables = evaluables
+                .OrderBy(e => e.xFitness)
+                .ThenBy(e => e.yFitness)
+                .ToList();
+
+            for (int i = 0; i < evaluables.Count; i++)
+            {
+                int x = i % xSampleCount;
+                int y = i / xSampleCount;
+
+                var me = evaluables[i];
+
+                Debug.Log("Sorted assignment -> pos: " + x + "," + y);
+                me.evaluable.xFitness = evaluables[i].xFitness;
+                me.evaluable.yFitness = evaluables[i].yFitness;
+                UpdateSample(x, y, me.evaluable);
+            }
+        }
+
         /// <summary>
         /// Updates the best samples in the map with the provided array of evaluables.
         /// </summary>
         /// <param name="samples">The array of evaluables to update the map with.</param>
-        public void UpdateSamples(IOptimizable[] samples)
+        public void OLDUpdateSamples(IOptimizable[] samples)
         {
-            Debug.Log("a");
             var max = samples.Select(o => o.Fitness).OrderBy(n => n).ToArray();
-
             var evaluables = MapSamples(samples);
-
+   
             float xT = Mathf.Abs(XEvaluator.MaxValue - XEvaluator.MinValue);
             var xLowest = XEvaluator.MinValue + xT * xThreshold.x;
             var xHighest = XEvaluator.MinValue + xT * xThreshold.y;
@@ -346,8 +370,7 @@ namespace ISILab.LBS.AI.Categorization
             var yHighest = YEvaluator.MinValue + yT * yThreshold.y;
 
             float yStep = (yHighest - yLowest) / YSampleCount;
-
-
+            
             foreach (var me in evaluables)
             {
                 var xPos = (me.xFitness - xLowest) / xStep;
@@ -363,6 +386,8 @@ namespace ISILab.LBS.AI.Categorization
                 if (yPos >= ySampleCount)
                     yPos = ySampleCount - 1;
 
+                
+                Debug.Log(" pos:" + xPos + "," + yPos);
                 UpdateSample((int)xPos, (int)yPos, me.evaluable);
             }
         }
@@ -376,21 +401,20 @@ namespace ISILab.LBS.AI.Categorization
         /// <returns>Boolean value indicating if the update was successful or not.
         public bool UpdateSample(int x, int y, IOptimizable evaluable)
         {
-            if (BestSamples[y, x] == null)
+            var current = BestSamples[y, x];
+            if (current == null || evaluable.Fitness > current.Fitness)
             {
-                BestSamples[y, x] = evaluable;
+                BestSamples[y, x] = evaluable.Clone() as IOptimizable;
+                BestSamples[y, x].Fitness = evaluable.Fitness;
+                BestSamples[y, x].yFitness = evaluable.yFitness;
+                BestSamples[y, x].xFitness = evaluable.xFitness;
                 OnSampleUpdated?.Invoke(new Vector2Int(x, y));
                 return true;
             }
 
-            if (BestSamples[y, x].Fitness <= evaluable.Fitness)
-            {
-                BestSamples[y, x] = evaluable;
-                OnSampleUpdated?.Invoke(new Vector2Int(x, y));
-                return true;
-            }
             return false;
         }
+
 
         /// <summary>
         /// Maps the provided array of evaluables to a list of evaluables with x and y fitness values.
