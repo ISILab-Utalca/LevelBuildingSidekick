@@ -74,7 +74,7 @@ namespace ISILab.AI.Optimization.Populations
         /// <summary>
         /// Creates the initial generation.
         /// </summary>
-        void CreateInitialGeneration();
+        void CreateInitialGeneration(int GenSize = 0);
 
         /// <summary>
         /// Creates a new generation.

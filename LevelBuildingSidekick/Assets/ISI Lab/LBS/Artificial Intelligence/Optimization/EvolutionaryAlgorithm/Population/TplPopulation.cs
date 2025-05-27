@@ -38,7 +38,7 @@ namespace ISILab.AI.Optimization.Populations
         /// <summary>
         /// Creates the initial generation.
         /// </summary>
-        public override void CreateInitialGeneration()
+        public override void CreateInitialGeneration(int GenSize = 0)
         {
             Generations = new List<Generation>();
             GenerationsNumber = 0;

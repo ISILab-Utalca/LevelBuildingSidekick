@@ -50,6 +50,9 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         public double Fitness { get; set; }
 
+        public double xFitness { get; set; }
+        public double yFitness { get; set; }
+
         /// <summary>
         /// Gets the length, in genes, of the chromosome.
         /// </summary>

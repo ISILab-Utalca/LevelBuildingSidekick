@@ -24,6 +24,10 @@ namespace ISILab.AI.Wrappers
             get => fitness;
             set => fitness = value;
         }
+
+        public double xFitness { get; set; }
+        public double yFitness { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS

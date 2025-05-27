@@ -1,40 +1,25 @@
 using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Components;
-
 using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
-using ISILab.LBS.Generators;
 using UnityEditor.UIElements;
-using Object = UnityEngine.Object;
 using ISILab.LBS.Settings;
 using System.IO;
 using Commons.Optimization.Evaluator;
-using ISILab.LBS.AI.VisualElements;
 using ISILab.AI.Optimization;
 using System.Linq;
-using System.Speech.Recognition;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
-using ISILab.LBS.Manipulators;
 using ISILab.LBS.AI.Assistants.Editor;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
 using ISILab.Extensions;
-using LBS.VisualElements;
-using UnityEditor.VersionControl;
-using UnityEditor.Graphs;
-using UnityEngine.PlayerLoop;
-using System.Collections.Concurrent;
-using static UnityEngine.GraphicsBuffer;
-using ISILab.AI.Categorization;
+using ISILab.Macros;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -47,7 +32,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary;
+        [SerializeField]
         private PopulationAssistantEditor editor;
+        [SerializeField]
         private AssistantMapElite assistant;
 
         //Default text for unchosen elements
@@ -174,6 +161,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
                 if(xChoice != null) currentXField.InitializeDefault();
+                xParamText.text = param1Field.Value;
+                
             });
             param1Field.SetEnabled(false);
 
@@ -192,6 +181,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
                 if (yChoice != null) currentYField.InitializeDefault();
+                yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
 
@@ -283,6 +273,10 @@ namespace ISILab.LBS.VisualElements.Editor
                 Debug.LogError("Can't SetAxisValue: Index out of range");
             }
             graph.RecalculateCorners(); //Important after changing axes' values
+            
+            ySlider = rootVisualElement.Q<Slider>("YSlider");
+            xSlider = rootVisualElement.Q<Slider>("XSlider");
+            zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
         }
 
         private void SetPresets()
@@ -337,9 +331,12 @@ namespace ISILab.LBS.VisualElements.Editor
             param2Field.SetEnabled(true);
             //optimizerField.SetEnabled(true);
 
-            param1Field.value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
-            param2Field.value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
+            param1Field.Value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
+            param2Field.Value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
             optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
+            
+            yParamText.text = param2Field.Value;
+            xParamText.text = param1Field.Value;
         }
 
 
@@ -350,7 +347,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-
             Debug.Log("running algorithm");
 
             //Check how many of these there are, and get the optimizer!
@@ -362,7 +358,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
-                {
+            {
                     Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
                     return;
             }
@@ -405,6 +401,8 @@ namespace ISILab.LBS.VisualElements.Editor
             assistant.SampleWidth = rows.value;
             assistant.SampleHeight = columns.value;
 
+           // TODO change the population sample size
+            
             gridContent.Clear();
             gridContent.style.flexDirection = FlexDirection.Column;
             List<VisualElement> rowsVE = new();
@@ -437,7 +435,8 @@ namespace ISILab.LBS.VisualElements.Editor
         public void UpdateContent()
         {
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
-            for (int i = 0; i < assistant.toUpdate.Count; i++)
+            for (int i = 0; i < assistant.toUpdate.Count &&
+                            i < veChildren.Count; i++)
             {
                 var v = assistant.toUpdate[i];
                 //var index = (int)(v.y * assistant.SampleWidth + v.x);
@@ -445,7 +444,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 SetBackgroundTexture(veChildren[i], assistant.RawToolRect);
 
                 veChildren[i].Data = assistant.Samples[(int)v.y, (int)v.x];
-                veChildren[i].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
+                veChildren[i].Score =  ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
                 var t = veChildren[i].GetTexture();
                 if (veChildren[i].Data != null)
                 {
@@ -455,7 +454,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
                 }
-                veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i].Data);
+                veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i-1].Data);
                 veChildren[i].UpdateLabel();
             }
             assistant.toUpdate.Clear();
@@ -463,10 +462,16 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void ShowResults(object data)
         {
-            var dataVariable = data as IOptimizable;
-            //Debug.Log("X: " + dataVariable.Fitness);
+            var sampleData = data as IOptimizable;
 
+            if (sampleData == null) return;
+            
+            xSlider.value = (float)Math.Round(sampleData.xFitness, 4);
+            ySlider.value = (float)Math.Round(sampleData.yFitness, 4);
+
+            zProgressBar.value = (float)Math.Round(sampleData.Fitness, 4);
         }
+
 
         public MAPElitesPreset GetPresset()
         {

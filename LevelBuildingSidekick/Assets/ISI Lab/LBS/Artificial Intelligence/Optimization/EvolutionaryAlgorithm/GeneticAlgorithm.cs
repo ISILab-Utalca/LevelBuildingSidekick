@@ -212,7 +212,6 @@ namespace ISILab.AI.Optimization
         {
             try
             {
-
                 for (int i = 0; i < optimizables.Count; i++)
                 {
                     var c = optimizables[i];
