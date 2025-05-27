@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Internal;
 using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
@@ -8,18 +10,30 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
 {
     public class BundleManagerElement : VisualElement
     {
+        // External references
         private Bundle _bundleRef;
         private ListView _listRef;
+        
+        // Internal references
         private readonly Label _bundleName;
+        private readonly IMGUIContainer _bundleIcon;
+        private readonly IMGUIContainer _masterIcon;
+        private readonly IMGUIContainer _warningIcon;
+        
+        // Properties
         private bool _isMasterBundle;
 
-        public BundleManagerElement()
+        public BundleManagerElement(int size, int gapSize)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleManagerElement");
             visualTree.CloneTree(this);
             
             _bundleName = this.Q<Label>("BundleName");
+            _bundleIcon = this.Q<IMGUIContainer>("BundleIcon");
+            _masterIcon = this.Q<IMGUIContainer>("MasterIcon");
+            _warningIcon = this.Q<IMGUIContainer>("WarningIcon");
             
+            // Set DeleteBundle Button
             Button deleteButton = this.Q<Button>("DeleteButton");
             deleteButton.clickable.clicked += () =>
             {
@@ -43,15 +57,24 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                         return;
                 }
             };
+            
+            // Set size for visualElements
+            this.Q<VisualElement>("Background_1").style.height = size - gapSize;
+            this.Q<VisualElement>("DeleteButton").style.height = size - gapSize;
         }
 
         public void SetRefs(Bundle bundle, ListView list, bool masterBundle)
         {
             _bundleRef = bundle;
-            _bundleName.text = _bundleRef.name;
+            _bundleName.text = bundle == null ? "Empty Bundle" : _bundleRef.name;
             
             _listRef = list;
             _isMasterBundle = masterBundle;
+
+            if (bundle.Icon != null)
+            {
+                _bundleIcon.style.backgroundImage = new StyleBackground(bundle.Icon);   
+            }
         }
 
         private void RemoveFromList()
@@ -70,11 +93,36 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             else
             {
                 _listRef.itemsSource.Remove(_bundleRef);
-                if (_bundleRef.Parent() != null)
+                List<Bundle> parents = _bundleRef.Parents();
+                foreach (Bundle p in parents)
                 {
-                    _bundleRef.Parent().RemoveChild(_bundleRef);   
+                    p.RemoveChild(_bundleRef);
                 }
             }
+            LBSAssetsStorage.Instance.RemoveElement(_bundleRef);
+        }
+
+        public void SetIconDisplay(Icons icon, bool display)
+        {
+            DisplayStyle displayStyle = display ? DisplayStyle.Flex : DisplayStyle.None; 
+            
+            switch (icon)
+            {
+                case Icons.Bundle:
+                    _bundleIcon.style.display = displayStyle;
+                    break;
+                case Icons.Master:
+                    _masterIcon.style.display = displayStyle;
+                    break;
+                case Icons.Warning:
+                    _warningIcon.style.display = displayStyle;
+                    break;
+            }
+        }
+
+        public enum Icons
+        {
+            Bundle, Master, Warning
         }
     }
 }

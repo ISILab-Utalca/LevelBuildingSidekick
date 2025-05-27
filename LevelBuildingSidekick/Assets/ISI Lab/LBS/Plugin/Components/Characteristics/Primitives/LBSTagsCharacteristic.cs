@@ -71,5 +71,17 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
+        
+        public override List<string> Validate()
+        {
+            List<string> warnings = new List<string>();
+
+            if (value == null)
+            {
+                warnings.Add("The tag in LBSTagsCharacteristic is null.");
+            }
+            
+            return warnings;
+        }
     }
 }

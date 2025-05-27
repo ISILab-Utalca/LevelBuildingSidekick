@@ -49,7 +49,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
     - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
     - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
-    - {fileID: 11400000, guid: 45d93080e9f90b647b11ef2820671a88, type: 2}
     - {fileID: 11400000, guid: c0e28f3a70727474a81b860669e32870, type: 2}
     - {fileID: 11400000, guid: c61b774ce5ee4c640b93988da7937edc, type: 2}
     - {fileID: 11400000, guid: 68a6b8a7d0fc2004c9d17fe39c37a1c5, type: 2}
@@ -68,7 +67,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ba23adec0178df642b196d07637c66a0, type: 2}
     - {fileID: 11400000, guid: 78a1daeaef6726d4cb74fb91824059ad, type: 2}
     - {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
-    - {fileID: 11400000, guid: d41f7a0ef3370234186063c7c3eb32ca, type: 2}
     - {fileID: 11400000, guid: d5af553499fddd04dacff4f048c85d10, type: 2}
     - {fileID: 11400000, guid: 44847ddc27dccc640a954ebff4f861e9, type: 2}
     - {fileID: 11400000, guid: 60222196b42cc3c40abd97628df94326, type: 2}
@@ -170,9 +168,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
     - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
-  - type: UnityEngine.Rendering.VolumeProfile
-    items:
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
   - type: UnityEngine.UIElements.VectorImage
     items:
     - {fileID: 7388822144124034973, guid: b570a25de51f01c41bd82dbe5372bb3f, type: 3}

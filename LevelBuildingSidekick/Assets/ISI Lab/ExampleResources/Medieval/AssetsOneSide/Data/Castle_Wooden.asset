@@ -18,8 +18,7 @@ MonoBehaviour:
   color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
   icon: {fileID: 0}
   assets: []
-  characteristics:
-  - rid: -2
+  characteristics: []
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles:
@@ -37,6 +36,4 @@ MonoBehaviour:
       positiveZ: 1
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []

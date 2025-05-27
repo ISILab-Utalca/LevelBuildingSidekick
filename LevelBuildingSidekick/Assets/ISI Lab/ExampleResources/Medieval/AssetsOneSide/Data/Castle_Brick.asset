@@ -18,7 +18,8 @@ MonoBehaviour:
   color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
   icon: {fileID: 2800000, guid: 146195e7eaf582a41aa93648d18b6177, type: 3}
   assets: []
-  characteristics: []
+  characteristics:
+  - rid: 4507583782262669674
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles:
@@ -27,7 +28,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
   - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
   - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
-  - {fileID: 11400000, guid: 45d93080e9f90b647b11ef2820671a88, type: 2}
   microGenTool:
     spread: 0
     margin:
@@ -37,4 +37,13 @@ MonoBehaviour:
       positiveZ: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4507583782262669674
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - 
+        - 
+        - 
+        - 

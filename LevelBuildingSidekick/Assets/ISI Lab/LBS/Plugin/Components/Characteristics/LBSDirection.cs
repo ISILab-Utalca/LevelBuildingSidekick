@@ -125,6 +125,20 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
+
+        public override List<string> Validate()
+        {
+            List<string> warnings = new List<string>();
+            for (int i = 0; i < connections.Count; i++)
+            {
+                if (connections[i] == null)
+                {
+                    warnings.Add("Connection " + i + " in LBSDirection is null.");
+                }
+            }
+            
+            return warnings;
+        }
         #endregion
 
         
