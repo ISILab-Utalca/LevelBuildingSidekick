@@ -30,13 +30,23 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 3499384374885351448
+      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        colliderCharacteristic:
+          rid: 3499384374885351449
+    - rid: 3499384374885351449
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
     - rid: 8454501502191403727
       type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 8454501502191403898
+          rid: 3499384374885351448
         selection:
           rid: 8454501502191403729
         termination:
@@ -105,11 +115,6 @@ MonoBehaviour:
         mutation:
           rid: 8454501502191403883
         weight: 0.2
-    - rid: 8454501502191403898
-      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        colliderCharacteristic:
-          rid: 8454501502191403906
     - rid: 8454501502191403899
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
@@ -149,8 +154,3 @@ MonoBehaviour:
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
-    - rid: 8454501502191403906
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}

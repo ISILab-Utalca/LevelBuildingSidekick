@@ -85,80 +85,100 @@ namespace ISILab.LBS.Manipulators
                     //Get the next tile 
                     selectedTiles.Add(schema.GetTile(first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
                 }
+                
+                frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+                backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
 
-                foreach (LBSTile tile in selectedTiles)
+                for(int i = 0; i <= selectedTiles.Count; i++)
                 {
-                    //Debug.Log(tile.Position);
                     //TODO - Allow Paint More Thant 1 Tile 
+                    LBSTile tile = selectedTiles[i];
+                    LBSTile nextTile = selectedTiles[i+1];
                     
                     if (tile != null)
                     {
                         List<string> connections = schema.GetConnections(tile);
+                        
                         foreach (var connection in connections)
                         {
+
+                            if (frontDirIndex != -1 || frontDirIndex < schema.Directions.Count)
+                            {
+                                
+                                Debug.Log(frontDirIndex + ", " + backDirIndex);
+                                //TrySetSingleConnection(tile, nextTile ,frontDirIndex, backDirIndex);
+                            }
+                            
                             if (connection == "Wall" && ToSet == "Door")
                             {
                                 Debug.Log("Place a Door");
+                                
                             }
                         }
                     }
                 }
+                return;
                 
             }
-            else
-            {
-                frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-                backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
-            }
             
-            // Debug.Log(fDirIndex);
-            // Debug.Log(tDirIndex);
+            frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
             
             // Check if index is validate
             if (frontDirIndex < 0 || frontDirIndex >= schema.Directions.Count)
                 return;
-
-            // Get tile in first position
+            
             LBSTile t1 = schema.GetTile(first);
-            // Get tile in second position
             LBSTile t2 = schema.GetTile(lastPos);
-
-            if (t1 == null)
-            {
-                if (t2 != null)
-                {
-                    schema.SetConnection(t2, backDirIndex, ToSet, false);
-                    return;
-                }
-            }
-            else
-            {
-                if (t1.Equals(t2))
-                {
-                    Debug.Log("Not Valid Tile - Same Tile with lenght 0");
-                    return;
-                }
-            }
             
-            if (t2 == null)
-            {
-                if (t1 == null)
-                {
-                    return;
-                }
-                schema.SetConnection(t1, frontDirIndex, ToSet, false);
-                return;
-            }
+            TrySetSingleConnection(t1, t2 ,frontDirIndex, backDirIndex);
             
-            // set both connections
-            schema.SetConnection(t1, frontDirIndex, ToSet, false);
-            schema.SetConnection(t2, backDirIndex, ToSet, false);
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(level);
             }
             
+        }
+
+        private void TrySetSingleConnection(
+            LBSTile _firstTile,
+            LBSTile _secondTile,
+            int _frontDirIndex,
+            int _backDirIndex
+            )
+        {
+            
+            if (_firstTile == null)
+            {
+                if (_secondTile != null)
+                {
+                    schema.SetConnection(_secondTile, _backDirIndex, ToSet, false);
+                    return;
+                }
+            }
+            else
+            {
+                if (_firstTile.Equals(_secondTile))
+                {
+                    Debug.Log("Not Valid Tile - Same Tile with lenght 0");
+                    return;
+                }
+            }
+            
+            if (_secondTile == null)
+            {
+                if (_firstTile == null)
+                {
+                    return;
+                }
+                schema.SetConnection(_firstTile, _frontDirIndex, ToSet, false);
+                return;
+            }
+            
+            // set both connections
+            schema.SetConnection(_firstTile, _frontDirIndex, ToSet, false);
+            schema.SetConnection(_secondTile, _backDirIndex, ToSet, false);
         }
     }
 }
