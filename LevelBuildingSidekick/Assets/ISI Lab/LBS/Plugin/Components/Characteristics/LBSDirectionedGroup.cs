@@ -122,5 +122,19 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
+        
+        public override List<string> Validate()
+        {
+            List<string> warnings = new List<string>();
+         
+            if (Owner == null)
+                return warnings;
+
+            if (Owner.ChildsBundles == null || Owner.ChildsBundles.Count == 0)
+            {
+                warnings.Add("The bundle has no children bundles for LBSDirectionedGroup to work.");
+            }
+            return warnings;
+        }
     }
 }

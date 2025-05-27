@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Internal;
 using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
@@ -12,12 +14,16 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
 {
     public class BundleManagerWindow : EditorWindow
     {
+        // Explicit height for every row so ListView can calculate how many items to actually display
+        private const int ItemHeight = 32;
+        private const int ItemGap = 2;
+        
         // References
         private VectorImage _arrowDown;
         private VectorImage _arrowSide;
         
         // Bundle lists
-        private readonly List<Bundle> _allBundles = new();
+        private List<Bundle> _allBundles = new();
         private readonly List<BundleContainer> _masterBundles = new();
         
         private readonly List<BundleContainer> _interiorBundles = new();
@@ -51,6 +57,8 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             _arrowSide = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("83eafacbab9ab554299bc4d0f124d980"));
             
             // Collect all bundles in project
+            
+            //Find all bundles in database
             SearchAllBundles();
             
             // Find issues in bundles
@@ -60,19 +68,16 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleManagerWindow");
             visualTree.CloneTree(rootVisualElement);
             
-            // Explicit height for every row so ListView can calculate how many items to actually display
-            const int itemHeight = 50;
-            
             // Setting MasterBundle lists
-            SetBundleViewSettings(out _interiorList, "Interior", itemHeight, _interiorBundles, true);
-            SetBundleViewSettings(out _exteriorList, "Exterior", itemHeight, _exteriorBundles, true);
-            SetBundleViewSettings(out _populationList, "Population", itemHeight, _populationBundles, true);
-            SetBundleViewSettings(out _unassignedList, "Unassigned", itemHeight, _unassignedBundles, true);
+            SetBundleViewSettings(out _interiorList, "Interior", _interiorBundles, true);
+            SetBundleViewSettings(out _exteriorList, "Exterior", _exteriorBundles, true);
+            SetBundleViewSettings(out _populationList, "Population", _populationBundles, true);
+            SetBundleViewSettings(out _unassignedList, "Unassigned", _unassignedBundles, true);
             
             // Setting Bundle lists
-            SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
-            SetBundleViewSettings(out _orphanList, "OrphanBundles", itemHeight, _orphanBundles);
-            SetBundleViewSettings(out _validatorList, "BundleValidator", itemHeight, new List<BundleContainer>());
+            SetBundleViewSettings(out _subBundleList, "SubBundles", _subBundles);
+            SetBundleViewSettings(out _orphanList, "OrphanBundles", _orphanBundles);
+            SetBundleViewSettings(out _validatorList, "BundleValidator", new List<BundleContainer>());
             
             // Setting Expand List Buttons
             SetExpandButtonSetting("Interior", _interiorList);
@@ -87,17 +92,43 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             Button organizeButton = rootVisualElement.Q<VisualElement>("BottomBar").Q<Button>("OrganizeButton");
             organizeButton.clickable.clicked += () =>
             {
+                rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - Layer";
+                ClearSelectionInOtherLists();
                 SearchAllBundles();
+                FindWarnings();
+                
                 _interiorList.RefreshItems();
                 _exteriorList.RefreshItems();
                 _populationList.RefreshItems();
                 _unassignedList.RefreshItems();
                 _subBundleList.RefreshItems();
                 _orphanList.RefreshItems();
+                
+                SetExpandButtonSetting("SubBundles", _subBundleList);
+                SetBundleViewSettings(out _validatorList, "BundleValidator", new List<BundleContainer>());
+                SetExpandButtonSetting("BundleValidator", _validatorList);
             };
             
+            // Setting findIssues button
             Button issuesButton = rootVisualElement.Q<VisualElement>("BottomBar").Q<Button>("IssuesButton");
-            issuesButton.clickable.clicked += FindWarnings;
+            issuesButton.clickable.clicked += () =>
+            {
+                rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - Layer";
+                ClearSelectionInOtherLists();
+                _subBundles.Clear();
+                FindWarnings();
+                
+                _interiorList.RefreshItems();
+                _exteriorList.RefreshItems();
+                _populationList.RefreshItems();
+                _unassignedList.RefreshItems();
+                _subBundleList.RefreshItems();
+                _orphanList.RefreshItems();
+                
+                SetExpandButtonSetting("SubBundles", _subBundleList);
+                SetBundleViewSettings(out _validatorList, "BundleValidator", new List<BundleContainer>());
+                SetExpandButtonSetting("BundleValidator", _validatorList);
+            };
         }
         
         /// <summary>
@@ -113,13 +144,9 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             _interiorBundles.Clear();
             _populationBundles.Clear();
             _unassignedBundles.Clear();
+            _subBundles.Clear();
             
-            //Find all bundles in database
-            string[] getGUIDs = AssetDatabase.FindAssets("t:Bundle");
-            foreach (string guid in getGUIDs)
-            {
-                _allBundles.Add((Bundle)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(guid), typeof(Bundle)));
-            }
+            _allBundles =  LBSAssetsStorage.Instance.Get<Bundle>();
             
             foreach (var b in _allBundles)
             {
@@ -167,25 +194,80 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             Debug.Log("BundleManagerWindow updated");
         }
 
+        /// <summary>
+        /// Searches through the BundleContainer lists to find dangerous or invalid settings and records them as warning in each corresponding BundleContainer.
+        /// </summary>
         void FindWarnings()
         {
-            // CLEAR ALL WARNINGS
-            foreach (BundleContainer b in _masterBundles)
+            // ----------------------------------- CLEAR ALL WARNINGS -----------------------------------
+            foreach (BundleContainer bundleContainer in _masterBundles)
             {
-                b.ClearWarnings();
-                foreach (BundleContainer sbc in b.GetSubBundles())
+                bundleContainer.ClearWarnings();
+                foreach (BundleContainer subBundleContainer in bundleContainer.GetSubBundles())
                 {
-                    sbc.ClearWarnings();
+                    subBundleContainer.ClearWarnings();
+                }
+            }
+            foreach (BundleContainer orphanContainer in _orphanBundles)
+            {
+                orphanContainer.ClearWarnings();
+            }
+            
+            // ----------------------------------- GLOBAL CASES -----------------------------------
+            List<BundleContainer> allContainers = new();
+            allContainers.AddRange(_masterBundles);
+            allContainers.AddRange(_orphanBundles);
+            foreach (BundleContainer bundleContainer in _masterBundles)
+            {
+                allContainers.AddRange(bundleContainer.GetSubBundles());
+            }
+
+            foreach (BundleContainer bundleContainer in allContainers)
+            {
+                Bundle bundle = bundleContainer.GetMainBundle();
+                
+                // Case 0: Null bundle
+                if (bundle == null)
+                {
+                    bundleContainer.AddWarning("Bundle is null. Use Organize Folder button to clear empty bundles.");
+                    continue;
+                }
+                
+                // Case 1: No characteristics
+                if (bundle.Characteristics.Count <= 0)
+                {
+                    bundleContainer.AddWarning("There are no characteristic assigned to this bundle.");
+                }
+                
+                for (var i = 0; i < bundle.Characteristics.Count; i++)
+                {
+                    var cha = bundle.Characteristics[i];
+                    
+                    // Case 1.1: Characteristics empty
+                    if (cha == null)
+                    {
+                        bundleContainer.AddWarning("Characteristic " + i + " is null.");
+                        continue;
+                    }
+                    
+                    // Particular cases (it depends and is defined on the type of the characteristic)
+                    List<string> warnings = cha.Validate();
+                    foreach (var w in warnings)
+                    {
+                        bundleContainer.AddWarning(w);
+                    }
                 }
             }
 
+
+            // ----------------------------------- MASTER BUNDLES -----------------------------------
             // Case 0: Unassigned type in master bundles
             foreach (BundleContainer bundle in _unassignedBundles)
             {
                 bundle.AddWarning("Layer Content Flag is none.");
             }
             
-            foreach (BundleContainer bundleContainer in _masterBundles)  // MASTER BUNDLES
+            foreach (BundleContainer bundleContainer in _masterBundles) 
             {
                 Bundle masterBundle = bundleContainer.GetMainBundle();
                 
@@ -195,31 +277,10 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                     bundleContainer.AddWarning("Master bundle contains assets of their own; should have it as subBundle, or be one.");
                 }
                 
-                // Case 2: No characteristics
-                if (masterBundle.Characteristics.Count <= 0)
-                {
-                    bundleContainer.AddWarning("There are no characteristic assigned to this bundle.");
-                }
-                
-                // Case 2.1: Characteristic empty
-                for (int i = 0; i < masterBundle.Characteristics.Count; i++)
-                {
-                    LBSCharacteristic cha = masterBundle.Characteristics[i];
-                    if (cha == null)
-                    {
-                        bundleContainer.AddWarning("Characteristic " + i + " is null");
-                    }
-                }
-                
-                foreach (BundleContainer subBundleContainer in bundleContainer.GetSubBundles()) // SUB BUNDLES
+                // ----------------------------------- SUB BUNDLES -----------------------------------
+                foreach (BundleContainer subBundleContainer in bundleContainer.GetSubBundles()) 
                 {
                     Bundle subBundle = subBundleContainer.GetMainBundle();
-                    // Case 0: Different parent
-                    if (!subBundle.Parents().Contains(bundleContainer.GetMainBundle()))
-                    {
-                        var parents = subBundle.Parents().Aggregate("", (current, p) => current + (" " + p.name));
-                        subBundleContainer.AddWarning("SubBundle's parents doesn't contain assigned master bundle. Identified parents: " + parents);
-                    }
                     
                     // Case 1: No asset assigned
                     if (subBundle.Assets.Count <= 0)
@@ -236,22 +297,6 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                             subBundleContainer.AddWarning("Asset " + i + " has no prefab assigned.");
                         }
                     }
-                    
-                    // Case 2: No characteristics
-                    if (subBundle.Characteristics.Count <= 0)
-                    {
-                        subBundleContainer.AddWarning("There are no characteristic assigned to this bundle.");
-                    }
-                    
-                    // Case 2.1: Characteristic empty
-                    for (int n = 0; n < subBundle.Characteristics.Count; n++)
-                    {
-                        LBSCharacteristic subCha = subBundle.Characteristics[n];
-                        if (subCha == null)
-                        {
-                            subBundleContainer.AddWarning("Characteristic " + n + " is null");
-                        }
-                    }
                 }
             }
         }
@@ -261,22 +306,29 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         /// </summary>
         /// <param name="listView">ListView to set.</param>
         /// <param name="columnName">Name of the VisualElement in window that contains the specific ListView.</param>
-        /// <param name="itemHeight">Height of each element in the ListView.</param>
         /// <param name="bundles">List that will be used as itemSource for the ListView.</param>
         /// <param name="master">Bundles with subBundles should be set as "master" bundles.</param>
-        void SetBundleViewSettings(out ListView listView, string columnName, int itemHeight, List<BundleContainer> bundles, bool master = false)
+        void SetBundleViewSettings(out ListView listView, string columnName, List<BundleContainer> bundles, bool master = false)
         {   
             // Get listView
             listView = rootVisualElement.Q<VisualElement>(columnName).Q<ListView>();
             
             // Set listView params
             listView.itemsSource = bundles;
-            listView.fixedItemHeight = itemHeight;
+            listView.fixedItemHeight = ItemHeight;
             
             // Set listView methods
             var view = listView;
-            listView.makeItem = () => new BundleManagerElement();
-            listView.bindItem = (e, i) => ((BundleManagerElement)e).SetRefs(((BundleContainer)view.itemsSource[i]).GetMainBundle(), view, true);
+            listView.makeItem = () => new BundleManagerElement(ItemHeight, ItemGap);
+            listView.bindItem = (e, i) =>
+            {
+                BundleManagerElement element = (BundleManagerElement)e;
+                BundleContainer container = (BundleContainer)view.itemsSource[i];
+                
+                element.SetRefs(container.GetMainBundle(), view, true);
+                element.SetIconDisplay(BundleManagerElement.Icons.Master, master);
+                element.SetIconDisplay(BundleManagerElement.Icons.Warning, container.GetWarnings().Count > 0);
+            };
 
             listView.selectedIndicesChanged += objects =>
             {
@@ -296,18 +348,17 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                     // Set _subBundle list of BundleContainer, using subBundles from selected item
                     List<BundleContainer> subBundles = bundle.GetSubBundles();
                     _subBundles.Clear();
-                    foreach (BundleContainer b in subBundles)
-                    {
-                        _subBundles.Add(b);
-                    }
+                    _subBundles.AddRange(subBundles);
                     
-                    SetBundleViewSettings(out _subBundleList, "SubBundles", itemHeight, _subBundles);
+                    rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - " + bundle.GetMainBundle().name;
+                    
+                    SetBundleViewSettings(out _subBundleList, "SubBundles", _subBundles);
                     _subBundleList.RefreshItems();
                     SetExpandButtonSetting("SubBundles", _subBundleList);
                 }
                 
                 // Set validator list
-                SetValidatorViewSettings(bundle, itemHeight * 2);
+                SetValidatorViewSettings(bundle);
                 SetExpandButtonSetting("BundleValidator", _validatorList);
                 
                 // Display selection on inspector
@@ -324,15 +375,14 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         /// Sets a fixed ListView to show warning messages for a specified BundleContainer.
         /// </summary>
         /// <param name="selected">The ListView will show warnings related to the selected BundleContainer.</param>
-        /// <param name="itemHeight">Height of each element in the ListView.</param>
-        private void SetValidatorViewSettings(BundleContainer selected, int itemHeight)
+        private void SetValidatorViewSettings(BundleContainer selected)
         {   
             // Get listView
             _validatorList = rootVisualElement.Q<VisualElement>("BundleValidator").Q<ListView>();
             
             // Set listView params
             _validatorList.itemsSource = selected.GetWarnings();
-            _validatorList.fixedItemHeight = itemHeight;
+            _validatorList.fixedItemHeight = ItemHeight * 2;
             
             // Set listView methods
             _validatorList.makeItem = () => new BundleManagerWarning();
@@ -374,8 +424,10 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         /// Clears selection in all ListView elements, but the specified one.
         /// </summary>
         /// <param name="noClear">Name of the ListView that won't be cleared.</param>
-        void ClearSelectionInOtherLists(string noClear)
+        void ClearSelectionInOtherLists(string noClear = null)
         {
+            noClear ??= "NoMatch";
+            
             if (!noClear.Equals("Interior"))
             {
                 _interiorList.ClearSelection();
