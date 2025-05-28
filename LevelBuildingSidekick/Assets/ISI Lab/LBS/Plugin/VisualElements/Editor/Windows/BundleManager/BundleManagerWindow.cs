@@ -5,6 +5,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
+using ISILab.Macros;
 using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
@@ -24,12 +25,14 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         
         // Bundle lists
         private List<Bundle> _allBundles = new();
+        private List<BundleCollection> _collections = new();
         private readonly List<BundleContainer> _masterBundles = new();
         
         private readonly List<BundleContainer> _interiorBundles = new();
         private readonly List<BundleContainer> _exteriorBundles = new();
         private readonly List<BundleContainer> _populationBundles = new();
         private readonly List<BundleContainer> _unassignedBundles = new();
+        private readonly List<BundleContainer> _collectionBundles = new();
         
         private readonly List<BundleContainer> _subBundles = new();
         private readonly List<BundleContainer> _orphanBundles = new();
@@ -39,15 +42,18 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         private ListView _exteriorList;
         private ListView _populationList;
         private ListView _unassignedList;
+        private ListView _collectionList;
 
         private ListView _subBundleList;
         private ListView _orphanList;
         private ListView _validatorList;
 
-        [MenuItem("Window/ISILab/Bundle Manager")]
+        [MenuItem("Window/ISILab/Bundle Manager", priority = 1)]
         public static void ShowWindow()
         {
-            GetWindow<BundleManagerWindow>("Bundle Manager");
+            var window = GetWindow<BundleManagerWindow>();
+            Texture icon = LBSAssetMacro.LoadAssetByGuid<Texture>("6351057aa17189c44902075c0b9353fd");
+            window.titleContent = new GUIContent("Bundle Manager", icon);
         }
 
         private void CreateGUI()
@@ -56,9 +62,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             _arrowDown = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("b570a25de51f01c41bd82dbe5372bb3f")); //GUIDs
             _arrowSide = AssetDatabase.LoadAssetAtPath<VectorImage>(AssetDatabase.GUIDToAssetPath("83eafacbab9ab554299bc4d0f124d980"));
             
-            // Collect all bundles in project
-            
-            //Find all bundles in database
+            // Find all bundles in database
             SearchAllBundles();
             
             // Find issues in bundles
@@ -73,6 +77,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             SetBundleViewSettings(out _exteriorList, "Exterior", _exteriorBundles, true);
             SetBundleViewSettings(out _populationList, "Population", _populationBundles, true);
             SetBundleViewSettings(out _unassignedList, "Unassigned", _unassignedBundles, true);
+            SetBundleViewSettings(out _collectionList, "BundleCollection", _collectionBundles, true);
             
             // Setting Bundle lists
             SetBundleViewSettings(out _subBundleList, "SubBundles", _subBundles);
@@ -84,6 +89,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             SetExpandButtonSetting("Exterior", _exteriorList);
             SetExpandButtonSetting("Population", _populationList);
             SetExpandButtonSetting("Unassigned", _unassignedList);
+            SetExpandButtonSetting("BundleCollection", _collectionList);
             SetExpandButtonSetting("SubBundles", _subBundleList);
             SetExpandButtonSetting("OrphanBundles", _orphanList);
             SetExpandButtonSetting("BundleValidator", _validatorList);
@@ -101,6 +107,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                 _exteriorList.RefreshItems();
                 _populationList.RefreshItems();
                 _unassignedList.RefreshItems();
+                _collectionList.RefreshItems();
                 _subBundleList.RefreshItems();
                 _orphanList.RefreshItems();
                 
@@ -122,6 +129,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                 _exteriorList.RefreshItems();
                 _populationList.RefreshItems();
                 _unassignedList.RefreshItems();
+                _collectionList.RefreshItems();
                 _subBundleList.RefreshItems();
                 _orphanList.RefreshItems();
                 
@@ -138,21 +146,40 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         {
             //Clear lists
             _allBundles.Clear();
+            _collections.Clear();
+            
             _masterBundles.Clear();
-            _orphanBundles.Clear();
             _exteriorBundles.Clear();
             _interiorBundles.Clear();
             _populationBundles.Clear();
             _unassignedBundles.Clear();
+            _collectionBundles.Clear();
+            
             _subBundles.Clear();
+            _orphanBundles.Clear();
             
-            _allBundles =  LBSAssetsStorage.Instance.Get<Bundle>();
+            _allBundles = LBSAssetsStorage.Instance.Get<Bundle>();
+            _collections = LBSAssetsStorage.Instance.Get<BundleCollection>();
             
+            // Bundle collections
+            foreach (var col in _collections)
+            {
+                List<BundleContainer> subBundles = new ();
+                foreach (Bundle b in col.Collection)
+                {
+                    subBundles.Add(new BundleContainer(b));
+                }
+                
+                BundleContainer bundColCon = new BundleContainer(col, subBundles);
+                _collectionBundles.Add(bundColCon);
+            }
+            
+            // Normal bundles
             foreach (var b in _allBundles)
             {
                 switch (b.ChildsBundles.Count)
                 {
-                    case > 0:   //Bundle has children = MasterBundle
+                    case > 0:   // Bundle has children = MasterBundle
                     {
                         List<BundleContainer> subBundles = new();
                         foreach (Bundle cb in b.ChildsBundles)
@@ -164,14 +191,34 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                         _masterBundles.Add(mBundle);
                         break;
                     }
-                    case <= 0 when b.Parent() == null:  //Bundle has no children and no parent = OrphanBundle
+
+                    case <= 0 when b.Parent() == null: // Bundle has no children and no parent = OrphanBundle
+                    {
+                        // Ignore if present on collection
+                        bool skip = false;
+                        foreach (var colBund in _collectionBundles)
+                        {
+                            foreach (var subBundCont in colBund.GetSubBundles())
+                            {
+                                if (subBundCont.GetMainBundle().Equals(b))
+                                {
+                                    skip = true;
+                                    break;
+                                }
+                            }
+
+                            if (skip) break;
+                        }
+                        if (skip) break;
+                        
                         BundleContainer oBundle = new BundleContainer(b);
                         _orphanBundles.Add(oBundle);
                         break;
+                    }
                 }
             }
             
-            //Divide MasterBundles by content
+            // Divide MasterBundles by content
             foreach (var mBundle in _masterBundles)
             {
                 switch (mBundle.GetMainBundle().LayerContentFlags)
@@ -190,6 +237,9 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                         break;
                 }
             }
+            
+            // Collections are accepted as masters in the council
+            _masterBundles.AddRange(_collectionBundles);
             
             Debug.Log("BundleManagerWindow updated");
         }
@@ -216,14 +266,16 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             // ----------------------------------- GLOBAL CASES -----------------------------------
             List<BundleContainer> allContainers = new();
             allContainers.AddRange(_masterBundles);
-            allContainers.AddRange(_orphanBundles);
-            foreach (BundleContainer bundleContainer in _masterBundles)
+            foreach (BundleContainer bundleContainer in allContainers.ToList())
             {
                 allContainers.AddRange(bundleContainer.GetSubBundles());
             }
+            allContainers.AddRange(_orphanBundles);
 
             foreach (BundleContainer bundleContainer in allContainers)
             {
+                if (bundleContainer.IsCollection()) continue;   // Collections omit all these cases, change if necessary
+                
                 Bundle bundle = bundleContainer.GetMainBundle();
                 
                 // Case 0: Null bundle
@@ -266,13 +318,20 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             {
                 bundle.AddWarning("Layer Content Flag is none.");
             }
+            // Case 0.1: Collection without subBundles
+            foreach (BundleContainer bundle in _collectionBundles)
+            {
+                if (bundle.GetSubBundles().Count > 0) continue;
+                
+                bundle.AddWarning("Bundle collection has no sub bundles.");
+            }
             
             foreach (BundleContainer bundleContainer in _masterBundles) 
             {
                 Bundle masterBundle = bundleContainer.GetMainBundle();
                 
                 // Case 1: Prefab in master bundle
-                if (masterBundle.Assets.Count > 0)
+                if (!bundleContainer.IsCollection() && masterBundle.Assets.Count > 0)
                 {
                     bundleContainer.AddWarning("Master bundle contains assets of their own; should have it as subBundle, or be one.");
                 }
@@ -324,10 +383,18 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             {
                 BundleManagerElement element = (BundleManagerElement)e;
                 BundleContainer container = (BundleContainer)view.itemsSource[i];
-                
-                element.SetRefs(container.GetMainBundle(), view, true);
+
+                if (!container.IsCollection())
+                {
+                    element.SetRefs(container.GetMainBundle(), view, true);   
+                }
+                else
+                {
+                    element.SetRefs(container.GetMainCollection(), view);   
+                }
                 element.SetIconDisplay(BundleManagerElement.Icons.Master, master);
                 element.SetIconDisplay(BundleManagerElement.Icons.Warning, container.GetWarnings().Count > 0);
+                element.SetIconDisplay(BundleManagerElement.Icons.Bundle, !container.IsCollection());
             };
 
             listView.selectedIndicesChanged += objects =>
@@ -349,8 +416,15 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                     List<BundleContainer> subBundles = bundle.GetSubBundles();
                     _subBundles.Clear();
                     _subBundles.AddRange(subBundles);
-                    
-                    rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - " + bundle.GetMainBundle().name;
+
+                    if (!bundle.IsCollection())
+                    {
+                        rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - " + bundle.GetMainBundle().name;   
+                    }
+                    else
+                    {
+                        rootVisualElement.Q<VisualElement>("SubBundles").Q<Label>().text = "Sub Bundles - " + bundle.GetMainCollection().name;   
+                    }
                     
                     SetBundleViewSettings(out _subBundleList, "SubBundles", _subBundles);
                     _subBundleList.RefreshItems();
@@ -362,12 +436,26 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
                 SetExpandButtonSetting("BundleValidator", _validatorList);
                 
                 // Display selection on inspector
-                Selection.activeObject = bundles[selections.First()].GetMainBundle();
+                if (!bundle.IsCollection())
+                {
+                    Selection.activeObject = bundles[selections.First()].GetMainBundle();
+                }
+                else
+                {
+                    Selection.activeObject = bundles[selections.First()].GetMainCollection();
+                }
             };
 
             listView.itemsChosen += _ =>
             {
-                Selection.activeObject = bundles[view.selectedIndex].GetMainBundle();
+                if (!bundles[view.selectedIndex].IsCollection())
+                {
+                    Selection.activeObject = bundles[view.selectedIndex].GetMainBundle();
+                }
+                else
+                {
+                    Selection.activeObject = bundles[view.selectedIndex].GetMainCollection();
+                }
             };
         }
         
@@ -461,12 +549,24 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         public class BundleContainer
         {
             private readonly Bundle _master;
+            private readonly BundleCollection _collection;
+            
             private readonly List<BundleContainer> _subBundles;
             private readonly List<string> _warnings;
 
             public BundleContainer(Bundle master, List<BundleContainer> subBundles = null)
             {
                 _master = master;
+                _collection = null;
+                
+                _subBundles = subBundles;
+                _warnings = new List<string>();
+            }
+            public BundleContainer(BundleCollection collection, List<BundleContainer> subBundles = null)
+            {
+                _master = null;
+                _collection = collection;
+                
                 _subBundles = subBundles;
                 _warnings = new List<string>();
             }
@@ -475,6 +575,11 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             {
                 return _master;
             }
+            public BundleCollection GetMainCollection()
+            {
+                return _collection;
+            }
+            
             public List<BundleContainer> GetSubBundles()
             {
                 return _subBundles;
@@ -493,6 +598,11 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             public void ClearWarnings()
             {
                 _warnings.Clear();
+            }
+
+            public bool IsCollection()
+            {
+                return _collection != null;
             }
         }
     }

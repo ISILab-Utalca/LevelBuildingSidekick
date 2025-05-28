@@ -272,6 +272,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (container == null)
             {
+                // TODO: Parche para que no se dibujen los layers después de que se borren.
+                return;
                 container = new LayerContainer();
                 layers.Add(layer, container);
             }

@@ -12,6 +12,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
     {
         // External references
         private Bundle _bundleRef;
+        private BundleCollection _bundleCollectionRef;
         private ListView _listRef;
         
         // Internal references
@@ -66,10 +67,27 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         public void SetRefs(Bundle bundle, ListView list, bool masterBundle)
         {
             _bundleRef = bundle;
+            _bundleCollectionRef = null;
+            
             _bundleName.text = bundle == null ? "Empty Bundle" : _bundleRef.name;
             
             _listRef = list;
             _isMasterBundle = masterBundle;
+
+            if (bundle.Icon != null)
+            {
+                _bundleIcon.style.backgroundImage = new StyleBackground(bundle.Icon);   
+            }
+        }
+        public void SetRefs(BundleCollection bundle, ListView list)
+        {
+            _bundleRef = null;
+            _bundleCollectionRef = bundle;
+            
+            _bundleName.text = bundle == null ? "Empty Bundle Collection" : _bundleCollectionRef.name;
+            
+            _listRef = list;
+            _isMasterBundle = true;
 
             if (bundle.Icon != null)
             {

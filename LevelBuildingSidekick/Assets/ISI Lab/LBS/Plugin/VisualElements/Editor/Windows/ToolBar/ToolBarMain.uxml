@@ -6,6 +6,9 @@
         <uie:ToolbarButton tabindex="-1" name="OptionButton" focusable="false" style="left: 0; margin-left: -1px;">
             <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Configuration&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
         </uie:ToolbarButton>
+        <uie:ToolbarButton tabindex="-1" name="BundleManagerButton" focusable="false" style="left: 0; margin-left: -1px;">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+        </uie:ToolbarButton>
         <ui:Label tabindex="-1" text="Unsaved file *" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-center; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 16px; align-self: stretch; align-items: center; align-content: stretch;" />
     </uie:Toolbar>
 </ui:UXML>
