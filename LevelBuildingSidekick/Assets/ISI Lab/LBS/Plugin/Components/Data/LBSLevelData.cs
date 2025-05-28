@@ -1,12 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Settings;
 using ISILab.Macros;
-using LBS;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -14,7 +13,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS
 {
-    [System.Serializable]
+    [Serializable]
     public class LBSLevelData
     {
         #region FIELDS
@@ -50,14 +49,14 @@ namespace ISILab.LBS
             foreach (var layer in layers)
             {
                 layer.Reload();
-                layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+                layer.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
                 layer.Parent = this;
             }
 
             foreach (var q in quests)
             {
                 q.Reload();
-                q.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+                q.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
                 q.Parent = this;
             }
 
@@ -101,9 +100,9 @@ namespace ISILab.LBS
                 return;
 
             layers.Insert(0, layer);
-            layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+            layer.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
             layer.Parent = this;
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>
@@ -114,8 +113,9 @@ namespace ISILab.LBS
         public void RemoveLayer(LBSLayer layer)
         {
             layers.Remove(layer);
-            layer.OnAddModule -= (layer, module) => this.OnChanged(this);
-            this.OnChanged?.Invoke(this);
+            layer.OnAddModule -= (layer, module) => OnChanged(this);
+            OnChanged?.Invoke(this);
+            
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace ISILab.LBS
             var index = layers.IndexOf(oldLayer);
             RemoveLayer(oldLayer);
             layers.Insert(index, newLayer);
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>
@@ -140,8 +140,8 @@ namespace ISILab.LBS
         {
             var layer = layers[index];
             layers.RemoveAt(index);
-            layer.OnAddModule -= (layer, module) => this.OnChanged(this);
-            this.OnChanged?.Invoke(this);
+            layer.OnAddModule -= (layer, module) => OnChanged(this);
+            OnChanged?.Invoke(this);
             return layer;
         }
 
@@ -157,13 +157,13 @@ namespace ISILab.LBS
 
             string questBehaviorGuidIcon = "49b9448c876b36c4ba26740d7deae035";
             var grammarIcon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(questBehaviorGuidIcon);
-            var behaviour = new QuestBehaviour(grammarIcon, "Quest", Settings.LBSSettings.Instance.view.behavioursColor);
-            var assistant = new GrammarAssistant(grammarIcon, "Grammar", Settings.LBSSettings.Instance.view.assistantColor);
+            var behaviour = new QuestBehaviour(grammarIcon, "Quest", LBSSettings.Instance.view.behavioursColor);
+            var assistant = new GrammarAssistant(grammarIcon, "Grammar", LBSSettings.Instance.view.assistantColor);
             quest.AddAssistant(assistant);
             quest.AddBehaviour(behaviour);
             quests.Add(quest);
 
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
             return quest;
         }
 
@@ -174,7 +174,7 @@ namespace ISILab.LBS
 
             var qg = q.GetModule<QuestGraph>();
 
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
             return qg;
         }
 
@@ -191,12 +191,12 @@ namespace ISILab.LBS
             var lCount = other.layers.Count;
 
             // check if amount of layers are EQUALS
-            if (this.layers.Count != lCount) return false;
+            if (layers.Count != lCount) return false;
 
             // check if contain EQUALS layers
             for (int i = 0; i < lCount; i++)
             {
-                var l1 = this.layers[i];
+                var l1 = layers[i];
                 var l2 = other.layers[i];
 
                 if (!l1.Equals(l2)) return false;

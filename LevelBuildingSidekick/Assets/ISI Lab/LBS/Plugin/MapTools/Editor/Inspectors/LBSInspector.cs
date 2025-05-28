@@ -16,8 +16,20 @@ namespace ISILab.LBS.VisualElements
         protected VisualElement noContentPanel;
         protected VisualElement contentPanel;
         
+        /// <summary>
+        /// Gets the classes of editors per component, no avoid using reflection on each instance creation
+        /// </summary>
+        /// <param name="layer"></param>
         public abstract void InitCustomEditors(ref List<LBSLayer> layers);
-        public abstract void SetTarget(LBSLayer layer);
+        /// <summary>
+        /// Sets the active layer into the panel to update the different components of a layer, such as modules,
+        /// behaviours, assistants and toolkit. 
+        /// </summary>
+        /// <param name="layer"></param>
+        public abstract void SetTarget(LBSLayer layer, bool InstanceTools = true);
+        /// <summary>
+        /// Markes the panel as dirty and calls resetTarget
+        /// <param name="layer"></param>
         public virtual void Repaint() 
         {
             Debug.LogWarning("[ISILab]: The inspector (" + ToString() + ") does not implement repainting.");
