@@ -192,8 +192,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (index >= data.LayerCount) list.selectedIndex--;
                 else OnSelectLayer(data.GetLayer(list.selectedIndex));
             }
-
-            DrawManager.Instance.RemoveLayer(layer);
+            
             DrawManager.Instance.RemoveContainer(layer);
             
             OnRemoveLayer?.Invoke(layer);

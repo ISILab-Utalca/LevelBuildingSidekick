@@ -14,29 +14,40 @@ namespace ISILab.LBS.VisualElements.Editor
 {
     public class LayerContainer
     {
-        private Dictionary<LBSLayer, List<GraphElement>> pairs = new();
+        private Dictionary<object, List<GraphElement>> pairs = new();
 
-        public void AddElement(LBSLayer layer, GraphElement element)
+        public void AddElement(object obj, GraphElement element)
         {
-            if (!pairs.TryGetValue(layer, out var list))
+            if (!pairs.TryGetValue(obj, out var list))
             {
                 list = new List<GraphElement>();
-                pairs[layer] = list;
+                pairs[obj] = list;
             }
             list.Add(element);
         }
 
-        public List<GraphElement> GetElements()
+
+        public void Actualize(object obj, object other)
         {
-            List<GraphElement> elements = new List<GraphElement>();
-            foreach (List<GraphElement> list in pairs.Values)
+            
+        }
+
+        public void Repaint(object obj)
+        {
+            List<GraphElement> ve = pairs[obj].ToList();
+            foreach (GraphElement element in ve)
             {
-                foreach (GraphElement element in list)
-                {
-                    elements.Add(element); 
-                }
+                element.MarkDirtyRepaint();
             }
+            
+        }
+
+        public  List<List<GraphElement>> Clear()
+        {
+            List<List<GraphElement>> elements = pairs.Values.ToList();
+            pairs.Clear();
             return elements;
+            
         }
     }
 
@@ -56,8 +67,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public Vector2 FixPos(Vector2 v)
         {
-            var t = new Vector2(viewTransform.position.x, viewTransform.position.y);
-            var newPos = (v - t) / scale;
+            var t = new Vector2(this.viewTransform.position.x, this.viewTransform.position.y);
+            var newPos = (v - t) / this.scale;
             return newPos;
         }
         #endregion
@@ -114,7 +125,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region INTERNAL_METHODS
         private void InitBound(int interior, int exterior)
         {
-            bound = new ExternalBounds(
+            this.bound = new ExternalBounds(
                 new Rect(
                     new Vector2(-interior, -interior),
                     new Vector2(interior * 2, interior * 2)
@@ -167,7 +178,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             ClearManipulators();
             if(keepDefaults) AddManipulators(defaultManipulators);
-            AddManipulator(current);
+            this.AddManipulator(current);
         }
 
         public void SetManipulators(List<Manipulator> manipulators)
@@ -178,16 +189,16 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void ClearManipulators()
         {
-            foreach (var m in manipulators)
+            foreach (var m in this.manipulators)
             {
                 this.RemoveManipulator(m as IManipulator);
             }
-            manipulators.Clear();
+            this.manipulators.Clear();
         }
 
         public void RemoveManipulator(Manipulator manipulator)
         {
-            manipulators.Remove(manipulator);
+            this.manipulators.Remove(manipulator);
             this.RemoveManipulator(manipulator as IManipulator);
         }
 
@@ -203,7 +214,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public void AddManipulator(Manipulator manipulator)
         {
             if (manipulators.Contains(manipulator)) return;
-            manipulators.Add(manipulator);
+            this.manipulators.Add(manipulator);
             this.AddManipulator(manipulator as IManipulator);
         }
 
@@ -236,24 +247,24 @@ namespace ISILab.LBS.VisualElements.Editor
         public void ClearLevelView()
         {
             graphElements.ForEach(e => RemoveElement(e));
-            new List<LayerContainer>(layers.Values).ForEach(l => l.GetElements(this));
-            defaultLayer.GetElements(this);
+            new List<LayerContainer>(layers.Values).ForEach(l => l.Clear());
+            defaultLayer.Clear();
             AddElement(bound);
         }
 
-        public void RemoveLayer(LBSLayer layer)
-        {
-            if (!layers.TryGetValue(layer, out var container)) return;
-
-            // Remove elements from the view
-            container.GetElements(this); // Returns List<List<GraphElement>>
-           // layers.Remove(layer);
-        }
-        
         public void ClearLayerView(LBSLayer layer)
         {
             if (!layers.Keys.Any() || !layers.TryGetValue(layer, out var l))  return;
-            l.GetElements(this);
+            
+            var graphs = l.Clear();
+            foreach (var graph in graphs)
+            {
+                foreach (var element in graph)
+                {
+                   RemoveElement(element); 
+                }
+            }
+            
         }
         public void AddContainer(LBSLayer layer)
         {
@@ -262,6 +273,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void RemoveContainer(LBSLayer layer)
         {
+            ClearLayerView(layer);
             layers.Remove(layer);
         }
 
@@ -280,7 +292,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             element.layer = layer.index;
             
-            container.AddElement(layer, element);
+            container.AddElement(obj, element);
             base.AddElement(element);
         }
 
