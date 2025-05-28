@@ -22,6 +22,7 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 5085006314459627539
+  - rid: 3499384419452715086
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -35,6 +36,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 3499384419452715086
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 7ee45b380fbc713488634d817baaaeb2, type: 2}
     - rid: 5085006314459627539
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
