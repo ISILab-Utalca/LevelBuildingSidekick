@@ -75,8 +75,138 @@ namespace ISILab.LBS.Assistants
         {
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
-
+        /// <summary>
+        /// This new version, is similar but it constraints where the wave function collapse is applied, to the selected tiles only
+        /// </summary>
         public void Execute()
+        {
+            // Get Bundle
+            OnGUI();
+            var bundle = targetBundleRef;
+
+            if (bundle == null)
+            {
+                Debug.LogWarning("No bundle selected.");
+                return;
+            }
+
+            var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
+            var map = OwnerLayer.GetModule<TileMapModule>();
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+            // Get tiles to change
+            var toCalc = GetTileToCalc(Positions, map, connected);
+
+            // Build whitelist (positions + direct neighbors)
+            var whitelist = new HashSet<Vector2Int>();
+            foreach (var tile in toCalc)
+            {
+                whitelist.Add(tile.Position);
+                var neighbors = map.GetTileNeighbors(tile, Dirs);
+                foreach (var n in neighbors.RemoveEmpties())
+                {
+                    whitelist.Add(n.Position);
+                }
+            }
+
+            var closed = new List<LBSTile>();
+            var reCalc = new List<LBSTile>();
+            var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
+
+            foreach (var tile in toCalc)
+            {
+                Debug.Log("tile:" + tile.Position);
+                var candidates = CalcCandidates(tile, group);
+                currentCalcs.Add(tile, candidates);
+            }
+
+            while (toCalc.Count > 0)
+            {
+                var _closed = new List<LBSTile>(closed);
+                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+                if (xx.Count <= 0)
+                    break;
+
+                var current = xx.OrderBy(e => e.Value.Count).First();
+
+                if (current.Value.Count <= 0)
+                {
+                    Debug.Log(current.Key.Position + " no tiene posibles tile.");
+                    toCalc.Remove(current.Key);
+                    continue;
+                }
+
+                var selected = current.Value.RandomRullete(c => c.weigth);
+                var connections = selected.bundle.GetConnection(selected.rotation);
+                connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
+                currentCalcs[current.Key] = new List<Candidate>() { selected };
+                closed.Add(current.Key);
+
+                var neigth = map.GetTileNeighbors(current.Key, Dirs);
+                SetConnectionNei(current.Key, neigth.ToArray(), closed, whitelist);
+
+                var neigthCalcs = neigth.RemoveEmpties()
+                                         .Where(n => currentCalcs.ContainsKey(n) && whitelist.Contains(n.Position))
+                                         .ToList();
+                reCalc.AddRange(neigthCalcs);
+
+                while (reCalc.Count > 0)
+                {
+                    var tile = reCalc.First();
+
+                    if (!whitelist.Contains(tile.Position))
+                    {
+                        reCalc.Remove(tile);
+                        continue;
+                    }
+
+                    currentCalcs.TryGetValue(tile, out var lastCandidates);
+                    var newCandidates = CalcCandidates(tile, group);
+
+                    if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
+                    {
+                        currentCalcs[tile] = newCandidates;
+
+                        var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+                        foreach (var nei in neigs)
+                        {
+                            if (_closed.Contains(nei) || reCalc.Contains(nei))
+                                continue;
+
+                            if (whitelist.Contains(nei.Position))
+                                reCalc.Add(nei);
+                        }
+                    }
+
+                    reCalc.Remove(tile);
+                    _closed.Add(tile);
+                }
+
+                toCalc.Remove(current.Key);
+            }
+        }
+
+        public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed, HashSet<Vector2Int> whitelist)
+        {
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            var dirs = Directions.Bidimencional.Edges;
+            var oring = connected.GetConnections(origin);
+
+            for (int i = 0; i < neis.Length; i++)
+            {
+                var nei = neis[i];
+                if (nei == null || closed.Contains(nei))
+                    continue;
+
+                if (!whitelist.Contains(nei.Position))
+                    continue;
+
+                var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
+                connected.SetConnection(nei, idir, oring[i], false);
+            }
+        }
+
+        public void OLDExecute()
         {
             // Get Bundle
             OnGUI();
@@ -107,6 +237,7 @@ namespace ISILab.LBS.Assistants
             var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
             foreach (var tile in toCalc)
             {
+                Debug.Log("tile:" + tile.Position);
                 // Get candidates related to current tile
                 var candidates = CalcCandidates(tile, group);
                 currentCalcs.Add(tile, candidates);
@@ -145,7 +276,7 @@ namespace ISILab.LBS.Assistants
 
                 // Collapse neighbours connection 
                 var neigth = map.GetTileNeighbors(current.Key, Dirs);
-                SetConnectionNei(current.Key, neigth.ToArray(), closed);
+                OLDSetConnectionNei(current.Key, neigth.ToArray(), closed);
 
                 // Add to reCalc list
                 var neigthCalcs = neigth.RemoveEmpties().Where(n => currentCalcs.Any(c => c.Key == n)).ToList();
@@ -253,7 +384,7 @@ namespace ISILab.LBS.Assistants
             return candidates;
         }
 
-        public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
+        public void OLDSetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
         {
             var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
 

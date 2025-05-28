@@ -70,7 +70,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
                  // Get current option
                  var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
                  var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
+                 if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
+         
                  var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+                 
                  var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
                 
                  if (idents.Any())

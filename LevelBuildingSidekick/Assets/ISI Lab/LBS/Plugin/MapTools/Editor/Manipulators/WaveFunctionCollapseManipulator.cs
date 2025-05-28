@@ -59,12 +59,12 @@ namespace ISILab.LBS.Manipulators
                     positions.Add(selected);
                 }
             }
-
+            
             assistant.Positions = positions;
 
             // No longer having empty tiles means overwrite is default
-                // assistant.OverrideValues = e.ctrlKey;
-            assistant.OverrideValues = true;
+            //
+            assistant.OverrideValues = e.ctrlKey;
             assistant.Execute();
 
             if (EditorGUI.EndChangeCheck())

@@ -5,7 +5,9 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 
 using System.Collections.Generic;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor.Windows;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -86,6 +88,11 @@ namespace ISILab.LBS.Manipulators
                 }
             }
             schema.RecalculateWalls();
+
+            
+            // Try to calculate constraints
+            var assistant = LBSLayerHelper.GetObjectFromLayer<HillClimbingAssistant>(schema.OwnerLayer);
+            assistant?.RecalculateConstraint();
 
             if (EditorGUI.EndChangeCheck())
             {

@@ -124,29 +124,31 @@ namespace ISILab.LBS.VisualElements
 
             recalculate = new Button();
             recalculate.text = "Recalculate Constraints";
-            recalculate.clicked += () =>
-            {
-                // Save history version to revert if necessary
-                var x = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(x, "Recalculate Constraints");
-                EditorGUI.BeginChangeCheck();
-
-                // Recalculate constraints
-                hillClimbing.RecalculateConstraint();
-
-                // Mark as dirty
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(x);
-                }
-
-                DrawManager.ReDraw();
-                Paint();
-            };
+            recalculate.clicked += () => { ClickedRecalculate(); };
 
             Add(recalculate);
 
             return this;
+        }
+
+        private void ClickedRecalculate()
+        {
+            // Save history version to revert if necessary
+            var x = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(x, "Recalculate Constraints");
+            EditorGUI.BeginChangeCheck();
+
+            // Recalculate constraints
+            hillClimbing.RecalculateConstraint();
+
+            // Mark as dirty
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
+
+            DrawManager.ReDraw();
+            Paint();
         }
 
         private void Paint()

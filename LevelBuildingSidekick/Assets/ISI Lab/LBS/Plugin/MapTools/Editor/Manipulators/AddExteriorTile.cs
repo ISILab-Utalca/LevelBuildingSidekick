@@ -56,10 +56,12 @@ namespace ISILab.LBS.Manipulators
                 {
                     var pos = new Vector2Int(i, j);
                     var tile = new LBSTile(pos);
+           
                     exterior.AddTile(tile);
+              
                     
                     if (!exterior.identifierToSet || 
-                        exterior.identifierToSet.Label == null) continue;
+                        exterior.identifierToSet.Label == null ||exterior.identifierToSet.Label == "Empty" ) continue;
             
                     SetConnections(tile, pos, paintNeighbors);
                 }

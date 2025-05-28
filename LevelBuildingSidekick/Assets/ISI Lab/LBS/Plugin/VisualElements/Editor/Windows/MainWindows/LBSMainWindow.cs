@@ -408,6 +408,7 @@ namespace ISILab.LBS.Editor.Windows{
         levelData.OnChanged += OnLevelDataChange;
 
         drawManager = new DrawManager(ref mainView);
+        inspectorManager.CreateContainers(levelData, mainView);
         drawManager.RedrawLevel(levelData, mainView);
 
         #endregion

@@ -1,10 +1,6 @@
-using LBS.Components;
 using ISILab.LBS.Settings;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Modules;
@@ -17,16 +13,16 @@ namespace ISILab.LBS.Drawers
     [Drawer(typeof(HillClimbingAssistant))]
     public class HillClimbingDrawer : Drawer
     {
-        private readonly Vector2 nodeSize = new Vector2(100, 100);
+        private readonly Vector2 nodeSize = new(100, 100);
 
         private Dictionary<Zone, LBSNodeView> viewRefs = new();
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            // clear preview view refrences
+            // clear preview view reference
             viewRefs.Clear();
 
-            // Set target Assitant
+            // Set target Assistant
             var assistant = target as HillClimbingAssistant;
 
             // Get modules

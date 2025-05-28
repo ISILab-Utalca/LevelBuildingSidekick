@@ -166,5 +166,20 @@ namespace ISILab.LBS.VisualElements
             Instance.Repaint();
         }
         #endregion
+
+        /// <summary>
+        ///  Called when reloading from the lbsmainwindow
+        /// </summary>
+        /// <param name="levelData"></param>
+        /// <param name="mainView"></param>
+        public void CreateContainers(LBSLevelData levelData, MainView mainView)
+        {
+            foreach (var layer in levelData.Layers)
+            {
+                if(layer == null) continue;
+                mainView.AddContainer(layer);
+            }
+           
+        }
     }
 }

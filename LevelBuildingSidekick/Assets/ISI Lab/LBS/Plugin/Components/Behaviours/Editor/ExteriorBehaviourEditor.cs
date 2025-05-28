@@ -125,11 +125,8 @@ namespace ISILab.LBS.VisualElements
             {
                 var bundle = evt.newValue as Bundle;
                 
-                // Get current option
-                var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
-                var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-                var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
-                var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
+                var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
+                var idents = SePalleteConnectionView(bundle, identifierTags);
                 
                 if (idents.Any())
                 {
@@ -173,24 +170,9 @@ namespace ISILab.LBS.VisualElements
             // Set basic value
             connectionPallete.SetName("Tile Brushes");
             connectionPallete.SetIcon(icon, BHcolor);
-
-            // Get odentifiers
+            
             var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
-
-            // Get current option
-            var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
-            var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-            var idents = tags.Select(s => identifierTags.Find(i => s == i.Label)).ToList().RemoveEmpties();
-
-            // Set Options
-            options = new object[idents.Count];
-            for (int i = 0; i < idents.Count; i++)
-            {
-                if (idents[i] == null)
-                    continue;
-
-                options[i] = idents[i];
-            }
+            var idents = SePalleteConnectionView(bundle, identifierTags);
 
             exterior.identifierToSet = idents[0];
             
@@ -221,6 +203,27 @@ namespace ISILab.LBS.VisualElements
 
             connectionPallete.Repaint();
         }
+
+        private List<LBSTag> SePalleteConnectionView(Bundle bundle, List<LBSTag> identifierTags)
+        {
+            var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
+            var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
+            if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
+            var idents = tags.Select(s => identifierTags.Find(i => s == i.Label)).ToList().RemoveEmpties();
+            
+            // Set Options
+            options = new object[idents.Count];
+            for (int i = 0; i < idents.Count; i++)
+            {
+                if (idents[i] == null)
+                    continue;
+
+                options[i] = idents[i];
+            }
+
+            return idents;
+        }
+
         #endregion
     }
 }
