@@ -30,6 +30,11 @@ namespace ISILab.LBS
             view.RemoveContainer(layer);
         }
 
+        public void RemoveLayer(LBSLayer layer)
+        {
+            view.RemoveLayer(layer);
+        }
+        
         public static void ReDraw()
         {
             instance.RedrawLevel(instance.level, instance.view);

@@ -60,7 +60,7 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public override void SetTarget(LBSLayer layer)
+        public override void SetTarget(LBSLayer layer, bool  InstanceTools = true)
         {
             noContentPanel.SetDisplay(layer is null);
             contentPanel.Clear();
@@ -80,7 +80,7 @@ namespace ISILab.LBS.VisualElements
                 LBSCustomEditor instance = Activator.CreateInstance(editorType, assistant) as LBSCustomEditor;
               
                 instance.SetInfo(assistant);
-                ToolKit.Instance.SetTarget(instance);
+                if(InstanceTools) ToolKit.Instance.SetTarget(instance);
     
                 
                 var content = new InspectorContentPanel(instance, assistant.Name, assistant.Icon, assistant.ColorTint);
@@ -94,9 +94,10 @@ namespace ISILab.LBS.VisualElements
          
         }
         
+
         public override void Repaint()
         {
-            if(target is not null)SetTarget(target);
+            if(target is not null) SetTarget(target, false);
             MarkDirtyRepaint();
         }
         #endregion

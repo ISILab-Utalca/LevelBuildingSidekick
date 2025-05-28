@@ -193,6 +193,9 @@ namespace ISILab.LBS.VisualElements.Editor
                 else OnSelectLayer(data.GetLayer(list.selectedIndex));
             }
 
+            DrawManager.Instance.RemoveLayer(layer);
+            DrawManager.Instance.RemoveContainer(layer);
+            
             OnRemoveLayer?.Invoke(layer);
             list.Rebuild();
 
@@ -203,7 +206,9 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             
             LBSMainWindow.MessageNotify("Data layer deleted");
-            DrawManager.ReDraw();
+            // No need to redraw everything because now we manually delete the visual elements (graph element)
+            // that belong to a layer
+            //  DrawManager.ReDraw(); 
         }
 
         // Simple Click over an element

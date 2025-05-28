@@ -211,6 +211,7 @@ namespace ISILab.LBS.Behaviours.Editor
             for (int i = 0; i < behaviour.Zones.Count; i++)
             {
                 areaPallete.Options[i] = behaviour.Zones[i];
+             
             }
             behaviour.RoomToSet = newZone;
             areaPallete.Repaint();
