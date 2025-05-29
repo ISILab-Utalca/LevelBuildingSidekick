@@ -24,9 +24,13 @@ namespace ISILab.LBS.Manipulators
     /// </summary>
     public class QuestPicker : LBSManipulator
     {
+        
         QuestGraph questGraph;
         QuestNodeBehaviour behaviour;
         public Bundle pickedBundle;
+
+        public DataContainer activeData;
+        
         protected override string IconGuid { get => "f53f51dae7956eb4b99123e868e99d67"; }
         
         public QuestPicker() : base()
@@ -35,9 +39,7 @@ namespace ISILab.LBS.Manipulators
             description = "Pick the foremost population element from any layer within the graph." +
                           " The picked bundle is assigned to the selected behaviour node";
         }
-
-
-
+        
         public override void Init(LBSLayer layer, object owner)
         {
             base.Init(layer, owner);
@@ -50,40 +52,48 @@ namespace ISILab.LBS.Manipulators
         {
             var node = behaviour.SelectedQuestNode;
             if (node == null) return;
-            var populationLayers = LBS.loadedLevel.data.Layers
-                .Where(l => l.Behaviours.Any(bh => bh.GetType() == typeof(PopulationBehaviour)))
-                .ToList();
-
-
-            TileBundleGroup bundleTile = null;
-
-            // Here search for the bundle ref in the layer graph
-            if (populationLayers.Any())
+            
+            if (activeData is not null)
             {
-                foreach (var layer in populationLayers)
+                if (activeData is DataPosition dp)
                 {
-                    var population = layer.GetBehaviour<PopulationBehaviour>();
-                    bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
-                    if (bundleTile != null) break;
+                    var location = LBSMainWindow._gridPosition;
+                    dp.position = location;
+                    Debug.Log(location);
                 }
-            }
+                else if (activeData is DataBundle db)
+                {
+                    var populationLayers = LBS.loadedLevel.data.Layers
+                        .Where(l => l.Behaviours.Any(bh => bh.GetType() == typeof(PopulationBehaviour)))
+                        .ToList();
 
-            if (bundleTile == null)
-            {
-                OnManipulationEnd.Invoke();
-                return;
-            }
 
-            var bundle = bundleTile.BundleData.Bundle;
-            string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
+                    TileBundleGroup bundleTile = null;
+                    
+                    // Here search for the bundle ref in the layer graph
+                    if (populationLayers.Any())
+                    {
+                        foreach (var layer in populationLayers)
+                        {
+                            var population = layer.GetBehaviour<PopulationBehaviour>();
+                            bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
+                            if (bundleTile != null) break;
+                        }
+                    }
 
-            if (node.NodeData.HasBundle())
-            {
-                node.NodeData.Bundle.bundleGuid = bundleDataGui;
+                    if (bundleTile == null)
+                    {
+                        OnManipulationEnd.Invoke();
+                        return;
+                    }
+                    
+                    var bundle = bundleTile.BundleData.Bundle;
+                    string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
+                    db.bundleGuid = bundleDataGui;
+                }
             }
             
             behaviour.DataChanged(node);
-
             OnManipulationEnd.Invoke();
         }
     }

@@ -1,3 +1,4 @@
+using System.Linq;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
@@ -46,7 +47,7 @@ namespace ISILab.LBS.Drawers.Editor
 
             if (nd.HasPosition())
             {
-                var position = layer.FixedToPosition(nd.Position.position, true);
+                var position = layer.FixedToPosition(nd.Position.FirstOrDefault()!.position, true);
                   
                 var circle = new CircleElement(position, CircleSize, nd);
                 view.AddElement(behaviour.OwnerLayer, behaviour, circle);
@@ -123,7 +124,7 @@ namespace ISILab.LBS.Drawers.Editor
                 Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
                 SetPosition(newPos);
                 
-                if (_data.HasPosition()) _data.Position.position = gridPos;
+                if (_data.HasPosition()) _data.Position.FirstOrDefault()!.position = gridPos;
                 
             }
 
