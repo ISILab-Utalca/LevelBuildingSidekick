@@ -31,6 +31,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
   - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
   - {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
+  - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
+  - {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
+  - {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
   microGenTool:
     spread: 0
     margin:
@@ -62,3 +65,9 @@ MonoBehaviour:
           weight: 0.5
         - target: {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
           weight: 0
+        - target: {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
+          weight: 0.5
