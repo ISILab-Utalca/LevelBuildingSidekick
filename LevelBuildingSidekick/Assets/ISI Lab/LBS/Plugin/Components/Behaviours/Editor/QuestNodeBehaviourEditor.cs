@@ -4,6 +4,7 @@
 // ReSharper disable All
 
 using System;
+using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
@@ -49,6 +50,15 @@ namespace ISILab.LBS.VisualElements
             private Button TargetCountDecrease;
             
         /// <summary>
+        /// contains the visual elements for the other target
+        /// </summary>
+        private VisualElement OtherTargetBundleVe;
+            private ObjectField OtherTargetBundle;
+            private IntegerField OtherTargetCount;
+            private Button OtherTargetCountIncrease;
+            private Button OtherTargetCountDecrease;
+            
+        /// <summary>
         /// contains the visual element to access vector field
         /// </summary>
         private VisualElement PositionVe;
@@ -61,17 +71,19 @@ namespace ISILab.LBS.VisualElements
         /// contains the visual element to the time constraint variables
         /// </summary>
         private VisualElement ConstraintVe;
-            private FloatField MaxDistance;
+            private IntegerField AreaSize;
             private FloatField StayTime;
             
         /// <summary>
         /// Display to indicate no Node from the graph has been selected
         /// </summary>
         private VisualElement NoNodeSelectedPanel;
+        
+        private Button PickerTarget;
+        private Button PickerLocation;
         #endregion
         
         #endregion
-
         
         #region CONSTRUCTORS
         public QuestNodeBehaviourEditor(object target) : base(target)
@@ -98,6 +110,7 @@ namespace ISILab.LBS.VisualElements
             ActionLabel = this.Q<Label>("ParamAction");
             NodeIDLabel = this.Q<Label>("ParamID");
             
+            #region Target
             TargetBundleVe = this.Q<VisualElement>("ObjectFieldVe");
             TargetBundle = this.Q<ObjectField>("TargetFieldBundle");
             TargetBundle.RegisterValueChangedCallback(evt =>
@@ -118,34 +131,75 @@ namespace ISILab.LBS.VisualElements
             {
                 TargetCount.value = TargetCount.value - 1;
             };
+            #endregion
             
+            #region OtherTarget
+            OtherTargetBundleVe = this.Q<VisualElement>("OtherTargetFieldVe");
+            OtherTargetBundle = this.Q<ObjectField>("OtherTargetFieldBundle");
+            OtherTargetBundle.RegisterValueChangedCallback(evt =>
+            {
+                if (evt.newValue is Bundle bundle) SetOtherTargetValue(bundle);
+            });
             
+            OtherTargetCount = this.Q<IntegerField>("OtherTargetCount");
+            OtherTargetCount.RegisterValueChangedCallback(evt => SetIntValue(evt.newValue, false));
+
+            OtherTargetCountIncrease = this.Q<Button>("OtherTargetCountIncrease");
+            OtherTargetCountDecrease = this.Q<Button>("OtherTargetCountDecrease");
+            OtherTargetCountIncrease.clicked += () =>
+            {
+                OtherTargetCount.value = OtherTargetCount.value + 1;
+            };
+            OtherTargetCountDecrease.clicked += () =>
+            {
+                OtherTargetCount.value = OtherTargetCount.value - 1;
+            };
+            #endregion
+            
+            #region Position
             PositionVe = this.Q<VisualElement>("Vector2DVe");
             Vector2Pos = this.Q<Vector2IntField>("Vector2LocationInput");
             Vector2Pos.RegisterValueChangedCallback(evt => SetVector2IntValue(evt.newValue));
+            #endregion
             
-            
+            #region Constraint
             ConstraintVe = this.Q<VisualElement>("ConstraintVe");
-            MaxDistance = this.Q<FloatField>("MaxDistanceInput");
-            MaxDistance.RegisterValueChangedCallback(evt => SetMaxDistance(evt.newValue));
+            AreaSize = this.Q<IntegerField>("AreaSizeInput");
+            AreaSize.RegisterValueChangedCallback(evt => SetMaxDistance(evt.newValue));
             StayTime = this.Q<FloatField>("StayTimeInput");
             StayTime.RegisterValueChangedCallback(evt => SetStayTime(evt.newValue));
-
+            #endregion
            
+            #region Pickers
+            PickerTarget = this.Q<Button>("PickerTarget");
+            PickerTarget.clicked += () =>
+            {
+                ToolKit.Instance.SetActive(typeof(QuestPicker));
+                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
+                qp.activeData = behaviour.SelectedQuestNode.NodeData.Bundle.FirstOrDefault();
+            };
+            
+            PickerLocation = this.Q<Button>("PickerLocation");
+            PickerLocation.clicked += () => {
+                ToolKit.Instance.SetActive(typeof(QuestPicker));
+                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
+                qp.activeData = behaviour.SelectedQuestNode.NodeData.Position.FirstOrDefault();
+            };
+            
+            #endregion
+            
             NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
 
+            OtherTargetBundleVe.style.display = DisplayStyle.None;    
             TargetBundleVe.style.display = DisplayStyle.None;    
             PositionVe.style.display = DisplayStyle.None;    
             NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
-            
-
             
             return this;
         }
 
         private void SetStayTime(float evtNewValue)
         {
-            
             var nd = GetSelectedNode().NodeData;
             if(nd is null)  return;
         }
@@ -164,16 +218,40 @@ namespace ISILab.LBS.VisualElements
             var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
 
             if (!nd.HasBundle()) return;
-            nd.Bundle.bundleGuid = bundleGuid;
+            nd.Bundle.FirstOrDefault().bundleGuid = bundleGuid;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
-            
         }
 
-        private void SetIntValue(int newValue)
+        private void SetOtherTargetValue(Bundle newValue)
         {
             var nd = GetSelectedNode().NodeData;
             if(nd is null)  return;
-            nd.SetNum(newValue);
+            var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
+
+            if (!nd.HasBundle()) return;
+            if (nd.Bundle.Count < 0) return;
+                
+            nd.Bundle[1].bundleGuid = bundleGuid;
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+        }
+        
+        private void SetIntValue(int newValue, bool firstTarget = true)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if(nd is null)  return;
+            if (!nd.HasBundle()) return;
+
+            if (firstTarget)
+            {
+                nd.Bundle.FirstOrDefault().num = newValue;
+            }
+            else
+            {
+                if (nd.Bundle.Count < 2) return;
+                nd.Bundle[1].num = newValue;
+            }
+            
+           
             
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
@@ -184,7 +262,7 @@ namespace ISILab.LBS.VisualElements
             if (nd is null) return;
             if (!nd.HasPosition()) return;
 
-            nd.Position.position = newValue;
+            nd.Position.FirstOrDefault().position = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -200,6 +278,7 @@ namespace ISILab.LBS.VisualElements
         private void UpdatePanel(QuestNode node)
         {
             TargetBundleVe.style.display = DisplayStyle.None;    
+            OtherTargetBundleVe.style.display = DisplayStyle.None;
             PositionVe.style.display = DisplayStyle.None;    
             ConstraintVe.style.display = DisplayStyle.None;    
             NoNodeSelectedPanel.style.display = DisplayStyle.None;    
@@ -223,25 +302,35 @@ namespace ISILab.LBS.VisualElements
             var nd = node.NodeData;
             if (nd is null) return;
             
-            TargetCount.value = nd.Num;
+
 
             if (nd.HasPosition())
             {
                 PositionVe.style.display = DisplayStyle.Flex;
-                Vector2Pos.value = nd.Position.position;
+                Vector2Pos.value = nd.Position.FirstOrDefault().position;
             }
 
             if (nd.HasBundle())
             {
                 TargetBundleVe.style.display = DisplayStyle.Flex;
                 TargetBundle.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
-                    nd.Bundle.bundleGuid);
+                    nd.Bundle.FirstOrDefault().bundleGuid);
+                TargetCount.value = nd.Bundle.FirstOrDefault().num;
+                
+                if (nd.Bundle.Count > 1)
+                {
+                    OtherTargetBundleVe.style.display = DisplayStyle.Flex;
+                    OtherTargetBundle.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
+                        nd.Bundle[1].bundleGuid);
+                    OtherTargetCount.value = nd.Bundle[1].num;
+                }
             }
 
             if (nd.HasConstraint())
             {
-                PositionVe.style.display = DisplayStyle.Flex;
-                Vector2Pos.value = nd.Position.position;
+                ConstraintVe.style.display = DisplayStyle.Flex;
+                AreaSize.value = nd.Constrain.FirstOrDefault().areaSize;
+                StayTime.value = nd.Constrain.FirstOrDefault().time;
             }
             
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
