@@ -20,8 +20,7 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 0}
     probability: 1
-  characteristics:
-  - rid: 5085006314459627539
+  characteristics: []
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -34,13 +33,4 @@ MonoBehaviour:
       positiveZ: 1
   references:
     version: 2
-    RefIds:
-    - rid: 5085006314459627539
-      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 11400000}
-        connections:
-        - Empty
-        - Empty
-        - Empty
-        - Empty
+    RefIds: []

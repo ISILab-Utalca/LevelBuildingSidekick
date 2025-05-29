@@ -128,6 +128,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
     - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
     - {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
+    - {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
+    - {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
+    - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -169,6 +172,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 676b2525bf31dc6439be198604391b79, type: 2}
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
     - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
+    - {fileID: 11400000, guid: 82c988506a4389042b3f7c2c94f04ea5, type: 2}
   - type: UnityEngine.UIElements.VectorImage
     items:
     - {fileID: 7388822144124034973, guid: b570a25de51f01c41bd82dbe5372bb3f, type: 3}

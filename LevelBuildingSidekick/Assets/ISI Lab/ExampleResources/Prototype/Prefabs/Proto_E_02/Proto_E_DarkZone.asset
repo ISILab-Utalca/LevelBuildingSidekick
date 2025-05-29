@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Proto_E_Two_Water_two_Ground
+  m_Name: Proto_E_DarkZone
   m_EditorClassIdentifier: 
   layerContentFlags: 2
   type: 1
@@ -18,9 +18,7 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 7186673553856494103, guid: c211f7e27c07c384eb7b64d412aa0e00, type: 3}
-    probability: 1
-  - obj: {fileID: 9201334514251400144, guid: f8661b3f353384940a0522f2079853e1, type: 3}
+  - obj: {fileID: 3769950255303125082, guid: 0d6bac7068bef504ea3f9336e6b9c817, type: 3}
     probability: 1
   characteristics:
   - rid: 5085006314459627539
@@ -42,7 +40,7 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         connections:
-        - Water
-        - Grass
-        - Grass
-        - Water
+        - Darkness
+        - Darkness
+        - Darkness
+        - Darkness
