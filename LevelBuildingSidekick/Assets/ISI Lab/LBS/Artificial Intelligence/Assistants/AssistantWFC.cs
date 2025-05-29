@@ -115,7 +115,7 @@ namespace ISILab.LBS.Assistants
 
             foreach (var tile in toCalc)
             {
-                Debug.Log("tile:" + tile.Position);
+                //Debug.Log("tile:" + tile.Position);
                 var candidates = CalcCandidates(tile, group);
                 currentCalcs.Add(tile, candidates);
             }

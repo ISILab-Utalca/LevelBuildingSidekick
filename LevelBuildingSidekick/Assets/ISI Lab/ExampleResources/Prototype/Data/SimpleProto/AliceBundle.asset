@@ -18,7 +18,9 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets: []
-  characteristics: []
+  characteristics:
+  - rid: 3499384421532565770
+  - rid: 3499384421532565775
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -31,4 +33,18 @@ MonoBehaviour:
       positiveZ: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3499384421532565770
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - 
+        - 
+        - 
+        - 
+    - rid: 3499384421532565775
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 0}
