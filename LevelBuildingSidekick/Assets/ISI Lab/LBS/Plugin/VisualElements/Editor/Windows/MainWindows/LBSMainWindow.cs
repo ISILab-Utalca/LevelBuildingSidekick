@@ -532,7 +532,9 @@ namespace ISILab.LBS.Editor.Windows{
 
         private void UNDO()
         {
-            DrawManager.ReDraw();
+            if(_selectedLayer is not null ) DrawManager.Instance.RedrawLayer(_selectedLayer, mainView);
+            else DrawManager.ReDraw();
+            
             LBSInspectorPanel.ReDraw();
         }
         #endregion

@@ -244,15 +244,13 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             bool hasItems = list.itemsSource.Count > 0;
             DisplayStyle notificatorsDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
-            DisplayStyle noSelectedDisplay = _layer is null && hasItems ? DisplayStyle.Flex : DisplayStyle.None;
-            DisplayStyle listDisplay = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             
             foreach (VisualElement layer in noLayerNotificators)
             {
                 layer.style.display = notificatorsDisplay;
             }
-            list.style.display = listDisplay; 
-            noSelectedLayerNotificator.style.display = noSelectedDisplay;
+            list.style.display = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
+            noSelectedLayerNotificator.style.display = _layer is null && hasItems ? DisplayStyle.Flex : DisplayStyle.None;
             if(_layer is not null) OnSelectLayer?.Invoke(_layer);
         }
         

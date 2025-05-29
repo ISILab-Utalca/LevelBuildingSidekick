@@ -14,7 +14,7 @@ namespace ISILab.LBS.Drawers
         {
             get => LBSSettings.Instance.general.TileSize;
         }
-
+        
         public Drawer() { }
 
         public abstract void Draw(object target, MainView view, Vector2 teselationSize);

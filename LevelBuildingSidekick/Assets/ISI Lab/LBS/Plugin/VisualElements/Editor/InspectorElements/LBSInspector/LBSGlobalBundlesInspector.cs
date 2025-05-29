@@ -207,7 +207,7 @@ namespace ISILab.LBS.VisualElements
             throw new NotImplementedException();
         }
 
-        public override void SetTarget(LBSLayer layer, bool InstanceTools = true)
+        public override void SetTarget(LBSLayer layer)
         {
         }
         #endregion

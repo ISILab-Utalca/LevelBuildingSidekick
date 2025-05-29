@@ -8,6 +8,7 @@ using ISILab.LBS.Editor.Windows;
 using LBS;
 using LBS.Components;
 using ISILab.LBS.Settings;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 
 using UnityEditor;
@@ -147,7 +148,7 @@ namespace ISILab.LBS.VisualElements
                 EditorUtility.SetDirty(x);
             }
 
-            DrawManager.ReDraw();
+            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer, MainView.Instance);
             Paint();
         }
 

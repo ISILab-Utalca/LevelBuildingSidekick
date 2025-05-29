@@ -26,30 +26,27 @@ namespace ISILab.LBS.VisualElements.Editor
             list.Add(element);
         }
 
-
-        public void Actualize(object obj, object other)
-        {
-            
-        }
-
         public void Repaint(object obj)
         {
-            List<GraphElement> ve = pairs[obj].ToList();
-            foreach (GraphElement element in ve)
+            if (!pairs.TryGetValue(obj, out var elements)) return;
+            foreach (var element in elements)
             {
                 element.MarkDirtyRepaint();
             }
-            
         }
 
-        public  List<List<GraphElement>> Clear()
+        public List<List<GraphElement>> Clear()
         {
-            List<List<GraphElement>> elements = pairs.Values.ToList();
+            var elements = new List<List<GraphElement>>(pairs.Count);
+            foreach (var list in pairs.Values)
+            {
+                elements.Add(list);
+            }
             pairs.Clear();
             return elements;
-            
         }
     }
+
 
     [UxmlElement]
     public partial class MainView : GraphView // Canvas or WorkSpace
@@ -254,18 +251,18 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void ClearLayerView(LBSLayer layer)
         {
-            if (!layers.Keys.Any() || !layers.TryGetValue(layer, out var l))  return;
-            
-            var graphs = l.Clear();
+            if (!layers.TryGetValue(layer, out var container)) return;
+
+            var graphs = container.Clear();
             foreach (var graph in graphs)
             {
                 foreach (var element in graph)
                 {
-                   RemoveElement(element); 
+                    RemoveElement(element);
                 }
             }
-            
         }
+        
         public void AddContainer(LBSLayer layer)
         {
             layers.Add(layer, new LayerContainer());
@@ -279,34 +276,17 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void AddElement(LBSLayer layer, object obj, GraphElement element)
         {
-            LayerContainer container;
-            layers.TryGetValue(layer, out container);
-
-            if (container == null)
-            {
-                // TODO: Parche para que no se dibujen los layers después de que se borren.
-                return;
-                container = new LayerContainer();
-                layers.Add(layer, container);
-            }
-
+            var container = GetOrCreateLayerContainer(layer);
+            if(container == null) return;
             element.layer = layer.index;
-            
+
             container.AddElement(obj, element);
             base.AddElement(element);
         }
 
-        public LayerContainer GetLayerContainer(LBSLayer layer)
+        private LayerContainer GetOrCreateLayerContainer(LBSLayer layer)
         {
-            LayerContainer container;
-            layers.TryGetValue(layer, out container);
-
-            if (container == null)
-            {
-                container = new LayerContainer();
-                layers.Add(layer, container);
-            }
-
+            layers.TryGetValue(layer, out var container);
             return container;
         }
         
