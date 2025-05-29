@@ -12,15 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: AliceBundle
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
+  layerContentFlags: 2
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets: []
   characteristics:
-  - rid: 3499384421532565770
-  - rid: 3499384421532565775
+  - rid: 8454501818321076363
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -34,7 +33,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3499384421532565770
+    - rid: 8454501818321076363
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
@@ -43,8 +42,3 @@ MonoBehaviour:
         - 
         - 
         - 
-    - rid: 3499384421532565775
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 11400000}
-        value: {fileID: 0}

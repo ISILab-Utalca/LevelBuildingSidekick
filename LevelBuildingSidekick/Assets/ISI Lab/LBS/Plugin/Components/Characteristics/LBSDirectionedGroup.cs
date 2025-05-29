@@ -40,11 +40,14 @@ namespace ISILab.LBS.Characteristics
 
         public override void OnEnable()
         {
+            Owner.ClearEvents();
             Owner.OnAddChild += OnAddChildToOwner;
             Owner.OnRemoveChild += OnRemoveChildToOwner;
 
             _Update();
         }
+
+        
 
         public void _Update()
         {
@@ -87,8 +90,11 @@ namespace ISILab.LBS.Characteristics
 
         private void OnRemoveChildToOwner(Bundle child)
         {
+            //Remove this from child
+            var c = child.Characteristics.Find(c => c is LBSDirection);
+            child.RemoveCharacteristic(c);
+            
             var w = Weights.Find(w => w.target.Equals(child));
-
             Weights.Remove(w);
         }
 
