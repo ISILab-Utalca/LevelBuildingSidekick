@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace LBS.Bundles
 {
@@ -411,6 +412,12 @@ namespace LBS.Bundles
         public MicroGenTool GetMicroGenTool()
         {
             return microGenTool;
+        }
+
+        public void ClearEvents()
+        {
+            OnAddChild = null;
+            OnRemoveChild = null;
         }
         #endregion
 
