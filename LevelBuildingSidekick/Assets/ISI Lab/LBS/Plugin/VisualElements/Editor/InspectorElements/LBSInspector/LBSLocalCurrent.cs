@@ -59,7 +59,7 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public override void SetTarget(LBSLayer layer, bool InstanceTools = true)
+        public override void SetTarget(LBSLayer layer)
         {
             noContentPanel.SetDisplay(layer is null);
             contentPanel.Clear();
@@ -74,7 +74,7 @@ namespace ISILab.LBS.VisualElements
             
             noContentPanel.SetDisplay(!target.Modules.Any());
             
-            if(InstanceTools) ToolKit.Instance.InitGeneralTools(target);
+            ToolKit.Instance.InitGeneralTools(target);
             
             modulesPanel.SetInfo(target.Modules);
             layerInfoView.SetInfo(target);
@@ -82,7 +82,7 @@ namespace ISILab.LBS.VisualElements
 
         public override void Repaint()
         {
-            if(target is not null) SetTarget(target, false);
+            if(target is not null) SetTarget(target);
             MarkDirtyRepaint();
         }
 

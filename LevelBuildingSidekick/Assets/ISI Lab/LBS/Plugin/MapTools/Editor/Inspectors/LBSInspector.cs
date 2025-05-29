@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
         /// behaviours, assistants and toolkit. 
         /// </summary>
         /// <param name="layer"></param>
-        public abstract void SetTarget(LBSLayer layer, bool InstanceTools = true);
+        public abstract void SetTarget(LBSLayer layer);
         /// <summary>
         /// Markes the panel as dirty and calls resetTarget
         /// <param name="layer"></param>

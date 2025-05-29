@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Manipulators;
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
@@ -123,6 +124,7 @@ namespace ISILab.LBS.VisualElements
 
         internal void SetTarget(LBSLayer layer)
         {
+            ToolKit.Instance.Clear();
             // updates the inspector panel locals and tools
             foreach (KeyValuePair<string, LBSInspector> ve in VEs)
             {
@@ -134,11 +136,20 @@ namespace ISILab.LBS.VisualElements
 
         public void Repaint()
         {
+            ToolKit.Instance.Clear();
+            var currentManipulator = ToolKit.Instance.GetActiveManipulatorInstance();
+            Type manipulatorClass = null;
+            if (currentManipulator is not null)
+            {
+                manipulatorClass = currentManipulator.GetType();
+            }
             foreach (var ve in VEs)
             {
                 var inspector = ve.Value;
                 inspector.Repaint();
             }
+            ToolKit.Instance.SetSeparators();
+            if(manipulatorClass is not null) ToolKit.Instance.SetActive(manipulatorClass);
         }
         #endregion
 

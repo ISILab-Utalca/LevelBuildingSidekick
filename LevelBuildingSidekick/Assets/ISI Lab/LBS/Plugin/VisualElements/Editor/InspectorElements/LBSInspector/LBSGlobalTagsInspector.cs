@@ -152,7 +152,7 @@ namespace ISILab.LBS.VisualElements
             throw new NotImplementedException();
         }
 
-        public override void SetTarget(LBSLayer layer, bool InstanceTools = true)
+        public override void SetTarget(LBSLayer layer)
         {
             //Debug.Log("Actualizacion de layer Global/Tags inspector");
         }

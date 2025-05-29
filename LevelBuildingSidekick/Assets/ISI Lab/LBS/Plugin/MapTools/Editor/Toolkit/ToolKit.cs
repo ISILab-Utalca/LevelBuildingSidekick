@@ -120,6 +120,12 @@ namespace LBS.VisualElements
         {
             return content;
         }
+        
+        public LBSManipulator GetActiveManipulatorInstance()
+        {
+            return current.Item1.Manipulator;
+        }
+        
         private KeyValuePair<Type, (LBSTool, ToolButton)> GetTool(Type manipulatorType)
         {
             // Find the first matching tool in the dictionary with all null checks
