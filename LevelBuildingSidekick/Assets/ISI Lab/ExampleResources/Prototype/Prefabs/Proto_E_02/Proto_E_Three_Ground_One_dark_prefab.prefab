@@ -50,7 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8256bc6eb5e14d140b6c6a075e7017c5, type: 3}
       propertyPath: m_Name
-      value: Proro_E_Three_Ground_One_ark
+      value: Proto_E_Three_Ground_One_dark_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8256bc6eb5e14d140b6c6a075e7017c5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

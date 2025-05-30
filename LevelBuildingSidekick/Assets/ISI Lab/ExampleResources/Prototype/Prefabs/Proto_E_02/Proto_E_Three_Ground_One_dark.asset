@@ -23,6 +23,7 @@ MonoBehaviour:
   characteristics:
   - rid: 5085006314459627539
   - rid: 3499384445613375570
+  - rid: 3499384447436849317
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -45,6 +46,11 @@ MonoBehaviour:
         - 
         - 
         - 
+    - rid: 3499384447436849317
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections: []
     - rid: 5085006314459627539
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
