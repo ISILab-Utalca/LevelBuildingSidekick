@@ -49,11 +49,10 @@ namespace LBS.Bundles
         }
     }
 
-    [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/LBS/Bundle")]
+    //[CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/LBS/Bundle")] <- Replaced with BundleMenuItem
     [System.Serializable]
     public class Bundle : ScriptableObject, ICloneable
     {
-
         public Bundle()
         {
             layerContentFlags = BundleFlags.None;
