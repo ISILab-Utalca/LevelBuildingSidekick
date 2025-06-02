@@ -10,6 +10,9 @@
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
     --lbs-selection-dark-blue-color: rgb(24, 55, 110);
+    --lbs-selection-dark-green-color: rgb(118, 151, 67);
+    --lbs-selection-dark-red-color: rgb(200, 92, 82);
+    --lbs-selection-dark-teal-color: rgb(98, 139, 200);
 }
 
 .unity-base-field__label {
@@ -1174,4 +1177,16 @@ Button.lbs-actionbutton {
     padding-right: 5px;
     padding-bottom: 5px;
     padding-left: 12px;
+}
+
+#AssistantButton:selected {
+    background-color: var(--lbs-selection-dark-green-color);
+}
+
+#BehaviourButton:selected {
+    background-color: var(--lbs-selection-dark-teal-color);
+}
+
+#LayerDataButton:selected {
+    background-color: var(--lbs-selection-dark-red-color);
 }
