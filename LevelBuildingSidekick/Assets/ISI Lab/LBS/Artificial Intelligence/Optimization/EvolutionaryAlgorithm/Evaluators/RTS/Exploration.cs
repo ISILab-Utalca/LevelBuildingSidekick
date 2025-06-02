@@ -23,17 +23,6 @@ namespace ISILab.AI.Categorization
         [SerializeField, SerializeReference]
         public LBSCharacteristic colliderCharacteristic;
 
-        /*public Exploration(LBSTagsCharacteristic colliderCharacteristic)
-        {
-            this.colliderCharacteristic = colliderCharacteristic;
-        }*/
-
-        //Default constructor
-        /*public Exploration()
-        {
-            colliderCharacteristic.Value = LBSAssetMacro.GetLBSTag("Collider");
-        }*/
-
         public float Evaluate(IOptimizable evaluable)
         {
             var chrom = evaluable as BundleTilemapChromosome;

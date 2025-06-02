@@ -20,6 +20,10 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
 using ISILab.Extensions;
 using ISILab.Macros;
+using ISILab.AI.Categorization;
+using static UnityEngine.Analytics.IAnalytic;
+using LBS.Components.TileMap;
+using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -85,6 +89,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region FIELDS
         private MAPElitesPreset mapEliteBundle;
+        private PopulationAssistantButtonResult selectedMap;
 
         protected IRangedEvaluator currentXField
         {
@@ -237,7 +242,24 @@ namespace ISILab.LBS.VisualElements.Editor
             recalculate.clicked += RunAlgorithm;
 
             applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
-            applySuggestion.clicked += ApplyResult;
+            applySuggestion.clicked += () =>
+            {
+                // Save history version to revert
+                var level = LBSController.CurrentLevel;
+                Undo.RegisterCompleteObjectUndo(level, "Select Suggestion");
+                EditorGUI.BeginChangeCheck();
+                
+                
+                ApplySuggestion();
+                
+                
+                // Mark as dirty
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(level);
+                }
+
+            };
 
             closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
@@ -295,7 +317,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 var newPreset = AssetDatabase.LoadAssetAtPath<MAPElitesPreset>(presetPath + "\\" + file.Name);
                 if (newPreset != null)
                 {
-                    Debug.Log("loaded: " + newPreset);
+                    //Debug.Log("loaded: " + newPreset);
                     mapPresets.Add(newPreset);
                 }
             }
@@ -339,10 +361,31 @@ namespace ISILab.LBS.VisualElements.Editor
             xParamText.text = param1Field.Value;
         }
 
-
-        private void ApplyResult()
+        private void ApplySuggestion()
         {
-     
+
+
+            var chrom = selectedMap.Data as BundleTilemapChromosome;
+            if (chrom == null)
+            {
+                throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
+            }
+
+            //Population behavior
+            var population = assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+            var rect = chrom.Rect;
+
+            for (int i = 0; i < chrom.Length; i++)
+            {
+                var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
+                population.RemoveTileGroup(pos);
+                var gene = chrom.GetGene(i);
+                if (gene == null)
+                    continue;
+                population.AddTileGroup(pos, gene as BundleData);
+            }
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
         private void RunAlgorithm()
@@ -421,6 +464,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     resultVE.style.flexGrow = 1;
                     resultVE.style.alignSelf = Align.Stretch;
                     rVE.Add(resultVE);
+                    resultVE.selectButton.clicked += () => ShowButtonStats(resultVE);
                 }
             }
           
@@ -432,6 +476,28 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region METHODS
 
+        //Show the stats for any button selected
+        public void ShowButtonStats(PopulationAssistantButtonResult buttonResult)
+        {
+            var mapData = buttonResult.Data as IOptimizable;
+
+            //Shows data if non null
+            if (mapData == null) return;
+
+            zProgressBar.value = (float)mapData.Fitness;
+            xSlider.value = (float)mapData.xFitness;
+            ySlider.value = (float)mapData.yFitness;
+
+            //Takes border off selected map previously selected map
+            if (selectedMap != null)
+            {
+                selectedMap.OnButtonDeselected?.Invoke();
+            } 
+            selectedMap = buttonResult;
+            buttonResult.OnButtonSelected?.Invoke();
+        }
+
+        //Update all squares
         public void UpdateContent()
         {
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
@@ -454,30 +520,19 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
                 }
-                veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i-1].Data);
+                //veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i-1].Data);
                 veChildren[i].UpdateLabel();
             }
             assistant.toUpdate.Clear();
         }
 
-        public void ShowResults(object data)
-        {
-            var sampleData = data as IOptimizable;
-
-            if (sampleData == null) return;
-            
-            xSlider.value = (float)Math.Round(sampleData.xFitness, 4);
-            ySlider.value = (float)Math.Round(sampleData.yFitness, 4);
-
-            zProgressBar.value = (float)Math.Round(sampleData.Fitness, 4);
-        }
-
-
+       //Obsolete
         public MAPElitesPreset GetPresset()
         {
             return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
         }
 
+        //Change the texture of a specific button
         public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
             var behaviours = assistant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
@@ -529,6 +584,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //content.background = texture;
         }
 
+        //Return a list of all buttons available.
         private List<PopulationAssistantButtonResult> GetButtonResults(List<PopulationAssistantButtonResult> buttons, VisualElement parent)
         {
             foreach (var ve in parent.Children())
@@ -543,12 +599,14 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             return buttons;
         }
-
+        
+        //Set assistant for window
         public void SetAssistant(AssistantMapElite target)
         {
             assistant = target;
         }
 
+        //Create the window
         public void ShowWindow()
        {
            titleContent = new GUIContent("Population Assistant");

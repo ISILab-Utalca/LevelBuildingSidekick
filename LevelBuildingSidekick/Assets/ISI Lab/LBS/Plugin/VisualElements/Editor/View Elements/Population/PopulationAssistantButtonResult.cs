@@ -31,11 +31,11 @@ namespace ISILab.LBS.VisualElements.Editor
         // image displaying 3 dots and eventually the generated data
         private VisualElement loadingIcon;
         private VisualElement customImage;
-        public Button selectButton;
-
+        //Texture for generated data
         public Texture2D backgroundTexture;
-        private Texture2D defaultImage;
-
+        //Button to show highlights
+        public VisualElement selectBorder;
+        public Button selectButton;
         #endregion
 
         #region FIELDS
@@ -45,13 +45,15 @@ namespace ISILab.LBS.VisualElements.Editor
         private string score;
         //Can this be selected?
         private bool canHighlight;
-        
+        private bool selected;
         #endregion
 
         #region EVENTS
         public Action OnExecute;
         public Action OnImageChange;
-        public Action OnButtonClicked;
+        //Checks if the button is selected or not.
+        public Action OnButtonDeselected;
+        public Action OnButtonSelected;
         #endregion
 
         #region PROPERTIES
@@ -59,13 +61,11 @@ namespace ISILab.LBS.VisualElements.Editor
             get => data;
             set => data = value;
         }
-
         public string Score
         {
             get => score;
             set => score = value;
         }
-
         #endregion
 
         #region CONSTRUCTORS
@@ -75,16 +75,33 @@ namespace ISILab.LBS.VisualElements.Editor
             visualTree.CloneTree(this);
 
             background = this.Q<VisualElement>("Background");
-            scoreLabel = this.Q<Label>("ScoreValue");
-            selectButton = this.Q<Button>("SelectButton");
-            //selectButton.clicked += ButtonClicked;
-            selectButton.visible = false;
 
             loadingIcon = this.Q<VisualElement>("LoadingImage");
             customImage = this.Q<VisualElement>("CustomImage");
+
+            scoreLabel = this.Q<Label>("ScoreValue");
+
+            selectBorder = this.Q<VisualElement>("SelectBorder");
+            selectBorder.style.opacity = 0.0f;
+            selectButton = this.Q<Button>("SelectButton");
+
+            //Decoratives to check if the button is highlighted or not
+            OnButtonDeselected += () =>
+            {
+                selected = false;
+                selectBorder.visible = false;
+                selectBorder.style.opacity = 0.5f;
+            };
+
+            OnButtonSelected += () =>
+            {
+                selected = true;
+                selectBorder.visible = true;
+                selectBorder.style.opacity = 1f;
+            };
+
             OnImageChange += () =>
             {
-
                 loadingIcon.visible = customImage.style.backgroundImage != null ? false : true;
                 canHighlight = customImage.style.backgroundImage != null ? true : false;
             };
@@ -92,20 +109,23 @@ namespace ISILab.LBS.VisualElements.Editor
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
 
-            
         }
 
         private void OnMouseEnter(MouseEnterEvent evt)
         {
-            if (canHighlight)
+            if ((canHighlight)&&(!selected))
             {
-                selectButton.visible = true;
+                selectBorder.style.opacity = 0.5f;
+                selectBorder.visible = true;
             }
         }
 
         private void OnMouseLeave(MouseLeaveEvent evt)
         {
-            selectButton.visible = false;
+            if(!selected)
+            {
+                selectBorder.visible = false;
+            }
         }
         #endregion
 
