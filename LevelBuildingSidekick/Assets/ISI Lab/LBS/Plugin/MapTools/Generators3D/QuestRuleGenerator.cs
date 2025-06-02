@@ -50,6 +50,11 @@ namespace ISILab.LBS.Generators
 
             var triggers = new List<QuestStep>();
 
+            if (!quest.QuestEdges.Any())
+            {
+                return Tuple.Create<GameObject, string>(null, "The quest graph only has one node, can't generate. Can't generate");
+            }
+            
             var assistant = layer.GetAssistant<GrammarAssistant>();
             assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
@@ -73,17 +78,40 @@ namespace ISILab.LBS.Generators
             foreach (var node in quest.QuestNodes)
             {
                 var go = new GameObject(node.ID);
-
                 go.transform.position = node.Target.Rect.position;
                 go.transform.parent = observer.transform;
+                
+                string tag = node.QuestAction.Trim().ToLowerInvariant();
 
-                var trigger = go.AddComponent<QuestTrigger>();
-                trigger.Init(new Vector3(node.Target.Rect.width, 1, node.Target.Rect.height));
+                // Get the proper trigger for the given quest node action
+                Type triggerType = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .FirstOrDefault(t => 
+                        typeof(QuestTrigger).IsAssignableFrom(t) &&
+                        !t.IsAbstract &&
+                        t.GetCustomAttributes(typeof(QuestNodeActionTag), false)
+                            .Cast<QuestNodeActionTag>()
+                            .Any(attr => attr.Tag == tag));
+
+                if (triggerType == null)
+                {
+                    Debug.LogError($"No QuestTrigger type found for tag '{tag}'");
+                    continue;
+                }
+                
+                var trigger = (QuestTrigger)go.AddComponent(triggerType);
+                trigger.SetSize(new Vector3(
+                    1*settings.scale.x, 
+                    1*settings.scale.y, 
+                    1*settings.scale.y));
+                
+                trigger.SetData(node.NodeData); 
 
                 go.SetActive(false);
 
                 triggers.Add(new QuestStep(node, trigger));
             }
+
 
             observer.Init(quest, triggers);
 

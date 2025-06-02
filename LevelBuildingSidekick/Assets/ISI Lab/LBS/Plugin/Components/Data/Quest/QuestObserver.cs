@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using UnityEditor.Experimental.GraphView;
@@ -38,7 +40,7 @@ namespace ISILab.LBS
             {
                 foreach (var trigger in activeTriggers)
                 {
-                    if (trigger.IsCompleted?.Invoke() == true)
+                    if (trigger.IsCompleted)
                     {
                         Debug.Log("Triggered");
                         ClearTriggers();
@@ -122,7 +124,7 @@ namespace ISILab.LBS
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public struct QuestStep
     {
         [SerializeField, SerializeReference, HideInInspector]
@@ -139,4 +141,43 @@ namespace ISILab.LBS
             this.trigger = trigger;
         }
     }
+    
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
+    public class QuestNodeActionTag : Attribute
+    {
+        public string Tag { get; }
+        public Type[] RequiredDataTypes { get; }
+
+        public QuestNodeActionTag(string tag, params Type[] requiredDataTypes)
+        {
+            Tag = tag.Trim().ToLowerInvariant(); // Normalize
+            RequiredDataTypes = requiredDataTypes;
+        }
+    }
+    
+    public static class QuestTagRegistry
+    {
+        public static readonly Dictionary<string, Type[]> TagDataTypes;
+
+        static QuestTagRegistry()
+        {
+            TagDataTypes = new Dictionary<string, Type[]>();
+
+            var taggedTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(t => t.GetCustomAttributes(typeof(QuestNodeActionTag), false).Length > 0);
+
+            foreach (var type in taggedTypes)
+            {
+                var attributes = type.GetCustomAttributes(typeof(QuestNodeActionTag), false)
+                    .Cast<QuestNodeActionTag>();
+
+                foreach (var attr in attributes)
+                {
+                    TagDataTypes[attr.Tag] = attr.RequiredDataTypes;
+                }
+            }
+        }
+    }
+
 }
