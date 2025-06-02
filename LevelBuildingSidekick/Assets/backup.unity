@@ -319,15 +319,11 @@ MonoBehaviour:
     root:
       rid: 5702183913779363840
     LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
-  questTriggers:
-  - node:
-      rid: 5702183913779363840
-    trigger: {fileID: 2066029020}
-  - node:
-      rid: 5702183913779363841
-    trigger: {fileID: 1467550024}
   activeTriggers:
   - {fileID: 2066029020}
+  OnQuestCompleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
   references:
     version: 2
     RefIds:
@@ -2366,7 +2362,7 @@ Transform:
   m_GameObject: {fileID: 1467550021}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 10.54, y: 0, z: -9.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2408,7 +2404,19 @@ MonoBehaviour:
   isCompleted: 0
   OnCompleteEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1332325833}
+        m_TargetAssemblyTypeName: ExampleQuestCustomComplete, Assembly-CSharp
+        m_MethodName: Complete
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1524038668
 GameObject:
   m_ObjectHideFlags: 0
@@ -3498,7 +3506,7 @@ Transform:
   m_GameObject: {fileID: 2066029017}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 9.21, y: 0, z: -9.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

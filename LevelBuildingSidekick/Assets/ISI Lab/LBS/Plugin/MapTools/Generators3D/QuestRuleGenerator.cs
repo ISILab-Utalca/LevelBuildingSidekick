@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
 using LBS.Components;
@@ -48,7 +49,7 @@ namespace ISILab.LBS.Generators
             }
             CloneRefs.End();
 
-            var triggers = new List<QuestStep>();
+            Dictionary<QuestNode, QuestTrigger> triggerMap = new();
 
             if (!quest.QuestEdges.Any())
             {
@@ -109,11 +110,11 @@ namespace ISILab.LBS.Generators
 
                 go.SetActive(false);
 
-                triggers.Add(new QuestStep(node, trigger));
+                triggerMap.Add(node, trigger);
             }
 
 
-            observer.Init(quest, triggers);
+            observer.Init(quest, triggerMap);
 
             /* For LBS User:
              * ----------------------------------------------------------------

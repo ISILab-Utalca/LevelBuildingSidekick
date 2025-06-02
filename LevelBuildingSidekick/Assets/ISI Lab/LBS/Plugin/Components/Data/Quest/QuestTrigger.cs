@@ -30,13 +30,10 @@ namespace ISILab.LBS
         #endregion
        
         #region EVENTS
+        
+        public event Action<QuestTrigger> OnTriggerCompleted;
         [SerializeField]
         public UnityEvent OnCompleteEvent;
-        
-        public void InvokeCallback()
-        {
-            OnCompleteEvent?.Invoke();
-        }
         
         #endregion
         
@@ -90,7 +87,8 @@ namespace ISILab.LBS
             {
                 Debug.Log("Complete");
                 isCompleted = true;
-                InvokeCallback();
+                OnCompleteEvent?.Invoke();
+                if (OnTriggerCompleted != null) OnTriggerCompleted.Invoke(this);
             }
         }
         
