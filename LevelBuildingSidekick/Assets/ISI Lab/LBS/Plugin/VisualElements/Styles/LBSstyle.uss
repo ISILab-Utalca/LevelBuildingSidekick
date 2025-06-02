@@ -8,6 +8,8 @@
     --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
     --lbs-darker-solid-gray-color: rgb(33, 33, 33);
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
+    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(24, 55, 110);
 }
 
 .unity-base-field__label {
@@ -166,7 +168,7 @@
 }
 
 .lbs-tool-button-toggle:selected {
-    background-color: var(--unity-colors-app_toolbar_button-background);
+    background-color: var(--lbs-selection-dark-blue-color);
 }
 
 .lbs-tool-button-toggle > VisualElement {
@@ -299,7 +301,7 @@ Toggle > .lbs-default-icon {
     flex-direction: row;
     align-items: stretch;
     justify-content: center;
-    background-color: rgb(77, 77, 77);
+    background-color: var(--lbs-selection-dark-blue-color);
     width: auto;
     white-space: nowrap;
     -unity-background-scale-mode: scale-to-fit;
