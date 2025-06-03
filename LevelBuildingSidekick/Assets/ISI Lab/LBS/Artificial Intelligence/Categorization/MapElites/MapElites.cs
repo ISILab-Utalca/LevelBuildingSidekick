@@ -265,7 +265,7 @@ namespace ISILab.LBS.AI.Categorization
         {
             Optimizer.OnGenerationRan = () =>
             {
-                UpdateSamples(Optimizer.LastGeneration);
+                OLDUpdateSamples(Optimizer.LastGeneration);
             };
 
             Optimizer.OnTerminationReached = () =>
@@ -276,7 +276,7 @@ namespace ISILab.LBS.AI.Categorization
                     thread.Join(); // or thread.Abort() depending on context
                 }
 
-                Debug.Log("Finished: " + count);
+                //Debug.Log("Finished: " + count);
                 Optimizer.State = Op_State.TerminationReached;
                 OnEnd?.Invoke();
             };
@@ -326,7 +326,7 @@ namespace ISILab.LBS.AI.Categorization
             int totalCells = xSampleCount * ySampleCount; 
             if (evaluables.Count > totalCells)
             {
-                Debug.LogWarning("More evaluables than grid cells. Some evaluables will be ignored.");
+                //Debug.LogWarning("More evaluables than grid cells. Some evaluables will be ignored.");
                 evaluables = evaluables.Take(totalCells).ToList(); // Prevent overflow
             }
 
@@ -343,7 +343,7 @@ namespace ISILab.LBS.AI.Categorization
 
                 var me = evaluables[i];
 
-                Debug.Log("Sorted assignment -> pos: " + x + "," + y);
+                //Debug.Log("Sorted assignment -> pos: " + x + "," + y);
                 me.evaluable.xFitness = evaluables[i].xFitness;
                 me.evaluable.yFitness = evaluables[i].yFitness;
                 UpdateSample(x, y, me.evaluable);
@@ -386,8 +386,8 @@ namespace ISILab.LBS.AI.Categorization
                 if (yPos >= ySampleCount)
                     yPos = ySampleCount - 1;
 
-                
-                Debug.Log(" pos:" + xPos + "," + yPos);
+                me.evaluable.xFitness = me.xFitness;
+                me.evaluable.yFitness = me.yFitness;
                 UpdateSample((int)xPos, (int)yPos, me.evaluable);
             }
         }
@@ -407,7 +407,10 @@ namespace ISILab.LBS.AI.Categorization
                 BestSamples[y, x] = evaluable.Clone() as IOptimizable;
                 BestSamples[y, x].Fitness = evaluable.Fitness;
                 BestSamples[y, x].yFitness = evaluable.yFitness;
+                Debug.Log(evaluable.yFitness);
                 BestSamples[y, x].xFitness = evaluable.xFitness;
+                Debug.Log(evaluable.xFitness);
+
                 OnSampleUpdated?.Invoke(new Vector2Int(x, y));
                 return true;
             }
