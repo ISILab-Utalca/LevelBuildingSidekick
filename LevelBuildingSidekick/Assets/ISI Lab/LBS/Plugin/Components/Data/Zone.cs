@@ -12,7 +12,7 @@ namespace ISILab.LBS.Components
 {
 
     [System.Serializable]
-    public class Zone : ICloneable
+    public class Zone : ICloneable, IEquatable<Zone>
     {
         #region FIELDS
         [SerializeField, JsonRequired]
@@ -24,7 +24,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired]
         protected Vector2 pivot;
         [SerializeField, JsonRequired]
-        protected List<Vector2Int> positions = new List<Vector2Int>();
+        protected readonly List<Vector2Int> positions = new List<Vector2Int>();  // Este solo sirve después de generar en 3D, por algun motivo
         //[ScriptableObjectReference(typeof(LBSIdentifier), "Interior Styles")]
         [SerializeField, JsonRequired]
         private List<string> insideStyles = new List<string>();
@@ -57,6 +57,9 @@ namespace ISILab.LBS.Components
             set => borderThickness = value;
         }
         
+        [JsonIgnore]
+        public List<Vector2Int> Positions => positions;
+
         [JsonIgnore]
         public Vector2 Pivot
         {
@@ -97,7 +100,15 @@ namespace ISILab.LBS.Components
         {
             positions.Add(tilePosition); 
         }
+        public void AddPositionRange(IEnumerable<Vector2Int> tilePositions)
+        {
+            positions.AddRange(tilePositions); 
+        }
 
+        public void ClearPositions()
+        {
+            positions.Clear();
+        }
         public Vector2Int GetSize()
         {
             if (positions.Count == 0)
@@ -135,14 +146,32 @@ namespace ISILab.LBS.Components
 
             if (!color.Equals(other.color)) return false;
 
-            //if(!pivot.Equals(other.pivot)) return false;
+            if (!pivot.Equals(other.pivot)) return false;
+            
+            if (!positions.Equals(other.positions)) return false;
+
+            return true;
+        }
+        public bool Equals(Zone other)
+        {
+            if (other == null) return false;
+
+            if (!id.Equals(other.id)) return false;
+
+            if (!color.Equals(other.color)) return false;
+
+            if (!pivot.Equals(other.pivot)) return false;
+            
+            if (!positions.Equals(other.positions)) return false;
 
             return true;
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            int baseHash = base.GetHashCode();
+            int posHash = positions.GetHashCode();
+            return HashCode.Combine(baseHash, posHash);
         }
         #endregion
 

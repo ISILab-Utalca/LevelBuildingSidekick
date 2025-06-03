@@ -3,6 +3,8 @@ using ISILab.LBS.Editor.Windows;
 using LBS.Components;
 using ISILab.LBS.Settings;
 using System;
+using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace ISILab.LBS.Drawers
@@ -10,6 +12,7 @@ namespace ISILab.LBS.Drawers
     [Serializable]
     public abstract class Drawer
     {
+        protected Dictionary<object, List<GraphElement>> Pairs;
         public Vector2 DefalutSize
         {
             get => LBSSettings.Instance.general.TileSize;

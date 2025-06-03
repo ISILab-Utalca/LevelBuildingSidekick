@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
@@ -16,26 +17,74 @@ namespace ISILab.LBS.Drawers
     [Drawer(typeof(SchemaBehaviour))]
     public class SchemaDrawer : Drawer
     {
+        private VectorImage _doorConImage = null;
+        private VectorImage _windowConImage = null;
+
+        private const int VisualTilesCap = 100;
+        private readonly Dictionary<Tuple<TileZonePair, TileConnectionsPair>, GraphElement> _storedVisualTiles = new ();
+        private const int VisualZonesCap = 10;
+        private readonly Dictionary<Zone, List<Tuple<TileZonePair, TileConnectionsPair>>> _storedVisualZones = new ();
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             // Get behaviour
             var schema = target as SchemaBehaviour;
 
             // Get modules
-            var tilesMod = schema.OwnerLayer.GetModule<TileMapModule>();
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
-
-            foreach (var t in tilesMod.Tiles)
+            
+            // Update zones' positions
+            zonesMod.UpdateZonePositions();
+            
+            // Isolate non saved zones
+            var changedZones = zonesMod.Zones;
+            for (var i = 0; i < changedZones.Count; i++)
             {
-                var zone = zonesMod.GetZone(t);
-
-                var conections = connectionsMod.GetConnections(t);
-
-                var tView = GetTileView(t, zone, conections, teselationSize);
-                
-                view.AddElement(schema.OwnerLayer, this, tView);
+                if (!_storedVisualZones.TryGetValue(zonesMod.Zones[i], out _)) continue;
+                changedZones.RemoveAt(i);
+                i--;
             }
+            
+            // Save new zones
+            foreach (var tZone in zonesMod.PairTiles)
+            {
+                if (changedZones.Contains(tZone.Zone))
+                {
+                    AddTileToZoneMemory(tZone.Zone, new Tuple<TileZonePair, TileConnectionsPair>(tZone, connectionsMod.GetPair(tZone.Tile)));
+                }
+            }
+            
+            // Paint each zone
+            foreach(var zone in zonesMod.Zones)
+            {
+                if (!_storedVisualZones.TryGetValue(zone, out List<Tuple<TileZonePair, TileConnectionsPair>> trueTiles))
+                {
+                    // how did this happen?? we are smarter than this
+                    Debug.LogError("Zone not found on Schema Drawer cache: " + zone);
+                    continue;  
+                }
+                
+                foreach (var tTile in trueTiles)
+                {
+                    if (_storedVisualTiles.TryGetValue(tTile, out var gElement))    // get graphElement if on memory
+                    {
+                        view.AddElement(gElement);
+                        continue;
+                    }
+
+                    var t = tTile.Item1.Tile;                               // create graphElement if not
+                    var connections = connectionsMod.GetConnections(t);
+                    var tView = GetTileView(t, zone, connections, teselationSize);
+                
+                    _storedVisualTiles.Add(tTile, tView);
+                    view.AddElement(schema.OwnerLayer, this, tView);
+                }
+            }
+            
+            // Memory handling
+            RestrictMemoryUsage(_storedVisualTiles, VisualTilesCap);
+            RestrictMemoryUsage(_storedVisualZones, VisualZonesCap);
         }
 
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
@@ -128,9 +177,9 @@ namespace ISILab.LBS.Drawers
                 {
                     VectorImage setIcon = null;
                     if (connectionType == connectionTypes[2])
-                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+                        setIcon = GetDoorImage();
                     else if (connectionType == connectionTypes[3])
-                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
+                        setIcon = GetWindowImage();
 
                     var connectionPoint = new SchemaTileConnectionView(setIcon)
                     {
@@ -165,6 +214,41 @@ namespace ISILab.LBS.Drawers
             }
 
             return t;
+        }
+
+        private VectorImage GetDoorImage()
+        {
+            if (_doorConImage == null)
+            {
+                _doorConImage = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+            }
+            return _doorConImage;
+        }
+        private VectorImage GetWindowImage()
+        {
+            if (_windowConImage == null)
+            {
+                _windowConImage = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
+            }
+            return _windowConImage;
+        }
+
+        private Dictionary<T,TA> RestrictMemoryUsage<T,TA>(Dictionary<T,TA> dictionary, int maxSize)
+        {
+            while (dictionary.Count > maxSize)
+            {
+                dictionary.Remove(dictionary.First().Key);
+            }
+            return dictionary;
+        }
+
+        private void AddTileToZoneMemory(Zone zone, Tuple<TileZonePair, TileConnectionsPair> tile)
+        {
+            if (!_storedVisualZones.ContainsKey(zone))
+            {
+                _storedVisualZones.Add(zone, new List<Tuple<TileZonePair, TileConnectionsPair>>());
+            }
+            _storedVisualZones[zone].Add(tile);
         }
     }
 }

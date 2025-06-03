@@ -98,6 +98,10 @@ namespace ISILab.LBS.Modules
                 return null;
             return pairs.Find(t => t.Tile.Equals(tile));
         }
+        public TileConnectionsPair GetPair(Vector2Int pos)
+        {
+            return pairs.Find(t => t.Tile.Position == pos);
+        }
 
         public List<string> GetConnections(LBSTile tile)
         {

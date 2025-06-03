@@ -16,6 +16,11 @@ namespace ISILab.LBS.VisualElements.Editor
     {
         private Dictionary<object, List<GraphElement>> pairs = new();
 
+        /// <summary>
+        /// Adds a graphElement into the container under the drawer's list. 
+        /// </summary>
+        /// <param name="obj">Drawer from which the element was created. If already present in dictionary, other graphElements will be added to its list.</param>
+        /// <param name="element">Graph element to be added under the key's list.</param>
         public void AddElement(object obj, GraphElement element)
         {
             if (!pairs.TryGetValue(obj, out var list))
@@ -274,6 +279,12 @@ namespace ISILab.LBS.VisualElements.Editor
             layers.Remove(layer);
         }
 
+        /// <summary>
+        /// Saves a graphElement into a LayerContainer.
+        /// </summary>
+        /// <param name="layer">Layer where the graph element will be put. An LBSLayer does not hold graphElements, but it will create or get a LayerContainer object.</param>
+        /// <param name="obj">The drawer from where the graphElement is created.</param>
+        /// <param name="element">The graphElement to draw in screen.</param>
         public void AddElement(LBSLayer layer, object obj, GraphElement element)
         {
             var container = GetOrCreateLayerContainer(layer);
