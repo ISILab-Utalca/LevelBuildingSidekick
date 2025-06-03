@@ -107,14 +107,11 @@ namespace ISILab.LBS.Generators
                     1*settings.scale.y));
                 
                 trigger.SetData(node.NodeData); 
-
                 go.SetActive(false);
-
-                triggerMap.Add(node, trigger);
             }
 
 
-            observer.Init(quest, triggerMap);
+            observer.Init(quest);
 
             /* For LBS User:
              * ----------------------------------------------------------------

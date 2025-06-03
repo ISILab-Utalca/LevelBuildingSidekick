@@ -14,6 +14,8 @@ namespace ISILab.LBS
     public abstract class QuestTrigger : MonoBehaviour
     {
         #region FIELDS
+        [SerializeField]
+        private string nodeID;
         protected BoxCollider boxCollider;
         [SerializeField]
         protected bool isCompleted;
@@ -21,6 +23,7 @@ namespace ISILab.LBS
         #endregion
 
         #region PROPERTIES
+        public string NodeID => nodeID;
         public bool IsCompleted
         {
             get => isCompleted;
@@ -30,7 +33,6 @@ namespace ISILab.LBS
         #endregion
        
         #region EVENTS
-        
         public event Action<QuestTrigger> OnTriggerCompleted;
         [SerializeField]
         public UnityEvent OnCompleteEvent;
@@ -41,10 +43,14 @@ namespace ISILab.LBS
         #region METHODS
 
         /// <summary>
-        /// Set the required values for each class type based on the Containers within the node data class
+        /// Set the required values for each class type based on the Containers within the node data class.
+        /// Always call base from overwrites as base sets the ID that quest observer uses on start 
         /// </summary>
         /// <param name="data"></param>
-        public abstract void SetData(BaseQuestNodeData data);
+        public virtual void SetData(BaseQuestNodeData data)
+        {
+            nodeID = data.Owner.ID;
+        }
         
         /// <summary>
         /// All triggers require a size by initialization.
@@ -52,9 +58,6 @@ namespace ISILab.LBS
         /// <param name="size"></param>
         public void SetSize(Vector3 size)
         {
-           // if (size.x == 0 || size.z == 0) return;
-                
-
             boxCollider = gameObject.AddComponent<BoxCollider>();
             boxCollider.isTrigger = true;
             boxCollider.size = size;
@@ -83,42 +86,12 @@ namespace ISILab.LBS
 
         protected void CheckComplete()
         {
-            if (CompleteCondition())
-            {
-                Debug.Log("Complete");
-                isCompleted = true;
-                OnCompleteEvent?.Invoke();
-                if (OnTriggerCompleted != null) OnTriggerCompleted.Invoke(this);
-            }
+            if (!CompleteCondition()) return;
+            isCompleted = true;
+            OnCompleteEvent?.Invoke();
+            OnTriggerCompleted.Invoke(this);
         }
         
         #endregion
     }
-    
-    [QuestNodeActionTag("go to")]
-    public class QuestTrigger_GoTo : QuestTrigger
-    {
-        public QuestTrigger_GoTo() : base()
-        {
-            
-        }
-        
-        public override void SetData(BaseQuestNodeData data)
-        {
-            Debug.Log("GOTO DATA SET");
-        }
-
-        protected override void OnTriggerEnter(Collider other) 
-        {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
-        }
-        
-    }
-
-    
-    
-    
 }
