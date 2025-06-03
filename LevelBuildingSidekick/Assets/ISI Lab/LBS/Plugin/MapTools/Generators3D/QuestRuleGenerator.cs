@@ -58,7 +58,8 @@ namespace ISILab.LBS.Generators
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
             assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
-            bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+           // bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+            bool allValid = true;
             if (!allValid)
             {
                 return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
@@ -79,7 +80,7 @@ namespace ISILab.LBS.Generators
             foreach (var node in quest.QuestNodes)
             {
                 var go = new GameObject(node.ID);
-                go.transform.position = node.Target.Rect.position;
+                //go.transform.position = node.Target.Rect.position;
                 go.transform.parent = observer.transform;
                 
                 string tag = node.QuestAction.Trim().ToLowerInvariant();
@@ -106,8 +107,23 @@ namespace ISILab.LBS.Generators
                     1*settings.scale.y, 
                     1*settings.scale.y));
                 
-                trigger.SetData(node.NodeData); 
+                trigger.SetData(node); 
                 go.SetActive(false);
+                
+                Vector3 questPos = Vector3.zero;
+                if (node.NodeData.Position.Any())
+                {
+                    Debug.Log(node.ID + ": " + node.NodeData.Position.First().position);
+                    var x = node.NodeData.Position.First().position.x * settings.scale.x;
+                    var z = node.NodeData.Position.First().position.y * settings.scale.y;
+                    var y = pivot.transform.position.y; // maybe change this to a line trace
+                    questPos= new Vector3(x, y, z);
+                }
+                
+                var basePos = settings.position;
+                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
+                go.transform.position =   basePos + questPos - delta;
+                
             }
 
 

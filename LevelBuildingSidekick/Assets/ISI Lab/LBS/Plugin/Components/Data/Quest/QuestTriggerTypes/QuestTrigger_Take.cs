@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" go to ")]
-    public class QuestTriggerGoTo : QuestTrigger
+    [ISILab.LBS.QuestNodeActionTag(" take ")]
+    public class QuestTriggerTake : QuestTrigger
     {
-        public QuestTriggerGoTo() : base()
+        public QuestTriggerTake() : base()
         {
                 
         }

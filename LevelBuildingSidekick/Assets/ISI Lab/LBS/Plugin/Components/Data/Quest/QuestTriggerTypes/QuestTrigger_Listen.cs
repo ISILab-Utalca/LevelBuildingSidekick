@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" go to ")]
-    public class QuestTriggerGoTo : QuestTrigger
+    [ISILab.LBS.QuestNodeActionTag(" listen ")]
+    public class QuestTriggerListen : QuestTrigger
     {
-        public QuestTriggerGoTo() : base()
+        public QuestTriggerListen() : base()
         {
                 
         }
@@ -15,7 +15,6 @@ namespace ISILab.LBS
         public override void SetData(QuestNode node)
         {
             base.SetData(node);
-
         }
 
         protected override void OnTriggerEnter(Collider other) 

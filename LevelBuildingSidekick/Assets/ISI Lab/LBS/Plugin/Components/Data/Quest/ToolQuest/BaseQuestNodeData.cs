@@ -207,6 +207,16 @@ namespace ISILab.LBS.Components
             public bool HasPosition() => _position.Any();
             public bool HasBundle() => _bundle.Any();
             public bool HasConstraint() => _constrain.Any();
+
+            public void Clone(BaseQuestNodeData data)
+            {
+                _position = data._position;
+                _bundle = data._bundle;
+                _constrain = data._constrain;
+                _goal = data._goal;
+                _tag = data._tag;
+                
+            }
         }
 
         #region DATA CONTAINERS

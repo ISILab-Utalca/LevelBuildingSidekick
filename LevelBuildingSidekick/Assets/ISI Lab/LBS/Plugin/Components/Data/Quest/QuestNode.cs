@@ -192,7 +192,7 @@ namespace ISILab.LBS.Components
             {
                 target = target.Clone() as QuestTarget
             };
-
+            if(NodeData is not null )node.NodeData.Clone(NodeData);
             return node;
         }
         
@@ -224,7 +224,7 @@ namespace ISILab.LBS.Components
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSTag> tags = new();
-
+        
         [JsonIgnore]
         public Rect Rect
         {
@@ -235,7 +235,10 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public List<LBSTag> Tags => tags;
 
-        public QuestTarget() { }
+        public QuestTarget()
+        {
+    
+        }
 
         public object Clone()
         {
