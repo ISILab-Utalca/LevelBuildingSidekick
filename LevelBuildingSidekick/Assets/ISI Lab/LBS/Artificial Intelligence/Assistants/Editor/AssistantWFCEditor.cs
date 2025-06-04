@@ -25,6 +25,11 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private AssistantWFC assistant;
 
+        private TextField presetName;
+        private TextField presetsFolder;
+
+        private ObjectField currentPreset;
+
         public AssistantWFCEditor(object target) : base(target)
         {
             assistant = target as AssistantWFC;
@@ -104,6 +109,17 @@ namespace ISILab.LBS.AI.Assistants.Editor
             // Copy weights from tilemap button
             var copyWeightsButton = this.Q<Button>("CopyWeights");
             copyWeightsButton.clicked += CopyWeights;
+
+            //Save weights in a preset button
+            var saveWeightsButton = this.Q<Button>("SaveWeights");
+            saveWeightsButton.clicked += SaveWeights;
+            presetName = this.Q<TextField>("PresetName");
+            presetsFolder = this.Q<TextField>("PresetsPath");
+
+            // Load weights from a preset
+            var loadWeightsButton = this.Q<Button>("LoadWeights");
+            loadWeightsButton.clicked += LoadWeights;
+            currentPreset = this.Q<ObjectField>("CurrentPreset");
             
             return this;
         }
@@ -111,6 +127,16 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private void CopyWeights()
         {
             assistant.CopyWeights();
+        }
+
+        private void SaveWeights()
+        {
+            assistant.SaveWeights(presetName.value, presetsFolder.value);
+        }
+
+        private void LoadWeights()
+        {
+            assistant.LoadWeights(currentPreset.value as WFCPreset);
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

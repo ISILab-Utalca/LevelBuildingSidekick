@@ -761,3 +761,9 @@ MonoBehaviour:
   - type: UnityEditor.ShaderGraph.ShaderGraphHeatmapValues
     items:
     - {fileID: 11400000, guid: 089885f17bac7464a80c68e81d8538a1, type: 2}
+  - type: ISILab.LBS.Assistants.WFCPreset
+    items:
+    - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
+    - {fileID: 11400000, guid: d0ba2f27a5149ee4db4f3eb61e3fa577, type: 2}
+    - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
+    - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
