@@ -94,7 +94,7 @@ namespace ISILab.LBS.Assistants
             mapElites.OnSampleUpdated += (v) => {
                 if (!toUpdate.Contains(v))
                 {
-                    Debug.Log("adding vector " + v);
+                    //Debug.Log("adding vector " + v);
                     toUpdate.Add(v);
                 }
             };

@@ -19,7 +19,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   assets: []
   characteristics:
-  - rid: 8454501818321076363
+  - rid: 8454501818321076371
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -33,7 +33,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 8454501818321076363
+    - rid: 8454501818321076371
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
