@@ -122,7 +122,7 @@ namespace ISILab.LBS.Assistants
             while (toCalc.Count > 0)
             {
                 var _closed = new List<LBSTile>(closed);
-                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList(); //KVP de tiles y lista de candidatos (mayores a 1)
                 if (xx.Count <= 0)
                     break;
 
@@ -135,7 +135,7 @@ namespace ISILab.LBS.Assistants
                     continue;
                 }
 
-                var selected = current.Value.RandomRullete(c => c.weigth);
+                var selected = current.Value.RandomRullete(c => c.weigth); //Elige el vecino aleatorio segun peso
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
@@ -403,6 +403,61 @@ namespace ISILab.LBS.Assistants
 
                 connected.SetConnection(neis[i], idir, oring[i], false);
             }
+        }
+
+        public void CopyWeights()
+        {
+
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+            var currentBundles = new List<Bundle>();
+            group.Weights.ForEach(ws => currentBundles.Add(ws.target));
+
+            var bundleFrequency = new Dictionary<Bundle, int>();
+            int maxFreq = 0;
+            currentBundles.ForEach(b => bundleFrequency.Add(b, 0));
+
+            int totalFreq = connected.Pairs.Count;
+
+            for(int i = 0; i < connected.Pairs.Count; i++)
+            {
+                bool matchFound = false;
+                var tileConns = connected.Pairs[i].Connections;
+                for(int j = 0; j < currentBundles.Count; j++)
+                {
+                    Bundle bundle = currentBundles[j];
+                    var bundleConns = bundle.GetCharacteristics<LBSDirection>()[0].Connections;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        var rotatedBundleConns = bundleConns.Rotate(k);
+
+                        if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray()))
+                        {
+                            bundleFrequency[bundle]++;
+                            if(bundleFrequency[bundle] > maxFreq)
+                                maxFreq = bundleFrequency[bundle];
+                            matchFound = true;
+                            j = currentBundles.Count;
+                            break;
+                        }
+                    }
+                }
+
+                if (!matchFound)
+                {
+                    Debug.LogWarning("Tile has no matching bundle");
+                    totalFreq--;
+                }
+            }
+
+            float normFactor = 1f / (float)maxFreq;
+            for (int i = 0; i < currentBundles.Count; i++) 
+            {
+                group.Weights[i].weight = (float)bundleFrequency[currentBundles[i]] / (float)totalFreq;// normFactor;
+            }
+
+            
         }
 
         public bool Compare(string[] a, string[] b)
