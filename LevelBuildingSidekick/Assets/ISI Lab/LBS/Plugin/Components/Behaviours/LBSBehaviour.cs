@@ -66,7 +66,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region METHODS
-        public List<Type> GetRequieredModules()
+        public List<Type> GetRequiredModules()
         {
             var toR = new List<Type>();
             Type tipo = this.GetType();

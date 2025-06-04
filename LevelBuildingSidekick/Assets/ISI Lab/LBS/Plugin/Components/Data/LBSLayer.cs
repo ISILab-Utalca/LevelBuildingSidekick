@@ -249,8 +249,8 @@ namespace LBS.Components
 
             this.behaviours.Add(behaviour);
 
-            // check if the layer have necesarie 'Modules'
-            var reqModules = behaviour.GetRequieredModules();
+            // check if the layer have necessary 'Modules'
+            var reqModules = behaviour.GetRequiredModules();
             foreach (var type in reqModules)
             {
                 if (!modules.Any(e => e.GetType() == type))         

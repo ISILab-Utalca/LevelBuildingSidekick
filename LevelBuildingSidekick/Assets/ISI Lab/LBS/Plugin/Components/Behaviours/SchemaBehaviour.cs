@@ -46,6 +46,8 @@ namespace ISILab.LBS.Behaviours
         private string pressetInsideStyle = "Castle_Wooden";
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
+        
+        private HashSet<Zone> _changedZones = new ();
         #endregion
 
         #region META-FIELDS
@@ -83,7 +85,7 @@ namespace ISILab.LBS.Behaviours
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => areas.ZonesWithTiles;
-
+        
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;
 
@@ -117,6 +119,8 @@ namespace ISILab.LBS.Behaviours
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
+            _changedZones.Add(zone);
+            
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
             return tile;
@@ -148,14 +152,20 @@ namespace ISILab.LBS.Behaviours
         public void RemoveZone(Zone zone)
         {
             var tiles = areas.GetTiles(zone);
+            if (_changedZones.Contains(zone))
+            {
+                _changedZones.Remove(zone);
+            }
+            
             tileMap.RemoveTiles(tiles);
-
             areas.RemoveZone(zone);
         }
 
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
+            _changedZones.Add(areas.GetZone(tile));
+            
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
             areas.RemovePair(tile);
@@ -169,6 +179,8 @@ namespace ISILab.LBS.Behaviours
 
         public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
         {
+            _changedZones.Add(areas.GetZone(tile));
+            
             tileConnections.AddPair(tile, connections, editedByIA);
         }
 
@@ -277,6 +289,25 @@ namespace ISILab.LBS.Behaviours
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        
+        /// <summary>
+        /// Get all zones that have been affected by a change since the last time they were retrieved.
+        /// The memory of changed zones will be cleared after calling this method.
+        /// </summary>
+        public Zone[] RetrieveChangedZones()
+        {
+            // If null create a new one
+            _changedZones ??= new HashSet<Zone>();
+            
+            // Turn into array
+            Zone[] o = _changedZones.ToArray();
+            
+            // Clear memory
+            _changedZones.Clear();
+            
+            // Return array
+            return o;
         }
         #endregion
     }

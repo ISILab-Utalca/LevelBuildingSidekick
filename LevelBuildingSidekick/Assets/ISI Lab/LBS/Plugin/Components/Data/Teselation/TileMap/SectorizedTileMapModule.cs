@@ -682,7 +682,7 @@ namespace ISILab.LBS.Modules
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(zone.GetHashCode());
         }
         #endregion
 

@@ -169,9 +169,7 @@ namespace ISILab.LBS.Components
 
         public override int GetHashCode()
         {
-            int baseHash = base.GetHashCode();
-            int posHash = positions.GetHashCode();
-            return HashCode.Combine(baseHash, posHash);
+            return id.GetHashCode();
         }
         #endregion
 

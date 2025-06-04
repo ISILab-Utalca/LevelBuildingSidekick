@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISI_Lab.Commons.Utility;
 using ISILab.Extensions;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -311,7 +312,7 @@ namespace ISILab.LBS.Modules
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return LBSHashUtilities.CustomListHash(connections);
         }
         #endregion
     }

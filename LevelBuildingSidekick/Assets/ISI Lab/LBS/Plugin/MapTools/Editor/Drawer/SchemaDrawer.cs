@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,9 +22,9 @@ namespace ISILab.LBS.Drawers
         private VectorImage _windowConImage = null;
 
         private const int VisualTilesCap = 100;
-        private readonly Dictionary<Tuple<TileZonePair, TileConnectionsPair>, GraphElement> _storedVisualTiles = new ();
+        private readonly Dictionary<int, GraphElement> _storedVisualTiles = new ();
         private const int VisualZonesCap = 10;
-        private readonly Dictionary<Zone, List<Tuple<TileZonePair, TileConnectionsPair>>> _storedVisualZones = new ();
+        private readonly Dictionary<Zone, List<TrueTile>> _storedVisualZones = new ();
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -37,54 +38,64 @@ namespace ISILab.LBS.Drawers
             // Update zones' positions
             zonesMod.UpdateZonePositions();
             
-            // Isolate non saved zones
-            var changedZones = zonesMod.Zones;
-            for (var i = 0; i < changedZones.Count; i++)
+            // Store data of changed zones
+            var changedZones = schema.RetrieveChangedZones();
+            foreach (var zone in changedZones)
             {
-                if (!_storedVisualZones.TryGetValue(zonesMod.Zones[i], out _)) continue;
-                changedZones.RemoveAt(i);
-                i--;
-            }
-            
-            // Save new zones
-            foreach (var tZone in zonesMod.PairTiles)
-            {
-                if (changedZones.Contains(tZone.Zone))
+                if (zone == null) continue;
+                
+                _storedVisualZones.Remove(zone);
+                foreach (var pos in zone.Positions)
                 {
-                    AddTileToZoneMemory(tZone.Zone, new Tuple<TileZonePair, TileConnectionsPair>(tZone, connectionsMod.GetPair(tZone.Tile)));
+                    AddTileToZoneMemory(zone, new TrueTile(zonesMod.GetPairTile(pos), connectionsMod.GetPair(pos)));
                 }
             }
             
             // Paint each zone
+            foreach (var tile in _storedVisualTiles)
+            {
+                Debug.Log(tile.Key.GetHashCode());
+            }
+            
             foreach(var zone in zonesMod.Zones)
             {
-                if (!_storedVisualZones.TryGetValue(zone, out List<Tuple<TileZonePair, TileConnectionsPair>> trueTiles))
+                if (!_storedVisualZones.TryGetValue(zone, out List<TrueTile> trueTiles))
                 {
-                    // how did this happen?? we are smarter than this
-                    Debug.LogError("Zone not found on Schema Drawer cache: " + zone);
+                    if (zone.Positions.Count > 0)
+                    {
+                        // how did this happen?? we are smarter than this
+                        Debug.LogError("Zone not found on Schema Drawer cache: " + zone.ID);   
+                    }
                     continue;  
                 }
                 
-                foreach (var tTile in trueTiles)
+                foreach (TrueTile tTile in trueTiles)
                 {
-                    if (_storedVisualTiles.TryGetValue(tTile, out var gElement))    // get graphElement if on memory
+                    //Debug.Log("trying to get graph element of: " + tTile.GetHashCode());
+                    if (_storedVisualTiles.TryGetValue(tTile.GetHashCode(), out var gElement))    // get graphElement if on memory
                     {
-                        view.AddElement(gElement);
+                        var pos = new Vector2(tTile.ZoneTile.Tile.x, -tTile.ZoneTile.Tile.y);
+                        var size = DefalutSize * teselationSize;
+                        
+                        (gElement as SchemaTileView).SetPosition(new Rect(pos * size, size));
+                        
+                        view.AddElement(schema.OwnerLayer, this, gElement);
                         continue;
                     }
 
-                    var t = tTile.Item1.Tile;                               // create graphElement if not
-                    var connections = connectionsMod.GetConnections(t);
+                    var t = tTile.ZoneTile.Tile;                               // create graphElement if not
+                    var connections = tTile.ConnectionTile.Connections;
                     var tView = GetTileView(t, zone, connections, teselationSize);
                 
-                    _storedVisualTiles.Add(tTile, tView);
+                    Debug.Log("graphElement not found for: " + tTile.GetHashCode() + ", creating new one.");
+                    _storedVisualTiles.Add(tTile.GetHashCode(), tView);
                     view.AddElement(schema.OwnerLayer, this, tView);
                 }
             }
             
             // Memory handling
-            RestrictMemoryUsage(_storedVisualTiles, VisualTilesCap);
-            RestrictMemoryUsage(_storedVisualZones, VisualZonesCap);
+            //RestrictMemoryUsage(_storedVisualTiles, VisualTilesCap);
+            //RestrictMemoryUsage(_storedVisualZones, VisualZonesCap);
         }
 
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
@@ -235,20 +246,38 @@ namespace ISILab.LBS.Drawers
 
         private Dictionary<T,TA> RestrictMemoryUsage<T,TA>(Dictionary<T,TA> dictionary, int maxSize)
         {
-            while (dictionary.Count > maxSize)
+            int gap = dictionary.Count - maxSize;
+            for(int i = 0; i < gap; i++)
             {
                 dictionary.Remove(dictionary.First().Key);
             }
             return dictionary;
         }
 
-        private void AddTileToZoneMemory(Zone zone, Tuple<TileZonePair, TileConnectionsPair> tile)
+        private void AddTileToZoneMemory(Zone zone, TrueTile tile)
         {
-            if (!_storedVisualZones.ContainsKey(zone))
+            if (_storedVisualZones.TryGetValue(zone, out var visualZone))
             {
-                _storedVisualZones.Add(zone, new List<Tuple<TileZonePair, TileConnectionsPair>>());
+                visualZone.Add(tile);
+                return;
             }
-            _storedVisualZones[zone].Add(tile);
+            _storedVisualZones.Add(zone, new List<TrueTile>{ tile });
+        }
+    }
+
+    internal class TrueTile
+    {
+        public TileZonePair ZoneTile { get; }
+        public TileConnectionsPair ConnectionTile { get; }
+
+        public TrueTile(TileZonePair zoneTile, TileConnectionsPair connectionTile)
+        {
+            ZoneTile = zoneTile;
+            ConnectionTile = connectionTile;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ZoneTile.GetHashCode(), ConnectionTile.GetHashCode());
         }
     }
 }
