@@ -100,8 +100,17 @@ namespace ISILab.LBS.AI.Assistants.Editor
             };
 
             assistant.Bundle = exterior.Bundle;
+
+            // Copy weights from tilemap button
+            var copyWeightsButton = this.Q<Button>("CopyWeights");
+            copyWeightsButton.clicked += CopyWeights;
             
             return this;
+        }
+
+        private void CopyWeights()
+        {
+            assistant.CopyWeights();
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()
