@@ -363,8 +363,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void ApplySuggestion()
         {
-
-
             var chrom = selectedMap.Data as BundleTilemapChromosome;
             if (chrom == null)
             {
@@ -390,8 +388,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RunAlgorithm()
         {
-            Debug.Log("running algorithm");
-
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
@@ -409,7 +405,6 @@ namespace ISILab.LBS.VisualElements.Editor
             assistant.SetAdam(assistant.RawToolRect);
             assistant.Execute();
 
-            Debug.Log("executed");
             //TODO: Hay que pasarle el Optimizer a los Map Elites
             LBSMainWindow.OnWindowRepaint += RepaintContent;
 
@@ -417,16 +412,9 @@ namespace ISILab.LBS.VisualElements.Editor
             recalculate.text = "Recalculate";
         }
 
-        private void RepaintContent()
-        {
-            UpdateContent();
-            if (assistant.Finished)
-                LBSMainWindow.OnWindowRepaint -= RepaintContent;
-        }
-
         private void OpenOptimizer()
         {
-            if((currentOptimizer is GeneticAlgorithm)&&(currentOptimizer!=null))
+            if ((currentOptimizer is GeneticAlgorithm) && (currentOptimizer != null))
             {
                 //Debug.Log("optimizer is compatible");
                 optimizerEditor = new GeneticAlgorithmVE(mapEliteBundle.Optimizer);
@@ -439,6 +427,44 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
+        private void RepaintContent()
+        {
+            UpdateContent();
+            if (assistant.Finished)
+            {
+                LBSMainWindow.OnWindowRepaint -= RepaintContent;
+            }
+        }
+
+        //Update all squares
+        public void UpdateContent()
+        {
+            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
+            for (int i = 0; i < assistant.toUpdate.Count &&
+                            i < veChildren.Count; i++)
+            {
+                var v = assistant.toUpdate[i];
+                var index = (int)(v.y * assistant.SampleWidth + v.x);
+
+                SetBackgroundTexture(veChildren[index], assistant.RawToolRect);
+
+                veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
+                veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
+                var t = veChildren[index].GetTexture();
+                if (veChildren[index].Data != null)
+                {
+                    veChildren[index].SetTexture(veChildren[index].backgroundTexture.MergeTextures(t).FitSquare());
+                }
+                else
+                {
+                    veChildren[index].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
+                }
+                //veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i-1].Data);
+                veChildren[index].UpdateLabel();
+            }
+            assistant.toUpdate.Clear();
+        }
+
         private void UpdateGrid()
         {
             assistant.SampleWidth = rows.value;
@@ -447,7 +473,7 @@ namespace ISILab.LBS.VisualElements.Editor
            // TODO change the population sample size
             
             gridContent.Clear();
-            gridContent.style.flexDirection = FlexDirection.Column;
+            gridContent.style.flexDirection = FlexDirection.ColumnReverse;
             List<VisualElement> rowsVE = new();
             for (int i = 0; i < rows.value; i++)
             {
@@ -497,34 +523,7 @@ namespace ISILab.LBS.VisualElements.Editor
             buttonResult.OnButtonSelected?.Invoke();
         }
 
-        //Update all squares
-        public void UpdateContent()
-        {
-            var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
-            for (int i = 0; i < assistant.toUpdate.Count &&
-                            i < veChildren.Count; i++)
-            {
-                var v = assistant.toUpdate[i];
-                //var index = (int)(v.y * assistant.SampleWidth + v.x);
-
-                SetBackgroundTexture(veChildren[i], assistant.RawToolRect);
-
-                veChildren[i].Data = assistant.Samples[(int)v.y, (int)v.x];
-                veChildren[i].Score =  ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");
-                var t = veChildren[i].GetTexture();
-                if (veChildren[i].Data != null)
-                {
-                    veChildren[i].SetTexture(veChildren[i].backgroundTexture.MergeTextures(t).FitSquare());
-                }
-                else
-                {
-                    veChildren[i].SetTexture(DirectoryTools.GetAssetByName<Texture2D>("LoadingContent"));
-                }
-                //veChildren[i].selectButton.clicked += () => ShowResults(veChildren[i-1].Data);
-                veChildren[i].UpdateLabel();
-            }
-            assistant.toUpdate.Clear();
-        }
+        
 
        //Obsolete
         public MAPElitesPreset GetPresset()

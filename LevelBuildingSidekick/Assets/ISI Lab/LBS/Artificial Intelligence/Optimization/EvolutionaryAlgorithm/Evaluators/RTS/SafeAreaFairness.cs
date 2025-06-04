@@ -23,13 +23,17 @@ namespace ISILab.AI.Categorization
         public float Evaluate(IOptimizable evaluable)
         {
             var chrom = evaluable as BundleTilemapChromosome;
-
             if (chrom == null)
             {
                 throw new Exception("Wrong Chromosome Type");
             }
 
             float fitness = 0;
+
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
+            }
 
             var genes = chrom.GetGenes().Cast<BundleData>().ToList();
             var players = genes.Select((g, i) => new { g, i }).Where(p => p.g != null && p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));

@@ -388,7 +388,11 @@ namespace ISILab.LBS.AI.Categorization
 
                 me.evaluable.xFitness = me.xFitness;
                 me.evaluable.yFitness = me.yFitness;
-                UpdateSample((int)xPos, (int)yPos, me.evaluable);
+                                
+                 if (me.evaluable != optimizer.Adam) {
+                    UpdateSample((int)xPos, (int)yPos, me.evaluable);
+                }
+                
             }
         }
 
@@ -407,9 +411,9 @@ namespace ISILab.LBS.AI.Categorization
                 BestSamples[y, x] = evaluable.Clone() as IOptimizable;
                 BestSamples[y, x].Fitness = evaluable.Fitness;
                 BestSamples[y, x].yFitness = evaluable.yFitness;
-                Debug.Log(evaluable.yFitness);
+                //Debug.Log(evaluable.yFitness);
                 BestSamples[y, x].xFitness = evaluable.xFitness;
-                Debug.Log(evaluable.xFitness);
+                //Debug.Log(evaluable.xFitness);
 
                 OnSampleUpdated?.Invoke(new Vector2Int(x, y));
                 return true;
