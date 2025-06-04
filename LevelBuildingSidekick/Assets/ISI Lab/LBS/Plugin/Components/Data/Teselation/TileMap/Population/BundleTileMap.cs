@@ -370,6 +370,21 @@ namespace ISILab.LBS.Modules
             this.bData = bData;
             this.rotation = rotation;
         }
+        public TileBundleGroup(Vector2 position, Vector2 size, BundleData bData, Vector2 rotation)
+        {
+            this.tileGroup = new List<LBSTile>();
+            for(int i=0; i<size.x;i++)
+            {
+                for (int j = 0; j < size.y; j++)
+                {
+                    var newPosition = new Vector2(position.x + i, position.y + j);
+                    tileGroup.Add(new LBSTile(newPosition));
+                }
+            }
+            
+            this.bData = bData;
+            this.rotation = rotation;
+        }
         #endregion
 
         #region METHODS

@@ -32,6 +32,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement tooltipTab;
         private VisualElement tutorialTab;
         
+        private Button gotoWebButton;
+        
         #endregion
 
         #region FIELDS
@@ -71,8 +73,14 @@ namespace ISILab.LBS.VisualElements.Editor
                     SetupTabButton(buttonTutorial, buttonTooltip, tutorialTab, tooltipTab);
                 });
             }
-          
             
+            gotoWebButton = this.Q<Button>("GotoWebButton");
+            if (gotoWebButton != null)
+            {
+                gotoWebButton.clicked += GotoWebButtonOnclicked;
+                Debug.Log("InButton");
+            }
+            Debug.Log("OffButton");
             
             tooltipTab = this.Q<VisualElement>("TooltipTab");
             tutorialTab = this.Q<VisualElement>("TutorialTab");
@@ -105,7 +113,12 @@ namespace ISILab.LBS.VisualElements.Editor
             SetupTabButton(buttonTooltip, buttonTutorial, tooltipTab, tutorialTab);
             ChangeTab(button1);
         }
-        
+
+        private void GotoWebButtonOnclicked()
+        {
+            Application.OpenURL("https://isilab-utalca.github.io/isilab-website/documentation/tutorials/lbs/getting_started/");
+        }
+
         #endregion
 
         #region METHODS

@@ -23,7 +23,6 @@ namespace ISILab.AI.Categorization
         public float Evaluate(IOptimizable evaluable)
         {
             var chrom = evaluable as BundleTilemapChromosome;
-
             if (chrom == null)
             {
                 throw new Exception("Wrong Chromosome Type");
@@ -31,9 +30,13 @@ namespace ISILab.AI.Categorization
 
             float fitness = 0;
 
-            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
+            }
 
-            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
+            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g != null && p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
 
             if (players.Count() < 2)
             {
@@ -67,6 +70,7 @@ namespace ISILab.AI.Categorization
         public void InitializeDefault()
         {
             playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
+            Debug.Log(playerCharacteristic);
         }
     }
 }

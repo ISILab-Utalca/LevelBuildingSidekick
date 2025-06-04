@@ -67,7 +67,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 assitant.Execute();
             }
 
-            LBSMainWindow.OnWindowRepaint += RepaintContent; 
+            //LBSMainWindow.OnWindowRepaint += RepaintContent; 
         }
 
         private void RepaintContent()

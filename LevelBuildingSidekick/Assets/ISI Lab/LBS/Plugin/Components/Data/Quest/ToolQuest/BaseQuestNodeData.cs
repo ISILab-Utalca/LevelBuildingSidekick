@@ -6,6 +6,19 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
+    
+        [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+        public class QuestTagAttribute : Attribute
+        {
+            public string Tag { get; }
+
+            public QuestTagAttribute(string tag)
+            {
+                Tag = tag;
+            }
+        }
+
+    
         /// <summary>
         /// Custom attribute to specify action tag and required data types.
         /// </summary>
@@ -53,7 +66,7 @@ namespace ISILab.LBS.Components
             {
                 if (!QuestNodeActionTag.TagDataTypes.TryGetValue(tag, out var requiredDataTypes))
                 {
-                    Debug.LogError($"No data types defined for tag: '{tag}'");
+            //        Debug.LogError($"No data types defined for tag: '{tag}'");
                     return new BaseQuestNodeData(owner, tag, new Type[0]);
                 }
 

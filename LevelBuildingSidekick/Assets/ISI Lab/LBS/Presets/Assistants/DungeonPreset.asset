@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08a0b472743d1524e92b39d2fe06fdfe, type: 3}
-  m_Name: RTSPreset
+  m_Name: DungeonPreset
   m_EditorClassIdentifier: 
-  presetName: RTS
+  presetName: DungeonCrawler_Preset
   mapElites:
     xSampleCount: 3
     ySampleCount: 3
     devest: 0.5
     xEvaluator:
-      rid: 8454501502191403899
+      rid: 6943663382020227162
     yEvaluator:
-      rid: 8454501502191403901
+      rid: 6943663382850962003
     optimizer:
       rid: 8454501502191403727
     changedSample: 
@@ -30,23 +30,43 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3499384374885351448
+    - rid: 3707499439976612803
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         colliderCharacteristic:
-          rid: 3499384374885351449
-    - rid: 3499384374885351449
+          rid: 3707499439976612804
+    - rid: 3707499439976612804
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 6943663382020227162
+      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        colliderCharacteristic:
+          rid: 6943663382020227163
+    - rid: 6943663382020227163
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 6943663382850962003
+      type: {class: SafeAreaFairness, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        playerCharacteristic:
+          rid: 6943663382850962004
+    - rid: 6943663382850962004
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 8454501502191403727
       type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 3499384374885351448
+          rid: 3707499439976612803
         selection:
           rid: 8454501502191403729
         termination:
@@ -115,42 +135,3 @@ MonoBehaviour:
         mutation:
           rid: 8454501502191403883
         weight: 0.2
-    - rid: 8454501502191403899
-      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        colliderCharacteristic:
-          rid: 8454501502191403900
-    - rid: 8454501502191403900
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 8454501502191403901
-      type: {class: ResourcesSafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        playerCharacteristc:
-          rid: 8454501502191403902
-        resourceCharactersitic:
-        - rid: 8454501502191403903
-        - rid: 8454501502191403904
-        - rid: 8454501502191403905
-    - rid: 8454501502191403902
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 8454501502191403903
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
-    - rid: 8454501502191403904
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
-    - rid: 8454501502191403905
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}

@@ -76,8 +76,8 @@
                 <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
                     <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                 </ui:Toggle>
-                <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
-                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column; justify-content: flex-end;">
+                <ui:VisualElement name="Separator" style="flex-grow: 0; border-bottom-width: 1px; height: 2px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35); margin-top: 2px; margin-bottom: 2px;" />
+                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column-reverse; justify-content: flex-end;">
                     <ui:Toggle value="false" focusable="true" name="LayerDataButton" tooltip="Layer Data" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
                         <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Editor&apos;);" />
                     </ui:Toggle>

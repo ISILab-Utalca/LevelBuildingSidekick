@@ -113,6 +113,8 @@ namespace ISILab.LBS.Generators
                     continue;
                 }
                 
+                if(current.GetHasTagCharacteristic("Player")) go.tag = "Player"; // TODO this is hardcoded - shouldnt be
+                
                 //Set rotation
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, 90 * (r + 1), 0);
