@@ -31,6 +31,10 @@ namespace ISILab.AI.Categorization
             {
                 throw new Exception("Wrong Chromosome Type");
             }
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
+            }
 
             float fitness = 0;
 
