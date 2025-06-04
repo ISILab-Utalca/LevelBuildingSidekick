@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
@@ -9,8 +7,14 @@ using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace ISILab.LBS.Assistants
 {
@@ -30,6 +34,8 @@ namespace ISILab.LBS.Assistants
          * - "Exterior_Plains" 
          */
         private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29";
+
+        private string presetsSaveFolder;
 
         #endregion
 
@@ -53,6 +59,7 @@ namespace ISILab.LBS.Assistants
         
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+
         #endregion
 
         #region CONSTRUCTORS
@@ -407,7 +414,6 @@ namespace ISILab.LBS.Assistants
 
         public void CopyWeights()
         {
-
             var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
             var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
 
@@ -417,8 +423,6 @@ namespace ISILab.LBS.Assistants
             var bundleFrequency = new Dictionary<Bundle, int>();
             int maxFreq = 0;
             currentBundles.ForEach(b => bundleFrequency.Add(b, 0));
-
-            int totalFreq = connected.Pairs.Count;
 
             for(int i = 0; i < connected.Pairs.Count; i++)
             {
@@ -445,19 +449,56 @@ namespace ISILab.LBS.Assistants
                 }
 
                 if (!matchFound)
-                {
-                    Debug.LogWarning("Tile has no matching bundle");
-                    totalFreq--;
-                }
+                    Debug.LogWarning($"Tile {connected.Pairs[i].Tile.Position} has no matching bundle");
             }
-
-            float normFactor = 1f / (float)maxFreq;
+            
             for (int i = 0; i < currentBundles.Count; i++) 
             {
-                group.Weights[i].weight = (float)bundleFrequency[currentBundles[i]] / (float)totalFreq;// normFactor;
+                Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
+                group.Weights[i].weight = maxFreq != 0 ? (float)bundleFrequency[currentBundles[i]] / (float)maxFreq : 1;
             }
 
-            
+            Selection.activeObject = targetBundleRef;
+        }
+
+        public void SaveWeights(string presetName, string folder)
+        {
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            WFCPreset newPreset = ScriptableObject.CreateInstance<WFCPreset>();
+            newPreset.name = presetName;
+            newPreset.SetWeights(group.Weights);
+
+            AssetDatabase.CreateAsset(newPreset, folder + "/" + presetName + ".asset");
+            AssetDatabase.SaveAssets();
+
+            EditorUtility.FocusProjectWindow();
+
+            Selection.activeObject = newPreset;
+        }
+
+        public void LoadWeights(WFCPreset preset)
+        {
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            // Hacer match por bundle?
+            //foreach(var ws in group.Weights) 
+            for (int i = 0; i < group.Weights.Count; i++)
+            {
+                bool found = false;
+                foreach (var presetWS in preset.GetWeights()) 
+                {
+                    if (group.Weights[i].target.Equals(presetWS.target))
+                    {
+                        group.Weights[i].weight = presetWS.weight;
+                        found = true;
+                        break;
+                    }
+                }
+                // Testear cambiando los bundles hijos
+                if(!found)
+                    Debug.LogWarning($"Bundle {group.Weights[i].target} was not in preset {preset.name}");
+            }
+
+            Selection.activeObject = targetBundleRef;
         }
 
         public bool Compare(string[] a, string[] b)
