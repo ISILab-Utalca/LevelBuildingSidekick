@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
@@ -127,16 +128,20 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private void CopyWeights()
         {
             assistant.CopyWeights();
+            LBSMainWindow.MessageNotify("Weights copied.");
         }
 
         private void SaveWeights()
         {
-            assistant.SaveWeights(presetName.value, presetsFolder.value);
+            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName);
+            LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
         }
 
         private void LoadWeights()
         {
-            assistant.LoadWeights(currentPreset.value as WFCPreset);
+            WFCPreset loaded = currentPreset.value as WFCPreset;
+            assistant.LoadWeights(loaded);
+            LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()
