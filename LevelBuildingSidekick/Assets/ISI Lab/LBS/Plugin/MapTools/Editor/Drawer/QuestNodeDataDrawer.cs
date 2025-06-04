@@ -44,15 +44,10 @@ namespace ISILab.LBS.Drawers.Editor
              * but apply on visual Elements.
              */
             // view.AddElement(behaviour.OwnerLayer, behaviour, type);
-
-            if (nd.HasPosition())
-            {
-                var position = layer.FixedToPosition(nd.Position.FirstOrDefault()!.position, true);
+            var position = layer.FixedToPosition(nd.position, true);
                   
-                var circle = new CircleElement(position, CircleSize, nd);
-                view.AddElement(behaviour.OwnerLayer, behaviour, circle);
-
-            }
+            var circle = new CircleElement(position, CircleSize, nd);
+            view.AddElement(behaviour.OwnerLayer, behaviour, circle);
             
         }
         
@@ -123,8 +118,7 @@ namespace ISILab.LBS.Drawers.Editor
                 grabPosition *= MainView.Instance.viewport.transform.scale;
                 Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
                 SetPosition(newPos);
-                
-                if (_data.HasPosition()) _data.Position.FirstOrDefault()!.position = gridPos;
+                _data!.position = gridPos;
                 
             }
 

@@ -79,7 +79,7 @@ namespace ISILab.LBS.VisualElements
         /// </summary>
         private VisualElement NoNodeSelectedPanel;
         
-        private Button PickerTarget;
+        private VeQuestTilePicker PickerTarget;
         private Button PickerLocation;
         #endregion
         
@@ -119,7 +119,7 @@ namespace ISILab.LBS.VisualElements
             });
             
             TargetCount = this.Q<IntegerField>("TargetCount");
-            TargetCount.RegisterValueChangedCallback(evt => SetIntValue(evt.newValue));
+            TargetCount.RegisterValueChangedCallback(evt => SetCounter(evt.newValue));
 
             TargetCountIncrease = this.Q<Button>("TargetCountIncrease");
             TargetCountDecrease = this.Q<Button>("TargetCountDecrease");
@@ -171,19 +171,23 @@ namespace ISILab.LBS.VisualElements
             #endregion
            
             #region Pickers
-            PickerTarget = this.Q<Button>("PickerTarget");
+            PickerTarget = this.Q<VeQuestTilePicker>("PickerTarget");
             PickerTarget.clicked += () =>
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData.Bundle.FirstOrDefault();
+                qp.activeData = behaviour.SelectedQuestNode.NodeData;
+                qp.OnBundlePicked = (string guid) =>
+                {
+                    ///behaviour.SelectedQuestNode.NodeData.bundleGuid = guid;
+                };
             };
             
             PickerLocation = this.Q<Button>("PickerLocation");
             PickerLocation.clicked += () => {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData.Position.FirstOrDefault();
+                qp.activeData = behaviour.SelectedQuestNode.NodeData;
             };
             
             #endregion
@@ -200,69 +204,39 @@ namespace ISILab.LBS.VisualElements
 
         private void SetStayTime(float evtNewValue)
         {
-            var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
+            throw new NotImplementedException();
         }
 
-        private void SetMaxDistance(float evtNewValue)
+        private void SetMaxDistance(int evtNewValue)
         {
-            var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
-            
+            throw new NotImplementedException();
         }
 
-        private void SetTargetValue(Bundle newValue)
+        private void SetIntValue(int evtNewValue, bool b)
         {
-            var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
-            var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
-
-            if (!nd.HasBundle()) return;
-            nd.Bundle.FirstOrDefault().bundleGuid = bundleGuid;
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            throw new NotImplementedException();
         }
 
-        private void SetOtherTargetValue(Bundle newValue)
+        private void SetOtherTargetValue(Bundle bundle)
         {
-            var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
-            var bundleGuid = LBSAssetMacro.GetGuidFromAsset(newValue);
-
-            if (!nd.HasBundle()) return;
-            if (nd.Bundle.Count < 0) return;
-                
-            nd.Bundle[1].bundleGuid = bundleGuid;
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            throw new NotImplementedException();
         }
-        
-        private void SetIntValue(int newValue, bool firstTarget = true)
-        {
-            var nd = GetSelectedNode().NodeData;
-            if(nd is null)  return;
-            if (!nd.HasBundle()) return;
 
-            if (firstTarget)
-            {
-                nd.Bundle.FirstOrDefault().num = newValue;
-            }
-            else
-            {
-                if (nd.Bundle.Count < 2) return;
-                nd.Bundle[1].num = newValue;
-            }
-            
-           
-            
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+        private void SetTargetValue(Bundle bundle)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SetCounter(int evtNewValue)
+        {
+            throw new NotImplementedException();
         }
 
         private void SetVector2IntValue(Vector2Int newValue)
         {
             var nd = GetSelectedNode().NodeData;
             if (nd is null) return;
-            if (!nd.HasPosition()) return;
-
-            nd.Position.FirstOrDefault().position = newValue;
+            nd.position = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -302,14 +276,11 @@ namespace ISILab.LBS.VisualElements
             var nd = node.NodeData;
             if (nd is null) return;
             
+            PositionVe.style.display = DisplayStyle.Flex;
+            Vector2Pos.value = nd.position;
 
-
-            if (nd.HasPosition())
-            {
-                PositionVe.style.display = DisplayStyle.Flex;
-                Vector2Pos.value = nd.Position.FirstOrDefault().position;
-            }
-
+            
+            /*
             if (nd.HasBundle())
             {
                 TargetBundleVe.style.display = DisplayStyle.Flex;
@@ -332,6 +303,7 @@ namespace ISILab.LBS.VisualElements
                 AreaSize.value = nd.Constrain.FirstOrDefault().areaSize;
                 StayTime.value = nd.Constrain.FirstOrDefault().time;
             }
+            */
             
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }

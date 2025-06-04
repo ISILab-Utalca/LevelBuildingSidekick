@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LBS.Bundles;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -26,34 +27,30 @@ namespace ISILab.LBS.Components
         public class QuestNodeActionTag : Attribute
         {
             private readonly string _tag;
-            private readonly Type[] _requiredDataTypes;
-
             public string Tag => _tag;
-            public Type[] RequiredDataTypes => _requiredDataTypes;
 
-            public QuestNodeActionTag(string tag, params Type[] requiredDataTypes)
+            public QuestNodeActionTag(string tag)
             {
                 _tag = tag;
-                _requiredDataTypes = requiredDataTypes;
             }
 
             // Static mapping of tags to required data types
-            public static readonly Dictionary<string, Type[]> TagDataTypes = new()
+            public static readonly Dictionary<string, Type> TagDataTypes = new()
             {
-                { " go to ", new[] { typeof(DataPosition) } },
-                { " explore ", new[] { typeof(DataPosition) } },
-                { " kill ", new[] { typeof(DataBundle) } },
-                { " stealth ", new[] { typeof(DataPosition) } },
-                { " take ", new[] { typeof(DataPosition), typeof(DataConstrain) } },
-                { " read ", new[] { typeof(DataBundle) } },
-                { " exchange ", new[] { typeof(DataBundle),typeof(DataBundle) } },
-                { " give ", new[] { typeof(DataBundle),typeof(DataBundle) } },
-                { " report ", new[] { typeof(DataBundle) } },
-                { " gather ", new[] { typeof(DataBundle) } },
-                { " spy ", new[] { typeof(DataPosition), typeof(DataConstrain) } },
-                { " capture ", new[] { typeof(DataPosition), typeof(DataConstrain) } },
-                { " listen ", new[] { typeof(DataPosition), typeof(DataConstrain) } },
-                { " empty ", new Type[0] }
+                { " go to ", typeof(DataGoto) },
+                { " explore ", typeof(DataExplore) },
+                { " kill ", typeof(DataKill) } ,
+                { " stealth ", typeof(DataStealth) },
+                { " take ",typeof(DataTake) },
+                { " read ", typeof(DataRead) },
+                { " exchange ",typeof(DataExchange) },
+                { " give ",typeof(DataGive) },
+                { " report ",typeof(DataReport) },
+                { " gather ", typeof(DataGather) },
+                { " spy ",  typeof(DataSpy) },
+                { " capture ", typeof(DataCapture) },
+                { " listen ", typeof(DataListen) },
+                { " empty ", null }
             };
         }
 
@@ -64,25 +61,12 @@ namespace ISILab.LBS.Components
         {
             public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
             {
-                if (!QuestNodeActionTag.TagDataTypes.TryGetValue(tag, out var requiredDataTypes))
+                if (!QuestNodeActionTag.TagDataTypes.TryGetValue(tag, out var dataClass))
                 {
-            //        Debug.LogError($"No data types defined for tag: '{tag}'");
-                    return new BaseQuestNodeData(owner, tag, new Type[0]);
+                    return new BaseQuestNodeData(owner, tag);
                 }
 
-                var nodeData = new BaseQuestNodeData(owner, tag, requiredDataTypes);
-
-                // Initialize data fields based on required types
-                foreach (var dataType in requiredDataTypes)
-                {
-                    if (dataType == typeof(DataPosition))
-                        nodeData.AddPosition(new DataPosition());
-                    else if (dataType == typeof(DataBundle))
-                        nodeData.AddBundle(new DataBundle());
-                    else if (dataType == typeof(DataConstrain))
-                        nodeData.AddConstrain(new DataConstrain());
-                }
-
+                var nodeData = (BaseQuestNodeData)Activator.CreateInstance(dataClass, owner, tag);
                 return nodeData;
             }
         }
@@ -93,163 +77,194 @@ namespace ISILab.LBS.Components
             #region FIELDS
             [SerializeField, JsonRequired]
             private QuestNode _owner;
-
-            [SerializeField, SerializeReference, JsonRequired]
-            private object _goal;
-
-            [SerializeField]
-            private List<DataPosition> _position = new();
-
-            [SerializeField]
-            private List<DataBundle> _bundle = new();
-
-            [SerializeField]
-            private List<DataConstrain> _constrain = new();
-
+            
             [SerializeField, JsonRequired]
             private string _tag;
+          
+            [SerializeField, JsonRequired] 
+            public Vector2Int position = Vector2Int.zero;
             #endregion
 
             #region PROPERTIES
             public QuestNode Owner => _owner;
             public string Tag => _tag;
-            public object Goal
-            {
-                get => _goal;
-                set => _goal = value;
-            }
-            
-            public List<DataPosition> Position => _position;
-            public List<DataBundle> Bundle => _bundle;
-            public List<DataConstrain> Constrain => _constrain;
             #endregion
 
-            public BaseQuestNodeData(QuestNode owner, string tag, Type[] requiredDataTypes)
+            public BaseQuestNodeData(QuestNode owner, string tag)
             {
                 _owner = owner ?? throw new ArgumentNullException(nameof(owner));
                 _tag = tag;
             }
 
-            public bool IsValid() => _goal != null;
-
-            public virtual GameObject Generation()
-            {
-                Debug.LogError($"Generation not implemented for tag: {_tag}");
-                return null;
-            }
-
-            public T GetGoal<T>()
-            {
-                try
-                {
-                    return (T)_goal;
-                }
-                catch (InvalidCastException)
-                {
-                    Debug.LogError($"[QuestNode] Goal object is not of expected type: {typeof(T).Name}");
-                    return default;
-                }
-            }
-
-            public void SetGoal<T>(object goal)
-            {
-                if (!QuestNodeActionTag.TagDataTypes.TryGetValue(_tag, out var requiredDataTypes))
-                {
-                    Debug.LogError($"Tag '{_tag}' not found in configuration.");
-                    return;
-                }
-
-                try
-                {
-                    if (requiredDataTypes.Contains(typeof(DataPosition)) && goal is Vector2Int positionGoal)
-                    {
-                        if (HasPosition())
-                        {
-                            _position.FirstOrDefault()!.position = positionGoal;
-                            _goal = positionGoal;
-                        }
-                    }
-                    else if (requiredDataTypes.Contains(typeof(DataBundle)) && goal is string bundleGoal)
-                    {
-                        if (HasBundle())
-                        {
-                            _bundle.FirstOrDefault()!.bundleGuid = bundleGoal;
-                            _goal = bundleGoal;
-                        }
-                    }
-                    else if (requiredDataTypes.Contains(typeof(DataConstrain)) && goal is Tuple<int, float> stayGoal)
-                    {
-                        if (HasPosition() && HasConstraint())
-                        {
-                            _constrain.FirstOrDefault()!.areaSize = stayGoal.Item1;
-                            _constrain.FirstOrDefault()!.time = stayGoal.Item2;
-                            _goal = stayGoal;
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogError($"[QuestNode] Invalid goal type for tag '{_tag}': {goal?.GetType().Name}");
-                        return;
-                    }
-
-                    _owner.SaveNodeAsJson();
-                }
-                catch (InvalidCastException)
-                {
-                    Debug.LogError($"[QuestNode] Goal object can't be set to expected type: {typeof(T).Name}");
-                }
-            }
-
-            public void AddPosition(DataPosition position) => _position.Add(position);
-            public void AddBundle(DataBundle bundle) => _bundle.Add(bundle);
-            public void AddConstrain(DataConstrain constrain) => _constrain.Add(constrain);
-
-            public bool HasPosition() => _position.Any();
-            public bool HasBundle() => _bundle.Any();
-            public bool HasConstraint() => _constrain.Any();
-
             public void Clone(BaseQuestNodeData data)
             {
-                _position = data._position;
-                _bundle = data._bundle;
-                _constrain = data._constrain;
-                _goal = data._goal;
                 _tag = data._tag;
-                
             }
         }
 
-        #region DATA CONTAINERS
-        
-        public class DataContainer{}
+        /// <summary>
+        /// ----------------------- FOR LBS USER ----------------------------------------------
+        /// 
+        /// Data containers for the default grammar. If another grammar is used or modify,
+        /// Remember to update the QuestNodeAction dictionary with your own data.
+        ///
+        /// To assign data, must create your own panel on uxml QuestNodeBehaviourEditor.uxml
+        ///
+        /// -----------------------------------------------------------------------------------
+        /// </summary>
+        #region DATA CONTAINERS DEFAULT GRAMMAR
         
         [Serializable]
-        public class DataPosition : DataContainer
+        public class DataGoto : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired]
-            public Vector2Int position;
-            [SerializeField, JsonRequired]
-            public float size = 1;
+            [SerializeField, JsonRequired] public float size = 1;
+
+            public DataGoto(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataExplore : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public int subdivisions = 4;
+            [SerializeField, JsonRequired] public float size = 1;
+            
+            // if find random position is true, then upon generation a random position is created and that's what the 
+            // player must trigger
+            [SerializeField, JsonRequired] public bool findRandomPosition = false;
+
+            public DataExplore(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataKill : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public int counter = 1;
+            [SerializeField, JsonRequired] public string bundleKillGuid;
+
+            public DataKill(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataStealth : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public Vector2Int target = Vector2Int.zero;
+            [SerializeField, JsonRequired] public float size = 1;
+            /// <summary>
+            /// Objects with a default trigger that will stop catch the player
+            /// </summary>
+            [SerializeField, JsonRequired] public List<string> bundleObserversGuids = new();
+
+            public DataStealth(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataTake : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public string bundleToTakeGuid;
+           public DataTake(QuestNode owner, string tag) : base(owner, tag)
+           {
+           }
+        }
+        [Serializable]
+        public class DataRead : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public string objectToReadGuid;
+            public DataRead(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataExchange : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public string bundleGiveGuid;
+            [SerializeField, JsonRequired] public int requiredAmount = 1;
+            /// <summary>
+            /// Receive guid must be set from editor panel
+            /// </summary>
+            [SerializeField, JsonRequired] public string bundleReceiveGuid;
+            [SerializeField, JsonRequired] public int receiveAmount = 1;
+            public DataExchange(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataGive : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public string bundleGiveGuid;
+            /// <summary>
+            /// Character to give to 
+            /// </summary>
+            [SerializeField, JsonRequired] public string bundleToGiveGuid;
+            public DataGive(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataReport : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public float areaSize = 1;
+            /// <summary>
+            /// Character to report to
+            /// </summary>
+            [SerializeField, JsonRequired] public string bundleToReport;
+           public DataReport(QuestNode owner, string tag) : base(owner, tag)
+           {
+           }
+        }
+        [Serializable]
+        public class DataGather : BaseQuestNodeData
+        {
+            /// <summary>
+            /// material that must be gathered
+            /// </summary>
+            [SerializeField, JsonRequired] public string material;
+            [SerializeField, JsonRequired] public int requiredAmount;
+          public DataGather(QuestNode owner, string tag) : base(owner, tag)
+          {
+          }
+        }
+        [Serializable]
+        public class DataSpy : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public string characterToSpy;
+            [SerializeField, JsonRequired] public float areaSize = 1;
+            [SerializeField, JsonRequired] public float spyTime = 5f;
+            [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
+          public DataSpy(QuestNode owner, string tag) : base(owner, tag)
+          {
+          }
+        }
+        [Serializable]
+        public class DataCapture : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public float areaSize = 1;
+            [SerializeField, JsonRequired] public float captureTime = 5f;
+            [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
+
+            public DataCapture(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
+        }
+        [Serializable]
+        public class DataListen : BaseQuestNodeData
+        {
+            [SerializeField, JsonRequired] public float size = 1;
+            /// <summary>
+            /// Character or objects that gets listened to
+            /// </summary>
+            [SerializeField, JsonRequired] public string bundleToListenFGuid;
+
+            public DataListen(QuestNode owner, string tag) : base(owner, tag)
+            {
+            }
         }
 
-        [Serializable]
-        public class DataBundle: DataContainer
-        {
-            [SerializeField, JsonRequired]
-            public int num = 1;
-            [SerializeField, JsonRequired]
-            public string bundleGuid = "";
-        }
-
-        [Serializable]
-        public class DataConstrain: DataContainer
-        {
-            [SerializeField, JsonRequired]
-            public float time = 1;
-            [SerializeField, JsonRequired]
-            public int areaSize = 1;
-        }       
         
+
         #endregion
 
 } 

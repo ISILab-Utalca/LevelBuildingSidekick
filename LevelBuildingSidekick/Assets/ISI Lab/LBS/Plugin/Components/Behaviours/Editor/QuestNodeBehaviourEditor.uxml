@@ -15,7 +15,41 @@
                 <ui:Label text="Label" name="ParamID" style="align-self: center; align-items: center; justify-content: center; align-content: stretch;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="InfoTypes" style="flex-grow: 1; min-width: auto; background-size: 100% 0;">
+        <ui:VisualElement name="NoNodeSelectedPanel" style="flex-grow: 1; flex-direction: row; max-height: 48px;">
+            <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Important&apos;); -unity-background-scale-mode: scale-and-crop; background-size: 100% 100%; min-height: 36px; max-height: 36px; min-width: 36px; max-width: 36px; align-self: center; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
+            <ui:Label text="No node is currently selected." style="align-self: center; padding-left: 12px; justify-content: space-between; align-content: stretch; align-items: stretch; flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="GoTo" style="flex-grow: 0; margin-bottom: 6px; margin-top: 1px;">
+            <ui:FloatField label="Go to Area Size" value="1" name="GoToSize" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Explore" style="flex-grow: 1;">
+            <ui:FloatField label="Explore Area Size" value="1" name="ExploreSize" style="margin-bottom: 6px; margin-top: 1px;" />
+            <ui:IntegerField label="Explore Target Sub Zones" value="4" name="ExploreSubareas" style="margin-top: 1px; margin-bottom: 6px;" />
+            <ui:Toggle label="Use Random Position to Complete" tooltip="If true, to complete this action, the player must enter a random position, instead of entering each of the Sub-areas" name="ExploreUseRandomPosition" style="margin-bottom: 6px; margin-top: 1px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Kill" style="flex-grow: 1;">
+            <ui:ListView />
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start; align-self: stretch; margin-bottom: 6px; margin-top: 1px;">
+                <ui:Button icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=ToolColor_Picker.svg?fileID=7388822144124034973&amp;guid=f53f51dae7956eb4b99123e868e99d67&amp;type=3#Icon=ToolColor_Picker" name="PickerTarget" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; min-width: 24px; max-width: 24px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
+                <uie:ObjectField label="Select Kill Bundle" type="LBS.Bundles.Bundle, LBS" name="TargetFieldBundle" tooltip="Pick on the tool and click in the graph to select a bundle that must be killed at a given position." style="align-self: flex-end; -unity-text-align: middle-left; justify-content: space-around; align-items: center; align-content: stretch; flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:IntegerField label="Required Kills" value="1" style="margin-bottom: 6px; margin-top: 1px;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Stealth" style="flex-grow: 1;">
+            <ui:FloatField label="Stealth Area Size" value="1" />
+            <ui:Vector2Field label="Required Reach Target" tooltip="This is the place the player must reach to complete the mission" />
+            <ui:FloatField label="Float Field" value="42.2" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Take" style="flex-grow: 1;" />
+        <ui:VisualElement name="Read" style="flex-grow: 1;" />
+        <ui:VisualElement name="Exchange" style="flex-grow: 1;" />
+        <ui:VisualElement name="Give" style="flex-grow: 1;" />
+        <ui:VisualElement name="Report" style="flex-grow: 1;" />
+        <ui:VisualElement name="Gather" style="flex-grow: 1;" />
+        <ui:VisualElement name="Spy" style="flex-grow: 1;" />
+        <ui:VisualElement name="Capture" style="flex-grow: 1;" />
+        <ui:VisualElement name="Listen" style="flex-grow: 1;" />
+        <ui:VisualElement name="InfoTypes" style="flex-grow: 1; min-width: auto; background-size: 100% 0; display: none;">
             <ui:VisualElement name="ObjectFieldVe" style="flex-grow: 0; display: flex; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row; min-height: 24px; max-height: 24px; align-self: stretch; justify-content: flex-end; align-items: center; align-content: stretch; margin-top: 4px; margin-bottom: 4px;">
                     <ui:Label text="Entities Count" style="-unity-text-align: middle-left;" />
@@ -87,10 +121,6 @@
                         <ui:FloatField label="Stay Time Required (Seconds)" value="1" max-length="100000" name="StayTimeInput" style="flex-grow: 1;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="NoNodeSelectedPanel" style="flex-grow: 1; flex-direction: row; max-height: 48px;">
-                <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Important&apos;); -unity-background-scale-mode: scale-and-crop; background-size: 100% 100%; min-height: 36px; max-height: 36px; min-width: 36px; max-width: 36px; align-self: center; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
-                <ui:Label text="No node is currently selected." style="align-self: center; padding-left: 12px; justify-content: space-between; align-content: stretch; align-items: stretch; flex-grow: 1;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -11,6 +11,7 @@ namespace ISILab.LBS.Behaviours
     public class QuestNodeBehaviour : LBSBehaviour
     {
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
+        
         private QuestNode _selectedQuestNode;
         /// <summary>
         /// Assigned from the QuestNodeView On MouseDown event. It will assign the current selected node, allowing to
