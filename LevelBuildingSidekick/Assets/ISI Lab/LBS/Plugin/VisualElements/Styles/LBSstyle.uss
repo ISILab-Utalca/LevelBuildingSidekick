@@ -967,6 +967,13 @@ Toggle > .lbs-default-icon {
     background-color: rgb(42, 42, 42);
     color: rgb(255, 255, 255);
     transition-duration: 0s;
+    -unity-font-style: bold;
+    -unity-text-outline-width: 0.1px;
+    text-shadow: 0 1px 0 rgb(0, 0, 0);
+    -unity-text-outline-color: rgb(0, 0, 0);
+    align-self: stretch;
+    align-items: center;
+    justify-content: center;
 }
 
 .lbs-tab-button {
@@ -1014,6 +1021,8 @@ Toggle > .lbs-default-icon {
     display: flex;
     -unity-background-image-tint-color: rgb(55, 55, 55);
     transition-duration: 0s;
+    flex-direction: column;
+    align-self: stretch;
 }
 
 .lbs-tutorial-tab-button-act:hover > VisualElement {
@@ -1189,4 +1198,7 @@ Button.lbs-actionbutton {
 
 #LayerDataButton:selected {
     background-color: var(--lbs-selection-dark-red-color);
+}
+
+.lbs-tutorial-tab-button {
 }
