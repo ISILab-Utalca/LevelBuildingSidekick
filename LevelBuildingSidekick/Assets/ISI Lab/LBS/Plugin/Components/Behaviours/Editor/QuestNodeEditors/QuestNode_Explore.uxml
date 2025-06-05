@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="Explore" style="flex-grow: 0;">
+        <ui:IntegerField label="Explore Target Sub Zones" value="4" name="ExploreSubareas" style="margin-top: 1px; margin-bottom: 6px;" />
+        <ui:Toggle label="Use Random Position to Complete" tooltip="If true, to complete this action, the player must enter a random position, instead of entering each of the Sub-areas" name="ExploreUseRandomPosition" style="margin-bottom: 6px; margin-top: 1px;" />
+    </ui:VisualElement>
+</ui:UXML>

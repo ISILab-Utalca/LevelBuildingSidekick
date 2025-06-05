@@ -7,35 +7,12 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-    
-        [AttributeUsage(AttributeTargets.Class, Inherited = false)]
-        public class QuestTagAttribute : Attribute
-        {
-            public string Tag { get; }
-
-            public QuestTagAttribute(string tag)
-            {
-                Tag = tag;
-            }
-        }
-
-    
         /// <summary>
-        /// Custom attribute to specify action tag and required data types.
+        /// Factory to create QuestNodeData based on actions.
         /// </summary>
-        [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-        public class QuestNodeActionTag : Attribute
+        public static class QuestNodeDataFactory
         {
-            private readonly string _tag;
-            public string Tag => _tag;
-
-            public QuestNodeActionTag(string tag)
-            {
-                _tag = tag;
-            }
-
-            // Static mapping of tags to required data types
-            public static readonly Dictionary<string, Type> TagDataTypes = new()
+            public static Dictionary<string, Type> TagDataTypes = new()
             {
                 { " go to ", typeof(DataGoto) },
                 { " explore ", typeof(DataExplore) },
@@ -52,16 +29,10 @@ namespace ISILab.LBS.Components
                 { " listen ", typeof(DataListen) },
                 { " empty ", null }
             };
-        }
-
-        /// <summary>
-        /// Factory to create QuestNodeData based on tags.
-        /// </summary>
-        public static class QuestNodeDataFactory
-        {
+            
             public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
             {
-                if (!QuestNodeActionTag.TagDataTypes.TryGetValue(tag, out var dataClass))
+                if (!TagDataTypes.TryGetValue(tag, out var dataClass))
                 {
                     return new BaseQuestNodeData(owner, tag);
                 }
@@ -83,6 +54,10 @@ namespace ISILab.LBS.Components
           
             [SerializeField, JsonRequired] 
             public Vector2Int position = Vector2Int.zero;
+           
+            [SerializeField, JsonRequired] 
+            public float size = 1;
+            
             #endregion
 
             #region PROPERTIES
@@ -117,8 +92,6 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataGoto : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public float size = 1;
-
             public DataGoto(QuestNode owner, string tag) : base(owner, tag)
             {
             }
@@ -127,7 +100,7 @@ namespace ISILab.LBS.Components
         public class DataExplore : BaseQuestNodeData
         {
             [SerializeField, JsonRequired] public int subdivisions = 4;
-            [SerializeField, JsonRequired] public float size = 1;
+    
             
             // if find random position is true, then upon generation a random position is created and that's what the 
             // player must trigger
@@ -150,8 +123,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataStealth : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public Vector2Int target = Vector2Int.zero;
-            [SerializeField, JsonRequired] public float size = 1;
+            [SerializeField, JsonRequired] public Vector2Int objective = Vector2Int.zero;
             /// <summary>
             /// Objects with a default trigger that will stop catch the player
             /// </summary>
@@ -206,7 +178,6 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataReport : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public float areaSize = 1;
             /// <summary>
             /// Character to report to
             /// </summary>
@@ -231,7 +202,6 @@ namespace ISILab.LBS.Components
         public class DataSpy : BaseQuestNodeData
         {
             [SerializeField, JsonRequired] public string characterToSpy;
-            [SerializeField, JsonRequired] public float areaSize = 1;
             [SerializeField, JsonRequired] public float spyTime = 5f;
             [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
@@ -241,7 +211,6 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataCapture : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public float areaSize = 1;
             [SerializeField, JsonRequired] public float captureTime = 5f;
             [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
 
@@ -252,7 +221,6 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataListen : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public float size = 1;
             /// <summary>
             /// Character or objects that gets listened to
             /// </summary>

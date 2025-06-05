@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Template name="VisualElement_QuestTargetBundle" src="project://database/Assets/ISI%20Lab/LBS/Plugin/Components/Behaviours/Editor/QuestNodeEditors/VisualElement_QuestTargetBundle.uxml?fileID=9197481963319205126&amp;guid=c7e377f9b0e043b46adbc1699f01cbfa&amp;type=3#VisualElement_QuestTargetBundle" />
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="Take" style="flex-grow: 0;">
+        <ui:Instance template="VisualElement_QuestTargetBundle" name="TakeTarget" />
+    </ui:VisualElement>
+</ui:UXML>

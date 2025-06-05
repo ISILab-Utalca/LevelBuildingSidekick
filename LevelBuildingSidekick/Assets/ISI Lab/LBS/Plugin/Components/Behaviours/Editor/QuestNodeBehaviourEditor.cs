@@ -4,6 +4,7 @@
 // ReSharper disable All
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
@@ -26,7 +27,26 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private QuestNodeBehaviour behaviour;
-
+        
+        static private Dictionary<Type, Type> typeToPanelMap = new()
+        {
+            { typeof(DataExplore), typeof(QuestNode_Explore) },
+            { typeof(DataKill), typeof(QuestNode_Kill) },
+            { typeof(DataStealth), typeof(QuestNode_Stealth) },
+            { typeof(DataTake), typeof(QuestNode_Take) },
+            { typeof(DataRead), typeof(QuestNode_Read) },
+            { typeof(DataExchange), typeof(QuestNode_Exchange) },
+            { typeof(DataGive), typeof(QuestNode_Give) },
+            { typeof(DataReport), typeof(QuestNode_Report) },
+            { typeof(DataGather), typeof(QuestNode_Gather) },
+            { typeof(DataSpy), typeof(QuestNode_Spy) },
+            { typeof(DataCapture), typeof(QuestNode_Capture) },
+            { typeof(DataListen), typeof(QuestNode_Listen) }
+        };
+        
+        #endregion
+        
+        
         #region VIEW FIELDS
         /// <summary>
         /// Displays the action string
@@ -36,52 +56,10 @@ namespace ISILab.LBS.VisualElements
         /// To identify which node has been clicked 
         /// </summary>
         private Label NodeIDLabel;
-        
-        /// <summary>
-        /// contains the visual element to access target field
-        /// </summary>
-        private VisualElement TargetBundleVe;
-            /// <summary>
-            /// References a bundle who's prefab type then is used in the quest generated on scene 
-            /// </summary>
-            private ObjectField TargetBundle;
-            private IntegerField TargetCount;
-            private Button TargetCountIncrease;
-            private Button TargetCountDecrease;
-            
-        /// <summary>
-        /// contains the visual elements for the other target
-        /// </summary>
-        private VisualElement OtherTargetBundleVe;
-            private ObjectField OtherTargetBundle;
-            private IntegerField OtherTargetCount;
-            private Button OtherTargetCountIncrease;
-            private Button OtherTargetCountDecrease;
-            
-        /// <summary>
-        /// contains the visual element to access vector field
-        /// </summary>
-        private VisualElement PositionVe;
-            /// <summary>
-            /// Vector to translate from graph to world position in scene for a generated
-            /// </summary>
-            private Vector2IntField Vector2Pos;
-            
-        /// <summary>
-        /// contains the visual element to the time constraint variables
-        /// </summary>
-        private VisualElement ConstraintVe;
-            private IntegerField AreaSize;
-            private FloatField StayTime;
-            
-        /// <summary>
-        /// Display to indicate no Node from the graph has been selected
-        /// </summary>
         private VisualElement NoNodeSelectedPanel;
-        
-        private VeQuestTilePicker PickerTarget;
-        private Button PickerLocation;
-        #endregion
+        private VisualElement InstancedContent;
+        private Vector2IntField TargetPosition;
+        private FloatField Size;
         
         #endregion
         
@@ -90,7 +68,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            UpdatePanel(null);
+            OnSelectNode(null);
         }
         #endregion
         
@@ -98,8 +76,7 @@ namespace ISILab.LBS.VisualElements
         public override void SetInfo(object target)
         {
             behaviour = target as QuestNodeBehaviour;
-            behaviour.OnQuestNodeSelected += UpdatePanel;
-            behaviour.OnQuestDataChanged += SetPanelValuesWithNodeData;
+            behaviour.OnQuestNodeSelected += OnSelectNode;
         }
         protected override VisualElement CreateVisualElement()
         {
@@ -109,134 +86,41 @@ namespace ISILab.LBS.VisualElements
             
             ActionLabel = this.Q<Label>("ParamAction");
             NodeIDLabel = this.Q<Label>("ParamID");
-            
-            #region Target
-            TargetBundleVe = this.Q<VisualElement>("ObjectFieldVe");
-            TargetBundle = this.Q<ObjectField>("TargetFieldBundle");
-            TargetBundle.RegisterValueChangedCallback(evt =>
-            {
-                if (evt.newValue is Bundle bundle) SetTargetValue(bundle);
-            });
-            
-            TargetCount = this.Q<IntegerField>("TargetCount");
-            TargetCount.RegisterValueChangedCallback(evt => SetCounter(evt.newValue));
-
-            TargetCountIncrease = this.Q<Button>("TargetCountIncrease");
-            TargetCountDecrease = this.Q<Button>("TargetCountDecrease");
-            TargetCountIncrease.clicked += () =>
-            {
-                TargetCount.value = TargetCount.value + 1;
-            };
-            TargetCountDecrease.clicked += () =>
-            {
-                TargetCount.value = TargetCount.value - 1;
-            };
-            #endregion
-            
-            #region OtherTarget
-            OtherTargetBundleVe = this.Q<VisualElement>("OtherTargetFieldVe");
-            OtherTargetBundle = this.Q<ObjectField>("OtherTargetFieldBundle");
-            OtherTargetBundle.RegisterValueChangedCallback(evt =>
-            {
-                if (evt.newValue is Bundle bundle) SetOtherTargetValue(bundle);
-            });
-            
-            OtherTargetCount = this.Q<IntegerField>("OtherTargetCount");
-            OtherTargetCount.RegisterValueChangedCallback(evt => SetIntValue(evt.newValue, false));
-
-            OtherTargetCountIncrease = this.Q<Button>("OtherTargetCountIncrease");
-            OtherTargetCountDecrease = this.Q<Button>("OtherTargetCountDecrease");
-            OtherTargetCountIncrease.clicked += () =>
-            {
-                OtherTargetCount.value = OtherTargetCount.value + 1;
-            };
-            OtherTargetCountDecrease.clicked += () =>
-            {
-                OtherTargetCount.value = OtherTargetCount.value - 1;
-            };
-            #endregion
-            
-            #region Position
-            PositionVe = this.Q<VisualElement>("Vector2DVe");
-            Vector2Pos = this.Q<Vector2IntField>("Vector2LocationInput");
-            Vector2Pos.RegisterValueChangedCallback(evt => SetVector2IntValue(evt.newValue));
-            #endregion
-            
-            #region Constraint
-            ConstraintVe = this.Q<VisualElement>("ConstraintVe");
-            AreaSize = this.Q<IntegerField>("AreaSizeInput");
-            AreaSize.RegisterValueChangedCallback(evt => SetMaxDistance(evt.newValue));
-            StayTime = this.Q<FloatField>("StayTimeInput");
-            StayTime.RegisterValueChangedCallback(evt => SetStayTime(evt.newValue));
-            #endregion
-           
-            #region Pickers
-            PickerTarget = this.Q<VeQuestTilePicker>("PickerTarget");
-            PickerTarget.clicked += () =>
-            {
-                ToolKit.Instance.SetActive(typeof(QuestPicker));
-                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData;
-                qp.OnBundlePicked = (string guid) =>
-                {
-                    ///behaviour.SelectedQuestNode.NodeData.bundleGuid = guid;
-                };
-            };
-            
-            PickerLocation = this.Q<Button>("PickerLocation");
-            PickerLocation.clicked += () => {
-                ToolKit.Instance.SetActive(typeof(QuestPicker));
-                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData;
-            };
-            
-            #endregion
-            
             NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
+            InstancedContent = this.Q<VisualElement>("InstancedContent");
+            
+            // Generic (Go To) Values
+            TargetPosition = this.Q<Vector2IntField>("TargetPosition");
+            TargetPosition.RegisterValueChangedCallback(evt =>
+            {
+                SetNodeDataPosition(evt.newValue);
+            });
 
-            OtherTargetBundleVe.style.display = DisplayStyle.None;    
-            TargetBundleVe.style.display = DisplayStyle.None;    
-            PositionVe.style.display = DisplayStyle.None;    
+            Size = this.Q<FloatField>("Size");
+            Size.RegisterValueChangedCallback(evt =>
+            {
+                SetNodeDataSize(evt.newValue);
+            });
+
+            
             NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
             
             return this;
         }
 
-        private void SetStayTime(float evtNewValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetMaxDistance(int evtNewValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetIntValue(int evtNewValue, bool b)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetOtherTargetValue(Bundle bundle)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetTargetValue(Bundle bundle)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetCounter(int evtNewValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void SetVector2IntValue(Vector2Int newValue)
+      
+        private void SetNodeDataPosition(Vector2Int newValue)
         {
             var nd = GetSelectedNode().NodeData;
             if (nd is null) return;
             nd.position = newValue;
+            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+        }
+        private void SetNodeDataSize(float newValue)
+        {
+            var nd = GetSelectedNode().NodeData;
+            if (nd is null) return;
+            nd.size = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -249,69 +133,58 @@ namespace ISILab.LBS.VisualElements
             
         }
 
-        private void UpdatePanel(QuestNode node)
+        private void OnSelectNode(QuestNode node)
         {
-            TargetBundleVe.style.display = DisplayStyle.None;    
-            OtherTargetBundleVe.style.display = DisplayStyle.None;
-            PositionVe.style.display = DisplayStyle.None;    
-            ConstraintVe.style.display = DisplayStyle.None;    
-            NoNodeSelectedPanel.style.display = DisplayStyle.None;    
+     
+            NoNodeSelectedPanel.style.display = DisplayStyle.Flex;  
+            TargetPosition.style.display = DisplayStyle.None;
+            Size.style.display = DisplayStyle.None;
             
             if (node is null || 
                 node.NodeData is null )
             {
-                NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
+                  
                 return;
             }
             
+            NoNodeSelectedPanel.style.display = DisplayStyle.None; 
+            InstancedContent.Clear();
+            
             ActionLabel.text = node.QuestAction;
             NodeIDLabel.text = node.ID.ToString();
-            
-            SetPanelValuesWithNodeData(node);
-        }
-        
-        private void SetPanelValuesWithNodeData(QuestNode node)
-        {
-            if (node is null) return;
-            var nd = node.NodeData;
-            if (nd is null) return;
-            
-            PositionVe.style.display = DisplayStyle.Flex;
-            Vector2Pos.value = nd.position;
 
-            
-            /*
-            if (nd.HasBundle())
+            var dataType = node.NodeData.GetType();
+            if (typeToPanelMap.TryGetValue(dataType, out Type visualElementType))
             {
-                TargetBundleVe.style.display = DisplayStyle.Flex;
-                TargetBundle.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
-                    nd.Bundle.FirstOrDefault().bundleGuid);
-                TargetCount.value = nd.Bundle.FirstOrDefault().num;
-                
-                if (nd.Bundle.Count > 1)
+                if (visualElementType != null)
                 {
-                    OtherTargetBundleVe.style.display = DisplayStyle.Flex;
-                    OtherTargetBundle.value = LBSAssetMacro.LoadAssetByGuid<Bundle>(
-                        nd.Bundle[1].bundleGuid);
-                    OtherTargetCount.value = nd.Bundle[1].num;
+                    var instance = Activator.CreateInstance(visualElementType) as INodeEditor;
+                    if (instance != null)
+                    {
+                        InstancedContent.Add(instance as VisualElement);
+                        instance.SetMyData(node.NodeData);
+                        SetBaseDataValues(node.NodeData); 
+                        DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
+                    }
                 }
             }
+        }
+        
 
-            if (nd.HasConstraint())
-            {
-                ConstraintVe.style.display = DisplayStyle.Flex;
-                AreaSize.value = nd.Constrain.FirstOrDefault().areaSize;
-                StayTime.value = nd.Constrain.FirstOrDefault().time;
-            }
-            */
-            
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+        
+        private void SetBaseDataValues(BaseQuestNodeData data)
+        {
+            TargetPosition.style.display = DisplayStyle.Flex;
+            Size.style.display = DisplayStyle.Flex;
+            TargetPosition.value = data.position;
+            Size.value = data.size;
         }
 
         private QuestNode GetSelectedNode()
         {
             return behaviour.SelectedQuestNode;
         }
+
         #endregion
         
     }
