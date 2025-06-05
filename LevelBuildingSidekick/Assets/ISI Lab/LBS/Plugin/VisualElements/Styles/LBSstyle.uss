@@ -1017,12 +1017,12 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
-    background-color: rgb(247, 129, 64);
     display: flex;
     -unity-background-image-tint-color: rgb(55, 55, 55);
     transition-duration: 0s;
     flex-direction: column;
     align-self: stretch;
+    background-color: var(--lbs-selection-neutral-blue-color);
 }
 
 .lbs-tutorial-tab-button-act:hover > VisualElement {
@@ -1030,7 +1030,7 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
-    background-color: rgb(255, 158, 105);
+    background-color: var(--lbs-light-blue-color);
     display: flex;
     -unity-background-image-tint-color: rgb(55, 55, 55);
     transition-duration: 0s;
