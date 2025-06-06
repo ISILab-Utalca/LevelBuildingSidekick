@@ -22,11 +22,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement bar; // contains the progress bar and label
         private VisualElement placeholderImage;
         private VisualElement colorFillBar;
-        
+
         private Label mapName;
-        
         private Foldout entryFoldout;
-        
         private Button buttonRemove;
 
         private ProgressBar progressBar; // contains the progress bar and label
@@ -35,23 +33,43 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region FIELDS
         private MAPElitesPreset entryMap;
-    
+
+        // result
+        private object data;
+        // value/score of the generated result
+        private string score;
+
         #endregion
 
         #region EVENTS
-       // public Action OnExecute;
+        // public Action OnExecute;
         #endregion
 
         #region PROPERTIES
-
         public MAPElitesPreset EntryMap
         {
             get => entryMap;
             set => entryMap = value;
         }
+        public string Name
+        {
+            get => mapName.text;
+            set => mapName.text = value;
+        }
+        public object Data
+        {
+            get => data;
+            set => data = value;
+        }
+        public string Score
+        {
+            get => score;
+            set => score = value;
+        }
+
         #endregion
-        
-        
+
+
         #region EVENTS
         public Action RemoveMapEntry;
         #endregion

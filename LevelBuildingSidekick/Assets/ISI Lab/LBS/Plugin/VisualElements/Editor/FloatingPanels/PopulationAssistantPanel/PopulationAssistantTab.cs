@@ -16,6 +16,7 @@ using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 using ISILab.LBS.AI.Assistants.Editor;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Behaviours;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -83,9 +84,8 @@ namespace ISILab.LBS.VisualElements.Editor
             
             mapEntries.Clear();
             // replace these calls with reading the actual saved data from the user
-            AddEntry();
-            AddEntry();
-            AddEntry();
+            //AddEntry();
+            UpdateSavedMaps();
             
             mapElitesList = this.Q<ListView>("MapElitesList");
             mapElitesList.reorderable = true;
@@ -107,7 +107,6 @@ namespace ISILab.LBS.VisualElements.Editor
                     mapElitesList.Rebuild();
                 };
             };
-
             mapElitesList.itemsSource = mapEntries;
         }
         
@@ -125,6 +124,29 @@ namespace ISILab.LBS.VisualElements.Editor
             mapEntries.Add(mapEntryVE);
         }
         
+        private void UpdateSavedMaps()
+        {
+            //Get population behavior
+            var population = target.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+
+            //Get saved maps
+            if (population == null) return;
+            if (population.SavedMaps == null) return;
+
+            if(population.SavedMaps.Count!=0)
+            {
+                foreach(SavedMap map in population.SavedMaps)
+                {
+                    var mapEntryVE = new PopulationMapEntry();
+                    mapEntryVE.name = map.Name;
+                    mapEntryVE.Score = map.Score.ToString();
+                    mapEntryVE.Data = map.Map;
+                    mapEntries.Add(mapEntryVE);
+                    
+
+                }
+            }
+        }
         #endregion
        
     }

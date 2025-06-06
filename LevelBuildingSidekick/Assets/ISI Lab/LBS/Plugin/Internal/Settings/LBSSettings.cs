@@ -96,6 +96,8 @@ namespace ISILab.LBS.Settings
             public string Generator3DPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Generators3D";
             public string bundlesPresetFolderPath = "Assets/ISI Lab/LBS/Presets/Bundles";
 
+            public string savedMapsPresetPath = "Assets/ISI Lab/LBS/Presets/SavedMaps";
+
         }
 
         [System.Serializable]
