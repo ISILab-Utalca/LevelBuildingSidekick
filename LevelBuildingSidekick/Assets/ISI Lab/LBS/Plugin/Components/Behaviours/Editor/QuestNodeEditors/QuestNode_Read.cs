@@ -6,21 +6,25 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Read : VisualElement, INodeEditor
+    public class QuestNode_Read : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker picker; 
+        public QuestNode_Read()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Read");
             visualTree.CloneTree(this);
             
+            picker = this.Q<VeQuestTilePicker>("ReadTarget");
+            picker.SetInfo("Read target", true); 
             
-            return this;
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 

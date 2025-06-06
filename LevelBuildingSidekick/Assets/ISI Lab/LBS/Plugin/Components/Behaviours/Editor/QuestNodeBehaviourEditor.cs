@@ -46,7 +46,6 @@ namespace ISILab.LBS.VisualElements
         
         #endregion
         
-        
         #region VIEW FIELDS
         /// <summary>
         /// Displays the action string
@@ -158,7 +157,7 @@ namespace ISILab.LBS.VisualElements
             {
                 if (visualElementType != null)
                 {
-                    var instance = Activator.CreateInstance(visualElementType) as INodeEditor;
+                    var instance = Activator.CreateInstance(visualElementType) as NodeEditor;
                     if (instance != null)
                     {
                         InstancedContent.Add(instance as VisualElement);

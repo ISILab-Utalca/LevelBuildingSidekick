@@ -6,21 +6,26 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Gather : VisualElement, INodeEditor
+    public class QuestNode_Gather :NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker pickerGather;
+        private IntegerField gatherAmount;
+        public QuestNode_Gather()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
             visualTree.CloneTree(this);
             
+            pickerGather = this.Q<VeQuestTilePicker>("GatherTarget");
+            pickerGather.SetInfo("Object to gather", false); 
+            gatherAmount = this.Q<IntegerField>("GatherAmount");
             
-            return this;
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 

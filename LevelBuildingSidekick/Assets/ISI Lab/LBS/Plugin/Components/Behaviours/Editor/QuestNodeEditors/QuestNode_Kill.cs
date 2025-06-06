@@ -1,27 +1,45 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Kill : VisualElement, INodeEditor
-    {
-        protected VisualElement CreateVisualElement()
+        public class QuestNode_Kill : NodeEditor
         {
-            Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Kill");
-            visualTree.CloneTree(this);
-            
-            
-            return this;
-        }
+                private ListView KillList;
+                
+                public QuestNode_Kill()
+                {
+                        Clear();
 
-        public void SetMyData(BaseQuestNodeData data)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+                        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Kill");
+                        visualTree.CloneTree(this);
 
+                        KillList = this.Q<ListView>("KillList");
+
+                        if (KillList == null) return;
+                        KillList.makeItem = () =>
+                        {
+                                var tilePicker = new VeQuestTilePicker();
+                                tilePicker.SetInfo("Kill target", true);
+                                return tilePicker;
+                        };
+
+                        KillList.bindItem = (element, i) =>
+                        {
+                                // Optionally bind data here if needed later
+                        };
+
+                        // Provide a dummy list to force the ListView to draw items
+                        KillList.itemsSource = new List<object> {};
+                        KillList.Rebuild();
+                        
+                }
+
+                public override void SetMyData(BaseQuestNodeData data)
+                {
+              
+                }
+        }
 }

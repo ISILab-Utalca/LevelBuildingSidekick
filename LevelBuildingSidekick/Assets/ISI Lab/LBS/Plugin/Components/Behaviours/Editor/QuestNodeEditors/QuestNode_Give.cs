@@ -6,21 +6,28 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Give : VisualElement, INodeEditor
+    public class QuestNode_Give : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker pickerGiveTarget;
+        private VeQuestTilePicker pickerGiveReceiver;
+        public QuestNode_Give()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Give");
             visualTree.CloneTree(this);
             
+            pickerGiveTarget = this.Q<VeQuestTilePicker>("GiveTarget");
+            pickerGiveTarget.SetInfo("Object to give", false);
             
-            return this;
+            pickerGiveReceiver = this.Q<VeQuestTilePicker>("GiveReceiver");
+            pickerGiveReceiver.SetInfo("Target receiver", true);
+            
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 

@@ -6,21 +6,24 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Capture : VisualElement, INodeEditor
+    public class QuestNode_Capture : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private FloatField requiredCaptureTime;
+        private Toggle resetOnExit;
+        public QuestNode_Capture()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Capture");
             visualTree.CloneTree(this);
             
+            requiredCaptureTime = this.Q<FloatField>("CaptureTime");
+            resetOnExit = this.Q<Toggle>("CaptureResetOnExit");
             
-            return this;
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+           
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine;
@@ -6,21 +7,25 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Take : VisualElement, INodeEditor
+    public class QuestNode_Take : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker picker;
+
+        public QuestNode_Take()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
             visualTree.CloneTree(this);
             
+            picker = this.Q<VeQuestTilePicker>("TakeTarget");
+            picker.SetInfo("Take target", true); 
             
-            return this;
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+ 
         }
     }
 

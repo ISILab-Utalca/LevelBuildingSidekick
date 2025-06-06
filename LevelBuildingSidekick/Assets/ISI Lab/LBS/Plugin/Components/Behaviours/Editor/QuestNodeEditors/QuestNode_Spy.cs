@@ -6,21 +6,30 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Spy : VisualElement, INodeEditor
+    public class QuestNode_Spy : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker picker;
+        private FloatField requiredSpyTime;
+        private Toggle resetOnExit;
+
+        public QuestNode_Spy()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
             visualTree.CloneTree(this);
             
+            picker = this.Q<VeQuestTilePicker>("SpyTarget");
+            picker.SetInfo("Spy target", true); 
             
-            return this;
+            requiredSpyTime = this.Q<FloatField>("SpyTime");
+            resetOnExit = this.Q<Toggle>("SpyResetOnExit");
+            
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 

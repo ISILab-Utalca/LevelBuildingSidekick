@@ -1,26 +1,27 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Listen : VisualElement, INodeEditor
+    public class QuestNode_Listen : NodeEditor
     {
-        protected VisualElement CreateVisualElement()
+        private VeQuestTilePicker picker; 
+        public QuestNode_Listen()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
             visualTree.CloneTree(this);
             
-            
-            return this;
+            picker = this.Q<VeQuestTilePicker>("ListenTarget");
+            picker?.SetInfo("Listen target", true);
+
+
         }
 
-        public void SetMyData(BaseQuestNodeData data)
+        public override void SetMyData(BaseQuestNodeData data)
         {
-            throw new System.NotImplementedException();
+
         }
     }
 
