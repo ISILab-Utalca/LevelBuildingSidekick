@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Drawers;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,7 +22,7 @@ namespace ISILab.LBS.VisualElements.Editor
         /// </summary>
         /// <param name="obj">Drawer from which the element was created. If already present in dictionary, other graphElements will be added to its list.</param>
         /// <param name="element">Graph element to be added under the key's list.</param>
-        public void AddElement(object obj, GraphElement element)
+        public void AddElement(Drawer obj, GraphElement element)
         {
             if (!pairs.TryGetValue(obj, out var list))
             {
@@ -31,7 +32,7 @@ namespace ISILab.LBS.VisualElements.Editor
             list.Add(element);
         }
 
-        public void Repaint(object obj)
+        public void Repaint(Drawer obj)
         {
             if (!pairs.TryGetValue(obj, out var elements)) return;
             foreach (var element in elements)
@@ -40,15 +41,29 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
-        public List<List<GraphElement>> Clear()
+        public List<GraphElement> Clear(GraphElement[] persistent = null)
         {
-            var elements = new List<List<GraphElement>>(pairs.Count);
-            foreach (var list in pairs.Values)
+            var erasedElements = new List<GraphElement>();
+            for (int i = 0; i < pairs.Count; i++)
             {
-                elements.Add(list);
+                var list = pairs.ElementAt(i).Value;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var graph = list[j];
+                    if (persistent != null && persistent.Contains(graph)) continue; // Skip if the element is persistent
+                    
+                    // Remove non persistent graphs
+                    erasedElements.Add(graph);
+                    list.RemoveAt(j);
+                    j--;
+                }
+                
+                // If list empty, remove item from dictionary
+                if (list.Count > 0) continue;
+                pairs.Remove(pairs.ElementAt(i).Key);
+                i--;
             }
-            pairs.Clear();
-            return elements;
+            return erasedElements;
         }
     }
 
@@ -254,17 +269,14 @@ namespace ISILab.LBS.VisualElements.Editor
             AddElement(bound);
         }
 
-        public void ClearLayerView(LBSLayer layer)
+        public void ClearLayerView(LBSLayer layer, GraphElement[] persistentGraphs = null)
         {
             if (!layers.TryGetValue(layer, out var container)) return;
 
             var graphs = container.Clear();
-            foreach (var graph in graphs)
+            foreach (var graph in graphs.Where(graph => persistentGraphs == null || !persistentGraphs.Contains(graph)))
             {
-                foreach (var element in graph)
-                {
-                    RemoveElement(element);
-                }
+                RemoveElement(graph);
             }
         }
         
@@ -285,7 +297,7 @@ namespace ISILab.LBS.VisualElements.Editor
         /// <param name="layer">Layer where the graph element will be put. An LBSLayer does not hold graphElements, but it will create or get a LayerContainer object.</param>
         /// <param name="obj">The drawer from where the graphElement is created.</param>
         /// <param name="element">The graphElement to draw in screen.</param>
-        public void AddElement(LBSLayer layer, object obj, GraphElement element)
+        public void AddElement(LBSLayer layer, Drawer obj, GraphElement element)
         {
             var container = GetOrCreateLayerContainer(layer);
             if(container == null) return;

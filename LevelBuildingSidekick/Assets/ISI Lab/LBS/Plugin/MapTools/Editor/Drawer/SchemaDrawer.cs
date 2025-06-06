@@ -22,9 +22,10 @@ namespace ISILab.LBS.Drawers
         private VectorImage _windowConImage = null;
 
         private const int VisualTilesCap = 100;
-        private readonly Dictionary<int, GraphElement> _storedVisualTiles = new ();
         private const int VisualZonesCap = 10;
         private readonly Dictionary<Zone, List<TrueTile>> _storedVisualZones = new ();
+        private List<GraphElement> _toPaint;
+        private List<GraphElement> _toErase;
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -52,13 +53,9 @@ namespace ISILab.LBS.Drawers
             }
             
             // Paint each zone
-            foreach (var tile in _storedVisualTiles)
-            {
-                Debug.Log(tile.Key.GetHashCode());
-            }
-            
             foreach(var zone in zonesMod.Zones)
             {
+                // Empty zones
                 if (!_storedVisualZones.TryGetValue(zone, out List<TrueTile> trueTiles))
                 {
                     if (zone.Positions.Count > 0)
@@ -68,11 +65,10 @@ namespace ISILab.LBS.Drawers
                     }
                     continue;  
                 }
-                
+                /*
                 foreach (TrueTile tTile in trueTiles)
                 {
-                    //Debug.Log("trying to get graph element of: " + tTile.GetHashCode());
-                    if (_storedVisualTiles.TryGetValue(tTile.GetHashCode(), out var gElement))    // get graphElement if on memory
+                    if (StoredGraphElements.TryGetValue(tTile.GetHashCode(), out var gElement))    // get graphElement if on memory
                     {
                         var pos = new Vector2(tTile.ZoneTile.Tile.x, -tTile.ZoneTile.Tile.y);
                         var size = DefalutSize * teselationSize;
@@ -90,7 +86,7 @@ namespace ISILab.LBS.Drawers
                     Debug.Log("graphElement not found for: " + tTile.GetHashCode() + ", creating new one.");
                     _storedVisualTiles.Add(tTile.GetHashCode(), tView);
                     view.AddElement(schema.OwnerLayer, this, tView);
-                }
+                }//*/
             }
             
             // Memory handling

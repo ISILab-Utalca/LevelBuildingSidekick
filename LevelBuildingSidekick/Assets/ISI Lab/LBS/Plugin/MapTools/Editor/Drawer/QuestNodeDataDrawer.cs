@@ -50,7 +50,7 @@ namespace ISILab.LBS.Drawers.Editor
                 var position = layer.FixedToPosition(nd.Position.FirstOrDefault()!.position, true);
                   
                 var circle = new CircleElement(position, CircleSize, nd);
-                view.AddElement(behaviour.OwnerLayer, behaviour, circle);
+                view.AddElement(behaviour.OwnerLayer, this, circle);
 
             }
             

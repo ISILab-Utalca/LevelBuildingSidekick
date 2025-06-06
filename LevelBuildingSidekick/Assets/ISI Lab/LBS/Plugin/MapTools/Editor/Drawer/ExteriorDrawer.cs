@@ -41,7 +41,7 @@ namespace ISILab.LBS.Drawers
                 
                 var tView = GetTileView(tile, connections, teselationSize);
 
-                view.AddElement(exterior.OwnerLayer, tile, tView);
+                view.AddElement(exterior.OwnerLayer, this, tView);
             }
         }
 
@@ -72,7 +72,7 @@ namespace ISILab.LBS.Drawers
                     
                         var connections = connectMod.GetConnections(tile);
                         var ve = GetTileView(tile, connections, teselationSize);
-                        view.AddElement(layer, tile, ve);
+                        view.AddElement(layer, this, ve);
                     }
                 }
                 else if (o != null && n == null)

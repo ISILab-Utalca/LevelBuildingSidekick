@@ -90,12 +90,12 @@ namespace ISILab.LBS.Drawers
             }
 
             // print everything
-            eViews.ForEach(e => view.AddElement(assistant.OwnerLayer, e.Item1, e.Item2));
+            eViews.ForEach(e => view.AddElement(assistant.OwnerLayer, this, e.Item2));
 
             if (assistant.visibleConstraints)
-                cViews.ForEach(c => view.AddElement(assistant.OwnerLayer, c.Item1, c.Item2));
+                cViews.ForEach(c => view.AddElement(assistant.OwnerLayer, this, c.Item2));
 
-            nViews.ForEach(n => view.AddElement(assistant.OwnerLayer, n.Item1, n.Item2));
+            nViews.ForEach(n => view.AddElement(assistant.OwnerLayer, this, n.Item2));
         }
 
         /// <summary>
