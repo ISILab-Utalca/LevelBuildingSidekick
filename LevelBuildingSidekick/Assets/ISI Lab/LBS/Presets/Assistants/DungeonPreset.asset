@@ -30,16 +30,16 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3499384374885351448
+    - rid: 3707499439976612803
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         colliderCharacteristic:
-          rid: 3499384374885351449
-    - rid: 3499384374885351449
+          rid: 3707499439976612804
+    - rid: 3707499439976612804
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
     - rid: 6943663382020227162
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
@@ -66,7 +66,7 @@ MonoBehaviour:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 3499384374885351448
+          rid: 3707499439976612803
         selection:
           rid: 8454501502191403729
         termination:

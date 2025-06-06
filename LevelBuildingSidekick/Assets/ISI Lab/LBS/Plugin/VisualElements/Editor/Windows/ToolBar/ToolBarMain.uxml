@@ -2,13 +2,13 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <uie:Toolbar name="MainToolBar" style="background-color: rgb(58, 58, 58); margin-left: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; opacity: 1; display: flex; height: 24px; max-height: 24px; min-height: 24px; border-top-width: 1px; -unity-background-scale-mode: scale-to-fit;">
         <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" text="File" name="ToolBarMenu" style="left: 0; align-self: stretch; justify-content: center; align-items: stretch; padding-left: 12px; padding-right: 12px;" />
-        <uie:ToolbarButton tabindex="-1" text="Help!" name="KeyMapBtn" focusable="false" style="left: 0; margin-left: -1px; justify-content: center; align-self: stretch; -unity-text-align: middle-center; padding-right: 12px; padding-left: 12px;" />
+        <uie:ToolbarToggle label="Help!" name="KeyMapToggle" enabled="true" focusable="false" value="false" toggle-on-label-click="true" class="lbs-toolbar-toggle" style="width: 51px; align-self: stretch; -unity-text-align: middle-left; align-content: flex-start; white-space: normal; padding-left: 8px; padding-right: 8px;" />
         <uie:ToolbarButton tabindex="-1" name="OptionButton" focusable="false" style="left: 0; margin-left: -1px;">
             <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Configuration&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
         </uie:ToolbarButton>
         <uie:ToolbarButton tabindex="-1" name="BundleManagerButton" focusable="false" style="left: 0; margin-left: -1px;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(196, 196, 196); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(163, 160, 251); align-self: center; -unity-background-scale-mode: scale-to-fit;" />
         </uie:ToolbarButton>
-        <ui:Label tabindex="-1" text="Unsaved file *" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-center; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 16px; align-self: stretch; align-items: center; align-content: stretch;" />
+        <ui:Label tabindex="-1" text="*Unsaved file" display-tooltip-when-elided="true" name="IsSavedLabel" style="-unity-text-align: middle-left; background-color: rgba(255, 255, 255, 0); color: rgb(159, 159, 159); padding-left: 8px; align-self: stretch; align-items: center; align-content: stretch; width: 105px;" />
     </uie:Toolbar>
 </ui:UXML>

@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
@@ -24,6 +25,11 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private WaveFunctionCollapseManipulator collapseManipulator;
 
         private AssistantWFC assistant;
+
+        private TextField presetName;
+        private TextField presetsFolder;
+
+        private ObjectField currentPreset;
 
         public AssistantWFCEditor(object target) : base(target)
         {
@@ -100,8 +106,42 @@ namespace ISILab.LBS.AI.Assistants.Editor
             };
 
             assistant.Bundle = exterior.Bundle;
+
+            // Copy weights from tilemap button
+            var copyWeightsButton = this.Q<Button>("CopyWeights");
+            copyWeightsButton.clicked += CopyWeights;
+
+            //Save weights in a preset button
+            var saveWeightsButton = this.Q<Button>("SaveWeights");
+            saveWeightsButton.clicked += SaveWeights;
+            presetName = this.Q<TextField>("PresetName");
+            presetsFolder = this.Q<TextField>("PresetsPath");
+
+            // Load weights from a preset
+            var loadWeightsButton = this.Q<Button>("LoadWeights");
+            loadWeightsButton.clicked += LoadWeights;
+            currentPreset = this.Q<ObjectField>("CurrentPreset");
             
             return this;
+        }
+
+        private void CopyWeights()
+        {
+            assistant.CopyWeights();
+            LBSMainWindow.MessageNotify("Weights copied.");
+        }
+
+        private void SaveWeights()
+        {
+            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName);
+            LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
+        }
+
+        private void LoadWeights()
+        {
+            WFCPreset loaded = currentPreset.value as WFCPreset;
+            assistant.LoadWeights(loaded);
+            LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

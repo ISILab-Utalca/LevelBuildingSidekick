@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Characteristics;
@@ -9,8 +7,14 @@ using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace ISILab.LBS.Assistants
 {
@@ -30,6 +34,8 @@ namespace ISILab.LBS.Assistants
          * - "Exterior_Plains" 
          */
         private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29";
+
+        private string presetsSaveFolder;
 
         #endregion
 
@@ -53,6 +59,7 @@ namespace ISILab.LBS.Assistants
         
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+
         #endregion
 
         #region CONSTRUCTORS
@@ -122,7 +129,7 @@ namespace ISILab.LBS.Assistants
             while (toCalc.Count > 0)
             {
                 var _closed = new List<LBSTile>(closed);
-                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList(); //KVP de tiles y lista de candidatos (mayores a 1)
                 if (xx.Count <= 0)
                     break;
 
@@ -135,7 +142,7 @@ namespace ISILab.LBS.Assistants
                     continue;
                 }
 
-                var selected = current.Value.RandomRullete(c => c.weigth);
+                var selected = current.Value.RandomRullete(c => c.weigth); //Elige el vecino aleatorio segun peso
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
@@ -403,6 +410,108 @@ namespace ISILab.LBS.Assistants
 
                 connected.SetConnection(neis[i], idir, oring[i], false);
             }
+        }
+
+        public void CopyWeights()
+        {
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+            var currentBundles = new List<Bundle>();
+            group.Weights.ForEach(ws => currentBundles.Add(ws.target));
+
+            var bundleFrequency = new Dictionary<Bundle, int>();
+            int maxFreq = 0;
+            currentBundles.ForEach(b => bundleFrequency.Add(b, 0));
+
+            for(int i = 0; i < connected.Pairs.Count; i++)
+            {
+                bool matchFound = false;
+                var tileConns = connected.Pairs[i].Connections;
+                for(int j = 0; j < currentBundles.Count; j++)
+                {
+                    Bundle bundle = currentBundles[j];
+                    var bundleConns = bundle.GetCharacteristics<LBSDirection>()[0].Connections;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        var rotatedBundleConns = bundleConns.Rotate(k);
+
+                        if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray()))
+                        {
+                            bundleFrequency[bundle]++;
+                            if(bundleFrequency[bundle] > maxFreq)
+                                maxFreq = bundleFrequency[bundle];
+                            matchFound = true;
+                            j = currentBundles.Count;
+                            break;
+                        }
+                    }
+                }
+
+                if (!matchFound)
+                    Debug.LogWarning($"Tile {connected.Pairs[i].Tile.Position} has no matching bundle");
+            }
+            
+            for (int i = 0; i < currentBundles.Count; i++) 
+            {
+                Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
+                group.Weights[i].weight = maxFreq != 0 ? (float)bundleFrequency[currentBundles[i]] / (float)maxFreq : 1;
+            }
+
+            Selection.activeObject = targetBundleRef;
+        }
+
+        public void SaveWeights(string presetName, string folder, out string endName)
+        {
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            WFCPreset newPreset = ScriptableObject.CreateInstance<WFCPreset>();
+            endName = presetName;
+            if (endName.Length == 0)
+            {
+                endName = "New WFC Preset";
+            }
+            if(endName == "New WFC Preset")
+            {
+                int count = AssetDatabase.FindAssets(endName).Length;
+                if(count > 0)
+                {
+                    endName += $" ({count})";
+                }
+            }
+            newPreset.name = endName;
+            newPreset.SetWeights(group.Weights);
+
+            AssetDatabase.CreateAsset(newPreset, folder + "/" + endName + ".asset");
+            AssetDatabase.SaveAssets();
+
+            EditorUtility.FocusProjectWindow();
+
+            Selection.activeObject = newPreset;
+        }
+
+        public void LoadWeights(WFCPreset preset)
+        {
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            // Hacer match por bundle?
+            //foreach(var ws in group.Weights) 
+            for (int i = 0; i < group.Weights.Count; i++)
+            {
+                bool found = false;
+                foreach (var presetWS in preset.GetWeights()) 
+                {
+                    if (group.Weights[i].target.Equals(presetWS.target))
+                    {
+                        group.Weights[i].weight = presetWS.weight;
+                        found = true;
+                        break;
+                    }
+                }
+                // Testear cambiando los bundles hijos
+                if(!found)
+                    Debug.LogWarning($"Bundle {group.Weights[i].target} was not in preset {preset.name}");
+            }
+
+            Selection.activeObject = targetBundleRef;
         }
 
         public bool Compare(string[] a, string[] b)

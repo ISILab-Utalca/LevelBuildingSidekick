@@ -1,3 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <uie:ObjectField label="Object Field" type="LBS.Bundles.Bundle, LBS" />
+    <ui:Button text="Copy weights" name="CopyWeights" />
+    <ui:TextField label="Preset Name" placeholder-text="filler text" value="New WFC Preset" name="PresetName" />
+    <ui:TextField label="Presets Path" placeholder-text="filler text" name="PresetsPath" value="Assets\ISI Lab\LBS\Artificial Intelligence\Assistants\WFCPresets" />
+    <ui:Button text="Save weights" name="SaveWeights" />
+    <uie:ObjectField label="Current Preset" type="ISILab.LBS.Assistants.WFCPreset, LBS" value="project://database/Assets/ISI%20Lab/LBS/Artificial%20Intelligence/Assistants/WFCPresets/Default%20WFC%20Preset.asset?fileID=11400000&amp;guid=aa906d6d48e992141b714743bb35ff3a&amp;type=2#Default WFC Preset" name="CurrentPreset" />
+    <ui:Button text="Load weights" name="LoadWeights" />
 </ui:UXML>
