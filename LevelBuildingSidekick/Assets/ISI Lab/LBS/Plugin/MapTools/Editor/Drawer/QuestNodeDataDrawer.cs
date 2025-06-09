@@ -30,6 +30,8 @@ namespace ISILab.LBS.Drawers.Editor
         {
             if (target is not QuestNodeBehaviour behaviour) return;
             
+            if (!Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer)) return;
+            
             var layer = behaviour.OwnerLayer;
             if (layer == null) return;
             

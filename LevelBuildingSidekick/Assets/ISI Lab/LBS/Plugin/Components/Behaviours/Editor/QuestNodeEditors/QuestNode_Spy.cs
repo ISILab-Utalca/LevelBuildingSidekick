@@ -19,7 +19,10 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             picker = this.Q<VeQuestTilePicker>("SpyTarget");
-            picker.SetInfo("Spy target", true); 
+            picker.SetInfo(
+                "Spy target",
+                "The target in the graph that the player must spy."
+                ,true); 
             
             requiredSpyTime = this.Q<FloatField>("SpyTime");
             resetOnExit = this.Q<Toggle>("SpyResetOnExit");

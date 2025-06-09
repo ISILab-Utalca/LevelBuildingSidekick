@@ -7,6 +7,30 @@ using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
+    
+    /// <summary>
+    /// Saves the bundle guid and the position in the graph to get in the scene
+    /// </summary>
+    public struct bundleGraph
+    {
+        public bundleGraph(string guid, Vector2Int position)
+        {
+            this.guid = guid;
+            this.position = position;
+        }
+        
+        public string guid;
+        public Vector2Int position;
+    }
+    
+    /// <summary>
+    /// Saves the bundle type
+    /// </summary>
+    public struct bundleType
+    {
+        public string guid;
+    }
+    
         /// <summary>
         /// Factory to create QuestNodeData based on actions.
         /// </summary>
@@ -113,8 +137,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataKill : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public int counter = 1;
-            [SerializeField, JsonRequired] public string bundleKillGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundle;
 
             public DataKill(QuestNode owner, string tag) : base(owner, tag)
             {
@@ -127,7 +150,7 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Objects with a default trigger that will stop catch the player
             /// </summary>
-            [SerializeField, JsonRequired] public List<string> bundleObserversGuids = new();
+            [SerializeField, JsonRequired] public List<bundleGraph> bundles = new();
 
             public DataStealth(QuestNode owner, string tag) : base(owner, tag)
             {
@@ -136,7 +159,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataTake : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public string bundleToTakeGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundle;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
            }
@@ -144,7 +167,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataRead : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public string objectToReadGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundle;
             public DataRead(QuestNode owner, string tag) : base(owner, tag)
             {
             }
@@ -152,12 +175,12 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataExchange : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public string bundleGiveGuid;
+            [SerializeField, JsonRequired] public bundleType bundleGive;
             [SerializeField, JsonRequired] public int requiredAmount = 1;
             /// <summary>
             /// Receive guid must be set from editor panel
             /// </summary>
-            [SerializeField, JsonRequired] public string bundleReceiveGuid;
+            [SerializeField, JsonRequired] public bundleType bundleReceive;
             [SerializeField, JsonRequired] public int receiveAmount = 1;
             public DataExchange(QuestNode owner, string tag) : base(owner, tag)
             {
@@ -166,11 +189,11 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataGive : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public string bundleGiveGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundleGive;
             /// <summary>
             /// Character to give to 
             /// </summary>
-            [SerializeField, JsonRequired] public string bundleToGiveGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundleGiveTo;
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
             }
@@ -181,7 +204,7 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character to report to
             /// </summary>
-            [SerializeField, JsonRequired] public string bundleToReport;
+            [SerializeField, JsonRequired] public bundleGraph bundle;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
            }
@@ -192,7 +215,7 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// material that must be gathered
             /// </summary>
-            [SerializeField, JsonRequired] public string material;
+            [SerializeField, JsonRequired] public bundleType bundleToGatherType;
             [SerializeField, JsonRequired] public int requiredAmount;
           public DataGather(QuestNode owner, string tag) : base(owner, tag)
           {
@@ -201,7 +224,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataSpy : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public string characterToSpy;
+            [SerializeField, JsonRequired] public bundleGraph bundleToSpy;
             [SerializeField, JsonRequired] public float spyTime = 5f;
             [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
@@ -224,7 +247,7 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character or objects that gets listened to
             /// </summary>
-            [SerializeField, JsonRequired] public string bundleToListenFGuid;
+            [SerializeField, JsonRequired] public bundleGraph bundleToListen;
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {

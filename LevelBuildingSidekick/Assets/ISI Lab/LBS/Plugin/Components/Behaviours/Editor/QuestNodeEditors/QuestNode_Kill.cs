@@ -22,7 +22,10 @@ namespace ISILab.LBS.VisualElements
                         KillList.makeItem = () =>
                         {
                                 var tilePicker = new VeQuestTilePicker();
-                                tilePicker.SetInfo("Kill target", true);
+                                tilePicker.SetInfo(
+                                        "Kill target", 
+                                        "The objects in the graph that the player must kill to complete this action node.",
+                                        true);
                                 return tilePicker;
                         };
 

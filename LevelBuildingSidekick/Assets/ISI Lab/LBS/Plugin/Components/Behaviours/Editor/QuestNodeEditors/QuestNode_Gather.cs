@@ -17,7 +17,10 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             pickerGather = this.Q<VeQuestTilePicker>("GatherTarget");
-            pickerGather.SetInfo("Object to gather", false); 
+            pickerGather.SetInfo(
+                "Object to gather", 
+                "The bundle type the player must gather/collect within the trigger area.",
+                false); 
             gatherAmount = this.Q<IntegerField>("GatherAmount");
             
 

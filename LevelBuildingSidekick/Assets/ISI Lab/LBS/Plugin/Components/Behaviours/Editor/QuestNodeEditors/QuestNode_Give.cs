@@ -17,10 +17,16 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             pickerGiveTarget = this.Q<VeQuestTilePicker>("GiveTarget");
-            pickerGiveTarget.SetInfo("Object to give", false);
+            pickerGiveTarget.SetInfo(
+                "Object to give", 
+                    "The bundle type the player must give at the location.",
+                false);
             
             pickerGiveReceiver = this.Q<VeQuestTilePicker>("GiveReceiver");
-            pickerGiveReceiver.SetInfo("Target receiver", true);
+            pickerGiveReceiver.SetInfo(
+                "Target receiver", 
+                "The object in the graph that will receive the object.",
+                true);
             
 
         }

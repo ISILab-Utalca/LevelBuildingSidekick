@@ -161,8 +161,8 @@ namespace ISILab.LBS.VisualElements
                     if (instance != null)
                     {
                         InstancedContent.Add(instance as VisualElement);
-                        instance.SetMyData(node.NodeData);
-                        SetBaseDataValues(node.NodeData); 
+                        instance.SetMyData(node.NodeData); // bindings per editor type
+                        SetBaseDataValues(node.NodeData); // for trigger position and size
                         DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
                     }
                 }

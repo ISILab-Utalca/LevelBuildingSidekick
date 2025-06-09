@@ -28,9 +28,9 @@ namespace ISILab.LBS.Manipulators
 
         public BaseQuestNodeData activeData;
         
-        private Action<string> _onBundlePicked;
+        private Action<string,Vector2Int> _onBundlePicked;
 
-        public Action<string> OnBundlePicked
+        public Action<string,Vector2Int> OnBundlePicked
         {
             get => _onBundlePicked;
             set
@@ -63,7 +63,7 @@ namespace ISILab.LBS.Manipulators
 
             if (activeData is not null)
             {
-                var location = LBSMainWindow._gridPosition;
+                Vector2Int location = LBSMainWindow._gridPosition;
                 activeData.position = location;
 
 
@@ -90,10 +90,10 @@ namespace ISILab.LBS.Manipulators
                     OnManipulationEnd.Invoke();
                     return;
                 }
-
+                
                 var bundle = bundleTile.BundleData.Bundle;
                 string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
-                OnBundlePicked?.Invoke(bundleDataGui);
+                OnBundlePicked?.Invoke(bundleDataGui,location);
             }
 
             behaviour.DataChanged(node);

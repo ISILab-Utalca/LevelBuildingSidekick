@@ -16,7 +16,10 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
             
             picker = this.Q<VeQuestTilePicker>("ReadTarget");
-            picker.SetInfo("Read target", true); 
+            picker.SetInfo(
+                "Read target", 
+                "The object in the graph that the player must read.",
+                true); 
             
 
         }

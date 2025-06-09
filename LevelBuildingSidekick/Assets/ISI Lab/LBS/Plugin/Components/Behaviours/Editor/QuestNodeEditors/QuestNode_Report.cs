@@ -17,7 +17,10 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
                         
             picker = this.Q<VeQuestTilePicker>("ReportTarget");
-            picker.SetInfo("Report target", true); 
+            picker.SetInfo(
+                "Report target", 
+                "The target in the graph, that the player must report to"
+                ,true); 
             
 
         }

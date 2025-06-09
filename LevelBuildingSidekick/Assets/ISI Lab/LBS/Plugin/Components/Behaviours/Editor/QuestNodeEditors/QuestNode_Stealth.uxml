@@ -2,6 +2,6 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="Stealth" style="flex-grow: 0;">
         <ui:Vector2Field label="Required Reach Target" tooltip="This is the place the player must reach to complete the mission" name="RequiredPosition" />
-        <ui:ListView reorder-mode="Animated" show-border="true" header-title="Observers" tooltip="Objects in map that can detect the player" name="ObserverList" show-add-remove-footer="true" fixed-item-height="30" show-foldout-header="true" />
+        <ui:ListView reorder-mode="Animated" show-border="true" header-title="Observers" tooltip="Objects in map that can detect the player" name="ObserverList" show-add-remove-footer="true" fixed-item-height="30" show-foldout-header="true" virtualization-method="DynamicHeight" />
     </ui:VisualElement>
 </ui:UXML>

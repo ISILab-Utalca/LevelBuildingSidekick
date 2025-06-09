@@ -28,11 +28,13 @@ namespace ISILab.LBS.VisualElements
         public new class UxmlFactory : UxmlFactory<VeQuestTilePicker, UxmlTraits> { }
         
         private ObjectField TargetBundle;
+        private Vector2IntField TargetPosition;
         private Button PickerTarget;
 
         public Action _onClicked;
         public Action<Bundle> _onBundleChanged;
-        
+
+
         #region CONSTRUCTORS
         public VeQuestTilePicker() : base()
         {
@@ -46,6 +48,10 @@ namespace ISILab.LBS.VisualElements
 
             visualTree.CloneTree(this);
 
+            TargetPosition = this.Q<Vector2IntField>("TargetPosition");
+            TargetPosition.tooltip = "Target position in graph.";
+            TargetPosition.SetEnabled(false);
+            
             TargetBundle = this.Q<ObjectField>("TargetFieldBundle");
             if (TargetBundle == null)
             {
@@ -71,6 +77,7 @@ namespace ISILab.LBS.VisualElements
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
+                _onClicked.Invoke();
             };
             
             Debug.Log("VeQuestTilePicker Created!");
@@ -85,11 +92,12 @@ namespace ISILab.LBS.VisualElements
        /// </summary>
        /// <param name="label">Description of target</param>
        /// <param name="graphOnly">whether the target must be assigned from the graph</param>
-       public void SetInfo(string label, bool graphOnly = false)
+       public void SetInfo(string label, string tooltip, bool graphOnly = false)
        {
            string suffix = graphOnly ? " (In Graph)" : " (Type)";
            TargetBundle.labelElement.text = label + suffix;
            TargetBundle.SetEnabled(!graphOnly);
+           this.tooltip = tooltip;
        }
 
 
@@ -97,9 +105,19 @@ namespace ISILab.LBS.VisualElements
         /// Call whenever a active node is changed
         /// </summary>
         /// <param name="guid"></param>
-        public void SetTarget(ref string guid)
+        public void SetTarget(string guid, Vector2Int position = default)
         {
-            PickerTarget.clicked += () => _onClicked.Invoke();
+            var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
+            TargetBundle.value = bundle;
+            
+            TargetPosition.style.display = position == default ? DisplayStyle.None : DisplayStyle.Flex;
+            TargetPosition.value = position;
+        }
+
+        public void ClearPicker()
+        {
+            _onClicked = null;
+            _onBundleChanged = null;
         }
         
         #endregion
