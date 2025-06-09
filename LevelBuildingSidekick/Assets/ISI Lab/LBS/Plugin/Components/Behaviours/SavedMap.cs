@@ -1,18 +1,20 @@
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
-namespace ISILab.LBS.Behaviours
+namespace ISILab.LBS
 {
-    public class SavedMap
+    [System.Serializable]
+    public class SavedMap : ScriptableObject, ICloneable
     {
         #region FIELDS
-        [SerializeField, JsonIgnore]
-        protected BundleTileMap map;
-        [SerializeField]
-        protected string mapName;
-        [SerializeField]
-        protected float savedScore;
+        [SerializeField, JsonRequired]
+        public BundleTileMap map;
+        [SerializeField, JsonRequired]
+        public string mapName;
+        [SerializeField, JsonRequired]
+        public float savedScore;
 
         #endregion
 
@@ -21,6 +23,7 @@ namespace ISILab.LBS.Behaviours
         public BundleTileMap Map => map;
         [JsonIgnore]
         public float Score => savedScore;
+        [JsonIgnore]
         public string Name => mapName;
         
         #endregion
@@ -31,6 +34,11 @@ namespace ISILab.LBS.Behaviours
             this.map = map;
             this.mapName = name;
             this.savedScore = score;
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
         #endregion
 

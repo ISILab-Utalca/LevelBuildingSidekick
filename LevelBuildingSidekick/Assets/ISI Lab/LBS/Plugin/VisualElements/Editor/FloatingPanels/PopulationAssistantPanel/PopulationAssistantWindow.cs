@@ -428,12 +428,14 @@ namespace ISILab.LBS.VisualElements.Editor
         private void PinSuggestion() => PinSuggestion(selectedMap.Data);
         private void PinSuggestion(object obj)
         {
+            //Get chromosome
             var suggestionData = obj as BundleTilemapChromosome;
             if (suggestionData == null)
             {
                 throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
             }
 
+            //Create bundle tile map
             var newTileMap = new BundleTileMap();
             for (int i = 0; i < suggestionData.GetGenes().Length; i++)
             {
@@ -443,8 +445,46 @@ namespace ISILab.LBS.VisualElements.Editor
                     newTileMap.AddGroup(new TileBundleGroup(suggestionData.ToMatrixPosition(i), geneData.Bundle.TileSize, geneData, Vector2.right));
                 }
             }
-            LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
-            Debug.Log("saved map. Layer now has "+LayerPopulation.SavedMaps.Count()+" maps.");
+
+            //Backup file setup
+            var settings = LBSSettings.Instance;
+            var savedMapPath = settings.paths.savedMapsPresetPath;
+            string savedMapName = "Saved Map";
+
+            //Directory making
+            if (!Directory.Exists(savedMapPath))
+            {
+                Directory.CreateDirectory(savedMapPath);
+            } else
+            {
+                var info = new DirectoryInfo(savedMapPath);
+                var fileInfo = info.GetFiles();
+
+                //Find all presets in the directory
+                var savedMapList = new List<SavedMap>();
+                //Check if newTileMap is equal to any of the saved maps.
+                foreach (var file in fileInfo)
+                {
+                    var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
+                    if (mapToCompare != null)
+                    {
+                        if(mapToCompare.Map.Equals(newTileMap))
+                        {
+                            //Maps are the same, so return
+                            return;
+                        }
+                    }
+                }
+                //Then name it after the count in file info
+                savedMapName = "Saved Map " + savedMapList.Count;
+            }
+            //Finally, save!
+            var newSavedMap = new SavedMap(newTileMap, savedMapName, (float)suggestionData.Fitness);
+            newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
+            AssetDatabase.CreateAsset(newSavedMap, savedMapPath + "\\" + savedMapName + ".asset");
+
+            //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
+            Debug.Log("saved map");
         }
         //Save suggestion!
         #endregion
