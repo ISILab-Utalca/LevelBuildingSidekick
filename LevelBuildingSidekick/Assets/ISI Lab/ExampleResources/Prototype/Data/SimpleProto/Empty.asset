@@ -19,7 +19,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 0}
-    probability: 1
+    probability: 0
   characteristics:
   - rid: 8781300868113760379
   populationType: 0
