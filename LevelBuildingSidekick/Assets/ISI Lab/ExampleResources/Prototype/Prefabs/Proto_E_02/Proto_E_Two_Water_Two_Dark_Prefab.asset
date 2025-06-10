@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Proto_E_Two_Ground_Water_One_Ground_OneBundle
+  m_Name: Proto_E_Two_Water_Two_Dark_Prefab
   m_EditorClassIdentifier: 
   layerContentFlags: 2
-  type: 1
+  type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 1021661790290393027, guid: db3eddc30c93fd54792f9f9362b80090, type: 3}
-    probability: 0
+  - obj: {fileID: 4004757193691603188, guid: 48d945766a422a046b8c9c900d818430, type: 3}
+    probability: 1
   characteristics:
-  - rid: 5085006314459627539
+  - rid: 1936740494006812763
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -35,12 +35,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5085006314459627539
+    - rid: 1936740494006812763
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
         connections:
         - Water
-        - Grass
         - Darkness
-        - Grass
+        - Darkness
+        - Water
