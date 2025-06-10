@@ -11,5 +11,6 @@
             <ui:Button text="Load Weights" name="LoadWeights" style="align-self: center; height: 30px; flex-grow: 1;" />
         </ui:VisualElement>
         <uie:ObjectField label="Current Preset" type="ISILab.LBS.Assistants.WFCPreset, LBS" value="project://database/Assets/ISI%20Lab/LBS/Artificial%20Intelligence/Assistants/WFCPresets/Default%20WFC%20Preset.asset?fileID=11400000&amp;guid=aa906d6d48e992141b714743bb35ff3a&amp;type=2#Default WFC Preset" name="CurrentPreset" style="align-content: flex-start; align-items: stretch; align-self: stretch; margin-top: 3px; margin-bottom: 3px;" />
+        <ui:Toggle label="Safe Generation" tooltip="It forces the correct generation of all tiles." name="SafeMode" style="align-self: stretch;" />
     </ui:VisualElement>
 </ui:UXML>

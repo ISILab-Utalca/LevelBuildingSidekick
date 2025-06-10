@@ -31,6 +31,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private ObjectField currentPreset;
 
+        private Toggle safeMode;
+
         public AssistantWFCEditor(object target) : base(target)
         {
             assistant = target as AssistantWFC;
@@ -121,6 +123,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var loadWeightsButton = this.Q<Button>("LoadWeights");
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
+
+            // Safe Generation Mode
+            var safeModeCheckbox = this.Q<Toggle>("SafeMode");
+            safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
             
             return this;
         }

@@ -65,7 +65,7 @@ namespace ISILab.LBS.Manipulators
             // No longer having empty tiles means overwrite is default
             //
             assistant.OverrideValues = e.ctrlKey;
-            assistant.Execute();
+            assistant.TryExecute();
 
             if (EditorGUI.EndChangeCheck())
             {
