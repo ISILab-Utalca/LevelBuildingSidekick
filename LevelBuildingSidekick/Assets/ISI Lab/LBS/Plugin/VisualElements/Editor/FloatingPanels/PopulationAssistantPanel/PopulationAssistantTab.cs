@@ -17,6 +17,7 @@ using Object = UnityEngine.Object;
 using ISILab.LBS.AI.Assistants.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -42,17 +43,21 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private List<MAPElitesPreset> savedMaps = new ();
+        private List<SavedMap> savedMapList = new ();
         private List<PopulationMapEntry> mapEntries = new ();
     
         #endregion
 
         #region PROPERTIES
 
-        List<MAPElitesPreset> MapEliteBundle
+        List<SavedMap> SavedMapList
         {
-            get => savedMaps;
-            set => savedMaps = value;
+            get => savedMapList;
+            set => savedMapList = value;
+        }
+        protected LBSLayer TargetLayer
+        {
+            get => target.OwnerLayer;
         }
         #endregion
 
@@ -66,9 +71,11 @@ namespace ISILab.LBS.VisualElements.Editor
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantTab");
             visualTree.CloneTree(this);
             
+            //Main thing
             mapEliteFoldout = this.Q<Foldout>("FoldoutMapElites");
             mapEliteContent = this.Q<VisualElement>("MapEliteContent");
             
+            //Assistant button
             buttonMapElitesAssistant = this.Q<Button>("ButtonMapElitesAssistant");
             buttonMapElitesAssistant.clicked += ()=>
             {
@@ -79,24 +86,20 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
                 window.ShowWindow();
             };
-            
-            savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
-            
-            mapEntries.Clear();
-            // replace these calls with reading the actual saved data from the user
-            //AddEntry();
-            UpdateSavedMaps();
-            
+
+            //savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
+
+            UpdateMapEntries();
             mapElitesList = this.Q<ListView>("MapElitesList");
             mapElitesList.reorderable = true;
-            
+
             mapElitesList.makeItem = () => new PopulationMapEntry(); 
             mapElitesList.bindItem = (element, index) =>
             {
                 var mapEntryVE = element as PopulationMapEntry;
                 if (mapEntryVE == null) return;
 
-                var mapEntry = savedMaps[index]; 
+                var mapEntry = savedMapList[index];
                 mapEntryVE.SetData(mapEntry);
 
                 mapEntryVE.RemoveMapEntry = null;
@@ -104,50 +107,61 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     Debug.Log("Remove at " +index);
                     mapEntries.RemoveAt(index);
+                    RemoveMap(index);
                     mapElitesList.Rebuild();
                 };
             };
             mapElitesList.itemsSource = mapEntries;
         }
-        
         #endregion
 
         #region METHODS
-
         // should pass the preset as parameter
-        private void AddEntry()
+        /*private void AddEntry()
         {
             var mapEntry1 = ScriptableObject.CreateInstance<MAPElitesPreset>(); // not null
             savedMaps.Add(mapEntry1);
 
             var mapEntryVE = new PopulationMapEntry();
             mapEntries.Add(mapEntryVE);
-        }
-        
-        private void UpdateSavedMaps()
+        }*/
+
+        private void RemoveMap(int index) => RemoveMap(SavedMapList[index].Name);
+        private void RemoveMap(string name)
         {
-            //Get population behavior
-            var population = target.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+            if (TargetLayer == null) return;
+            var data = TargetLayer.Parent;
+            var savedMapList = data.GetSavedMaps(TargetLayer);
+            if (savedMapList == null) return;
+
+            var maps = savedMapList.Maps;
+            maps.Remove(maps.Find(c => c.Name == name));
+        }
+        private void UpdateMapEntries()
+        {
+            //Get population behavior = it's now TargetLayer!
 
             //Get saved maps
-            if (population == null) return;
-            if (population.SavedMaps == null) return;
+            if (TargetLayer == null) return;
 
-            if(population.SavedMaps.Count!=0)
+            var data = TargetLayer.Parent;
+            var savedMapList = data.GetSavedMaps(TargetLayer);
+            if (savedMapList == null) return;
+
+            if (savedMapList.Maps.Count>0)
             {
-                foreach(SavedMap map in population.SavedMaps)
+                foreach(SavedMap map in savedMapList.Maps)
                 {
+                    //Add map to saved map list
+                    SavedMapList.Add(map);
+                    //Then make a new visual element to set it up later
                     var mapEntryVE = new PopulationMapEntry();
-                    mapEntryVE.name = map.Name;
-                    mapEntryVE.Score = map.Score.ToString();
-                    mapEntryVE.Data = map.Map;
                     mapEntries.Add(mapEntryVE);
-                    
-
                 }
             }
         }
+
         #endregion
-       
+
     }
 }

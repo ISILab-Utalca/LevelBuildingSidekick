@@ -22,8 +22,6 @@ namespace ISILab.LBS.Behaviours
         TileMapModule tileMap;
         [SerializeField, JsonIgnore]
         BundleTileMap bundleTileMap;
-        [SerializeField, JsonIgnore]
-        List<SavedMap> savedMaps;
 
         [SerializeField,JsonRequired]
         private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
@@ -49,7 +47,6 @@ namespace ISILab.LBS.Behaviours
         
         [JsonIgnore]
         public BundleTileMap BundleTilemap => bundleTileMap;
-        public List<SavedMap> SavedMaps => savedMaps;
         
         public BundleCollection BundleCollection 
         {
@@ -168,28 +165,6 @@ namespace ISILab.LBS.Behaviours
             return GetBundleData(tileMap.GetTile(position.ToInt()));
         }
 
-        //To add saved maps
-        public void SaveMap(BundleTileMap map, float score = 0.0f)
-        {
-            if(savedMaps==null)
-            {
-                savedMaps = new List<SavedMap>();
-            } else {
-                foreach(SavedMap storedMap in savedMaps)
-                {
-                    
-                    if (map.Equals(storedMap.Map))
-                    {
-                        //TODO: Notify the maps are equal so the new one won't be saved.
-                        return;
-                    }
-                    Debug.Log("map isn't equal");
-                }
-            }
-            var savedName = "Saved Map " + (savedMaps.Count + 1);
-            var savedMap = new SavedMap(map, savedName, score);
-            savedMaps.Add(savedMap);
-        }
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;

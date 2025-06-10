@@ -140,7 +140,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void CreateGUI()
         {
-            Debug.Log("saved maps: " + LayerPopulation.SavedMaps?.Count());
             presetDictionary = new Dictionary<string, MAPElitesPreset>();
 
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantWindow");
@@ -429,7 +428,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private void PinSuggestion(object obj)
         {
             //Get chromosome
-            var suggestionData = obj as BundleTilemapChromosome;
+            var objVE = obj as PopulationAssistantButtonResult;
+            var suggestionData = objVE.Data as BundleTilemapChromosome;
             if (suggestionData == null)
             {
                 throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
@@ -446,8 +446,29 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
+            //Get level data and layer
+            var layer = LayerPopulation.OwnerLayer;
+            var levelData = LayerPopulation.OwnerLayer.Parent;
+            var savedMapList = levelData.GetSavedMaps(layer);
+            if(savedMapList!=null)
+            {
+                //Check for duplicates
+                foreach (SavedMap storedMap in savedMapList.Maps)
+                {
+                    if (newTileMap.Equals(storedMap.Map))
+                    {
+                        LBSMainWindow.MessageNotify("An equal suggestion already exists.", LogType.Warning);
+                        return;
+                    }
+                }
+            }
+            var newSavedMap = new SavedMap(newTileMap, "", (float)suggestionData.Fitness);
+            newSavedMap.Image = objVE.GetTexture();
+            levelData.SaveMapInLayer(newSavedMap, layer);
+            LBSMainWindow.MessageNotify("Suggestion pinned.");
+
             //Backup file setup
-            var settings = LBSSettings.Instance;
+            /*var settings = LBSSettings.Instance;
             var savedMapPath = settings.paths.savedMapsPresetPath;
             string savedMapName = "Saved Map";
 
@@ -455,40 +476,46 @@ namespace ISILab.LBS.VisualElements.Editor
             if (!Directory.Exists(savedMapPath))
             {
                 Directory.CreateDirectory(savedMapPath);
-            } else
+            }
+            else
             {
                 var info = new DirectoryInfo(savedMapPath);
                 var fileInfo = info.GetFiles();
 
-                //Find all presets in the directory
-                var savedMapList = new List<SavedMap>();
                 //Check if newTileMap is equal to any of the saved maps.
-                foreach (var file in fileInfo)
+                if (fileInfo.Length > 0)
                 {
-                    var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
-                    if (mapToCompare != null)
+                    int count = 0;
+                    foreach (var file in fileInfo)
                     {
-                        if(mapToCompare.Map.Equals(newTileMap))
+                        var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
+                        if (mapToCompare != null)
                         {
-                            //Maps are the same, so return
-                            return;
+                            if (mapToCompare.Map.Equals(newTileMap))
+                            {
+                                //Maps are the same, so return
+                                LBSMainWindow.MessageNotify("An equal suggestion has already been pinned.", LogType.Warning);
+                                return;
+                            }
+                            count++;
                         }
                     }
+                    //Then name it after the count in file info
+                    savedMapName = "Saved Map " + count;
                 }
-                //Then name it after the count in file info
-                savedMapName = "Saved Map " + savedMapList.Count;
             }
             //Finally, save!
-            var newSavedMap = new SavedMap(newTileMap, savedMapName, (float)suggestionData.Fitness);
-            newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
+            SavedMap newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
+            newSavedMap.Map = newTileMap;
+            newSavedMap.Name = savedMapName;
+            newSavedMap.Score = (float)suggestionData.Fitness;
             AssetDatabase.CreateAsset(newSavedMap, savedMapPath + "\\" + savedMapName + ".asset");
 
             //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
-            Debug.Log("saved map");
+            Debug.Log("saved map: "+newSavedMap.Name);*/
         }
-        //Save suggestion!
         #endregion
-        
+
         #region GRID-RELATED METHODS
         //
         private void RepaintContent()
@@ -557,7 +584,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     rVE.Add(resultVE);
                     resultVE.selectButton.clicked += () => ShowButtonStats(resultVE);
                     resultVE.OnApplySuggestion += () => ApplySuggestion(resultVE.Data);
-                    resultVE.OnSaveSuggestion += () => PinSuggestion(resultVE.Data);
+                    resultVE.OnSaveSuggestion += () => PinSuggestion(resultVE);
                 }
             }
           

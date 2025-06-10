@@ -32,12 +32,12 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private MAPElitesPreset entryMap;
+        private SavedMap entryMap;
 
         // result
         private object data;
         // value/score of the generated result
-        private string score;
+        private float score;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region PROPERTIES
-        public MAPElitesPreset EntryMap
+        public SavedMap EntryMap
         {
             get => entryMap;
             set => entryMap = value;
@@ -61,7 +61,7 @@ namespace ISILab.LBS.VisualElements.Editor
             get => data;
             set => data = value;
         }
-        public string Score
+        public float Score
         {
             get => score;
             set => score = value;
@@ -133,7 +133,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void SetColor(float score)
         {
             // normalize value 
-            var percentage = score / 100f;
+            var percentage = (score)*100f;
             progressBar.value = percentage;
             
             //interpolate color based on score value
@@ -148,12 +148,17 @@ namespace ISILab.LBS.VisualElements.Editor
             image.style.backgroundImage = texture;
         }
 
-        public void SetData(MAPElitesPreset mapEntry)
+        public void SetData(SavedMap mapEntry)
         {
-            // Based on the data
             entryMap = mapEntry;
-            // SetMapImage();
-            // SetColor();
+            //Name
+            Name = mapEntry.Name;
+            Score = mapEntry.Score;
+            Data = mapEntry.Map;
+            // Based on the data
+
+            SetMapImage(mapEntry.Image);
+            SetColor(Score);
 
         }
     }
