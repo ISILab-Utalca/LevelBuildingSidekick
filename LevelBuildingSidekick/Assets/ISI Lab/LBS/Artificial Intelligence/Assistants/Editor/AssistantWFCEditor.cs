@@ -133,15 +133,20 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void SaveWeights()
         {
-            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName);
+            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset);
+            currentPreset.value = newPreset;
             LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
         }
 
         private void LoadWeights()
         {
             WFCPreset loaded = currentPreset.value as WFCPreset;
-            assistant.LoadWeights(loaded);
-            LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
+            if (loaded)
+            {
+                assistant.LoadWeights(loaded);
+                LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
+            }
+            else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

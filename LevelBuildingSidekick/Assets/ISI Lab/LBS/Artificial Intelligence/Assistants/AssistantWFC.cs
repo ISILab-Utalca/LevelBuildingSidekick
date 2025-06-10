@@ -461,10 +461,10 @@ namespace ISILab.LBS.Assistants
             Selection.activeObject = targetBundleRef;
         }
 
-        public void SaveWeights(string presetName, string folder, out string endName)
+        public void SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset)
         {
             var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
-            WFCPreset newPreset = ScriptableObject.CreateInstance<WFCPreset>();
+            newPreset = ScriptableObject.CreateInstance<WFCPreset>();
             endName = presetName;
             if (endName.Length == 0)
             {
