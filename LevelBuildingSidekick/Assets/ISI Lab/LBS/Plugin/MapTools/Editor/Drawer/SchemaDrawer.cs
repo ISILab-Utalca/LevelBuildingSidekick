@@ -20,12 +20,6 @@ namespace ISILab.LBS.Drawers
     {
         private VectorImage _doorConImage = null;
         private VectorImage _windowConImage = null;
-
-        private const int VisualTilesCap = 100;
-        private const int VisualZonesCap = 10;
-        private readonly Dictionary<Zone, List<TrueTile>> _storedVisualZones = new ();
-        private List<GraphElement> _toPaint;
-        private List<GraphElement> _toErase;
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -35,63 +29,15 @@ namespace ISILab.LBS.Drawers
             // Get modules
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
-            
-            // Update zones' positions
-            zonesMod.UpdateZonePositions();
-            
-            // Store data of changed zones
-            var changedZones = schema.RetrieveChangedZones();
-            foreach (var zone in changedZones)
-            {
-                if (zone == null) continue;
-                
-                _storedVisualZones.Remove(zone);
-                foreach (var pos in zone.Positions)
-                {
-                    AddTileToZoneMemory(zone, new TrueTile(zonesMod.GetPairTile(pos), connectionsMod.GetPair(pos)));
-                }
-            }
-            
-            // Paint each zone
-            foreach(var zone in zonesMod.Zones)
-            {
-                // Empty zones
-                if (!_storedVisualZones.TryGetValue(zone, out List<TrueTile> trueTiles))
-                {
-                    if (zone.Positions.Count > 0)
-                    {
-                        // how did this happen?? we are smarter than this
-                        Debug.LogError("Zone not found on Schema Drawer cache: " + zone.ID);   
-                    }
-                    continue;  
-                }
-                /*
-                foreach (TrueTile tTile in trueTiles)
-                {
-                    if (StoredGraphElements.TryGetValue(tTile.GetHashCode(), out var gElement))    // get graphElement if on memory
-                    {
-                        var pos = new Vector2(tTile.ZoneTile.Tile.x, -tTile.ZoneTile.Tile.y);
-                        var size = DefalutSize * teselationSize;
-                        
-                        (gElement as SchemaTileView).SetPosition(new Rect(pos * size, size));
-                        
-                        view.AddElement(schema.OwnerLayer, this, gElement);
-                        continue;
-                    }
 
-                    var t = tTile.ZoneTile.Tile;                               // create graphElement if not
-                    var connections = tTile.ConnectionTile.Connections;
-                    var tView = GetTileView(t, zone, connections, teselationSize);
+            foreach (var newTile in schema.RetrieveNewTiles())
+            {
+                TileZonePair tz = zonesMod.GetPairTile(newTile);
+                TileConnectionsPair tc = connectionsMod.GetPair(newTile);
                 
-                    Debug.Log("graphElement not found for: " + tTile.GetHashCode() + ", creating new one.");
-                    _storedVisualTiles.Add(tTile.GetHashCode(), tView);
-                    view.AddElement(schema.OwnerLayer, this, tView);
-                }//*/
+                var tView = GetTileView(newTile, tz.Zone, tc.Connections, teselationSize);
+                view.AddElement(schema.OwnerLayer, newTile, tView);
             }
-            
-            // Memory handling
-            //RestrictMemoryUsage(_storedVisualTiles, VisualTilesCap);
-            //RestrictMemoryUsage(_storedVisualZones, VisualZonesCap);
         }
 
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
@@ -238,42 +184,6 @@ namespace ISILab.LBS.Drawers
                 _windowConImage = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
             }
             return _windowConImage;
-        }
-
-        private Dictionary<T,TA> RestrictMemoryUsage<T,TA>(Dictionary<T,TA> dictionary, int maxSize)
-        {
-            int gap = dictionary.Count - maxSize;
-            for(int i = 0; i < gap; i++)
-            {
-                dictionary.Remove(dictionary.First().Key);
-            }
-            return dictionary;
-        }
-
-        private void AddTileToZoneMemory(Zone zone, TrueTile tile)
-        {
-            if (_storedVisualZones.TryGetValue(zone, out var visualZone))
-            {
-                visualZone.Add(tile);
-                return;
-            }
-            _storedVisualZones.Add(zone, new List<TrueTile>{ tile });
-        }
-    }
-
-    internal class TrueTile
-    {
-        public TileZonePair ZoneTile { get; }
-        public TileConnectionsPair ConnectionTile { get; }
-
-        public TrueTile(TileZonePair zoneTile, TileConnectionsPair connectionTile)
-        {
-            ZoneTile = zoneTile;
-            ConnectionTile = connectionTile;
-        }
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(ZoneTile.GetHashCode(), ConnectionTile.GetHashCode());
         }
     }
 }

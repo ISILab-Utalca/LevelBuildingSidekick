@@ -12,8 +12,6 @@ namespace ISILab.LBS.Drawers
     [Serializable]
     public abstract class Drawer
     {
-        protected Dictionary<object, List<GraphElement>> StoredGraphElements;
-        protected List<object> RepaintList;
         public Vector2 DefalutSize
         {
             get => LBSSettings.Instance.general.TileSize;
@@ -31,18 +29,5 @@ namespace ISILab.LBS.Drawers
             return new Texture2D(16, 16);
         }
 
-        public virtual GraphElement[] GetRepaintElements()
-        {
-            List<GraphElement> elements = new List<GraphElement>();
-            foreach (object o in RepaintList)
-            {
-                if (StoredGraphElements.TryGetValue(o, out var element))
-                {
-                    element.AddRange(element);
-                }
-            }
-            RepaintList.Clear();
-            return elements.ToArray();
-        }
     }
 }

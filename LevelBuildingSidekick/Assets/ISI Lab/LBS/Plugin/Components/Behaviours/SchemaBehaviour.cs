@@ -47,7 +47,6 @@ namespace ISILab.LBS.Behaviours
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
         
-        private HashSet<Zone> _changedZones = new ();
         #endregion
 
         #region META-FIELDS
@@ -119,7 +118,7 @@ namespace ISILab.LBS.Behaviours
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
-            _changedZones.Add(zone);
+            ReplaceTile(tile);
             
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
@@ -152,9 +151,9 @@ namespace ISILab.LBS.Behaviours
         public void RemoveZone(Zone zone)
         {
             var tiles = areas.GetTiles(zone);
-            if (_changedZones.Contains(zone))
+            foreach (var tile in tiles)
             {
-                _changedZones.Remove(zone);
+                RequestTileRemove(tile);
             }
             
             tileMap.RemoveTiles(tiles);
@@ -164,7 +163,7 @@ namespace ISILab.LBS.Behaviours
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
-            _changedZones.Add(areas.GetZone(tile));
+            RequestTileRemove(tile);
             
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
@@ -175,12 +174,11 @@ namespace ISILab.LBS.Behaviours
         {
             var t = tileConnections.GetPair(tile);
             t.SetConnection(direction, connection, editedByIA);
+            ReplaceTile(tile);
         }
 
         public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
         {
-            _changedZones.Add(areas.GetZone(tile));
-            
             tileConnections.AddPair(tile, connections, editedByIA);
         }
 
@@ -270,6 +268,16 @@ namespace ISILab.LBS.Behaviours
             }
         }
 
+        private void ReplaceTile(LBSTile tile)
+        {
+            RequestTilePaint(tile);
+            LBSTile old = tileMap.GetTile(tile.Position);
+            if (old != null)
+            {
+                RequestTileRemove(old);
+            }
+        }
+
         public override object Clone()
         {
             return new SchemaBehaviour(this.Icon, this.Name, this.ColorTint);
@@ -291,24 +299,6 @@ namespace ISILab.LBS.Behaviours
             return base.GetHashCode();
         }
         
-        /// <summary>
-        /// Get all zones that have been affected by a change since the last time they were retrieved.
-        /// The memory of changed zones will be cleared after calling this method.
-        /// </summary>
-        public Zone[] RetrieveChangedZones()
-        {
-            // If null create a new one
-            _changedZones ??= new HashSet<Zone>();
-            
-            // Turn into array
-            Zone[] o = _changedZones.ToArray();
-            
-            // Clear memory
-            _changedZones.Clear();
-            
-            // Return array
-            return o;
-        }
         #endregion
     }
 }

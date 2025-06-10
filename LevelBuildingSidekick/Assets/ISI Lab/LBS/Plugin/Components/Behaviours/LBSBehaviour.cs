@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LBS.Components;
+using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -24,6 +26,9 @@ namespace ISILab.LBS.Behaviours
         private Color colorTint;
         [SerializeField, JsonRequired]
         private string name;
+        
+        private HashSet<LBSTile> _newTiles = new ();
+        private HashSet<LBSTile> _expiredTiles = new ();
         #endregion
 
         #region PROPERTIES
@@ -81,6 +86,58 @@ namespace ISILab.LBS.Behaviours
                 }
             }
             return toR;
+        }
+
+        protected void RequestTilePaint(LBSTile tile)
+        {
+            _newTiles ??= new HashSet<LBSTile>();
+
+            _newTiles.Add(tile);
+        }
+        protected void RequestTileRemove(LBSTile tile)
+        {
+            _expiredTiles ??= new HashSet<LBSTile>();
+            
+            _expiredTiles.Add(tile);
+        }
+        
+        
+        /// <summary>
+        /// Get all new tiles' position that have been created since the last time they were retrieved.
+        /// The memory of new tiles will be cleared after calling this method.
+        /// </summary>
+        public LBSTile[] RetrieveNewTiles()
+        {
+            // If null create a new one
+            _newTiles ??= new HashSet<LBSTile>();
+            
+            // Turn into array
+            LBSTile[] o = _newTiles.ToArray();
+            
+            // Clear memory
+            _newTiles.Clear();
+            
+            // Return array
+            return o;
+        }
+        
+        /// <summary>
+        /// Get all tiles' position that   since the last time they were retrieved.
+        /// The memory of new tiles will be cleared after calling this method.
+        /// </summary>
+        public LBSTile[] RetrieveExpiredTiles()
+        {
+            // If null create a new one
+            _expiredTiles ??= new HashSet<LBSTile>();
+            
+            // Turn into array
+            LBSTile[] o = _expiredTiles.ToArray();
+            
+            // Clear memory
+            _expiredTiles.Clear();
+            
+            // Return array
+            return o;
         }
 
         public abstract void OnAttachLayer(LBSLayer layer);
