@@ -454,7 +454,7 @@ namespace ISILab.LBS.Assistants
             
             for (int i = 0; i < currentBundles.Count; i++) 
             {
-                Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
+                //Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
                 group.Weights[i].weight = maxFreq != 0 ? (float)bundleFrequency[currentBundles[i]] / (float)maxFreq : 1;
             }
 

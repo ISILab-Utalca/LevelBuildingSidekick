@@ -47,6 +47,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a20f562b49ef5ba4db3e258640ff6602, type: 2}
     - {fileID: 11400000, guid: f537a2c1b820efe44a4da4b0aeb7d0e1, type: 2}
     - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
+    - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
     - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
     - {fileID: 11400000, guid: c0e28f3a70727474a81b860669e32870, type: 2}
     - {fileID: 11400000, guid: c61b774ce5ee4c640b93988da7937edc, type: 2}
@@ -81,6 +82,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 804ba0b662869714e8ed1a1d74af4fea, type: 2}
     - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
     - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
+    - {fileID: 11400000, guid: e6b44cd5742236c40bb507626ac7f845, type: 2}
     - {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
     - {fileID: 11400000, guid: 9d3dac0f9a486fd47866f815b4fefc29, type: 2}
     - {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
@@ -129,7 +131,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
     - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
     - {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
-    - {fileID: 11400000, guid: 337d6223667092c4c9f04e4df2f319b5, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -760,3 +761,10 @@ MonoBehaviour:
   - type: UnityEditor.ShaderGraph.ShaderGraphHeatmapValues
     items:
     - {fileID: 11400000, guid: 089885f17bac7464a80c68e81d8538a1, type: 2}
+  - type: ISILab.LBS.Assistants.WFCPreset
+    items:
+    - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
+    - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
+    - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
+    - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
+    - {fileID: 11400000, guid: cb4f17460cd25e0438006c6150d9fe06, type: 2}
