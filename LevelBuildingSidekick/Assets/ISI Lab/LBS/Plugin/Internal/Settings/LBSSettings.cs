@@ -113,6 +113,20 @@ namespace ISILab.LBS.Settings
             public Color okColor = Color.white;
             public Color successColor = new Color(0f, 1f, 0.68f);
             
+            #region Quest Node Colors
+            public Color colorTrigger = new Color(0.93f, 0.81f, 0.42f, 1f);
+            public Color colorKill = new Color(0.93f, 0.33f, 0.42f);
+            public Color colorStealth = new Color(0.45f, 0.07f, 0.7f);
+            public Color colorTake = new Color(0.16f, 0.7f, 0.57f);
+            public Color colorRead = new Color(0.51f, 1f, 0.9f);
+        
+            public Color colorGive = new Color(1f, 0.72f, 0.92f);
+            [FormerlySerializedAs("colorGiveTo")] public Color colorExchange = new Color(1f, 0.45f, 0.91f);
+        
+            public Color colorReport = new Color(0.41f, 0.63f, 1f);
+            public Color colorSpy = new Color(0.78f, 0.79f, 1f);
+            public Color colorListen = new Color(0.52f, 1f, 0.05f);
+            #endregion
         }
         
     }

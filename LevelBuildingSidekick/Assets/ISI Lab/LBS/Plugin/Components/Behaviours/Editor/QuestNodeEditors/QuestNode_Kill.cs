@@ -38,10 +38,10 @@ namespace ISILab.LBS.VisualElements
                 if (element is not PickerBundle tilePicker || currentData == null) return;
                 if (i < 0 || i >= currentData.bundlesToKill.Count) return;
 
-                var bundleRef = currentData.bundlesToKill[i];
+                var bundleGraph = currentData.bundlesToKill[i];
 
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleRef.guid, bundleRef.position);
+                tilePicker.SetTarget(bundleGraph.layer, bundleGraph.guid, bundleGraph.position);
 
                 tilePicker._onClicked = () =>
                 {
@@ -49,17 +49,18 @@ namespace ISILab.LBS.VisualElements
                     if (pickerManipulator != null)
                     {
                         pickerManipulator.activeData = currentData;
-                        pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
+                        pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
                         {
                             // Update the bundle data
-                            bundleRef.guid = pickedGuid;
-                            bundleRef.position = pos;
+                            bundleGraph.layer = layer;
+                            bundleGraph.guid = pickedGuid;
+                            bundleGraph.position = pos;
 
                             // Refresh UI
-                            tilePicker.SetTarget(pickedGuid, pos);
+                            tilePicker.SetTarget(layer, pickedGuid, pos);
 
                             // Force re-assign to update the object inside the list if needed
-                            currentData.bundlesToKill[i] = bundleRef;
+                            currentData.bundlesToKill[i] = bundleGraph;
                         };
                     }
                 };

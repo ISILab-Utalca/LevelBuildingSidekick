@@ -44,14 +44,16 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
                 pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
+                    currentData.bundleGive.layer = layer;
                     currentData.bundleGive.guid = pickedGuid;
-                    _pickerBundleGiveTarget.SetTarget(currentData.bundleGive.guid);
+                    currentData.bundleGive.position = position;
+                    _pickerBundleGiveTarget.SetTarget(layer, pickedGuid, position);
                 };
             };
             
-            _pickerBundleGiveTarget.SetTarget(currentData.bundleGive.guid);
+            _pickerBundleGiveTarget.SetTarget(currentData.bundleGive.layer, currentData.bundleGive.guid, currentData.bundleGive.position);
             
             #endregion
             
@@ -64,16 +66,17 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
                 pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
+                    currentData.bundleGiveTo.layer = layer;
                     currentData.bundleGiveTo.guid = pickedGuid;
                     currentData.bundleGiveTo.position = position;
                     
-                    _pickerBundleGiveReceiver.SetTarget(currentData.bundleGiveTo.guid, position);
+                    _pickerBundleGiveReceiver.SetTarget(layer, pickedGuid, position);
                 };
             };
             
-            _pickerBundleGiveReceiver.SetTarget(currentData.bundleGiveTo.guid, currentData.bundleGiveTo.position);
+            _pickerBundleGiveReceiver.SetTarget(currentData.bundleGiveTo.layer, currentData.bundleGiveTo.guid, currentData.bundleGiveTo.position);
 
             #endregion
         }

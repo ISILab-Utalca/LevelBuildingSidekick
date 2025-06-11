@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
@@ -27,6 +28,9 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private QuestNodeBehaviour behaviour;
+        
+        private const float actionBorderThickness = 1f;
+        private const float backgroundOpacity = 0.25f;
         
         static private Dictionary<Type, Type> typeToPanelMap = new()
         {
@@ -50,16 +54,21 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Displays the action string
         /// </summary>
-        private Label ActionLabel;
+        private Label ParamActionLabel;
         /// <summary>
         /// To identify which node has been clicked 
         /// </summary>
         private Label NodeIDLabel;
+        private VisualElement NodePanel;
+        private VisualElement ActionPanel;
         private VisualElement NoNodeSelectedPanel;
         private VisualElement InstancedContent;
+        private VisualElement ActionColor;
         private PickerVector2Int TargetPosition;
         private FloatField Size;
-        
+        private Label ActionLabel;
+        private VisualElement ActionIcon;
+
         #endregion
         
         #region CONSTRUCTORS
@@ -83,10 +92,20 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeBehaviourEditor");
             visualTree.CloneTree(this);
             
-            ActionLabel = this.Q<Label>("ParamAction");
-            NodeIDLabel = this.Q<Label>("ParamID");
+            NodePanel = this.Q<VisualElement>("ID");
+            ActionPanel = this.Q<VisualElement>("Action");
             NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
+            
             InstancedContent = this.Q<VisualElement>("InstancedContent");
+            
+            ActionColor = this.Q<VisualElement>("ActionColor");
+            ActionLabel = this.Q<Label>("ActionLabel");
+            ActionIcon = this.Q<VisualElement>("ActionIcon");
+            
+            ParamActionLabel = this.Q<Label>("ParamAction");
+            NodeIDLabel = this.Q<Label>("ParamID");
+
+
             
             // Generic (Go To) Values
             TargetPosition = this.Q<PickerVector2Int>("TargetPosition");
@@ -103,10 +122,10 @@ namespace ISILab.LBS.VisualElements
                 pickerManipulator.activeData = behaviour.SelectedQuestNode.NodeData;
                 if(pickerManipulator.activeData == null) return;
                 
-                pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
                 {
                     // Update the bundle data
-                    behaviour.SelectedQuestNode.NodeData._position = pos;
+                    behaviour.SelectedQuestNode.NodeData.Position = pos;
                     // Refresh UI
                     TargetPosition.SetTarget(pos);
                 };
@@ -132,14 +151,14 @@ namespace ISILab.LBS.VisualElements
         {
             var nd = GetSelectedNode().NodeData;
             if (nd is null) return;
-            nd._position = newValue;
+            nd.Position = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
         private void SetNodeDataSize(float newValue)
         {
             var nd = GetSelectedNode().NodeData;
             if (nd is null) return;
-            nd._size = newValue;
+            nd.Size = newValue;
             DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -154,22 +173,24 @@ namespace ISILab.LBS.VisualElements
 
         private void OnSelectNode(QuestNode node)
         {
-     
             NoNodeSelectedPanel.style.display = DisplayStyle.Flex;  
+            
+            NodePanel.style.display = DisplayStyle.None;
+            ActionPanel.style.display = DisplayStyle.None;
             TargetPosition.style.display = DisplayStyle.None;
             Size.style.display = DisplayStyle.None;
+            
+            InstancedContent.Clear();
             
             if (node is null || 
                 node.NodeData is null )
             {
-                  
                 return;
             }
             
             NoNodeSelectedPanel.style.display = DisplayStyle.None; 
-            InstancedContent.Clear();
             
-            ActionLabel.text = node.QuestAction;
+            ParamActionLabel.text = node.QuestAction;
             NodeIDLabel.text = node.ID.ToString();
 
             var dataType = node.NodeData.GetType();
@@ -201,10 +222,18 @@ namespace ISILab.LBS.VisualElements
         
         private void SetBaseDataValues(BaseQuestNodeData data)
         {
+            var backgroundColor = data.Color;
+            backgroundColor.a = backgroundOpacity;
+            ActionColor.SetBackgroundColor(backgroundColor);
+            
+            
+            ActionIcon.style.unityBackgroundImageTintColor = data.Color;
+            ActionColor.SetBorder(data.Color,actionBorderThickness);
+            
             TargetPosition.style.display = DisplayStyle.Flex;
             Size.style.display = DisplayStyle.Flex;
-            TargetPosition.vector2IntField.value = data._position;
-            Size.value = data._size;
+            TargetPosition.vector2IntField.value = data.Position;
+            Size.value = data.Size;
         }
 
         private QuestNode GetSelectedNode()

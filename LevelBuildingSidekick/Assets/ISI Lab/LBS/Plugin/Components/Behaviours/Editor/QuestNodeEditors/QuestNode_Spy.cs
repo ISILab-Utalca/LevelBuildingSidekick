@@ -41,15 +41,16 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
                 pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
+                    currentData.bundleToSpy.layer = layer;
                     currentData.bundleToSpy.guid = pickedGuid;
                     currentData.bundleToSpy.position = position;
-                    _pickerBundle.SetTarget(currentData.bundleToSpy.guid, position);
+                    _pickerBundle.SetTarget(layer, currentData.bundleToSpy.guid, position);
                 };
             };
             
-            _pickerBundle.SetTarget(currentData.bundleToSpy.guid, currentData.bundleToSpy.position );
+            _pickerBundle.SetTarget(currentData.bundleToSpy.layer, currentData.bundleToSpy.guid, currentData.bundleToSpy.position );
         }
         
     }

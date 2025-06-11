@@ -2,8 +2,6 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.LBS.Components;
-using ISILab.LBS.Internal;
 using UnityEditor;
 using UnityEngine;
 

@@ -28,9 +28,9 @@ namespace ISILab.LBS.Manipulators
 
         public BaseQuestNodeData activeData;
         
-        private Action<string,Vector2Int> _onBundlePicked;
+        private Action<LBSLayer,string,Vector2Int> _onBundlePicked;
 
-        public Action<string,Vector2Int> OnBundlePicked
+        public Action<LBSLayer,string,Vector2Int> OnBundlePicked
         {
             get => _onBundlePicked;
             set
@@ -64,16 +64,14 @@ namespace ISILab.LBS.Manipulators
             if (activeData is not null)
             {
                 Vector2Int location = LBSMainWindow._gridPosition;
-                activeData._position = location;
-
-
-               var populationLayers = LBS.loadedLevel.data.Layers
+                activeData.Position = location;
+                
+                var populationLayers = LBS.loadedLevel.data.Layers
                         .Where(l => l.Behaviours.Any(bh => bh.GetType() == typeof(PopulationBehaviour)))
                         .ToList();
-
-
-                    TileBundleGroup bundleTile = null;
-
+                
+                TileBundleGroup bundleTile = null;
+                LBSLayer pickedLayer = null;
                 // Here search for the bundle ref in the layer graph
                 if (populationLayers.Any())
                 {
@@ -81,6 +79,7 @@ namespace ISILab.LBS.Manipulators
                     {
                         var population = layer.GetBehaviour<PopulationBehaviour>();
                         bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
+                        pickedLayer = layer;
                         if (bundleTile != null) break;
                     }
                 }
@@ -91,10 +90,10 @@ namespace ISILab.LBS.Manipulators
                 {
                     var bundle = bundleTile.BundleData.Bundle;
                     bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
-                    OnBundlePicked?.Invoke(bundleDataGui,location);
+                    OnBundlePicked?.Invoke(pickedLayer, bundleDataGui,location);
                 }
                 
-                OnBundlePicked?.Invoke(bundleDataGui, location);
+                OnBundlePicked?.Invoke(pickedLayer,bundleDataGui, location);
             }
 
             behaviour.DataChanged(node);

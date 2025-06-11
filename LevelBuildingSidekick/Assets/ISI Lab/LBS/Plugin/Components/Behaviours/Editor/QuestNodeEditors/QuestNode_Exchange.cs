@@ -50,14 +50,14 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
                 pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
                     currentData.bundleGiveType.guid = pickedGuid;
-                    _pickerBundleGive.SetTarget(currentData.bundleGiveType.guid);
+                    _pickerBundleGive.SetTarget(layer,pickedGuid);
                 };
             };
             
-            _pickerBundleGive.SetTarget(currentData.bundleGiveType.guid);
+            _pickerBundleGive.SetTarget(null,currentData.bundleGiveType.guid);
             
             #endregion
             
@@ -70,14 +70,14 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
                 pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
                     currentData.bundleReceiveType.guid = pickedGuid;
-                    _pickerBundleReceive.SetTarget(currentData.bundleReceiveType.guid);
+                    _pickerBundleReceive.SetTarget(null,currentData.bundleReceiveType.guid);
                 };
             };
             
-            _pickerBundleReceive.SetTarget(currentData.bundleReceiveType.guid);
+            _pickerBundleReceive.SetTarget(null, currentData.bundleReceiveType.guid);
 
             #endregion
         }

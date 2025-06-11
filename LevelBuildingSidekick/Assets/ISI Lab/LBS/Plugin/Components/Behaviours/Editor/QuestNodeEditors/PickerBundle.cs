@@ -25,10 +25,11 @@ namespace ISILab.LBS.VisualElements
     [UxmlElement]
     public partial class PickerBundle : VisualElement
     {
-        private ObjectField TargetBundle;
-        private Vector2IntField TargetPosition;
-        private Button PickerTarget;
-
+        private ObjectField objectFieldBundle;
+        private Vector2IntField vector2FieldPosition;
+        private Button buttonPickerTarget;
+        private Label labelLayer;
+        
         public Action _onClicked;
         public Action<Bundle> _onBundleChanged;
 
@@ -46,39 +47,40 @@ namespace ISILab.LBS.VisualElements
 
             visualTree.CloneTree(this);
 
-            TargetPosition = this.Q<Vector2IntField>("TargetPosition");
-            TargetPosition.tooltip = "Target position in graph.";
-            TargetPosition.SetEnabled(false);
+            vector2FieldPosition = this.Q<Vector2IntField>("TargetPosition");
+            vector2FieldPosition.tooltip = "Target position in graph.";
+            vector2FieldPosition.SetEnabled(false);
             
-            TargetBundle = this.Q<ObjectField>("TargetFieldBundle");
-            if (TargetBundle == null)
+            objectFieldBundle = this.Q<ObjectField>("TargetFieldBundle");
+            if (objectFieldBundle == null)
             {
                 Debug.LogError("TargetFieldBundle not found in VisualElement_QuestTargetBundle.uxml");
             }
             else
             {
-                TargetBundle.SetEnabled(false);
-                TargetBundle.RegisterValueChangedCallback(evt =>
+                objectFieldBundle.SetEnabled(false);
+                objectFieldBundle.RegisterValueChangedCallback(evt =>
                 {
                     if (evt.newValue is Bundle bundle) _onBundleChanged?.Invoke(bundle);
                 });
             }
 
-            PickerTarget = this.Q<Button>("PickerTarget");
-            if (PickerTarget == null)
+            buttonPickerTarget = this.Q<Button>("PickerTarget");
+            if (buttonPickerTarget == null)
             {
                 Debug.LogError("PickerTarget not found in VisualElement_QuestTargetBundle.uxml");
                 return;
             }
 
-            PickerTarget.clicked += () =>
+            buttonPickerTarget.clicked += () =>
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
                 _onClicked?.Invoke();
             };
             
-            Debug.Log("VeQuestTilePicker Created!");
+            labelLayer = this.Q<Label>("Layer");
+   
         }
 
         #endregion
@@ -94,10 +96,10 @@ namespace ISILab.LBS.VisualElements
        {
            string suffix = graphOnly ? " (In Graph)" : " (Type)";
            // no need to display if we are selecting types!
-           TargetPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
+           vector2FieldPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
            
-           TargetBundle.labelElement.text = label + suffix;
-           TargetBundle.SetEnabled(!graphOnly);
+           objectFieldBundle.labelElement.text = label + suffix;
+           objectFieldBundle.SetEnabled(!graphOnly);
            this.tooltip = tooltip;
        }
 
@@ -107,17 +109,19 @@ namespace ISILab.LBS.VisualElements
         /// </summary>
         /// <param name="guid">The guid that belongs to the bundle that gets passed into the ObjectField</param>
         /// <param name="position">The position Assigned to the Vector2Int. Ignore if on SetInfo -graphOnly- was set to false</param>
-        public void SetTarget(string guid, Vector2Int position = default)
+        public void SetTarget(LBSLayer layer = null, string guid = "" , Vector2Int position = default)
         {
             if (guid != string.Empty)
             {
                 var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
-                TargetBundle.value = bundle;
+                objectFieldBundle.value = bundle;
             }
-         
+
+            if (layer != null)  labelLayer.text = layer.Name;
+            labelLayer.style.display = layer == null ? DisplayStyle.None : DisplayStyle.Flex;
             
-            TargetPosition.style.display = position == default ? DisplayStyle.None : DisplayStyle.Flex;
-            TargetPosition.value = position;
+            vector2FieldPosition.style.display = position == default ? DisplayStyle.None : DisplayStyle.Flex;
+            vector2FieldPosition.value = position;
         }
 
         public void ClearPicker()
