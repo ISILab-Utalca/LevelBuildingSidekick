@@ -31,6 +31,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private ObjectField currentPreset;
 
+        private Toggle safeMode;
+
         public AssistantWFCEditor(object target) : base(target)
         {
             assistant = target as AssistantWFC;
@@ -121,6 +123,10 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var loadWeightsButton = this.Q<Button>("LoadWeights");
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
+
+            // Safe Generation Mode
+            var safeModeCheckbox = this.Q<Toggle>("SafeMode");
+            safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
             
             return this;
         }
@@ -133,15 +139,20 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void SaveWeights()
         {
-            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName);
+            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset);
+            currentPreset.value = newPreset;
             LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
         }
 
         private void LoadWeights()
         {
             WFCPreset loaded = currentPreset.value as WFCPreset;
-            assistant.LoadWeights(loaded);
-            LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
+            if (loaded)
+            {
+                assistant.LoadWeights(loaded);
+                LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
+            }
+            else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

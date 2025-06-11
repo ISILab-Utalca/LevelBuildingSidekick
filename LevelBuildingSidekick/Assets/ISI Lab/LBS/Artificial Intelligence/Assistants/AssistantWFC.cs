@@ -35,7 +35,7 @@ namespace ISILab.LBS.Assistants
          */
         private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29";
 
-        private string presetsSaveFolder;
+        private bool safeMode;
 
         #endregion
 
@@ -60,6 +60,12 @@ namespace ISILab.LBS.Assistants
 
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
 
+        public bool SafeMode
+        {
+            get => safeMode;
+            set => safeMode = value;
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -82,20 +88,43 @@ namespace ISILab.LBS.Assistants
         {
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
-        /// <summary>
-        /// This new version, is similar but it constraints where the wave function collapse is applied, to the selected tiles only
-        /// </summary>
-        public void Execute()
+
+        public void TryExecute(int limit = 50)
         {
             // Get Bundle
             OnGUI();
-            var bundle = targetBundleRef;
 
-            if (bundle == null)
+            if (targetBundleRef == null)
             {
                 Debug.LogWarning("No bundle selected.");
                 return;
             }
+
+            if(safeMode)
+            {
+                for (int i = 0; i < limit; i++)
+                {
+                    if (Execute())
+                    {
+                        Debug.Log($"Generated after {i + 1} attempts.");
+                        return;
+                    }
+                }
+
+                Debug.LogWarning($"Could not generate after {limit} attempts.");
+            }
+            else Execute();
+        }
+        /// <summary>
+        /// This new version, is similar but it constraints where the wave function collapse is applied, to the selected tiles only
+        /// </summary>
+        public bool Execute()
+        {
+            bool success = false;
+            var og = new List<LBSModule>() { OwnerLayer.GetModule<ConnectedTileMapModule>() };
+            var originalTM = og.Clone()[0] as ConnectedTileMapModule;
+
+            var bundle = targetBundleRef;
 
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
             var map = OwnerLayer.GetModule<TileMapModule>();
@@ -129,7 +158,7 @@ namespace ISILab.LBS.Assistants
             while (toCalc.Count > 0)
             {
                 var _closed = new List<LBSTile>(closed);
-                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList(); //KVP de tiles y lista de candidatos (mayores a 1)
+                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
                 if (xx.Count <= 0)
                     break;
 
@@ -142,7 +171,7 @@ namespace ISILab.LBS.Assistants
                     continue;
                 }
 
-                var selected = current.Value.RandomRullete(c => c.weigth); //Elige el vecino aleatorio segun peso
+                var selected = current.Value.RandomRullete(c => c.weigth);
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
@@ -169,6 +198,12 @@ namespace ISILab.LBS.Assistants
                     currentCalcs.TryGetValue(tile, out var lastCandidates);
                     var newCandidates = CalcCandidates(tile, group);
 
+                    if (safeMode && newCandidates.Count == 0)
+                    {
+                        connected.Rewrite(originalTM);
+                        return false;
+                    }
+
                     if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
                     {
                         currentCalcs[tile] = newCandidates;
@@ -190,6 +225,10 @@ namespace ISILab.LBS.Assistants
 
                 toCalc.Remove(current.Key);
             }
+
+            success = toCalc.Count == 0;
+            if(safeMode && !success) connected.Rewrite(originalTM);
+            return success;
         }
 
         public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed, HashSet<Vector2Int> whitelist)
@@ -454,17 +493,17 @@ namespace ISILab.LBS.Assistants
             
             for (int i = 0; i < currentBundles.Count; i++) 
             {
-                Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
+                //Debug.Log($"{currentBundles[i]} Frequency: {bundleFrequency[currentBundles[i]]}");
                 group.Weights[i].weight = maxFreq != 0 ? (float)bundleFrequency[currentBundles[i]] / (float)maxFreq : 1;
             }
 
             Selection.activeObject = targetBundleRef;
         }
 
-        public void SaveWeights(string presetName, string folder, out string endName)
+        public void SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset)
         {
             var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
-            WFCPreset newPreset = ScriptableObject.CreateInstance<WFCPreset>();
+            newPreset = ScriptableObject.CreateInstance<WFCPreset>();
             endName = presetName;
             if (endName.Length == 0)
             {
