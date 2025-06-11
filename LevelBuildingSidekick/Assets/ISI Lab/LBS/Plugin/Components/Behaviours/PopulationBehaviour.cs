@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
@@ -26,6 +27,7 @@ namespace ISILab.LBS.Behaviours
         [SerializeField,JsonRequired]
         private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
         
+        private HashSet<TileBundleGroup> _newRotations = new ();
         #endregion
 
         #region META-FIELDS
@@ -96,6 +98,7 @@ namespace ISILab.LBS.Behaviours
             foreach(LBSTile tile in group.TileGroup)
             {
                 tileMap.AddTile(tile);
+                RequestTilePaint(tile);
             }
         }
 
@@ -120,7 +123,8 @@ namespace ISILab.LBS.Behaviours
             {
                 foreach (var groupTile in group.TileGroup)
                 {
-                    tileMap.RemoveTile(tile);
+                    RequestTileRemove(groupTile);
+                    tileMap.RemoveTile(groupTile);
                 }
                 bundleTileMap.RemoveGroup(group);
             }
@@ -129,6 +133,10 @@ namespace ISILab.LBS.Behaviours
         public void SetBundle(TileBundleGroup group, Bundle bundle)
         {
             group.BundleData = new BundleData(bundle);
+            foreach (var tile in group.TileGroup)
+            {
+                ReplaceTile(tile);
+            }
         }
         public void SetBundle(LBSTile tile, Bundle bundle) => SetBundle(bundleTileMap.GetGroup(tile), bundle);
 
@@ -153,6 +161,8 @@ namespace ISILab.LBS.Behaviours
             if (t == null)
                 return;
             t.Rotation = rotation;
+
+            _newRotations.Add(t);
         }
 
         public Vector2 GetTileRotation(Vector2Int pos)
@@ -178,7 +188,17 @@ namespace ISILab.LBS.Behaviours
         {
             throw new System.NotImplementedException();
         }
-
+        
+        private void ReplaceTile(LBSTile tile)
+        {
+            RequestTilePaint(tile);
+            LBSTile old = tileMap.GetTile(tile.Position);
+            if (old != null)
+            {
+                RequestTileRemove(old);
+            }
+        }
+        
         public override object Clone()
         {
             return new PopulationBehaviour(this.Icon, this.Name, this.ColorTint);
@@ -206,6 +226,26 @@ namespace ISILab.LBS.Behaviours
             }
 
             return bundleCollection;
+        }
+        
+        
+        /// <summary>
+        /// Get all tileBundleGroups that were rotated since the last time they were retrieved.
+        /// The memory of new tiles will be cleared after calling this method.
+        /// </summary>
+        public TileBundleGroup[] RetrieveNewRotations()
+        {
+            // If null create a new one
+            _newRotations ??= new HashSet<TileBundleGroup>();
+            
+            // Turn into array
+            TileBundleGroup[] o = _newRotations.ToArray();
+            
+            // Clear memory
+            _newRotations.Clear();
+            
+            // Return array
+            return o;
         }
         
         #endregion
