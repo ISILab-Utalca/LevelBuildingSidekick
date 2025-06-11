@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Components;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -14,9 +15,15 @@ namespace ISILab.LBS
     public abstract class QuestTrigger : MonoBehaviour
     {
         #region FIELDS
+
+        [SerializeField] 
+        private QuestNode node;
+        
         [SerializeField]
         private string nodeID;
+        
         protected BoxCollider boxCollider;
+        
         [SerializeField]
         protected bool isCompleted;
        
@@ -47,9 +54,10 @@ namespace ISILab.LBS
         /// Always call base from overwrites as base sets the ID that quest observer uses on start 
         /// </summary>
         /// <param name="data"></param>
-        public virtual void SetData(BaseQuestNodeData data)
+        public virtual void SetData(QuestNode node)
         {
-            nodeID = data.Owner.ID;
+            this.node = node;
+            nodeID = node.NodeData.Owner.ID;
         }
         
         /// <summary>

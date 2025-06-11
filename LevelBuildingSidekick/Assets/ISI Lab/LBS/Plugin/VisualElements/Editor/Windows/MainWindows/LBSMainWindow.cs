@@ -41,7 +41,7 @@ namespace ISILab.LBS.Editor.Windows{
         #region DATA & STATE
 
         // Selected
-        private LBSLayer _selectedLayer;
+        public LBSLayer _selectedLayer;
 
         // Templates
         public List<LayerTemplate> layerTemplates;
@@ -124,6 +124,33 @@ namespace ISILab.LBS.Editor.Windows{
         #endregion
 
         #region STATIC METHODS
+        
+        private static LBSMainWindow _instance;
+        public static LBSMainWindow Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = GetWindow<LBSMainWindow>();
+                }
+                return _instance;
+            }
+        }
+        
+        private void OnEnable()
+        {
+            _instance = this;
+        }
+        
+        private void OnDisable()
+        {
+            if (_instance == this)
+                _instance = null;
+        }
+
+
+        
         [MenuItem("Window/ISILab/Level Building Sidekick", priority = 0)]
         private static void ShowWindow()
         {

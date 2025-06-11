@@ -47,6 +47,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a20f562b49ef5ba4db3e258640ff6602, type: 2}
     - {fileID: 11400000, guid: f537a2c1b820efe44a4da4b0aeb7d0e1, type: 2}
     - {fileID: 11400000, guid: 3f0d3bf72b2180049ac3640000afd840, type: 2}
+    - {fileID: 11400000, guid: 6ab3cc14c34eee940a915bcee64fb316, type: 2}
     - {fileID: 11400000, guid: ed5cf5fb39f24a84aaa8eb3e8a88c84f, type: 2}
     - {fileID: 11400000, guid: c0e28f3a70727474a81b860669e32870, type: 2}
     - {fileID: 11400000, guid: c61b774ce5ee4c640b93988da7937edc, type: 2}
@@ -81,6 +82,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 804ba0b662869714e8ed1a1d74af4fea, type: 2}
     - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
     - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
+    - {fileID: 11400000, guid: e6b44cd5742236c40bb507626ac7f845, type: 2}
     - {fileID: 11400000, guid: 4f55fc046c4a61343a4289dcfff573a0, type: 2}
     - {fileID: 11400000, guid: 9d3dac0f9a486fd47866f815b4fefc29, type: 2}
     - {fileID: 11400000, guid: d76e4f8cacfe6a34580328dba315cbcc, type: 2}
@@ -125,18 +127,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
     - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
     - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
-    - {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
     - {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
-    - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
+    - {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
     - {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
-    - {fileID: 11400000, guid: 337d6223667092c4c9f04e4df2f319b5, type: 2}
-    - {fileID: 11400000, guid: 1f6a869bbbf53f340a2716e511457881, type: 2}
-    - {fileID: 11400000, guid: 77321a622d19ed0419bebddaf181da70, type: 2}
-    - {fileID: 11400000, guid: f329f93cf5850be45b7c6af337cb043b, type: 2}
-    - {fileID: 11400000, guid: a39a6b0fd3153434a90405c7b3361cd8, type: 2}
-    - {fileID: 11400000, guid: 1e52eea9c9f77ec479f003d5d7b9b674, type: 2}
-    - {fileID: 11400000, guid: d66992e7e50718248b551beee6230739, type: 2}
-    - {fileID: 11400000, guid: d9fc826f5ba43df4a9a8120fcddf4ca8, type: 2}
+    - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -179,8 +173,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
     - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
     - {fileID: 11400000, guid: 82c988506a4389042b3f7c2c94f04ea5, type: 2}
-    - {fileID: 11400000, guid: 6250d4dc1497e2f4bb088157a4da725f, type: 2}
-    - {fileID: 11400000, guid: 7f4f15def595c724f91b2b6305e43a0c, type: 2}
   - type: UnityEngine.UIElements.VectorImage
     items:
     - {fileID: 7388822144124034973, guid: b570a25de51f01c41bd82dbe5372bb3f, type: 3}
@@ -769,28 +761,3 @@ MonoBehaviour:
   - type: UnityEditor.ShaderGraph.ShaderGraphHeatmapValues
     items:
     - {fileID: 11400000, guid: 089885f17bac7464a80c68e81d8538a1, type: 2}
-  - type: ISILab.LBS.Assistants.WFCPreset
-    items:
-    - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
-    - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
-    - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
-    - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
-    - {fileID: 11400000, guid: 40eaef60ade8a02489f47a70bb2845c3, type: 2}
-  - type: UnityEngine.Rendering.VolumeProfile
-    items:
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
-    - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
-    - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
-    - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
-  - type: UnityEngine.Rendering.Universal.PostProcessData
-    items:
-    - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
-    - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
-    - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
-  - type: UnityEngine.Rendering.Universal.UniversalRendererData
-    items:
-    - {fileID: 11400000, guid: ba6e69114eba6af4585b7b850051b2d9, type: 2}
-    - {fileID: 11400000, guid: 04c7a37efc9363541b4b4e265b5f8af3, type: 2}
-  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
-    items:
-    - {fileID: 11400000, guid: f6ea011cd1aeff9479cf79e6950b69a8, type: 2}
