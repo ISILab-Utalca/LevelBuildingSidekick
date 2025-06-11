@@ -127,6 +127,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region EVENTS
         // public Action OnExecute;
         public Action<string> OnPresetChanged;
+        public Action UpdatePins;
         #endregion
 
         #region PROPERTIES
@@ -423,7 +424,7 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
-        //Pin the suggestion into thje assistant tab
+        //Pin the suggestion into the assistant tab
         private void PinSuggestion() => PinSuggestion(selectedMap.Data);
         private void PinSuggestion(object obj)
         {
@@ -455,17 +456,18 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Check for duplicates
                 foreach (SavedMap storedMap in savedMapList.Maps)
                 {
-                    if (newTileMap.Equals(storedMap.Map))
+                    if (suggestionData.Equals(storedMap.Map))
                     {
                         LBSMainWindow.MessageNotify("An equal suggestion already exists.", LogType.Warning);
                         return;
                     }
                 }
             }
-            var newSavedMap = new SavedMap(newTileMap, "", (float)suggestionData.Fitness);
+            var newSavedMap = new SavedMap(suggestionData, "", (float)suggestionData.Fitness);
             newSavedMap.Image = objVE.GetTexture();
             levelData.SaveMapInLayer(newSavedMap, layer);
             LBSMainWindow.MessageNotify("Suggestion pinned.");
+            UpdatePins?.Invoke();
 
             //Backup file setup
             /*var settings = LBSSettings.Instance;

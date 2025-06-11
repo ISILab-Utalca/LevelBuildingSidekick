@@ -165,6 +165,15 @@ namespace ISILab.LBS.Behaviours
             return GetBundleData(tileMap.GetTile(position.ToInt()));
         }
 
+        public void Clear()
+        {
+            if (Tilemap.Count == 0) return;
+            foreach(TileBundleGroup group in Tilemap)
+            {
+                bundleTileMap.RemoveGroup(group);
+            }
+            return;
+        }
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;
