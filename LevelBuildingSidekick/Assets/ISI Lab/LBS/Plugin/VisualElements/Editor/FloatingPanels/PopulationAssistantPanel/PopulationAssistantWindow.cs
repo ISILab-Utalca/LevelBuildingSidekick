@@ -265,7 +265,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 {
                     EditorUtility.SetDirty(level);
                 }
-
             };
 
             closeWindow = rootVisualElement.Q<Button>("ButtonClose");
@@ -358,6 +357,8 @@ namespace ISILab.LBS.VisualElements.Editor
             //Set the map elite accordingly.
             mapEliteBundle = presetDictionary[value];
             presetFieldRef.value = mapEliteBundle;
+            rows.value = mapEliteBundle.SampleCount.x;
+            columns.value = mapEliteBundle.SampleCount.y;
 
             //Enable params set the preset things to the new choice.
             param1Field.SetEnabled(true);
@@ -563,12 +564,12 @@ namespace ISILab.LBS.VisualElements.Editor
         //Redraws the grid
         private void UpdateGrid()
         {
-            //assistant.SampleWidth = rows.value;
-            //assistant.SampleHeight = columns.value;
-            mapEliteBundle.SampleCount = new Vector2Int(rows.value, columns.value);
+            if(mapEliteBundle!=null)
+            {
+                mapEliteBundle.SampleCount = new Vector2Int(rows.value, columns.value);
+            }
+            // TODO change the population sample size
 
-           // TODO change the population sample size
-            
             gridContent.Clear();
             gridContent.style.flexDirection = FlexDirection.ColumnReverse;
             List<VisualElement> rowsVE = new();
