@@ -379,9 +379,11 @@ namespace ISILab.LBS.VisualElements.Editor
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
+
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not.
             assistant.LoadPresset(mapEliteBundle);
             
+
             //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
             {
@@ -561,8 +563,9 @@ namespace ISILab.LBS.VisualElements.Editor
         //Redraws the grid
         private void UpdateGrid()
         {
-            assistant.SampleWidth = rows.value;
-            assistant.SampleHeight = columns.value;
+            //assistant.SampleWidth = rows.value;
+            //assistant.SampleHeight = columns.value;
+            mapEliteBundle.SampleCount = new Vector2Int(rows.value, columns.value);
 
            // TODO change the population sample size
             
