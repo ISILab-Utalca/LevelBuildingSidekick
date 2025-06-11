@@ -1,17 +1,9 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
-
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using ISILab.Commons.Utility.Editor;
-using ISILab.LBS.Components;
 using ISILab.LBS.Manipulators;
 using LBS.VisualElements;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -35,7 +27,7 @@ namespace ISILab.LBS.VisualElements
             {
                 killList.itemsSource ??= currentData.bundlesToKill;
                 
-                var tilePicker = new VeQuestPickerBundle();
+                var tilePicker = new PickerBundle();
                 tilePicker.SetInfo("Kill target", "Targets that the player must kill to complete this action node.", true);
                 return tilePicker;
             };
@@ -43,7 +35,7 @@ namespace ISILab.LBS.VisualElements
             // Bind each list item to bundleGraph
             killList.bindItem = (element, i) =>
             {
-                if (element is not VeQuestPickerBundle tilePicker || currentData == null) return;
+                if (element is not PickerBundle tilePicker || currentData == null) return;
                 if (i < 0 || i >= currentData.bundlesToKill.Count) return;
 
                 var bundleRef = currentData.bundlesToKill[i];

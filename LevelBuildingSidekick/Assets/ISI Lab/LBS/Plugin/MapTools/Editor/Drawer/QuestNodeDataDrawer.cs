@@ -27,10 +27,8 @@ namespace ISILab.LBS.Drawers.Editor
         private static readonly Color colorSpy = new Color(0.78f, 0.79f, 1f);
         private static readonly Color colorListen = new Color(0.52f, 1f, 0.05f);
         
-        // Circle drawn to display an element on the graph
-        private const float BaseSize = 100f;
-        // Multiplied by the CircleSize (1 == filled circle)
-        private const float borderThickness = 0.025f;
+        private const float baseSize = 100f;
+        private const float borderThickness = 0.05f;
 
         public QuestNodeBehaviourDrawer() : base() { }
         /// <summary>
@@ -59,10 +57,10 @@ namespace ISILab.LBS.Drawers.Editor
              * but apply on visual Elements.
              */
             // view.AddElement(behaviour.OwnerLayer, behaviour, type);
-            var position = layer.FixedToPosition(nodeData.position, true);
+            var position = layer.FixedToPosition(nodeData._position, true);
             
             // Trigger Position
-            var triggerBase = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorTrigger);
+            var triggerBase = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorTrigger);
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
             
             // Positions per data type only if its a BundleGraph!
@@ -75,7 +73,7 @@ namespace ISILab.LBS.Drawers.Editor
                         if (bundle.Valid())
                         {
                             position = layer.FixedToPosition(bundle.position, true);
-                            var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorKill);
+                            var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorKill);
                             view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                         }
                     }
@@ -88,7 +86,7 @@ namespace ISILab.LBS.Drawers.Editor
                         if (bundle.Valid())
                         {
                             position = layer.FixedToPosition(bundle.position, true);
-                            var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorObserver);
+                            var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorObserver);
                             view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                         }
                     }
@@ -98,7 +96,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataTake.bundleToTake.Valid())
                     {
                         position = layer.FixedToPosition(dataTake.bundleToTake.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorTake);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorTake);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -107,7 +105,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataRead.bundleToRead.Valid())
                     {
                         position = layer.FixedToPosition(dataRead.bundleToRead.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorRead);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorRead);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -117,14 +115,14 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataGive.bundleGive.Valid())
                     {
                         position = layer.FixedToPosition(dataGive.bundleGive.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorGive);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorGive);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     
                     if (dataGive.bundleGiveTo.Valid())
                     {
                         position = layer.FixedToPosition(dataGive.bundleGiveTo.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorGiveTo);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorGiveTo);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                  
@@ -135,7 +133,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataReport.bundleReportTo.Valid())
                     {
                         position = layer.FixedToPosition(dataReport.bundleReportTo.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorReport);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorReport);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -144,7 +142,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataSpy.bundleToSpy.Valid())
                     {
                         position = layer.FixedToPosition(dataSpy.bundleToSpy.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorSpy);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorSpy);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -153,7 +151,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataListen.bundleListenTo.Valid())
                     {
                         position = layer.FixedToPosition(dataListen.bundleListenTo.position, true);
-                        var visual = new TriggerElement(position, BaseSize*nodeData.size, nodeData, colorListen);
+                        var visual = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorListen);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -221,7 +219,7 @@ namespace ISILab.LBS.Drawers.Editor
 
                 // Update node data position (convert to grid if needed)
                 var gridPos = LBSMainWindow._gridPosition;
-                _data!.position = gridPos;
+                _data!._position = gridPos;
             }
 
             private void OnMouseUp(MouseUpEvent e)

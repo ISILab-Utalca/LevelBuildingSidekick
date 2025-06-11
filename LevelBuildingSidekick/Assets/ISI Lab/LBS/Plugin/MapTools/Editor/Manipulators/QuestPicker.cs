@@ -64,7 +64,7 @@ namespace ISILab.LBS.Manipulators
             if (activeData is not null)
             {
                 Vector2Int location = LBSMainWindow._gridPosition;
-                activeData.position = location;
+                activeData._position = location;
 
 
                var populationLayers = LBS.loadedLevel.data.Layers

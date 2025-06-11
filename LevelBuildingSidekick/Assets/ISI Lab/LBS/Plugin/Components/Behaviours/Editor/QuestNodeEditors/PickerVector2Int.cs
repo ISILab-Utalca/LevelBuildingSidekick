@@ -23,18 +23,15 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class VeQuestPickerVector2Int : VisualElement
+    public partial class PickerVector2Int : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<VeQuestPickerVector2Int, UxmlTraits> { }
-        
-        private Vector2IntField TargetPosition;
-        private Button PickerTarget;
+        public Vector2IntField vector2IntField;
+        private Button pickerTarget;
 
         public Action _onClicked;
 
-
         #region CONSTRUCTORS
-        public VeQuestPickerVector2Int() : base()
+        public PickerVector2Int() : base()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetPosition");
@@ -46,25 +43,24 @@ namespace ISILab.LBS.VisualElements
 
             visualTree.CloneTree(this);
 
-            TargetPosition = this.Q<Vector2IntField>("TargetPosition");
-            TargetPosition.tooltip = "The position that must be reached in the graph.";
-            TargetPosition.SetEnabled(true);
+            vector2IntField = this.Q<Vector2IntField>("TargetPosition");
+            vector2IntField.tooltip = "The position that must be reached in the graph.";
+            vector2IntField.SetEnabled(true);
             
-            PickerTarget = this.Q<Button>("PickerTarget");
-            if (PickerTarget == null)
+            pickerTarget = this.Q<Button>("PickerTarget");
+            if (pickerTarget == null)
             {
                 Debug.LogError("PickerTarget not found in VisualElement_QuestTargetPosition.uxml");
                 return;
             }
 
-            PickerTarget.clicked += () =>
+            pickerTarget.clicked += () =>
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
                 _onClicked?.Invoke();
             };
             
-            Debug.Log("VeQuestTilePicker Created!");
         }
 
         #endregion
@@ -78,7 +74,7 @@ namespace ISILab.LBS.VisualElements
        /// <param name="graphOnly">whether the target must be assigned from the graph.</param>
        public void SetInfo(string label, string tooltip)
        {
-           TargetPosition.labelElement.text = label;
+           vector2IntField.labelElement.text = label;
            this.tooltip = tooltip;
        }
 
@@ -89,7 +85,7 @@ namespace ISILab.LBS.VisualElements
         /// <param name="guid"></param>
         public void SetTarget(Vector2Int position = default)
         {
-            TargetPosition.value = position;
+            vector2IntField.value = position;
         }
 
         public void ClearPicker()
@@ -98,13 +94,6 @@ namespace ISILab.LBS.VisualElements
         }
         
         #endregion
-        
-        /*   PickerLocation = this.Q<Button>("PickerLocation");
-            PickerLocation.clicked += () => {
-                ToolKit.Instance.SetActive(typeof(QuestPicker));
-                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData;
-            };
-        */
+
     }
 }

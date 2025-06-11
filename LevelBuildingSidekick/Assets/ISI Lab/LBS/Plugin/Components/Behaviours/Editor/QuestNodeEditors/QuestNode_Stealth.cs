@@ -13,7 +13,7 @@ namespace ISILab.LBS.VisualElements
     public class QuestNode_Stealth : NodeEditor
     {
         private ListView observerList;
-        private VeQuestPickerVector2Int requiredPosition;
+        private PickerVector2Int requiredPosition;
         private DataStealth currentData;
 
         public QuestNode_Stealth()
@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
             visualTree.CloneTree(this);
             
-            requiredPosition = this.Q<VeQuestPickerVector2Int>("RequiredPosition");
+            requiredPosition = this.Q<PickerVector2Int>("RequiredPosition");
             requiredPosition.SetInfo(
                 "Stealth Required Position", 
                 "The position within the graph, that the player must reach to complete the action node.");
@@ -54,7 +54,7 @@ namespace ISILab.LBS.VisualElements
             {
                 observerList.itemsSource ??= currentData.bundlesObservers;
                 
-                var tilePicker = new VeQuestPickerBundle();
+                var tilePicker = new PickerBundle();
                 tilePicker.SetInfo("Observer target", "Objects that can detect the player.", true);
                 return tilePicker;
             };
@@ -62,7 +62,7 @@ namespace ISILab.LBS.VisualElements
             // Bind each list item to bundleGraph
             observerList.bindItem = (element, i) =>
             {
-                if (element is not VeQuestPickerBundle tilePicker || currentData == null) return;
+                if (element is not PickerBundle tilePicker || currentData == null) return;
                 if (i < 0 || i >= currentData.bundlesObservers.Count) return;
 
                 var bundleRef = currentData.bundlesObservers[i];

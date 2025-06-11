@@ -10,7 +10,7 @@ namespace ISILab.LBS.VisualElements
 {
     public class QuestNode_Listen : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle;
+        private PickerBundle _pickerBundle;
         
         public QuestNode_Listen()
         {
@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
             visualTree.CloneTree(this);
             
-            _pickerBundle = this.Q<VeQuestPickerBundle>("ListenTarget");
+            _pickerBundle = this.Q<PickerBundle>("ListenTarget");
             _pickerBundle?.SetInfo(
                 "Listen target", 
                 "The target in the graph that the player must get close to, in order to complete this action node.", 

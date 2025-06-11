@@ -10,7 +10,7 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Spy : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle;
+        private PickerBundle _pickerBundle;
         private FloatField requiredSpyTime;
         private Toggle resetOnExit;
 
@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
             visualTree.CloneTree(this);
             
-            _pickerBundle = this.Q<VeQuestPickerBundle>("SpyTarget");
+            _pickerBundle = this.Q<PickerBundle>("SpyTarget");
             _pickerBundle.SetInfo(
                 "Spy target",
                 "The target in the graph that the player must spy."

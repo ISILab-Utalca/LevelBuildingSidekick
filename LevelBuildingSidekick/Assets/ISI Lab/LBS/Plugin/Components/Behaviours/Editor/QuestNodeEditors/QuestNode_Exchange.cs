@@ -10,9 +10,9 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Exchange : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundleGive;
+        private PickerBundle _pickerBundleGive;
         private IntegerField giveAmount;
-        private VeQuestPickerBundle _pickerBundleReceive;
+        private PickerBundle _pickerBundleReceive;
         private IntegerField receiveAmount;
         
         public QuestNode_Exchange()
@@ -21,14 +21,14 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Exchange");
             visualTree.CloneTree(this);
             
-            _pickerBundleGive = this.Q<VeQuestPickerBundle>("ExchangeGiveTarget");
+            _pickerBundleGive = this.Q<PickerBundle>("ExchangeGiveTarget");
             _pickerBundleGive.SetInfo(
                 "Object to give", 
                 "The bundle type the player must give at the location.", 
                 false); 
             giveAmount = this.Q<IntegerField>("ExchangeGiveAmount");
             
-            _pickerBundleReceive = this.Q<VeQuestPickerBundle>("ExchangeReceiveTarget");
+            _pickerBundleReceive = this.Q<PickerBundle>("ExchangeReceiveTarget");
             _pickerBundleReceive.SetInfo(
                 "Object to receive",
                 "The bundle type the player will receive.",

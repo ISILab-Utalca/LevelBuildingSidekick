@@ -11,7 +11,7 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Take : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle;
+        private PickerBundle _pickerBundle;
 
         public QuestNode_Take()
         {
@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
             visualTree.CloneTree(this);
             
-            _pickerBundle = this.Q<VeQuestPickerBundle>("TakeTarget");
+            _pickerBundle = this.Q<PickerBundle>("TakeTarget");
             _pickerBundle.SetInfo(
                 "Take target", 
                 "the target in the graph that the player must take."

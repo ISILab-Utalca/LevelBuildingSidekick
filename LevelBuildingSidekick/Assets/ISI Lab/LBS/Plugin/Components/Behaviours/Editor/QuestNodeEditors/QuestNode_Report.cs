@@ -10,7 +10,7 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Report : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle;
+        private PickerBundle _pickerBundle;
 
         public QuestNode_Report()
         {
@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Report");
             visualTree.CloneTree(this);
                         
-            _pickerBundle = this.Q<VeQuestPickerBundle>("ReportTarget");
+            _pickerBundle = this.Q<PickerBundle>("ReportTarget");
             _pickerBundle.SetInfo(
                 "Report target", 
                 "The target in the graph, that the player must report to"

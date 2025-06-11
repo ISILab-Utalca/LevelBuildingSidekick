@@ -10,21 +10,21 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Give : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundleGiveTarget;
-        private VeQuestPickerBundle _pickerBundleGiveReceiver;
+        private PickerBundle _pickerBundleGiveTarget;
+        private PickerBundle _pickerBundleGiveReceiver;
         public QuestNode_Give()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Give");
             visualTree.CloneTree(this);
             
-            _pickerBundleGiveTarget = this.Q<VeQuestPickerBundle>("GiveTarget");
+            _pickerBundleGiveTarget = this.Q<PickerBundle>("GiveTarget");
             _pickerBundleGiveTarget.SetInfo(
                 "Object to give", 
                     "The bundle type the player must give at the location.",
                 false);
             
-            _pickerBundleGiveReceiver = this.Q<VeQuestPickerBundle>("GiveReceiver");
+            _pickerBundleGiveReceiver = this.Q<PickerBundle>("GiveReceiver");
             _pickerBundleGiveReceiver.SetInfo(
                 "Target receiver", 
                 "The object in the graph that will receive the object.",

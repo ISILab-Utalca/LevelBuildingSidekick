@@ -119,6 +119,425 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &81296339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 81296340}
+  - component: {fileID: 81296342}
+  - component: {fileID: 81296341}
+  m_Layer: 0
+  m_Name: ' explore  (0)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &81296340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81296339}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1, y: 0, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1901857247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &81296341
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81296339}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &81296342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81296339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e8fd770e1de584dacf375ee7a768fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  node:
+    nodeDataJson: 
+    nodeData:
+      rid: 5702184114503024807
+    x: 260
+    y: 649
+    id: ' explore  (0)'
+    questAction: ' explore '
+    grammarCheck: 1
+    mapCheck: 0
+    nodeType: 0
+    questState: 0
+    valid: 0
+    target:
+      rid: 5702184114503024808
+    graph:
+      rid: 5702184114503024809
+  nodeID: ' explore  (0)'
+  isCompleted: 0
+  OnCompleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5702184114503024807
+      type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024810
+          x: 260
+          y: 649
+          id: ' explore  (0)'
+          questAction: ' explore '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 2
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024811
+          graph:
+            rid: 5702184114503024809
+        _tag: ' explore '
+        _position: {x: 0, y: 0}
+        _size: 1
+        subdivisions: 4
+        findRandomPosition: 0
+    - rid: 5702184114503024808
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024809
+      type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        id: QuestGraph
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024809
+          behaviours:
+          - rid: 5702184114503024812
+          - rid: 5702184114503024813
+          - rid: 5702184114503024814
+          assistants:
+          - rid: 5702184114503024815
+          generatorRules:
+          - rid: 5702184114503024816
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        nodeSize: {x: 5, y: 1}
+        grammarName: DefaultGrammar
+        questNodes:
+        - rid: 5702184114503024817
+        - rid: 5702184114503024818
+        questEdges:
+        - rid: 5702184114503024819
+        root:
+          rid: 5702184114503024817
+        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
+    - rid: 5702184114503024810
+      type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024810
+          x: 260
+          y: 649
+          id: ' explore  (0)'
+          questAction: ' explore '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 2
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024811
+          graph:
+            rid: 5702184114503024809
+        _tag: ' explore '
+        _position: {x: 0, y: 0}
+        _size: 1
+        subdivisions: 4
+        findRandomPosition: 0
+    - rid: 5702184114503024811
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024812
+      type: {class: QuestNodeBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024809
+          behaviours:
+          - rid: 5702184114503024812
+          - rid: 5702184114503024813
+          - rid: 5702184114503024814
+          assistants:
+          - rid: 5702184114503024815
+          generatorRules:
+          - rid: 5702184114503024816
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
+        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        name: Selected Action Config
+    - rid: 5702184114503024813
+      type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024809
+          behaviours:
+          - rid: 5702184114503024812
+          - rid: 5702184114503024813
+          - rid: 5702184114503024814
+          assistants:
+          - rid: 5702184114503024815
+          generatorRules:
+          - rid: 5702184114503024816
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
+    - rid: 5702184114503024814
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024809
+          behaviours:
+          - rid: 5702184114503024812
+          - rid: 5702184114503024813
+          - rid: 5702184114503024814
+          assistants:
+          - rid: 5702184114503024815
+          generatorRules:
+          - rid: 5702184114503024816
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Flow
+    - rid: 5702184114503024815
+      type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
+      data:
+        visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024809
+          behaviours:
+          - rid: 5702184114503024812
+          - rid: 5702184114503024813
+          - rid: 5702184114503024814
+          assistants:
+          - rid: 5702184114503024815
+          generatorRules:
+          - rid: 5702184114503024816
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Grammar Assistant
+    - rid: 5702184114503024816
+      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []
+    - rid: 5702184114503024817
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024820
+        x: 184
+        y: 364
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024821
+        graph:
+          rid: 5702184114503024809
+    - rid: 5702184114503024818
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024810
+        x: 260
+        y: 649
+        id: ' explore  (0)'
+        questAction: ' explore '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 2
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024811
+        graph:
+          rid: 5702184114503024809
+    - rid: 5702184114503024819
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 5702184114503024817
+        second:
+          rid: 5702184114503024818
+    - rid: 5702184114503024820
+      type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024820
+          x: 184
+          y: 364
+          id: ' go to  (0)'
+          questAction: ' go to '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 0
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024821
+          graph:
+            rid: 5702184114503024809
+        _tag: ' go to '
+        _position: {x: 10, y: -5}
+        _size: 2
+    - rid: 5702184114503024821
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
 --- !u!1 &124458181
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +635,70 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &546187843
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546187844}
+  - component: {fileID: 546187846}
+  - component: {fileID: 546187845}
+  m_Layer: 0
+  m_Name: UIDocument
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &546187844
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546187843}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1901857247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &546187845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546187843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b865dcb48c4e94cbce359ab6179694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &546187846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546187843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: f8188ad53d3715a46881b6fc9cc539ed, type: 3}
+  m_SortingOrder: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
 --- !u!1 &890751560
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,9 +791,949 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &932683535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932683536}
+  - component: {fileID: 932683538}
+  - component: {fileID: 932683537}
+  m_Layer: 0
+  m_Name: ' go to  (0)'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &932683536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932683535}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19, y: 0, z: -11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1901857247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &932683537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932683535}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 4, z: 4}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &932683538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932683535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd3b2d6860f28d439ade89727ed18db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  node:
+    nodeDataJson: 
+    nodeData:
+      rid: 5702184114503024792
+    x: 184
+    y: 364
+    id: ' go to  (0)'
+    questAction: ' go to '
+    grammarCheck: 1
+    mapCheck: 0
+    nodeType: 0
+    questState: 0
+    valid: 0
+    target:
+      rid: 5702184114503024793
+    graph:
+      rid: 5702184114503024794
+  nodeID: ' go to  (0)'
+  isCompleted: 0
+  OnCompleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5702184114503024792
+      type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024795
+          x: 184
+          y: 364
+          id: ' go to  (0)'
+          questAction: ' go to '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 0
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024796
+          graph:
+            rid: 5702184114503024794
+        _tag: ' go to '
+        _position: {x: 10, y: -5}
+        _size: 2
+    - rid: 5702184114503024793
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024794
+      type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        id: QuestGraph
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024794
+          behaviours:
+          - rid: 5702184114503024797
+          - rid: 5702184114503024798
+          - rid: 5702184114503024799
+          assistants:
+          - rid: 5702184114503024800
+          generatorRules:
+          - rid: 5702184114503024801
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        nodeSize: {x: 5, y: 1}
+        grammarName: DefaultGrammar
+        questNodes:
+        - rid: 5702184114503024802
+        - rid: 5702184114503024803
+        questEdges:
+        - rid: 5702184114503024804
+        root:
+          rid: 5702184114503024802
+        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
+    - rid: 5702184114503024795
+      type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024795
+          x: 184
+          y: 364
+          id: ' go to  (0)'
+          questAction: ' go to '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 0
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024796
+          graph:
+            rid: 5702184114503024794
+        _tag: ' go to '
+        _position: {x: 10, y: -5}
+        _size: 2
+    - rid: 5702184114503024796
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024797
+      type: {class: QuestNodeBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024794
+          behaviours:
+          - rid: 5702184114503024797
+          - rid: 5702184114503024798
+          - rid: 5702184114503024799
+          assistants:
+          - rid: 5702184114503024800
+          generatorRules:
+          - rid: 5702184114503024801
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
+        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        name: Selected Action Config
+    - rid: 5702184114503024798
+      type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024794
+          behaviours:
+          - rid: 5702184114503024797
+          - rid: 5702184114503024798
+          - rid: 5702184114503024799
+          assistants:
+          - rid: 5702184114503024800
+          generatorRules:
+          - rid: 5702184114503024801
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
+    - rid: 5702184114503024799
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024794
+          behaviours:
+          - rid: 5702184114503024797
+          - rid: 5702184114503024798
+          - rid: 5702184114503024799
+          assistants:
+          - rid: 5702184114503024800
+          generatorRules:
+          - rid: 5702184114503024801
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Flow
+    - rid: 5702184114503024800
+      type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
+      data:
+        visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024794
+          behaviours:
+          - rid: 5702184114503024797
+          - rid: 5702184114503024798
+          - rid: 5702184114503024799
+          assistants:
+          - rid: 5702184114503024800
+          generatorRules:
+          - rid: 5702184114503024801
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Grammar Assistant
+    - rid: 5702184114503024801
+      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []
+    - rid: 5702184114503024802
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024795
+        x: 184
+        y: 364
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024796
+        graph:
+          rid: 5702184114503024794
+    - rid: 5702184114503024803
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024805
+        x: 260
+        y: 649
+        id: ' explore  (0)'
+        questAction: ' explore '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 2
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024806
+        graph:
+          rid: 5702184114503024794
+    - rid: 5702184114503024804
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 5702184114503024802
+        second:
+          rid: 5702184114503024803
+    - rid: 5702184114503024805
+      type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024805
+          x: 260
+          y: 649
+          id: ' explore  (0)'
+          questAction: ' explore '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 2
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024806
+          graph:
+            rid: 5702184114503024794
+        _tag: ' explore '
+        _position: {x: 0, y: 0}
+        _size: 1
+        subdivisions: 4
+        findRandomPosition: 0
+    - rid: 5702184114503024806
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+--- !u!1 &1105264046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1105264047}
+  m_Layer: 0
+  m_Name: New Layer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1105264047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105264046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1901857247}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1901857246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1901857247}
+  - component: {fileID: 1901857248}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1901857247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901857246}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 932683536}
+  - {fileID: 81296340}
+  - {fileID: 546187844}
+  m_Father: {fileID: 1105264047}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1901857248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901857246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8da598e40f967b64f9c6c24b5a8d76c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questGraph:
+    id: QuestGraph
+    ownerLayer:
+      visible: 1
+      blocked: 0
+      iconGuid: Icon/Default
+      id: LBSLayer
+      name: Layer name
+      modules: []
+      behaviours: []
+      assistants: []
+      generatorRules: []
+      settings:
+        useBundleSize: 0
+        lightVolume: 0
+        reflectionProbe: 0
+        scale: {x: 2, y: 2}
+        resize: {x: 0, y: 0}
+        position: {x: 0, y: 0, z: 0}
+        name: DEFAULT
+      index: 0
+    nodeSize: {x: 5, y: 1}
+    grammarName: 
+    questNodes:
+    - rid: 5702184114503024772
+    - rid: 5702184114503024773
+    questEdges:
+    - rid: 5702184114503024774
+    root:
+      rid: 5702184114503024772
+    LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
+  OnQuestCompleteEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5702184114503024772
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024775
+        x: 184
+        y: 364
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024776
+        graph:
+          rid: 5702184114503024777
+    - rid: 5702184114503024773
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024778
+        x: 260
+        y: 649
+        id: ' explore  (0)'
+        questAction: ' explore '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024779
+        graph:
+          rid: 5702184114503024777
+    - rid: 5702184114503024774
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 5702184114503024772
+        second:
+          rid: 5702184114503024773
+    - rid: 5702184114503024775
+      type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024780
+          x: 184
+          y: 364
+          id: ' go to  (0)'
+          questAction: ' go to '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 0
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024781
+          graph:
+            rid: 5702184114503024777
+        _tag: ' go to '
+        _position: {x: 10, y: -5}
+        _size: 2
+    - rid: 5702184114503024776
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024777
+      type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        id: QuestGraph
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024777
+          behaviours:
+          - rid: 5702184114503024782
+          - rid: 5702184114503024783
+          - rid: 5702184114503024784
+          assistants:
+          - rid: 5702184114503024785
+          generatorRules:
+          - rid: 5702184114503024786
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        nodeSize: {x: 5, y: 1}
+        grammarName: DefaultGrammar
+        questNodes:
+        - rid: 5702184114503024787
+        - rid: 5702184114503024788
+        questEdges:
+        - rid: 5702184114503024789
+        root:
+          rid: 5702184114503024787
+        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
+    - rid: 5702184114503024778
+      type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024790
+          x: 260
+          y: 649
+          id: ' explore  (0)'
+          questAction: ' explore '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 2
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024791
+          graph:
+            rid: 5702184114503024777
+        _tag: ' explore '
+        _position: {x: 0, y: 0}
+        _size: 1
+        subdivisions: 4
+        findRandomPosition: 0
+    - rid: 5702184114503024779
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024780
+      type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024780
+          x: 184
+          y: 364
+          id: ' go to  (0)'
+          questAction: ' go to '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 0
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024781
+          graph:
+            rid: 5702184114503024777
+        _tag: ' go to '
+        _position: {x: 10, y: -5}
+        _size: 2
+    - rid: 5702184114503024781
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
+    - rid: 5702184114503024782
+      type: {class: QuestNodeBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024777
+          behaviours:
+          - rid: 5702184114503024782
+          - rid: 5702184114503024783
+          - rid: 5702184114503024784
+          assistants:
+          - rid: 5702184114503024785
+          generatorRules:
+          - rid: 5702184114503024786
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
+        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        name: Selected Action Config
+    - rid: 5702184114503024783
+      type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024777
+          behaviours:
+          - rid: 5702184114503024782
+          - rid: 5702184114503024783
+          - rid: 5702184114503024784
+          assistants:
+          - rid: 5702184114503024785
+          generatorRules:
+          - rid: 5702184114503024786
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Behaviour
+    - rid: 5702184114503024784
+      type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024777
+          behaviours:
+          - rid: 5702184114503024782
+          - rid: 5702184114503024783
+          - rid: 5702184114503024784
+          assistants:
+          - rid: 5702184114503024785
+          generatorRules:
+          - rid: 5702184114503024786
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Quest Flow
+    - rid: 5702184114503024785
+      type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
+      data:
+        visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
+          id: Quest
+          name: New Layer
+          modules:
+          - rid: 5702184114503024777
+          behaviours:
+          - rid: 5702184114503024782
+          - rid: 5702184114503024783
+          - rid: 5702184114503024784
+          assistants:
+          - rid: 5702184114503024785
+          generatorRules:
+          - rid: 5702184114503024786
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        name: Grammar Assistant
+    - rid: 5702184114503024786
+      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []
+    - rid: 5702184114503024787
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024780
+        x: 184
+        y: 364
+        id: ' go to  (0)'
+        questAction: ' go to '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 0
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024781
+        graph:
+          rid: 5702184114503024777
+    - rid: 5702184114503024788
+      type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        nodeDataJson: 
+        nodeData:
+          rid: 5702184114503024790
+        x: 260
+        y: 649
+        id: ' explore  (0)'
+        questAction: ' explore '
+        grammarCheck: 1
+        mapCheck: 0
+        nodeType: 2
+        questState: 0
+        valid: 0
+        target:
+          rid: 5702184114503024791
+        graph:
+          rid: 5702184114503024777
+    - rid: 5702184114503024789
+      type: {class: QuestEdge, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        first:
+          rid: 5702184114503024787
+        second:
+          rid: 5702184114503024788
+    - rid: 5702184114503024790
+      type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        _owner:
+          nodeDataJson: 
+          nodeData:
+            rid: 5702184114503024790
+          x: 260
+          y: 649
+          id: ' explore  (0)'
+          questAction: ' explore '
+          grammarCheck: 1
+          mapCheck: 0
+          nodeType: 2
+          questState: 0
+          valid: 0
+          target:
+            rid: 5702184114503024791
+          graph:
+            rid: 5702184114503024777
+        _tag: ' explore '
+        _position: {x: 0, y: 0}
+        _size: 1
+        subdivisions: 4
+        findRandomPosition: 0
+    - rid: 5702184114503024791
+      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
+      data:
+        rect:
+          serializedVersion: 2
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        tags: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 890751563}
   - {fileID: 124458183}
+  - {fileID: 1105264047}

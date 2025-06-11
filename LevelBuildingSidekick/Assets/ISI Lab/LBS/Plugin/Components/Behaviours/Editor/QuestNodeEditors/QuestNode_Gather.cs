@@ -10,7 +10,7 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Gather :NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle;
+        private PickerBundle _pickerBundle;
         private IntegerField gatherAmount;
         private DataGather currentData;
         public QuestNode_Gather()
@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
             visualTree.CloneTree(this);
             
-            _pickerBundle = this.Q<VeQuestPickerBundle>("GatherTarget");
+            _pickerBundle = this.Q<PickerBundle>("GatherTarget");
             _pickerBundle.SetInfo(
                 "Object to gather", 
                 "The bundle type the player must gather/collect within the trigger area.",

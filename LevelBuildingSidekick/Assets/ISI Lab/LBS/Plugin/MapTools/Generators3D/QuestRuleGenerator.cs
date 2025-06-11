@@ -101,16 +101,17 @@ namespace ISILab.LBS.Generators
                 }
                 
                 var trigger = (QuestTrigger)go.AddComponent(triggerType);
+                var size = node.NodeData._size;
                 trigger.SetSize(new Vector3(
-                    1*settings.scale.x, 
-                    1*settings.scale.y, 
-                    1*settings.scale.y));
+                    size*settings.scale.x, 
+                    size*settings.scale.y, 
+                    size*settings.scale.y));
                 
                 trigger.SetData(node); 
                 go.SetActive(false);
               
-                var x = node.NodeData.position.x * settings.scale.x;
-                var z = node.NodeData.position.y * settings.scale.y;
+                var x = node.NodeData._position.x * settings.scale.x;
+                var z = node.NodeData._position.y * settings.scale.y;
                 var y = pivot.transform.position.y; // maybe change this to a line trace
                 var questPos= new Vector3(x, y, z);
                 

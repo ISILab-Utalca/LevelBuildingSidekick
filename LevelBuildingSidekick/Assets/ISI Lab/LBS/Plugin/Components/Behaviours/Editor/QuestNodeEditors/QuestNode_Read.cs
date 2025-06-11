@@ -10,14 +10,14 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Read : NodeEditor
     {
-        private VeQuestPickerBundle _pickerBundle; 
+        private PickerBundle _pickerBundle; 
         public QuestNode_Read()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Read");
             visualTree.CloneTree(this);
             
-            _pickerBundle = this.Q<VeQuestPickerBundle>("ReadTarget");
+            _pickerBundle = this.Q<PickerBundle>("ReadTarget");
             _pickerBundle.SetInfo(
                 "Read target", 
                 "The object in the graph that the player must read.",

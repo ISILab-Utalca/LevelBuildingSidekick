@@ -80,10 +80,10 @@ namespace ISILab.LBS.Components
             private string _tag;
           
             [SerializeField, JsonRequired] 
-            public Vector2Int position = Vector2Int.zero;
+            public Vector2Int _position = Vector2Int.zero;
            
             [SerializeField, JsonRequired] 
-            public float size = 1;
+            public float _size = 1;
             
             #endregion
 
@@ -100,7 +100,10 @@ namespace ISILab.LBS.Components
 
             public void Clone(BaseQuestNodeData data)
             {
+                _owner = data._owner;
                 _tag = data._tag;
+                _position = data._position;
+                _size = data._size;
             }
         }
 

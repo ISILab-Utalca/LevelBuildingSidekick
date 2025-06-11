@@ -23,10 +23,8 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class VeQuestPickerBundle : VisualElement
+    public partial class PickerBundle : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<VeQuestPickerBundle, UxmlTraits> { }
-        
         private ObjectField TargetBundle;
         private Vector2IntField TargetPosition;
         private Button PickerTarget;
@@ -36,7 +34,7 @@ namespace ISILab.LBS.VisualElements
 
 
         #region CONSTRUCTORS
-        public VeQuestPickerBundle() : base()
+        public PickerBundle() : base()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetBundle");
@@ -125,17 +123,9 @@ namespace ISILab.LBS.VisualElements
         public void ClearPicker()
         {
             _onClicked = null;
-            //_onBundleChanged = null;
         }
         
         #endregion
-        
-        /*   PickerLocation = this.Q<Button>("PickerLocation");
-            PickerLocation.clicked += () => {
-                ToolKit.Instance.SetActive(typeof(QuestPicker));
-                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                qp.activeData = behaviour.SelectedQuestNode.NodeData;
-            };
-        */
+
     }
 }
