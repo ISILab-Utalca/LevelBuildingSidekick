@@ -22,11 +22,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement bar; // contains the progress bar and label
         private VisualElement placeholderImage;
         private VisualElement colorFillBar;
-        
+
         private Label mapName;
-        
         private Foldout entryFoldout;
-        
         private Button buttonRemove;
 
         private ProgressBar progressBar; // contains the progress bar and label
@@ -34,24 +32,44 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private MAPElitesPreset entryMap;
-    
+        private SavedMap entryMap;
+
+        // result
+        private object data;
+        // value/score of the generated result
+        private float score;
+
         #endregion
 
         #region EVENTS
-       // public Action OnExecute;
+        // public Action OnExecute;
         #endregion
 
         #region PROPERTIES
-
-        public MAPElitesPreset EntryMap
+        public SavedMap EntryMap
         {
             get => entryMap;
             set => entryMap = value;
         }
+        public string Name
+        {
+            get => mapName.text;
+            set => mapName.text = value;
+        }
+        public object Data
+        {
+            get => data;
+            set => data = value;
+        }
+        public float Score
+        {
+            get => score;
+            set => score = value;
+        }
+
         #endregion
-        
-        
+
+
         #region EVENTS
         public Action RemoveMapEntry;
         #endregion
@@ -115,7 +133,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void SetColor(float score)
         {
             // normalize value 
-            var percentage = score / 100f;
+            var percentage = (score)*100f;
             progressBar.value = percentage;
             
             //interpolate color based on score value
@@ -130,12 +148,17 @@ namespace ISILab.LBS.VisualElements.Editor
             image.style.backgroundImage = texture;
         }
 
-        public void SetData(MAPElitesPreset mapEntry)
+        public void SetData(SavedMap mapEntry)
         {
-            // Based on the data
             entryMap = mapEntry;
-            // SetMapImage();
-            // SetColor();
+            //Name
+            Name = mapEntry.Name;
+            Score = mapEntry.Score;
+            Data = mapEntry.Map;
+            // Based on the data
+
+            SetMapImage(mapEntry.Image);
+            SetColor(Score);
 
         }
     }

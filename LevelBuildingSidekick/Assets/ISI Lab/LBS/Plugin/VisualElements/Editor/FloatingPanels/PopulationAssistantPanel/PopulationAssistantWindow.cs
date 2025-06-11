@@ -117,6 +117,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 mapEliteBundle.Optimizer = value;
             }
         }
+
+        protected PopulationBehaviour LayerPopulation
+        {
+            get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+        }
         #endregion
 
         #region EVENTS
@@ -132,7 +137,6 @@ namespace ISILab.LBS.VisualElements.Editor
             set => mapEliteBundle = value;
         }
         #endregion
-
 
         public void CreateGUI()
         {
@@ -206,7 +210,9 @@ namespace ISILab.LBS.VisualElements.Editor
                 if(optimizerChoice != null) currentOptimizer.InitializeDefault();
             });
             optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
-            optimizerButton.clicked += OpenOptimizer;
+            optimizerButton.SetEnabled(false);
+            optimizerButton.visible = false;
+            //optimizerButton.clicked += OpenOptimizer;
 
             //I set everything false so they can't be manipulated if there's no preset present.
             optimizerField.SetEnabled(false);
@@ -301,6 +307,9 @@ namespace ISILab.LBS.VisualElements.Editor
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
         }
 
+        #region MAIN METHODS
+        
+        //Add all presets in the preset directory to the preset dropdown
         private void SetPresets()
         {
             var settings = LBSSettings.Instance;
@@ -332,7 +341,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 presetDictionary.Add(preset.PresetName, preset);
             }
         }
-
+        
+        //Update preset whenever it's changed with its respective stats
         private void UpdatePreset(string value)
         {
             //Disable parameters unless the preset is valid. Otherwise, enable them since they can be manipulated.
@@ -360,32 +370,8 @@ namespace ISILab.LBS.VisualElements.Editor
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
         }
-
-        private void ApplySuggestion()
-        {
-            var chrom = selectedMap.Data as BundleTilemapChromosome;
-            if (chrom == null)
-            {
-                throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
-            }
-
-            //Population behavior
-            var population = assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
-            var rect = chrom.Rect;
-
-            for (int i = 0; i < chrom.Length; i++)
-            {
-                var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
-                population.RemoveTileGroup(pos);
-                var gene = chrom.GetGene(i);
-                if (gene == null)
-                    continue;
-                population.AddTileGroup(pos, gene as BundleData);
-            }
-            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
-            LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
-        }
-
+        
+        //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
             //Check how many of these there are, and get the optimizer!
@@ -411,22 +397,127 @@ namespace ISILab.LBS.VisualElements.Editor
             //Update button
             recalculate.text = "Recalculate";
         }
-
-        private void OpenOptimizer()
+        
+        //Apply the suggestion in the world
+        private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
+        private void ApplySuggestion(object obj)
         {
-            if ((currentOptimizer is GeneticAlgorithm) && (currentOptimizer != null))
+            var chrom = obj as BundleTilemapChromosome;
+            if (chrom == null)
             {
-                //Debug.Log("optimizer is compatible");
-                optimizerEditor = new GeneticAlgorithmVE(mapEliteBundle.Optimizer);
-
-                var optimizerWindow = ScriptableObject.CreateInstance<EditorWindow>();
-                optimizerWindow.titleContent = new GUIContent("Optimizer Editor");
-                optimizerWindow.minSize = new Vector2(350, 500); // use the Canvas Size of the uxml
-                optimizerWindow.Show();
-                optimizerWindow.rootVisualElement.Add(optimizerEditor);
+                if (selectedMap.Data == null) throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
             }
+
+            var rect = chrom.Rect;
+
+            for (int i = 0; i < chrom.Length; i++)
+            {
+                var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
+                LayerPopulation.RemoveTileGroup(pos);
+                var gene = chrom.GetGene(i);
+                if (gene == null)
+                    continue;
+                LayerPopulation.AddTileGroup(pos, gene as BundleData);
+            }
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
+        //Pin the suggestion into thje assistant tab
+        private void PinSuggestion() => PinSuggestion(selectedMap.Data);
+        private void PinSuggestion(object obj)
+        {
+            //Get chromosome
+            var objVE = obj as PopulationAssistantButtonResult;
+            var suggestionData = objVE.Data as BundleTilemapChromosome;
+            if (suggestionData == null)
+            {
+                throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
+            }
+
+            //Create bundle tile map
+            var newTileMap = new BundleTileMap();
+            for (int i = 0; i < suggestionData.GetGenes().Length; i++)
+            {
+                if (suggestionData.GetGenes()[i] != null)
+                {
+                    var geneData = suggestionData.GetGenes()[i] as BundleData;
+                    newTileMap.AddGroup(new TileBundleGroup(suggestionData.ToMatrixPosition(i), geneData.Bundle.TileSize, geneData, Vector2.right));
+                }
+            }
+
+            //Get level data and layer
+            var layer = LayerPopulation.OwnerLayer;
+            var levelData = LayerPopulation.OwnerLayer.Parent;
+            var savedMapList = levelData.GetSavedMaps(layer);
+            if(savedMapList!=null)
+            {
+                //Check for duplicates
+                foreach (SavedMap storedMap in savedMapList.Maps)
+                {
+                    if (newTileMap.Equals(storedMap.Map))
+                    {
+                        LBSMainWindow.MessageNotify("An equal suggestion already exists.", LogType.Warning);
+                        return;
+                    }
+                }
+            }
+            var newSavedMap = new SavedMap(newTileMap, "", (float)suggestionData.Fitness);
+            newSavedMap.Image = objVE.GetTexture();
+            levelData.SaveMapInLayer(newSavedMap, layer);
+            LBSMainWindow.MessageNotify("Suggestion pinned.");
+
+            //Backup file setup
+            /*var settings = LBSSettings.Instance;
+            var savedMapPath = settings.paths.savedMapsPresetPath;
+            string savedMapName = "Saved Map";
+
+            //Directory making
+            if (!Directory.Exists(savedMapPath))
+            {
+                Directory.CreateDirectory(savedMapPath);
+            }
+            else
+            {
+                var info = new DirectoryInfo(savedMapPath);
+                var fileInfo = info.GetFiles();
+
+                //Check if newTileMap is equal to any of the saved maps.
+                if (fileInfo.Length > 0)
+                {
+                    int count = 0;
+                    foreach (var file in fileInfo)
+                    {
+                        var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
+                        if (mapToCompare != null)
+                        {
+                            if (mapToCompare.Map.Equals(newTileMap))
+                            {
+                                //Maps are the same, so return
+                                LBSMainWindow.MessageNotify("An equal suggestion has already been pinned.", LogType.Warning);
+                                return;
+                            }
+                            count++;
+                        }
+                    }
+                    //Then name it after the count in file info
+                    savedMapName = "Saved Map " + count;
+                }
+            }
+            //Finally, save!
+            SavedMap newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
+            newSavedMap.Map = newTileMap;
+            newSavedMap.Name = savedMapName;
+            newSavedMap.Score = (float)suggestionData.Fitness;
+            AssetDatabase.CreateAsset(newSavedMap, savedMapPath + "\\" + savedMapName + ".asset");
+
+            //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
+            Debug.Log("saved map: "+newSavedMap.Name);*/
+        }
+        #endregion
+
+        #region GRID-RELATED METHODS
+        //
         private void RepaintContent()
         {
             UpdateContent();
@@ -435,8 +526,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 LBSMainWindow.OnWindowRepaint -= RepaintContent;
             }
         }
-
-        //Update all squares
+        
+        //Update all squares in the grid
         public void UpdateContent()
         {
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
@@ -464,7 +555,8 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             assistant.toUpdate.Clear();
         }
-
+        
+        //Redraws the grid
         private void UpdateGrid()
         {
             assistant.SampleWidth = rows.value;
@@ -491,6 +583,8 @@ namespace ISILab.LBS.VisualElements.Editor
                     resultVE.style.alignSelf = Align.Stretch;
                     rVE.Add(resultVE);
                     resultVE.selectButton.clicked += () => ShowButtonStats(resultVE);
+                    resultVE.OnApplySuggestion += () => ApplySuggestion(resultVE.Data);
+                    resultVE.OnSaveSuggestion += () => PinSuggestion(resultVE);
                 }
             }
           
@@ -499,38 +593,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 gridContent.Add(rVE);
             }
         }
-
-        #region METHODS
-
-        //Show the stats for any button selected
-        public void ShowButtonStats(PopulationAssistantButtonResult buttonResult)
-        {
-            var mapData = buttonResult.Data as IOptimizable;
-
-            //Shows data if non null
-            if (mapData == null) return;
-
-            zProgressBar.value = (float)mapData.Fitness;
-            xSlider.value = (float)mapData.xFitness;
-            ySlider.value = (float)mapData.yFitness;
-
-            //Takes border off selected map previously selected map
-            if (selectedMap != null)
-            {
-                selectedMap.OnButtonDeselected?.Invoke();
-            } 
-            selectedMap = buttonResult;
-            buttonResult.OnButtonSelected?.Invoke();
-        }
-
         
-
-       //Obsolete
-        public MAPElitesPreset GetPresset()
-        {
-            return LBSAssetsStorage.Instance.Get<MAPElitesPreset>().Find(p => p.name == mapEliteBundle.name);
-        }
-
         //Change the texture of a specific button
         public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
@@ -579,9 +642,34 @@ namespace ISILab.LBS.VisualElements.Editor
             //veChildren.First().SetColor(new Color(0, 1, 0, 1));
 
             //Debug.Log("texture changed");
-            
+
             //content.background = texture;
         }
+
+        //Show the stats for any button selected
+        public void ShowButtonStats(PopulationAssistantButtonResult buttonResult)
+        {
+            var mapData = buttonResult.Data as IOptimizable;
+
+            //Shows data if non null
+            if (mapData == null) return;
+
+            zProgressBar.value = (float)mapData.Fitness;
+            xSlider.value = (float)mapData.xFitness;
+            ySlider.value = (float)mapData.yFitness;
+
+            //Takes border off selected map previously selected map
+            if (selectedMap != null)
+            {
+                selectedMap.OnButtonDeselected?.Invoke();
+            }
+            selectedMap = buttonResult;
+            buttonResult.OnButtonSelected?.Invoke();
+        }
+
+        #endregion
+
+        #region OTHER METHODS
 
         //Return a list of all buttons available.
         private List<PopulationAssistantButtonResult> GetButtonResults(List<PopulationAssistantButtonResult> buttons, VisualElement parent)
@@ -613,6 +701,25 @@ namespace ISILab.LBS.VisualElements.Editor
            Show();
        }
 
-       #endregion
+        #endregion
+
+        #region OBSOLETE
+        /*private void OpenOptimizer()
+        {
+            if ((currentOptimizer is GeneticAlgorithm) && (currentOptimizer != null))
+            {
+                //Debug.Log("optimizer is compatible");
+                optimizerEditor = new GeneticAlgorithmVE(mapEliteBundle.Optimizer);
+
+                var optimizerWindow = ScriptableObject.CreateInstance<EditorWindow>();
+                optimizerWindow.titleContent = new GUIContent("Optimizer Editor");
+                optimizerWindow.minSize = new Vector2(350, 500); // use the Canvas Size of the uxml
+                optimizerWindow.Show();
+                optimizerWindow.rootVisualElement.Add(optimizerEditor);
+            }
+        }*/
+
+        //To keep the grid updated
+        #endregion
     }
 }
