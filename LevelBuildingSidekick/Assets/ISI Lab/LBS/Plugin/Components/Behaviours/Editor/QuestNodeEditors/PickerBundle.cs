@@ -1,45 +1,36 @@
-
-
-
-// ReSharper disable All
-
 using System;
-using System.Linq;
 using ISILab.Commons.Utility.Editor;
-using ISILab.LBS.Behaviours;
-using ISILab.LBS.Components;
-using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
-using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
-using LBS;
 using LBS.Bundles;
 using LBS.Components;
 using LBS.VisualElements;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
     public partial class PickerBundle : VisualElement
     {
-        private ObjectField objectFieldBundle;
-        private Vector2IntField vector2FieldPosition;
-        private Button buttonPickerTarget;
-        private Label labelLayer;
-        
-        public Action _onClicked;
-        public Action<Bundle> _onBundleChanged;
+        private readonly ObjectField _objectFieldBundle;
+        private readonly Vector2IntField _vector2FieldPosition;
+        private readonly Button _buttonPickerTarget;
+        private readonly Label _labelLayer;
 
+        public Action OnClicked;
+        private readonly Action<Bundle> _onBundleChanged = null;
 
-        #region CONSTRUCTORS
-        public PickerBundle() : base()
+        #region Constructors
+
+        public PickerBundle()
         {
             Clear();
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetBundle");
-            if (visualTree == null)
+            if (!visualTree)
             {
                 Debug.LogError("VisualElement_QuestTargetBundle.uxml not found. Check the file name and folder path.");
                 return;
@@ -47,89 +38,100 @@ namespace ISILab.LBS.VisualElements
 
             visualTree.CloneTree(this);
 
-            vector2FieldPosition = this.Q<Vector2IntField>("TargetPosition");
-            vector2FieldPosition.tooltip = "Target position in graph.";
-            vector2FieldPosition.SetEnabled(false);
-            
-            objectFieldBundle = this.Q<ObjectField>("TargetFieldBundle");
-            if (objectFieldBundle == null)
+            _vector2FieldPosition = this.Q<Vector2IntField>("TargetPosition");
+            _vector2FieldPosition.tooltip = "Target position in graph.";
+            _vector2FieldPosition.SetEnabled(false);
+
+            _objectFieldBundle = this.Q<ObjectField>("TargetFieldBundle");
+            if (_objectFieldBundle == null)
             {
                 Debug.LogError("TargetFieldBundle not found in VisualElement_QuestTargetBundle.uxml");
             }
             else
             {
-                objectFieldBundle.SetEnabled(false);
-                objectFieldBundle.RegisterValueChangedCallback(evt =>
-                {
-                    if (evt.newValue is Bundle bundle) _onBundleChanged?.Invoke(bundle);
-                });
+                _objectFieldBundle.SetEnabled(false);
+                _objectFieldBundle.RegisterValueChangedCallback(BundleChangeCallback);
             }
 
-            buttonPickerTarget = this.Q<Button>("PickerTarget");
-            if (buttonPickerTarget == null)
+            _buttonPickerTarget = this.Q<Button>("PickerTarget");
+            if (_buttonPickerTarget == null)
             {
                 Debug.LogError("PickerTarget not found in VisualElement_QuestTargetBundle.uxml");
                 return;
             }
 
-            buttonPickerTarget.clicked += () =>
+            _buttonPickerTarget.clicked += () =>
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
-                var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                _onClicked?.Invoke();
+                OnClicked?.Invoke();
             };
-            
-            labelLayer = this.Q<Label>("Layer");
-   
+
+            _labelLayer = this.Q<Label>("Layer");
+        }
+
+        private void BundleChangeCallback(ChangeEvent<Object> evt)
+        {
+            if (evt.newValue is Bundle bundle) _onBundleChanged?.Invoke(bundle);
         }
 
         #endregion
-        
-        #region METHODS
-        
-       /// <summary>
-       /// Call only during init of editor
-       /// </summary>
-       /// <param name="label">Description of target</param>
-       /// <param name="graphOnly">whether the target must be assigned from the graph. if TRUE use position on SetTarget! ELSE ignore position.</param>
-       public void SetInfo(string label, string tooltip, bool graphOnly = false)
-       {
-           string suffix = graphOnly ? " (In Graph)" : " (Type)";
-           // no need to display if we are selecting types!
-           vector2FieldPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
-           
-           objectFieldBundle.labelElement.text = label + suffix;
-           objectFieldBundle.SetEnabled(!graphOnly);
-           this.tooltip = tooltip;
-       }
 
+        #region Methods
 
         /// <summary>
-        /// Call whenever a active node is changed
+        /// Should be called during editor initialization.
         /// </summary>
-        /// <param name="guid">The guid that belongs to the bundle that gets passed into the ObjectField</param>
-        /// <param name="position">The position Assigned to the Vector2Int. Ignore if on SetInfo -graphOnly- was set to false</param>
-        public void SetTarget(LBSLayer layer = null, string guid = "" , Vector2Int position = default)
+        /// <param name="paramLabel">Description of the target.</param>
+        /// <param name="paramTooltip">Tooltip shown on hover.</param>
+        /// <param name="graphOnly">If true, disables direct bundle selection and only allows selection from graph.</param>
+        public void SetInfo(string paramLabel, string paramTooltip, bool graphOnly = false)
         {
-            if (guid != string.Empty)
+            string suffix = graphOnly ? " (In Graph)" : " (Type)";
+            _vector2FieldPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
+
+            _objectFieldBundle.labelElement.text = paramLabel + suffix;
+            _objectFieldBundle.SetEnabled(!graphOnly);
+
+            this.tooltip = paramTooltip;
+        }
+
+        /// <summary>
+        /// Call this when the active node is changed to update the UI.
+        /// </summary>
+        /// <param name="layer">Optional: the layer to display.</param>
+        /// <param name="guid">Optional: the bundle GUID to load and show.</param>
+        /// <param name="position">Optional: position in the graph to show.</param>
+        public void SetTarget(LBSLayer layer = null, string guid = "", Vector2Int position = default)
+        {
+            if (!string.IsNullOrEmpty(guid))
             {
                 var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
-                objectFieldBundle.value = bundle;
+                _objectFieldBundle.value = bundle;
             }
 
-            if (layer != null)  labelLayer.text = layer.Name;
-            labelLayer.style.display = layer == null ? DisplayStyle.None : DisplayStyle.Flex;
-            
-            vector2FieldPosition.style.display = position == default ? DisplayStyle.None : DisplayStyle.Flex;
-            vector2FieldPosition.value = position;
+            if (layer != null)
+            {
+                _labelLayer.text = layer.Name;
+                _labelLayer.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                _labelLayer.style.display = DisplayStyle.None;
+            }
+
+            bool hasPosition = position != default;
+            _vector2FieldPosition.style.display = hasPosition ? DisplayStyle.Flex : DisplayStyle.None;
+            _vector2FieldPosition.value = position;
         }
 
+        /// <summary>
+        /// Clears the picker click callback.
+        /// </summary>
         public void ClearPicker()
         {
-            _onClicked = null;
+            OnClicked = null;
         }
-        
-        #endregion
 
+        #endregion
     }
 }

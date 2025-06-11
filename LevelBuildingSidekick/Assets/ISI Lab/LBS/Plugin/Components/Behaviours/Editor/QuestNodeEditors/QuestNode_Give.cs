@@ -1,85 +1,67 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Give : NodeEditor
+    public class QuestNodeGive : NodeEditor<DataGive>
     {
-        private PickerBundle _pickerBundleGiveTarget;
-        private PickerBundle _pickerBundleGiveReceiver;
-        public QuestNode_Give()
+        private readonly PickerBundle _pickerBundleGiveTarget;
+        private readonly PickerBundle _pickerBundleGiveReceiver;
+
+        public QuestNodeGive()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Give");
             visualTree.CloneTree(this);
-            
+
             _pickerBundleGiveTarget = this.Q<PickerBundle>("GiveTarget");
             _pickerBundleGiveTarget.SetInfo(
-                "Object to give", 
-                    "The bundle type the player must give at the location.",
+                "Object to give",
+                "The bundle type the player must give at the location.",
                 false);
-            
+
             _pickerBundleGiveReceiver = this.Q<PickerBundle>("GiveReceiver");
             _pickerBundleGiveReceiver.SetInfo(
-                "Target receiver", 
+                "Target receiver",
                 "The object in the graph that will receive the object.",
                 true);
-            
-
         }
 
-        public override void SetNodeData(BaseQuestNodeData data)
+        protected override void OnDataAssigned()
         {
-            if(data is not DataGive currentData) return;
-            
-            #region Give
+            SetupUI();
+        }
+
+        private void SetupUI()
+        {
+            // Give Picker
             _pickerBundleGiveTarget.ClearPicker();
-            
-            _pickerBundleGiveTarget._onClicked += () =>
+            _pickerBundleGiveTarget.OnClicked += () =>
             {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
                 {
-                    currentData.bundleGive.layer = layer;
-                    currentData.bundleGive.guid = pickedGuid;
-                    currentData.bundleGive.position = position;
+                    NodeData.BundleGive.Layer = layer;
+                    NodeData.BundleGive.Guid = pickedGuid;
+                    NodeData.BundleGive.Position = position;
                     _pickerBundleGiveTarget.SetTarget(layer, pickedGuid, position);
                 };
             };
-            
-            _pickerBundleGiveTarget.SetTarget(currentData.bundleGive.layer, currentData.bundleGive.guid, currentData.bundleGive.position);
-            
-            #endregion
-            
-            
-            #region Receive
-            
+            _pickerBundleGiveTarget.SetTarget(NodeData.BundleGive.Layer, NodeData.BundleGive.Guid, NodeData.BundleGive.Position);
+
+            // Receiver Picker
             _pickerBundleGiveReceiver.ClearPicker();
-            
-            _pickerBundleGiveReceiver._onClicked += () =>
+            _pickerBundleGiveReceiver.OnClicked += () =>
             {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
                 {
-                    currentData.bundleGiveTo.layer = layer;
-                    currentData.bundleGiveTo.guid = pickedGuid;
-                    currentData.bundleGiveTo.position = position;
-                    
+                    NodeData.BundleGiveTo.Layer = layer;
+                    NodeData.BundleGiveTo.Guid = pickedGuid;
+                    NodeData.BundleGiveTo.Position = position;
                     _pickerBundleGiveReceiver.SetTarget(layer, pickedGuid, position);
                 };
             };
-            
-            _pickerBundleGiveReceiver.SetTarget(currentData.bundleGiveTo.layer, currentData.bundleGiveTo.guid, currentData.bundleGiveTo.position);
-
-            #endregion
+            _pickerBundleGiveReceiver.SetTarget(NodeData.BundleGiveTo.Layer, NodeData.BundleGiveTo.Guid, NodeData.BundleGiveTo.Position);
         }
     }
-
 }

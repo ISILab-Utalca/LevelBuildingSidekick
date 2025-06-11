@@ -1,54 +1,42 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Read : NodeEditor
-    {
-        private PickerBundle _pickerBundle; 
-        public QuestNode_Read()
+        public class QuestNodeRead : NodeEditor<DataRead>
         {
-            Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Read");
-            visualTree.CloneTree(this);
-            
-            _pickerBundle = this.Q<PickerBundle>("ReadTarget");
-            _pickerBundle.SetInfo(
-                "Read target", 
-                "The object in the graph that the player must read.",
-                true); 
-            
+                private readonly PickerBundle _pickerBundle;
 
-        }
-
-
-        public override void SetNodeData(BaseQuestNodeData data)
-        {
-
-            if(data is not DataRead currentData) return;
-            
-            _pickerBundle.ClearPicker();
-            
-            _pickerBundle._onClicked += () =>
-            {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                public QuestNodeRead()
                 {
-                    currentData.bundleToRead.layer = layer; 
-                    currentData.bundleToRead.guid = pickedGuid;
-                    currentData.bundleToRead.position = position;
-                    _pickerBundle.SetTarget(layer, pickedGuid, position);
-                };
-            };
-            
-            _pickerBundle.SetTarget(currentData.bundleToRead.layer, currentData.bundleToRead.guid, currentData.bundleToRead.position );
-        }
-    }
+                        Clear();
+                        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Read");
+                        visualTree.CloneTree(this);
 
+                        _pickerBundle = this.Q<PickerBundle>("ReadTarget");
+                        _pickerBundle.SetInfo(
+                                "Read target",
+                                "The object in the graph that the player must read.",
+                                true);
+                }
+
+                protected override void OnDataAssigned()
+                {
+                        _pickerBundle.ClearPicker();
+
+                        _pickerBundle.OnClicked += () =>
+                        {
+                                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                                {
+                                        NodeData.BundleToRead.Layer = layer;
+                                        NodeData.BundleToRead.Guid = pickedGuid;
+                                        NodeData.BundleToRead.Position = position;
+                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                };
+                        };
+
+                        _pickerBundle.SetTarget(NodeData.BundleToRead.Layer, NodeData.BundleToRead.Guid, NodeData.BundleToRead.Position);
+                }
+        }
 }

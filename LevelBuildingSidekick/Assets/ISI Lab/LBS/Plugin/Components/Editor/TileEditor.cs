@@ -18,10 +18,10 @@ namespace ISILab.LBS.VisualElements
             CreateVisualElement();
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var t = target as LBSTile;
+            this.target = paramTarget;
+            var t = paramTarget as LBSTile;
 
             field.value = t.Position;
         }

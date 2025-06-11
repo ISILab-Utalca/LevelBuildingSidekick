@@ -5,6 +5,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using ISILab.Macros;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -48,19 +49,19 @@ namespace ISILab.LBS.Drawers.Editor
             var position = layer.FixedToPosition(nodeData.Position, true);
             
             // Trigger Position
-            var triggerBase = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+            var triggerBase = new TriggerElement(position, baseSize*nodeData.Size, nodeData, LBSSettings.Instance.view.colorTrigger);
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
             
             // Positions per data type only if its a BundleGraph!
             switch (nodeData)
             {
                 case DataKill datakill:
-                    if(!datakill.bundlesToKill.Any()) break;
-                    foreach (var bundle in datakill.bundlesToKill)
+                    if(!datakill.BundlesToKill.Any()) break;
+                    foreach (var bundle in datakill.BundlesToKill)
                     {
                         if (bundle.Valid())
                         {
-                            position = layer.FixedToPosition(bundle.position, true);
+                            position = layer.FixedToPosition(bundle.Position, true);
                             var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                             view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                         }
@@ -68,12 +69,12 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataStealth dataStealth:
-                    if(!dataStealth.bundlesObservers.Any()) break;
-                    foreach (var bundle in dataStealth.bundlesObservers)
+                    if(!dataStealth.BundlesObservers.Any()) break;
+                    foreach (var bundle in dataStealth.BundlesObservers)
                     {
                         if (bundle.Valid())
                         {
-                            position = layer.FixedToPosition(bundle.position, true);
+                            position = layer.FixedToPosition(bundle.Position, true);
                             var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                             view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                         }
@@ -81,18 +82,18 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataTake dataTake:
-                    if (dataTake.bundleToTake.Valid())
+                    if (dataTake.BundleToTake.Valid())
                     {
-                        position = layer.FixedToPosition(dataTake.bundleToTake.position, true);
+                        position = layer.FixedToPosition(dataTake.BundleToTake.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataRead dataRead:
-                    if (dataRead.bundleToRead.Valid())
+                    if (dataRead.BundleToRead.Valid())
                     {
-                        position = layer.FixedToPosition(dataRead.bundleToRead.position, true);
+                        position = layer.FixedToPosition(dataRead.BundleToRead.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
@@ -100,16 +101,16 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 case DataGive dataGive:
                 {
-                    if (dataGive.bundleGive.Valid())
+                    if (dataGive.BundleGive.Valid())
                     {
-                        position = layer.FixedToPosition(dataGive.bundleGive.position, true);
+                        position = layer.FixedToPosition(dataGive.BundleGive.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     
-                    if (dataGive.bundleGiveTo.Valid())
+                    if (dataGive.BundleGiveTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataGive.bundleGiveTo.position, true);
+                        position = layer.FixedToPosition(dataGive.BundleGiveTo.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
@@ -118,27 +119,27 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataReport dataReport:
-                    if (dataReport.bundleReportTo.Valid())
+                    if (dataReport.BundleReportTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataReport.bundleReportTo.position, true);
+                        position = layer.FixedToPosition(dataReport.BundleReportTo.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataSpy dataSpy:
-                    if (dataSpy.bundleToSpy.Valid())
+                    if (dataSpy.BundleToSpy.Valid())
                     {
-                        position = layer.FixedToPosition(dataSpy.bundleToSpy.position, true);
+                        position = layer.FixedToPosition(dataSpy.BundleToSpy.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataListen dataListen:
-                    if (dataListen.bundleListenTo.Valid())
+                    if (dataListen.BundleListenTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataListen.bundleListenTo.position, true);
+                        position = layer.FixedToPosition(dataListen.BundleListenTo.Position, true);
                         var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
@@ -212,6 +213,7 @@ namespace ISILab.LBS.Drawers.Editor
 
             private void OnMouseUp(MouseUpEvent e)
             {
+                if (_data.Owner?.Graph?.OwnerLayer is null) return;
                 var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
                 qnb.DataChanged(_data.Owner);
         }

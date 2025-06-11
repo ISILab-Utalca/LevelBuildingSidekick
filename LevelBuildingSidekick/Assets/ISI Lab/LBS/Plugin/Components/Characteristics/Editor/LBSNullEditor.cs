@@ -13,9 +13,9 @@ namespace ISILab.LBS.VisualElements
         {
         }
 
-        public override void SetInfo(object obj)
+        public override void SetInfo(object paramTarget)
         {
-            var target = obj as LBSCharacteristic;
+            var target = paramTarget as LBSCharacteristic;
 
             var label = new Label("la caracteristica " + target + " no se puede visualizar.");
             label.style.flexWrap = Wrap.Wrap;

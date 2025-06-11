@@ -27,7 +27,7 @@ namespace ISILab.LBS.Manipulators
             quest = layer.GetModule<QuestGraph>();
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
         {
             var node = quest.GetQuestNode(endPosition);
             if (node == null) return;

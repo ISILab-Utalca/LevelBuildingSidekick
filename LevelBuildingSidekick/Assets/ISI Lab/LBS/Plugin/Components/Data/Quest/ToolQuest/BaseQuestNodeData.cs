@@ -11,31 +11,29 @@ namespace ISILab.LBS.Components
     /// <summary>
     /// Saves the bundle guid and the position in the graph to get in the scene
     /// </summary>
-    public struct bundleGraph
+    public struct BundleGraph
     {
-        public bundleGraph(LBSLayer layer, string guid, Vector2Int position)
+        
+        public LBSLayer Layer;
+        public string Guid;
+        public Vector2Int Position;
+        
+        public BundleGraph(LBSLayer layer, string guid, Vector2Int position)
         {
-            this.layer = layer;
-            this.guid = guid;
-            this.position = position;
+            this.Layer = layer;
+            this.Guid = guid;
+            this.Position = position;
         }
 
-        public bool Valid()
-        {
-            return guid != string.Empty;
-        }
-
-        public LBSLayer layer;
-        public string guid;
-        public Vector2Int position;
+        public bool Valid() => Guid != string.Empty;
     }
     
     /// <summary>
     /// Saves the bundle type
     /// </summary>
-    public struct bundleType
+    public struct BundleType
     {
-        public string guid;
+        public string Guid;
     }
     
         /// <summary>
@@ -43,7 +41,7 @@ namespace ISILab.LBS.Components
         /// </summary>
         public static class QuestNodeDataFactory
         {
-            public static Dictionary<string, Type> TagDataTypes = new()
+            private static readonly Dictionary<string, Type> TagDataTypes = new()
             {
                 { " go to ", typeof(DataGoto) },
                 { " explore ", typeof(DataExplore) },
@@ -78,52 +76,51 @@ namespace ISILab.LBS.Components
         {
             #region FIELDS
             [SerializeField, JsonRequired]
-            protected QuestNode _owner;
+            protected QuestNode owner;
             
             [SerializeField, JsonRequired]
-            protected string _tag;
+            protected string tag;
           
             [SerializeField, JsonRequired] 
-            protected Vector2Int _position = Vector2Int.zero;
+            protected Vector2Int position = Vector2Int.zero;
            
             [SerializeField, JsonRequired] 
-            protected float _size = 1;
+            protected float size = 1;
             
             [SerializeField, JsonRequired] 
-            protected Color _color =  LBSSettings.Instance.view.behavioursColor;
+            protected Color color =  LBSSettings.Instance.view.behavioursColor;
             
             #endregion
 
             #region PROPERTIES
-            public QuestNode Owner => _owner;
-            public string Tag => _tag;
+            public QuestNode Owner => owner;
+            public string Tag => tag;
             public Vector2Int Position
             {
-                get => _position;
-                set => _position = value;
+                get => position;
+                set => position = value;
             }
 
             public float Size
             {
-                get => _size;
-                set => _size = value;
+                get => size;
+                set => size = value;
             }
 
-            public Color Color => _color;
+            public Color Color => color;
             #endregion
 
             public BaseQuestNodeData(QuestNode owner, string tag)
             {
-                _owner = owner ?? throw new ArgumentNullException(nameof(owner));
-                _tag = tag;
+                this.tag = tag;
             }
 
             public void Clone(BaseQuestNodeData data)
             {
-                _owner = data._owner;
-                _tag = data._tag;
-                _position = data._position;
-                _size = data._size;
+                owner = data.owner;
+                tag = data.tag;
+                position = data.position;
+                size = data.size;
             }
         }
 
@@ -166,12 +163,12 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Objects that must be killed
             /// </summary>
-            [SerializeField, JsonRequired] public List<bundleGraph> bundlesToKill;
+            [JsonRequired] public List<BundleGraph> BundlesToKill;
 
             public DataKill(QuestNode owner, string tag) : base(owner, tag)
             {
-                _color = LBSSettings.Instance.view.colorKill;
-                bundlesToKill = new List<bundleGraph>();
+                color = LBSSettings.Instance.view.colorKill;
+                BundlesToKill = new List<BundleGraph>();
             }
         }
         [Serializable]
@@ -181,62 +178,62 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Objects with a default trigger that will stop catch the player
             /// </summary>
-            [SerializeField, JsonRequired] public List<bundleGraph> bundlesObservers;
+            [JsonRequired] public List<BundleGraph> BundlesObservers;
 
             public DataStealth(QuestNode owner, string tag) : base(owner, tag)
             {
-                _color = LBSSettings.Instance.view.colorStealth;
-                bundlesObservers = new List<bundleGraph>();
+                color = LBSSettings.Instance.view.colorStealth;
+                BundlesObservers = new List<BundleGraph>();
             }
         }
         [Serializable]
         public class DataTake : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToTake;
+            [JsonRequired] public BundleGraph BundleToTake;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleToTake = new bundleGraph(null, string.Empty, Vector2Int.zero);
-               _color = LBSSettings.Instance.view.colorTake;
+               BundleToTake = new BundleGraph(null, string.Empty, Vector2Int.zero);
+               color = LBSSettings.Instance.view.colorTake;
            }
         }
         [Serializable]
         public class DataRead : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToRead;
+            [JsonRequired] public BundleGraph BundleToRead;
             public DataRead(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleToRead = new bundleGraph(null, string.Empty, Vector2Int.zero);
-                _color = LBSSettings.Instance.view.colorRead;
+                BundleToRead = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                color = LBSSettings.Instance.view.colorRead;
             }
         }
         [Serializable]
         public class DataExchange : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleType bundleGiveType;
+            [JsonRequired] public BundleType BundleGiveType;
             [SerializeField, JsonRequired] public int requiredAmount = 1;
             /// <summary>
             /// Receive guid must be set from editor panel
-            /// </summary>
-            [SerializeField, JsonRequired] public bundleType bundleReceiveType;
+            /// </summary>a
+            [JsonRequired] public BundleType BundleReceiveType;
             [SerializeField, JsonRequired] public int receiveAmount = 1;
             public DataExchange(QuestNode owner, string tag) : base(owner, tag)
             {
-                _color = LBSSettings.Instance.view.colorExchange;
+                color = LBSSettings.Instance.view.colorExchange;
             }
         }
         [Serializable]
         public class DataGive : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleGive;
+            [JsonRequired] public BundleGraph BundleGive;
             /// <summary>
             /// Character to give to 
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleGiveTo;
+            [JsonRequired] public BundleGraph BundleGiveTo;
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleGive = new bundleGraph(null, string.Empty, Vector2Int.zero);
-                bundleGiveTo = new bundleGraph(null, string.Empty, Vector2Int.zero);
-                _color = LBSSettings.Instance.view.colorGive;
+                BundleGive = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                BundleGiveTo = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                color = LBSSettings.Instance.view.colorGive;
             }
         }
         [Serializable]
@@ -245,11 +242,11 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character to report to
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleReportTo;
+            [JsonRequired] public BundleGraph BundleReportTo;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleReportTo = new bundleGraph(null,string.Empty, Vector2Int.zero);
-               _color = LBSSettings.Instance.view.colorReport;
+               BundleReportTo = new BundleGraph(null,string.Empty, Vector2Int.zero);
+               color = LBSSettings.Instance.view.colorReport;
            }
         }
         [Serializable]
@@ -258,8 +255,8 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// material that must be gathered
             /// </summary>
-            [SerializeField, JsonRequired] public bundleType bundleGatherType;
-            [SerializeField, JsonRequired] public int requiredAmount;
+            [JsonRequired] public BundleType BundleGatherType;
+            [SerializeField, JsonRequired] public int gatherAmount;
           public DataGather(QuestNode owner, string tag) : base(owner, tag)
           {
           }
@@ -267,13 +264,13 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataSpy : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToSpy;
+            [JsonRequired] public BundleGraph BundleToSpy;
             [SerializeField, JsonRequired] public float spyTime = 5f;
             [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
           {
-              bundleToSpy = new bundleGraph(null, string.Empty, Vector2Int.zero);
-              _color = LBSSettings.Instance.view.colorSpy;
+              BundleToSpy = new BundleGraph(null, string.Empty, Vector2Int.zero);
+              color = LBSSettings.Instance.view.colorSpy;
           }
         }
         [Serializable]
@@ -292,12 +289,12 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character or objects that gets listened to
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleListenTo;
+            [JsonRequired] public BundleGraph BundleListenTo;
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleListenTo = new bundleGraph(null, string.Empty, Vector2Int.zero);
-                _color = LBSSettings.Instance.view.colorListen;
+                BundleListenTo = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                color = LBSSettings.Instance.view.colorListen;
             }
         }
 

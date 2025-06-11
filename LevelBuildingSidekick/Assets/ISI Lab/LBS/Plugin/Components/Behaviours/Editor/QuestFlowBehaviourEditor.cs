@@ -49,10 +49,10 @@ namespace ISILab.LBS.VisualElements
         #endregion
         
         #region METHODS
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
             Clear();
-            behaviour = target as QuestFlowBehaviour;
+            behaviour = paramTarget as QuestFlowBehaviour;
             CreateVisualElement();
             if (behaviour == null) return;
             questHistoryPanel?.SetInfo(behaviour);

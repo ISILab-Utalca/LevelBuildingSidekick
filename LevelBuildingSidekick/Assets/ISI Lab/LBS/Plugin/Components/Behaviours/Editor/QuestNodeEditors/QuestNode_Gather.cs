@@ -1,55 +1,45 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Gather :NodeEditor
-    {
-        private PickerBundle _pickerBundle;
-        private IntegerField gatherAmount;
-        private DataGather currentData;
-        public QuestNode_Gather()
+        public class QuestNodeGather : NodeEditor<DataGather>
         {
-            Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
-            visualTree.CloneTree(this);
-            
-            _pickerBundle = this.Q<PickerBundle>("GatherTarget");
-            _pickerBundle.SetInfo(
-                "Object to gather", 
-                "The bundle type the player must gather/collect within the trigger area.",
-                false); 
-            gatherAmount = this.Q<IntegerField>("GatherAmount");
-            
+                private readonly PickerBundle _pickerBundle;
+                private readonly IntegerField _gatherAmount;
 
-        }
-
-        public override void SetNodeData(BaseQuestNodeData data)
-        { 
-            if(data is not DataGather currentData) return;
-            
-            _pickerBundle.ClearPicker();
-            
-            _pickerBundle._onClicked += () =>
-            {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                public QuestNodeGather()
                 {
-                    currentData.bundleGatherType.guid = pickedGuid;
-                    _pickerBundle.SetTarget(null, currentData.bundleGatherType.guid);
-                };
-            };
-            
-            _pickerBundle.SetTarget(null, currentData.bundleGatherType.guid);
+                        Clear();
+                        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
+                        visualTree.CloneTree(this);
 
+                        _pickerBundle = this.Q<PickerBundle>("GatherTarget");
+                        _pickerBundle.SetInfo(
+                                "Object to gather",
+                                "The bundle type the player must gather/collect within the trigger area."
+                        );
 
+                        _gatherAmount = this.Q<IntegerField>("GatherAmount");
+                        _gatherAmount.RegisterValueChangedCallback(evt => NodeData.gatherAmount = evt.newValue);
+                }
+
+                protected override void OnDataAssigned()
+                {
+                        _pickerBundle.ClearPicker();
+
+                        _pickerBundle.OnClicked += () =>
+                        {
+                                AssignPickerData().OnBundlePicked = (_, pickedGuid, _) =>
+                                {
+                                        NodeData.BundleGatherType.Guid = pickedGuid;
+                                        _pickerBundle.SetTarget(null, NodeData.BundleGatherType.Guid);
+                                };
+                        };
+
+                        _pickerBundle.SetTarget(null, NodeData.BundleGatherType.Guid);
+                        _gatherAmount.SetValueWithoutNotify(NodeData.gatherAmount);
+                }
         }
-    }
-
 }

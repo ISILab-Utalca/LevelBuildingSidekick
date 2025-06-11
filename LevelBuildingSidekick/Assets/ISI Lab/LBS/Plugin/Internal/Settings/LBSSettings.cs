@@ -114,7 +114,7 @@ namespace ISILab.LBS.Settings
             public Color successColor = new Color(0f, 1f, 0.68f);
             
             #region Quest Node Colors
-            public Color colorTrigger = new Color(0.93f, 0.81f, 0.42f, 1f);
+            public Color colorTrigger = new Color(0f, 1f, 0.68f);
             public Color colorKill = new Color(0.93f, 0.33f, 0.42f);
             public Color colorStealth = new Color(0.45f, 0.07f, 0.7f);
             public Color colorTake = new Color(0.16f, 0.7f, 0.57f);

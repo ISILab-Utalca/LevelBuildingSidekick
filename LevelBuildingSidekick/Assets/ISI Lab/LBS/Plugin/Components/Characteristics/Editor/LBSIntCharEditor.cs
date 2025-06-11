@@ -21,10 +21,10 @@ namespace ISILab.LBS.Editor
             Add(CreateVisualElement());
         }
 
-        public override void SetInfo(object obj)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = obj;
-            var target = obj as LBSIntCharacteristic;
+            this.target = paramTarget;
+            var target = paramTarget as LBSIntCharacteristic;
 
             input.value = target.Value;
         }

@@ -54,7 +54,7 @@ namespace ISILab.LBS.Manipulators
             LBSMainWindow.WarningManipulator();
         }
         
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             var level = LBSController.CurrentLevel;
             Undo.RegisterCompleteObjectUndo(level, "Add Zone");

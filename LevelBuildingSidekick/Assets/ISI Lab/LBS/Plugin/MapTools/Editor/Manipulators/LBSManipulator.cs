@@ -376,7 +376,7 @@ namespace ISILab.LBS.Manipulators
 
         protected virtual void OnMouseMove(VisualElement _target, Vector2Int movePosition, MouseMoveEvent e) { }
 
-        protected virtual void OnMouseUp(VisualElement _target, Vector2Int endPosition, MouseUpEvent e) { }
+        protected virtual void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e) { }
         
         protected virtual void OnKeyDown(KeyDownEvent e) { }
         

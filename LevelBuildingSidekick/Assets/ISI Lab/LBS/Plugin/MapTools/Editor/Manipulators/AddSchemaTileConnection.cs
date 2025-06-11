@@ -49,7 +49,7 @@ namespace ISILab.LBS.Manipulators
             first = schema.OwnerLayer.ToFixedPosition(position);
         }
 
-        protected override void OnMouseUp(VisualElement _target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             if (ToSet == null)
             {

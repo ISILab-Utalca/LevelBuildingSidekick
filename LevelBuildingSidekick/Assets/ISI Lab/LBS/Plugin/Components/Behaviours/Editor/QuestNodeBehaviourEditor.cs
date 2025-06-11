@@ -1,11 +1,5 @@
-
-
-
-// ReSharper disable All
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
@@ -13,11 +7,8 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements.Editor;
-using ISILab.Macros;
 using LBS;
-using LBS.Bundles;
 using LBS.VisualElements;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -27,25 +18,25 @@ namespace ISILab.LBS.VisualElements
     public class QuestNodeBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         #region FIELDS
-        private QuestNodeBehaviour behaviour;
+        private QuestNodeBehaviour _behaviour;
         
-        private const float actionBorderThickness = 1f;
-        private const float backgroundOpacity = 0.25f;
+        private const float ActionBorderThickness = 1f;
+        private const float BackgroundOpacity = 0.25f;
         
-        static private Dictionary<Type, Type> typeToPanelMap = new()
+        private static readonly Dictionary<Type, Type> TypeToPanelMap = new()
         {
             { typeof(DataExplore), typeof(QuestNode_Explore) },
-            { typeof(DataKill), typeof(QuestNode_Kill) },
-            { typeof(DataStealth), typeof(QuestNode_Stealth) },
-            { typeof(DataTake), typeof(QuestNode_Take) },
-            { typeof(DataRead), typeof(QuestNode_Read) },
-            { typeof(DataExchange), typeof(QuestNode_Exchange) },
-            { typeof(DataGive), typeof(QuestNode_Give) },
-            { typeof(DataReport), typeof(QuestNode_Report) },
-            { typeof(DataGather), typeof(QuestNode_Gather) },
-            { typeof(DataSpy), typeof(QuestNode_Spy) },
+            { typeof(DataKill), typeof(QuestNodeKill) },
+            { typeof(DataStealth), typeof(QuestNodeStealth) },
+            { typeof(DataTake), typeof(QuestNodeTake) },
+            { typeof(DataRead), typeof(QuestNodeRead) },
+            { typeof(DataExchange), typeof(QuestNodeExchange) },
+            { typeof(DataGive), typeof(QuestNodeGive) },
+            { typeof(DataReport), typeof(QuestNodeReport) },
+            { typeof(DataGather), typeof(QuestNodeGather) },
+            { typeof(DataSpy), typeof(QuestNodeSpy) },
             { typeof(DataCapture), typeof(QuestNode_Capture) },
-            { typeof(DataListen), typeof(QuestNode_Listen) }
+            { typeof(DataListen), typeof(QuestNodeListen) }
         };
         
         #endregion
@@ -54,20 +45,24 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Displays the action string
         /// </summary>
-        private Label ParamActionLabel;
+        private Label _paramActionLabel;
         /// <summary>
         /// To identify which node has been clicked 
         /// </summary>
-        private Label NodeIDLabel;
-        private VisualElement NodePanel;
-        private VisualElement ActionPanel;
-        private VisualElement NoNodeSelectedPanel;
-        private VisualElement InstancedContent;
-        private VisualElement ActionColor;
-        private PickerVector2Int TargetPosition;
-        private FloatField Size;
-        private Label ActionLabel;
-        private VisualElement ActionIcon;
+        private Label _nodeIDLabel;
+        
+        private VisualElement _nodePanel;
+        private VisualElement _actionPanel;
+        private VisualElement _noNodeSelectedPanel;
+        private VisualElement _instancedContent;
+        
+        private VisualElement _actionColor;
+        private VisualElement _actionIcon;
+        
+        private PickerVector2Int _targetPosition;
+        private FloatField _size;
+    
+
 
         #endregion
         
@@ -81,67 +76,62 @@ namespace ISILab.LBS.VisualElements
         #endregion
         
         #region METHODS
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            behaviour = target as QuestNodeBehaviour;
-            behaviour.OnQuestNodeSelected += OnSelectNode;
+            _behaviour = paramTarget as QuestNodeBehaviour;
+            _behaviour!.OnQuestNodeSelected += OnSelectNode;
         }
-        protected override VisualElement CreateVisualElement()
+        protected sealed override VisualElement CreateVisualElement()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeBehaviourEditor");
             visualTree.CloneTree(this);
             
-            NodePanel = this.Q<VisualElement>("ID");
-            ActionPanel = this.Q<VisualElement>("Action");
-            NoNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
+            #region Get VisualElements from UXML
+            _nodePanel = this.Q<VisualElement>("ID");
+            _actionPanel = this.Q<VisualElement>("Action");
+            _noNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
             
-            InstancedContent = this.Q<VisualElement>("InstancedContent");
+            _instancedContent = this.Q<VisualElement>("InstancedContent");
             
-            ActionColor = this.Q<VisualElement>("ActionColor");
-            ActionLabel = this.Q<Label>("ActionLabel");
-            ActionIcon = this.Q<VisualElement>("ActionIcon");
+            _actionColor = this.Q<VisualElement>("ActionColor");
+            _actionIcon = this.Q<VisualElement>("ActionIcon");
             
-            ParamActionLabel = this.Q<Label>("ParamAction");
-            NodeIDLabel = this.Q<Label>("ParamID");
-
-
+            _paramActionLabel = this.Q<Label>("ParamAction");
+            _nodeIDLabel = this.Q<Label>("ParamID");
+            #endregion
             
-            // Generic (Go To) Values
-            TargetPosition = this.Q<PickerVector2Int>("TargetPosition");
-            TargetPosition.SetInfo("Trigger Position", "The position of the trigger in the graph.");
-            TargetPosition.vector2IntField.RegisterValueChangedCallback(evt =>
+            #region Picker Position in Graph
+            _targetPosition = this.Q<PickerVector2Int>("TargetPosition");
+            _targetPosition.SetInfo("Trigger Position", "The position of the trigger in the graph.");
+            _targetPosition.vector2IntField.RegisterValueChangedCallback(evt =>
             {
                 SetNodeDataPosition(evt.newValue);
             });
-            TargetPosition._onClicked = () =>
+            _targetPosition._onClicked = () =>
             {  
                 var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
                 if (pickerManipulator == null) return;
                 
-                pickerManipulator.activeData = behaviour.SelectedQuestNode.NodeData;
-                if(pickerManipulator.activeData == null) return;
+                pickerManipulator.ActiveData = _behaviour.SelectedQuestNode.NodeData;
+                if(pickerManipulator.ActiveData == null) return;
                 
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
+                pickerManipulator.OnBundlePicked = (_, _, pos) =>
                 {
                     // Update the bundle data
-                    behaviour.SelectedQuestNode.NodeData.Position = pos;
+                    _behaviour.SelectedQuestNode.NodeData.Position = pos;
                     // Refresh UI
-                    TargetPosition.SetTarget(pos);
+                    _targetPosition.SetTarget(pos);
                 };
 
             };
+            #endregion
             
+            _size = this.Q<FloatField>("Size");
+            _size.RegisterValueChangedCallback(evt => SetNodeDataSize(evt.newValue));
             
-            
-            Size = this.Q<FloatField>("Size");
-            Size.RegisterValueChangedCallback(evt =>
-            {
-                SetNodeDataSize(evt.newValue);
-            });
-
-            
-            NoNodeSelectedPanel.style.display = DisplayStyle.Flex;    
+            // No node when instanced
+            _noNodeSelectedPanel.style.display = DisplayStyle.Flex;    
             
             return this;
         }
@@ -149,96 +139,87 @@ namespace ISILab.LBS.VisualElements
       
         private void SetNodeDataPosition(Vector2Int newValue)
         {
-            var nd = GetSelectedNode().NodeData;
-            if (nd is null) return;
-            nd.Position = newValue;
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            BaseQuestNodeData nodeData = GetSelectedNode().NodeData;
+            if (nodeData is null) return;
+            nodeData.Position = newValue;
+            DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
         }
         private void SetNodeDataSize(float newValue)
         {
-            var nd = GetSelectedNode().NodeData;
-            if (nd is null) return;
-            nd.Size = newValue;
-            DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            BaseQuestNodeData nodeData = GetSelectedNode().NodeData;
+            if (nodeData is null) return;
+            nodeData.Size = newValue;
+            DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
         }
 
+        /// <summary>
+        /// By default the quest picker tool sets the Trigger Position of the quest node
+        /// </summary>
+        /// <param name="toolkit"></param>
         public void SetTools(ToolKit toolkit)
         { 
             var questPicker = new QuestPicker();
             var t1 = new LBSTool(questPicker);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            toolkit.ActivateTool(t1,behaviour?.OwnerLayer, target);
-            
+            toolkit.ActivateTool(t1,_behaviour?.OwnerLayer, target);
         }
 
         private void OnSelectNode(QuestNode node)
         {
-            NoNodeSelectedPanel.style.display = DisplayStyle.Flex;  
+            var validNode = node is not null && node.NodeData is not null;
             
-            NodePanel.style.display = DisplayStyle.None;
-            ActionPanel.style.display = DisplayStyle.None;
-            TargetPosition.style.display = DisplayStyle.None;
-            Size.style.display = DisplayStyle.None;
+            _noNodeSelectedPanel.style.display = validNode ? DisplayStyle.None : DisplayStyle.Flex;  
+            _nodePanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
+            _actionPanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
+            _targetPosition.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
+            _size.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             
-            InstancedContent.Clear();
+            _instancedContent.Clear();
             
-            if (node is null || 
-                node.NodeData is null )
-            {
-                return;
-            }
+            if (!validNode )  return;
             
-            NoNodeSelectedPanel.style.display = DisplayStyle.None; 
-            
-            ParamActionLabel.text = node.QuestAction;
-            NodeIDLabel.text = node.ID.ToString();
+            _paramActionLabel.text = node.QuestAction;
+            _nodeIDLabel.text = node.ID;
 
             var dataType = node.NodeData.GetType();
             
-            // goto is an exception
-            if (dataType == typeof(DataGoto))
-            {
-                SetBaseDataValues(node.NodeData);
-                return;
-            }
-            
-            if (typeToPanelMap.TryGetValue(dataType, out Type visualElementType))
+            if (TypeToPanelMap.TryGetValue(dataType, out Type visualElementType))
             {
                 if (visualElementType != null)
                 {
                     var instance = Activator.CreateInstance(visualElementType) as NodeEditor;
                     if (instance != null)
                     {
-                        InstancedContent.Add(instance as VisualElement);
+                        _instancedContent.Add(instance);
                         instance.SetNodeData(node.NodeData); // bindings per editor type
                         SetBaseDataValues(node.NodeData); // for trigger position and size
-                        DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
+                        DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
                     }
                 }
             }
+            // if not in the dictionary just set the default data: For example "GoTo" action
+            else
+            {
+                SetBaseDataValues(node.NodeData);
+            }
         }
-        
-
         
         private void SetBaseDataValues(BaseQuestNodeData data)
         {
             var backgroundColor = data.Color;
-            backgroundColor.a = backgroundOpacity;
-            ActionColor.SetBackgroundColor(backgroundColor);
+            backgroundColor.a = BackgroundOpacity;
+            _actionColor.SetBackgroundColor(backgroundColor);
             
+            _actionIcon.style.unityBackgroundImageTintColor = data.Color;
+            _actionColor.SetBorder(data.Color,ActionBorderThickness);
             
-            ActionIcon.style.unityBackgroundImageTintColor = data.Color;
-            ActionColor.SetBorder(data.Color,actionBorderThickness);
-            
-            TargetPosition.style.display = DisplayStyle.Flex;
-            Size.style.display = DisplayStyle.Flex;
-            TargetPosition.vector2IntField.value = data.Position;
-            Size.value = data.Size;
+            _targetPosition.vector2IntField.value = data.Position;
+            _size.value = data.Size;
         }
 
         private QuestNode GetSelectedNode()
         {
-            return behaviour.SelectedQuestNode;
+            return _behaviour.SelectedQuestNode;
         }
 
         #endregion
