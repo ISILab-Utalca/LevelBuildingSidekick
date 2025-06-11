@@ -10,6 +10,7 @@
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.postprocessing": "3.4.0",
     "com.unity.recorder": "5.1.2",
+    "com.unity.render-pipelines.universal": "17.0.4",
     "com.unity.shadergraph": "17.0.4",
     "com.unity.ugui": "2.0.0",
     "com.unity.vectorgraphics": "2.0.0-preview.25",

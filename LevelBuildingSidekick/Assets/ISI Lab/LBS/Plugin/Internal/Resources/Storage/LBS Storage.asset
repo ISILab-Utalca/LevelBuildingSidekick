@@ -132,6 +132,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 337d6223667092c4c9f04e4df2f319b5, type: 2}
     - {fileID: 11400000, guid: 1f6a869bbbf53f340a2716e511457881, type: 2}
     - {fileID: 11400000, guid: 77321a622d19ed0419bebddaf181da70, type: 2}
+    - {fileID: 11400000, guid: f329f93cf5850be45b7c6af337cb043b, type: 2}
+    - {fileID: 11400000, guid: a39a6b0fd3153434a90405c7b3361cd8, type: 2}
+    - {fileID: 11400000, guid: 1e52eea9c9f77ec479f003d5d7b9b674, type: 2}
+    - {fileID: 11400000, guid: d66992e7e50718248b551beee6230739, type: 2}
+    - {fileID: 11400000, guid: d9fc826f5ba43df4a9a8120fcddf4ca8, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -174,6 +179,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aa672e189e8bdda45817f7056741fbc2, type: 2}
     - {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
     - {fileID: 11400000, guid: 82c988506a4389042b3f7c2c94f04ea5, type: 2}
+    - {fileID: 11400000, guid: 6250d4dc1497e2f4bb088157a4da725f, type: 2}
+    - {fileID: 11400000, guid: 7f4f15def595c724f91b2b6305e43a0c, type: 2}
   - type: UnityEngine.UIElements.VectorImage
     items:
     - {fileID: 7388822144124034973, guid: b570a25de51f01c41bd82dbe5372bb3f, type: 3}
@@ -768,5 +775,17 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
     - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
     - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
-    - {fileID: 11400000, guid: f84bc35a1ffdc9146921e49040ff0cd1, type: 2}
     - {fileID: 11400000, guid: 40eaef60ade8a02489f47a70bb2845c3, type: 2}
+  - type: UnityEngine.Rendering.VolumeProfile
+    items:
+    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
+    - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
+    - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
+  - type: UnityEngine.Rendering.Universal.PostProcessData
+    items:
+    - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+    - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
+    - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
+  - type: UnityEngine.Rendering.Universal.UniversalRendererData
+    items:
+    - {fileID: 11400000, guid: ba6e69114eba6af4585b7b850051b2d9, type: 2}
