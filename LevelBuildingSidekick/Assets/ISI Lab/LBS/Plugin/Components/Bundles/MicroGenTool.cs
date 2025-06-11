@@ -13,7 +13,8 @@ namespace LBS.Bundles
             Center,
             Side,
             WallSnap,
-            Random
+            Random,
+            CenterFloating
         }
 
         [Serializable]
@@ -24,12 +25,12 @@ namespace LBS.Bundles
             public float negativeZ;
             public float positiveZ;
 
-            public Margin(float negativeX, float positiveX, float negativeZ, float positiveZ)
+            public Margin(float _negativeX, float _positiveX, float _negativeZ, float _positiveZ)
             {
-                this.negativeX = negativeX;
-                this.positiveX = positiveX;
-                this.negativeZ = negativeZ;
-                this.positiveZ = positiveZ;
+                this.negativeX = _negativeX;
+                this.positiveX = _positiveX;
+                this.negativeZ = _negativeZ;
+                this.positiveZ = _positiveZ;
             }
 
             public Vector2 GetPointInside()
@@ -94,6 +95,10 @@ namespace LBS.Bundles
                         vec = -objTransform.forward * hit.distance;
                     }
                     break;
+                case  SpreadType.CenterFloating:
+                    vec = Vector3.up;
+                    break;
+                
             }
 
             return vec;
@@ -124,6 +129,7 @@ namespace LBS.Bundles
                 case 1: return margin.positiveZ;
                 case 2: return margin.positiveX;
                 case 3: return margin.negativeZ;
+                
                 default: return 0;
             }
         }

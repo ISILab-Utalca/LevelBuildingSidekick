@@ -25,7 +25,7 @@ MonoBehaviour:
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
-    spread: 0
+    spread: 4
     margin:
       negativeX: 1
       positiveX: 1

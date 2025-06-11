@@ -707,9 +707,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 0356b27d63ed56a4c9b6fa5b729c89f8, type: 3}
     - {fileID: 7433441132597879392, guid: 8f9ac38644e5f664ab13b4b78f1f3faa, type: 3}
     - {fileID: 7433441132597879392, guid: 012f251bbb5d36246a87499f75dd8b24, type: 3}
-  - type: ISILab.LBS.BackUp
-    items:
-    - {fileID: 11400000, guid: 73ef80c1f9e5e804fb553ce98758f3f2, type: 2}
   - type: ISILab.LBS.Internal.LBSAssetsStorage
     items:
     - {fileID: 11400000}
