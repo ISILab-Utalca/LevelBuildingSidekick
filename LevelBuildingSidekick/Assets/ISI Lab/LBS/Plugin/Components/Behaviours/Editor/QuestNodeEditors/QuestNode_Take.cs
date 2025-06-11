@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Manipulators;
+using LBS.VisualElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,7 +11,7 @@ namespace ISILab.LBS.VisualElements
     
     public class QuestNode_Take : NodeEditor
     {
-        private VeQuestTilePicker picker;
+        private VeQuestPickerBundle _pickerBundle;
 
         public QuestNode_Take()
         {
@@ -17,8 +19,8 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
             visualTree.CloneTree(this);
             
-            picker = this.Q<VeQuestTilePicker>("TakeTarget");
-            picker.SetInfo(
+            _pickerBundle = this.Q<VeQuestPickerBundle>("TakeTarget");
+            _pickerBundle.SetInfo(
                 "Take target", 
                 "the target in the graph that the player must take."
                 ,true); 
@@ -26,9 +28,26 @@ namespace ISILab.LBS.VisualElements
 
         }
 
-        public override void SetMyData(BaseQuestNodeData data)
+        public override void SetNodeData(BaseQuestNodeData data)
         {
- 
+            if(data is not DataTake currentData) return;
+                        
+             _pickerBundle.ClearPicker();
+                        
+             _pickerBundle._onClicked += () =>
+             {
+                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
+                 
+                 pickerManipulator.activeData = currentData;
+                 pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                 {
+                     currentData.bundleToTake.guid = pickedGuid;
+                     _pickerBundle.SetTarget(currentData.bundleToTake.guid, position);
+                 };
+             };
+                        
+             _pickerBundle.SetTarget(currentData.bundleToTake.guid, currentData.bundleToTake.position );
+
         }
     }
 

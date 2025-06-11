@@ -10,11 +10,10 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
     public class QuestNode_Stealth : NodeEditor
     {
         private ListView observerList;
-        private Vector2Field requiredPosition;
+        private VeQuestPickerVector2Int requiredPosition;
         private DataStealth currentData;
 
         public QuestNode_Stealth()
@@ -22,32 +21,51 @@ namespace ISILab.LBS.VisualElements
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
             visualTree.CloneTree(this);
+            
+            requiredPosition = this.Q<VeQuestPickerVector2Int>("RequiredPosition");
+            requiredPosition.SetInfo(
+                "Stealth Required Position", 
+                "The position within the graph, that the player must reach to complete the action node.");
+            requiredPosition._onClicked = () =>
+            {  
+                var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
+                if (pickerManipulator == null) return;
+                
+                pickerManipulator.activeData = currentData;
+                pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
+                {
+                    // Update the bundle data
+                    currentData.objective = pos;
 
-            requiredPosition = this.Q<Vector2Field>("RequiredPosition");
+                    // Refresh UI
+                    requiredPosition.SetTarget(pos);
+                };
+
+            };
+            
+            
+            
             observerList = this.Q<ListView>("ObserverList");
 
             if (observerList == null) return;
 
+            // Create UI element for each item
             observerList.makeItem = () =>
             {
-                var tilePicker = new VeQuestTilePicker();
+                observerList.itemsSource ??= currentData.bundlesObservers;
+                
+                var tilePicker = new VeQuestPickerBundle();
                 tilePicker.SetInfo("Observer target", "Objects that can detect the player.", true);
                 return tilePicker;
             };
 
+            // Bind each list item to bundleGraph
             observerList.bindItem = (element, i) =>
             {
-      
-                if (element is not VeQuestTilePicker tilePicker || currentData == null)
-                    return;
+                if (element is not VeQuestPickerBundle tilePicker || currentData == null) return;
+                if (i < 0 || i >= currentData.bundlesObservers.Count) return;
 
-                // Ensure the list has the correct number of entries
-                while (currentData.bundles.Count <= i)
-                    currentData.bundles.Add(new bundleGraph(string.Empty, Vector2Int.zero));
-                observerList.itemsSource = currentData.bundles; // update source
-                
-                
-                var bundleRef = currentData.bundles[i];
+                var bundleRef = currentData.bundlesObservers[i];
 
                 tilePicker.ClearPicker();
                 tilePicker.SetTarget(bundleRef.guid, bundleRef.position);
@@ -60,38 +78,42 @@ namespace ISILab.LBS.VisualElements
                         pickerManipulator.activeData = currentData;
                         pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
                         {
+                            // Update the bundle data
                             bundleRef.guid = pickedGuid;
                             bundleRef.position = pos;
+
+                            // Refresh UI
                             tilePicker.SetTarget(pickedGuid, pos);
-                            
+
+                            // Force re-assign to update the object inside the list if needed
+                            currentData.bundlesObservers[i] = bundleRef;
                         };
                     }
                 };
             };
 
+            // Handle item removal
             observerList.itemsRemoved += (removedIndices) =>
             {
                 foreach (int index in removedIndices.OrderByDescending(x => x))
                 {
-                    if (index >= 0 && index < currentData.bundles.Count)
-                        currentData.bundles.RemoveAt(index);
+                    if (index >= 0 && index < currentData.bundlesObservers.Count)
+                        currentData.bundlesObservers.RemoveAt(index);
                 }
+                observerList.Rebuild();
             };
-
-            // Prepare empty list first - on MakeItem assign proper source
-            observerList.itemsSource = new List<bundleGraph>();
-            observerList.Rebuild();
         }
 
-        public override void SetMyData(BaseQuestNodeData data)
+        public override void SetNodeData(BaseQuestNodeData data)
         {
             currentData = data as DataStealth;
             if (currentData == null) return;
 
-            observerList.itemsSource = currentData.bundles;
+            // Sync list
+            observerList.itemsSource = currentData.bundlesObservers;
             observerList.Rebuild();
+
+            requiredPosition.SetTarget(currentData.objective);
         }
-        
     }
-    
 }

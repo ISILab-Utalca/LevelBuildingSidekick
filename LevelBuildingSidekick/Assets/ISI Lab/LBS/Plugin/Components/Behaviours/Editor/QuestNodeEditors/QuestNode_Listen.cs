@@ -10,45 +10,41 @@ namespace ISILab.LBS.VisualElements
 {
     public class QuestNode_Listen : NodeEditor
     {
-        private VeQuestTilePicker picker;
-        private DataListen currentData;
+        private VeQuestPickerBundle _pickerBundle;
+        
         public QuestNode_Listen()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
             visualTree.CloneTree(this);
             
-            picker = this.Q<VeQuestTilePicker>("ListenTarget");
-            picker?.SetInfo(
+            _pickerBundle = this.Q<VeQuestPickerBundle>("ListenTarget");
+            _pickerBundle?.SetInfo(
                 "Listen target", 
                 "The target in the graph that the player must get close to, in order to complete this action node.", 
                 true);
             
         }
 
-        public override void SetMyData(BaseQuestNodeData data)
+        public override void SetNodeData(BaseQuestNodeData data)
         {
-            currentData = data as DataListen;
-            if(currentData is null) return;
+            if(data is not DataListen currentData) return;
             
-            picker.ClearPicker();
+            _pickerBundle.ClearPicker();
             
-            picker._onClicked += () =>
+            _pickerBundle._onClicked += () =>
             {
-                var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                if (pickerManipulator != null)
+                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
+                pickerManipulator.activeData = currentData;
+                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
                 {
-                    pickerManipulator.activeData = currentData;
-                    pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
-                    {
-                        currentData.bundleToListen.guid = pickedGuid;
-                        currentData.bundleToListen.position = position;
-                        picker.SetTarget(currentData.bundleToListen.guid, position);
-                    };
-                }
+                    currentData.bundleListenTo.guid = pickedGuid;
+                    currentData.bundleListenTo.position = position;
+                    _pickerBundle.SetTarget(currentData.bundleListenTo.guid, position);
+                };
             };
             
-            picker.SetTarget(currentData.bundleToListen.guid, currentData.bundleToListen.position );
+            _pickerBundle.SetTarget(currentData.bundleListenTo.guid, currentData.bundleListenTo.position );
             
         }
     }

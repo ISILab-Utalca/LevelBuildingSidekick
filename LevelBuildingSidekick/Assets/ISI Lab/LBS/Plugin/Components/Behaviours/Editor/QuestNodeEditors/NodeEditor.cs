@@ -5,6 +5,6 @@ namespace ISILab.LBS.VisualElements
 {
         public abstract class NodeEditor : VisualElement
         { 
-                public abstract void SetMyData(BaseQuestNodeData data);
+                public abstract void SetNodeData(BaseQuestNodeData data);
         }
 }

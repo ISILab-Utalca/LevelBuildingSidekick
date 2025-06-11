@@ -84,16 +84,17 @@ namespace ISILab.LBS.Manipulators
                         if (bundleTile != null) break;
                     }
                 }
-
-                if (bundleTile == null)
+                
+                var bundleDataGui = string.Empty;
+                
+                if (bundleTile != null)
                 {
-                    OnManipulationEnd.Invoke();
-                    return;
+                    var bundle = bundleTile.BundleData.Bundle;
+                    bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
+                    OnBundlePicked?.Invoke(bundleDataGui,location);
                 }
                 
-                var bundle = bundleTile.BundleData.Bundle;
-                string bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
-                OnBundlePicked?.Invoke(bundleDataGui,location);
+                OnBundlePicked?.Invoke(bundleDataGui, location);
             }
 
             behaviour.DataChanged(node);

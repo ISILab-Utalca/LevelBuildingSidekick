@@ -23,9 +23,9 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class VeQuestTilePicker : VisualElement
+    public partial class VeQuestPickerBundle : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<VeQuestTilePicker, UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<VeQuestPickerBundle, UxmlTraits> { }
         
         private ObjectField TargetBundle;
         private Vector2IntField TargetPosition;
@@ -36,7 +36,7 @@ namespace ISILab.LBS.VisualElements
 
 
         #region CONSTRUCTORS
-        public VeQuestTilePicker() : base()
+        public VeQuestPickerBundle() : base()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetBundle");
@@ -77,7 +77,7 @@ namespace ISILab.LBS.VisualElements
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                _onClicked.Invoke();
+                _onClicked?.Invoke();
             };
             
             Debug.Log("VeQuestTilePicker Created!");
@@ -91,10 +91,13 @@ namespace ISILab.LBS.VisualElements
        /// Call only during init of editor
        /// </summary>
        /// <param name="label">Description of target</param>
-       /// <param name="graphOnly">whether the target must be assigned from the graph</param>
+       /// <param name="graphOnly">whether the target must be assigned from the graph. if TRUE use position on SetTarget! ELSE ignore position.</param>
        public void SetInfo(string label, string tooltip, bool graphOnly = false)
        {
            string suffix = graphOnly ? " (In Graph)" : " (Type)";
+           // no need to display if we are selecting types!
+           TargetPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
+           
            TargetBundle.labelElement.text = label + suffix;
            TargetBundle.SetEnabled(!graphOnly);
            this.tooltip = tooltip;
@@ -104,11 +107,16 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Call whenever a active node is changed
         /// </summary>
-        /// <param name="guid"></param>
+        /// <param name="guid">The guid that belongs to the bundle that gets passed into the ObjectField</param>
+        /// <param name="position">The position Assigned to the Vector2Int. Ignore if on SetInfo -graphOnly- was set to false</param>
         public void SetTarget(string guid, Vector2Int position = default)
         {
-            var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
-            TargetBundle.value = bundle;
+            if (guid != string.Empty)
+            {
+                var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
+                TargetBundle.value = bundle;
+            }
+         
             
             TargetPosition.style.display = position == default ? DisplayStyle.None : DisplayStyle.Flex;
             TargetPosition.value = position;
@@ -117,7 +125,7 @@ namespace ISILab.LBS.VisualElements
         public void ClearPicker()
         {
             _onClicked = null;
-            _onBundleChanged = null;
+            //_onBundleChanged = null;
         }
         
         #endregion

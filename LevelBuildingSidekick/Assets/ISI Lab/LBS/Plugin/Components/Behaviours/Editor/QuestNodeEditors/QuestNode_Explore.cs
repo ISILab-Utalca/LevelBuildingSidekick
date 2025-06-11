@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
             useRandomPoint.value = false;
         }
 
-        public override void SetMyData(BaseQuestNodeData data)
+        public override void SetNodeData(BaseQuestNodeData data)
         {
             if (data is not DataExplore de) return;
             currentData = de;

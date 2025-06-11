@@ -1,5 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Manipulators;
+using LBS.VisualElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,6 +12,7 @@ namespace ISILab.LBS.VisualElements
     {
         private FloatField requiredCaptureTime;
         private Toggle resetOnExit;
+
         public QuestNode_Capture()
         {
             Clear();
@@ -21,9 +24,9 @@ namespace ISILab.LBS.VisualElements
             
         }
 
-        public override void SetMyData(BaseQuestNodeData data)
+        public override void SetNodeData(BaseQuestNodeData data)
         {
-           
+
         }
     }
 
