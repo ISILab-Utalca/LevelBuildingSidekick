@@ -72,6 +72,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region EVENTS
         public Action RemoveMapEntry;
+        public Action ApplyMapEntry;
         #endregion
 
         #region CONSTRUCTORS
@@ -106,6 +107,9 @@ namespace ISILab.LBS.VisualElements.Editor
             
             colorFillBar.style.backgroundColor = new StyleColor(new Color(0f, 1f, 0.68f, 0.8f));
 
+            //Right click stuff!
+            ContextualMenuManipulator m = new ContextualMenuManipulator(ResultManipulator);
+            m.target = this;
         }
         #endregion
 
@@ -129,7 +133,21 @@ namespace ISILab.LBS.VisualElements.Editor
                 break;
             }
         }
-
+        void ResultManipulator(ContextualMenuPopulateEvent evt)
+        {
+            // Apply Suggestion
+            evt.menu.AppendAction("Apply", action =>
+            {
+                ApplyMapEntry?.Invoke();
+            }
+            );
+            // Save Suggestion
+            evt.menu.AppendAction("Remove", action =>
+            {
+                RemoveMapEntry?.Invoke();
+            }
+            );
+        }
         private void SetColor(float score)
         {
             // normalize value 

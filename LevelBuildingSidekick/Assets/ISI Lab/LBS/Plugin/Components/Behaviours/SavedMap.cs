@@ -1,3 +1,4 @@
+using ISILab.AI.Categorization;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ namespace ISILab.LBS
     {
         #region FIELDS
         [SerializeField, JsonRequired]
-        protected BundleTileMap map;
+        protected BundleTilemapChromosome map;
         [SerializeField, JsonRequired]
         protected string mapName;
         [SerializeField, JsonRequired]
@@ -23,7 +24,7 @@ namespace ISILab.LBS
 
         #region PROPERTIES
         [JsonIgnore]
-        public BundleTileMap Map
+        public BundleTilemapChromosome Map
         {
             get => map;
             set => map = value;
@@ -50,7 +51,7 @@ namespace ISILab.LBS
         #endregion
 
         #region CONSTRUCTOR
-        public SavedMap(BundleTileMap map, string name, float score = 0, Texture2D image = null)
+        public SavedMap(BundleTilemapChromosome map, string name, float score = 0, Texture2D image = null)
         {
             this.map = map;
             this.mapName = name;
@@ -60,7 +61,7 @@ namespace ISILab.LBS
 
         public object Clone()
         {
-            var clonedMap = this.map.Clone() as BundleTileMap;
+            var clonedMap = this.map.Clone() as BundleTilemapChromosome;
             var savedMapClone = new SavedMap(clonedMap, mapName, savedScore, image);
             return savedMapClone;
         }
