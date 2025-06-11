@@ -781,6 +781,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
     - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
     - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
+    - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
   - type: UnityEngine.Rendering.Universal.PostProcessData
     items:
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
@@ -789,3 +790,7 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.Universal.UniversalRendererData
     items:
     - {fileID: 11400000, guid: ba6e69114eba6af4585b7b850051b2d9, type: 2}
+    - {fileID: 11400000, guid: 04c7a37efc9363541b4b4e265b5f8af3, type: 2}
+  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
+    items:
+    - {fileID: 11400000, guid: f6ea011cd1aeff9479cf79e6950b69a8, type: 2}
