@@ -72,6 +72,8 @@ namespace ISILab.LBS.VisualElements.Editor
             this.target = target;
             window = ScriptableObject.CreateInstance<PopulationAssistantWindow>();
             window.SetAssistant(target);
+
+            window.UpdatePins = null;
             window.UpdatePins += () =>
             {
                 Debug.Log("pins updated");
@@ -161,12 +163,15 @@ namespace ISILab.LBS.VisualElements.Editor
         private void UpdateMapEntries()
         {
             //Get population behavior = it's now TargetLayer!
-
             //Get saved maps
             if (TargetLayer == null) return;
             if (SavedMapList == null) return;
 
             var data = TargetLayer.Parent;
+            
+            //Clear map entries
+            mapEntries.Clear();
+
             if (SavedMapList.Count>0)
             {
                 foreach(SavedMap map in SavedMapList)

@@ -201,10 +201,21 @@ namespace ISILab.LBS
             }
             var list = GetSavedMaps(layer);
             //Add default name
-            newSavedMap.Name = list.Count == 0
-                ? "New Map"
-                : "New Map " + (list.Count + 1);
+            if (list.Count == 0)
+            {
+                newSavedMap.Name = "New Map";
+            } else
+            {
+                int counter;
+                counter = list.Count + 1;
+                foreach(SavedMap map in list.Maps)
+                {
+                    if(map.Name == "New Map " + counter) counter++;
+                }
+                newSavedMap.Name = "New Map " + counter;
+            }
             //Save
+            Debug.Log("saving " + newSavedMap.Name);
             list.Maps.Add(newSavedMap);
         }
         public SavedMapList GetSavedMaps(LBSLayer layer)
