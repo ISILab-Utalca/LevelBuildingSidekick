@@ -31,13 +31,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private ObjectField currentPreset;
 
-        private Toggle safeMode;
-
         public AssistantWFCEditor(object target) : base(target)
         {
             assistant = target as AssistantWFC;
             assistant.Bundle = GetExteriorBehaviour().Bundle;
             CreateVisualElement();
+            assistant.SafeMode = false;
         }
 
         public override void SetInfo(object target)

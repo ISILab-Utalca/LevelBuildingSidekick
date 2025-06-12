@@ -91,7 +91,7 @@ namespace ISILab.LBS.Assistants
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
-        public void TryExecute(int limit = 50)
+        public void TryExecute(int limit = 5)
         {
             // Get Bundle
             OnGUI();
@@ -108,12 +108,12 @@ namespace ISILab.LBS.Assistants
                 {
                     if (Execute())
                     {
-                        Debug.Log($"Generated after {i + 1} attempts.");
+                        Debug.Log($"Safely generated after {i + 1} attempts.");
                         return;
                     }
                 }
 
-                Debug.LogWarning($"Could not generate after {limit} attempts.");
+                Debug.LogWarning($"Could not safely generate after {limit} attempts.");
             }
             else Execute();
         }
@@ -181,44 +181,33 @@ namespace ISILab.LBS.Assistants
                 currentCalcs.Add(tile, candidates);
             }
 
-            var states = new List<WFCState>() { new WFCState(0, connected, toCalc, closed, currentCalcs) };
-            var originalTM = states[0].tileMap;
-            //var og = new List<LBSModule>() { OwnerLayer.GetModule<ConnectedTileMapModule>() };
-            //var originalTM = og.Clone()[0] as ConnectedTileMapModule;
-
+            List<WFCState> states = new List<WFCState>();
+            ConnectedTileMapModule originalTM = connected;
+            if(safeMode)
+            {
+                states.Add(new WFCState(0, connected, toCalc, closed, currentCalcs));
+                originalTM = states[0].tileMap;
+            }
             bool stepSuccess = true;
             int tryCount = 0;
+
             while (toCalc.Count > 0)
             {
                 tryCount++;
 
-
                 var _closed = new List<LBSTile>(closed);
 
-                //var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
-                //if (xx.Count <= 0)
-                //    break;
-                //
-                //var current = xx.OrderBy(e => e.Value.Count).First();
-                //
-                //if (current.Value.Count <= 0)
-                //{
-                //    Debug.Log(current.Key.Position + " no tiene posibles tile.");
-                //    toCalc.Remove(current.Key);
-                //    continue;
-                //}
+                var xx = safeMode ? 
+                    currentCalcs.Where(e => !closed.Contains(e.Key)).ToList() :
+                    currentCalcs.Where(e => e.Value.Count > 1).ToList();
 
-                //var _xx = currentCalcs.Where(e => !closed.Contains(e.Key)).ToList();
-                var xx = currentCalcs.Where(e => (e.Value.Count != 1 || !closed.Contains(e.Key))).ToList(); // Solo primera condicion se traba en el ultimo tile (frecuentemente)
-                                                                                                            // Solo la segunda condicion omite tiles finales si hay backtrack
-                if (xx.Count < 5)
-                    ;
                 if (xx.Count <= 0)
                     break;
+
                 var current = xx.OrderBy(e => e.Value.Count).First();
-                //_xx = null;
+
                 // If cannot generate next tile
-                if(!stepSuccess || current.Value.Count <= 0)
+                if(safeMode && (!stepSuccess || current.Value.Count <= 0))
                 {
                     // Decrease step retries
                     retryCount.Item2--;
@@ -249,19 +238,12 @@ namespace ISILab.LBS.Assistants
                     for (int i = 0; i < stepsToRevert; i++)
                         states.RemoveAt(0);
                     var prevState = states[0];
-                    //UnityEngine.Assertions.Assert.IsTrue(step == prevState.step);
                     connected.Rewrite(prevState.tileMap);
-                    toCalc = prevState.toCalc;
-                    closed = prevState.closed;
-                    currentCalcs = prevState.currentCalcs; //revisar clonacion
+                    toCalc = prevState.toCalc.Clone();
+                    closed = prevState.closed.Clone();
+                    currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
                     states.Reverse();
 
-                    //stateList.Reverse();
-                    //for (int i = 0; i < stepsToRevert; i++)
-                    //    stateList.RemoveAt(0);
-                    //var prevState = stateList[0];
-                    //connected.Rewrite(prevState);
-                    //stateList.Reverse();
                     stepSuccess = true;
                     Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
                     continue;
@@ -270,6 +252,7 @@ namespace ISILab.LBS.Assistants
                 stepSuccess = true;
 
                 var selected = current.Value.RandomRullete(c => c.weigth);
+                UnityEngine.Assertions.Assert.IsNotNull(selected);
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
@@ -302,8 +285,6 @@ namespace ISILab.LBS.Assistants
                         stepSuccess = false;
                         reCalc.Clear();
                         break;
-                        //connected.Rewrite(originalTM);
-                        //return false;
                     }
 
                     if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
@@ -335,19 +316,16 @@ namespace ISILab.LBS.Assistants
                     retryCount = (MAX_MEMORY, MAX_RETRIES);
                 }
 
-                // Save state
-                Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
-                states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
-                if(states.Count > MAX_MEMORY + 1)
+                if(safeMode)
                 {
-                    states.RemoveAt(0);
+                    // Save state
+                    Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
+                    states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
+                    if (states.Count > MAX_MEMORY + 1)
+                    {
+                        states.RemoveAt(0);
+                    }
                 }
-
-                //var st = new List<LBSModule>() { connected };
-                //var state = st.Clone()[0] as ConnectedTileMapModule;
-                //stateList.Add(state);
-                //if(stateList.Count > MAX_MEMORY + 1)
-                //    stateList.RemoveAt(0);
             }
 
             success = toCalc.Count == 0;
