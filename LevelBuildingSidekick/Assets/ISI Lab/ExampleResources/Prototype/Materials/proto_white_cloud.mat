@@ -107,7 +107,7 @@ Material:
     - _BUILTIN_ZWriteControl: 0
     - _Blend: 0.216
     - _BumpScale: 1
-    - _Clip: 0.5
+    - _Clip: 0
     - _CloudScale: 5.69
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -123,7 +123,7 @@ Material:
     - _Parallax: 0.02
     - _QueueControl: 1
     - _QueueOffset: 0
-    - _Scale: 0.46
+    - _Scale: 11.1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -132,7 +132,7 @@ Material:
     m_Colors:
     - _Color: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     - _EmissionColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 0}
-    - _Tint: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0.14117648}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0.08627451}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &5104098137476792096

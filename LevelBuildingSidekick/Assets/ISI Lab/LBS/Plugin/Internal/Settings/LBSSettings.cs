@@ -84,6 +84,7 @@ namespace ISILab.LBS.Settings
             // Folders data storages
             public string bundleFolderPath = "Assets/ISI Lab/LBS/Data/Bundles";
             public string tagFolderPath = "Assets/ISI Lab/LBS/Data/Tags";
+            public string meshFolderPath = "Assets/ISI Lab/LBS/Data/Meshes";
 
             // Folders extra storages
             public string iconPath = "Assets/ISI Lab/LBS/Plugin/Internal/Icons";
