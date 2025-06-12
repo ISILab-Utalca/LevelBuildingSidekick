@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
-using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
 using LBS.Components;
@@ -15,12 +14,9 @@ namespace ISILab.LBS.Generators
 
     public class QuestRuleGenerator : LBSGeneratorRule
     {
-        public QuestRuleGenerator()
-        { }
-
         public override List<Message> CheckViability(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override object Clone()
@@ -48,8 +44,7 @@ namespace ISILab.LBS.Generators
                 return Tuple.Create<GameObject, string>(null, "No quest graph found. Can't generate");
             }
             CloneRefs.End();
-
-            Dictionary<QuestNode, QuestTrigger> triggerMap = new();
+            
 
             if (!quest.QuestEdges.Any())
             {
@@ -58,7 +53,8 @@ namespace ISILab.LBS.Generators
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
             assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
-            bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+           // bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
+            bool allValid = true;
             if (!allValid)
             {
                 return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
@@ -78,10 +74,14 @@ namespace ISILab.LBS.Generators
                */
             foreach (var node in quest.QuestNodes)
             {
-                var go = new GameObject(node.ID);
-                go.transform.position = node.Target.Rect.position;
-                go.transform.parent = observer.transform;
-                
+                var go = new GameObject(node.ID)
+                {
+                    transform =
+                    {
+                        parent = observer.transform
+                    }
+                };
+
                 string tag = node.QuestAction.Trim().ToLowerInvariant();
 
                 // Get the proper trigger for the given quest node action
@@ -101,13 +101,25 @@ namespace ISILab.LBS.Generators
                 }
                 
                 var trigger = (QuestTrigger)go.AddComponent(triggerType);
+                var size = node.NodeData._size;
                 trigger.SetSize(new Vector3(
-                    1*settings.scale.x, 
-                    1*settings.scale.y, 
-                    1*settings.scale.y));
+                    size*settings.scale.x, 
+                    size*settings.scale.y, 
+                    size*settings.scale.y));
                 
-                trigger.SetData(node.NodeData); 
+                trigger.SetData(node); 
                 go.SetActive(false);
+              
+                var x = node.NodeData._position.x * settings.scale.x;
+                var z = node.NodeData._position.y * settings.scale.y;
+                var y = pivot.transform.position.y; // maybe change this to a line trace
+                var questPos= new Vector3(x, y, z);
+                
+                var basePos = settings.position;
+                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
+                
+                go.transform.position =   basePos + questPos - delta;
+                
             }
 
 
@@ -133,12 +145,14 @@ namespace ISILab.LBS.Generators
         {
             GameObject uiGameObject = new GameObject("UIDocument");
             UIDocument uiDocument = uiGameObject.AddComponent<UIDocument>();
+           
+            if (!uiGameObject) return;
             uiGameObject.AddComponent<QuestVisualTree>();
             var uiAsset = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestVisualTree");
             var panelSettings = LBSAssetMacro.LoadAssetByGuid<PanelSettings>("da6adae693698d3409943a20661e2031");
-            
-            if (uiAsset == null || panelSettings == null) return; 
-            
+
+            if (!uiAsset || !panelSettings) return;
+
             uiDocument.visualTreeAsset = uiAsset;
             uiDocument.panelSettings = panelSettings;
             uiGameObject.transform.SetParent(pivotTransform);

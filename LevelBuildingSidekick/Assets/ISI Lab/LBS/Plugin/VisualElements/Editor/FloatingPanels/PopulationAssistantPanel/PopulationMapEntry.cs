@@ -22,11 +22,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement bar; // contains the progress bar and label
         private VisualElement placeholderImage;
         private VisualElement colorFillBar;
-        
+
         private Label mapName;
-        
         private Foldout entryFoldout;
-        
         private Button buttonRemove;
 
         private ProgressBar progressBar; // contains the progress bar and label
@@ -34,26 +32,47 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private MAPElitesPreset entryMap;
-    
+        private SavedMap entryMap;
+
+        // result
+        private object data;
+        // value/score of the generated result
+        private float score;
+
         #endregion
 
         #region EVENTS
-       // public Action OnExecute;
+        // public Action OnExecute;
         #endregion
 
         #region PROPERTIES
-
-        public MAPElitesPreset EntryMap
+        public SavedMap EntryMap
         {
             get => entryMap;
             set => entryMap = value;
         }
+        public string Name
+        {
+            get => mapName.text;
+            set => mapName.text = value;
+        }
+        public object Data
+        {
+            get => data;
+            set => data = value;
+        }
+        public float Score
+        {
+            get => score;
+            set => score = value;
+        }
+
         #endregion
-        
-        
+
+
         #region EVENTS
         public Action RemoveMapEntry;
+        public Action ApplyMapEntry;
         #endregion
 
         #region CONSTRUCTORS
@@ -88,6 +107,9 @@ namespace ISILab.LBS.VisualElements.Editor
             
             colorFillBar.style.backgroundColor = new StyleColor(new Color(0f, 1f, 0.68f, 0.8f));
 
+            //Right click stuff!
+            ContextualMenuManipulator m = new ContextualMenuManipulator(ResultManipulator);
+            m.target = this;
         }
         #endregion
 
@@ -111,11 +133,25 @@ namespace ISILab.LBS.VisualElements.Editor
                 break;
             }
         }
-
+        void ResultManipulator(ContextualMenuPopulateEvent evt)
+        {
+            // Apply Suggestion
+            evt.menu.AppendAction("Apply", action =>
+            {
+                ApplyMapEntry?.Invoke();
+            }
+            );
+            // Save Suggestion
+            evt.menu.AppendAction("Remove", action =>
+            {
+                RemoveMapEntry?.Invoke();
+            }
+            );
+        }
         private void SetColor(float score)
         {
             // normalize value 
-            var percentage = score / 100f;
+            var percentage = (score)*100f;
             progressBar.value = percentage;
             
             //interpolate color based on score value
@@ -130,12 +166,17 @@ namespace ISILab.LBS.VisualElements.Editor
             image.style.backgroundImage = texture;
         }
 
-        public void SetData(MAPElitesPreset mapEntry)
+        public void SetData(SavedMap mapEntry)
         {
-            // Based on the data
             entryMap = mapEntry;
-            // SetMapImage();
-            // SetColor();
+            //Name
+            Name = mapEntry.Name;
+            Score = mapEntry.Score;
+            Data = mapEntry.Map;
+            // Based on the data
+
+            SetMapImage(mapEntry.Image);
+            SetColor(Score);
 
         }
     }

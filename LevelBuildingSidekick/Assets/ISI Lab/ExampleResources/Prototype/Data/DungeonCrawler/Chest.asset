@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: 
-  layerContentFlags: 2
+  layerContentFlags: 4
   type: 2
   anchorPosition: 0
   color: {r: 0.97647065, g: 0.7803922, b: 0.30980393, a: 1}

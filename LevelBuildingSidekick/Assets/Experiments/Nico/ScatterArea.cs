@@ -2,6 +2,7 @@ using ISILab.Extensions;
 using UnityEngine;
 using Unity.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.Jobs;
 
 namespace Experiments.Nico
@@ -15,6 +16,13 @@ namespace Experiments.Nico
         public Mesh meshToInstance;
         
         public bool clearPrevious = false;
+        
+        [Category("MeshTransforms")]
+        public Vector2 randomRotationRange = new Vector2(-180, 180);
+        [Range(0, 4)]
+        public float baseScale = 1;
+        [Range(0, 1)]
+        public float scaleVariation = 0;
         
         public void RunCommand()
         {
@@ -34,7 +42,7 @@ namespace Experiments.Nico
                 for (int i = 0; i < iterations; i++)
                 {
                     Vector3 origin = baseCollider.bounds.center;
-                    Vector3 direction = GenerateRandomDirection() * radius;
+                    Vector3 direction = (GenerateRandomDirection() * radius);
                     commandsBuffer[i] = new RaycastCommand(origin, direction, QueryParameters.Default);
                 }
                 
@@ -68,9 +76,9 @@ namespace Experiments.Nico
         static Vector3 GenerateRandomDirection()
         {
             Vector3 direction;
-            direction.x = UnityEngine.Random.Range(-1f, 1f);
-            direction.y = UnityEngine.Random.Range(-1f, 1f);
-            direction.z = UnityEngine.Random.Range(-1f, 1f);
+            direction.x = Random.Range(-1f, 1f);
+            direction.y = Random.Range(-1f, 1f);
+            direction.z = Random.Range(-1f, 1f);
             direction.Normalize();
             return direction;
         }
@@ -85,7 +93,9 @@ namespace Experiments.Nico
             
             go.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
             go.transform.position = point;
-            go.transform.LookAt(point + normal);
+            //go.transform.LookAt(point + normal);
+            go.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal); // set the y.axis align to noraml
+            //go.transform.Rotate(90, 0, 0);
             go.SetParent(this.gameObject);
             //Mesh meshCopy = Instantiate(meshToInstance);
             
