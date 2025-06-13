@@ -7,6 +7,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Components;
 using ISILab.LBS.VisualElements;
+using UnityEditor.Experimental.GraphView;
 
 namespace ISILab.LBS.Drawers
 {
@@ -33,22 +34,9 @@ namespace ISILab.LBS.Drawers
             List<(object, Empty)> cViews = new();
             foreach (var zone in zones)
             {
-                // Create node view
-                var nView = new LBSNodeView();
-
-                var tiles = assistant.GetTiles(zone);
-                var bound = tiles.GetBounds();
-
-                // Set position
-                var pos = new Vector2(
-                    bound.center.x * nodeSize.x - nodeSize.x / 2f,
-                    -(bound.center.y * nodeSize.y - nodeSize.y / 2f));
-
-                // Set view values
-                nView.SetPosition(new Rect(pos, nodeSize));
-                nView.SetText(zone.ID);
-                nView.SetColor(zone.Color);
-
+                // Create node
+                var nView = CreateNode(assistant, zone);
+                
                 // add node view to list
                 nViews.Add((zone, nView));
 
@@ -146,6 +134,27 @@ namespace ISILab.LBS.Drawers
             cViews.Add(c2);
 
             return cViews;
+        }
+
+        private LBSNodeView CreateNode(HillClimbingAssistant assistant, Zone zone)
+        {
+            // Create node view
+            var nView = new LBSNodeView();
+
+            var tiles = assistant.GetTiles(zone);
+            var bound = tiles.GetBounds();
+
+            // Set position
+            var pos = new Vector2(
+                bound.center.x * nodeSize.x - nodeSize.x / 2f,
+                -(bound.center.y * nodeSize.y - nodeSize.y / 2f));
+
+            // Set view values
+            nView.SetPosition(new Rect(pos, nodeSize));
+            nView.SetText(zone.ID);
+            nView.SetColor(zone.Color);
+
+            return nView;
         }
     }
 }

@@ -44,6 +44,11 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             return pairs.Remove(obj, out var list) ? list : null;
         }
+        
+        public List<GraphElement> GetElement(object obj)
+        {
+            return pairs.GetValueOrDefault(obj);
+        }
 
 
         public void Repaint(object obj)
@@ -286,17 +291,16 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if (!layers.TryGetValue(layer, out var container)) return;
             
-            // If deepClean, then remove everything, not only expired tiles
+            // Remove all elements
             if (deepClean)
             {
-                var gElements = container.Clear();
-                foreach (var gElement in gElements)
+                foreach (var element in container.Clear())
                 {
-                    RemoveElement(gElement);
+                    RemoveElement(element);
                 }
             }
             
-            // Removing expired tiles
+            // Remove only expired tiles
             foreach (var behaviour in layer.Behaviours)
             {
                 foreach (var tile in behaviour.RetrieveExpiredTiles())

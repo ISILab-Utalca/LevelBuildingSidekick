@@ -559,9 +559,12 @@ namespace LBS.Components
             return base.GetHashCode();
         }
 
-        public override string ToString()
+        public void CleanGraphViews()
         {
-            return base.ToString();
+            foreach (var behaviour in behaviours)
+            {
+                
+            }
         }
 
 
