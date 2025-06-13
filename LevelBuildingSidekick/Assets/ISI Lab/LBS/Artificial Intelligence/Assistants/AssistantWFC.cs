@@ -118,25 +118,6 @@ namespace ISILab.LBS.Assistants
             else Execute();
         }
 
-        class WFCState
-        {
-            public int step;
-            public ConnectedTileMapModule tileMap;
-            public List<LBSTile> toCalc;
-            public List<LBSTile> closed = new List<LBSTile>();
-            public Dictionary<LBSTile, List<Candidate>> currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
-
-            public WFCState(int step, ConnectedTileMapModule tileMap, List<LBSTile> toCalc, List<LBSTile> closed, Dictionary<LBSTile, List<Candidate>> currentCalcs)
-            {
-                this.step = step;
-                var tm = new List<LBSModule>() { tileMap };
-                this.tileMap = tm.Clone()[0] as ConnectedTileMapModule;
-                this.toCalc = toCalc.Clone();
-                this.closed = closed.Clone();
-                this.currentCalcs = currentCalcs.Clone();
-            }
-        }
-
         /// <summary>
         /// This new version, is similar but it constraints where the wave function collapse is applied, to the selected tiles only
         /// </summary>
@@ -146,9 +127,10 @@ namespace ISILab.LBS.Assistants
 
             //var stateList = new List<ConnectedTileMapModule>() { originalTM };
 
-            const int MAX_MEMORY = 3, MAX_RETRIES = 3;
+            const int MAX_MEMORY = 3, MAX_RETRIES = 5;
             (int, int) retryCount = (MAX_MEMORY, MAX_RETRIES);
             int step = 0, maxStep = 0;
+            int saveStateInterval = 10;
 
             var bundle = targetBundleRef;
 
@@ -224,7 +206,7 @@ namespace ISILab.LBS.Assistants
                         }
                     }
                     // Determines target step and number of steps to revert
-                    int offset = MAX_MEMORY + 1 - retryCount.Item1;
+                    int offset = (MAX_MEMORY - retryCount.Item1) * saveStateInterval + (maxStep % saveStateInterval);
                     int targetStep = maxStep - offset;
                     int stepsToRevert = step - targetStep;
                     step = targetStep;
@@ -234,8 +216,10 @@ namespace ISILab.LBS.Assistants
                         return false;
                     }
 
+                    int statesToRevert = stepsToRevert / saveStateInterval;
+
                     states.Reverse();
-                    for (int i = 0; i < stepsToRevert; i++)
+                    for (int i = 0; i < statesToRevert; i++)
                         states.RemoveAt(0);
                     var prevState = states[0];
                     connected.Rewrite(prevState.tileMap);
@@ -318,12 +302,15 @@ namespace ISILab.LBS.Assistants
 
                 if(safeMode)
                 {
-                    // Save state
                     Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
-                    states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
-                    if (states.Count > MAX_MEMORY + 1)
+                    if(step % saveStateInterval == 0)
                     {
-                        states.RemoveAt(0);
+                        // Save state
+                        states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
+                        if (states.Count > MAX_MEMORY + 1)
+                        {
+                            states.RemoveAt(0);
+                        }
                     }
                 }
             }
@@ -756,6 +743,25 @@ namespace ISILab.LBS.Assistants
         public object Clone()
         {
             return new Candidate(weigth, bundle, rotation);
+        }
+    }
+
+    class WFCState
+    {
+        public int step;
+        public ConnectedTileMapModule tileMap;
+        public List<LBSTile> toCalc;
+        public List<LBSTile> closed = new List<LBSTile>();
+        public Dictionary<LBSTile, List<Candidate>> currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
+
+        public WFCState(int step, ConnectedTileMapModule tileMap, List<LBSTile> toCalc, List<LBSTile> closed, Dictionary<LBSTile, List<Candidate>> currentCalcs)
+        {
+            this.step = step;
+            var tm = new List<LBSModule>() { tileMap };
+            this.tileMap = tm.Clone()[0] as ConnectedTileMapModule;
+            this.toCalc = toCalc.Clone();
+            this.closed = closed.Clone();
+            this.currentCalcs = currentCalcs.Clone();
         }
     }
 }
