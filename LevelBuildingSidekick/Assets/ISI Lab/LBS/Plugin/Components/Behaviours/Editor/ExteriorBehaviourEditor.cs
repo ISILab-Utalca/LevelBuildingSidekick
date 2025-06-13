@@ -149,6 +149,7 @@ namespace ISILab.LBS.VisualElements
             exterior.OwnerLayer.OnChange += () =>
             {
                 bundleField.SetValueWithoutNotify(exterior.Bundle);
+                CheckTargetBundle();
             };
             
             return this;
