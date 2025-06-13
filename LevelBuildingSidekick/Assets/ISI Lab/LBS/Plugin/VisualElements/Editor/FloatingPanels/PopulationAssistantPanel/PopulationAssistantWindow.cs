@@ -24,6 +24,7 @@ using ISILab.AI.Categorization;
 using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
+using UnityEditor.Graphs;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -84,6 +85,7 @@ namespace ISILab.LBS.VisualElements.Editor
         
         //Parameters' graphic
         private VisualElement graphOfHell;
+        private PopulationAssistantGraph hellGraph;
 
         #endregion
 
@@ -118,6 +120,12 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
+        protected PopulationAssistantGraph CurrentGraph
+        {
+            get => hellGraph;
+            set => hellGraph = value;
+        }
+
         protected PopulationBehaviour LayerPopulation
         {
             get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
@@ -128,6 +136,7 @@ namespace ISILab.LBS.VisualElements.Editor
         // public Action OnExecute;
         public Action<string> OnPresetChanged;
         public Action UpdatePins;
+        public Action<IOptimizable> OnValuesUpdated;
         #endregion
 
         #region PROPERTIES
@@ -278,11 +287,14 @@ namespace ISILab.LBS.VisualElements.Editor
             graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
             
             //Create and add VisualElement: PopulationAssistantGraph to the container
-            PopulationAssistantGraph graph = new(new[] { 0, 0.2f, 0.4f, 0.6f, 0.8f, 1 }, 2);
-            graphOfHell.Add(graph);
+            hellGraph = new(new[] { 0f, 0f, 0f }, 2);
+            SetGraph();
+            graphOfHell.Add(hellGraph);
             
+
             //Modify graph's colors (not necessary, it comes with default colors)
-            graph.MainColor = Color.green;
+            //graph = new(new[] { 0f, 0f, 0f }, 2);
+            /*graph.MainColor = Color.green;
             graph.SecondaryColor = Color.cyan;
             
             //Change axes color
@@ -300,7 +312,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 Debug.LogError("Can't SetAxisValue: Index out of range");
             }
-            graph.RecalculateCorners(); //Important after changing axes' values
+            graph.RecalculateCorners(); //Important after changing axes' values*/
             
             ySlider = rootVisualElement.Q<Slider>("YSlider");
             xSlider = rootVisualElement.Q<Slider>("XSlider");
@@ -671,8 +683,30 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             selectedMap = buttonResult;
             buttonResult.OnButtonSelected?.Invoke();
+            OnValuesUpdated?.Invoke(mapData);
         }
 
+        void SetGraph()
+        {
+            //Modify graph's colors (not necessary, it comes with default colors)
+            CurrentGraph.MainColor = Color.green;
+            CurrentGraph.SecondaryColor = Color.cyan;
+
+            CurrentGraph.SetAxisColor(Color.blue, 0);
+            CurrentGraph.SetAxisColor(Color.red, 1);
+            CurrentGraph.SetAxisColor(Color.green, 2);
+
+            OnValuesUpdated = null;
+            OnValuesUpdated += (optimizable) => {
+                var opt = optimizable as IOptimizable;
+                Debug.Log("calling;");
+                CurrentGraph.SetAxisValue((float)opt.Fitness, 0);
+                CurrentGraph.SetAxisValue((float)opt.xFitness, 1);
+                CurrentGraph.SetAxisValue((float)opt.yFitness, 2);
+                CurrentGraph.RecalculateCorners();
+                CurrentGraph.MarkDirtyRepaint();
+            };
+        }
         #endregion
 
         #region OTHER METHODS
@@ -725,7 +759,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }*/
 
-        //To keep the grid updated
-        #endregion
+            //To keep the grid updated
+            #endregion
+        }
     }
-}

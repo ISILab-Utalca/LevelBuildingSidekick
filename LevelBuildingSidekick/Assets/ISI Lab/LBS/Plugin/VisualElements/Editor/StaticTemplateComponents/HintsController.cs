@@ -78,9 +78,9 @@ namespace ISILab.LBS.VisualElements.Editor
             if (gotoWebButton != null)
             {
                 gotoWebButton.clicked += GotoWebButtonOnclicked;
-                Debug.Log("InButton");
+                //Debug.Log("InButton");
             }
-            Debug.Log("OffButton");
+            //Debug.Log("OffButton");
             
             tooltipTab = this.Q<VisualElement>("TooltipTab");
             tutorialTab = this.Q<VisualElement>("TutorialTab");

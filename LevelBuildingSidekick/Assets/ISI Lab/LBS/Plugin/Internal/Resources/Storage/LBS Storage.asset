@@ -16,7 +16,6 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.VolumeProfile
     items:
     - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
     - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
     - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
   - type: LBS.Bundles.Bundle
@@ -825,3 +824,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
     - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+  - type: ISILab.LBS.BackUp
+    items:
+    - {fileID: 0}
