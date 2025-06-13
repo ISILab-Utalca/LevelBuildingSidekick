@@ -11,6 +11,7 @@ namespace ISILab.LBS.Behaviours
     public class QuestNodeBehaviour : LBSBehaviour
     {
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
+        
         private QuestNode _selectedQuestNode;
         /// <summary>
         /// Assigned from the QuestNodeView On MouseDown event. It will assign the current selected node, allowing to
@@ -27,7 +28,6 @@ namespace ISILab.LBS.Behaviours
         }
         
         public event Action<QuestNode> OnQuestNodeSelected;
-        public event Action<QuestNode> OnQuestDataChanged;
         
         public QuestNodeBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
@@ -52,6 +52,6 @@ namespace ISILab.LBS.Behaviours
         {
         }
         
-        public void DataChanged(QuestNode node) {OnQuestDataChanged?.Invoke(node);}
+        public void DataChanged(QuestNode node) {OnQuestNodeSelected?.Invoke(node);}
     }
 }

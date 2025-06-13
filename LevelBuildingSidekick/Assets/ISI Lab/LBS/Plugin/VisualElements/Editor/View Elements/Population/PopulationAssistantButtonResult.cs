@@ -12,6 +12,7 @@ using UnityEditor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
 using Object = UnityEngine.Object;
+using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -36,6 +37,7 @@ namespace ISILab.LBS.VisualElements.Editor
         //Button to show highlights
         public VisualElement selectBorder;
         public Button selectButton;
+        public ToolbarMenu toolBar;
         #endregion
 
         #region FIELDS
@@ -54,6 +56,10 @@ namespace ISILab.LBS.VisualElements.Editor
         //Checks if the button is selected or not.
         public Action OnButtonDeselected;
         public Action OnButtonSelected;
+        //Right click buttons
+        public Action OnApplySuggestion;
+        public Action OnSaveSuggestion;
+
         #endregion
 
         #region PROPERTIES
@@ -105,10 +111,29 @@ namespace ISILab.LBS.VisualElements.Editor
                 loadingIcon.visible = customImage.style.backgroundImage != null ? false : true;
                 canHighlight = customImage.style.backgroundImage != null ? true : false;
             };
-
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
 
+            //Right click stuff
+
+            ContextualMenuManipulator m = new ContextualMenuManipulator(ResultManipulator);
+            m.target = this;
+        }
+
+        void ResultManipulator(ContextualMenuPopulateEvent evt)
+        {
+            // Apply Suggestion
+            evt.menu.AppendAction("Apply", action =>
+            {
+                if (Data != null) OnApplySuggestion?.Invoke();
+            }
+            );
+            // Save Suggestion
+            evt.menu.AppendAction("Pin", action =>
+            {
+                if (Data != null) OnSaveSuggestion?.Invoke();
+            }
+            );
         }
 
         private void OnMouseEnter(MouseEnterEvent evt)

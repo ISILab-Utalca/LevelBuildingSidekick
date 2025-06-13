@@ -15,83 +15,12 @@
                 <ui:Label text="Label" name="ParamID" style="align-self: center; align-items: center; justify-content: center; align-content: stretch;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="InfoTypes" style="flex-grow: 1; min-width: auto; background-size: 100% 0;">
-            <ui:VisualElement name="ObjectFieldVe" style="flex-grow: 0; display: flex; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
-                <ui:VisualElement style="flex-grow: 1; flex-direction: row; min-height: 24px; max-height: 24px; align-self: stretch; justify-content: flex-end; align-items: center; align-content: stretch; margin-top: 4px; margin-bottom: 4px;">
-                    <ui:Label text="Entities Count" style="-unity-text-align: middle-left;" />
-                    <ui:VisualElement style="flex-grow: 1;" />
-                    <ui:IntegerField value="42" name="TargetCount" />
-                    <ui:Button text="&#10;" name="TargetCountDecrease" style="min-width: 18px; max-width: 16px; background-image: resource(&apos;Icons/Vectorial/Icon=460&apos;); min-height: 24px; max-height: 24px; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-background-scale-mode: scale-and-crop; background-size: 10px 15%; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
-                    <ui:Button name="TargetCountIncrease" enable-rich-text="false" style="min-width: 18px; max-width: 16px; background-image: resource(&apos;Icons/Vectorial/Icon=Minus1&apos;); min-height: 24px; max-height: 24px; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-background-scale-mode: scale-and-crop; background-size: 10px 45%; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
-                </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 0; min-width: auto; min-height: auto; max-height: none; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-content: flex-start; align-self: auto; justify-content: flex-start; align-items: stretch; flex-shrink: 0; border-left-color: rgb(37, 37, 37); border-right-color: rgb(37, 37, 37); border-top-color: rgb(37, 37, 37); border-bottom-color: rgb(37, 37, 37); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 32px; align-self: stretch; justify-content: space-evenly; align-items: center; align-content: stretch; margin-bottom: 8px;">
-                        <ui:Label text="Target" style="margin-right: 12px;" />
-                        <ui:VisualElement style="flex-grow: 1; max-height: 28px; min-height: 28px;">
-                            <ui:Label text="Actor Entity" style="-unity-text-align: middle-center; background-color: rgb(60, 60, 60); border-left-color: rgb(99, 99, 99); border-right-color: rgb(99, 99, 99); border-top-color: rgb(99, 99, 99); border-bottom-color: rgb(99, 99, 99); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; max-height: 32px; flex-grow: 1; flex-shrink: 1;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start;">
-                        <ui:Button icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=ToolColor_Picker.svg?fileID=7388822144124034973&amp;guid=f53f51dae7956eb4b99123e868e99d67&amp;type=3#Icon=ToolColor_Picker" name="PickerTarget" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; min-width: 24px; max-width: 24px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
-                        <uie:ObjectField label="Selected" type="LBS.Bundles.Bundle, LBS" name="TargetFieldBundle" style="align-self: flex-start; -unity-text-align: middle-left; justify-content: space-around; align-items: center; align-content: stretch; flex-grow: 1;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="OtherTargetFieldVe" style="flex-grow: 0; display: flex; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
-                <ui:VisualElement style="flex-grow: 1; flex-direction: row; min-height: 24px; max-height: 24px; align-self: stretch; justify-content: flex-end; align-items: center; align-content: stretch; margin-top: 4px; margin-bottom: 4px;">
-                    <ui:Label text="Other Entities Count" style="-unity-text-align: middle-left;" />
-                    <ui:VisualElement style="flex-grow: 1;" />
-                    <ui:IntegerField value="42" name="OtherTargetCount" />
-                    <ui:Button text="&#10;" name="OtherTargetCountDecrease" style="min-width: 18px; max-width: 16px; background-image: resource(&apos;Icons/Vectorial/Icon=460&apos;); min-height: 24px; max-height: 24px; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-background-scale-mode: scale-and-crop; background-size: 10px 15%; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
-                    <ui:Button name="OtherTargetCountIncrease" enable-rich-text="false" style="min-width: 18px; max-width: 16px; background-image: resource(&apos;Icons/Vectorial/Icon=Minus1&apos;); min-height: 24px; max-height: 24px; -unity-background-image-tint-color: rgb(255, 255, 255); -unity-background-scale-mode: scale-and-crop; background-size: 10px 45%; border-left-color: rgb(32, 32, 32); border-right-color: rgb(32, 32, 32); border-top-color: rgb(32, 32, 32); border-bottom-color: rgb(32, 32, 32); border-top-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0;" />
-                </ui:VisualElement>
-                <ui:VisualElement style="flex-grow: 0; min-width: auto; min-height: auto; max-height: none; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-content: flex-start; align-self: auto; justify-content: flex-start; align-items: stretch; flex-shrink: 0; border-left-color: rgb(37, 37, 37); border-right-color: rgb(37, 37, 37); border-top-color: rgb(37, 37, 37); border-bottom-color: rgb(37, 37, 37); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 32px; align-self: stretch; justify-content: space-evenly; align-items: center; align-content: stretch; margin-bottom: 8px;">
-                        <ui:Label text="Other Target" style="margin-right: 12px;" />
-                        <ui:VisualElement style="flex-grow: 1; max-height: 28px; min-height: 28px;">
-                            <ui:Label text="Actor Entity" style="-unity-text-align: middle-center; background-color: rgb(60, 60, 60); border-left-color: rgb(99, 99, 99); border-right-color: rgb(99, 99, 99); border-top-color: rgb(99, 99, 99); border-bottom-color: rgb(99, 99, 99); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; max-height: 32px; flex-grow: 1; flex-shrink: 1;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start;">
-                        <ui:VisualElement style="flex-grow: 1; min-height: 24px; min-width: 24px; max-width: 24px; max-height: 24px; background-image: resource(&apos;Icons/Vectorial/Icon=CuentaGotas&apos;); align-self: center; background-color: rgb(83, 83, 83); background-size: 50% 50%; border-left-color: rgb(45, 45, 45); border-right-color: rgb(45, 45, 45); border-top-color: rgb(45, 45, 45); border-bottom-color: rgb(45, 45, 45); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; display: none;" />
-                        <uie:ObjectField label="Selected Type" type="LBS.Bundles.Bundle, LBS" name="OtherTargetFieldBundle" style="align-self: flex-start; -unity-text-align: middle-left; justify-content: space-around; align-items: center; align-content: stretch; flex-grow: 1;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="Vector2DVe" style="flex-grow: 0; display: flex; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
-                <ui:VisualElement style="flex-grow: 0; min-width: auto; min-height: auto; max-height: none; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-content: flex-start; align-self: auto; justify-content: flex-start; align-items: stretch; flex-shrink: 0; border-left-color: rgb(37, 37, 37); border-right-color: rgb(37, 37, 37); border-top-color: rgb(37, 37, 37); border-bottom-color: rgb(37, 37, 37); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 32px; align-self: stretch; justify-content: space-evenly; align-items: center; align-content: stretch; margin-bottom: 8px;">
-                        <ui:Label text="Target" style="margin-right: 12px;" />
-                        <ui:VisualElement style="flex-grow: 1; max-height: 28px; min-height: 28px;">
-                            <ui:Label text="Location" style="-unity-text-align: middle-center; background-color: rgb(60, 60, 60); border-left-color: rgb(99, 99, 99); border-right-color: rgb(99, 99, 99); border-top-color: rgb(99, 99, 99); border-bottom-color: rgb(99, 99, 99); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; max-height: 32px; flex-grow: 1; flex-shrink: 1;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start; align-content: stretch; align-self: stretch; align-items: auto;">
-                        <ui:Button icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=ToolColor_Picker.svg?fileID=7388822144124034973&amp;guid=f53f51dae7956eb4b99123e868e99d67&amp;type=3#Icon=ToolColor_Picker" name="PickerLocation" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; min-width: 24px; max-width: 24px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
-                        <ui:Vector2IntField label="Target Location" name="Vector2LocationInput" style="justify-content: flex-start; align-items: flex-end; align-self: center; align-content: auto; flex-grow: 1;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="ConstraintVe" style="flex-grow: 0; display: flex; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;">
-                <ui:VisualElement style="flex-grow: 0; min-width: auto; min-height: auto; max-height: none; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; align-content: flex-start; align-self: auto; justify-content: flex-start; align-items: stretch; flex-shrink: 0; border-left-color: rgb(37, 37, 37); border-right-color: rgb(37, 37, 37); border-top-color: rgb(37, 37, 37); border-bottom-color: rgb(37, 37, 37); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 32px; align-self: stretch; justify-content: space-evenly; align-items: center; align-content: stretch; margin-bottom: 8px;">
-                        <ui:Label text="Target" style="margin-right: 12px;" />
-                        <ui:VisualElement style="flex-grow: 1; max-height: 28px; min-height: 28px;">
-                            <ui:Label text="Constraint" style="-unity-text-align: middle-center; background-color: rgb(60, 60, 60); border-left-color: rgb(99, 99, 99); border-right-color: rgb(99, 99, 99); border-top-color: rgb(99, 99, 99); border-bottom-color: rgb(99, 99, 99); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; max-height: 32px; flex-grow: 1; flex-shrink: 1;" />
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start; align-content: stretch; align-self: stretch; align-items: auto;">
-                        <ui:IntegerField label="Target Location Size" value="10" name="AreaSizeInput" style="align-self: center; flex-grow: 1;" />
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row; max-height: 24px; min-height: 24px; justify-content: flex-start; align-content: stretch; align-self: stretch; align-items: auto;">
-                        <ui:FloatField label="Stay Time Required (Seconds)" value="1" max-length="100000" name="StayTimeInput" style="flex-grow: 1;" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="NoNodeSelectedPanel" style="flex-grow: 1; flex-direction: row; max-height: 48px;">
-                <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Important&apos;); -unity-background-scale-mode: scale-and-crop; background-size: 100% 100%; min-height: 36px; max-height: 36px; min-width: 36px; max-width: 36px; align-self: center; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
-                <ui:Label text="No node is currently selected." style="align-self: center; padding-left: 12px; justify-content: space-between; align-content: stretch; align-items: stretch; flex-grow: 1;" />
-            </ui:VisualElement>
+        <ui:VisualElement name="NoNodeSelectedPanel" style="flex-grow: 1; flex-direction: row; max-height: 48px;">
+            <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Important&apos;); -unity-background-scale-mode: scale-and-crop; background-size: 100% 100%; min-height: 36px; max-height: 36px; min-width: 36px; max-width: 36px; align-self: center; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
+            <ui:Label text="No node is currently selected." style="align-self: center; padding-left: 12px; justify-content: space-between; align-content: stretch; align-items: stretch; flex-grow: 1;" />
         </ui:VisualElement>
+        <ISILab.LBS.VisualElements.PickerVector2Int name="TargetPosition" />
+        <ui:FloatField label="Trigger Size" value="42.2" name="Size" style="margin-bottom: 6px;" />
+        <ui:VisualElement name="InstancedContent" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>

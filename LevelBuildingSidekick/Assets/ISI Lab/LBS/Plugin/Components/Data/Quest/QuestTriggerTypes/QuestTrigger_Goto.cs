@@ -12,10 +12,10 @@ namespace ISILab.LBS
                 
         }
             
-        public override void SetData(BaseQuestNodeData data)
+        public override void SetData(QuestNode node)
         {
-            base.SetData(data);
-            Debug.Log("GOTO DATA SET");
+            base.SetData(node);
+
         }
 
         protected override void OnTriggerEnter(Collider other) 

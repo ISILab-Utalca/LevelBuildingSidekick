@@ -131,6 +131,8 @@ namespace ISILab.LBS.VisualElements
             // Assign selected quest node behavior only if the node belongs to the active layer
             else if (evt.button == 0)
             {
+                if (!Equals(LBSMainWindow.Instance._selectedLayer, _node.Graph.OwnerLayer)) return;
+                
                 QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
                 if(qnb is null) return;
                 LBSInspectorPanel.ActivateBehaviourTab();
