@@ -125,10 +125,9 @@ namespace ISILab.LBS.Assistants
         {
             bool success = false;
 
-            //var stateList = new List<ConnectedTileMapModule>() { originalTM };
-
             const int MAX_MEMORY = 3, MAX_RETRIES = 5;
-            (int, int) retryCount = (MAX_MEMORY, MAX_RETRIES);
+            int initialRetryBonus = 10;
+            (int, int) retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
             int step = 0, maxStep = 0;
             int saveStateInterval = 10;
 
@@ -137,6 +136,8 @@ namespace ISILab.LBS.Assistants
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
             var map = OwnerLayer.GetModule<TileMapModule>();
             var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            var og = new List<LBSModule>() { OwnerLayer.GetModule<ConnectedTileMapModule>() };
+            var originalTM = og.Clone()[0] as ConnectedTileMapModule;
 
             // Get tiles to change
             var toCalc = GetTileToCalc(Positions, map, connected);
@@ -164,11 +165,9 @@ namespace ISILab.LBS.Assistants
             }
 
             List<WFCState> states = new List<WFCState>();
-            ConnectedTileMapModule originalTM = connected;
             if(safeMode)
             {
                 states.Add(new WFCState(0, connected, toCalc, closed, currentCalcs));
-                originalTM = states[0].tileMap;
             }
             bool stepSuccess = true;
             int tryCount = 0;
@@ -297,7 +296,9 @@ namespace ISILab.LBS.Assistants
                 if(step > maxStep)
                 {
                     maxStep = step;
-                    retryCount = (MAX_MEMORY, MAX_RETRIES);
+                    if(maxStep > saveStateInterval)
+                        initialRetryBonus = 0;
+                    retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
                 }
 
                 if(safeMode)
