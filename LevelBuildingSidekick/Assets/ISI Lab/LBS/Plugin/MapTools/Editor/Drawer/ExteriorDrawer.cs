@@ -33,7 +33,7 @@ namespace ISILab.LBS.Drawers
             var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
             
             // Paint new tiles
-            foreach (var newTile in exterior.RetrieveNewTiles())
+            foreach (LBSTile newTile in exterior.RetrieveNewTiles())
             {
                 var connections = connectMod.GetConnections(newTile);
                 

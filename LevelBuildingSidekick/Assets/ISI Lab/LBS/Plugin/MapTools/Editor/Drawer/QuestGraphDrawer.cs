@@ -24,18 +24,17 @@ namespace ISILab.LBS.Drawers.Editor
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
 
-            foreach (var node in quest.QuestNodes)
+            foreach (var node in quest.RetrieveNewNodes())
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */
-                if (node.NodeType == NodeType.start) {}
+                if (node.NodeType == NodeType.start) { }
                 
                 var nodeView = new QuestNodeView(node);
                 var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
 
                 nodeView.SetPosition(new Rect(node.Position, size));
-
                 nodeViews.Add(node, nodeView);
-
+                    
                 if (!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
                 {
                     var rectView = new DottedAreaFeedback(); // TODO make this a DottedAreaUnique for quest
@@ -47,11 +46,12 @@ namespace ISILab.LBS.Drawers.Editor
                     rectView.ActualizePositions(start.ToInt(), end.ToInt());
                     rectView.SetColor(Color.blue);
                     
-                    view.AddElement(quest.OwnerLayer, this, rectView);
+                    nodeView.Add(rectView);
                 }
+                view.AddElement(quest.OwnerLayer, node, nodeView);
             }
             
-            foreach (var edge in quest.QuestEdges)
+            foreach (var edge in quest.RetrieveNewEdges())
             {
                 if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
                 if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
@@ -60,12 +60,7 @@ namespace ISILab.LBS.Drawers.Editor
                 n2.SetBorder(edge.Second);
                 
                 var edgeView = new LBSQuestEdgeView(edge, n1, n2, 4, 4);
-                view.AddElement(quest.OwnerLayer, this, edgeView);
-            }
-
-            foreach (var nodeView in nodeViews.Values)
-            {
-               view.AddElement(quest.OwnerLayer, this, nodeView);
+                view.AddElement(quest.OwnerLayer, edge, edgeView);
             }
         }
     }

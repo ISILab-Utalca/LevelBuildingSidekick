@@ -106,7 +106,7 @@ namespace ISILab.LBS.Behaviours
         /// Get all new tiles' position that have been created since the last time they were retrieved.
         /// The memory of new tiles will be cleared after calling this method.
         /// </summary>
-        public object[] RetrieveNewTiles()
+        public virtual object[] RetrieveNewTiles()
         {
             // If null create a new one
             _newTiles ??= new HashSet<object>();
@@ -125,7 +125,7 @@ namespace ISILab.LBS.Behaviours
         /// Get all tiles' position that   since the last time they were retrieved.
         /// The memory of new tiles will be cleared after calling this method.
         /// </summary>
-        public object[] RetrieveExpiredTiles()
+        public virtual object[] RetrieveExpiredTiles()
         {
             // If null create a new one
             _expiredTiles ??= new HashSet<object>();

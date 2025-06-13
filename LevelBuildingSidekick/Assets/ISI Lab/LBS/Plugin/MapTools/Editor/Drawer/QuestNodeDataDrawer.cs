@@ -66,11 +66,6 @@ namespace ISILab.LBS.Drawers.Editor
             // Positions per data type only if its a BundleGraph!
             switch (nodeData)
             {
-                var position = layer.FixedToPosition(nd.Position.FirstOrDefault()!.position, true);
-                  
-                var circle = new CircleElement(position, CircleSize, nd);
-                view.AddElement(behaviour.OwnerLayer, this, circle);
-
                 case DataKill datakill:
                     if(!datakill.bundlesToKill.Any()) break;
                     foreach (var bundle in datakill.bundlesToKill)

@@ -44,13 +44,6 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             return pairs.Remove(obj, out var list) ? list : null;
         }
-        
-        public List<GraphElement> GetElement(object obj)
-        {
-            return pairs.GetValueOrDefault(obj);
-        }
-
-
         public void Repaint(object obj)
         {
             if (!pairs.TryGetValue(obj, out var elements)) return;
