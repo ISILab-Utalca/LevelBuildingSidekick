@@ -38,6 +38,11 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             return pairs.Remove(obj, out var list) ? list : null;
         }
+        
+        public List<GraphElement> GetElement(object obj)
+        {
+            return pairs.GetValueOrDefault(obj);
+        }
 
 
         public void Repaint(object obj)
@@ -275,10 +280,20 @@ namespace ISILab.LBS.VisualElements.Editor
             AddElement(bound);
         }
 
-        public void ClearLayerView(LBSLayer layer)
+        public void ClearLayerView(LBSLayer layer, bool deepClean = false)
         {
             if (!layers.TryGetValue(layer, out var container)) return;
             
+            // Remove all elements
+            if (deepClean)
+            {
+                foreach (var element in container.Clear())
+                {
+                    RemoveElement(element);
+                }
+            }
+            
+            // Remove only expired tiles
             foreach (var behaviour in layer.Behaviours)
             {
                 foreach (var tile in behaviour.RetrieveExpiredTiles())
@@ -302,7 +317,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void RemoveContainer(LBSLayer layer)
         {
-            ClearLayerView(layer);
+            ClearLayerView(layer, true);
             layers.Remove(layer);
         }
 
@@ -320,6 +335,16 @@ namespace ISILab.LBS.VisualElements.Editor
 
             container.AddElement(obj, element);
             base.AddElement(element);
+        }
+
+        public List<GraphElement> GetElement(LBSLayer layer, object obj)
+        {
+            if (layers.TryGetValue(layer, out var container))
+            {
+                return container.GetElement(obj);
+            }
+            
+            return null;
         }
 
         private LayerContainer GetOrCreateLayerContainer(LBSLayer layer)

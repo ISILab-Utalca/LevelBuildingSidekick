@@ -20,6 +20,7 @@ namespace ISILab.LBS.Drawers
     {
         private VectorImage _doorConImage = null;
         private VectorImage _windowConImage = null;
+        private bool _loaded = false;
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -27,9 +28,11 @@ namespace ISILab.LBS.Drawers
             var schema = target as SchemaBehaviour;
 
             // Get modules
+            var tilesMod = schema.OwnerLayer.GetModule<TileMapModule>();
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
-
+            
+            // Paint new tiles
             foreach (var newTile in schema.RetrieveNewTiles())
             {
                 TileZonePair tz = zonesMod.GetPairTile(newTile);
@@ -37,6 +40,21 @@ namespace ISILab.LBS.Drawers
                 
                 var tView = GetTileView(newTile, tz.Zone, tc.Connections, teselationSize);
                 view.AddElement(schema.OwnerLayer, newTile, tView);
+            }
+            
+            // Paint all tiles
+            if (!_loaded)
+            {
+                foreach (var tile in tilesMod.Tiles)
+                {
+                    TileZonePair tz = zonesMod.GetPairTile(tile);
+                    TileConnectionsPair tc = connectionsMod.GetPair(tile);
+                
+                    var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
+                    view.AddElement(schema.OwnerLayer, tile, tView);
+                }
+
+                _loaded = true;
             }
         }
 
