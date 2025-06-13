@@ -36,54 +36,44 @@ namespace ISILab.LBS.Drawers
                 rotationHighlightedTile = rotate.Selected;
             }
 
+            // Rotations
             foreach (var nTileGroup in population.RetrieveNewRotations())
             {
-                view.GetElement(population.OwnerLayer, nTileGroup).Rotate();
-                
-                // Check for rotation manipulator highlight
-                if (rotationHighlightedTile != null && Equals(nTileGroup, rotationHighlightedTile))
+                // Get PopulationTileViews from MainView
+                foreach (var graphElement in view.GetElements(population.OwnerLayer, nTileGroup))
                 {
-                    if (lastHighlight != null)
-                    {
-                        lastHighlight.Highlight(false);
-                    }
-
-                    foreach (var element in view.GetElement(population.OwnerLayer, rotationHighlightedTile))
-                    {
-                        (element as PopulationTileView).Highlight(true);
-                    }
-                } 
-            }
-
-            foreach (TileBundleGroup tileBundleGroup in population.Tilemap)
-            {
-                foreach (var nTile in population.RetrieveNewTiles())
-                {
-                    if (!tileBundleGroup.TileGroup.Contains(nTile)) continue;
+                    // Rotate visual element
+                    var tView = (PopulationTileView)graphElement;
+                    tView?.SetDirection(nTileGroup.Rotation);
                     
-                    // Create new graph element for the tile
-                    PopulationTileView tileView = new PopulationTileView(tileBundleGroup);
-                
-                    Vector2 size = population.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
-                    Vector2Int bundleSize = tileBundleGroup.GetBundleSize();
-                    //This sets the size of the group tile to draw and seems to work. Yay!
-                    tileView.SetSize(size * bundleSize);
-                    tileView.SetPivot(new Vector2(LBSSettings.Instance.general.TileSize.x * bundleSize.x, LBSSettings.Instance.general.TileSize.y * bundleSize.y));
-                    tileView.Highlight(false);
-                
                     // Check for rotation manipulator highlight
-                    if (rotationHighlightedTile != null && Equals(tileBundleGroup, rotationHighlightedTile))
+                    if (rotationHighlightedTile != null && Equals(nTileGroup, rotationHighlightedTile))
                     {
-                        tileView.Highlight(true);
+                        lastHighlight?.Highlight(false);
+                        lastHighlight = tView;
+                        lastHighlight?.Highlight(true);
                     } 
-                    
-                    ToolKit.Instance.GetActiveManipulator();
-            
-                
-                    Vector2 position = new Vector2(tileBundleGroup.GetBounds().x, -tileBundleGroup.GetBounds().y);
-                    tileView.SetPosition(new Rect(position * size, size));
-                    view.AddElement(population.OwnerLayer, tileBundleGroup, tileView);
                 }
+            }
+            
+            // New tiles
+            foreach (TileBundleGroup nTile in population.RetrieveNewTiles())
+            {
+                // Create new graph element for the tile
+                PopulationTileView tileView = new PopulationTileView(nTile);
+                
+                Vector2 size = population.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
+                Vector2Int bundleSize = nTile.GetBundleSize();
+                //This sets the size of the group tile to draw and seems to work. Yay!
+                tileView.SetSize(size * bundleSize);
+                tileView.SetPivot(new Vector2(LBSSettings.Instance.general.TileSize.x * bundleSize.x, LBSSettings.Instance.general.TileSize.y * bundleSize.y));
+                tileView.Highlight(false);
+                
+                ToolKit.Instance.GetActiveManipulator();
+                
+                Vector2 position = new Vector2(nTile.GetBounds().x, -nTile.GetBounds().y);
+                tileView.SetPosition(new Rect(position * size, size));
+                view.AddElement(population.OwnerLayer, nTile, tileView);
             }
 
             var layer = population.OwnerLayer;

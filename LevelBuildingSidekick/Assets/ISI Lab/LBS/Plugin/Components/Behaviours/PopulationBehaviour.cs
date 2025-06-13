@@ -98,18 +98,8 @@ namespace ISILab.LBS.Behaviours
             foreach(LBSTile tile in group.TileGroup)
             {
                 tileMap.AddTile(tile);
-                RequestTilePaint(tile);
             }
-        }
-
-        public bool ValidNewGroup(Vector2Int position, Bundle bundle)
-        {
-            return bundleTileMap.ValidNewGroup(position, new BundleData(bundle), Vector2.right);
-        }
-
-        public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
-        {
-            return bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
+            RequestTilePaint(group);
         }
         public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));
 
@@ -123,20 +113,26 @@ namespace ISILab.LBS.Behaviours
             {
                 foreach (var groupTile in group.TileGroup)
                 {
-                    RequestTileRemove(groupTile);
                     tileMap.RemoveTile(groupTile);
                 }
                 bundleTileMap.RemoveGroup(group);
+                RequestTileRemove(group);
             }
         }
+        public bool ValidNewGroup(Vector2Int position, Bundle bundle)
+        {
+            return bundleTileMap.ValidNewGroup(position, new BundleData(bundle), Vector2.right);
+        }
 
+        public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
+        {
+            return bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
+        }
+        
         public void SetBundle(TileBundleGroup group, Bundle bundle)
         {
             group.BundleData = new BundleData(bundle);
-            foreach (var tile in group.TileGroup)
-            {
-                ReplaceTile(tile);
-            }
+            ReplaceTile(group);
         }
         public void SetBundle(LBSTile tile, Bundle bundle) => SetBundle(bundleTileMap.GetGroup(tile), bundle);
 
@@ -189,14 +185,10 @@ namespace ISILab.LBS.Behaviours
             throw new System.NotImplementedException();
         }
         
-        private void ReplaceTile(LBSTile tile)
+        private void ReplaceTile(TileBundleGroup tile)
         {
+            RequestTileRemove(tile);
             RequestTilePaint(tile);
-            LBSTile old = tileMap.GetTile(tile.Position);
-            if (old != null)
-            {
-                RequestTileRemove(old);
-            }
         }
         
         public override object Clone()

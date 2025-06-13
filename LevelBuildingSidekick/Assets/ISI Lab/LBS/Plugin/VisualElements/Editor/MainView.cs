@@ -10,6 +10,7 @@ using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = System.Object;
 
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -32,6 +33,11 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             
             list.Add(element);
+        }
+        
+        public List<GraphElement> GetElement(object obj)
+        {
+            return pairs.GetValueOrDefault(obj);
         }
         
         public List<GraphElement> ClearElement(object obj)
@@ -71,6 +77,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             return erasedElements;
         }
+
     }
 
 
@@ -275,10 +282,21 @@ namespace ISILab.LBS.VisualElements.Editor
             AddElement(bound);
         }
 
-        public void ClearLayerView(LBSLayer layer)
+        public void ClearLayerView(LBSLayer layer, bool deepClean = false)
         {
             if (!layers.TryGetValue(layer, out var container)) return;
             
+            // If deepClean, then remove everything, not only expired tiles
+            if (deepClean)
+            {
+                var gElements = container.Clear();
+                foreach (var gElement in gElements)
+                {
+                    RemoveElement(gElement);
+                }
+            }
+            
+            // Removing expired tiles
             foreach (var behaviour in layer.Behaviours)
             {
                 foreach (var tile in behaviour.RetrieveExpiredTiles())
@@ -302,7 +320,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void RemoveContainer(LBSLayer layer)
         {
-            ClearLayerView(layer);
+            ClearLayerView(layer, true);
             layers.Remove(layer);
         }
 
@@ -320,6 +338,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
             container.AddElement(obj, element);
             base.AddElement(element);
+        }
+
+        public List<GraphElement> GetElements(LBSLayer layer, object key)
+        {
+            return layers.TryGetValue(layer, out LayerContainer container) ? container.GetElement(key) : null;
         }
 
         private LayerContainer GetOrCreateLayerContainer(LBSLayer layer)

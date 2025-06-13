@@ -30,7 +30,7 @@ namespace ISILab.LBS.Drawers
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
-            foreach (var newTile in schema.RetrieveNewTiles())
+            foreach (LBSTile newTile in schema.RetrieveNewTiles())
             {
                 TileZonePair tz = zonesMod.GetPairTile(newTile);
                 TileConnectionsPair tc = connectionsMod.GetPair(newTile);

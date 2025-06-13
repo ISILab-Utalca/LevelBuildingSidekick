@@ -27,8 +27,8 @@ namespace ISILab.LBS.Behaviours
         [SerializeField, JsonRequired]
         private string name;
         
-        private HashSet<LBSTile> _newTiles = new ();
-        private HashSet<LBSTile> _expiredTiles = new ();
+        private HashSet<object> _newTiles = new ();
+        private HashSet<object> _expiredTiles = new ();
         #endregion
 
         #region PROPERTIES
@@ -88,15 +88,15 @@ namespace ISILab.LBS.Behaviours
             return toR;
         }
 
-        protected void RequestTilePaint(LBSTile tile)
+        protected void RequestTilePaint(object tile)
         {
-            _newTiles ??= new HashSet<LBSTile>();
+            _newTiles ??= new HashSet<object>();
 
             _newTiles.Add(tile);
         }
-        protected void RequestTileRemove(LBSTile tile)
+        protected void RequestTileRemove(object tile)
         {
-            _expiredTiles ??= new HashSet<LBSTile>();
+            _expiredTiles ??= new HashSet<object>();
             
             _expiredTiles.Add(tile);
         }
@@ -106,13 +106,13 @@ namespace ISILab.LBS.Behaviours
         /// Get all new tiles' position that have been created since the last time they were retrieved.
         /// The memory of new tiles will be cleared after calling this method.
         /// </summary>
-        public LBSTile[] RetrieveNewTiles()
+        public object[] RetrieveNewTiles()
         {
             // If null create a new one
-            _newTiles ??= new HashSet<LBSTile>();
+            _newTiles ??= new HashSet<object>();
             
             // Turn into array
-            LBSTile[] o = _newTiles.ToArray();
+            object[] o = _newTiles.ToArray();
             
             // Clear memory
             _newTiles.Clear();
@@ -125,13 +125,13 @@ namespace ISILab.LBS.Behaviours
         /// Get all tiles' position that   since the last time they were retrieved.
         /// The memory of new tiles will be cleared after calling this method.
         /// </summary>
-        public LBSTile[] RetrieveExpiredTiles()
+        public object[] RetrieveExpiredTiles()
         {
             // If null create a new one
-            _expiredTiles ??= new HashSet<LBSTile>();
+            _expiredTiles ??= new HashSet<object>();
             
             // Turn into array
-            LBSTile[] o = _expiredTiles.ToArray();
+            object[] o = _expiredTiles.ToArray();
             
             // Clear memory
             _expiredTiles.Clear();
