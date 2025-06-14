@@ -21,6 +21,13 @@ namespace ISILab.LBS.Assistants
         [SerializeField]
         List<LBSDirectionedGroup.WeightStruct> weights = new List<LBSDirectionedGroup.WeightStruct>();
 
+
+        public string Name
+        {
+            get => presetName;
+        }
+
+
         public List<LBSDirectionedGroup.WeightStruct> GetWeights() => new List<LBSDirectionedGroup.WeightStruct>(weights);
 
         public void SetWeights(List<LBSDirectionedGroup.WeightStruct> newWeights)

@@ -16,6 +16,7 @@ using ISILab.LBS.Internal;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
@@ -30,6 +31,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private TextField presetsFolder;
 
         private ObjectField currentPreset;
+
+        private ListView presetsList;
 
         public AssistantWFCEditor(object target) : base(target)
         {
@@ -126,6 +129,33 @@ namespace ISILab.LBS.AI.Assistants.Editor
             // Safe Generation Mode
             var safeModeCheckbox = this.Q<Toggle>("SafeMode");
             safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
+
+            presetsList = this.Q<ListView>("PresetsList");
+            var WFCPresets = AssetDatabase.FindAssets("", new[] {presetsFolder.value})
+                            .Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)))
+                            .Where(asset => asset != null && asset is WFCPreset)
+                            .ToList();
+
+            var itemTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>
+                ("Assets/ISI Lab/LBS/Artificial Intelligence/Assistants/Editor/WFCPresetElement.uxml");
+
+            presetsList.itemsSource = WFCPresets;
+            //presetsList.makeItem = () => itemTemplate.CloneTree();
+            presetsList.bindItem = (element, i) =>
+            {
+                var obj = element.Q<ObjectField>("Element");
+                //var button = element.Q<Button>("select-button");
+
+                var asset = WFCPresets[i];
+                obj.value = asset;
+
+                //button.clicked += () =>
+                //{
+                //    Debug.Log("Seleccionado: " + asset.name);
+                //    // lógica extra aquí
+                //};
+            };
+            presetsList.Rebuild();
             
             return this;
         }
@@ -145,7 +175,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void LoadWeights()
         {
-            WFCPreset loaded = currentPreset.value as WFCPreset;
+            WFCPreset loaded = presetsList.GetRootElementForIndex(presetsList.selectedIndex).Q<ObjectField>("Element").value as WFCPreset;//currentPreset.value as WFCPreset;
             if (loaded)
             {
                 assistant.LoadWeights(loaded);
