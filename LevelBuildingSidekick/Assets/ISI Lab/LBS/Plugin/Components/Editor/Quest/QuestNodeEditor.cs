@@ -28,10 +28,10 @@ namespace ISILab.LBS.VisualElements
             
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            var node = target as QuestNode;
-            this.target = target;
+            var node = paramTarget as QuestNode;
+            this.target = paramTarget;
             if (node == null)
                 return;
 

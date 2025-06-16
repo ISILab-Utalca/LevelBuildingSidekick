@@ -66,7 +66,7 @@ namespace ISILab.LBS.Manipulators
             MainView.Instance.RemoveElement(previewFeedback);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
         {
             var endPos = population.OwnerLayer.ToFixedPosition(endPosition);
 

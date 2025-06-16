@@ -77,7 +77,7 @@ namespace ISILab.LBS.Manipulators
             DrawManager.Instance.RedrawLayer(population.OwnerLayer, MainView.Instance);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
         {
             if(Selected == null) 
             {

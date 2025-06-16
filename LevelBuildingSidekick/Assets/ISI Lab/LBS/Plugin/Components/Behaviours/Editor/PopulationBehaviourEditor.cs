@@ -79,9 +79,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
         
         #region METHODS
-        public sealed override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            behaviour = target as PopulationBehaviour;
+            behaviour = paramTarget as PopulationBehaviour;
             if(behaviour == null) return;
             _collection = behaviour.BundleCollection;
         }

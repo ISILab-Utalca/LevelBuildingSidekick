@@ -15,9 +15,9 @@ namespace ISILab.LBS.VisualElements
     public class BundleDataEditor : LBSCustomEditor
     {
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
+            this.target = paramTarget;
             CreateVisualElement();
         }
 

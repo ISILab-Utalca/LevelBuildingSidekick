@@ -32,10 +32,10 @@ namespace ISILab.LBS.VisualElements
             CreateVisualElement();
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
             // Set referenced Zone
-            _target = target as Zone;
+            _target = paramTarget as Zone;
 
             // Get bundles
             var bundles = LBSAssetsStorage.Instance.Get<Bundle>();

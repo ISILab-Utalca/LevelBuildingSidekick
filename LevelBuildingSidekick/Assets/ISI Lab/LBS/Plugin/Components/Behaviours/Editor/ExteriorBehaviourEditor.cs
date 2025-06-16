@@ -61,9 +61,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region METHODS
-        public sealed override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            exterior = target as ExteriorBehaviour;
+            exterior = paramTarget as ExteriorBehaviour;
             CheckTargetBundle();
         }
 

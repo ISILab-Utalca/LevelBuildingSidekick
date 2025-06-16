@@ -42,9 +42,9 @@ namespace ISILab.LBS.AI.Assistants.Editor
             assistant.SafeMode = false;
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            assistant = target as AssistantWFC;
+            assistant = paramTarget as AssistantWFC;
         }
 
         public void SetTools(ToolKit toolKit)

@@ -1,57 +1,53 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Spy : NodeEditor
+    public class QuestNodeSpy : NodeEditor<DataSpy>
     {
-        private PickerBundle _pickerBundle;
-        private FloatField requiredSpyTime;
-        private Toggle resetOnExit;
+        private readonly PickerBundle _pickerBundle;
+        private readonly FloatField _requiredSpyTime;
+        private readonly Toggle _resetOnExit;
 
-        public QuestNode_Spy()
+        public QuestNodeSpy()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
             visualTree.CloneTree(this);
-            
+
             _pickerBundle = this.Q<PickerBundle>("SpyTarget");
             _pickerBundle.SetInfo(
                 "Spy target",
-                "The target in the graph that the player must spy."
-                ,true); 
-            
-            requiredSpyTime = this.Q<FloatField>("SpyTime");
-            resetOnExit = this.Q<Toggle>("SpyResetOnExit");
-            
+                "The target in the graph that the player must spy.",
+                true);
+
+            _requiredSpyTime = this.Q<FloatField>("SpyTime");
+            _resetOnExit = this.Q<Toggle>("SpyResetOnExit");
         }
 
-        public override void SetNodeData(BaseQuestNodeData data)
+        protected override void OnDataAssigned()
         {
-            if(data is not DataSpy currentData) return;
-            
             _pickerBundle.ClearPicker();
-            
-            _pickerBundle._onClicked += () =>
+            _pickerBundle.SetTarget(NodeData.BundleToSpy.Layer, NodeData.BundleToSpy.Guid, NodeData.BundleToSpy.Position);
+
+            _pickerBundle.OnClicked = () =>
             {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                var pickerManipulator = AssignPickerData();
+                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                 {
-                    currentData.bundleToSpy.guid = pickedGuid;
-                    currentData.bundleToSpy.position = position;
-                    _pickerBundle.SetTarget(currentData.bundleToSpy.guid, position);
+                    NodeData.BundleToSpy.Layer = layer;
+                    NodeData.BundleToSpy.Guid = pickedGuid;
+                    NodeData.BundleToSpy.Position = position;
+                    _pickerBundle.SetTarget(layer, pickedGuid, position);
                 };
             };
-            
-            _pickerBundle.SetTarget(currentData.bundleToSpy.guid, currentData.bundleToSpy.position );
-        }
-        
-    }
 
+            _requiredSpyTime.value = NodeData.spyTime;
+            _requiredSpyTime.RegisterValueChangedCallback(evt => NodeData.spyTime = evt.newValue);
+
+            _resetOnExit.value = NodeData.resetTimeOnExit;
+            _resetOnExit.RegisterValueChangedCallback(evt => NodeData.resetTimeOnExit = evt.newValue);
+        }
+    }
 }

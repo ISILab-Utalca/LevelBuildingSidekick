@@ -16,10 +16,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var mut = target as ExhaustiveAddGene;
+            this.target = paramTarget;
+            var mut = paramTarget as ExhaustiveAddGene;
         }
 
         protected override VisualElement CreateVisualElement()

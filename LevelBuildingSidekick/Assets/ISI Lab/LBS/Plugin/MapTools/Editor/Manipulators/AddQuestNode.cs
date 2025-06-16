@@ -37,7 +37,7 @@ namespace ISILab.LBS.Manipulators
             behaviour = layer.GetBehaviour<QuestBehaviour>();
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
         {
             if (ActionToSet == null)
             {

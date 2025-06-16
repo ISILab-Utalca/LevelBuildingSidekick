@@ -40,13 +40,13 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public sealed override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
             Clear();
             
             CreateVisualElement();
             
-            behaviour = target as QuestBehaviour;
+            behaviour = paramTarget as QuestBehaviour;
             if (behaviour == null)
                 return;
 
