@@ -125,6 +125,22 @@ namespace ISILab.LBS.Behaviours
             }
         }
 
+        public void ReplaceTileMap(BundleTileMap map)
+        {
+            //Remove everything
+            if (bundleTileMap.Groups.Count > 0)
+            {
+                foreach (TileBundleGroup group in bundleTileMap.Groups)
+                {
+                    bundleTileMap.RemoveGroup(group);
+                }
+            }
+            foreach(TileBundleGroup group in map.Groups)
+            {
+                bundleTileMap.AddGroup(group);
+            }
+        }
+
         public void SetBundle(TileBundleGroup group, Bundle bundle)
         {
             group.BundleData = new BundleData(bundle);

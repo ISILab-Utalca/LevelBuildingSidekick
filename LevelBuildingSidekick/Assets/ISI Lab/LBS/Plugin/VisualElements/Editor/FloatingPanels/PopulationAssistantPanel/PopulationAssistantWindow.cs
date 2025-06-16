@@ -37,10 +37,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary;
+        private BundleTileMap originalTileMap;
         [SerializeField]
         private PopulationAssistantEditor editor;
         [SerializeField]
         private AssistantMapElite assistant;
+        
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -76,6 +78,7 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private Button recalculate;
         private Button applySuggestion;
+        private Button resetButton;
         private Button closeWindow;
         
         //Scriptable Object Manipulation
@@ -135,6 +138,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #region EVENTS
         // public Action OnExecute;
         public Action<string> OnPresetChanged;
+        public Action OnTileMapChanged;
+        public Action OnTileMapReset;
         public Action UpdatePins;
         public Action<IOptimizable> OnValuesUpdated;
         #endregion
@@ -184,7 +189,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 
             });
             param1Field.SetEnabled(false);
-
 
             //Param 2
             param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
@@ -248,39 +252,46 @@ namespace ISILab.LBS.VisualElements.Editor
             //Visualization option buttons
             visualizationOptionsContent = rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
 
+            //Grid
             rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
             rows.RegisterValueChangedCallback(evt => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
 
+            //Grid
+            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
+            UpdateGrid();
+
             //Recalculate button
             recalculate = rootVisualElement.Q<Button>("ButtonRecalculate");
             recalculate.clicked += RunAlgorithm;
 
+            //Suggestion button
             applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
-            applySuggestion.clicked += () =>
-            {
-                // Save history version to revert
-                var level = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(level, "Select Suggestion");
-                EditorGUI.BeginChangeCheck();
-                
-                
-                ApplySuggestion();
-                
-                
-                // Mark as dirty
-                if (EditorGUI.EndChangeCheck())
+            applySuggestion.clicked += () => ApplySuggestion();
+
+            //Reset button
+            originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
+            resetButton = rootVisualElement.Q<Button>("ButtonReset");
+            resetButton.clicked += ResetSuggestion;
+            resetButton.SetEnabled(false);
+
+            OnTileMapChanged += () => {
+                if (originalTileMap == null)
                 {
-                    EditorUtility.SetDirty(level);
+                    originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
                 }
+                resetButton.SetEnabled((originalTileMap!=null));
+            };
+            OnTileMapReset += () =>
+            {
+                originalTileMap = null;
+                resetButton.SetEnabled(false);
             };
 
+            //Close button...?
             closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
-
-            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
-            UpdateGrid();
 
             //PARAMETER'S GRAPH
             //Find container
@@ -314,6 +325,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             graph.RecalculateCorners(); //Important after changing axes' values*/
             
+            //Sliders
             ySlider = rootVisualElement.Q<Slider>("YSlider");
             xSlider = rootVisualElement.Q<Slider>("XSlider");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
@@ -418,11 +430,18 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
         {
+            //This MUST go first since it'll save the original tilemap
+            OnTileMapChanged?.Invoke();
+
             var chrom = obj as BundleTilemapChromosome;
             if (chrom == null)
             {
                 if (selectedMap.Data == null) throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
             }
+
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             var rect = chrom.Rect;
 
@@ -436,6 +455,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 LayerPopulation.AddTileGroup(pos, gene as BundleData);
             }
             DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
@@ -530,6 +554,29 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
             Debug.Log("saved map: "+newSavedMap.Name);*/
+        }
+
+        //Reset the suggestion to its original form
+        private void ResetSuggestion()
+        {
+            if (originalTileMap == null) return;
+            if (LayerPopulation.Tilemap == null)
+            {
+                LBSMainWindow.MessageNotify("Layer tile map not found."); return;
+            }
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
+
+            LayerPopulation.ReplaceTileMap(originalTileMap);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            LBSMainWindow.MessageNotify("Layer reset.");
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
+            OnTileMapReset?.Invoke();
         }
         #endregion
 
