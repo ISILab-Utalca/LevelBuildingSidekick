@@ -185,6 +185,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion(int index) => ApplySuggestion(SavedMapList[index]);
         private void ApplySuggestion(object obj)
         {
+            window.OnTileMapChanged?.Invoke();
             var savedMap = obj as SavedMap;
             var chrom = savedMap.Map;
             if (chrom == null) return;
