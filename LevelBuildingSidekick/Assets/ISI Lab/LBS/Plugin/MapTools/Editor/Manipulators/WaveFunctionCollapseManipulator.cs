@@ -1,4 +1,5 @@
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor.Windows;
 using LBS.Components;
 using System.Collections.Generic;
 using UnityEditor;
@@ -65,7 +66,9 @@ namespace ISILab.LBS.Manipulators
             // No longer having empty tiles means overwrite is default
             //
             assistant.OverrideValues = e.ctrlKey;
-            assistant.TryExecute();
+            assistant.TryExecute(out string log, out LogType type);
+
+            LBSMainWindow.MessageNotify(log, type);
 
             if (EditorGUI.EndChangeCheck())
             {

@@ -75,31 +75,44 @@ namespace ISILab.LBS.AI.Assistants.Editor
                  */ 
                  //assistant.Bundle = evt.newValue as Bundle; 
 
-                 var bundle = evt.newValue as Bundle;
-                
-                 // Get current option
-                 var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
-                 var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-                 if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
-         
-                 var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
-                 
-                 var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
-                
-                 if (idents.Any())
-                 {
-                     exterior.Bundle = bundle; // valid for exterior
-                     var owner = exterior.OwnerLayer;
-                     owner.OnChangeUpdate(); // updates the assistant and viceversa
-                 }
-                 else
-                 {
-                     bundleField.value = exterior.Bundle; // set default or current if new option not valid
-                 }
-                 
-                 assistant.Bundle = exterior.Bundle;
-                 ToolKit.Instance.SetActive(typeof(WaveFunctionCollapseManipulator));
-                 MarkDirtyRepaint();
+                var bundle = evt.newValue as Bundle;
+
+                System.Action invalidBundleAction = () =>
+                {
+                    bundleField.value = exterior.Bundle;
+                    LBSMainWindow.MessageNotify("Selected bundle was invalid.", LogType.Warning);
+                };
+
+                if (bundle)
+                {
+                    // Get current option
+                    var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
+                    var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
+                    if (tags.Remove("Empty")) tags.Insert(0, "Empty");
+
+                    var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+
+                    var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
+
+                    if (idents.Any())
+                    {
+                        exterior.Bundle = bundle; // valid for exterior
+                        var owner = exterior.OwnerLayer;
+                        owner.OnChangeUpdate(); // updates the assistant and viceversa
+                    }
+                    else
+                    {
+                        invalidBundleAction(); // set default or current if new option not valid
+                    }
+                }
+                else
+                {
+                    invalidBundleAction(); // set default or current if new option not valid
+                }
+
+                assistant.Bundle = exterior.Bundle;
+                ToolKit.Instance.SetActive(typeof(WaveFunctionCollapseManipulator));
+                MarkDirtyRepaint();
                 
             });
             
@@ -140,20 +153,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 ("Assets/ISI Lab/LBS/Artificial Intelligence/Assistants/Editor/WFCPresetElement.uxml");
 
             presetsList.itemsSource = WFCPresets;
-            //presetsList.makeItem = () => itemTemplate.CloneTree();
             presetsList.bindItem = (element, i) =>
             {
                 var obj = element.Q<ObjectField>("Element");
-                //var button = element.Q<Button>("select-button");
 
                 var asset = WFCPresets[i];
                 obj.value = asset;
-
-                //button.clicked += () =>
-                //{
-                //    Debug.Log("Seleccionado: " + asset.name);
-                //    // lógica extra aquí
-                //};
             };
             presetsList.Rebuild();
             
@@ -175,7 +180,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void LoadWeights()
         {
-            WFCPreset loaded = presetsList.GetRootElementForIndex(presetsList.selectedIndex).Q<ObjectField>("Element").value as WFCPreset;//currentPreset.value as WFCPreset;
+            WFCPreset loaded = presetsList.GetRootElementForIndex(presetsList.selectedIndex)?.Q<ObjectField>("Element")?.value as WFCPreset;//currentPreset.value as WFCPreset;
             if (loaded)
             {
                 assistant.LoadWeights(loaded);

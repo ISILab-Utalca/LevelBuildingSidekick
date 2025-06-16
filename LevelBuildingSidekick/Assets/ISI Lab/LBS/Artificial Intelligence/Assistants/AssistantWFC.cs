@@ -14,6 +14,9 @@ using UnityEngine.UIElements;
 using System;
 
 
+
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -91,31 +94,54 @@ namespace ISILab.LBS.Assistants
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
-        public void TryExecute(int limit = 5)
+        public void TryExecute(out string log, out LogType logType, int limit = 5)
         {
+            log = "";
+            logType = LogType.Log;
+
             // Get Bundle
             OnGUI();
 
             if (targetBundleRef == null)
             {
-                Debug.LogWarning("No bundle selected.");
+                log = "No bundle selected.";
+                logType = LogType.Warning;
                 return;
             }
 
-            if(safeMode)
+            if(targetBundleRef.GetCharacteristics<LBSDirectionedGroup>().Count == 0)
+            {
+                log = "Cannot generate. Invalid bundle.";
+                logType = LogType.Warning;
+                return;
+            }
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            Func<double> getSeconds = () =>
+            {
+                sw.Stop();
+                long ticks = sw.ElapsedTicks;
+                return (double)ticks / System.Diagnostics.Stopwatch.Frequency;
+            };
+
+            if (safeMode)
             {
                 for (int i = 0; i < limit; i++)
                 {
                     if (Execute())
                     {
-                        Debug.Log($"Safely generated after {i + 1} attempts.");
+                        log = $"Safely generated after {i + 1} attempts. ({getSeconds()} s)";
                         return;
                     }
                 }
 
-                Debug.LogWarning($"Could not safely generate after {limit} attempts.");
+                log = $"Could not safely generate after {limit} attempts. ({getSeconds()} s)";
+                logType = LogType.Warning;
             }
-            else Execute();
+            else
+            {
+                Execute();
+                log = $"Generated. ({getSeconds()} s)";
+            } 
         }
 
         /// <summary>
@@ -224,7 +250,8 @@ namespace ISILab.LBS.Assistants
                     connected.Rewrite(prevState.tileMap);
                     toCalc = prevState.toCalc.Clone();
                     closed = prevState.closed.Clone();
-                    currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
+                    //currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
+                    currentCalcs = new Dictionary<LBSTile, List<Candidate>>(prevState.currentCalcs);
                     states.Reverse();
 
                     stepSuccess = true;
@@ -607,7 +634,7 @@ namespace ISILab.LBS.Assistants
                     endName += $" ({count})";
                 }
             }
-            newPreset.name = endName;
+            newPreset.Name = endName;
             newPreset.SetWeights(group.Weights);
 
             AssetDatabase.CreateAsset(newPreset, folder + "/" + endName + ".asset");
@@ -637,7 +664,7 @@ namespace ISILab.LBS.Assistants
                 }
                 // Testear cambiando los bundles hijos
                 if(!found)
-                    Debug.LogWarning($"Bundle {group.Weights[i].target} was not in preset {preset.name}");
+                    Debug.LogWarning($"Bundle '{group.Weights[i].target}' was not in preset '{preset.Name}'");
             }
 
             Selection.activeObject = targetBundleRef;
@@ -762,7 +789,8 @@ namespace ISILab.LBS.Assistants
             this.tileMap = tm.Clone()[0] as ConnectedTileMapModule;
             this.toCalc = toCalc.Clone();
             this.closed = closed.Clone();
-            this.currentCalcs = currentCalcs.Clone();
+            //this.currentCalcs = currentCalcs.Clone();
+            this.currentCalcs = new Dictionary<LBSTile, List<Candidate>>(currentCalcs);
         }
     }
 }
