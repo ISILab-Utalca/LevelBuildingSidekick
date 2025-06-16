@@ -30,7 +30,7 @@ namespace ISILab.LBS.Manipulators
             current = provider as LBSLocalCurrent;
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             current = LBSInspectorPanel.Instance.data;
             

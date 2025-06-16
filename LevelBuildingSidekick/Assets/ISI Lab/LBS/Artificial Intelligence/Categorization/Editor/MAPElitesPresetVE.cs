@@ -46,9 +46,9 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            var presset = target as MAPElitesPreset;
+            var presset = paramTarget as MAPElitesPreset;
             samples.value = presset.SampleCount;
 
             if (presset.PresetName != null)

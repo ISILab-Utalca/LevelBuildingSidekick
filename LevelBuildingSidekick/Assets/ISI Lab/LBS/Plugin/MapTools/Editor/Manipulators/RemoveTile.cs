@@ -18,7 +18,7 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, behaviour);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             var min = module.OwnerLayer.ToFixedPosition(Vector2Int.Min(StartPosition, EndPosition));
             var max = module.OwnerLayer.ToFixedPosition(Vector2Int.Max(StartPosition, EndPosition));

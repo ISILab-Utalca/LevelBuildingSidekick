@@ -46,10 +46,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var genetic = target as GeneticAlgorithm;
+            this.target = paramTarget;
+            var genetic = paramTarget as GeneticAlgorithm;
             if (genetic.Evaluator != null)
             {
                 evaluator.SetInfo(genetic.Evaluator);

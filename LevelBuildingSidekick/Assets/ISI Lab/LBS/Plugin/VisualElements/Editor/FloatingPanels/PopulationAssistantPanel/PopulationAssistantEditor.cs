@@ -38,9 +38,9 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var assistant = target as AssistantMapElite;
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
+            this.target = paramTarget;
         }
 
         protected override VisualElement CreateVisualElement()

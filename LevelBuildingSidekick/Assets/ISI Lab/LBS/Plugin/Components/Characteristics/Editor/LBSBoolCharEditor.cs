@@ -17,10 +17,10 @@ namespace ISILab.LBS.Editor
             SetInfo(target);
         }
 
-        public override void SetInfo(object obj)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = obj;
-            var target = obj as LBSBoolCharacteristic;
+            this.target = paramTarget;
+            var target = paramTarget as LBSBoolCharacteristic;
 
             toogle.value = target.Value;
         }
