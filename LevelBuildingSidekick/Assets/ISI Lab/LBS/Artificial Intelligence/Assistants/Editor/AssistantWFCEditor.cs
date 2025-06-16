@@ -179,6 +179,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             if (loaded)
             {
                 assistant.LoadWeights(loaded);
+                currentPreset.value = loaded;
                 LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
             }
             else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
