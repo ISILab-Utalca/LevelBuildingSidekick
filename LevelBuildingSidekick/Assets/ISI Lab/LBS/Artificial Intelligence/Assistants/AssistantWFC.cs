@@ -115,6 +115,7 @@ namespace ISILab.LBS.Assistants
                 logType = LogType.Warning;
                 return;
             }
+
             var sw = System.Diagnostics.Stopwatch.StartNew();
             Func<double> getSeconds = () =>
             {

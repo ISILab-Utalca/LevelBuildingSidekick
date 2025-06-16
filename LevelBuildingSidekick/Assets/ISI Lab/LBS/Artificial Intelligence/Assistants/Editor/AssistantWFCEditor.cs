@@ -39,7 +39,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
             assistant = target as AssistantWFC;
             assistant.Bundle = GetExteriorBehaviour().Bundle;
             CreateVisualElement();
-            assistant.SafeMode = false;
         }
 
         public override void SetInfo(object paramTarget)
@@ -138,29 +137,15 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var loadWeightsButton = this.Q<Button>("LoadWeights");
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
+            //currentPreset.RegisterValueChangedCallback(evt => UpdatePresetsList());
 
             // Safe Generation Mode
             var safeModeCheckbox = this.Q<Toggle>("SafeMode");
             safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
+            assistant.SafeMode = false;
 
             presetsList = this.Q<ListView>("PresetsList");
-            var WFCPresets = AssetDatabase.FindAssets("", new[] {presetsFolder.value})
-                            .Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)))
-                            .Where(asset => asset != null && asset is WFCPreset)
-                            .ToList();
-
-            var itemTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>
-                ("Assets/ISI Lab/LBS/Artificial Intelligence/Assistants/Editor/WFCPresetElement.uxml");
-
-            presetsList.itemsSource = WFCPresets;
-            presetsList.bindItem = (element, i) =>
-            {
-                var obj = element.Q<ObjectField>("Element");
-
-                var asset = WFCPresets[i];
-                obj.value = asset;
-            };
-            presetsList.Rebuild();
+            UpdatePresetsList();
             
             return this;
         }
@@ -174,6 +159,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private void SaveWeights()
         {
             assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset);
+            UpdatePresetsList();
             currentPreset.value = newPreset;
             LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
         }
@@ -188,6 +174,25 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
             }
             else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
+        }
+
+        private void UpdatePresetsList()
+        {
+            Debug.Log("Update Presets List");
+            var WFCPresets = AssetDatabase.FindAssets("", new[] { presetsFolder.value });
+            var a = WFCPresets.Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)));
+            var b = a.Where(asset => asset != null && asset is WFCPreset)
+                           .ToList();
+
+            presetsList.bindItem = (element, i) =>
+            {
+                var obj = element.Q<ObjectField>("Element");
+
+                var asset = b[i];
+                obj.value = asset;
+            };
+            presetsList.itemsSource = b;
+            presetsList.Rebuild();
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

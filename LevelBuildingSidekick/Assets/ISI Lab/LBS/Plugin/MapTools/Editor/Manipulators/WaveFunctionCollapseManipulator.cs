@@ -48,9 +48,9 @@ namespace ISILab.LBS.Manipulators
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "WFC");
-            
+
             var corners = assistant.OwnerLayer.ToFixedPosition(cornerStart, position);
-            
+
             var positions = new List<Vector2Int>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -60,7 +60,7 @@ namespace ISILab.LBS.Manipulators
                     positions.Add(selected);
                 }
             }
-            
+
             assistant.Positions = positions;
 
             // No longer having empty tiles means overwrite is default
@@ -68,7 +68,11 @@ namespace ISILab.LBS.Manipulators
             assistant.OverrideValues = e.ctrlKey;
             assistant.TryExecute(out string log, out LogType type);
 
-            LBSMainWindow.MessageNotify(log, type);
+            LBSMainWindow.MessageNotify(log, type, 5);
+            if (type == LogType.Log)
+                Debug.Log(log);
+            else
+                Debug.LogWarning(log);
 
             if (EditorGUI.EndChangeCheck())
             {
