@@ -44,9 +44,9 @@ namespace ISILab.LBS.VisualElements.Editor
         }
 
         //Creates vectors for each axis to form polygons, should be called when _axes is modified (not automatically)
-        public void RecalculateCorners()
+        public void RecalculateCorners(float scale = 60.0f)
         {
-            float localScale = 60;
+            float localScale = scale;
             _fullCorners = new Vector2[_axes.Length];
             _partialCorners = new Vector2[_axes.Length];
             
@@ -67,8 +67,9 @@ namespace ISILab.LBS.VisualElements.Editor
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var paint2D = mgc.painter2D;
-            Vector2 offset = Vector2.right * worldBound.width * 0.5f;
-            float scale = worldBound.width / 180f + 0.25f;
+            //Vector2 offset = Vector2.right * worldBound.width * 0.5f;
+            Vector2 offset = new Vector2(worldBound.width * 0.5f, worldBound.yMax*0.125f);
+            float scale = Mathf.Min(worldBound.yMax / 150f + 0.25f, worldBound.width / 180f + 0.25f);
             
             //REFERENCE POLYGON
             Color dColor = DarkenColor(_secondaryColor, 0.39f);
