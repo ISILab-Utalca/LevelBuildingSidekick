@@ -60,6 +60,7 @@ namespace ISILab.LBS.Drawers
             // New tiles
             foreach (TileBundleGroup nTile in population.RetrieveNewTiles())
             {
+                // Stores using TileBundleGroup as key
                 view.AddElement(population.OwnerLayer, nTile, CreatePopulationTileView(nTile, population));
             }
 
@@ -69,6 +70,7 @@ namespace ISILab.LBS.Drawers
             {
                 foreach (TileBundleGroup tileBundleGroup in population.Tilemap)
                 {
+                    // Stores using TileBundleGroup as key
                     view.AddElement(population.OwnerLayer, tileBundleGroup, CreatePopulationTileView(tileBundleGroup, population));
                 }
 

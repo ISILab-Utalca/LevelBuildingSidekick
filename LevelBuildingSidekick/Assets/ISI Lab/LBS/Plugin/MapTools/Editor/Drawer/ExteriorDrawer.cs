@@ -38,7 +38,8 @@ namespace ISILab.LBS.Drawers
                 var connections = connectMod.GetConnections(newTile);
                 
                 var tView = GetTileView(newTile, connections, teselationSize);
-
+                
+                // Stores using LBSTile as key
                 view.AddElement(exterior.OwnerLayer, newTile, tView);
             }
             
@@ -51,6 +52,7 @@ namespace ISILab.LBS.Drawers
                 
                     var tView = GetTileView(tile, connections, teselationSize);
 
+                    // Stores using LBSTile as key
                     view.AddElement(exterior.OwnerLayer, tile, tView);
                 }
 

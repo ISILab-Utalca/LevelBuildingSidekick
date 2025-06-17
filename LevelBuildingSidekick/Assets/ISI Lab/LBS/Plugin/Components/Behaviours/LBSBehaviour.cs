@@ -88,6 +88,47 @@ namespace ISILab.LBS.Behaviours
             return toR;
         }
 
+        public abstract void OnAttachLayer(LBSLayer layer);
+
+        public abstract void OnDetachLayer(LBSLayer layer);
+
+        public abstract object Clone();
+        
+        public abstract void OnGUI();
+        
+        #endregion
+        
+        #region VISUAL ELEMENTS HANDLING METHODS
+        /* To optimally handle all the visual elements in display in the MainView of the LBS tool,
+         * each behaviour has a HashSet of elements that it wants to draw, and a HashSet of elements
+         * it wants to erase, these are _newTiles and _expiredTiles respectively.
+        
+         * Both of these HashSet use object as value, this object is the instance that will be
+         * represented through a VisualElement, it might be a LBSTile, QuestNodeView, or even different
+         * classes from the same behaviour. Eventually, all VisualElements are stored in MainView
+         * dictionaries, using the defined object as key.
+        
+         * VisualElements are added and erased from the MainView as the following cycle:
+         * Note that tile here is used as any class that is being represented through a VisualElement.
+         *
+         * 1.- The expired tiles are removed.
+         *     MainView gets the _expiredTiles set from all the behaviours in a layer, while clearing
+         *     its memory, and erases them if they are in the view.
+         *
+         * 2.- The Drawers create new tiles.
+         *      2.1.- Each Drawer gets the new elements from their respective behaviors, while clearing its
+         *            memory.
+         *      2.2.- The new VisualElements are created from the retrieved elements, and drawn in the
+         *            MainView.
+         * 
+         * 3.- New tiles, and new expired tiles are saved.
+         *     In each behavior, when an action is supposed to create a new VisualElement, a
+         *     representative instance is stored for later in the _newTiles set.
+         *     If an action is supposed to make a VisualElement disappear, then the class used for its
+         *     construction is again stored for later but in the _expiredTiles set.
+        */
+        
+        // These methods are a safer way of adding new objects to the sets
         protected void RequestTilePaint(object tile)
         {
             _newTiles ??= new HashSet<object>();
@@ -139,14 +180,6 @@ namespace ISILab.LBS.Behaviours
             // Return array
             return o;
         }
-
-        public abstract void OnAttachLayer(LBSLayer layer);
-
-        public abstract void OnDetachLayer(LBSLayer layer);
-
-        public abstract object Clone();
-        
-        public abstract void OnGUI();
         
         #endregion
     }

@@ -16,6 +16,8 @@ namespace ISILab.LBS.Drawers
     {
         private readonly Vector2 nodeSize = new(100, 100);
 
+        private List<Zone> prevZones = null;
+
         private Dictionary<Zone, LBSNodeView> viewRefs = new();
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)
@@ -32,8 +34,11 @@ namespace ISILab.LBS.Drawers
 
             List<(object, LBSNodeView)> nViews = new();
             List<(object, Empty)> cViews = new();
+            
             foreach (var zone in zones)
             {
+                if(prevZones.Contains(zone)) continue;
+                
                 // Create node
                 var nView = CreateNode(assistant, zone);
                 
@@ -46,18 +51,17 @@ namespace ISILab.LBS.Drawers
                 // Get pair info
                 foreach (var pair in consts)
                 {
-                    if (pair.Zone == zone)
+                    if (!pair.Zone.Equals(zone)) continue;
+                    
+                    var vws = CreateFeedBackAreas(nView, pair, teselationSize);
+                    var ve = new Empty();
+                    foreach (var v in vws)
                     {
-                        var vws = CreateFeedBackAreas(nView, pair, teselationSize);
-                        var ve = new Empty();
-                        foreach (var v in vws)
-                        {
-                            ve.Add(v);
-                        }
-                        cViews.Add((pair, ve));
-
-                        break;
+                        ve.Add(v);
                     }
+                    cViews.Add((pair, ve));
+
+                    break;
                 }
             }
 

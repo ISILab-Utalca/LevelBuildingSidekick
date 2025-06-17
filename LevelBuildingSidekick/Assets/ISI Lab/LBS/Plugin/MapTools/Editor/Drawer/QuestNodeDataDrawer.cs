@@ -46,8 +46,14 @@ namespace ISILab.LBS.Drawers.Editor
             var layer = behaviour.OwnerLayer;
             if (layer == null) return;
             
-            var qn = behaviour.SelectedQuestNode;
-            var nodeData = qn?.NodeData;
+            // Checks if a new selection must be drawn
+            var nt = behaviour.RetrieveNewTiles();
+            if (nt == null || !nt.Any()) return;
+            
+            QuestNode qn = behaviour.SelectedQuestNode;
+            if(qn == null) return;
+
+            var nodeData = qn.NodeData;
             if (nodeData == null) return;
             
             //Debug.Log("\n --node: " + nd.Owner.ID + "--");
@@ -61,6 +67,8 @@ namespace ISILab.LBS.Drawers.Editor
             
             // Trigger Position
             var triggerBase = new TriggerElement(position, baseSize*nodeData._size, nodeData, colorTrigger);
+            
+            // Stores using the behavior as key
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
             
             // Positions per data type only if its a BundleGraph!
@@ -80,7 +88,7 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataStealth dataStealth:
-                    if(!dataStealth.bundlesObservers.Any()) break;
+                    if(dataStealth.bundlesObservers == null || !dataStealth.bundlesObservers.Any()) break;
                     foreach (var bundle in dataStealth.bundlesObservers)
                     {
                         if (bundle.Valid())
