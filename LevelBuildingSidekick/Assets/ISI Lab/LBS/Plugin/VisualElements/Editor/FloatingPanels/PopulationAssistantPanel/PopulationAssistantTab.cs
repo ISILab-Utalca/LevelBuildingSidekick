@@ -119,6 +119,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 var mapEntry = SavedMapList[index];
                 mapEntryVE.SetData(mapEntry);
 
+                mapEntryVE.Name = mapEntry.Name;
+
                 mapEntryVE.RemoveMapEntry = null;
                 mapEntryVE.RemoveMapEntry += () =>
                 {

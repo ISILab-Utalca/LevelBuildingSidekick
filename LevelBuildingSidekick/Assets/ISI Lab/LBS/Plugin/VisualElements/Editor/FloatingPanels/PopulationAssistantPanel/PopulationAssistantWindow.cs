@@ -746,7 +746,6 @@ namespace ISILab.LBS.VisualElements.Editor
             OnValuesUpdated = null;
             OnValuesUpdated += (optimizable) => {
                 var opt = optimizable as IOptimizable;
-                Debug.Log("calling;");
                 CurrentGraph.SetAxisValue((float)opt.Fitness, 0);
                 CurrentGraph.SetAxisValue((float)opt.xFitness, 1);
                 CurrentGraph.SetAxisValue((float)opt.yFitness, 2);
