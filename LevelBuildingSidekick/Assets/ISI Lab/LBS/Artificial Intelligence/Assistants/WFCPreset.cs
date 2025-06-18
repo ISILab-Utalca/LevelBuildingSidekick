@@ -25,6 +25,7 @@ namespace ISILab.LBS.Assistants
         public string Name
         {
             get => presetName;
+            set => presetName = name = value;
         }
 
 
