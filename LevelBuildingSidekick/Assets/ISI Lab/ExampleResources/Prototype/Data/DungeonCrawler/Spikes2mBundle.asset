@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Spikes_2m_Bundle
+  m_Name: Spikes2mBundle
   m_EditorClassIdentifier: 
   layerContentFlags: 4
-  type: 0
+  type: 2
   anchorPosition: 0
   color: {r: 1, g: 0, b: 0.4672885, a: 0}
   icon: {fileID: 7388822144124034973, guid: 2ec467ae750e7914ab35445816494cb0, type: 3}
