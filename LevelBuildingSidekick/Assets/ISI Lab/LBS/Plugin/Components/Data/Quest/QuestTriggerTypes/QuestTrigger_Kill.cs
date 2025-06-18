@@ -1,20 +1,17 @@
-using ISILab.LBS;
+using System.Collections.Generic;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" kill")]
+    [QuestNodeActionTag("kill")]
     public class QuestTriggerKill : QuestTrigger
     {
-        public QuestTriggerKill() : base()
+        public DataKill dataKill;
+        public List<GameObject> objectsToKill = new();
+        public override void SetTypedData(BaseQuestNodeData baseData)
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            dataKill = (DataKill)baseData;
         }
 
         protected override void OnTriggerEnter(Collider other) 

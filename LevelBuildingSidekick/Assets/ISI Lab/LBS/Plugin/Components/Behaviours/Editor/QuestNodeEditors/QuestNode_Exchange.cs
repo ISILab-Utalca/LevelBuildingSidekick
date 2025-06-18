@@ -41,11 +41,11 @@ namespace ISILab.LBS.VisualElements
             {
                 AssignPickerData().OnBundlePicked = (layer, pickedGuid, _) =>
                 {
-                    NodeData.BundleGiveType.Guid = pickedGuid;
+                    NodeData.bundleGiveType.guid = pickedGuid;
                     _pickerBundleGive.SetTarget(layer, pickedGuid);
                 };
             };
-            _pickerBundleGive.SetTarget(null, NodeData.BundleGiveType.Guid);
+            _pickerBundleGive.SetTarget(null, NodeData.bundleGiveType.guid);
 
             // Setup "Receive" picker
             _pickerBundleReceive.ClearPicker();
@@ -53,11 +53,11 @@ namespace ISILab.LBS.VisualElements
             {
                 AssignPickerData().OnBundlePicked = (_, pickedGuid, _) =>
                 {
-                    NodeData.BundleReceiveType.Guid = pickedGuid;
-                    _pickerBundleReceive.SetTarget(null, NodeData.BundleReceiveType.Guid);
+                    NodeData.bundleReceiveType.guid = pickedGuid;
+                    _pickerBundleReceive.SetTarget(null, NodeData.bundleReceiveType.guid);
                 };
             };
-            _pickerBundleReceive.SetTarget(null, NodeData.BundleReceiveType.Guid);
+            _pickerBundleReceive.SetTarget(null, NodeData.bundleReceiveType.guid);
         }
     }
 }

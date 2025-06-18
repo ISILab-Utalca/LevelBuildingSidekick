@@ -1,20 +1,17 @@
-using ISILab.LBS;
+using System.Collections.Generic;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" stealth ")]
+    [QuestNodeActionTag("stealth")]
     public class QuestTriggerStealth : QuestTrigger
     {
-        public QuestTriggerStealth() : base()
+        public DataStealth dataStealth;
+        public List<GameObject> objectsObservers= new();
+        public override void SetTypedData(BaseQuestNodeData baseData)
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            dataStealth  = (DataStealth)baseData;
         }
 
         protected override void OnTriggerEnter(Collider other) 

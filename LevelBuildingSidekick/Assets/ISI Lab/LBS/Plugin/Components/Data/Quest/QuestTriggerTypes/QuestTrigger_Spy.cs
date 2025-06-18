@@ -1,20 +1,17 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" spy ")]
+    [QuestNodeActionTag("spy")]
     public class QuestTriggerSpy : QuestTrigger
     {
-        public QuestTriggerSpy() : base()
+        public DataSpy dataSpy;
+        public GameObject objectToSpy;
+        
+        public override void SetTypedData(BaseQuestNodeData baseData)
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            dataSpy =  (DataSpy)baseData;
         }
 
         protected override void OnTriggerEnter(Collider other) 

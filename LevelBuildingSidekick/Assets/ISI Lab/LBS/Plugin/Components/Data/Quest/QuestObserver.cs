@@ -3,26 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace ISILab.LBS
 {
-    [System.Serializable]
+    [Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        [SerializeField]
-        private QuestGraph questGraph;
+        [SerializeField] private QuestGraph questGraph;
 
-        [SerializeField, SerializeReference]
-        private Dictionary<QuestNode, QuestTrigger> nodeTriggerMap = new();
-        private Dictionary<QuestNode, QuestTrigger> idMap = new();
-        
-        public UnityEvent OnQuestCompleteEvent;
+        [SerializeField, SerializeReference] private Dictionary<QuestNode, QuestTrigger> nodeTriggerMap = new();
 
-        private bool questComplete = false;
-        
-        public bool QuestComplete => questComplete;
+        [SerializeField] public UnityEvent onQuestCompleteEvent;
+
+        public bool QuestComplete { get; private set; }
 
         private void Start()
         {
@@ -48,9 +44,9 @@ namespace ISILab.LBS
         /// <param name="trigger">The trigger that was completed.</param>
         private void HandleTriggerCompleted(QuestTrigger trigger)
         {
-            if (!AdvanceQuest(trigger) || questComplete) return;
-            questComplete = true;
-            OnQuestCompleteEvent.Invoke();
+            if (!AdvanceQuest(trigger) || QuestComplete) return;
+            QuestComplete = true;
+            onQuestCompleteEvent.Invoke();
             
         }
 
@@ -144,8 +140,8 @@ namespace ISILab.LBS
                 {
                     if(!child) continue;
                     if (node.ID != child.NodeID) continue;
-                    if(nodeTriggerMap.ContainsKey(node)) continue;
-                    nodeTriggerMap.Add(node, child);
+                    if(!nodeTriggerMap.TryAdd(node, child)) continue;
+                    
                     child.OnTriggerCompleted += HandleTriggerCompleted;
                     if(node == questGraph.Root) child.gameObject.SetActive(true); // activate the first trigger only
                 }
@@ -155,46 +151,70 @@ namespace ISILab.LBS
     }
 
     /// <summary>
-    /// Attribute to tag QuestTrigger classes with display labels and required data types.
+    /// Attribute to tag QuestTrigger by tag.
+    /// The string must be in lower case and without ony empty spaces.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class QuestNodeActionTag : Attribute
     {
         public string Tag { get; }
-        public Type[] RequiredDataTypes { get; }
-
-        public QuestNodeActionTag(string tag, params Type[] requiredDataTypes)
+        public QuestNodeActionTag(string tag)
         {
-            Tag = tag.Trim().ToLowerInvariant();
-            RequiredDataTypes = requiredDataTypes;
+            Tag = tag;
         }
     }
+
 
     /// <summary>
     /// Static registry that maps tag names to the expected data types of triggers.
     /// </summary>
+  
+    [InitializeOnLoad]
     public static class QuestTagRegistry
     {
-        public static readonly Dictionary<string, Type[]> TagDataTypes;
+        private static readonly Dictionary<string, Type> TagDataTypes;
 
         static QuestTagRegistry()
         {
-            TagDataTypes = new Dictionary<string, Type[]>();
+            TagDataTypes = new Dictionary<string, Type>();
 
-            var taggedTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => t.GetCustomAttributes(typeof(QuestNodeActionTag), false).Length > 0);
+            var allTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a =>
+                {
+                    try { return a.GetTypes(); }
+                    catch { return Array.Empty<Type>(); }
+                })
+                .Where(t =>
+                    typeof(QuestTrigger).IsAssignableFrom(t) &&
+                    !t.IsAbstract &&
+                    t.GetCustomAttributes(typeof(QuestNodeActionTag), false).Length > 0
+                );
 
-            foreach (var type in taggedTypes)
+            foreach (var type in allTypes)
             {
                 var attributes = type.GetCustomAttributes(typeof(QuestNodeActionTag), false)
                     .Cast<QuestNodeActionTag>();
 
                 foreach (var attr in attributes)
                 {
-                    TagDataTypes[attr.Tag] = attr.RequiredDataTypes;
+                    var tag = attr.Tag.Trim().ToLowerInvariant();
+
+                    if (!TagDataTypes.ContainsKey(tag))
+                    {
+                        TagDataTypes.Add(tag, type);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[QuestTagRegistry] Duplicate tag '{tag}' found on {type.Name} and {TagDataTypes[tag].Name}.");
+                    }
                 }
             }
+        }
+
+        public static Type GetTriggerTypeForTag(string tag)
+        {
+            var trimmed = tag.Trim().ToLowerInvariant();
+            return TagDataTypes.GetValueOrDefault(trimmed);
         }
     }
 }

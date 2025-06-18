@@ -1,20 +1,16 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" listen ")]
+    [QuestNodeActionTag("listen")]
     public class QuestTriggerListen : QuestTrigger
     {
-        public QuestTriggerListen() : base()
+        public DataListen dataListen;
+        public GameObject objectToListen;
+        public override void SetTypedData(BaseQuestNodeData baseData)
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            dataListen = (DataListen)baseData;
         }
 
         protected override void OnTriggerEnter(Collider other) 

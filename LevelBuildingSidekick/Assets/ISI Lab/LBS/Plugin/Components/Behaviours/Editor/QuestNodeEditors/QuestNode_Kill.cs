@@ -28,22 +28,22 @@ namespace ISILab.LBS.VisualElements
             _killList.bindItem = (element, i) =>
             {
                 if (element is not PickerBundle tilePicker || NodeData == null) return;
-                if (i < 0 || i >= NodeData.BundlesToKill.Count) return;
+                if (i < 0 || i >= NodeData.bundlesToKill.Count) return;
 
-                var bundleGraph = NodeData.BundlesToKill[i];
+                var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleGraph.Layer, bundleGraph.Guid, bundleGraph.Position);
+                tilePicker.SetTarget(bundleGraph.layer, bundleGraph.guid, bundleGraph.position);
 
                 tilePicker.OnClicked = () =>
                 {
                     var pickerManipulator = AssignPickerData();
                     pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
                     {
-                        bundleGraph.Layer = layer;
-                        bundleGraph.Guid = pickedGuid;
-                        bundleGraph.Position = pos;
+                        bundleGraph.layer = layer;
+                        bundleGraph.guid = pickedGuid;
+                        bundleGraph.position = pos;
                         tilePicker.SetTarget(layer, pickedGuid, pos);
-                        NodeData.BundlesToKill[i] = bundleGraph;
+                        NodeData.bundlesToKill[i] = bundleGraph;
                     };
                 };
             };
@@ -52,8 +52,8 @@ namespace ISILab.LBS.VisualElements
             {
                 foreach (int index in removedIndices.OrderByDescending(x => x))
                 {
-                    if (index >= 0 && index < NodeData.BundlesToKill.Count)
-                        NodeData.BundlesToKill.RemoveAt(index);
+                    if (index >= 0 && index < NodeData.bundlesToKill.Count)
+                        NodeData.bundlesToKill.RemoveAt(index);
                 }
                 _killList.Rebuild();
             };
@@ -61,7 +61,7 @@ namespace ISILab.LBS.VisualElements
 
         protected override void OnDataAssigned()
         {
-            _killList.itemsSource = NodeData.BundlesToKill;
+            _killList.itemsSource = NodeData.bundlesToKill;
             _killList.Rebuild();
         }
     }

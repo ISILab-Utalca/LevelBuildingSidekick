@@ -31,14 +31,14 @@ namespace ISILab.LBS.VisualElements
                         {
                                 AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
                                 {
-                                        NodeData.BundleReportTo.Layer = layer;
-                                        NodeData.BundleReportTo.Guid = pickedGuid;
-                                        NodeData.BundleReportTo.Position = position;
+                                        NodeData.bundleReportTo.layer = layer;
+                                        NodeData.bundleReportTo.guid = pickedGuid;
+                                        NodeData.bundleReportTo.position = position;
                                         _pickerBundle.SetTarget(layer, pickedGuid, position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.BundleReportTo.Layer, NodeData.BundleReportTo.Guid, NodeData.BundleReportTo.Position);
+                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layer, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.position);
                 }
         }
 }

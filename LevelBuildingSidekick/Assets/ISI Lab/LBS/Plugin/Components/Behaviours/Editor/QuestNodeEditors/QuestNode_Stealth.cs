@@ -40,7 +40,7 @@ namespace ISILab.LBS.VisualElements
 
             if (_observerList == null) return;
 
-            _observerList.itemsSource = NodeData.BundlesObservers;
+            _observerList.itemsSource = NodeData.bundlesObservers;
             _observerList.makeItem = CreateObserverItem;
             _observerList.bindItem = BindObserverItem;
 
@@ -48,8 +48,8 @@ namespace ISILab.LBS.VisualElements
             {
                 foreach (int index in removedIndices.OrderByDescending(x => x))
                 {
-                    if (index >= 0 && index < NodeData.BundlesObservers.Count)
-                        NodeData.BundlesObservers.RemoveAt(index);
+                    if (index >= 0 && index < NodeData.bundlesObservers.Count)
+                        NodeData.bundlesObservers.RemoveAt(index);
                 }
 
                 _observerList.Rebuild();
@@ -68,22 +68,22 @@ namespace ISILab.LBS.VisualElements
         private void BindObserverItem(VisualElement element, int index)
         {
             if (element is not PickerBundle tilePicker) return;
-            if (index < 0 || index >= NodeData.BundlesObservers.Count) return;
+            if (index < 0 || index >= NodeData.bundlesObservers.Count) return;
 
-            var bundle = NodeData.BundlesObservers[index];
+            var bundle = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTarget(bundle.Layer, bundle.Guid, bundle.Position);
+            tilePicker.SetTarget(bundle.layer, bundle.guid, bundle.position);
 
             tilePicker.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
                 pickerManipulator.OnBundlePicked = (layer, guid, pos) =>
                 {
-                    bundle.Layer = layer;
-                    bundle.Guid = guid;
-                    bundle.Position = pos;
+                    bundle.layer = layer;
+                    bundle.guid = guid;
+                    bundle.position = pos;
                     tilePicker.SetTarget(layer, guid, pos);
-                    NodeData.BundlesObservers[index] = bundle;
+                    NodeData.bundlesObservers[index] = bundle;
                 };
             };
         }

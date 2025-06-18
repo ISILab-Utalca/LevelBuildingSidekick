@@ -24,16 +24,16 @@ namespace ISILab.LBS.VisualElements
                 protected override void OnDataAssigned()
                 {
                         _pickerBundle.ClearPicker();
-                        _pickerBundle.SetTarget(NodeData.BundleToTake.Layer, NodeData.BundleToTake.Guid, NodeData.BundleToTake.Position);
+                        _pickerBundle.SetTarget(NodeData.bundleToTake.layer, NodeData.bundleToTake.guid, NodeData.bundleToTake.position);
 
                         _pickerBundle.OnClicked = () =>
                         {
                                 var pickerManipulator = AssignPickerData();
                                 pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
                                 {
-                                        NodeData.BundleToTake.Layer = layer;
-                                        NodeData.BundleToTake.Guid = pickedGuid;
-                                        NodeData.BundleToTake.Position = position;
+                                        NodeData.bundleToTake.layer = layer;
+                                        NodeData.bundleToTake.guid = pickedGuid;
+                                        NodeData.bundleToTake.position = position;
                                         _pickerBundle.SetTarget(layer, pickedGuid, position);
                                 };
                         };

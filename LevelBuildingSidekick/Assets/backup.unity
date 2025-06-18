@@ -301,35 +301,62 @@ MonoBehaviour:
       rid: 5702184114503024968
   nodeID: ' explore  (0)'
   isCompleted: 0
-  OnCompleteEvent:
+  onCompleteEvent:
     m_PersistentCalls:
       m_Calls: []
+  dataExplore:
+    owner:
+      nodeDataJson: 
+      nodeData:
+        rid: -2
+      x: 0
+      y: 0
+      id: 
+      questAction: 
+      grammarCheck: 0
+      mapCheck: 0
+      nodeType: 0
+      questState: 0
+      valid: 0
+      target:
+        rid: -2
+      graph:
+        rid: -2
+    tag: 
+    position: {x: 0, y: 0}
+    size: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+    subdivisions: 0
+    findRandomPosition: 0
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5702184114503024966
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024969
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024970
+            rid: -2
           graph:
-            rid: 5702184114503024968
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503024967
@@ -386,26 +413,27 @@ MonoBehaviour:
     - rid: 5702184114503024969
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024969
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024970
+            rid: -2
           graph:
-            rid: 5702184114503024968
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503024970
@@ -633,26 +661,27 @@ MonoBehaviour:
     - rid: 5702184114503024981
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024981
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024982
+            rid: -2
           graph:
-            rid: 5702184114503024968
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024982
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -666,26 +695,27 @@ MonoBehaviour:
     - rid: 5702184114503024983
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024983
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024984
+            rid: -2
           graph:
-            rid: 5702184114503024968
-        _tag: ' kill '
-        _position: {x: 5, y: -2}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024984
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -873,35 +903,60 @@ MonoBehaviour:
       rid: 5702184114503024949
   nodeID: ' go to  (0)'
   isCompleted: 0
-  OnCompleteEvent:
+  onCompleteEvent:
     m_PersistentCalls:
       m_Calls: []
+  dataGoto:
+    owner:
+      nodeDataJson: 
+      nodeData:
+        rid: -2
+      x: 0
+      y: 0
+      id: 
+      questAction: 
+      grammarCheck: 0
+      mapCheck: 0
+      nodeType: 0
+      questState: 0
+      valid: 0
+      target:
+        rid: -2
+      graph:
+        rid: -2
+    tag: 
+    position: {x: 0, y: 0}
+    size: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5702184114503024947
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024950
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024951
+            rid: -2
           graph:
-            rid: 5702184114503024949
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024948
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -956,26 +1011,27 @@ MonoBehaviour:
     - rid: 5702184114503024950
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024950
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024951
+            rid: -2
           graph:
-            rid: 5702184114503024949
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024951
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1201,26 +1257,27 @@ MonoBehaviour:
     - rid: 5702184114503024962
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024962
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024963
+            rid: -2
           graph:
-            rid: 5702184114503024949
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503024963
@@ -1236,26 +1293,27 @@ MonoBehaviour:
     - rid: 5702184114503024964
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024964
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024965
+            rid: -2
           graph:
-            rid: 5702184114503024949
-        _tag: ' kill '
-        _position: {x: 5, y: -2}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024965
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1351,35 +1409,61 @@ MonoBehaviour:
       rid: 5702184114503024987
   nodeID: ' kill  (0)'
   isCompleted: 0
-  OnCompleteEvent:
+  onCompleteEvent:
     m_PersistentCalls:
       m_Calls: []
+  dataKill:
+    owner:
+      nodeDataJson: 
+      nodeData:
+        rid: -2
+      x: 0
+      y: 0
+      id: 
+      questAction: 
+      grammarCheck: 0
+      mapCheck: 0
+      nodeType: 0
+      questState: 0
+      valid: 0
+      target:
+        rid: -2
+      graph:
+        rid: -2
+    tag: 
+    position: {x: 0, y: 0}
+    size: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+  objectsToKill: []
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5702184114503024985
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024988
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024989
+            rid: -2
           graph:
-            rid: 5702184114503024987
-        _tag: ' kill '
-        _position: {x: 0, y: 0}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024986
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1434,26 +1518,27 @@ MonoBehaviour:
     - rid: 5702184114503024988
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024988
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024989
+            rid: -2
           graph:
-            rid: 5702184114503024987
-        _tag: ' kill '
-        _position: {x: 5, y: -2}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024989
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1679,26 +1764,27 @@ MonoBehaviour:
     - rid: 5702184114503025000
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503025000
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503025001
+            rid: -2
           graph:
-            rid: 5702184114503024987
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503025001
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1712,26 +1798,27 @@ MonoBehaviour:
     - rid: 5702184114503025002
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503025002
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503025003
+            rid: -2
           graph:
-            rid: 5702184114503024987
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503025003
@@ -1921,12 +2008,14 @@ MonoBehaviour:
     root:
       rid: 5702184114503024919
     LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
-  OnQuestCompleteEvent:
+  onQuestCompleteEvent:
     m_PersistentCalls:
       m_Calls: []
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5702184114503024919
       type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2001,26 +2090,27 @@ MonoBehaviour:
     - rid: 5702184114503024924
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024931
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024932
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024925
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2075,26 +2165,27 @@ MonoBehaviour:
     - rid: 5702184114503024927
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024943
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024944
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503024928
@@ -2110,26 +2201,27 @@ MonoBehaviour:
     - rid: 5702184114503024929
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024945
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024946
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' kill '
-        _position: {x: 0, y: 0}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024930
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2143,26 +2235,27 @@ MonoBehaviour:
     - rid: 5702184114503024931
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024931
-          x: 184
-          y: 364
-          id: ' go to  (0)'
-          questAction: ' go to '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
           nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024932
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' go to '
-        _position: {x: 10, y: -6}
-        _size: 2
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024932
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2388,26 +2481,27 @@ MonoBehaviour:
     - rid: 5702184114503024943
       type: {class: DataExplore, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024943
-          x: 260
-          y: 649
-          id: ' explore  (0)'
-          questAction: ' explore '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024944
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' explore '
-        _position: {x: 9, y: -3}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
         subdivisions: 4
         findRandomPosition: 0
     - rid: 5702184114503024944
@@ -2423,26 +2517,27 @@ MonoBehaviour:
     - rid: 5702184114503024945
       type: {class: DataKill, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        _owner:
+        owner:
           nodeDataJson: 
           nodeData:
-            rid: 5702184114503024945
-          x: 694
-          y: 503
-          id: ' kill  (0)'
-          questAction: ' kill '
-          grammarCheck: 1
+            rid: -2
+          x: 0
+          y: 0
+          id: 
+          questAction: 
+          grammarCheck: 0
           mapCheck: 0
-          nodeType: 2
+          nodeType: 0
           questState: 0
           valid: 0
           target:
-            rid: 5702184114503024946
+            rid: -2
           graph:
-            rid: 5702184114503024926
-        _tag: ' kill '
-        _position: {x: 5, y: -2}
-        _size: 1
+            rid: -2
+        tag: 
+        position: {x: 0, y: 0}
+        size: 0
+        color: {r: 0, g: 0, b: 0, a: 0}
     - rid: 5702184114503024946
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:

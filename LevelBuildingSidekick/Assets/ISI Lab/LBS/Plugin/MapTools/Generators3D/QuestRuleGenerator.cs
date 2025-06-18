@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,6 +17,8 @@ namespace ISILab.LBS.Generators
 
     public class QuestRuleGenerator : LBSGeneratorRule
     {
+        private const float ProbeRadius = 1.0f;
+        
         public override List<Message> CheckViability(LBSLayer layer)
         {
             throw new NotImplementedException();
@@ -53,74 +58,24 @@ namespace ISILab.LBS.Generators
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
             assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
-           // bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
-            bool allValid = true;
-            if (!allValid)
-            {
-                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
-            }
-            /*foreach (var edge in quest.QuestEdges)
-            {
-                assistant?.ValidateEdgeGrammarOLD(edge);
-            }
-            bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
-         
-           
-            bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
-            if (!allValid)
-            {
-                return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
-            }
-               */
-            foreach (var node in quest.QuestNodes)
-            {
-                var go = new GameObject(node.ID)
-                {
-                    transform =
-                    {
-                        parent = observer.transform
-                    }
-                };
+            /*
+             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
 
-                string tag = node.QuestAction.Trim().ToLowerInvariant();
+             foreach (var edge in quest.QuestEdges)
+             {
+                 assistant?.ValidateEdgeGrammarOLD(edge);
+             }
+             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
 
-                // Get the proper trigger for the given quest node action
-                Type triggerType = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .FirstOrDefault(t => 
-                        typeof(QuestTrigger).IsAssignableFrom(t) &&
-                        !t.IsAbstract &&
-                        t.GetCustomAttributes(typeof(QuestNodeActionTag), false)
-                            .Cast<QuestNodeActionTag>()
-                            .Any(attr => attr.Tag == tag));
 
-                if (triggerType == null)
-                {
-                    Debug.LogError($"No QuestTrigger type found for tag '{tag}'");
-                    continue;
-                }
-                
-                var trigger = (QuestTrigger)go.AddComponent(triggerType);
-                var size = node.NodeData.Size;
-                trigger.SetSize(new Vector3(
-                    size*settings.scale.x, 
-                    size*settings.scale.y, 
-                    size*settings.scale.y));
-                
-                trigger.SetData(node); 
-                go.SetActive(false);
-              
-                var x = node.NodeData.Position.x * settings.scale.x;
-                var z = node.NodeData.Position.y * settings.scale.y;
-                var y = pivot.transform.position.y; // maybe change this to a line trace
-                var questPos= new Vector3(x, y, z);
-                
-                var basePos = settings.position;
-                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
-                
-                go.transform.position =   basePos + questPos - delta;
-                
-            }
+             bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
+             if (!allValid)
+             {
+                 return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
+             }
+             */
+            
+            GenerateTriggers(settings, quest, observer, pivot);
 
 
             observer.Init(quest);
@@ -136,6 +91,231 @@ namespace ISILab.LBS.Generators
             return Tuple.Create<GameObject, string>(pivot, null);
         }
 
+        private static void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer, GameObject pivot)
+        {
+            foreach (var node in quest.QuestNodes)
+            {
+                Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);
+
+                if (triggerType == null)
+                {
+                    Debug.LogError($"No trigger type found for tag '{node.QuestAction}' in QuestTagRegistry");
+                    continue;
+                }
+
+                // Create GameObject for the trigger
+                var go = new GameObject(node.ID)
+                {
+                    transform = { parent = observer.transform }
+                };
+
+                // Add the trigger component dynamically
+                var trigger = (QuestTrigger)go.AddComponent(triggerType);
+
+                // Set shared data
+                trigger.SetData(node);
+                trigger.SetTypedData(node.NodeData);
+
+                // Set up visual size
+                var size = node.NodeData.Size;
+                trigger.SetSize(new Vector3(
+                    size * settings.scale.x,
+                    size * settings.scale.y,
+                    size * settings.scale.y));
+
+                // Position the trigger in the world
+                var x = node.NodeData.Position.x * settings.scale.x;
+                var z = node.NodeData.Position.y * settings.scale.y;
+                var y = pivot.transform.position.y;
+
+                var questPos = new Vector3(x, y, z);
+                var basePos = settings.position;
+                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
+
+                go.transform.position = basePos + questPos - delta;
+
+                // Find and assign population objects for specific node types
+                FindPopulationObjects(trigger, settings, node, basePos, y, delta);
+
+                go.SetActive(false);
+            }
+        }
+        
+        
+        /// <summary>
+        /// Tries to find objects in the scene, assuming they were generated previously
+        /// </summary>
+        /// <param name="trigger">Trigger type to be instance into the Quest Observer GameObject</param>
+        /// <param name="settings">Settings to get the positions the population objects should have on the scene</param>
+        /// <param name="node">Node to recognize failure to find object</param>
+        /// <param name="basePos">the base position corresponds to the grid location</param>
+        /// <param name="y">Pivot.y</param>
+        /// <param name="delta">Rescale from graph size </param>
+        private static void FindPopulationObjects(QuestTrigger trigger, Generator3D.Settings settings, QuestNode node, Vector3 basePos, float y, Vector3 delta)
+        {
+            switch (node.NodeData)
+            {
+                case DataTake dataTake when trigger is QuestTriggerTake takeTrigger:
+                    if (dataTake.bundleToTake.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataTake.bundleToTake,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => takeTrigger.objectToTake = foundObject
+                        );
+                    }
+                    break;
+
+                case DataRead dataRead when trigger is QuestTriggerRead readTrigger:
+                    if (dataRead.bundleToRead.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataRead.bundleToRead,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => readTrigger.objectToRead = foundObject
+                        );
+                    }
+                    break;
+
+                case DataGive dataGive when trigger is QuestTriggerGive giveTrigger:
+                    if (dataGive.bundleGiveTo.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataGive.bundleGiveTo,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => giveTrigger.objectToGiveTo = foundObject
+                        );
+                    }
+                    break;
+
+                case DataReport dataReport when trigger is QuestTriggerReport reportTrigger:
+                    if (dataReport.bundleReportTo.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataReport.bundleReportTo,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => reportTrigger.objectToReport = foundObject
+                        );
+                    }
+                    break;
+
+                case DataSpy dataSpy when trigger is QuestTriggerSpy spyTrigger:
+                    if (dataSpy.bundleToSpy.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataSpy.bundleToSpy,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => spyTrigger.objectToSpy = foundObject
+                        );
+                    }
+                    break;
+
+                case DataListen dataListen when trigger is QuestTriggerListen listenTrigger:
+                    if (dataListen.bundleListenTo.Valid())
+                    {
+                        AssignObjectByBundleGraph(
+                            node,
+                            dataListen.bundleListenTo,
+                            settings,
+                            basePos,
+                            y,
+                            delta,
+                            foundObject => listenTrigger.objectToListen = foundObject
+                        );
+                    }
+                    break;
+
+                case DataKill dataKill when trigger is QuestTriggerKill killTrigger:
+                    if (dataKill.bundlesToKill != null && dataKill.bundlesToKill.Any(bg => bg.Valid()))
+                    {
+                        killTrigger.objectsToKill = new List<GameObject>();
+                        foreach (var bundleGraph in dataKill.bundlesToKill.Where(bg => bg.Valid()))
+                        {
+                            AssignObjectByBundleGraph(
+                                node,
+                                bundleGraph,
+                                settings,
+                                basePos,
+                                y,
+                                delta,
+                                foundObject => killTrigger.objectsToKill.Add(foundObject)
+                            );
+                        }
+                    }
+                    break;
+
+                case DataStealth dataStealth when trigger is QuestTriggerStealth stealthTrigger:
+                    if (dataStealth.bundlesObservers != null && dataStealth.bundlesObservers.Any(bg => bg.Valid()))
+                    {
+                        stealthTrigger.objectsObservers = new List<GameObject>();
+                        foreach (var bundleGraph in dataStealth.bundlesObservers.Where(bg => bg.Valid()))
+                        {
+                            AssignObjectByBundleGraph(
+                                node,
+                                bundleGraph,
+                                settings,
+                                basePos,
+                                y,
+                                delta,
+                                foundObject => stealthTrigger.objectsObservers.Add(foundObject)
+                            );
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private static void AssignObjectByBundleGraph(
+            QuestNode node,
+            BundleGraph bundleGraph,
+            Generator3D.Settings settings,
+            Vector3 basePos,
+            float y,
+            Vector3 delta,
+            Action<GameObject> assignAction)
+        {
+            // calc position
+            var bundlePosX = bundleGraph.position.x * settings.scale.x;
+            var bundlePosZ = bundleGraph.position.y * settings.scale.y;
+            var bundleWorldPos = basePos + new Vector3(bundlePosX, y, bundlePosZ) - delta;
+
+            // per objects in radious
+            var colliders = Physics.OverlapSphere(bundleWorldPos, ProbeRadius); 
+            foreach (var collider in colliders)
+            {
+                var lbsGenerated = collider.GetComponent<LBSGenerated>();
+                if (lbsGenerated == null || lbsGenerated.BundleRef == null) continue;
+                
+                Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.guid); 
+                if (lbsGenerated.BundleRef != bundleRef) continue;
+                assignAction?.Invoke(collider.gameObject);
+                return;
+            }
+
+            Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.guid}' found at position {bundleWorldPos} for node {node.ID}");
+        }
+        
+        
         /// <summary>
         /// Creates the ui document class (that's displayed during game mode) and
         /// adds it into the layer generated game object

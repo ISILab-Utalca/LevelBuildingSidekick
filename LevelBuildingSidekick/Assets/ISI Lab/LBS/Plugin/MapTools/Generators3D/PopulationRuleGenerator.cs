@@ -137,7 +137,7 @@ namespace ISILab.LBS.Generators
             
             if(objects.Count == 0)
             {
-                return Tuple.Create<GameObject, string>(parent, "No population objects were created. Assign a valid bundle type");
+                return Tuple.Create(parent, "No population objects were created. Assign a valid bundle type");
             }
             
             

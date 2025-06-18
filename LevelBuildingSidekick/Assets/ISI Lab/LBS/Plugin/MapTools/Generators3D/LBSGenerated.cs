@@ -14,6 +14,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     public class LBSGenerated : MonoBehaviour
     {
         #region BUNDLE REFERENCES
+        
         //Original bundle reference
         [SerializeField]
         private Bundle bundleRef;
