@@ -73,6 +73,14 @@ namespace ISILab.AI.Categorization
             throw new System.NotImplementedException();
         }
 
+        public bool IsEmpty()
+        {
+            var geneList = GetGenes().Cast<object>().ToList();
+            var NonNullGenes = geneList.FindAll(b => b != null);
+            return NonNullGenes.Count() == immutableIndexes.Length;
+
+        }
+
         public override void SetDeafult(int index)
         {
             ReplaceGene<BundleData>(index, null);
@@ -176,6 +184,19 @@ namespace ISILab.AI.Categorization
             return texture;
         }
 
+        /*public BundleTileMap ToTileMap()
+        {
+            var newTileMap = new BundleTileMap();
+            for(int i=0; i<genes.Length; i++)
+            {
+                if(genes[i]!=null)
+                {
+                    var geneData = genes[i] as BundleData;
+                    newTileMap.AddGroup(new TileBundleGroup(this.ToMatrixPosition(i), geneData.Bundle.TileSize, geneData, Vector2.right));
+                }
+            }
+            return newTileMap;
+        }*/
 
         IChromosome IChromosome.CreateNewChromosome()
         {

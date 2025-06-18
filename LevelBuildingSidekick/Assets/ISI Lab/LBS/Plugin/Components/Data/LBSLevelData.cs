@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
@@ -22,6 +24,9 @@ namespace ISILab.LBS
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSLayer> quests = new List<LBSLayer>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        public List<SavedMapList> savedLayerMaps = new List<SavedMapList>();
         #endregion
 
         #region PROPERTIES
@@ -30,6 +35,9 @@ namespace ISILab.LBS
 
         [JsonIgnore]
         public List<LBSLayer> Quests => quests;
+
+        [JsonIgnore]
+        public List<SavedMapList> SavedLayerMaps => savedLayerMaps;
 
         [JsonIgnore]
         public int LayerCount => layers.Count;
@@ -58,6 +66,11 @@ namespace ISILab.LBS
                 q.Reload();
                 q.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
                 q.Parent = this;
+            }
+
+            foreach(var m in savedLayerMaps)
+            {
+                m.Key = (layers.Find(l => l.Equals(m.Key)));
             }
 
             OnReload?.Invoke();
@@ -144,7 +157,6 @@ namespace ISILab.LBS
             OnChanged?.Invoke(this);
             return layer;
         }
-
         public LBSLayer AddQuest(string name)
         {
             var quest = new LBSLayer();
@@ -178,6 +190,43 @@ namespace ISILab.LBS
             return qg;
         }
 
+        //To add saved maps
+        //public void SaveMapInLayer(BundleTileMap map, float score, LBSLayer layer) => SaveMapInLayer(new SavedMap(map, "", score), layer);
+        public void SaveMapInLayer(SavedMap newSavedMap, LBSLayer layer)
+        {
+            //Check if the layer has saved maps
+            if (GetSavedMaps(layer)==null)
+            {
+                savedLayerMaps.Add(new SavedMapList(layer));
+            }
+            var list = GetSavedMaps(layer);
+            //Add default name
+            if (list.Count == 0)
+            {
+                newSavedMap.Name = "New Map";
+            } else
+            {
+                int counter;
+                counter = list.Count + 1;
+                foreach(SavedMap map in list.Maps)
+                {
+                    if(map.Name == "New Map " + counter) counter++;
+                }
+                newSavedMap.Name = "New Map " + counter;
+            }
+            //Save
+            Debug.Log("saving " + newSavedMap.Name);
+            list.Maps.Add(newSavedMap);
+        }
+        public SavedMapList GetSavedMaps(LBSLayer layer)
+        {
+            //return SavedLayerMaps.ContainsKey(layer) ? SavedLayerMaps[layer] : null;
+            foreach(SavedMapList list in SavedLayerMaps)
+            {
+                if (list.Key == layer) return list;
+            }
+            return null;
+        }
 
         public override bool Equals(object obj)
         {
@@ -215,5 +264,37 @@ namespace ISILab.LBS
             return base.ToString();
         }
         #endregion
+    }
+
+    [System.Serializable]
+    public class SavedMapList
+    {
+        [SerializeField, JsonRequired]
+        protected LBSLayer key;
+        [SerializeField, JsonRequired]
+        protected List<SavedMap> maps;
+
+        public LBSLayer Key
+        {
+            get => key;
+            set => key = value;
+        }
+        public List<SavedMap> Maps
+        {
+            get => maps;
+            set => maps = value;
+        }
+        public int Count => maps.Count;
+
+        public SavedMapList(LBSLayer key)
+        {
+            this.key = key;
+            maps = new List<SavedMap>();
+        }
+        public SavedMapList(LBSLayer key, List<SavedMap> mapList)
+        {
+            this.key = key;
+            this.maps = mapList;
+        }
     }
 }

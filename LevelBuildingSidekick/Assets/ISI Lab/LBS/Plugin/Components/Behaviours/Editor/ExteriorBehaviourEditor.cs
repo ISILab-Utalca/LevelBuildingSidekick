@@ -124,21 +124,34 @@ namespace ISILab.LBS.VisualElements
             bundleField.RegisterValueChangedCallback(evt =>
             {
                 var bundle = evt.newValue as Bundle;
-                
-                var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
-                var idents = SePalleteConnectionView(bundle, identifierTags);
-                
-                if (idents.Any())
+
+                System.Action invalidBundleAction = () =>
                 {
-                    exterior.Bundle = bundle; // valid for exterior
-                    var owner = exterior.OwnerLayer;
-                    owner.OnChangeUpdate(); // updates the assistant and viceversa
+                    bundleField.value = exterior.Bundle;
+                    LBSMainWindow.MessageNotify("Selected bundle was invalid.", LogType.Warning);
+                };
+
+                if(bundle)
+                {
+                    var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
+                    var idents = SePalleteConnectionView(bundle, identifierTags);
+
+                    if (idents.Any())
+                    {
+                        exterior.Bundle = bundle; // valid for exterior
+                        var owner = exterior.OwnerLayer;
+                        owner.OnChangeUpdate(); // updates the assistant and viceversa
+                    }
+                    else
+                    {
+                        invalidBundleAction(); // set default or current if new option not valid
+                    }
                 }
                 else
                 {
-                    bundleField.value = exterior.Bundle; // set default or current if new option not valid
+                    invalidBundleAction(); // set default or current if new option not valid
                 }
-               
+
                 CheckTargetBundle();
             });
 
@@ -149,6 +162,7 @@ namespace ISILab.LBS.VisualElements
             exterior.OwnerLayer.OnChange += () =>
             {
                 bundleField.SetValueWithoutNotify(exterior.Bundle);
+                CheckTargetBundle();
             };
             
             return this;

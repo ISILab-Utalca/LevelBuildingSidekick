@@ -16,6 +16,12 @@ using UnityEditor.UIElements;
 using Object = UnityEngine.Object;
 using ISILab.LBS.AI.Assistants.Editor;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Behaviours;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using ISILab.AI.Categorization;
+using LBS.Components.TileMap;
+using ISILab.LBS.Modules;
+using ISILab.Extensions;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -41,17 +47,22 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private List<MAPElitesPreset> savedMaps = new ();
+        //private List<SavedMap> savedMapList = new ();
         private List<PopulationMapEntry> mapEntries = new ();
     
         #endregion
 
         #region PROPERTIES
 
-        List<MAPElitesPreset> MapEliteBundle
+        
+        protected LBSLayer TargetLayer
         {
-            get => savedMaps;
-            set => savedMaps = value;
+            get => target.OwnerLayer;
+        }
+        List<SavedMap> SavedMapList
+        {
+            get => TargetLayer.Parent.GetSavedMaps(TargetLayer)?.Maps;
+            set => TargetLayer.Parent.GetSavedMaps(TargetLayer).Maps = value;
         }
         #endregion
 
@@ -62,12 +73,22 @@ namespace ISILab.LBS.VisualElements.Editor
             window = ScriptableObject.CreateInstance<PopulationAssistantWindow>();
             window.SetAssistant(target);
 
+            window.UpdatePins = null;
+            window.UpdatePins += () =>
+            {
+                Debug.Log("pins updated");
+                UpdateMapEntries();
+                mapElitesList.Rebuild();
+            };
+
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PopulationAssistantTab");
             visualTree.CloneTree(this);
             
+            //Main thing
             mapEliteFoldout = this.Q<Foldout>("FoldoutMapElites");
             mapEliteContent = this.Q<VisualElement>("MapEliteContent");
             
+            //Assistant button
             buttonMapElitesAssistant = this.Q<Button>("ButtonMapElitesAssistant");
             buttonMapElitesAssistant.clicked += ()=>
             {
@@ -78,54 +99,124 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
                 window.ShowWindow();
             };
-            
-            savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
-            
-            mapEntries.Clear();
-            // replace these calls with reading the actual saved data from the user
-            AddEntry();
-            AddEntry();
-            AddEntry();
-            
+
+            //savedElitesContent = this.Q<VisualElement>("SavedElitesContent");
+
+            UpdateMapEntries();
             mapElitesList = this.Q<ListView>("MapElitesList");
-            mapElitesList.reorderable = true;
-            
+
+            //False until I find out why it simply snaps back to the original order when you try to move something.
+            //Guess that counts as disable by default anyway...? -Alice
+            mapElitesList.reorderable = false;
+
             mapElitesList.makeItem = () => new PopulationMapEntry(); 
+            
             mapElitesList.bindItem = (element, index) =>
             {
                 var mapEntryVE = element as PopulationMapEntry;
                 if (mapEntryVE == null) return;
 
-                var mapEntry = savedMaps[index]; 
+                var mapEntry = SavedMapList[index];
                 mapEntryVE.SetData(mapEntry);
+
+                mapEntryVE.Name = mapEntry.Name;
 
                 mapEntryVE.RemoveMapEntry = null;
                 mapEntryVE.RemoveMapEntry += () =>
                 {
                     Debug.Log("Remove at " +index);
                     mapEntries.RemoveAt(index);
+                    RemoveMap(index);
                     mapElitesList.Rebuild();
                 };
+                mapEntryVE.ApplyMapEntry = null;
+                mapEntryVE.ApplyMapEntry += () =>
+                {
+                    Debug.Log("applying from " + index);
+                    ApplySuggestion(index);
+                };
             };
-
             mapElitesList.itemsSource = mapEntries;
         }
-        
         #endregion
 
         #region METHODS
-
         // should pass the preset as parameter
-        private void AddEntry()
+        /*private void AddEntry()
         {
             var mapEntry1 = ScriptableObject.CreateInstance<MAPElitesPreset>(); // not null
             savedMaps.Add(mapEntry1);
 
             var mapEntryVE = new PopulationMapEntry();
             mapEntries.Add(mapEntryVE);
+        }*/
+
+        private void RemoveMap(int index) => RemoveMap(SavedMapList[index].Name);
+        private void RemoveMap(string name)
+        {
+            if (TargetLayer == null) return;
+            var data = TargetLayer.Parent;
+            var savedMapList = data.GetSavedMaps(TargetLayer);
+            if (savedMapList == null) return;
+
+            var maps = savedMapList.Maps;
+            maps.Remove(maps.Find(c => c.Name == name));
         }
-        
+        private void UpdateMapEntries()
+        {
+            //Get population behavior = it's now TargetLayer!
+            //Get saved maps
+            if (TargetLayer == null) return;
+            if (SavedMapList == null) return;
+
+            var data = TargetLayer.Parent;
+            
+            //Clear map entries
+            mapEntries.Clear();
+
+            if (SavedMapList.Count>0)
+            {
+                foreach(SavedMap map in SavedMapList)
+                {
+                    //Make a new visual element to set it up later
+                    var mapEntryVE = new PopulationMapEntry();
+                    mapEntries.Add(mapEntryVE);
+                }
+            }
+        }
+        private void ApplySuggestion(int index) => ApplySuggestion(SavedMapList[index]);
+        private void ApplySuggestion(object obj)
+        {
+            window.OnTileMapChanged?.Invoke();
+            var savedMap = obj as SavedMap;
+            var chrom = savedMap.Map;
+            if (chrom == null) return;
+
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
+
+            var layerPopulation = TargetLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+            var rect = chrom.Rect;
+
+            for (int i = 0; i < chrom.Length; i++)
+            {
+                var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
+                layerPopulation.RemoveTileGroup(pos);
+                var gene = chrom.GetGene(i);
+                if (gene == null)
+                    continue;
+                layerPopulation.AddTileGroup(pos, gene as BundleData);
+            }
+            DrawManager.Instance.RedrawLayer(TargetLayer, MainView.Instance);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
+            LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
+        }
         #endregion
-       
+
     }
 }

@@ -22,7 +22,7 @@ namespace ISILab.LBS.Behaviours
         TileMapModule tileMap;
         [SerializeField, JsonIgnore]
         BundleTileMap bundleTileMap;
-        
+
         [SerializeField,JsonRequired]
         private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
         
@@ -84,7 +84,7 @@ namespace ISILab.LBS.Behaviours
         {
 
         }
-
+        public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));
         public void AddTileGroup(Vector2Int position, BundleData bundle)
         {
             if (!bundleTileMap.ValidNewGroup(position, bundle, Vector2.right)) return;
@@ -108,7 +108,6 @@ namespace ISILab.LBS.Behaviours
         {
             return bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
         }
-        public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));
 
         public void RemoveTileGroup(Vector2Int position)
         {
@@ -123,6 +122,22 @@ namespace ISILab.LBS.Behaviours
                     tileMap.RemoveTile(tile);
                 }
                 bundleTileMap.RemoveGroup(group);
+            }
+        }
+
+        public void ReplaceTileMap(BundleTileMap map)
+        {
+            //Remove everything
+            if (bundleTileMap.Groups.Count > 0)
+            {
+                foreach (TileBundleGroup group in bundleTileMap.Groups)
+                {
+                    bundleTileMap.RemoveGroup(group);
+                }
+            }
+            foreach(TileBundleGroup group in map.Groups)
+            {
+                bundleTileMap.AddGroup(group);
             }
         }
 
@@ -166,6 +181,15 @@ namespace ISILab.LBS.Behaviours
             return GetBundleData(tileMap.GetTile(position.ToInt()));
         }
 
+        public void Clear()
+        {
+            if (Tilemap.Count == 0) return;
+            foreach(TileBundleGroup group in Tilemap)
+            {
+                bundleTileMap.RemoveGroup(group);
+            }
+            return;
+        }
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;

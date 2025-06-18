@@ -142,12 +142,25 @@ namespace ISILab.LBS.Settings
 
                     // Bundles folder
                     EditorGUILayout.BeginHorizontal();
-                    settings.paths.bundleFolderPath = EditorGUILayout.TextField("Bundles folder", settings.paths.bundleFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    settings.paths.bundleFolderPath = EditorGUILayout.TextField("Bundles folder",
+                        settings.paths.bundleFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     EditorGUILayout.EndHorizontal();
 
                     // Tag folder
                     EditorGUILayout.BeginHorizontal();
-                    settings.paths.tagFolderPath = EditorGUILayout.TextField("Tags folder", settings.paths.tagFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    settings.paths.tagFolderPath = EditorGUILayout.TextField("Tags folder",
+                        settings.paths.tagFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    EditorGUILayout.EndHorizontal();
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    settings.paths.meshFolderPath = EditorGUILayout.TextField("Generated Mesh Folder",
+                        settings.paths.meshFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     EditorGUILayout.EndHorizontal();
 
                     // Set Default button

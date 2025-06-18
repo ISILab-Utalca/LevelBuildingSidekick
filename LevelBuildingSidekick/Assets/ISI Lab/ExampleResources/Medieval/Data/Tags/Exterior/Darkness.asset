@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   label: Darkness
   icon: {fileID: 0}
-  color: {r: 0, g: 0, b: 0, a: 1}
+  color: {r: 0.16981131, g: 0.020024916, b: 0.020024916, a: 1}

@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements;
 using LBS;
@@ -15,6 +16,7 @@ using ISILab.LBS.Internal;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEditor;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
@@ -24,6 +26,13 @@ namespace ISILab.LBS.AI.Assistants.Editor
         private WaveFunctionCollapseManipulator collapseManipulator;
 
         private AssistantWFC assistant;
+
+        private TextField presetName;
+        private TextField presetsFolder;
+
+        private ObjectField currentPreset;
+
+        private ListView presetsList;
 
         public AssistantWFCEditor(object target) : base(target)
         {
@@ -65,31 +74,44 @@ namespace ISILab.LBS.AI.Assistants.Editor
                  */ 
                  //assistant.Bundle = evt.newValue as Bundle; 
 
-                 var bundle = evt.newValue as Bundle;
-                
-                 // Get current option
-                 var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
-                 var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-                 if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
-         
-                 var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
-                 
-                 var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
-                
-                 if (idents.Any())
-                 {
-                     exterior.Bundle = bundle; // valid for exterior
-                     var owner = exterior.OwnerLayer;
-                     owner.OnChangeUpdate(); // updates the assistant and viceversa
-                 }
-                 else
-                 {
-                     bundleField.value = exterior.Bundle; // set default or current if new option not valid
-                 }
-                 
-                 assistant.Bundle = exterior.Bundle;
-                 ToolKit.Instance.SetActive(typeof(WaveFunctionCollapseManipulator));
-                 MarkDirtyRepaint();
+                var bundle = evt.newValue as Bundle;
+
+                System.Action invalidBundleAction = () =>
+                {
+                    bundleField.value = exterior.Bundle;
+                    LBSMainWindow.MessageNotify("Selected bundle was invalid.", LogType.Warning);
+                };
+
+                if (bundle)
+                {
+                    // Get current option
+                    var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
+                    var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
+                    if (tags.Remove("Empty")) tags.Insert(0, "Empty");
+
+                    var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+
+                    var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
+
+                    if (idents.Any())
+                    {
+                        exterior.Bundle = bundle; // valid for exterior
+                        var owner = exterior.OwnerLayer;
+                        owner.OnChangeUpdate(); // updates the assistant and viceversa
+                    }
+                    else
+                    {
+                        invalidBundleAction(); // set default or current if new option not valid
+                    }
+                }
+                else
+                {
+                    invalidBundleAction(); // set default or current if new option not valid
+                }
+
+                assistant.Bundle = exterior.Bundle;
+                ToolKit.Instance.SetActive(typeof(WaveFunctionCollapseManipulator));
+                MarkDirtyRepaint();
                 
             });
             
@@ -100,8 +122,77 @@ namespace ISILab.LBS.AI.Assistants.Editor
             };
 
             assistant.Bundle = exterior.Bundle;
+
+            // Copy weights from tilemap button
+            var copyWeightsButton = this.Q<Button>("CopyWeights");
+            copyWeightsButton.clicked += CopyWeights;
+
+            //Save weights in a preset button
+            var saveWeightsButton = this.Q<Button>("SaveWeights");
+            saveWeightsButton.clicked += SaveWeights;
+            presetName = this.Q<TextField>("PresetName");
+            presetsFolder = this.Q<TextField>("PresetsPath");
+
+            // Load weights from a preset
+            var loadWeightsButton = this.Q<Button>("LoadWeights");
+            loadWeightsButton.clicked += LoadWeights;
+            currentPreset = this.Q<ObjectField>("CurrentPreset");
+            //currentPreset.RegisterValueChangedCallback(evt => UpdatePresetsList());
+
+            // Safe Generation Mode
+            var safeModeCheckbox = this.Q<Toggle>("SafeMode");
+            safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
+            assistant.SafeMode = false;
+
+            presetsList = this.Q<ListView>("PresetsList");
+            UpdatePresetsList();
             
             return this;
+        }
+
+        private void CopyWeights()
+        {
+            assistant.CopyWeights();
+            LBSMainWindow.MessageNotify("Weights copied.");
+        }
+
+        private void SaveWeights()
+        {
+            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset);
+            UpdatePresetsList();
+            currentPreset.value = newPreset;
+            LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
+        }
+
+        private void LoadWeights()
+        {
+            WFCPreset loaded = presetsList.GetRootElementForIndex(presetsList.selectedIndex)?.Q<ObjectField>("Element")?.value as WFCPreset;//currentPreset.value as WFCPreset;
+            if (loaded)
+            {
+                assistant.LoadWeights(loaded);
+                currentPreset.value = loaded;
+                LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
+            }
+            else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
+        }
+
+        private void UpdatePresetsList()
+        {
+            Debug.Log("Update Presets List");
+            var WFCPresets = AssetDatabase.FindAssets("", new[] { presetsFolder.value });
+            var a = WFCPresets.Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)));
+            var b = a.Where(asset => asset != null && asset is WFCPreset)
+                           .ToList();
+
+            presetsList.bindItem = (element, i) =>
+            {
+                var obj = element.Q<ObjectField>("Element");
+
+                var asset = b[i];
+                obj.value = asset;
+            };
+            presetsList.itemsSource = b;
+            presetsList.Rebuild();
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

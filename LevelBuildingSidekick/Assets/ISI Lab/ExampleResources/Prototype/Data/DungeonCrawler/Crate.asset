@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Crate
   m_EditorClassIdentifier: 
-  layerContentFlags: 2
+  layerContentFlags: 4
   type: 2
   anchorPosition: 0
   color: {r: 0.3584906, g: 0.10991457, b: 0.21289617, a: 1}

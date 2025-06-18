@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
 using uRandom = UnityEngine.Random;
 
 namespace ISILab.Extensions
@@ -142,6 +143,32 @@ namespace ISILab.Extensions
             }
 
             return array[UnityEngine.Random.Range(0, array.Length - 1)];
+        }
+
+        #endregion
+
+        #region DICTIONARY
+
+        public static Dictionary<K, V> Clone<K, V>(this Dictionary<K, V> dict) 
+            where K : notnull 
+            where V : class
+        {
+            var clone = new Dictionary<K, V>();
+
+            foreach(var pair in dict)
+            {
+                if(pair.Value is ICloneable)
+                {
+                    var v = (pair.Value as ICloneable).Clone() as V;
+                    clone.Add(pair.Key, v);
+                }
+                else
+                {
+                    Debug.LogWarning("Value: '" + pair.Value + "' in '" + dict + "' cannot be cloned.");
+                    clone.Add(pair.Key, pair.Value);
+                }
+            }
+            return clone;
         }
 
         #endregion
