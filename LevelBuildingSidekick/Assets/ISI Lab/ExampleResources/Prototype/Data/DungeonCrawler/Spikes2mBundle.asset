@@ -15,14 +15,14 @@ MonoBehaviour:
   layerContentFlags: 4
   type: 2
   anchorPosition: 0
-  color: {r: 1, g: 0, b: 0.4672885, a: 0}
+  color: {r: 1, g: 0, b: 0.4672885, a: 1}
   icon: {fileID: 7388822144124034973, guid: 2ec467ae750e7914ab35445816494cb0, type: 3}
   assets:
   - obj: {fileID: 2615229620487732085, guid: 39f0dca914f9f1c419ea118f824544ab, type: 3}
     probability: 1
   characteristics: []
   populationType: 0
-  tileSize: {x: 1, y: 1}
+  tileSize: {x: 2, y: 2}
   childsBundles: []
   microGenTool:
     spread: 0
