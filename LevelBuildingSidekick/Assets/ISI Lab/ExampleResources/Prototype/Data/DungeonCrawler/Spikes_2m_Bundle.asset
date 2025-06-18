@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: DustParticles
+  m_Name: Spikes_2m_Bundle
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
-  type: 2
+  layerContentFlags: 4
+  type: 0
   anchorPosition: 0
-  color: {r: 1, g: 0.7600213, b: 0, a: 1}
-  icon: {fileID: 7388822144124034973, guid: 96c9d1e1946bf98468b70722fb5330c5, type: 3}
+  color: {r: 1, g: 0, b: 0.4672885, a: 0}
+  icon: {fileID: 7388822144124034973, guid: 2ec467ae750e7914ab35445816494cb0, type: 3}
   assets:
-  - obj: {fileID: 5611340113450946760, guid: 252412ed701cc114599d3f093785dae3, type: 3}
+  - obj: {fileID: 2615229620487732085, guid: 39f0dca914f9f1c419ea118f824544ab, type: 3}
     probability: 1
-  characteristics:
-  - rid: 683069526363078737
-  populationType: 5
+  characteristics: []
+  populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
@@ -34,9 +33,4 @@ MonoBehaviour:
       positiveZ: 1
   references:
     version: 2
-    RefIds:
-    - rid: 683069526363078737
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
+    RefIds: []
