@@ -32,7 +32,9 @@ namespace ISILab.AI.Categorization
                 i -= t.weight;
                 if (i < 0)
                 {
+                    //Debug.Log($"Mutation: {t.mutation} ({t.weight})");
                     t.mutation.Mutate(chromosome, probability);
+                    break;
                 }
             }
         }

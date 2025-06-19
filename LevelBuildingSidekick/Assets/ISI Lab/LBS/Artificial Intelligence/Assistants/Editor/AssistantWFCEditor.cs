@@ -178,7 +178,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void UpdatePresetsList()
         {
-            Debug.Log("Update Presets List");
+            //Debug.Log("Update Presets List");
             var WFCPresets = AssetDatabase.FindAssets("", new[] { presetsFolder.value });
             var a = WFCPresets.Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)));
             var b = a.Where(asset => asset != null && asset is WFCPreset)

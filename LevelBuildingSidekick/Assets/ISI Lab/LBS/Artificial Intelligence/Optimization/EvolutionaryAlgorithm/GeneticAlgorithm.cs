@@ -259,6 +259,9 @@ namespace ISILab.AI.Optimization
 
         public override void InitializeDefault()
         {
+            Debug.Log("Default GA Initialization");
+            //Evaluator.InitializeDefault();
+
             //Initialize genetic algorithm
             Selection = new TournamentSelection();
             var roulette = new RoulleteWheelMutation();

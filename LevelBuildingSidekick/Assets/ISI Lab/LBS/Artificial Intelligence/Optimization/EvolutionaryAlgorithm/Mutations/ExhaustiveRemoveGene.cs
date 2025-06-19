@@ -13,6 +13,7 @@ namespace ISILab.AI.Categorization
     {
         protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
+            //Debug.Log("Performing REMOVE GENE Mutation");
             var r = RandomizationProvider.Current;
 
             for (int i = 0; i < chromosome.Length; i++)
