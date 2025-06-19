@@ -57,23 +57,42 @@ MonoBehaviour:
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
-    - rid: 3707499439976612803
-      type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
+    - rid: 6943663770587628058
+      type: {class: ResourcesSafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
       data:
-        colliderCharacteristic:
-          rid: 3707499439976612804
-    - rid: 3707499439976612804
+        playerCharacteristc:
+          rid: 6943663770587628059
+        resourceCharactersitic:
+        - rid: 6943663770587628060
+        - rid: 6943663770587628061
+        - rid: 6943663770587628062
+    - rid: 6943663770587628059
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+    - rid: 6943663770587628060
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+    - rid: 6943663770587628061
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+    - rid: 6943663770587628062
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 8d03f9563098ae048a81b709940e56c0, type: 2}
     - rid: 8454501502191403727
       type: {class: GeneticAlgorithm, ns: ISILab.AI.Optimization, asm: LBS}
       data:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 3707499439976612803
+          rid: 6943663770587628058
         selection:
           rid: 8454501502191403729
         termination:

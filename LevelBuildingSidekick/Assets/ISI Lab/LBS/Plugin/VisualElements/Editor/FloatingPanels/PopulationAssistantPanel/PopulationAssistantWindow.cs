@@ -210,18 +210,18 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Optimizer
 
-            //This button doesn't work anymore lol. Next time!!!
             optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
-            optimizerField.Type = typeof(BaseOptimizer);
+            optimizerField.Type = typeof(IRangedEvaluator);
             optimizerField.value = defaultSelectText;
             optimizerField.RegisterValueChangedCallback(evt =>
             {
                 if (optimizerField.value == null) return;
-                if (optimizerField.value == currentOptimizer?.GetType().Name) return;
+                if (optimizerField.value == currentOptimizer?.Evaluator?.GetType().Name) return;
+                if (currentOptimizer == null) return;
 
-                var optimizerChoice = optimizerField.GetChoiceInstance() as BaseOptimizer;
-                currentOptimizer = optimizerChoice;
-                if(optimizerChoice != null) currentOptimizer.InitializeDefault();
+                var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
+                currentOptimizer.Evaluator = optimizerChoice;
+                if(optimizerChoice != null) currentOptimizer.Evaluator.InitializeDefault();
             });
             optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
             optimizerButton.SetEnabled(false);
@@ -277,10 +277,7 @@ namespace ISILab.LBS.VisualElements.Editor
             resetButton.SetEnabled(false);
 
             OnTileMapChanged += () => {
-                if (originalTileMap == null)
-                {
-                    originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
-                }
+                originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
                 resetButton.SetEnabled((originalTileMap!=null));
             };
             OnTileMapReset += () =>
@@ -374,7 +371,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 param1Field.SetEnabled(false);
                 param2Field.SetEnabled(false);
-                //optimizerField.SetEnabled(false);
+                optimizerField.SetEnabled(false);
                 return;
             }
             
@@ -387,11 +384,11 @@ namespace ISILab.LBS.VisualElements.Editor
             //Enable params set the preset things to the new choice.
             param1Field.SetEnabled(true);
             param2Field.SetEnabled(true);
-            //optimizerField.SetEnabled(true);
+            optimizerField.SetEnabled(true);
 
             param1Field.Value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
             param2Field.Value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
-            optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
+            optimizerField.value = currentOptimizer?.Evaluator != null ? currentOptimizer.Evaluator.GetType().Name : defaultSelectText;
             
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
