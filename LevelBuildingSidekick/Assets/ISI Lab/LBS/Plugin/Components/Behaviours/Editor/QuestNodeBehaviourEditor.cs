@@ -25,18 +25,18 @@ namespace ISILab.LBS.VisualElements
         
         private static readonly Dictionary<Type, Type> TypeToPanelMap = new()
         {
-            { typeof(DataExplore), typeof(QuestNode_Explore) },
-            { typeof(DataKill), typeof(QuestNodeKill) },
-            { typeof(DataStealth), typeof(QuestNodeStealth) },
-            { typeof(DataTake), typeof(QuestNodeTake) },
-            { typeof(DataRead), typeof(QuestNodeRead) },
-            { typeof(DataExchange), typeof(QuestNodeExchange) },
-            { typeof(DataGive), typeof(QuestNodeGive) },
-            { typeof(DataReport), typeof(QuestNodeReport) },
-            { typeof(DataGather), typeof(QuestNodeGather) },
-            { typeof(DataSpy), typeof(QuestNodeSpy) },
-            { typeof(DataCapture), typeof(QuestNode_Capture) },
-            { typeof(DataListen), typeof(QuestNodeListen) }
+            { typeof(DataExplore), typeof(NodeEditorExplore) },
+            { typeof(DataKill), typeof(NodeEditorKill) },
+            { typeof(DataStealth), typeof(NodeEditorStealth) },
+            { typeof(DataTake), typeof(NodeEditorTake) },
+            { typeof(DataRead), typeof(NodeEditorRead) },
+            { typeof(DataExchange), typeof(NodeEditorExchange) },
+            { typeof(DataGive), typeof(NodeEditorGive) },
+            { typeof(DataReport), typeof(NodeEditorReport) },
+            { typeof(DataGather), typeof(NodeEditorGather) },
+            { typeof(DataSpy), typeof(NodeEditorSpy) },
+            { typeof(DataCapture), typeof(NodeEditorCapture) },
+            { typeof(DataListen), typeof(NodeEditorListen) }
         };
         
         #endregion

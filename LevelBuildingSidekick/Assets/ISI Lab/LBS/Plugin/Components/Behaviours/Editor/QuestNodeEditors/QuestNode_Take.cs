@@ -5,11 +5,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeTake : NodeEditor<DataTake>
+        public class NodeEditorTake : NodeEditor<DataTake>
         {
                 private readonly PickerBundle _pickerBundle;
 
-                public QuestNodeTake()
+                public NodeEditorTake()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
@@ -25,7 +25,7 @@ namespace ISILab.LBS.VisualElements
                 protected override void OnDataAssigned()
                 {
                         _pickerBundle.ClearPicker();
-                        _pickerBundle.SetTarget(NodeData.bundleToTake.layerID, NodeData.bundleToTake.guid, NodeData.bundleToTake.position);
+                        _pickerBundle.SetTarget(NodeData.bundleToTake.layerID, NodeData.bundleToTake.guid, NodeData.bundleToTake.Position);
 
                         _pickerBundle.OnClicked = () =>
                         {
@@ -35,10 +35,9 @@ namespace ISILab.LBS.VisualElements
                                         NodeData.bundleToTake = new BundleGraph(
                                                 layer, 
                                                 positions,
-                                                pickedGuid,
-                                                position);
+                                                pickedGuid);
                                         
-                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToTake.Position);
                                 };
                         };
                 }

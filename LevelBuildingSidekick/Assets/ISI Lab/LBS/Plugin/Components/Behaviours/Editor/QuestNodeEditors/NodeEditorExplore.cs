@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNode_Explore : NodeEditor
+    public class NodeEditorExplore : NodeEditor
     {
         private IntegerField subareas;
         private Toggle useRandomPoint;
@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
         private EventCallback<ChangeEvent<bool>> onToggleChanged;
         private EventCallback<ChangeEvent<int>> onSubareasChanged;
 
-        public QuestNode_Explore()
+        public NodeEditorExplore()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Explore");

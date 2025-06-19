@@ -109,10 +109,39 @@ namespace ISILab.LBS
             onCompleteEvent?.Invoke();
             OnTriggerCompleted?.Invoke(this);
             
+            node.QuestState = QuestState.completed;
             gameObject.SetActive(false); // Deactivate after completion to avoid trigger calls.
         }
         
         #endregion
     }
+    
+    /// <summary>
+    /// Generic class to add box collider to the a gameObject.
+    /// By default its OnTriggerEnter will check for quest completion.
+    /// </summary>
+    [RequireComponent(typeof(BoxCollider))]
+    public class GenericObjectiveTrigger : MonoBehaviour
+    {
+        private QuestTrigger _questTrigger;
+        private const float SizeFactor = 1f; // TODO: Maybe add as value in LBSTool(node data)
+        public void Setup(QuestTrigger trigger)
+        {
+            _questTrigger = trigger;
+    
+            var boxCollider = GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
+    
+            boxCollider.isTrigger = true;
+            boxCollider.size = Vector3.one * SizeFactor; 
+            boxCollider.center = Vector3.zero;
+    
+        }
+    
+        protected void OnTriggerEnter(Collider other)
+        {
+            if (_questTrigger.IsPlayer(other)) _questTrigger.CheckComplete();
+        }
+    }
 
 }
+

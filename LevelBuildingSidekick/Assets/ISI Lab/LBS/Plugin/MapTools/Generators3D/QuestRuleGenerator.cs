@@ -87,7 +87,7 @@ namespace ISILab.LBS.Generators
              * into your game. Check the "QuestVisualTree" class as an example.
              * ----------------------------------------------------------------
              */
-            CreateUIDocument(pivot.transform);
+            CreateUIDocument(pivot.transform, observer.gameObject);
             
             return Tuple.Create<GameObject, string>(pivot, null);
         }
@@ -284,7 +284,7 @@ namespace ISILab.LBS.Generators
             Action<GameObject> assignAction)
         {
             // Calculate the world position of the BundleGraph's position
-            var scenePosition = GetScenePosition(bundleGraph.position, settings, basePos, y, delta);
+            var scenePosition = GetScenePosition(bundleGraph.Position, settings, basePos, y, delta);
 
             // Find objects at the position with LBSGenerated component using non-allocating physics query
             var size = Physics.OverlapSphereNonAlloc(scenePosition, ProbeRadius, OverlapResults);
@@ -327,18 +327,19 @@ namespace ISILab.LBS.Generators
         /// adds it into the layer generated game object
         /// </summary>
         /// <param name="pivotTransform"> transform to assign the UI as child</param>
-        private void CreateUIDocument(Transform pivotTransform)
+        private void CreateUIDocument(Transform pivotTransform, GameObject observerGameObject)
         {
             GameObject uiGameObject = new GameObject("UIDocument");
             UIDocument uiDocument = uiGameObject.AddComponent<UIDocument>();
            
             if (!uiGameObject) return;
-            uiGameObject.AddComponent<QuestVisualTree>();
+            var questVisualTree = uiGameObject.AddComponent<QuestVisualTree>();
             var uiAsset = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestVisualTree");
             var panelSettings = LBSAssetMacro.LoadAssetByGuid<PanelSettings>("da6adae693698d3409943a20661e2031");
 
             if (!uiAsset || !panelSettings) return;
 
+            questVisualTree.Observer = observerGameObject;
             uiDocument.visualTreeAsset = uiAsset;
             uiDocument.panelSettings = panelSettings;
             uiGameObject.transform.SetParent(pivotTransform);

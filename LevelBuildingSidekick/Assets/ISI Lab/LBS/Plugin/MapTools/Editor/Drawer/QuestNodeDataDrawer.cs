@@ -62,7 +62,7 @@ namespace ISILab.LBS.Drawers.Editor
                     {
                         if (!bundle.Valid()) continue;
                         
-                        position = layer.FixedToPosition(bundle.position, true);
+                        position = layer.FixedToPosition(bundle.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             bundle.GetElementSize(), 
@@ -78,7 +78,7 @@ namespace ISILab.LBS.Drawers.Editor
                     {
                         if (!bundle.Valid()) continue;
                         
-                        position = layer.FixedToPosition(bundle.position, true);
+                        position = layer.FixedToPosition(bundle.Position, true);
                         var visual = new TriggerElement(
                             position,
                             bundle.GetElementSize(), 
@@ -92,7 +92,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataTake dataTake:
                     if (dataTake.bundleToTake.Valid())
                     {
-                        position = layer.FixedToPosition(dataTake.bundleToTake.position, true);
+                        position = layer.FixedToPosition(dataTake.bundleToTake.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataTake.bundleToTake.GetElementSize(), 
@@ -106,7 +106,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataRead dataRead:
                     if (dataRead.bundleToRead.Valid())
                     {
-                        position = layer.FixedToPosition(dataRead.bundleToRead.position, true);
+                        position = layer.FixedToPosition(dataRead.bundleToRead.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataRead.bundleToRead.GetElementSize(), 
@@ -121,7 +121,7 @@ namespace ISILab.LBS.Drawers.Editor
                 {
                     if (dataGive.bundleGiveTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataGive.bundleGiveTo.position, true);
+                        position = layer.FixedToPosition(dataGive.bundleGiveTo.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataGive.bundleGiveTo.GetElementSize(), 
@@ -137,7 +137,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataReport dataReport:
                     if (dataReport.bundleReportTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataReport.bundleReportTo.position, true);
+                        position = layer.FixedToPosition(dataReport.bundleReportTo.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataReport.bundleReportTo.GetElementSize(), 
@@ -151,7 +151,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataSpy dataSpy:
                     if (dataSpy.bundleToSpy.Valid())
                     {
-                        position = layer.FixedToPosition(dataSpy.bundleToSpy.position, true);
+                        position = layer.FixedToPosition(dataSpy.bundleToSpy.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataSpy.bundleToSpy.GetElementSize(), 
@@ -165,7 +165,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataListen dataListen:
                     if (dataListen.bundleListenTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataListen.bundleListenTo.position, true);
+                        position = layer.FixedToPosition(dataListen.bundleListenTo.Position, true);
                         var visual = new TriggerElement(
                             position, 
                             dataListen.bundleListenTo.GetElementSize(),

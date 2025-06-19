@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeExchange : NodeEditor<DataExchange>
+    public class NodeEditorExchange : NodeEditor<DataExchange>
     {
         private readonly PickerBundle _pickerBundleGive;
         private readonly PickerBundle _pickerBundleReceive;
 
-        public QuestNodeExchange()
+        public NodeEditorExchange()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Exchange");

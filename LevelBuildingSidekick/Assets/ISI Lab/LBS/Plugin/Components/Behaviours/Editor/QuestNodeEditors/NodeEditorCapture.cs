@@ -8,12 +8,12 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     
-    public class QuestNode_Capture : NodeEditor
+    public class NodeEditorCapture : NodeEditor
     {
         private FloatField requiredCaptureTime;
         private Toggle resetOnExit;
 
-        public QuestNode_Capture()
+        public NodeEditorCapture()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Capture");

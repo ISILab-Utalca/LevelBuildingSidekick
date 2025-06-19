@@ -1,16 +1,18 @@
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeStealth : NodeEditor<DataStealth>
+    public class NodeEditorStealth : NodeEditor<DataStealth>
     {
         private readonly ListView _observerList;
         private readonly PickerVector2Int _requiredPosition;
 
-        public QuestNodeStealth()
+        public NodeEditorStealth()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
@@ -44,15 +46,11 @@ namespace ISILab.LBS.VisualElements
             _observerList.makeItem = CreateObserverItem;
             _observerList.bindItem = BindObserverItem;
 
-            _observerList.itemsRemoved += removedIndices =>
+            _observerList.itemsRemoved += (_) =>
             {
-                foreach (int index in removedIndices.OrderByDescending(x => x))
-                {
-                    if (index >= 0 && index < NodeData.bundlesObservers.Count)
-                        NodeData.bundlesObservers.RemoveAt(index);
-                }
-
                 _observerList.Rebuild();
+                // Redraw to remove any elements that correspond to the deleted element
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
             };
 
             _observerList.Rebuild();
@@ -72,7 +70,7 @@ namespace ISILab.LBS.VisualElements
 
             var bundle = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.position);
+            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.Position);
 
             tilePicker.OnClicked = () =>
             {
@@ -82,10 +80,9 @@ namespace ISILab.LBS.VisualElements
                     bundle = new BundleGraph(
                         layer,
                         positions,
-                        guid,
-                        pos);
+                        guid);
         
-                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, pos);
+                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, bundle.Position);
                     NodeData.bundlesObservers[index] = bundle;
                 };
             };

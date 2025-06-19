@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeListen : NodeEditor<DataListen>
+        public class NodeEditorListen : NodeEditor<DataListen>
         {
                 private readonly PickerBundle _pickerBundle;
 
-                public QuestNodeListen()
+                public NodeEditorListen()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
@@ -37,13 +37,12 @@ namespace ISILab.LBS.VisualElements
                                         NodeData.bundleListenTo = new BundleGraph(
                                                 layer,
                                                 positions,
-                                                pickedGuid,
-                                                position);
-                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
+                                                pickedGuid);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleListenTo.Position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.bundleListenTo.layerID, NodeData.bundleListenTo.guid, NodeData.bundleListenTo.position);
+                        _pickerBundle.SetTarget(NodeData.bundleListenTo.layerID, NodeData.bundleListenTo.guid, NodeData.bundleListenTo.Position);
                 }
         }
 }

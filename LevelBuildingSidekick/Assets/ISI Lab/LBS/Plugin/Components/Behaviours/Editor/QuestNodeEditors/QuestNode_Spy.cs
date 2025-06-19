@@ -5,13 +5,13 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeSpy : NodeEditor<DataSpy>
+    public class NodeEditorSpy : NodeEditor<DataSpy>
     {
         private readonly PickerBundle _pickerBundle;
         private readonly FloatField _requiredSpyTime;
         private readonly Toggle _resetOnExit;
 
-        public QuestNodeSpy()
+        public NodeEditorSpy()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
@@ -30,7 +30,7 @@ namespace ISILab.LBS.VisualElements
         protected override void OnDataAssigned()
         {
             _pickerBundle.ClearPicker();
-            _pickerBundle.SetTarget(NodeData.bundleToSpy.layerID, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.position);
+            _pickerBundle.SetTarget(NodeData.bundleToSpy.layerID, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.Position);
 
             _pickerBundle.OnClicked = () =>
             {
@@ -40,10 +40,9 @@ namespace ISILab.LBS.VisualElements
                     NodeData.bundleToSpy = new BundleGraph(
                         layer,
                         positions,
-                        pickedGuid,
-                        position);
+                        pickedGuid);
        
-                    if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
+                    if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToSpy.Position);
                 };
             };
 

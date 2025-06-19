@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeGive : NodeEditor<DataGive>
+    public class NodeEditorGive : NodeEditor<DataGive>
     {
         private readonly PickerBundle _pickerBundleGiveTarget;
         private readonly PickerBundle _pickerBundleGiveReceiver;
 
-        public QuestNodeGive()
+        public NodeEditorGive()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Give");
@@ -56,12 +56,11 @@ namespace ISILab.LBS.VisualElements
                     NodeData.bundleGiveTo = new BundleGraph(
                         layer, 
                         positions, 
-                        pickedGuid, 
-                        position);
-                    if(layer!=null)  _pickerBundleGiveReceiver.SetTarget(layer.ID, pickedGuid, position);
+                        pickedGuid);
+                    if(layer!=null)  _pickerBundleGiveReceiver.SetTarget(layer.ID, pickedGuid, NodeData.bundleGiveTo.Position);
                 };
             };
-            _pickerBundleGiveReceiver.SetTarget(NodeData.bundleGiveTo.layerID, NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.position);
+            _pickerBundleGiveReceiver.SetTarget(NodeData.bundleGiveTo.layerID, NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.Position);
         }
     }
 }

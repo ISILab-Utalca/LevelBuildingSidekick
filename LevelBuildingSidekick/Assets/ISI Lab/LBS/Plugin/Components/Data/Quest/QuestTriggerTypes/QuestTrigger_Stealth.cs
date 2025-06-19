@@ -37,7 +37,7 @@ namespace ISILab.LBS
                 transform = { parent = transform, position = objectivePosition }
             };
 
-            var objectiveTrigger = objectiveGameObject.AddComponent<StealthObjectiveTrigger>();
+            var objectiveTrigger = objectiveGameObject.AddComponent<GenericObjectiveTrigger>();
             objectiveTrigger.Setup(this);
         }
         
@@ -91,26 +91,5 @@ namespace ISILab.LBS
         }
     }
 
-    [RequireComponent(typeof(BoxCollider))]
-    public class StealthObjectiveTrigger : MonoBehaviour
-    {
-        private QuestTriggerStealth _questTrigger;
-        private const float SizeFactor = 2f; // TODO: Maybe add as value in LBSTool(node data)
-        public void Setup(QuestTriggerStealth trigger)
-        {
-            _questTrigger = trigger;
-
-            var boxCollider = GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
-
-            boxCollider.isTrigger = true;
-            boxCollider.size = Vector3.one * SizeFactor; 
-            boxCollider.center = Vector3.zero;
-
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (_questTrigger.IsPlayer(other)) _questTrigger.CheckComplete();
-        }
-    }
+   
 }

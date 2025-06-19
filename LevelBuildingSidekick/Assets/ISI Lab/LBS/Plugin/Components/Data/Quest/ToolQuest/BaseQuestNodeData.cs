@@ -20,21 +20,34 @@ namespace ISILab.LBS.Components
         [SerializeField]public List<Vector2Int> tilePositions;
         [SerializeField]public string layerID;
         [SerializeField]public string guid;
-        [SerializeField]public Vector2Int position;
         
         
         public BundleGraph(
             LBSLayer layer = null, 
             List<Vector2Int> tilePositions = null, 
-            string guid = "", 
-            Vector2Int position = new Vector2Int())
+            string guid = "")
         {
             layerID = layer?.ID;
             this.tilePositions = tilePositions;
             this.guid = guid;
-            this.position = position;
         }
 
+        /// <summary>
+        /// Returns the top left position in the grid, that the tilebundlegroup uses
+        /// </summary>
+        public Vector2Int Position
+        {
+            get
+            {
+                if (tilePositions == null || tilePositions.Count == 0)
+                    return default;
+
+                int minX = tilePositions.Min(p => p.x);
+                int minY = tilePositions.Max(p => p.y);
+                return new Vector2Int(minX, minY);
+            }
+        }
+        
         public Vector2 GetElementSize()
         {
             Vector2 size = Vector2.one;

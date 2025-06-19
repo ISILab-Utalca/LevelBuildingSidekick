@@ -11,13 +11,15 @@ namespace ISILab.LBS
         public override void SetTypedData(BaseQuestNodeData baseData)
         {
             readData = (DataRead)baseData;
+            var objectiveTrigger = objectToRead.AddComponent<GenericObjectiveTrigger>();
+            objectiveTrigger.Setup(this);
         }
 
         protected override void OnTriggerEnter(Collider other)
         {
             if (!IsPlayer(other)) return;
             // Use the "objectToRead" reference to start an interaction
-            CheckComplete();
+            // CheckComplete();
         }
             
     }

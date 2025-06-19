@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeGather : NodeEditor<DataGather>
+        public class NodeEditorGather : NodeEditor<DataGather>
         {
                 private readonly PickerBundle _pickerBundle;
                 private readonly IntegerField _gatherAmount;
 
-                public QuestNodeGather()
+                public NodeEditorGather()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
