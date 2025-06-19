@@ -1,3 +1,4 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
@@ -29,17 +30,20 @@ namespace ISILab.LBS.VisualElements
         protected override void OnDataAssigned()
         {
             _pickerBundle.ClearPicker();
-            _pickerBundle.SetTarget(NodeData.bundleToSpy.layer, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.position);
+            _pickerBundle.SetTarget(NodeData.bundleToSpy.layerID, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.position);
 
             _pickerBundle.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, position) =>
                 {
-                    NodeData.bundleToSpy.layer = layer;
-                    NodeData.bundleToSpy.guid = pickedGuid;
-                    NodeData.bundleToSpy.position = position;
-                    _pickerBundle.SetTarget(layer, pickedGuid, position);
+                    NodeData.bundleToSpy = new BundleGraph(
+                        layer,
+                        positions,
+                        pickedGuid,
+                        position);
+       
+                    if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
                 };
             };
 

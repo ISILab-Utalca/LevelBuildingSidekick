@@ -131,7 +131,7 @@ namespace ISILab.LBS.Generators
                 //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
-                
+                generatedComponent.LayerID = layer.ID;
                 objects.Add(go, current.PopulationType);
             }
             

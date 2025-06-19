@@ -18,6 +18,7 @@ namespace ISILab.LBS.Generators
     public class QuestRuleGenerator : LBSGeneratorRule
     {
         private const float ProbeRadius = 1.0f;
+        private static readonly Collider[] OverlapResults = new Collider[32];
         
         public override List<Message> CheckViability(LBSLayer layer)
         {
@@ -111,11 +112,7 @@ namespace ISILab.LBS.Generators
 
                 // Add the trigger component dynamically
                 var trigger = (QuestTrigger)go.AddComponent(triggerType);
-
-                // Set shared data
-                trigger.SetData(node);
-                trigger.SetTypedData(node.NodeData);
-
+                
                 // Set up visual size
                 var size = node.NodeData.Size;
                 trigger.SetSize(new Vector3(
@@ -134,9 +131,14 @@ namespace ISILab.LBS.Generators
 
                 go.transform.position = basePos + questPos - delta;
 
+                // Set shared data
+                trigger.SetData(node);
+                
                 // Find and assign population objects for specific node types
                 FindPopulationObjects(trigger, settings, node, basePos, y, delta);
-
+                
+                trigger.SetTypedData(node.NodeData);
+                
                 go.SetActive(false);
             }
         }
@@ -168,6 +170,11 @@ namespace ISILab.LBS.Generators
                             foundObject => takeTrigger.objectToTake = foundObject
                         );
                     }
+                    break;
+                
+                case DataStealth dataStealth when trigger is QuestTriggerStealth stealthTrigger:
+                    var scenePosition = GetScenePosition(dataStealth.objective, settings, basePos, y, delta);  
+                    stealthTrigger.objectivePosition = scenePosition;
                     break;
 
                 case DataRead dataRead when trigger is QuestTriggerRead readTrigger:
@@ -263,29 +270,11 @@ namespace ISILab.LBS.Generators
                         }
                     }
                     break;
-
-                case DataStealth dataStealth when trigger is QuestTriggerStealth stealthTrigger:
-                    if (dataStealth.bundlesObservers != null && dataStealth.bundlesObservers.Any(bg => bg.Valid()))
-                    {
-                        stealthTrigger.objectsObservers = new List<GameObject>();
-                        foreach (var bundleGraph in dataStealth.bundlesObservers.Where(bg => bg.Valid()))
-                        {
-                            AssignObjectByBundleGraph(
-                                node,
-                                bundleGraph,
-                                settings,
-                                basePos,
-                                y,
-                                delta,
-                                foundObject => stealthTrigger.objectsObservers.Add(foundObject)
-                            );
-                        }
-                    }
-                    break;
+                
             }
         }
 
-        private static void AssignObjectByBundleGraph(
+      private static void AssignObjectByBundleGraph(
             QuestNode node,
             BundleGraph bundleGraph,
             Generator3D.Settings settings,
@@ -294,28 +283,45 @@ namespace ISILab.LBS.Generators
             Vector3 delta,
             Action<GameObject> assignAction)
         {
-            // calc position
-            var bundlePosX = bundleGraph.position.x * settings.scale.x;
-            var bundlePosZ = bundleGraph.position.y * settings.scale.y;
-            var bundleWorldPos = basePos + new Vector3(bundlePosX, y, bundlePosZ) - delta;
+            // Calculate the world position of the BundleGraph's position
+            var scenePosition = GetScenePosition(bundleGraph.position, settings, basePos, y, delta);
 
-            // per objects in radious
-            var colliders = Physics.OverlapSphere(bundleWorldPos, ProbeRadius); 
-            foreach (var collider in colliders)
+            // Find objects at the position with LBSGenerated component using non-allocating physics query
+            var size = Physics.OverlapSphereNonAlloc(scenePosition, ProbeRadius, OverlapResults);
+            if (size == OverlapResults.Length)
             {
+                Debug.LogWarning($"OverlapSphereNonAlloc buffer overflow at position {scenePosition}. Increase buffer size or reduce ProbeRadius.");
+            }
+
+            for (int i = 0; i < size; i++)
+            {
+                var collider = OverlapResults[i];
+                if (collider == null) continue;
+
                 var lbsGenerated = collider.GetComponent<LBSGenerated>();
                 if (lbsGenerated == null || lbsGenerated.BundleRef == null) continue;
-                
-                Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.guid); 
+                if (lbsGenerated.LayerID != bundleGraph.layerID) continue; // Compare LayerID with LBSLayer.ID
+
+                Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.guid);
                 if (lbsGenerated.BundleRef != bundleRef) continue;
+
                 assignAction?.Invoke(collider.gameObject);
                 return;
             }
 
-            Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.guid}' found at position {bundleWorldPos} for node {node.ID}");
+            Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.guid}' found at position {scenePosition} for node {node.ID}");
         }
-        
-        
+
+        private static Vector3 GetScenePosition(Vector2Int graphPosition, Generator3D.Settings settings, Vector3 basePos, float y,
+            Vector3 delta)
+        {
+            var bundlePosX = graphPosition.x * settings.scale.x;
+            var bundlePosZ = graphPosition.y * settings.scale.y;
+            var scenePosition = basePos + new Vector3(bundlePosX, y, bundlePosZ) - delta;
+            return scenePosition;
+        }
+
+
         /// <summary>
         /// Creates the ui document class (that's displayed during game mode) and
         /// adds it into the layer generated game object

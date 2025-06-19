@@ -32,17 +32,20 @@ namespace ISILab.LBS.VisualElements
 
                 var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleGraph.layer, bundleGraph.guid, bundleGraph.position);
+                tilePicker.SetTarget(bundleGraph.layerID, bundleGraph.guid, bundleGraph.position);
 
                 tilePicker.OnClicked = () =>
                 {
                     var pickerManipulator = AssignPickerData();
-                    pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
+                    pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, pos) =>
                     {
-                        bundleGraph.layer = layer;
-                        bundleGraph.guid = pickedGuid;
-                        bundleGraph.position = pos;
-                        tilePicker.SetTarget(layer, pickedGuid, pos);
+                        bundleGraph = new BundleGraph(
+                            layer,
+                            positions,
+                            pickedGuid,
+                            pos);
+                        
+                        if(layer!=null) tilePicker.SetTarget(layer.ID, pickedGuid, pos);
                         NodeData.bundlesToKill[i] = bundleGraph;
                     };
                 };

@@ -13,12 +13,11 @@ namespace ISILab.LBS
             readData = (DataRead)baseData;
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        protected override void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
+            if (!IsPlayer(other)) return;
+            // Use the "objectToRead" reference to start an interaction
+            CheckComplete();
         }
             
     }

@@ -101,7 +101,7 @@ namespace ISILab.LBS.VisualElements
         /// <param name="layer">Optional: the layer to display.</param>
         /// <param name="guid">Optional: the bundle GUID to load and show.</param>
         /// <param name="position">Optional: position in the graph to show.</param>
-        public void SetTarget(LBSLayer layer = null, string guid = "", Vector2Int position = default)
+        public void SetTarget(string layerID = null, string guid = "", Vector2Int position = default)
         {
             if (!string.IsNullOrEmpty(guid))
             {
@@ -109,9 +109,9 @@ namespace ISILab.LBS.VisualElements
                 _objectFieldBundle.value = bundle;
             }
 
-            if (layer != null)
+            if (layerID != null)
             {
-                _labelLayer.text = layer.Name;
+                _labelLayer.text = layerID;
                 _labelLayer.style.display = DisplayStyle.Flex;
             }
             else

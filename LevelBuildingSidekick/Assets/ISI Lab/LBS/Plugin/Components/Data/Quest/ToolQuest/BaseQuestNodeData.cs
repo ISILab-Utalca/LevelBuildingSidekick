@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Settings;
 using LBS.Components;
 using Newtonsoft.Json;
@@ -16,17 +17,44 @@ namespace ISILab.LBS.Components
     [Serializable]
     public struct BundleGraph
     {
-        [SerializeField]public LBSLayer layer;
+        [SerializeField]public List<Vector2Int> tilePositions;
+        [SerializeField]public string layerID;
         [SerializeField]public string guid;
         [SerializeField]public Vector2Int position;
         
-        public BundleGraph(LBSLayer layer, string guid, Vector2Int position)
+        
+        public BundleGraph(
+            LBSLayer layer = null, 
+            List<Vector2Int> tilePositions = null, 
+            string guid = "", 
+            Vector2Int position = new Vector2Int())
         {
-            this.layer = layer;
+            layerID = layer?.ID;
+            this.tilePositions = tilePositions;
             this.guid = guid;
             this.position = position;
         }
 
+        public Vector2 GetElementSize()
+        {
+            Vector2 size = Vector2.one;
+            if (tilePositions.Count <= 0) return size;
+            
+            // find bound borders
+            int minX = tilePositions.Min(p => p.x);
+            int maxX = tilePositions.Max(p => p.x);
+            int minY = tilePositions.Min(p => p.y);
+            int maxY = tilePositions.Max(p => p.y);
+
+            // get size of bound box
+            int width = maxX - minX + 1;
+            int height = maxY - minY + 1;
+            // actual used space in the grid
+            size = new Vector2(width, height);
+
+            return size;
+        }
+        
         public bool Valid() => guid != string.Empty;
     }
     
@@ -219,7 +247,7 @@ namespace ISILab.LBS.Components
            [SerializeField] public BundleGraph bundleToTake;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleToTake = new BundleGraph(null, string.Empty, Vector2Int.zero);
+               bundleToTake = new BundleGraph();
                color = LBSSettings.Instance.view.colorTake;
            }
            
@@ -236,7 +264,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleToRead;
             public DataRead(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleToRead = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                bundleToRead = new BundleGraph();
                 color = LBSSettings.Instance.view.colorRead;
             }
             
@@ -283,7 +311,7 @@ namespace ISILab.LBS.Components
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
                 bundleGive = new BundleType();
-                bundleGiveTo = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                bundleGiveTo = new BundleGraph();
                 color = LBSSettings.Instance.view.colorGive;
             }
             
@@ -304,7 +332,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleReportTo;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleReportTo = new BundleGraph(null,string.Empty, Vector2Int.zero);
+               bundleReportTo = new BundleGraph();
                color = LBSSettings.Instance.view.colorReport;
            }
            
@@ -343,7 +371,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
           {
-              bundleToSpy = new BundleGraph(null, string.Empty, Vector2Int.zero);
+              bundleToSpy = new BundleGraph();
               color = LBSSettings.Instance.view.colorSpy;
           }
           
@@ -384,7 +412,7 @@ namespace ISILab.LBS.Components
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleListenTo = new BundleGraph(null, string.Empty, Vector2Int.zero);
+                bundleListenTo = new BundleGraph();
                 color = LBSSettings.Instance.view.colorListen;
             }
             

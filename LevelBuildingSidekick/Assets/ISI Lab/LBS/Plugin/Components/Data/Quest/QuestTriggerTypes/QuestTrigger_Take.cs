@@ -16,10 +16,16 @@ namespace ISILab.LBS
 
         protected override void OnTriggerEnter(Collider other) 
         {
-            if (other.CompareTag("Player"))
+            if (!IsPlayer(other)) return;
+            
+            // Use the "objectToTake" reference and add it to player controller
+            var playerInventory = other.GetComponent<LBSInventory>();
+            if (playerInventory)
             {
-                CheckComplete();
+                playerInventory.AddItems(objectToTake.GetType(),1);
+                objectToTake.gameObject.SetActive(false);
             }
+            CheckComplete();
         }
             
     }

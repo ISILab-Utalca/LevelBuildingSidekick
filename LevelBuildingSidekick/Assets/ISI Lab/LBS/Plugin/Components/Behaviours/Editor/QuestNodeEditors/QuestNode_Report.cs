@@ -1,3 +1,4 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
@@ -29,16 +30,18 @@ namespace ISILab.LBS.VisualElements
 
                         _pickerBundle.OnClicked += () =>
                         {
-                                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
                                 {
-                                        NodeData.bundleReportTo.layer = layer;
-                                        NodeData.bundleReportTo.guid = pickedGuid;
-                                        NodeData.bundleReportTo.position = position;
-                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                        NodeData.bundleReportTo = new BundleGraph(
+                                                layer,
+                                                positions,
+                                                pickedGuid,
+                                                position);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layer, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.position);
+                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layerID, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.position);
                 }
         }
 }

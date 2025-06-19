@@ -716,6 +716,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024984
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1314,6 +1315,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024965
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1434,6 +1436,7 @@ MonoBehaviour:
     position: {x: 0, y: 0}
     size: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+    bundlesToKill: []
   objectsToKill: []
   references:
     version: 2
@@ -1464,6 +1467,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024986
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1539,6 +1543,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024989
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2222,6 +2227,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024930
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2538,6 +2544,7 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         size: 0
         color: {r: 0, g: 0, b: 0, a: 0}
+        bundlesToKill: []
     - rid: 5702184114503024946
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:

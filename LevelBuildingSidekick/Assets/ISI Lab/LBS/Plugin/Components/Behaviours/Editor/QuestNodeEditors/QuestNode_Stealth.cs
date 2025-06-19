@@ -24,7 +24,7 @@ namespace ISILab.LBS.VisualElements
             _requiredPosition._onClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (_, _, pos) =>
+                pickerManipulator.OnBundlePicked = (_,_, _, pos) =>
                 {
                     NodeData.objective = pos;
                     _requiredPosition.SetTarget(pos);
@@ -72,17 +72,20 @@ namespace ISILab.LBS.VisualElements
 
             var bundle = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTarget(bundle.layer, bundle.guid, bundle.position);
+            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.position);
 
             tilePicker.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, guid, pos) =>
+                pickerManipulator.OnBundlePicked = (layer, positions, guid, pos) =>
                 {
-                    bundle.layer = layer;
-                    bundle.guid = guid;
-                    bundle.position = pos;
-                    tilePicker.SetTarget(layer, guid, pos);
+                    bundle = new BundleGraph(
+                        layer,
+                        positions,
+                        guid,
+                        pos);
+        
+                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, pos);
                     NodeData.bundlesObservers[index] = bundle;
                 };
             };

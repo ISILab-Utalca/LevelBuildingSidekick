@@ -116,7 +116,7 @@ namespace ISILab.LBS.VisualElements
                 pickerManipulator.ActiveData = _behaviour.SelectedQuestNode.NodeData;
                 if(pickerManipulator.ActiveData == null) return;
                 
-                pickerManipulator.OnBundlePicked = (_, _, pos) =>
+                pickerManipulator.OnBundlePicked = (_, _, _, pos) =>
                 {
                     // Update the bundle data
                     _behaviour.SelectedQuestNode.NodeData.Position = pos;

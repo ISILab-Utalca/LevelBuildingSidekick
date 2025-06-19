@@ -7,6 +7,7 @@ using LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ISILab.LBS.Manipulators
@@ -24,8 +25,12 @@ namespace ISILab.LBS.Manipulators
 
         /// <summary>
         /// Callback invoked when a bundle is picked. Only one function is allowed at a time.
+        ///- layer
+        /// - tilebundleGroup grid positions
+        /// - bundleGuid
+        /// - grid position
         /// </summary>
-        public Action<LBSLayer, string, Vector2Int> OnBundlePicked { get; set; }
+        public Action<LBSLayer, List<Vector2Int>, string, Vector2Int> OnBundlePicked { get; set; }
 
         /// <summary>
         /// Icon used by this manipulator.
@@ -52,7 +57,7 @@ namespace ISILab.LBS.Manipulators
                 return;
 
             Vector2Int location = LBSMainWindow._gridPosition;
-            ActiveData.Position = location;
+          
 
             // Search population layers
             var populationLayers = LBS.loadedLevel.data.Layers
@@ -72,17 +77,28 @@ namespace ISILab.LBS.Manipulators
                     break;
                 }
             }
-
+            
             string bundleGuid = string.Empty;
-
             if (bundleTile != null)
             {
                 var bundle = bundleTile.BundleData.Bundle;
                 bundleGuid = LBSAssetMacro.GetGuidFromAsset(bundle);
             }
 
-            OnBundlePicked?.Invoke(pickedLayer, bundleGuid, location);
+            var positions = new List<Vector2Int>();
+            if (bundleTile != null)
+            {
+                foreach (var tile in bundleTile.TileGroup)
+                {
+                    positions.Add(tile.Position);
+                }
+            }
+               
+
+            OnBundlePicked?.Invoke(pickedLayer, positions ,bundleGuid, location);
             _behaviour.DataChanged(node);
+            
+           // ActiveData.Position = location;
             OnManipulationEnd?.Invoke();
         }
     }

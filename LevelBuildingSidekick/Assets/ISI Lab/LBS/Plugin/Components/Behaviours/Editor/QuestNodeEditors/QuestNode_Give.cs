@@ -39,10 +39,10 @@ namespace ISILab.LBS.VisualElements
             _pickerBundleGiveTarget.ClearPicker();
             _pickerBundleGiveTarget.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer,_, pickedGuid, position) =>
                 {
                     NodeData.bundleGive.guid = pickedGuid;
-                    _pickerBundleGiveTarget.SetTarget(layer, pickedGuid, position);
+                    _pickerBundleGiveTarget.SetTarget(layer.ID, pickedGuid, position);
                 };
             };
             _pickerBundleGiveTarget.SetTarget(null, NodeData.bundleGive.guid);
@@ -51,15 +51,17 @@ namespace ISILab.LBS.VisualElements
             _pickerBundleGiveReceiver.ClearPicker();
             _pickerBundleGiveReceiver.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
                 {
-                    NodeData.bundleGiveTo.layer = layer;
-                    NodeData.bundleGiveTo.guid = pickedGuid;
-                    NodeData.bundleGiveTo.position = position;
-                    _pickerBundleGiveReceiver.SetTarget(layer, pickedGuid, position);
+                    NodeData.bundleGiveTo = new BundleGraph(
+                        layer, 
+                        positions, 
+                        pickedGuid, 
+                        position);
+                    if(layer!=null)  _pickerBundleGiveReceiver.SetTarget(layer.ID, pickedGuid, position);
                 };
             };
-            _pickerBundleGiveReceiver.SetTarget(NodeData.bundleGiveTo.layer, NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.position);
+            _pickerBundleGiveReceiver.SetTarget(NodeData.bundleGiveTo.layerID, NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.position);
         }
     }
 }

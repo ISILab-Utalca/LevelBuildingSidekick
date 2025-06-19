@@ -55,11 +55,11 @@ namespace ISILab.LBS
         /// Set the required values for each class type based on the Containers within the node data class.
         /// Always call base from overwrites as base sets the ID that quest observer uses on start 
         /// </summary>
-        /// <param name="node">incoming node with data</param>
-        public void SetData(QuestNode node)
+        /// <param name="paramNode">incoming node with data</param>
+        public void SetData(QuestNode paramNode)
         {
-            this.node = node;
-            nodeID = node.ID;
+            this.node = paramNode;
+            nodeID = paramNode.ID;
         }
         
         /// <summary>
@@ -89,7 +89,7 @@ namespace ISILab.LBS
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        protected bool IsPlayer(Collider other)  {return other.CompareTag("Player");}
+        public bool IsPlayer(Collider other)  {return other.CompareTag("Player");}
         protected bool IsPlayer(GameObject other)  {return other.CompareTag("Player");}
         
         /// <summary>
@@ -102,12 +102,14 @@ namespace ISILab.LBS
             return true; 
         }
 
-        protected void CheckComplete()
+        public void CheckComplete()
         {
             if (!CompleteCondition()) return;
             isCompleted = true;
             onCompleteEvent?.Invoke();
             OnTriggerCompleted?.Invoke(this);
+            
+            gameObject.SetActive(false); // Deactivate after completion to avoid trigger calls.
         }
         
         #endregion

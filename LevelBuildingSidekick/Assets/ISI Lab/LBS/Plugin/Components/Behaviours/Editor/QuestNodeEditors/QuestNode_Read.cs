@@ -27,16 +27,19 @@ namespace ISILab.LBS.VisualElements
 
                         _pickerBundle.OnClicked += () =>
                         {
-                                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
                                 {
-                                        NodeData.bundleToRead.layer = layer;
-                                        NodeData.bundleToRead.guid = pickedGuid;
-                                        NodeData.bundleToRead.position = position;
-                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                        NodeData.bundleToRead = new BundleGraph(
+                                                layer,
+                                                positions,
+                                                pickedGuid,
+                                                position);
+                                        
+                                        if(layer!=null)  _pickerBundle.SetTarget(layer.ID, pickedGuid, position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.bundleToRead.layer, NodeData.bundleToRead.guid, NodeData.bundleToRead.position);
+                        _pickerBundle.SetTarget(NodeData.bundleToRead.layerID, NodeData.bundleToRead.guid, NodeData.bundleToRead.position);
                 }
         }
 }
