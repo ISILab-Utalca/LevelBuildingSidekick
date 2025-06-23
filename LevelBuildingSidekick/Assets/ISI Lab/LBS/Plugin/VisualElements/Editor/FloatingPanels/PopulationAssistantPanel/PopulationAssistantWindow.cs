@@ -409,7 +409,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
             {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
             }
             //SetBackgroundTexture(square, assistant.RawToolRect);

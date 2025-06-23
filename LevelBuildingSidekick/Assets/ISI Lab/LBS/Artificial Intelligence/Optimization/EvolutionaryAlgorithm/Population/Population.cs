@@ -134,7 +134,8 @@ namespace ISILab.AI.Optimization.Populations
             evaluables.Add(Adam);
             for (int i = 1; i < GenSize; i++)
             {
-                var c = Adam.CreateNew();
+                //var c = Adam.CreateNew();
+                var c = Adam.Clone() as IOptimizable;
 
                 if (c == null)
                 {
