@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeGather : NodeEditor<DataGather>
+        public class NodeEditorGather : NodeEditor<DataGather>
         {
                 private readonly PickerBundle _pickerBundle;
                 private readonly IntegerField _gatherAmount;
 
-                public QuestNodeGather()
+                public NodeEditorGather()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Gather");
@@ -31,14 +31,14 @@ namespace ISILab.LBS.VisualElements
 
                         _pickerBundle.OnClicked += () =>
                         {
-                                AssignPickerData().OnBundlePicked = (_, pickedGuid, _) =>
+                                AssignPickerData().OnBundlePicked = (_, _,pickedGuid, _) =>
                                 {
-                                        NodeData.BundleGatherType.Guid = pickedGuid;
-                                        _pickerBundle.SetTarget(null, NodeData.BundleGatherType.Guid);
+                                        NodeData.bundleGatherType.guid = pickedGuid;
+                                        _pickerBundle.SetTarget(null, NodeData.bundleGatherType.guid);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(null, NodeData.BundleGatherType.Guid);
+                        _pickerBundle.SetTarget(null, NodeData.bundleGatherType.guid);
                         _gatherAmount.SetValueWithoutNotify(NodeData.gatherAmount);
                 }
         }

@@ -4,11 +4,11 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeListen : NodeEditor<DataListen>
+        public class NodeEditorListen : NodeEditor<DataListen>
         {
                 private readonly PickerBundle _pickerBundle;
 
-                public QuestNodeListen()
+                public NodeEditorListen()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
@@ -32,16 +32,17 @@ namespace ISILab.LBS.VisualElements
 
                         _pickerBundle.OnClicked += () =>
                         {
-                                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                                AssignPickerData().OnBundlePicked = (layer, positions ,pickedGuid, position) =>
                                 {
-                                        NodeData.BundleListenTo.Layer = layer;
-                                        NodeData.BundleListenTo.Guid = pickedGuid;
-                                        NodeData.BundleListenTo.Position = position;
-                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                        NodeData.bundleListenTo = new BundleGraph(
+                                                layer,
+                                                positions,
+                                                pickedGuid);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleListenTo.Position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.BundleListenTo.Layer, NodeData.BundleListenTo.Guid, NodeData.BundleListenTo.Position);
+                        _pickerBundle.SetTarget(NodeData.bundleListenTo.layerID, NodeData.bundleListenTo.guid, NodeData.bundleListenTo.Position);
                 }
         }
 }

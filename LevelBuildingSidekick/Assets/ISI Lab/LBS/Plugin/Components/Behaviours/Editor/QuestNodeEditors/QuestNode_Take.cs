@@ -1,14 +1,15 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeTake : NodeEditor<DataTake>
+        public class NodeEditorTake : NodeEditor<DataTake>
         {
                 private readonly PickerBundle _pickerBundle;
 
-                public QuestNodeTake()
+                public NodeEditorTake()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
@@ -24,17 +25,19 @@ namespace ISILab.LBS.VisualElements
                 protected override void OnDataAssigned()
                 {
                         _pickerBundle.ClearPicker();
-                        _pickerBundle.SetTarget(NodeData.BundleToTake.Layer, NodeData.BundleToTake.Guid, NodeData.BundleToTake.Position);
+                        _pickerBundle.SetTarget(NodeData.bundleToTake.layerID, NodeData.bundleToTake.guid, NodeData.bundleToTake.Position);
 
                         _pickerBundle.OnClicked = () =>
                         {
                                 var pickerManipulator = AssignPickerData();
-                                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                                pickerManipulator.OnBundlePicked = (layer,positions, pickedGuid, position) =>
                                 {
-                                        NodeData.BundleToTake.Layer = layer;
-                                        NodeData.BundleToTake.Guid = pickedGuid;
-                                        NodeData.BundleToTake.Position = position;
-                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                        NodeData.bundleToTake = new BundleGraph(
+                                                layer, 
+                                                positions,
+                                                pickedGuid);
+                                        
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToTake.Position);
                                 };
                         };
                 }

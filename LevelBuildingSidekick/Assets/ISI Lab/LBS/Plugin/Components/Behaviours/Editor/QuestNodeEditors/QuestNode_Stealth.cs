@@ -1,16 +1,18 @@
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeStealth : NodeEditor<DataStealth>
+    public class NodeEditorStealth : NodeEditor<DataStealth>
     {
         private readonly ListView _observerList;
         private readonly PickerVector2Int _requiredPosition;
 
-        public QuestNodeStealth()
+        public NodeEditorStealth()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
@@ -24,7 +26,7 @@ namespace ISILab.LBS.VisualElements
             _requiredPosition._onClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (_, _, pos) =>
+                pickerManipulator.OnBundlePicked = (_,_, _, pos) =>
                 {
                     NodeData.objective = pos;
                     _requiredPosition.SetTarget(pos);
@@ -40,19 +42,15 @@ namespace ISILab.LBS.VisualElements
 
             if (_observerList == null) return;
 
-            _observerList.itemsSource = NodeData.BundlesObservers;
+            _observerList.itemsSource = NodeData.bundlesObservers;
             _observerList.makeItem = CreateObserverItem;
             _observerList.bindItem = BindObserverItem;
 
-            _observerList.itemsRemoved += removedIndices =>
+            _observerList.itemsRemoved += (_) =>
             {
-                foreach (int index in removedIndices.OrderByDescending(x => x))
-                {
-                    if (index >= 0 && index < NodeData.BundlesObservers.Count)
-                        NodeData.BundlesObservers.RemoveAt(index);
-                }
-
                 _observerList.Rebuild();
+                // Redraw to remove any elements that correspond to the deleted element
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
             };
 
             _observerList.Rebuild();
@@ -68,22 +66,24 @@ namespace ISILab.LBS.VisualElements
         private void BindObserverItem(VisualElement element, int index)
         {
             if (element is not PickerBundle tilePicker) return;
-            if (index < 0 || index >= NodeData.BundlesObservers.Count) return;
+            if (index < 0 || index >= NodeData.bundlesObservers.Count) return;
 
-            var bundle = NodeData.BundlesObservers[index];
+            var bundle = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTarget(bundle.Layer, bundle.Guid, bundle.Position);
+            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.Position);
 
             tilePicker.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, guid, pos) =>
+                pickerManipulator.OnBundlePicked = (layer, positions, guid, pos) =>
                 {
-                    bundle.Layer = layer;
-                    bundle.Guid = guid;
-                    bundle.Position = pos;
-                    tilePicker.SetTarget(layer, guid, pos);
-                    NodeData.BundlesObservers[index] = bundle;
+                    bundle = new BundleGraph(
+                        layer,
+                        positions,
+                        guid);
+        
+                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, bundle.Position);
+                    NodeData.bundlesObservers[index] = bundle;
                 };
             };
         }

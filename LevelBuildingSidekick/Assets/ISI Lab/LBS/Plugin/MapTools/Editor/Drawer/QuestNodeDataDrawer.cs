@@ -16,10 +16,14 @@ namespace ISILab.LBS.Drawers.Editor
     public class QuestNodeBehaviourDrawer : Drawer
     {
         
-        private const float baseSize = 100f;
-        private const float borderThickness = 0.05f;
+        private const float BaseSize = 100f;
+        private const float BorderThickness = 0.05f;
+        private const float BackgroundOpacity = 0.33f;
+        
+        
+        private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
+        private static readonly Color Correct = LBSSettings.Instance.view.successColor;
 
-        public QuestNodeBehaviourDrawer() : base() { }
         /// <summary>
         /// Draws the information that corresponds to the quest node behavior selected node.
         /// </summary>
@@ -29,89 +33,101 @@ namespace ISILab.LBS.Drawers.Editor
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             if (target is not QuestNodeBehaviour behaviour) return;
+            if (behaviour.OwnerLayer is not { } layer) return;
+            if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
+            if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
+
+           
             
-            if (!Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer)) return;
+            // Selected Node Trigger View
             
-            var layer = behaviour.OwnerLayer;
-            if (layer == null) return;
-            
-            var qn = behaviour.SelectedQuestNode;
-            var nodeData = qn?.NodeData;
-            if (nodeData == null) return;
-            
-            //Debug.Log("\n --node: " + nd.Owner.ID + "--");
-            /*
-             * TODO: Replace this within the switch and pass the visualElement corresponding
-             * to the type in the switch. Perhaps use the attribute created for actions}
-             * but apply on visual Elements.
-             */
-            // view.AddElement(behaviour.OwnerLayer, behaviour, type);
             var position = layer.FixedToPosition(nodeData.Position, true);
+            var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
             
-            // Trigger Position
-            var triggerBase = new TriggerElement(position, baseSize*nodeData.Size, nodeData, LBSSettings.Instance.view.colorTrigger);
+            var triggerBase = new TriggerElement(
+                position, 
+                 new Vector2(nodeData.Size,nodeData.Size), 
+                nodeData, 
+                statusColor);
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
             
-            // Positions per data type only if its a BundleGraph!
+            
+            #region BundleGraph View
+            
             switch (nodeData)
             {
-                case DataKill datakill:
-                    if(!datakill.BundlesToKill.Any()) break;
-                    foreach (var bundle in datakill.BundlesToKill)
+                case DataKill dataKill:
+                    if(!dataKill.bundlesToKill.Any()) break;
+                    foreach (var bundle in dataKill.bundlesToKill)
                     {
-                        if (bundle.Valid())
-                        {
-                            position = layer.FixedToPosition(bundle.Position, true);
-                            var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
-                            view.AddElement(behaviour.OwnerLayer, behaviour, visual);
-                        }
+                        if (!bundle.Valid()) continue;
+                        
+                        position = layer.FixedToPosition(bundle.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            bundle.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataStealth dataStealth:
-                    if(!dataStealth.BundlesObservers.Any()) break;
-                    foreach (var bundle in dataStealth.BundlesObservers)
+                    if(!dataStealth.bundlesObservers.Any()) break;
+                    foreach (var bundle in dataStealth.bundlesObservers)
                     {
-                        if (bundle.Valid())
-                        {
-                            position = layer.FixedToPosition(bundle.Position, true);
-                            var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
-                            view.AddElement(behaviour.OwnerLayer, behaviour, visual);
-                        }
+                        if (!bundle.Valid()) continue;
+                        
+                        position = layer.FixedToPosition(bundle.Position, true);
+                        var visual = new TriggerElement(
+                            position,
+                            bundle.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                            
+                        view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataTake dataTake:
-                    if (dataTake.BundleToTake.Valid())
+                    if (dataTake.bundleToTake.Valid())
                     {
-                        position = layer.FixedToPosition(dataTake.BundleToTake.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataTake.bundleToTake.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataTake.bundleToTake.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataRead dataRead:
-                    if (dataRead.BundleToRead.Valid())
+                    if (dataRead.bundleToRead.Valid())
                     {
-                        position = layer.FixedToPosition(dataRead.BundleToRead.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataRead.bundleToRead.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataRead.bundleToRead.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataGive dataGive:
                 {
-                    if (dataGive.BundleGive.Valid())
+                    if (dataGive.bundleGiveTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataGive.BundleGive.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
-                        view.AddElement(behaviour.OwnerLayer, behaviour, visual);
-                    }
-                    
-                    if (dataGive.BundleGiveTo.Valid())
-                    {
-                        position = layer.FixedToPosition(dataGive.BundleGiveTo.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataGive.bundleGiveTo.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataGive.bundleGiveTo.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                  
@@ -119,65 +135,75 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataReport dataReport:
-                    if (dataReport.BundleReportTo.Valid())
+                    if (dataReport.bundleReportTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataReport.BundleReportTo.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataReport.bundleReportTo.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataReport.bundleReportTo.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataSpy dataSpy:
-                    if (dataSpy.BundleToSpy.Valid())
+                    if (dataSpy.bundleToSpy.Valid())
                     {
-                        position = layer.FixedToPosition(dataSpy.BundleToSpy.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataSpy.bundleToSpy.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataSpy.bundleToSpy.GetElementSize(), 
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
                 
                 case DataListen dataListen:
-                    if (dataListen.BundleListenTo.Valid())
+                    if (dataListen.bundleListenTo.Valid())
                     {
-                        position = layer.FixedToPosition(dataListen.BundleListenTo.Position, true);
-                        var visual = new TriggerElement(position, baseSize*nodeData.Size, nodeData, nodeData.Color);
+                        position = layer.FixedToPosition(dataListen.bundleListenTo.Position, true);
+                        var visual = new TriggerElement(
+                            position, 
+                            dataListen.bundleListenTo.GetElementSize(),
+                            nodeData, 
+                            nodeData.Color);
+                        
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
             }
             
+            #endregion
         }
-        
 
-        public class TriggerElement : GraphElement
+
+        private sealed class TriggerElement : GraphElement
         {
             private readonly BaseQuestNodeData _data;
 
-            public TriggerElement(Vector2 position, float length, BaseQuestNodeData data, Color color)
+            public TriggerElement(Vector2 position, Vector2 tileSize, BaseQuestNodeData data, Color color)
             {
                 _data = data;
 
-                // Properly position the element using SetPosition to avoid layout offset
-                SetPosition(new Rect(position.x, position.y, length, length));
+                // Scale the tile size by the base size (assuming BaseSize is a constant somewhere)
+                Vector2 pixelSize = tileSize * BaseSize;
 
-                // Calculate radius and border thickness
-                float radius = length / 2;
-                float thickness = borderThickness;
-                
-                //style.borderBottomLeftRadius = radius;
-                //style.borderBottomRightRadius = radius;
-                //style.borderTopLeftRadius = radius;
-                //style.borderTopRightRadius = radius;
+                // Properly position the element using SetPosition to avoid layout offset
+                SetPosition(new Rect(position.x, position.y, pixelSize.x, pixelSize.y));
 
                 // Set border thickness
-                style.borderBottomWidth = thickness;
-                style.borderTopWidth = thickness;
-                style.borderLeftWidth = thickness;
-                style.borderRightWidth = thickness;
+                style.borderBottomWidth = BorderThickness;
+                style.borderTopWidth = BorderThickness;
+                style.borderLeftWidth = BorderThickness;
+                style.borderRightWidth = BorderThickness;
 
                 // Color configuration
                 Color backgroundColor = color;
-                backgroundColor.a = 0.33f;
+                backgroundColor.a = BackgroundOpacity;
 
                 style.backgroundColor = backgroundColor;
                 style.borderBottomColor = color;
@@ -185,15 +211,10 @@ namespace ISILab.LBS.Drawers.Editor
                 style.borderRightColor = color;
                 style.borderLeftColor = color;
 
-                // Optional: if using a child VisualElement for background visuals
-                // var visual = new VisualElement();
-                // visual.style.flexGrow = 1;
-                // visual.style.backgroundColor = backgroundColor;
-                // Add(visual);
-
                 RegisterCallback<MouseMoveEvent>(OnMouseMove);
                 RegisterCallback<MouseUpEvent>(OnMouseUp);
             }
+
 
             private void OnMouseMove(MouseMoveEvent e)
             {

@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeExchange : NodeEditor<DataExchange>
+    public class NodeEditorExchange : NodeEditor<DataExchange>
     {
         private readonly PickerBundle _pickerBundleGive;
         private readonly PickerBundle _pickerBundleReceive;
 
-        public QuestNodeExchange()
+        public NodeEditorExchange()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Exchange");
@@ -39,25 +39,25 @@ namespace ISILab.LBS.VisualElements
             _pickerBundleGive.ClearPicker();
             _pickerBundleGive.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, pickedGuid, _) =>
+                AssignPickerData().OnBundlePicked = (layer,_, pickedGuid, _) =>
                 {
-                    NodeData.BundleGiveType.Guid = pickedGuid;
-                    _pickerBundleGive.SetTarget(layer, pickedGuid);
+                    NodeData.bundleGiveType.guid = pickedGuid;
+                    _pickerBundleGive.SetTarget(layer.ID, pickedGuid);
                 };
             };
-            _pickerBundleGive.SetTarget(null, NodeData.BundleGiveType.Guid);
+            _pickerBundleGive.SetTarget(null, NodeData.bundleGiveType.guid);
 
             // Setup "Receive" picker
             _pickerBundleReceive.ClearPicker();
             _pickerBundleReceive.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (_, pickedGuid, _) =>
+                AssignPickerData().OnBundlePicked = (_,_, pickedGuid, _) =>
                 {
-                    NodeData.BundleReceiveType.Guid = pickedGuid;
-                    _pickerBundleReceive.SetTarget(null, NodeData.BundleReceiveType.Guid);
+                    NodeData.bundleReceiveType.guid = pickedGuid;
+                    _pickerBundleReceive.SetTarget(null, NodeData.bundleReceiveType.guid);
                 };
             };
-            _pickerBundleReceive.SetTarget(null, NodeData.BundleReceiveType.Guid);
+            _pickerBundleReceive.SetTarget(null, NodeData.bundleReceiveType.guid);
         }
     }
 }

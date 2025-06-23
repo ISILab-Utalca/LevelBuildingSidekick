@@ -1,14 +1,15 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-        public class QuestNodeReport : NodeEditor<DataReport>
+        public class NodeEditorReport : NodeEditor<DataReport>
         {
                 private readonly PickerBundle _pickerBundle;
 
-                public QuestNodeReport()
+                public NodeEditorReport()
                 {
                         Clear();
                         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Report");
@@ -29,16 +30,17 @@ namespace ISILab.LBS.VisualElements
 
                         _pickerBundle.OnClicked += () =>
                         {
-                                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
                                 {
-                                        NodeData.BundleReportTo.Layer = layer;
-                                        NodeData.BundleReportTo.Guid = pickedGuid;
-                                        NodeData.BundleReportTo.Position = position;
-                                        _pickerBundle.SetTarget(layer, pickedGuid, position);
+                                        NodeData.bundleReportTo = new BundleGraph(
+                                                layer,
+                                                positions,
+                                                pickedGuid);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleReportTo.Position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.BundleReportTo.Layer, NodeData.BundleReportTo.Guid, NodeData.BundleReportTo.Position);
+                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layerID, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.Position);
                 }
         }
 }

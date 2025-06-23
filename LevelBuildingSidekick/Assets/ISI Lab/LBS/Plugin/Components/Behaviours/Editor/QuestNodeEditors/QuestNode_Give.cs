@@ -4,12 +4,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeGive : NodeEditor<DataGive>
+    public class NodeEditorGive : NodeEditor<DataGive>
     {
         private readonly PickerBundle _pickerBundleGiveTarget;
         private readonly PickerBundle _pickerBundleGiveReceiver;
 
-        public QuestNodeGive()
+        public NodeEditorGive()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Give");
@@ -39,29 +39,28 @@ namespace ISILab.LBS.VisualElements
             _pickerBundleGiveTarget.ClearPicker();
             _pickerBundleGiveTarget.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer,_, pickedGuid, position) =>
                 {
-                    NodeData.BundleGive.Layer = layer;
-                    NodeData.BundleGive.Guid = pickedGuid;
-                    NodeData.BundleGive.Position = position;
-                    _pickerBundleGiveTarget.SetTarget(layer, pickedGuid, position);
+                    NodeData.bundleGive.guid = pickedGuid;
+                    _pickerBundleGiveTarget.SetTarget(layer.ID, pickedGuid, position);
                 };
             };
-            _pickerBundleGiveTarget.SetTarget(NodeData.BundleGive.Layer, NodeData.BundleGive.Guid, NodeData.BundleGive.Position);
+            _pickerBundleGiveTarget.SetTarget(null, NodeData.bundleGive.guid);
 
             // Receiver Picker
             _pickerBundleGiveReceiver.ClearPicker();
             _pickerBundleGiveReceiver.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
                 {
-                    NodeData.BundleGiveTo.Layer = layer;
-                    NodeData.BundleGiveTo.Guid = pickedGuid;
-                    NodeData.BundleGiveTo.Position = position;
-                    _pickerBundleGiveReceiver.SetTarget(layer, pickedGuid, position);
+                    NodeData.bundleGiveTo = new BundleGraph(
+                        layer, 
+                        positions, 
+                        pickedGuid);
+                    if(layer!=null)  _pickerBundleGiveReceiver.SetTarget(layer.ID, pickedGuid, NodeData.bundleGiveTo.Position);
                 };
             };
-            _pickerBundleGiveReceiver.SetTarget(NodeData.BundleGiveTo.Layer, NodeData.BundleGiveTo.Guid, NodeData.BundleGiveTo.Position);
+            _pickerBundleGiveReceiver.SetTarget(NodeData.bundleGiveTo.layerID, NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.Position);
         }
     }
 }

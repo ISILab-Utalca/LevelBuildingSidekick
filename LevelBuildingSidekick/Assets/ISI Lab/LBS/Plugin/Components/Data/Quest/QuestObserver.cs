@@ -3,28 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace ISILab.LBS
 {
-    [System.Serializable]
+    [Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        [SerializeField]
+        #region FIELDS
+        
+        [SerializeField] 
         private QuestGraph questGraph;
-
-        [SerializeField, SerializeReference]
+        [SerializeField, SerializeReference] 
         private Dictionary<QuestNode, QuestTrigger> nodeTriggerMap = new();
-        private Dictionary<QuestNode, QuestTrigger> idMap = new();
+        [SerializeField] 
+        public UnityEvent onQuestCompleteEvent;
         
-        public UnityEvent OnQuestCompleteEvent;
+        #endregion
 
-        private bool questComplete = false;
-        
-        public bool QuestComplete => questComplete;
+        #region PROPERTIES
 
-        private void Start()
+        public bool QuestComplete { get; private set; }
+        public Dictionary<QuestNode, QuestTrigger> NodeTriggerMap => nodeTriggerMap;
+        public event Action OnQuestAdvance;
+        #endregion
+
+
+        private void Awake()
         {
             StartQuest();
         }
@@ -48,10 +55,10 @@ namespace ISILab.LBS
         /// <param name="trigger">The trigger that was completed.</param>
         private void HandleTriggerCompleted(QuestTrigger trigger)
         {
-            if (!AdvanceQuest(trigger) || questComplete) return;
-            questComplete = true;
-            OnQuestCompleteEvent.Invoke();
-            
+            if (!AdvanceQuest(trigger) || QuestComplete) return;
+            QuestComplete = true;
+            onQuestCompleteEvent.Invoke();
+
         }
 
         /// <summary>
@@ -61,49 +68,34 @@ namespace ISILab.LBS
         /// <param name="trigger">The trigger that completed the current step.</param>
         public bool AdvanceQuest(QuestTrigger trigger)
         {
-            // Find the current node associated with this trigger
-            QuestNode currentNode = null;
-            foreach (var pair in nodeTriggerMap)
+            // get the current node
+            var currentNode = nodeTriggerMap.FirstOrDefault(pair => pair.Value == trigger).Key;
+            if (currentNode == null) return false;
+            
+            // If the current node is the last one, the quest is complete
+            if (questGraph.QuestEdges.LastOrDefault()?.Second == currentNode) return true;
+
+
+            // Activate the next node and trigger
+            foreach (var edge in questGraph.QuestEdges)
             {
-                if (pair.Value == trigger)
+                if (edge.First != currentNode) continue;
+
+                var nextNode = edge.Second;
+                nextNode.QuestState = QuestState.active;
+                OnQuestAdvance?.Invoke();
+                
+                if (nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger))
                 {
-                    currentNode = pair.Key;
-                    break;
+                    nextTrigger.gameObject.SetActive(true);
+                    nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
                 }
             }
 
-            if (currentNode == null)
-            {
-                Debug.LogWarning("No matching node found for trigger: " + trigger.name);
-                return false; // quest cant be completed
-            }
-
-            // Deactivate the current trigger
-            if (nodeTriggerMap.ContainsKey(currentNode))
-            {
-                nodeTriggerMap[currentNode].gameObject.SetActive(false);
-            }
-
-            // Get the next nodes via edges
-            var edges = questGraph.QuestEdges;
- 
-            // the quest has been completed!
-            if (edges.Last().Second == currentNode) return true;
-            
-            // find the next node and correspondent trigger
-            foreach (var edge in edges)
-            {
-                if(edge.First != currentNode) continue;
-                
-                // Activate next trigger
-                var nextNode = edge.Second;
-                var newTrigger = nodeTriggerMap[nextNode];
-                newTrigger.gameObject.SetActive(true);
-                newTrigger.OnTriggerCompleted += HandleTriggerCompleted;
-            }
-            
-            return false; // quest in progress
+            return false;
         }
+
+
 
         /// <summary>
         /// Initializes the quest with a given graph and node-trigger mapping.
@@ -112,7 +104,6 @@ namespace ISILab.LBS
         public void Init(QuestGraph graph)
         {
             questGraph = graph;
-            StartQuest();
         }
 
         /// <summary>
@@ -135,66 +126,97 @@ namespace ISILab.LBS
             }
 
             List<QuestTrigger> childTriggers = (from Transform child in transform select child.GetComponent<QuestTrigger>()).ToList();
-
-
+            
             // subscribe all triggers to call advance quest when completed
             foreach (var node in questGraph.QuestNodes)
             {
+                node.QuestState = QuestState.blocked;
                 foreach (var child in childTriggers)
                 {
                     if(!child) continue;
+                    
+                    // activate the first trigger only
+                    if(node == questGraph.Root) 
+                    {
+                        child.gameObject.SetActive(true); 
+                        node.QuestState =  QuestState.active;
+                    }
+                    
                     if (node.ID != child.NodeID) continue;
-                    if(nodeTriggerMap.ContainsKey(node)) continue;
-                    nodeTriggerMap.Add(node, child);
+                    if(!nodeTriggerMap.TryAdd(node, child)) continue;
+                    
                     child.OnTriggerCompleted += HandleTriggerCompleted;
-                    if(node == questGraph.Root) child.gameObject.SetActive(true); // activate the first trigger only
+                    
                 }
-                
             }
         }
     }
 
     /// <summary>
-    /// Attribute to tag QuestTrigger classes with display labels and required data types.
+    /// Attribute to tag QuestTrigger by tag.
+    /// The string must be in lower case and without ony empty spaces.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public class QuestNodeActionTag : Attribute
     {
         public string Tag { get; }
-        public Type[] RequiredDataTypes { get; }
-
-        public QuestNodeActionTag(string tag, params Type[] requiredDataTypes)
+        public QuestNodeActionTag(string tag)
         {
-            Tag = tag.Trim().ToLowerInvariant();
-            RequiredDataTypes = requiredDataTypes;
+            Tag = tag;
         }
     }
+
 
     /// <summary>
     /// Static registry that maps tag names to the expected data types of triggers.
     /// </summary>
+  
+    [InitializeOnLoad]
     public static class QuestTagRegistry
     {
-        public static readonly Dictionary<string, Type[]> TagDataTypes;
+        private static readonly Dictionary<string, Type> TagDataTypes;
 
         static QuestTagRegistry()
         {
-            TagDataTypes = new Dictionary<string, Type[]>();
+            TagDataTypes = new Dictionary<string, Type>();
 
-            var taggedTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(a => a.GetTypes())
-                .Where(t => t.GetCustomAttributes(typeof(QuestNodeActionTag), false).Length > 0);
+            var allTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a =>
+                {
+                    try { return a.GetTypes(); }
+                    catch { return Array.Empty<Type>(); }
+                })
+                .Where(t =>
+                    typeof(QuestTrigger).IsAssignableFrom(t) &&
+                    !t.IsAbstract &&
+                    t.GetCustomAttributes(typeof(QuestNodeActionTag), false).Length > 0
+                );
 
-            foreach (var type in taggedTypes)
+            foreach (var type in allTypes)
             {
                 var attributes = type.GetCustomAttributes(typeof(QuestNodeActionTag), false)
                     .Cast<QuestNodeActionTag>();
 
                 foreach (var attr in attributes)
                 {
-                    TagDataTypes[attr.Tag] = attr.RequiredDataTypes;
+                    var tag = attr.Tag.Trim().ToLowerInvariant();
+
+                    if (!TagDataTypes.ContainsKey(tag))
+                    {
+                        TagDataTypes.Add(tag, type);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[QuestTagRegistry] Duplicate tag '{tag}' found on {type.Name} and {TagDataTypes[tag].Name}.");
+                    }
                 }
             }
+        }
+
+        public static Type GetTriggerTypeForTag(string tag)
+        {
+            var trimmed = tag.Trim().ToLowerInvariant();
+            return TagDataTypes.GetValueOrDefault(trimmed);
         }
     }
 }
