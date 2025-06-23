@@ -53,7 +53,7 @@ namespace ISILab.AI.Categorization
                 for (int i = 0; i < w; i++)
                 {
                     var index = offspring1.ToIndex(new Vector2(x + i, y + j));
-                    if (parent1.IsImmutable(index))
+                    if (parent1.IsImmutable(index) || parent1.IsInvalid(index))
                         continue;
                     var aux = offspring1.GetGene(index);
                     offspring1.ReplaceGene(index, offspring2.GetGene(index));
