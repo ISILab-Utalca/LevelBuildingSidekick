@@ -46,6 +46,8 @@ namespace ISILab.LBS.Assistants
 
         [JsonIgnore, NonSerialized]
         private LBSLayer layer;
+
+        private List<Zone> _prevZones;
         #endregion
 
         #region PROPERTIES
@@ -295,8 +297,10 @@ namespace ISILab.LBS.Assistants
             zonesMod.OnRemoveZone += (module, zone) =>
             {
                 ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
-                GraphMod.RemoveEdges(zone);
-
+                foreach (var edge in GraphMod.RemoveEdges(zone))
+                {
+                    RequestTileRemove(edge);
+                }
             };
 
             zonesMod.OnRemovePair += (module, tile) =>
@@ -305,7 +309,10 @@ namespace ISILab.LBS.Assistants
 
                 if (!module.ZonesWithTiles.Contains(tile.Zone))
                 {
-                    GraphMod.RemoveEdges(tile.Zone);
+                    foreach (var edge in GraphMod.RemoveEdges(tile.Zone))
+                    {
+                        RequestTileRemove(edge);
+                    }
                 }
 
             };
@@ -621,6 +628,7 @@ namespace ISILab.LBS.Assistants
         {
             ZoneEdge edge = GraphMod.GetEdge(position, delta);
             GraphMod.RemoveEdge(edge);
+            RequestTileRemove(edge);
         }
 
         public Zone GetZone(LBSTile tile)
@@ -658,13 +666,33 @@ namespace ISILab.LBS.Assistants
 
         public void ConnectZones(Zone first, Zone second)
         {
-            GraphMod.AddEdge(first, second);
+            var edge = GraphMod.AddEdge(first, second);
+            RequestTilePaint(edge);
         }
         public bool CheckEdges(Zone first, Zone second)
         {
             return GraphMod.EdgesConnected(first, second);
         }
 
+
+        public void ReloadPrevData()
+        {
+            _prevZones ??= new List<Zone>();
+
+            // New zones
+            foreach (var zone in ZonesWhitTiles.Where(zone => !_prevZones.Contains(zone)))
+            {
+                RequestTilePaint(zone);
+            }
+            
+            // Expired zones
+            foreach (var zone in _prevZones.Where(zone => !ZonesWhitTiles.Contains(zone)))
+            {
+                RequestTileRemove(zone);
+            }
+        }
+        
+        
         public override object Clone()
         {
             return new HillClimbingAssistant(this.Icon, this.Name, this.ColorTint);
