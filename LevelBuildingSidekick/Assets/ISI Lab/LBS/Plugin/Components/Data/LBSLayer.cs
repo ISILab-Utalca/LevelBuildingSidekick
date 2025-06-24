@@ -128,6 +128,7 @@ namespace LBS.Components
         {
             get => new(generatorRules);
         }
+        
 
         [JsonIgnore]
         public Generator3D.Settings Settings

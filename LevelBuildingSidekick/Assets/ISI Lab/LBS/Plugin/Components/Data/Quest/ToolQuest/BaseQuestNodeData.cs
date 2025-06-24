@@ -166,6 +166,12 @@ namespace ISILab.LBS.Components
                 position = data.position;
                 size = data.size;
             }
+
+            // by default there are no references to other layers.
+            public virtual List<string> ReferencedLayers()
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -230,6 +236,11 @@ namespace ISILab.LBS.Components
                 if (data is not DataKill killData) return;
                 bundlesToKill = new List<BundleGraph>(killData.bundlesToKill);
             }
+
+            public override List<string> ReferencedLayers()
+            {
+                return bundlesToKill.Select(bundleGraph => bundleGraph.layerID).ToList();
+            }
         }
         [Serializable]
         public class DataStealth : BaseQuestNodeData
@@ -253,6 +264,11 @@ namespace ISILab.LBS.Components
                 objective = stealthData.objective;
                 bundlesObservers = new List<BundleGraph>(stealthData.bundlesObservers);
             }
+            
+            public override List<string> ReferencedLayers()
+            {
+                return bundlesObservers.Select(bundleGraph => bundleGraph.layerID).ToList();
+            }
         }
         [Serializable]
         public class DataTake : BaseQuestNodeData
@@ -270,6 +286,13 @@ namespace ISILab.LBS.Components
                if (data is not DataTake takeData) return;
                bundleToTake = takeData.bundleToTake;
            }
+           
+           public override List<string> ReferencedLayers()
+           {
+                List<string> list = new List<string>();
+                list.Add(bundleToTake.layerID);
+                return list;
+           }
         }
         [Serializable]
         public class DataRead : BaseQuestNodeData
@@ -286,6 +309,13 @@ namespace ISILab.LBS.Components
                 base.Clone(data);
                 if (data is not DataRead readData) return;
                 bundleToRead = readData.bundleToRead;
+            }
+            
+            public override List<string> ReferencedLayers()
+            {
+                List<string> list = new List<string>();
+                list.Add(bundleToRead.layerID);
+                return list;
             }
         }
         [Serializable]
@@ -335,6 +365,13 @@ namespace ISILab.LBS.Components
                 bundleGive = giveData.bundleGive;
                 bundleGiveTo = giveData.bundleGiveTo;
             }
+            
+            public override List<string> ReferencedLayers()
+            {
+                List<string> list = new List<string>();
+                list.Add(bundleGiveTo.layerID);
+                return list;
+            }
         }
         [Serializable]
         public class DataReport : BaseQuestNodeData
@@ -354,6 +391,13 @@ namespace ISILab.LBS.Components
                base.Clone(data);
                if (data is not DataReport reportData) return;
                bundleReportTo = reportData.bundleReportTo;
+           }
+           
+           public override List<string> ReferencedLayers()
+           {
+               List<string> list = new List<string>();
+               list.Add(bundleReportTo.layerID);
+               return list;
            }
         }
         [Serializable]
@@ -396,6 +440,13 @@ namespace ISILab.LBS.Components
               spyTime = spyData.spyTime;
               resetTimeOnExit = spyData.resetTimeOnExit;
           }
+          
+          public override List<string> ReferencedLayers()
+          {
+              List<string> list = new List<string>();
+              list.Add(bundleToSpy.layerID);
+              return list;
+          }
         }
         [Serializable]
         public class DataCapture : BaseQuestNodeData
@@ -434,6 +485,13 @@ namespace ISILab.LBS.Components
                 base.Clone(data);
                 if (data is not DataListen listenData) return;
                 bundleListenTo = listenData.bundleListenTo;
+            }
+            
+            public override List<string> ReferencedLayers()
+            {
+                List<string> list = new List<string>();
+                list.Add(bundleListenTo.layerID);
+                return list;
             }
         }
 
