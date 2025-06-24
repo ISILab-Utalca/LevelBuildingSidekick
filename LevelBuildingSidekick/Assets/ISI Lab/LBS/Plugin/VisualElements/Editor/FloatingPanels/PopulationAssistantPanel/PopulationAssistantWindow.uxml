@@ -20,7 +20,7 @@
                     <ISILab.LBS.VisualElements.ClassDropDown name="ZParamDropdown" label="Fitness Evaluator" class="lbs-class-white" style="margin-bottom: 1px;" />
                     <ISILab.LBS.VisualElements.ClassDropDown name="XParamDropdown" label="X Axis Parameter" class="lbs-class-red" />
                     <ISILab.LBS.VisualElements.ClassDropDown name="YParamDropdown" label="Y Axis Parameter" class="lbs-class-green" style="margin-bottom: 5px;" />
-                    <ui:VisualElement name="OpenOptimizer" style="flex-grow: 1; padding-bottom: 0; margin-bottom: 3px; flex-shrink: 0; margin-top: 0; background-color: rgba(0, 0, 0, 0);">
+                    <ui:VisualElement name="OpenOptimizer" style="flex-grow: 1; padding-bottom: 0; margin-bottom: 3px; flex-shrink: 0; margin-top: 0; background-color: rgba(0, 0, 0, 0); display: none;">
                         <ui:Button text="Open Optimizer" name="OpenOptimizerButton" style="flex-grow: 1; padding-right: 0; padding-left: 0; padding-top: 0; padding-bottom: 0; margin-bottom: 4px; margin-top: 0; -unity-text-align: middle-center; background-size: 100% 100%; background-position-x: center 0; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(88, 106, 55);" />
                     </ui:VisualElement>
                 </ui:VisualElement>
@@ -91,31 +91,19 @@
                                         <ui:VisualElement style="flex-grow: 1; flex-shrink: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Percentage&apos;); min-width: 10px; max-width: 10px; min-height: 10px; max-height: 10px; width: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; display: flex;" />
                                         <ui:Label text="Param (Maximize Z)" name="ZParamText" style="padding-left: 8px;" />
                                     </ui:VisualElement>
-                                    <ui:ProgressBar value="0.5" title="Fitness" name="ZProgressBar" high-value="1" class="lbs-progressBar-score-thick" style="flex-direction: column; align-items: stretch; align-self: auto; align-content: auto; justify-content: flex-start; flex-grow: 1; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-right: 5px; padding-left: 5px;" />
+                                    <ui:ProgressBar value="0.5" title="Fitness" name="ZProgressBar" high-value="1" class="lbs-progressBar-score-thick" style="flex-direction: column; align-items: stretch; align-self: auto; align-content: auto; justify-content: flex-start; flex-grow: 1; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-right: 5px; padding-left: 5px; background-color: rgba(255, 18, 18, 0);" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="X" style="flex-grow: 1; border-left-color: rgba(32, 32, 32, 0); border-right-color: rgba(32, 32, 32, 0); border-top-color: rgba(32, 32, 32, 0); border-bottom-color: rgba(32, 32, 32, 0); background-color: rgb(70, 52, 53); max-width: none; max-height: 64px; flex-direction: column; margin-bottom: 4px;">
                                     <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: flex-start; align-self: stretch; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; min-height: auto; max-height: none; align-content: center; align-items: flex-end;">
                                         <ui:Label text="Param (X Axis)" name="XParamText" style="padding-left: 8px;" />
                                     </ui:VisualElement>
-                                    <ui:VisualElement style="flex-grow: 0; align-self: stretch; align-items: stretch; align-content: flex-end; flex-direction: column; min-height: auto; max-height: none;">
-                                        <ui:Slider value="0.75" high-value="1" name="XSlider" style="margin-top: 3px; margin-right: 20px; margin-bottom: 3px; margin-left: 20px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                                        <ui:VisualElement style="flex-grow: 1; flex-direction: row; flex-shrink: 1; min-height: auto; max-height: none; justify-content: space-between; padding-right: 12px; padding-left: 12px; margin-bottom: 0; font-size: 10px;">
-                                            <ui:Label text="Low" />
-                                            <ui:Label text="High" />
-                                        </ui:VisualElement>
-                                    </ui:VisualElement>
+                                    <ui:ProgressBar value="0.5" name="XProgressBar" high-value="1" class="lbs-progressBar-score-thick" style="flex-direction: column; align-items: stretch; align-self: auto; align-content: auto; justify-content: flex-start; flex-grow: 1; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-right: 5px; padding-left: 5px;" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="Y" style="flex-grow: 1; border-left-color: rgba(32, 32, 32, 0); border-right-color: rgba(32, 32, 32, 0); border-top-color: rgba(32, 32, 32, 0); border-bottom-color: rgba(32, 32, 32, 0); background-color: rgb(56, 70, 66); max-width: none; max-height: 64px; flex-direction: column; margin-bottom: 4px;">
                                     <ui:VisualElement style="flex-grow: 1; flex-direction: row; justify-content: flex-start; align-self: stretch; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; min-height: auto; max-height: none; align-content: center; align-items: flex-end;">
                                         <ui:Label text="Param (Y Axis)" name="YParamText" style="padding-left: 8px;" />
                                     </ui:VisualElement>
-                                    <ui:VisualElement style="flex-grow: 0; align-self: stretch; align-items: stretch; align-content: flex-end; flex-direction: column; min-height: auto; max-height: none;">
-                                        <ui:Slider value="0.25" high-value="1" name="YSlider" style="margin-top: 3px; margin-right: 20px; margin-bottom: 3px; margin-left: 20px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                                        <ui:VisualElement style="flex-grow: 1; flex-direction: row; flex-shrink: 1; min-height: auto; max-height: none; justify-content: space-between; padding-right: 12px; padding-left: 12px; margin-bottom: 0; font-size: 10px;">
-                                            <ui:Label text="Easy" />
-                                            <ui:Label text="Hard" />
-                                        </ui:VisualElement>
-                                    </ui:VisualElement>
+                                    <ui:ProgressBar value="0.5" name="YProgressBar" high-value="1" class="lbs-progressBar-score-thick" style="flex-direction: column; align-items: stretch; align-self: auto; align-content: auto; justify-content: flex-start; flex-grow: 1; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-right: 5px; padding-left: 5px;" />
                                 </ui:VisualElement>
                                 <ui:Foldout text="Assistant" class="lbs-foldout-right-to-left" style="border-top-width: 1px; border-right-width: 0; border-bottom-width: 1px; border-left-width: 0; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; margin-bottom: 6px;">
                                     <ui:VisualElement name="Y" style="flex-grow: 1;" />

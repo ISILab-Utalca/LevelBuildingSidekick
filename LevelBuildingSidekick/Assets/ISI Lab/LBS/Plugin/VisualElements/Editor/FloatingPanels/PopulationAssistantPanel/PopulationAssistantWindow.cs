@@ -63,8 +63,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private Label xParamText;
         private Label yParamText;
         private Label zParamText;
-        private Slider xSlider;
-        private Slider ySlider;
+        private ProgressBar xProgressBar;
+        private ProgressBar yProgressBar;
         private ProgressBar zProgressBar;
 
         // their foldout functionalities are set in the constructor
@@ -170,8 +170,15 @@ namespace ISILab.LBS.VisualElements.Editor
             xParamText = rootVisualElement.Q<Label>("XParamText");
             yParamText = rootVisualElement.Q<Label>("YParamText");
             zParamText = rootVisualElement.Q<Label>("ZParamText");
+            xProgressBar = rootVisualElement.Q<ProgressBar>("XProgressBar");
+            yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
+            zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
+
+
+
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
+            //I set everything false so they can't be manipulated if there's no preset present.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
             param1Field.Type = typeof(IRangedEvaluator);
             param1Field.value = defaultSelectText;
@@ -222,15 +229,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
                 currentOptimizer.Evaluator = optimizerChoice;
                 if(optimizerChoice != null) currentOptimizer.Evaluator.InitializeDefault();
+                zParamText.text = new string("Fitness ("+optimizerField.Value+")");
+
             });
-            optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
-            optimizerButton.SetEnabled(false);
-            optimizerButton.visible = false;
-            //optimizerButton.clicked += OpenOptimizer;
-
-            //I set everything false so they can't be manipulated if there's no preset present.
             optimizerField.SetEnabled(false);
-
+  
             //PRESET SETTINGS
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
 
@@ -258,7 +261,6 @@ namespace ISILab.LBS.VisualElements.Editor
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
 
-            //Grid
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
 
@@ -280,7 +282,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
                 resetButton.SetEnabled((originalTileMap!=null));
             };
-            OnTileMapReset += () =>
+            OnTileMapReset += () => 
             {
                 originalTileMap = null;
                 resetButton.SetEnabled(false);
@@ -291,41 +293,13 @@ namespace ISILab.LBS.VisualElements.Editor
             closeWindow.clicked += Close;
 
             //PARAMETER'S GRAPH
-            //Find container
             graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
             
             //Create and add VisualElement: PopulationAssistantGraph to the container
             hellGraph = new(new[] { 0f, 0f, 0f }, 2);
             SetGraph();
             graphOfHell.Add(hellGraph);
-            
 
-            //Modify graph's colors (not necessary, it comes with default colors)
-            //graph = new(new[] { 0f, 0f, 0f }, 2);
-            /*graph.MainColor = Color.green;
-            graph.SecondaryColor = Color.cyan;
-            
-            //Change axes color
-            graph.SetAxisColor(Color.magenta, 0);
-            graph.SetAxisColor(Color.yellow, 1);
-            graph.SetAxisColor(Color.white, 2);
-            if (graph.SetAxisColor(Color.white, 6))
-            {
-                Debug.LogError("Can't SetAxisValue: Index out of range");
-            }
-            
-            //Change axes value
-            graph.SetAxisValue(0.5f,0);
-            if (graph.SetAxisValue(1, 6))
-            {
-                Debug.LogError("Can't SetAxisValue: Index out of range");
-            }
-            graph.RecalculateCorners(); //Important after changing axes' values*/
-            
-            //Sliders
-            ySlider = rootVisualElement.Q<Slider>("YSlider");
-            xSlider = rootVisualElement.Q<Slider>("XSlider");
-            zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
         }
 
         #region MAIN METHODS
@@ -392,8 +366,9 @@ namespace ISILab.LBS.VisualElements.Editor
             
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
+            zParamText.text = new string("Fitness (" + optimizerField.Value + ")");
         }
-        
+
         //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
@@ -505,52 +480,6 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSMainWindow.MessageNotify("Suggestion pinned.");
             UpdatePins?.Invoke();
 
-            //Backup file setup
-            /*var settings = LBSSettings.Instance;
-            var savedMapPath = settings.paths.savedMapsPresetPath;
-            string savedMapName = "Saved Map";
-
-            //Directory making
-            if (!Directory.Exists(savedMapPath))
-            {
-                Directory.CreateDirectory(savedMapPath);
-            }
-            else
-            {
-                var info = new DirectoryInfo(savedMapPath);
-                var fileInfo = info.GetFiles();
-
-                //Check if newTileMap is equal to any of the saved maps.
-                if (fileInfo.Length > 0)
-                {
-                    int count = 0;
-                    foreach (var file in fileInfo)
-                    {
-                        var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
-                        if (mapToCompare != null)
-                        {
-                            if (mapToCompare.Map.Equals(newTileMap))
-                            {
-                                //Maps are the same, so return
-                                LBSMainWindow.MessageNotify("An equal suggestion has already been pinned.", LogType.Warning);
-                                return;
-                            }
-                            count++;
-                        }
-                    }
-                    //Then name it after the count in file info
-                    savedMapName = "Saved Map " + count;
-                }
-            }
-            //Finally, save!
-            SavedMap newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
-            newSavedMap.Map = newTileMap;
-            newSavedMap.Name = savedMapName;
-            newSavedMap.Score = (float)suggestionData.Fitness;
-            AssetDatabase.CreateAsset(newSavedMap, savedMapPath + "\\" + savedMapName + ".asset");
-
-            //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
-            Debug.Log("saved map: "+newSavedMap.Name);*/
         }
 
         //Reset the suggestion to its original form
@@ -716,10 +645,10 @@ namespace ISILab.LBS.VisualElements.Editor
             //Shows data if non null
             if (mapData == null) return;
 
+            xProgressBar.value = (float)mapData.xFitness;
+            yProgressBar.value = (float)mapData.yFitness;
             zProgressBar.value = (float)mapData.Fitness;
-            xSlider.value = (float)mapData.xFitness;
-            ySlider.value = (float)mapData.yFitness;
-
+            
             //Takes border off selected map previously selected map
             if (selectedMap != null)
             {
