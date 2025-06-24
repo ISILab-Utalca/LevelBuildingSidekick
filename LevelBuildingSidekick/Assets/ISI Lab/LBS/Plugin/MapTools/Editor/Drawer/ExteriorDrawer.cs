@@ -20,12 +20,11 @@ namespace ISILab.LBS.Drawers
     public class ExteriorDrawer : Drawer
     {
         private List<LBSTag> Identifiers => LBSAssetsStorage.Instance.Get<LBSTag>();
+        private bool _loaded = false;
         public ExteriorDrawer() : base() { }
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            //Debug.Log("Drawing Exterior Drawer");
-            
             // Get behaviours
             if (target is not ExteriorBehaviour exterior) return;
            
@@ -33,15 +32,31 @@ namespace ISILab.LBS.Drawers
             var tileMod = exterior.OwnerLayer.GetModule<TileMapModule>();
             var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
             
-            foreach (var tile in exterior.Tiles)
+            // Paint new tiles
+            foreach (LBSTile newTile in exterior.RetrieveNewTiles())
             {
-                //if(tile.tag == null) tile.tag = exterior.identifierToSet;
+                var connections = connectMod.GetConnections(newTile);
                 
-                var connections = connectMod.GetConnections(tile);
+                var tView = GetTileView(newTile, connections, teselationSize);
                 
-                var tView = GetTileView(tile, connections, teselationSize);
+                // Stores using LBSTile as key
+                view.AddElement(exterior.OwnerLayer, newTile, tView);
+            }
+            
+            // Paint all tiles
+            if (!_loaded)
+            {
+                foreach (var tile in exterior.Tiles)
+                {
+                    var connections = connectMod.GetConnections(tile);
+                
+                    var tView = GetTileView(tile, connections, teselationSize);
 
-                view.AddElement(exterior.OwnerLayer, tile, tView);
+                    // Stores using LBSTile as key
+                    view.AddElement(exterior.OwnerLayer, tile, tView);
+                }
+
+                _loaded = true;
             }
         }
 
@@ -72,7 +87,7 @@ namespace ISILab.LBS.Drawers
                     
                         var connections = connectMod.GetConnections(tile);
                         var ve = GetTileView(tile, connections, teselationSize);
-                        view.AddElement(layer, tile, ve);
+                        view.AddElement(layer, this, ve);
                     }
                 }
                 else if (o != null && n == null)

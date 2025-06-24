@@ -51,7 +51,7 @@ namespace ISILab.LBS.VisualElements
                 );
         }
 
-        private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)
+        public void ActualizePositions(Vector2Int pos1, Vector2Int pos2)
         {
             this.pos1 = pos1;
             this.pos2 = pos2;

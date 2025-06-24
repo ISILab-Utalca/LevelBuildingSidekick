@@ -46,6 +46,9 @@ namespace ISILab.LBS.Assistants
 
         [JsonIgnore, NonSerialized]
         private LBSLayer layer;
+
+        private List<Zone> _prevZones;
+        private Dictionary<Zone, ConstraintPair> _pairRefs = new();
         #endregion
 
         #region PROPERTIES
@@ -295,8 +298,10 @@ namespace ISILab.LBS.Assistants
             zonesMod.OnRemoveZone += (module, zone) =>
             {
                 ConstrainsZonesMod.RecalculateConstraint(zonesMod.Zones);
-                GraphMod.RemoveEdges(zone);
-
+                foreach (var edge in GraphMod.RemoveEdges(zone))
+                {
+                    RequestTileRemove(edge);
+                }
             };
 
             zonesMod.OnRemovePair += (module, tile) =>
@@ -305,7 +310,10 @@ namespace ISILab.LBS.Assistants
 
                 if (!module.ZonesWithTiles.Contains(tile.Zone))
                 {
-                    GraphMod.RemoveEdges(tile.Zone);
+                    foreach (var edge in GraphMod.RemoveEdges(tile.Zone))
+                    {
+                        RequestTileRemove(edge);
+                    }
                 }
 
             };
@@ -621,6 +629,7 @@ namespace ISILab.LBS.Assistants
         {
             ZoneEdge edge = GraphMod.GetEdge(position, delta);
             GraphMod.RemoveEdge(edge);
+            RequestTileRemove(edge);
         }
 
         public Zone GetZone(LBSTile tile)
@@ -658,12 +667,55 @@ namespace ISILab.LBS.Assistants
 
         public void ConnectZones(Zone first, Zone second)
         {
-            GraphMod.AddEdge(first, second);
+            var edge = GraphMod.AddEdge(first, second);
+            RequestTilePaint(edge);
         }
         public bool CheckEdges(Zone first, Zone second)
         {
             return GraphMod.EdgesConnected(first, second);
         }
+
+
+        public void ReloadPrevData()
+        {
+            _prevZones ??= new List<Zone>();
+
+            // New zones
+            foreach (var zone in ZonesWhitTiles.Where(zone => !_prevZones.Contains(zone)))
+            {
+                RequestTilePaint(zone);
+                _prevZones.Add(zone);
+            }
+            
+            // Expired zones
+            foreach (var zone in _prevZones.Where(zone => !ZonesWhitTiles.Contains(zone)).ToList())
+            {
+                RequestTileRemove(zone);
+                
+                if (_pairRefs == null) continue;
+                if (_pairRefs.TryGetValue(zone, out var pair))
+                {
+                    RequestTileRemove(pair);
+                }
+                _prevZones.Remove(zone);
+                _pairRefs.Remove(zone);
+            }
+        }
+
+        public void SaveConstraintKey(Zone zone, ConstraintPair constraint)
+        {
+            if (zone == null || constraint == null)
+            {
+                Debug.LogWarning("HillClimbingAssistant.SaveConstraintKey error: Zone or ConstraintPair not valid.");
+                return;
+            }
+            
+            _pairRefs ??= new Dictionary<Zone, ConstraintPair>();
+
+            _pairRefs.TryAdd(zone, constraint);
+        }
+        
+
 
         public override object Clone()
         {

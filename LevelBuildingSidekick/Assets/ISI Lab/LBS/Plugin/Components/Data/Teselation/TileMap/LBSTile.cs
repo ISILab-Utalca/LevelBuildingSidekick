@@ -54,7 +54,7 @@ namespace LBS.Components.TileMap
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(x.GetHashCode(), y.GetHashCode());
         }
 
         public virtual object Clone()

@@ -46,12 +46,13 @@ namespace ISILab.LBS.Modules
             OnAddEdge?.Invoke(this, edge);
         }
 
-        public void AddEdge(Zone first, Zone second)
+        public ZoneEdge AddEdge(Zone first, Zone second)
         {
             var edge = new ZoneEdge(first, second);
             OnChanged?.Invoke(this, null, new List<object>() { edge });
             edges.Add(edge);
             OnAddEdge?.Invoke(this, edge);
+            return edge;
         }
 
         public bool EdgesConnected(Zone first, Zone second)
@@ -108,7 +109,7 @@ namespace ISILab.LBS.Modules
             OnRemoveEdge?.Invoke(this, edge);
         }
 
-        public void RemoveEdges(Zone zone)
+        public ZoneEdge[] RemoveEdges(Zone zone)
         {
             var toRemove = edges.Where(e => e.First.Equals(zone) || e.Second.Equals(zone)).ToList();
             OnChanged?.Invoke(this, toRemove.Cast<object>().ToList(), null);
@@ -116,6 +117,8 @@ namespace ISILab.LBS.Modules
             {
                 edges.Remove(toRemove[i]);
             }
+
+            return toRemove.ToArray();
         }
 
         public override void Clear()

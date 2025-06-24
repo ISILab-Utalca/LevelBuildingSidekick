@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
@@ -16,6 +18,10 @@ namespace ISILab.LBS.Drawers
     [Drawer(typeof(SchemaBehaviour))]
     public class SchemaDrawer : Drawer
     {
+        private VectorImage _doorConImage = null;
+        private VectorImage _windowConImage = null;
+        private bool _loaded = false;
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             // Get behaviour
@@ -26,15 +32,30 @@ namespace ISILab.LBS.Drawers
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
-            foreach (var t in tilesMod.Tiles)
+            foreach (LBSTile newTile in schema.RetrieveNewTiles())
             {
-                var zone = zonesMod.GetZone(t);
-
-                var conections = connectionsMod.GetConnections(t);
-
-                var tView = GetTileView(t, zone, conections, teselationSize);
+                TileZonePair tz = zonesMod.GetPairTile(newTile);
+                TileConnectionsPair tc = connectionsMod.GetPair(newTile);
                 
-                view.AddElement(schema.OwnerLayer, this, tView);
+                var tView = GetTileView(newTile, tz.Zone, tc.Connections, teselationSize);
+                // Stores using LBSTile as key
+                view.AddElement(schema.OwnerLayer, newTile, tView);
+            }
+            
+            // Paint all tiles
+            if (!_loaded)
+            {
+                foreach (var tile in tilesMod.Tiles)
+                {
+                    TileZonePair tz = zonesMod.GetPairTile(tile);
+                    TileConnectionsPair tc = connectionsMod.GetPair(tile);
+                
+                    var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
+                    // Stores using LBSTile as key
+                    view.AddElement(schema.OwnerLayer, tile, tView);
+                }
+
+                _loaded = true;
             }
         }
 
@@ -128,9 +149,9 @@ namespace ISILab.LBS.Drawers
                 {
                     VectorImage setIcon = null;
                     if (connectionType == connectionTypes[2])
-                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+                        setIcon = GetDoorImage();
                     else if (connectionType == connectionTypes[3])
-                        setIcon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
+                        setIcon = GetWindowImage();
 
                     var connectionPoint = new SchemaTileConnectionView(setIcon)
                     {
@@ -165,6 +186,23 @@ namespace ISILab.LBS.Drawers
             }
 
             return t;
+        }
+
+        private VectorImage GetDoorImage()
+        {
+            if (_doorConImage == null)
+            {
+                _doorConImage = Resources.Load<VectorImage>("Icons/Vectorial/Icon=DoorConnection");
+            }
+            return _doorConImage;
+        }
+        private VectorImage GetWindowImage()
+        {
+            if (_windowConImage == null)
+            {
+                _windowConImage = Resources.Load<VectorImage>("Icons/Vectorial/Icon=WindowsConnection");
+            }
+            return _windowConImage;
         }
     }
 }

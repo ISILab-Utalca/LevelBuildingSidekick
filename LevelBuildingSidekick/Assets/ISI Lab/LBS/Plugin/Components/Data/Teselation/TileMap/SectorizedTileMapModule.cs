@@ -169,7 +169,7 @@ namespace ISILab.LBS.Modules
             //return pairs.Find(t => t.Tile.Equals(tile));
         }
 
-        private TileZonePair GetPairTile(Vector2Int pos)
+        public TileZonePair GetPairTile(Vector2Int pos)
         {
             return pairs.Find(t => t.Tile.Position == pos);
         }
@@ -511,6 +511,30 @@ namespace ISILab.LBS.Modules
             return r;
         }
 
+        public void UpdateZonePositions()
+        {
+            // Initialize auxiliary lists
+            var positions = new List<Vector2Int>[zones.Count];
+            for (int i = 0; i < zones.Count; i++)
+            {
+                positions[i] = new List<Vector2Int>();
+            }
+            
+            // Save positions in auxiliary lists
+            foreach (var tile in PairTiles)
+            {
+                int index = Zones.IndexOf(tile.Zone);
+                positions[index].Add(tile.Tile.Position);
+            }
+            
+            // Replace positions in zones
+            for (int i = 0; i < zones.Count; i++)
+            {
+                zones[i].ClearPositions();
+                zones[i].AddPositionRange(positions[i]);
+            }
+        }
+        
         public override Rect GetBounds()
         {
             if (pairs.Count == 0)
@@ -658,7 +682,7 @@ namespace ISILab.LBS.Modules
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(zone.GetHashCode());
         }
         #endregion
 

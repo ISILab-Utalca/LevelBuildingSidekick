@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
@@ -22,8 +23,15 @@ namespace ISILab.LBS.Behaviours
             get => _selectedQuestNode;
             set
             {
+                var previous = _selectedQuestNode;
                 _selectedQuestNode = value;
                 OnQuestNodeSelected?.Invoke(_selectedQuestNode);
+                
+                // If the selection is new, new elements must be drawn
+                if (previous != _selectedQuestNode)
+                {
+                    ChangeVisuals();   
+                }
             }
         }
         
@@ -53,5 +61,11 @@ namespace ISILab.LBS.Behaviours
         }
         
         public void DataChanged(QuestNode node) {OnQuestNodeSelected?.Invoke(node);}
+
+        private void ChangeVisuals()
+        {
+            RequestTileRemove(this);
+            RequestTilePaint(this);
+        }
     }
 }
