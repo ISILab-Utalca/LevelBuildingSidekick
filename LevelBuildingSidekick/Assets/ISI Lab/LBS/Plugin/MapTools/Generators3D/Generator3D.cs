@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.Extensions;
 using ISILab.JsonNet.Coverters;
 using LBS;
@@ -122,6 +123,15 @@ namespace ISILab.LBS.Generators
             rule.generator3D = this;
         }
 
+        public T GetRule<T>() where T : LBSGeneratorRule
+        {
+            return rules.OfType<T>().FirstOrDefault();
+        }
+
+        public T GetRule<T>( List<LBSGeneratorRule> otherRules) where T : LBSGeneratorRule
+        {
+            return otherRules.OfType<T>().FirstOrDefault();
+        }
         public void RemoveRule(LBSGeneratorRule rule)
         {
             if (rules.Remove(rule))
@@ -162,7 +172,6 @@ namespace ISILab.LBS.Generators
             this.rules = rules;
             
             parent.transform.position = settings.position;
-            Debug.Log(parent.transform.position);
             
             if (this.rules.Count <= 0)
             {

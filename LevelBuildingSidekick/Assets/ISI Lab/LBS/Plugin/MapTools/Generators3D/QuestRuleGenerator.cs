@@ -9,8 +9,10 @@ using ISILab.LBS.Modules;
 using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.Generators
 {
@@ -19,6 +21,14 @@ namespace ISILab.LBS.Generators
     {
         private const float ProbeRadius = 1.0f;
         private static readonly Collider[] OverlapResults = new Collider[32];
+        
+        private Action<string> _onLayerRequired;
+        public event Action<string> OnLayerRequired
+        {
+            add => _onLayerRequired = value;
+            remove => _onLayerRequired -= value;
+        }
+
         
         public override List<Message> CheckViability(LBSLayer layer)
         {
@@ -92,8 +102,14 @@ namespace ISILab.LBS.Generators
             return Tuple.Create<GameObject, string>(pivot, null);
         }
 
-        private static void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer, GameObject pivot)
+        private void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer, GameObject pivot)
         {
+            foreach (var node in quest.QuestNodes)
+            {
+                // Find if it has a reference to another layer
+                GenerateRequiredLayers(node);
+            }
+            
             foreach (var node in quest.QuestNodes)
             {
                 Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);
@@ -103,7 +119,7 @@ namespace ISILab.LBS.Generators
                     Debug.LogError($"No trigger type found for tag '{node.QuestAction}' in QuestTagRegistry");
                     continue;
                 }
-
+                
                 // Create GameObject for the trigger
                 var go = new GameObject(node.ID)
                 {
@@ -142,8 +158,40 @@ namespace ISILab.LBS.Generators
                 go.SetActive(false);
             }
         }
-        
-        
+
+        private void GenerateRequiredLayers(QuestNode node)
+        {
+            List<string> referencedLayers = node.NodeData.ReferencedLayers();
+            if (referencedLayers is null || !referencedLayers.Any()) return;
+            
+            // Find all GameObjects in the scene
+            GameObject[] allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+            List<GameObject> matchingObjects = allObjects.Where(gameObject => referencedLayers.Contains(gameObject.name)).ToList();
+                    
+            foreach (GameObject gameObject in matchingObjects)
+            {
+                referencedLayers.Remove(gameObject.name);
+            }
+
+            // the list keeps the non existing objects
+            foreach (var pendingLayerID in referencedLayers.Distinct())
+            {
+                if (EditorUtility.DisplayDialog(
+                        "Missing Layer Dependency",
+                        $"The layer \"{pendingLayerID}\" does not exist and its data is being used by " +
+                        $"the quest layer.\nWould you like to generate it now?",
+                        "Yes (Generate Layer)",
+                        "No (Set values manually in scene)"
+                    ))
+                {
+                    _onLayerRequired?.Invoke(pendingLayerID);
+                }
+              
+            }
+
+        }
+
+
         /// <summary>
         /// Tries to find objects in the scene, assuming they were generated previously
         /// </summary>
@@ -282,7 +330,7 @@ namespace ISILab.LBS.Generators
             float y,
             Vector3 delta,
             Action<GameObject> assignAction)
-        {
+      {
             // Calculate the world position of the BundleGraph's position
             var scenePosition = GetScenePosition(bundleGraph.Position, settings, basePos, y, delta);
 
