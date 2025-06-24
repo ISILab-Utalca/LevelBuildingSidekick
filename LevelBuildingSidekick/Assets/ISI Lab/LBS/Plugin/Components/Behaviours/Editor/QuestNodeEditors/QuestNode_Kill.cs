@@ -33,7 +33,7 @@ namespace ISILab.LBS.VisualElements
 
                 var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleGraph.layerID, bundleGraph.guid, bundleGraph.Position);
+                tilePicker.SetTargetByLayer(bundleGraph.GetLayer(), bundleGraph.guid, bundleGraph.Position);
 
                 tilePicker.OnClicked = () =>
                 {
@@ -45,7 +45,7 @@ namespace ISILab.LBS.VisualElements
                             positions,
                             pickedGuid);
                         
-                        if(layer!=null) tilePicker.SetTarget(layer.ID, pickedGuid, bundleGraph.Position);
+                        if(layer!=null) tilePicker.SetTargetByLayer(layer, pickedGuid, bundleGraph.Position);
                         NodeData.bundlesToKill[i] = bundleGraph;
                     };
                 };

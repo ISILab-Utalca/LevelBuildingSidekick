@@ -30,7 +30,7 @@ namespace ISILab.LBS.VisualElements
         protected override void OnDataAssigned()
         {
             _pickerBundle.ClearPicker();
-            _pickerBundle.SetTarget(NodeData.bundleToSpy.layerID, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.Position);
+            _pickerBundle.SetTargetByLayer(NodeData.bundleToSpy.GetLayer(), NodeData.bundleToSpy.guid, NodeData.bundleToSpy.Position);
 
             _pickerBundle.OnClicked = () =>
             {
@@ -42,7 +42,7 @@ namespace ISILab.LBS.VisualElements
                         positions,
                         pickedGuid);
        
-                    if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToSpy.Position);
+                    if(layer!=null) _pickerBundle.SetTargetByLayer(layer, pickedGuid, NodeData.bundleToSpy.Position);
                 };
             };
 

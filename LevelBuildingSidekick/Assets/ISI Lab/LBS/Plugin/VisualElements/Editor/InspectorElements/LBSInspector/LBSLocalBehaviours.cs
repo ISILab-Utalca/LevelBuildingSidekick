@@ -78,7 +78,7 @@ namespace ISILab.LBS.VisualElements
                 if(editorType == null) continue;
                 LBSCustomEditor instance = Activator.CreateInstance(editorType, behaviour) as LBSCustomEditor;
                 
-                instance.SetInfo(behaviour);
+                instance?.SetInfo(behaviour);
                 ToolKit.Instance.SetTarget(instance);
                 
                 var content = new InspectorContentPanel(instance, behaviour.Name, behaviour.Icon, behaviour.ColorTint);

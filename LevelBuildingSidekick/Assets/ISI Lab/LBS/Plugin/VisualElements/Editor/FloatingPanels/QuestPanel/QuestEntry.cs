@@ -94,16 +94,16 @@ namespace ISILab.LBS.VisualElements.Editor
             BackgroundSize  iconSize = new BackgroundSize(12, 12);
             switch (node.NodeType)
             {
-                case NodeType.start:
+                case NodeType.Start:
                     iconPath = "Icons/Vectorial/Icon=Start";
                     backgroundColor = LBSSettings.Instance.view.successColor;
                     break;
-                case NodeType.middle:
+                case NodeType.Middle:
                     iconPath = "Icons/Vectorial/Icon=MidNode";
                     backgroundColor = Color.white;
                     iconSize = new BackgroundSize(28, 28);
                     break;
-                case NodeType.goal:
+                case NodeType.Goal:
                     iconPath = "Icons/Vectorial/Icon=Goal";
                     backgroundColor = LBSSettings.Instance.view.errorColor;
                     break;

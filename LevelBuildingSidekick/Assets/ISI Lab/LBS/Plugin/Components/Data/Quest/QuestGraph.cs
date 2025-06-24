@@ -135,7 +135,7 @@ namespace ISILab.LBS.Modules
             }
             
             root = node;
-            root.NodeType = NodeType.start;
+            root.NodeType = NodeType.Start;
         }
         
         
@@ -334,7 +334,7 @@ namespace ISILab.LBS.Modules
             bool hasNext = questEdges.Any(qe => qe.First == questNode && qe.Second != null);
             bool hasPrevious = questEdges.Any(qe => qe.Second == questNode && qe.First != null);
           
-            if (questNode.NodeType == NodeType.start)
+            if (questNode.NodeType == NodeType.Start)
             {
                 // if first node check for next connection
                 valid = hasNext & !hasPrevious;
@@ -342,7 +342,7 @@ namespace ISILab.LBS.Modules
                 return valid;
             }
             
-            if (questNode.NodeType == NodeType.goal)
+            if (questNode.NodeType == NodeType.Goal)
             {
                 // if last node check for previous connection
                 valid = hasPrevious & !hasNext;
@@ -426,10 +426,10 @@ namespace ISILab.LBS.Modules
             
             foreach (var qn in questNodes)
             {
-                qn.NodeType = NodeType.middle;
+                qn.NodeType = NodeType.Middle;
             }
             
-            questNodes.Last().NodeType = NodeType.goal;
+            questNodes.Last().NodeType = NodeType.Goal;
             SetRoot(questNodes.First());
         }
         public void Reorder()

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
@@ -19,8 +20,10 @@ namespace ISILab.LBS.Generators
 
     public class QuestRuleGenerator : LBSGeneratorRule
     {
-        private const float ProbeRadius = 1.0f;
-        private static readonly Collider[] OverlapResults = new Collider[32];
+        private const float frameDelay = 5f;
+        private float _currentFrameDelay = frameDelay;
+        private const float ProbeRadius = 10f;
+       // private static readonly Collider[] OverlapResults = new Collider[32];
         
         private Action<string> _onLayerRequired;
         public event Action<string> OnLayerRequired
@@ -50,6 +53,7 @@ namespace ISILab.LBS.Generators
         /// <returns></returns>
         public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
+            
             var pivot = new GameObject(layer.ID);
             var observer = pivot.AddComponent<QuestObserver>();
 
@@ -60,7 +64,6 @@ namespace ISILab.LBS.Generators
                 return Tuple.Create<GameObject, string>(null, "No quest graph found. Can't generate");
             }
             CloneRefs.End();
-            
 
             if (!quest.QuestEdges.Any())
             {
@@ -110,6 +113,22 @@ namespace ISILab.LBS.Generators
                 GenerateRequiredLayers(node);
             }
             
+            // Delay execution so the engine enables the colliders
+            EditorApplication.update += DelayGeneration;
+            return;
+
+            void DelayGeneration()
+            {
+                if (_currentFrameDelay-- > 0) return;
+                _currentFrameDelay = frameDelay;
+                EditorApplication.update -= DelayGeneration;
+                GenerateTriggersPerNode(settings, quest, observer, pivot);
+            }
+        }
+
+        private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer,
+            GameObject pivot)
+        {
             foreach (var node in quest.QuestNodes)
             {
                 Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);
@@ -161,7 +180,7 @@ namespace ISILab.LBS.Generators
 
         private void GenerateRequiredLayers(QuestNode node)
         {
-            List<string> referencedLayers = node.NodeData.ReferencedLayers();
+            List<string> referencedLayers = node.NodeData.ReferencedLayerNames();
             if (referencedLayers is null || !referencedLayers.Any()) return;
             
             // Find all GameObjects in the scene
@@ -334,21 +353,22 @@ namespace ISILab.LBS.Generators
             // Calculate the world position of the BundleGraph's position
             var scenePosition = GetScenePosition(bundleGraph.Position, settings, basePos, y, delta);
 
-            // Find objects at the position with LBSGenerated component using non-allocating physics query
-            var size = Physics.OverlapSphereNonAlloc(scenePosition, ProbeRadius, OverlapResults);
-            if (size == OverlapResults.Length)
+            // Find objects at the position with LBSGenerated component using physics query
+            var colliders = Physics.OverlapSphere(scenePosition, ProbeRadius);
+            if (colliders == null || colliders.Length == 0)
             {
-                Debug.LogWarning($"OverlapSphereNonAlloc buffer overflow at position {scenePosition}. Increase buffer size or reduce ProbeRadius.");
+                Debug.LogWarning($"OverlapSphere collider empty, no objects found.");
+                return;
             }
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < colliders.Length; i++)
             {
-                var collider = OverlapResults[i];
+                var collider = colliders[i];
                 if (collider == null) continue;
 
                 var lbsGenerated = collider.GetComponent<LBSGenerated>();
                 if (lbsGenerated == null || lbsGenerated.BundleRef == null) continue;
-                if (lbsGenerated.LayerID != bundleGraph.layerID) continue; // Compare LayerID with LBSLayer.ID
+                if (lbsGenerated.LayerName != bundleGraph.GetLayerName()) continue; 
 
                 Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.guid);
                 if (lbsGenerated.BundleRef != bundleRef) continue;

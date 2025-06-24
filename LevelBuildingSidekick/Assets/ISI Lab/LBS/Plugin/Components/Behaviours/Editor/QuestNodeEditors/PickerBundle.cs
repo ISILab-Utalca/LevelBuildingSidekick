@@ -92,7 +92,7 @@ namespace ISILab.LBS.VisualElements
             _objectFieldBundle.labelElement.text = paramLabel + suffix;
             _objectFieldBundle.SetEnabled(!graphOnly);
 
-            this.tooltip = paramTooltip;
+            tooltip = paramTooltip;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace ISILab.LBS.VisualElements
         /// <param name="layer">Optional: the layer to display.</param>
         /// <param name="guid">Optional: the bundle GUID to load and show.</param>
         /// <param name="position">Optional: position in the graph to show.</param>
-        public void SetTarget(string layerID = null, string guid = "", Vector2Int position = default)
+        public void SetTargetByLayer(LBSLayer layer = null, string guid = "", Vector2Int position = default)
         {
             if (!string.IsNullOrEmpty(guid))
             {
@@ -109,9 +109,14 @@ namespace ISILab.LBS.VisualElements
                 _objectFieldBundle.value = bundle;
             }
 
-            if (layerID != null)
+            if (layer != null)
             {
-                _labelLayer.text = layerID;
+                layer.OnChangeName += () =>
+                {
+                    _labelLayer.text = layer.Name;
+                };
+                
+                _labelLayer.text = layer.Name;
                 _labelLayer.style.display = DisplayStyle.Flex;
             }
             else
@@ -123,7 +128,7 @@ namespace ISILab.LBS.VisualElements
             _vector2FieldPosition.style.display = hasPosition ? DisplayStyle.Flex : DisplayStyle.None;
             _vector2FieldPosition.value = position;
         }
-
+        
         /// <summary>
         /// Clears the picker click callback.
         /// </summary>
@@ -133,5 +138,7 @@ namespace ISILab.LBS.VisualElements
         }
 
         #endregion
+
+        
     }
 }

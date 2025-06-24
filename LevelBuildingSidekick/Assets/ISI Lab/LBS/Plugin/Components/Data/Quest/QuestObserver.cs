@@ -82,7 +82,7 @@ namespace ISILab.LBS
                 if (edge.First != currentNode) continue;
 
                 var nextNode = edge.Second;
-                nextNode.QuestState = QuestState.active;
+                nextNode.QuestState = QuestState.Active;
                 OnQuestAdvance?.Invoke();
                 
                 if (nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger))
@@ -130,7 +130,7 @@ namespace ISILab.LBS
             // subscribe all triggers to call advance quest when completed
             foreach (var node in questGraph.QuestNodes)
             {
-                node.QuestState = QuestState.blocked;
+                node.QuestState = QuestState.Blocked;
                 foreach (var child in childTriggers)
                 {
                     if(!child) continue;
@@ -139,7 +139,7 @@ namespace ISILab.LBS
                     if(node == questGraph.Root) 
                     {
                         child.gameObject.SetActive(true); 
-                        node.QuestState =  QuestState.active;
+                        node.QuestState =  QuestState.Active;
                     }
                     
                     if (node.ID != child.NodeID) continue;

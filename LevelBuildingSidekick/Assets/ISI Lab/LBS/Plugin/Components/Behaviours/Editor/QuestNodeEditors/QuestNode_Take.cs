@@ -25,7 +25,7 @@ namespace ISILab.LBS.VisualElements
                 protected override void OnDataAssigned()
                 {
                         _pickerBundle.ClearPicker();
-                        _pickerBundle.SetTarget(NodeData.bundleToTake.layerID, NodeData.bundleToTake.guid, NodeData.bundleToTake.Position);
+                        _pickerBundle.SetTargetByLayer(NodeData.bundleToTake.GetLayer(), NodeData.bundleToTake.guid, NodeData.bundleToTake.Position);
 
                         _pickerBundle.OnClicked = () =>
                         {
@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements
                                                 positions,
                                                 pickedGuid);
                                         
-                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToTake.Position);
+                                        if(layer!=null) _pickerBundle.SetTargetByLayer(layer, pickedGuid, NodeData.bundleToTake.Position);
                                 };
                         };
                 }

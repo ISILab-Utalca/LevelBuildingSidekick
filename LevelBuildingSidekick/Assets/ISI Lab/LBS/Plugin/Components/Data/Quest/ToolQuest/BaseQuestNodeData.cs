@@ -5,7 +5,6 @@ using ISILab.LBS.Settings;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Components
 {
@@ -18,7 +17,7 @@ namespace ISILab.LBS.Components
     public struct BundleGraph
     {
         [SerializeField]public List<Vector2Int> tilePositions;
-        [SerializeField]public string layerID;
+        [SerializeField]private LBSLayer layer;
         [SerializeField]public string guid;
         
         
@@ -27,13 +26,20 @@ namespace ISILab.LBS.Components
             List<Vector2Int> tilePositions = null, 
             string guid = "")
         {
-            layerID = layer?.ID;
+            this.layer = layer;
             this.tilePositions = tilePositions;
             this.guid = guid;
         }
 
+        public LBSLayer GetLayer() => layer;
+        
+        public string GetLayerName()
+        {
+            return layer?.Name ?? "";
+        }
+
         /// <summary>
-        /// Returns the top left position in the grid, that the tilebundlegroup uses
+        /// Returns the top left position in the grid, that the tile bundle group uses
         /// </summary>
         public Vector2Int Position
         {
@@ -51,7 +57,7 @@ namespace ISILab.LBS.Components
         public Vector2 GetElementSize()
         {
             Vector2 size = Vector2.one;
-            if (tilePositions.Count <= 0) return size;
+            if (tilePositions is null || tilePositions.Count <= 0) return size;
             
             // find bound borders
             int minX = tilePositions.Min(p => p.x);
@@ -80,99 +86,99 @@ namespace ISILab.LBS.Components
         [SerializeField]public string guid;
     }
     
-        /// <summary>
-        /// Factory to create QuestNodeData based on actions.
-        /// </summary>
-        public static class QuestNodeDataFactory
+    /// <summary>
+    /// Factory to create QuestNodeData based on actions.
+    /// </summary>
+    public static class QuestNodeDataFactory
+    {
+        private static readonly Dictionary<string, Type> TagDataTypes = new()
         {
-            private static readonly Dictionary<string, Type> TagDataTypes = new()
+            { " go to ", typeof(DataGoto) },
+            { " explore ", typeof(DataExplore) },
+            { " kill ", typeof(DataKill) } ,
+            { " stealth ", typeof(DataStealth) },
+            { " take ",typeof(DataTake) },
+            { " read ", typeof(DataRead) },
+            { " exchange ",typeof(DataExchange) },
+            { " give ",typeof(DataGive) },
+            { " report ",typeof(DataReport) },
+            { " gather ", typeof(DataGather) },
+            { " spy ",  typeof(DataSpy) },
+            { " capture ", typeof(DataCapture) },
+            { " listen ", typeof(DataListen) },
+            { " empty ", null }
+        };
+        
+        public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
+        {
+            if (!TagDataTypes.TryGetValue(tag, out var dataClass))
             {
-                { " go to ", typeof(DataGoto) },
-                { " explore ", typeof(DataExplore) },
-                { " kill ", typeof(DataKill) } ,
-                { " stealth ", typeof(DataStealth) },
-                { " take ",typeof(DataTake) },
-                { " read ", typeof(DataRead) },
-                { " exchange ",typeof(DataExchange) },
-                { " give ",typeof(DataGive) },
-                { " report ",typeof(DataReport) },
-                { " gather ", typeof(DataGather) },
-                { " spy ",  typeof(DataSpy) },
-                { " capture ", typeof(DataCapture) },
-                { " listen ", typeof(DataListen) },
-                { " empty ", null }
-            };
-            
-            public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
-            {
-                if (!TagDataTypes.TryGetValue(tag, out var dataClass))
-                {
-                    return new BaseQuestNodeData(owner, tag);
-                }
-
-                var nodeData = (BaseQuestNodeData)Activator.CreateInstance(dataClass, owner, tag);
-                return nodeData;
+                return new BaseQuestNodeData(owner, tag);
             }
+
+            var nodeData = (BaseQuestNodeData)Activator.CreateInstance(dataClass, owner, tag);
+            return nodeData;
+        }
+    }
+
+    [Serializable]
+    public class BaseQuestNodeData
+    {
+        #region FIELDS
+        [SerializeField, JsonRequired]
+        protected QuestNode owner;
+        
+        [SerializeField, JsonRequired]
+        protected string tag;
+      
+        [SerializeField, JsonRequired] 
+        protected Vector2Int position = Vector2Int.zero;
+       
+        [SerializeField, JsonRequired] 
+        protected float size = 1;
+        
+        [SerializeField, JsonRequired] 
+        protected Color color =  LBSSettings.Instance.view.behavioursColor;
+        
+        #endregion
+
+        #region PROPERTIES
+        public QuestNode Owner => owner;
+        public string Tag => tag;
+        public Vector2Int Position
+        {
+            get => position;
+            set => position = value;
         }
 
-        [Serializable]
-        public class BaseQuestNodeData
+        public float Size
         {
-            #region FIELDS
-            [SerializeField, JsonRequired]
-            protected QuestNode owner;
-            
-            [SerializeField, JsonRequired]
-            protected string tag;
-          
-            [SerializeField, JsonRequired] 
-            protected Vector2Int position = Vector2Int.zero;
-           
-            [SerializeField, JsonRequired] 
-            protected float size = 1;
-            
-            [SerializeField, JsonRequired] 
-            protected Color color =  LBSSettings.Instance.view.behavioursColor;
-            
-            #endregion
-
-            #region PROPERTIES
-            public QuestNode Owner => owner;
-            public string Tag => tag;
-            public Vector2Int Position
-            {
-                get => position;
-                set => position = value;
-            }
-
-            public float Size
-            {
-                get => size;
-                set => size = value;
-            }
-
-            public Color Color => color;
-            #endregion
-
-            public BaseQuestNodeData(QuestNode owner, string tag)
-            {
-                this.tag = tag;
-            }
-
-            public virtual void Clone(BaseQuestNodeData data)
-            {
-                owner = data.owner;
-                tag = data.tag;
-                position = data.position;
-                size = data.size;
-            }
-
-            // by default there are no references to other layers.
-            public virtual List<string> ReferencedLayers()
-            {
-                return null;
-            }
+            get => size;
+            set => size = value;
         }
+
+        public Color Color => color;
+        #endregion
+
+        public BaseQuestNodeData(QuestNode owner, string tag)
+        {
+            this.tag = tag;
+        }
+
+        public virtual void Clone(BaseQuestNodeData data)
+        {
+            owner = data.owner;
+            tag = data.tag;
+            position = data.position;
+            size = data.size;
+        }
+
+        // by default there are no references to other layers.
+        public virtual List<string> ReferencedLayerNames()
+        {
+            return null;
+        }
+    }
 
         /// <summary>
         /// ----------------------- FOR LBS USER ----------------------------------------------
@@ -237,9 +243,9 @@ namespace ISILab.LBS.Components
                 bundlesToKill = new List<BundleGraph>(killData.bundlesToKill);
             }
 
-            public override List<string> ReferencedLayers()
+            public override List<string> ReferencedLayerNames()
             {
-                return bundlesToKill.Select(bundleGraph => bundleGraph.layerID).ToList();
+                return bundlesToKill.Select(bundleGraph => bundleGraph.GetLayerName()).ToList();
             }
         }
         [Serializable]
@@ -265,9 +271,9 @@ namespace ISILab.LBS.Components
                 bundlesObservers = new List<BundleGraph>(stealthData.bundlesObservers);
             }
             
-            public override List<string> ReferencedLayers()
+            public override List<string> ReferencedLayerNames()
             {
-                return bundlesObservers.Select(bundleGraph => bundleGraph.layerID).ToList();
+                return bundlesObservers.Select(bundleGraph => bundleGraph.GetLayerName()).ToList();
             }
         }
         [Serializable]
@@ -287,10 +293,9 @@ namespace ISILab.LBS.Components
                bundleToTake = takeData.bundleToTake;
            }
            
-           public override List<string> ReferencedLayers()
+           public override List<string> ReferencedLayerNames()
            {
-                List<string> list = new List<string>();
-                list.Add(bundleToTake.layerID);
+                List<string> list = new List<string> { bundleToTake.GetLayerName() };
                 return list;
            }
         }
@@ -311,10 +316,9 @@ namespace ISILab.LBS.Components
                 bundleToRead = readData.bundleToRead;
             }
             
-            public override List<string> ReferencedLayers()
+            public override List<string> ReferencedLayerNames()
             {
-                List<string> list = new List<string>();
-                list.Add(bundleToRead.layerID);
+                List<string> list = new List<string> { bundleToRead.GetLayerName() };
                 return list;
             }
         }
@@ -366,10 +370,9 @@ namespace ISILab.LBS.Components
                 bundleGiveTo = giveData.bundleGiveTo;
             }
             
-            public override List<string> ReferencedLayers()
+            public override List<string> ReferencedLayerNames()
             {
-                List<string> list = new List<string>();
-                list.Add(bundleGiveTo.layerID);
+                List<string> list = new List<string> { bundleGiveTo.GetLayerName() };
                 return list;
             }
         }
@@ -393,10 +396,9 @@ namespace ISILab.LBS.Components
                bundleReportTo = reportData.bundleReportTo;
            }
            
-           public override List<string> ReferencedLayers()
+           public override List<string> ReferencedLayerNames()
            {
-               List<string> list = new List<string>();
-               list.Add(bundleReportTo.layerID);
+               List<string> list = new List<string> { bundleReportTo.GetLayerName() };
                return list;
            }
         }
@@ -441,10 +443,9 @@ namespace ISILab.LBS.Components
               resetTimeOnExit = spyData.resetTimeOnExit;
           }
           
-          public override List<string> ReferencedLayers()
+          public override List<string> ReferencedLayerNames()
           {
-              List<string> list = new List<string>();
-              list.Add(bundleToSpy.layerID);
+              List<string> list = new List<string> { bundleToSpy.GetLayerName() };
               return list;
           }
         }
@@ -487,10 +488,9 @@ namespace ISILab.LBS.Components
                 bundleListenTo = listenData.bundleListenTo;
             }
             
-            public override List<string> ReferencedLayers()
+            public override List<string> ReferencedLayerNames()
             {
-                List<string> list = new List<string>();
-                list.Add(bundleListenTo.layerID);
+                List<string> list = new List<string> { bundleListenTo.GetLayerName() };
                 return list;
             }
         }

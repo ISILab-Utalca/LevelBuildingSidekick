@@ -27,7 +27,7 @@ namespace ISILab.LBS.Drawers.Editor
             foreach (var node in quest.QuestNodes)
             {
                 /*  Start Node is now assigned by the user. Right click on a node to make it root */
-                if (node.NodeType == NodeType.start) {}
+                if (node.NodeType == NodeType.Start) {}
                 
                 var nodeView = new QuestNodeView(node);
                 var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;

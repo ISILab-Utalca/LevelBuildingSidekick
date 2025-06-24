@@ -34,11 +34,11 @@ namespace ISILab.LBS.VisualElements
                                 AssignPickerData().OnBundlePicked = (_, _,pickedGuid, _) =>
                                 {
                                         NodeData.bundleGatherType.guid = pickedGuid;
-                                        _pickerBundle.SetTarget(null, NodeData.bundleGatherType.guid);
+                                        _pickerBundle.SetTargetByLayer(null, NodeData.bundleGatherType.guid);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(null, NodeData.bundleGatherType.guid);
+                        _pickerBundle.SetTargetByLayer(null, NodeData.bundleGatherType.guid);
                         _gatherAmount.SetValueWithoutNotify(NodeData.gatherAmount);
                 }
         }

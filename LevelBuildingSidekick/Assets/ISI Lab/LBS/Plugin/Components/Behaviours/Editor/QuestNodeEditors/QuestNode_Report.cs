@@ -36,11 +36,11 @@ namespace ISILab.LBS.VisualElements
                                                 layer,
                                                 positions,
                                                 pickedGuid);
-                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleReportTo.Position);
+                                        if(layer!=null) _pickerBundle.SetTargetByLayer(layer, pickedGuid, NodeData.bundleReportTo.Position);
                                 };
                         };
 
-                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layerID, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.Position);
+                        _pickerBundle.SetTargetByLayer(NodeData.bundleReportTo.GetLayer(), NodeData.bundleReportTo.guid, NodeData.bundleReportTo.Position);
                 }
         }
 }

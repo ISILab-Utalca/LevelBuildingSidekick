@@ -52,17 +52,17 @@ namespace ISILab.LBS
             bool display = true;
             switch (questNode.QuestState)
             {
-                case QuestState.blocked: 
+                case QuestState.Blocked: 
                     // hide: display = false;
                     break;
-                case QuestState.active:
+                case QuestState.Active:
                     color = Color.white;
                     break;
-                case QuestState.completed:
+                case QuestState.Completed:
                     color = LBSSettings.Instance.view.successColor;
                     closed = true;
                     break;
-                case QuestState.failed:
+                case QuestState.Failed:
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
                     break;
