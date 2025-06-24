@@ -11,6 +11,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
+
+
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -89,46 +94,77 @@ namespace ISILab.LBS.Assistants
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
-        public void TryExecute(int limit = 50)
+        public void TryExecute(out string log, out LogType logType, int limit = 5)
         {
+            log = "";
+            logType = LogType.Log;
+
             // Get Bundle
             OnGUI();
 
             if (targetBundleRef == null)
             {
-                Debug.LogWarning("No bundle selected.");
+                log = "No bundle selected.";
+                logType = LogType.Warning;
                 return;
             }
 
-            if(safeMode)
+            if(targetBundleRef.GetCharacteristics<LBSDirectionedGroup>().Count == 0)
+            {
+                log = "Cannot generate. Invalid bundle.";
+                logType = LogType.Warning;
+                return;
+            }
+
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            Func<double> getSeconds = () =>
+            {
+                sw.Stop();
+                long ticks = sw.ElapsedTicks;
+                return (double)ticks / System.Diagnostics.Stopwatch.Frequency;
+            };
+
+            if (safeMode)
             {
                 for (int i = 0; i < limit; i++)
                 {
                     if (Execute())
                     {
-                        Debug.Log($"Generated after {i + 1} attempts.");
+                        log = $"Safely generated after {i + 1} attempts. ({getSeconds()} s)";
                         return;
                     }
                 }
 
-                Debug.LogWarning($"Could not generate after {limit} attempts.");
+                log = $"Could not safely generate after {limit} attempts. ({getSeconds()} s)";
+                logType = LogType.Warning;
             }
-            else Execute();
+            else
+            {
+                Execute();
+                log = $"Generated. ({getSeconds()} s)";
+            } 
         }
+
         /// <summary>
         /// This new version, is similar but it constraints where the wave function collapse is applied, to the selected tiles only
         /// </summary>
         public bool Execute()
         {
             bool success = false;
-            var og = new List<LBSModule>() { OwnerLayer.GetModule<ConnectedTileMapModule>() };
-            var originalTM = og.Clone()[0] as ConnectedTileMapModule;
+
+            const int MAX_MEMORY = 3, MAX_RETRIES = 5;
+            int initialRetryBonus = 10;
+            (int, int) retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
+            int step = 0, maxStep = 0;
+            int saveStateInterval = 10;
 
             var bundle = targetBundleRef;
 
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
             var map = OwnerLayer.GetModule<TileMapModule>();
             var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            var og = new List<LBSModule>() { OwnerLayer.GetModule<ConnectedTileMapModule>() };
+            var originalTM = og.Clone()[0] as ConnectedTileMapModule;
 
             // Get tiles to change
             var toCalc = GetTileToCalc(Positions, map, connected);
@@ -155,23 +191,79 @@ namespace ISILab.LBS.Assistants
                 currentCalcs.Add(tile, candidates);
             }
 
+            List<WFCState> states = new List<WFCState>();
+            if(safeMode)
+            {
+                states.Add(new WFCState(0, connected, toCalc, closed, currentCalcs));
+            }
+            bool stepSuccess = true;
+            int tryCount = 0;
+
             while (toCalc.Count > 0)
             {
+                tryCount++;
+
                 var _closed = new List<LBSTile>(closed);
-                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+
+                var xx = safeMode ? 
+                    currentCalcs.Where(e => !closed.Contains(e.Key)).ToList() :
+                    currentCalcs.Where(e => e.Value.Count > 1).ToList();
+
                 if (xx.Count <= 0)
                     break;
 
                 var current = xx.OrderBy(e => e.Value.Count).First();
 
-                if (current.Value.Count <= 0)
+                // If cannot generate next tile
+                if(safeMode && (!stepSuccess || current.Value.Count <= 0))
                 {
-                    Debug.Log(current.Key.Position + " no tiene posibles tile.");
-                    toCalc.Remove(current.Key);
+                    // Decrease step retries
+                    retryCount.Item2--;
+                    // If step retries run out, it rollbacks to previous state
+                    if(retryCount.Item2 <= 0)
+                    {
+                        retryCount.Item2 = MAX_RETRIES;
+                        retryCount.Item1--;
+                        // If it reaches maximum number of reverts allowed, it cancels generation
+                        if( retryCount.Item1 <= 0)
+                        {
+                            connected.Rewrite(originalTM);
+                            return false;
+                        }
+                    }
+                    // Determines target step and number of steps to revert
+                    int offset = (MAX_MEMORY - retryCount.Item1) * saveStateInterval + (maxStep % saveStateInterval);
+                    int targetStep = maxStep - offset;
+                    int stepsToRevert = step - targetStep;
+                    step = targetStep;
+                    if(step < 0)
+                    {
+                        connected.Rewrite(originalTM);
+                        return false;
+                    }
+
+                    int statesToRevert = stepsToRevert / saveStateInterval;
+
+                    states.Reverse();
+                    for (int i = 0; i < statesToRevert; i++)
+                        states.RemoveAt(0);
+                    var prevState = states[0];
+                    connected.Rewrite(prevState.tileMap);
+                    toCalc = prevState.toCalc.Clone();
+                    closed = prevState.closed.Clone();
+                    //currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
+                    currentCalcs = new Dictionary<LBSTile, List<Candidate>>(prevState.currentCalcs);
+                    states.Reverse();
+
+                    stepSuccess = true;
+                    Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
                     continue;
                 }
 
+                stepSuccess = true;
+
                 var selected = current.Value.RandomRullete(c => c.weigth);
+                UnityEngine.Assertions.Assert.IsNotNull(selected);
                 var connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
@@ -200,8 +292,10 @@ namespace ISILab.LBS.Assistants
 
                     if (safeMode && newCandidates.Count == 0)
                     {
-                        connected.Rewrite(originalTM);
-                        return false;
+                        // Must revert step in next iteration
+                        stepSuccess = false;
+                        reCalc.Clear();
+                        break;
                     }
 
                     if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
@@ -224,6 +318,30 @@ namespace ISILab.LBS.Assistants
                 }
 
                 toCalc.Remove(current.Key);
+
+                step++;
+                // Restore retry limit if further progress
+                if(step > maxStep)
+                {
+                    maxStep = step;
+                    if(maxStep > saveStateInterval)
+                        initialRetryBonus = 0;
+                    retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
+                }
+
+                if(safeMode)
+                {
+                    Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
+                    if(step % saveStateInterval == 0)
+                    {
+                        // Save state
+                        states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
+                        if (states.Count > MAX_MEMORY + 1)
+                        {
+                            states.RemoveAt(0);
+                        }
+                    }
+                }
             }
 
             success = toCalc.Count == 0;
@@ -517,7 +635,7 @@ namespace ISILab.LBS.Assistants
                     endName += $" ({count})";
                 }
             }
-            newPreset.name = endName;
+            newPreset.Name = endName;
             newPreset.SetWeights(group.Weights);
 
             AssetDatabase.CreateAsset(newPreset, folder + "/" + endName + ".asset");
@@ -547,7 +665,7 @@ namespace ISILab.LBS.Assistants
                 }
                 // Testear cambiando los bundles hijos
                 if(!found)
-                    Debug.LogWarning($"Bundle {group.Weights[i].target} was not in preset {preset.name}");
+                    Debug.LogWarning($"Bundle '{group.Weights[i].target}' was not in preset '{preset.Name}'");
             }
 
             Selection.activeObject = targetBundleRef;
@@ -614,10 +732,66 @@ namespace ISILab.LBS.Assistants
         #endregion
     }
 
-    public class Candidate
+    public class Candidate : ICloneable
     {
         public float weigth;
         public LBSDirection bundle;
         public int rotation;
+
+        public Candidate() { }
+
+        public Candidate(float weigth, LBSDirection bundle, int rotation)
+        {
+            this.weigth = weigth;
+            this.bundle = bundle;
+            this.rotation = rotation;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Candidate;
+
+            if (other == null) return false;
+
+            return
+                weigth == other.weigth &&
+                bundle.Equals(other.bundle) &&
+                rotation == other.rotation;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(weigth, bundle.GetHashCode(), rotation);
+        }
+
+        public override string ToString()
+        {
+            return bundle.Owner.Name;
+        }
+
+        public object Clone()
+        {
+            return new Candidate(weigth, bundle, rotation);
+        }
+    }
+
+    class WFCState
+    {
+        public int step;
+        public ConnectedTileMapModule tileMap;
+        public List<LBSTile> toCalc;
+        public List<LBSTile> closed = new List<LBSTile>();
+        public Dictionary<LBSTile, List<Candidate>> currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
+
+        public WFCState(int step, ConnectedTileMapModule tileMap, List<LBSTile> toCalc, List<LBSTile> closed, Dictionary<LBSTile, List<Candidate>> currentCalcs)
+        {
+            this.step = step;
+            var tm = new List<LBSModule>() { tileMap };
+            this.tileMap = tm.Clone()[0] as ConnectedTileMapModule;
+            this.toCalc = toCalc.Clone();
+            this.closed = closed.Clone();
+            //this.currentCalcs = currentCalcs.Clone();
+            this.currentCalcs = new Dictionary<LBSTile, List<Candidate>>(currentCalcs);
+        }
     }
 }

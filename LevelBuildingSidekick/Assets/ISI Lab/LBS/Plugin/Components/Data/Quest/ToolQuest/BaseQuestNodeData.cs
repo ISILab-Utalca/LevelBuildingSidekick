@@ -1,37 +1,83 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ISILab.LBS.Settings;
+using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Components
 {
-    
+
     /// <summary>
     /// Saves the bundle guid and the position in the graph to get in the scene
     /// </summary>
-    public struct bundleGraph
+    /// 
+    [Serializable]
+    public struct BundleGraph
     {
-        public bundleGraph(string guid, Vector2Int position)
+        [SerializeField]public List<Vector2Int> tilePositions;
+        [SerializeField]public string layerID;
+        [SerializeField]public string guid;
+        
+        
+        public BundleGraph(
+            LBSLayer layer = null, 
+            List<Vector2Int> tilePositions = null, 
+            string guid = "")
         {
+            layerID = layer?.ID;
+            this.tilePositions = tilePositions;
             this.guid = guid;
-            this.position = position;
         }
 
-        public bool Valid()
+        /// <summary>
+        /// Returns the top left position in the grid, that the tilebundlegroup uses
+        /// </summary>
+        public Vector2Int Position
         {
-            return guid != string.Empty;
-        } 
+            get
+            {
+                if (tilePositions == null || tilePositions.Count == 0)
+                    return default;
+
+                int minX = tilePositions.Min(p => p.x);
+                int minY = tilePositions.Max(p => p.y);
+                return new Vector2Int(minX, minY);
+            }
+        }
         
-        public string guid;
-        public Vector2Int position;
+        public Vector2 GetElementSize()
+        {
+            Vector2 size = Vector2.one;
+            if (tilePositions.Count <= 0) return size;
+            
+            // find bound borders
+            int minX = tilePositions.Min(p => p.x);
+            int maxX = tilePositions.Max(p => p.x);
+            int minY = tilePositions.Min(p => p.y);
+            int maxY = tilePositions.Max(p => p.y);
+
+            // get size of bound box
+            int width = maxX - minX + 1;
+            int height = maxY - minY + 1;
+            // actual used space in the grid
+            size = new Vector2(width, height);
+
+            return size;
+        }
+        
+        public bool Valid() => guid != string.Empty;
     }
     
     /// <summary>
     /// Saves the bundle type
     /// </summary>
-    public struct bundleType
+    [Serializable]
+    public struct BundleType
     {
-        public string guid;
+        [SerializeField]public string guid;
     }
     
         /// <summary>
@@ -39,7 +85,7 @@ namespace ISILab.LBS.Components
         /// </summary>
         public static class QuestNodeDataFactory
         {
-            public static Dictionary<string, Type> TagDataTypes = new()
+            private static readonly Dictionary<string, Type> TagDataTypes = new()
             {
                 { " go to ", typeof(DataGoto) },
                 { " explore ", typeof(DataExplore) },
@@ -74,36 +120,51 @@ namespace ISILab.LBS.Components
         {
             #region FIELDS
             [SerializeField, JsonRequired]
-            private QuestNode _owner;
+            protected QuestNode owner;
             
             [SerializeField, JsonRequired]
-            private string _tag;
+            protected string tag;
           
             [SerializeField, JsonRequired] 
-            public Vector2Int _position = Vector2Int.zero;
+            protected Vector2Int position = Vector2Int.zero;
            
             [SerializeField, JsonRequired] 
-            public float _size = 1;
+            protected float size = 1;
+            
+            [SerializeField, JsonRequired] 
+            protected Color color =  LBSSettings.Instance.view.behavioursColor;
             
             #endregion
 
             #region PROPERTIES
-            public QuestNode Owner => _owner;
-            public string Tag => _tag;
+            public QuestNode Owner => owner;
+            public string Tag => tag;
+            public Vector2Int Position
+            {
+                get => position;
+                set => position = value;
+            }
+
+            public float Size
+            {
+                get => size;
+                set => size = value;
+            }
+
+            public Color Color => color;
             #endregion
 
             public BaseQuestNodeData(QuestNode owner, string tag)
             {
-                _owner = owner ?? throw new ArgumentNullException(nameof(owner));
-                _tag = tag;
+                this.tag = tag;
             }
 
-            public void Clone(BaseQuestNodeData data)
+            public virtual void Clone(BaseQuestNodeData data)
             {
-                _owner = data._owner;
-                _tag = data._tag;
-                _position = data._position;
-                _size = data._size;
+                owner = data.owner;
+                tag = data.tag;
+                position = data.position;
+                size = data.size;
             }
         }
 
@@ -125,19 +186,28 @@ namespace ISILab.LBS.Components
             public DataGoto(QuestNode owner, string tag) : base(owner, tag)
             {
             }
+            
         }
         [Serializable]
         public class DataExplore : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public int subdivisions = 4;
+            [SerializeField] public int subdivisions = 4;
     
             
             // if find random position is true, then upon generation a random position is created and that's what the 
             // player must trigger
-            [SerializeField, JsonRequired] public bool findRandomPosition;
+            [SerializeField] public bool findRandomPosition;
 
             public DataExplore(QuestNode owner, string tag) : base(owner, tag)
             {
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataExplore exploreData) return;
+                subdivisions = exploreData.subdivisions;
+                findRandomPosition = exploreData.findRandomPosition;
             }
         }
         [Serializable]
@@ -146,69 +216,124 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Objects that must be killed
             /// </summary>
-            [SerializeField, JsonRequired] public List<bundleGraph> bundlesToKill = new();
+            [SerializeField] public List<BundleGraph> bundlesToKill;
 
             public DataKill(QuestNode owner, string tag) : base(owner, tag)
             {
+                color = LBSSettings.Instance.view.colorKill;
+                bundlesToKill = new List<BundleGraph>();
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataKill killData) return;
+                bundlesToKill = new List<BundleGraph>(killData.bundlesToKill);
             }
         }
         [Serializable]
         public class DataStealth : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public Vector2Int objective = Vector2Int.zero;
+            [SerializeField]public Vector2Int objective = Vector2Int.zero;
             /// <summary>
             /// Objects with a default trigger that will stop catch the player
             /// </summary>
-            [SerializeField, JsonRequired] public List<bundleGraph> bundlesObservers = new();
+            [SerializeField]public List<BundleGraph> bundlesObservers;
 
             public DataStealth(QuestNode owner, string tag) : base(owner, tag)
             {
+                color = LBSSettings.Instance.view.colorStealth;
+                bundlesObservers = new List<BundleGraph>();
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataStealth stealthData) return;
+                objective = stealthData.objective;
+                bundlesObservers = new List<BundleGraph>(stealthData.bundlesObservers);
             }
         }
         [Serializable]
         public class DataTake : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToTake;
+           [SerializeField] public BundleGraph bundleToTake;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleToTake = new bundleGraph(string.Empty, Vector2Int.zero);
+               bundleToTake = new BundleGraph();
+               color = LBSSettings.Instance.view.colorTake;
+           }
+           
+           public override void Clone(BaseQuestNodeData data)
+           {
+               base.Clone(data);
+               if (data is not DataTake takeData) return;
+               bundleToTake = takeData.bundleToTake;
            }
         }
         [Serializable]
         public class DataRead : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToRead;
+            [SerializeField] public BundleGraph bundleToRead;
             public DataRead(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleToRead = new bundleGraph(string.Empty, Vector2Int.zero);
+                bundleToRead = new BundleGraph();
+                color = LBSSettings.Instance.view.colorRead;
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataRead readData) return;
+                bundleToRead = readData.bundleToRead;
             }
         }
         [Serializable]
         public class DataExchange : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleType bundleGiveType;
+            [SerializeField] public BundleType bundleGiveType;
             [SerializeField, JsonRequired] public int requiredAmount = 1;
             /// <summary>
             /// Receive guid must be set from editor panel
-            /// </summary>
-            [SerializeField, JsonRequired] public bundleType bundleReceiveType;
-            [SerializeField, JsonRequired] public int receiveAmount = 1;
+            /// </summary>a
+            [SerializeField] public BundleType bundleReceiveType;
+            [SerializeField] public int receiveAmount = 1;
             public DataExchange(QuestNode owner, string tag) : base(owner, tag)
             {
+                color = LBSSettings.Instance.view.colorExchange;
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataExchange exchangeData) return;
+                bundleGiveType = exchangeData.bundleGiveType;
+                requiredAmount = exchangeData.requiredAmount;
+                bundleReceiveType = exchangeData.bundleReceiveType;
+                receiveAmount = exchangeData.receiveAmount;
             }
         }
         [Serializable]
         public class DataGive : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleGive;
+            [SerializeField] public BundleType bundleGive;
             /// <summary>
             /// Character to give to 
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleGiveTo;
+            [SerializeField] public BundleGraph bundleGiveTo;
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleGive = new bundleGraph(string.Empty, Vector2Int.zero);
-                bundleGiveTo = new bundleGraph(string.Empty, Vector2Int.zero);
+                bundleGive = new BundleType();
+                bundleGiveTo = new BundleGraph();
+                color = LBSSettings.Instance.view.colorGive;
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataGive giveData) return;
+                bundleGive = giveData.bundleGive;
+                bundleGiveTo = giveData.bundleGiveTo;
             }
         }
         [Serializable]
@@ -217,10 +342,18 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character to report to
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleReportTo;
+            [SerializeField] public BundleGraph bundleReportTo;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleReportTo = new bundleGraph(string.Empty, Vector2Int.zero);
+               bundleReportTo = new BundleGraph();
+               color = LBSSettings.Instance.view.colorReport;
+           }
+           
+           public override void Clone(BaseQuestNodeData data)
+           {
+               base.Clone(data);
+               if (data is not DataReport reportData) return;
+               bundleReportTo = reportData.bundleReportTo;
            }
         }
         [Serializable]
@@ -229,31 +362,57 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// material that must be gathered
             /// </summary>
-            [SerializeField, JsonRequired] public bundleType bundleGatherType;
-            [SerializeField, JsonRequired] public int requiredAmount;
+            [SerializeField] public BundleType bundleGatherType;
+            [SerializeField, JsonRequired] public int gatherAmount;
           public DataGather(QuestNode owner, string tag) : base(owner, tag)
           {
+          }
+          
+          public override void Clone(BaseQuestNodeData data)
+          {
+              base.Clone(data);
+              if (data is not DataGather gatherData) return;
+              bundleGatherType = gatherData.bundleGatherType;
+              gatherAmount = gatherData.gatherAmount;
           }
         }
         [Serializable]
         public class DataSpy : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public bundleGraph bundleToSpy;
-            [SerializeField, JsonRequired] public float spyTime = 5f;
-            [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
+            [SerializeField] public BundleGraph bundleToSpy;
+            [SerializeField] public float spyTime = 5f;
+            [SerializeField] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
           {
-              bundleToSpy = new bundleGraph(string.Empty, Vector2Int.zero);
+              bundleToSpy = new BundleGraph();
+              color = LBSSettings.Instance.view.colorSpy;
+          }
+          
+          public override void Clone(BaseQuestNodeData data)
+          {
+              base.Clone(data);
+              if (data is not DataSpy spyData) return;
+              bundleToSpy = spyData.bundleToSpy;
+              spyTime = spyData.spyTime;
+              resetTimeOnExit = spyData.resetTimeOnExit;
           }
         }
         [Serializable]
         public class DataCapture : BaseQuestNodeData
         {
-            [SerializeField, JsonRequired] public float captureTime = 5f;
-            [SerializeField, JsonRequired] public bool resetTimeOnExit = true;
+            [SerializeField] public float captureTime = 5f;
+            [SerializeField] public bool resetTimeOnExit = true;
 
             public DataCapture(QuestNode owner, string tag) : base(owner, tag)
             {
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataCapture captureData) return;
+                captureTime = captureData.captureTime;
+                resetTimeOnExit = captureData.resetTimeOnExit;
             }
         }
         [Serializable]
@@ -262,11 +421,19 @@ namespace ISILab.LBS.Components
             /// <summary>
             /// Character or objects that gets listened to
             /// </summary>
-            [SerializeField, JsonRequired] public bundleGraph bundleListenTo;
+            [SerializeField] public BundleGraph bundleListenTo;
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleListenTo = new bundleGraph(string.Empty, Vector2Int.zero);
+                bundleListenTo = new BundleGraph();
+                color = LBSSettings.Instance.view.colorListen;
+            }
+            
+            public override void Clone(BaseQuestNodeData data)
+            {
+                base.Clone(data);
+                if (data is not DataListen listenData) return;
+                bundleListenTo = listenData.bundleListenTo;
             }
         }
 

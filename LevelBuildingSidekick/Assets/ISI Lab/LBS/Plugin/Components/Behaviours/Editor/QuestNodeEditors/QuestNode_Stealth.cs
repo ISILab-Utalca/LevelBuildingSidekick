@@ -1,119 +1,91 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNode_Stealth : NodeEditor
+    public class NodeEditorStealth : NodeEditor<DataStealth>
     {
-        private ListView observerList;
-        private PickerVector2Int requiredPosition;
-        private DataStealth currentData;
+        private readonly ListView _observerList;
+        private readonly PickerVector2Int _requiredPosition;
 
-        public QuestNode_Stealth()
+        public NodeEditorStealth()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
             visualTree.CloneTree(this);
-            
-            requiredPosition = this.Q<PickerVector2Int>("RequiredPosition");
-            requiredPosition.SetInfo(
-                "Stealth Required Position", 
-                "The position within the graph, that the player must reach to complete the action node.");
-            requiredPosition._onClicked = () =>
-            {  
-                var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                if (pickerManipulator == null) return;
-                
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
-                {
-                    // Update the bundle data
-                    currentData.objective = pos;
 
-                    // Refresh UI
-                    requiredPosition.SetTarget(pos);
-                };
+            _requiredPosition = this.Q<PickerVector2Int>("RequiredPosition");
+            _requiredPosition.SetInfo(
+                "Stealth Required Position",
+                "The position within the graph that the player must reach to complete the action node.");
 
-            };
-            
-            
-            
-            observerList = this.Q<ListView>("ObserverList");
-
-            if (observerList == null) return;
-
-            // Create UI element for each item
-            observerList.makeItem = () =>
+            _requiredPosition._onClicked = () =>
             {
-                observerList.itemsSource ??= currentData.bundlesObservers;
-                
-                var tilePicker = new PickerBundle();
-                tilePicker.SetInfo("Observer target", "Objects that can detect the player.", true);
-                return tilePicker;
-            };
-
-            // Bind each list item to bundleGraph
-            observerList.bindItem = (element, i) =>
-            {
-                if (element is not PickerBundle tilePicker || currentData == null) return;
-                if (i < 0 || i >= currentData.bundlesObservers.Count) return;
-
-                var bundleRef = currentData.bundlesObservers[i];
-
-                tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleRef.guid, bundleRef.position);
-
-                tilePicker._onClicked = () =>
+                var pickerManipulator = AssignPickerData();
+                pickerManipulator.OnBundlePicked = (_,_, _, pos) =>
                 {
-                    var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                    if (pickerManipulator != null)
-                    {
-                        pickerManipulator.activeData = currentData;
-                        pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
-                        {
-                            // Update the bundle data
-                            bundleRef.guid = pickedGuid;
-                            bundleRef.position = pos;
-
-                            // Refresh UI
-                            tilePicker.SetTarget(pickedGuid, pos);
-
-                            // Force re-assign to update the object inside the list if needed
-                            currentData.bundlesObservers[i] = bundleRef;
-                        };
-                    }
+                    NodeData.objective = pos;
+                    _requiredPosition.SetTarget(pos);
                 };
             };
 
-            // Handle item removal
-            observerList.itemsRemoved += (removedIndices) =>
-            {
-                foreach (int index in removedIndices.OrderByDescending(x => x))
-                {
-                    if (index >= 0 && index < currentData.bundlesObservers.Count)
-                        currentData.bundlesObservers.RemoveAt(index);
-                }
-                observerList.Rebuild();
-            };
+            _observerList = this.Q<ListView>("ObserverList");
         }
 
-        public override void SetNodeData(BaseQuestNodeData data)
+        protected override void OnDataAssigned()
         {
-            currentData = data as DataStealth;
-            if (currentData == null) return;
+            _requiredPosition.SetTarget(NodeData.objective);
 
-            // Sync list
-            observerList.itemsSource = currentData.bundlesObservers;
-            observerList.Rebuild();
+            if (_observerList == null) return;
 
-            requiredPosition.SetTarget(currentData.objective);
+            _observerList.itemsSource = NodeData.bundlesObservers;
+            _observerList.makeItem = CreateObserverItem;
+            _observerList.bindItem = BindObserverItem;
+
+            _observerList.itemsRemoved += (_) =>
+            {
+                _observerList.Rebuild();
+                // Redraw to remove any elements that correspond to the deleted element
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+            };
+
+            _observerList.Rebuild();
+        }
+
+        private VisualElement CreateObserverItem()
+        {
+            var tilePicker = new PickerBundle();
+            tilePicker.SetInfo("Observer target", "Objects that can detect the player.", true);
+            return tilePicker;
+        }
+
+        private void BindObserverItem(VisualElement element, int index)
+        {
+            if (element is not PickerBundle tilePicker) return;
+            if (index < 0 || index >= NodeData.bundlesObservers.Count) return;
+
+            var bundle = NodeData.bundlesObservers[index];
+            tilePicker.ClearPicker();
+            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.Position);
+
+            tilePicker.OnClicked = () =>
+            {
+                var pickerManipulator = AssignPickerData();
+                pickerManipulator.OnBundlePicked = (layer, positions, guid, pos) =>
+                {
+                    bundle = new BundleGraph(
+                        layer,
+                        positions,
+                        guid);
+        
+                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, bundle.Position);
+                    NodeData.bundlesObservers[index] = bundle;
+                };
+            };
         }
     }
 }

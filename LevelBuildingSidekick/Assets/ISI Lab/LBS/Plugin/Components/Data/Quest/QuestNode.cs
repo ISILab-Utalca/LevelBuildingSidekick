@@ -202,7 +202,7 @@ namespace ISILab.LBS.Components
         public void SaveNodeAsJson()
         {
             return;
-            nodeDataJson =  JsonUtility.ToJson(nodeData);
+         //   nodeDataJson =  JsonUtility.ToJson(nodeData);
         }
 
         /// <summary>
@@ -211,8 +211,8 @@ namespace ISILab.LBS.Components
         public void LoadNodeFromJson()
         {
             return;
-            if (string.IsNullOrEmpty(nodeDataJson)) return;
-            nodeData = JsonUtility.FromJson<BaseQuestNodeData>(nodeDataJson);
+          //  if (string.IsNullOrEmpty(nodeDataJson)) return;
+          //  nodeData = JsonUtility.FromJson<BaseQuestNodeData>(nodeDataJson);
    
         }
     }

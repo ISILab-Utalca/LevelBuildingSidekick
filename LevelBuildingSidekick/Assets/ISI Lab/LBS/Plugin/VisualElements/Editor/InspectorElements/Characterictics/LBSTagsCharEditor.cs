@@ -26,10 +26,10 @@ namespace ISILab.LBS.Editor
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            var tc = target as LBSTagsCharacteristic;
-            this.target = target;
+            var tc = paramTarget as LBSTagsCharacteristic;
+            this.target = paramTarget;
             var storage = LBSAssetsStorage.Instance;
 
 

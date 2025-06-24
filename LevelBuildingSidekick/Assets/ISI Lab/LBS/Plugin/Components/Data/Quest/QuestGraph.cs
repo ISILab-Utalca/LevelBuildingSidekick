@@ -173,11 +173,13 @@ namespace ISILab.LBS.Modules
             var edgesToRemove = questEdges.Where(e => e.First.Equals(node) || e.Second.Equals(node)).ToList();
             foreach (var e in edgesToRemove) RemoveEdge(e);
             OnRemoveNode?.Invoke(node);
+            
             UpdateFlow?.Invoke();
             
             QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
             if(qnb is null) return;
             qnb.SelectedQuestNode = null;
+            qnb.DataChanged(null);
         }
         
 

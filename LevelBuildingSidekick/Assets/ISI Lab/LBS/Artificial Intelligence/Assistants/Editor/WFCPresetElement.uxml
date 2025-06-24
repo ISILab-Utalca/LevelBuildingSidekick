@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="Element" style="flex-grow: 1; flex-direction: row; background-color: rgba(0, 0, 0, 0.11); align-content: flex-start; align-self: auto; justify-content: center; flex-wrap: nowrap; align-items: stretch; height: 11px;">
+        <uie:ObjectField type="ISILab.LBS.Assistants.WFCPreset, LBS" enabled="false" name="Element" label="Preset" style="align-self: center; flex-grow: 1; flex-shrink: 1; justify-content: flex-start; align-content: flex-start; flex-wrap: nowrap; flex-direction: row; background-position-x: center 0;" />
+    </ui:VisualElement>
+</ui:UXML>

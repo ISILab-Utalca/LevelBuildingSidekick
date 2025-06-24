@@ -410,10 +410,12 @@ namespace ISILab.LBS.AI.Categorization
             {
                 BestSamples[y, x] = evaluable.Clone() as IOptimizable;
                 BestSamples[y, x].Fitness = evaluable.Fitness;
+                //Debug.Log($"EVALUABLE ({y}, {x})");
+                //Debug.Log("Fitness: " + evaluable.Fitness);
                 BestSamples[y, x].yFitness = evaluable.yFitness;
-                //Debug.Log(evaluable.yFitness);
+                //Debug.Log("Fitness Y: " + evaluable.yFitness);
                 BestSamples[y, x].xFitness = evaluable.xFitness;
-                //Debug.Log(evaluable.xFitness);
+                //Debug.Log("Fitness X: " + evaluable.xFitness);
 
                 OnSampleUpdated?.Invoke(new Vector2Int(x, y));
                 return true;

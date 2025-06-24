@@ -24,6 +24,7 @@ using ISILab.AI.Categorization;
 using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
+using UnityEditor.Graphs;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -36,10 +37,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary;
+        private BundleTileMap originalTileMap;
         [SerializeField]
         private PopulationAssistantEditor editor;
         [SerializeField]
         private AssistantMapElite assistant;
+        
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -75,6 +78,7 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private Button recalculate;
         private Button applySuggestion;
+        private Button resetButton;
         private Button closeWindow;
         
         //Scriptable Object Manipulation
@@ -84,6 +88,7 @@ namespace ISILab.LBS.VisualElements.Editor
         
         //Parameters' graphic
         private VisualElement graphOfHell;
+        private PopulationAssistantGraph hellGraph;
 
         #endregion
 
@@ -118,6 +123,12 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
+        protected PopulationAssistantGraph CurrentGraph
+        {
+            get => hellGraph;
+            set => hellGraph = value;
+        }
+
         protected PopulationBehaviour LayerPopulation
         {
             get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
@@ -127,7 +138,10 @@ namespace ISILab.LBS.VisualElements.Editor
         #region EVENTS
         // public Action OnExecute;
         public Action<string> OnPresetChanged;
+        public Action OnTileMapChanged;
+        public Action OnTileMapReset;
         public Action UpdatePins;
+        public Action<IOptimizable> OnValuesUpdated;
         #endregion
 
         #region PROPERTIES
@@ -176,7 +190,6 @@ namespace ISILab.LBS.VisualElements.Editor
             });
             param1Field.SetEnabled(false);
 
-
             //Param 2
             param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
             param2Field.Type = typeof(IRangedEvaluator);
@@ -197,18 +210,18 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Optimizer
 
-            //This button doesn't work anymore lol. Next time!!!
             optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
-            optimizerField.Type = typeof(BaseOptimizer);
+            optimizerField.Type = typeof(IRangedEvaluator);
             optimizerField.value = defaultSelectText;
             optimizerField.RegisterValueChangedCallback(evt =>
             {
                 if (optimizerField.value == null) return;
-                if (optimizerField.value == currentOptimizer?.GetType().Name) return;
+                if (optimizerField.value == currentOptimizer?.Evaluator?.GetType().Name) return;
+                if (currentOptimizer == null) return;
 
-                var optimizerChoice = optimizerField.GetChoiceInstance() as BaseOptimizer;
-                currentOptimizer = optimizerChoice;
-                if(optimizerChoice != null) currentOptimizer.InitializeDefault();
+                var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
+                currentOptimizer.Evaluator = optimizerChoice;
+                if(optimizerChoice != null) currentOptimizer.Evaluator.InitializeDefault();
             });
             optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
             optimizerButton.SetEnabled(false);
@@ -239,50 +252,57 @@ namespace ISILab.LBS.VisualElements.Editor
             //Visualization option buttons
             visualizationOptionsContent = rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
 
+            //Grid
             rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
             rows.RegisterValueChangedCallback(evt => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
 
+            //Grid
+            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
+            UpdateGrid();
+
             //Recalculate button
             recalculate = rootVisualElement.Q<Button>("ButtonRecalculate");
             recalculate.clicked += RunAlgorithm;
 
+            //Suggestion button
             applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
-            applySuggestion.clicked += () =>
+            applySuggestion.clicked += () => ApplySuggestion();
+
+            //Reset button
+            originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
+            resetButton = rootVisualElement.Q<Button>("ButtonReset");
+            resetButton.clicked += ResetSuggestion;
+            resetButton.SetEnabled(false);
+
+            OnTileMapChanged += () => {
+                originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
+                resetButton.SetEnabled((originalTileMap!=null));
+            };
+            OnTileMapReset += () =>
             {
-                // Save history version to revert
-                var level = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(level, "Select Suggestion");
-                EditorGUI.BeginChangeCheck();
-                
-                
-                ApplySuggestion();
-                
-                
-                // Mark as dirty
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(level);
-                }
+                originalTileMap = null;
+                resetButton.SetEnabled(false);
             };
 
+            //Close button...?
             closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
-
-            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
-            UpdateGrid();
 
             //PARAMETER'S GRAPH
             //Find container
             graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
             
             //Create and add VisualElement: PopulationAssistantGraph to the container
-            PopulationAssistantGraph graph = new(new[] { 0, 0.2f, 0.4f, 0.6f, 0.8f, 1 }, 2);
-            graphOfHell.Add(graph);
+            hellGraph = new(new[] { 0f, 0f, 0f }, 2);
+            SetGraph();
+            graphOfHell.Add(hellGraph);
             
+
             //Modify graph's colors (not necessary, it comes with default colors)
-            graph.MainColor = Color.green;
+            //graph = new(new[] { 0f, 0f, 0f }, 2);
+            /*graph.MainColor = Color.green;
             graph.SecondaryColor = Color.cyan;
             
             //Change axes color
@@ -300,8 +320,9 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 Debug.LogError("Can't SetAxisValue: Index out of range");
             }
-            graph.RecalculateCorners(); //Important after changing axes' values
+            graph.RecalculateCorners(); //Important after changing axes' values*/
             
+            //Sliders
             ySlider = rootVisualElement.Q<Slider>("YSlider");
             xSlider = rootVisualElement.Q<Slider>("XSlider");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
@@ -350,7 +371,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 param1Field.SetEnabled(false);
                 param2Field.SetEnabled(false);
-                //optimizerField.SetEnabled(false);
+                optimizerField.SetEnabled(false);
                 return;
             }
             
@@ -363,11 +384,11 @@ namespace ISILab.LBS.VisualElements.Editor
             //Enable params set the preset things to the new choice.
             param1Field.SetEnabled(true);
             param2Field.SetEnabled(true);
-            //optimizerField.SetEnabled(true);
+            optimizerField.SetEnabled(true);
 
             param1Field.Value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
             param2Field.Value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
-            optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
+            optimizerField.value = currentOptimizer?.Evaluator != null ? currentOptimizer.Evaluator.GetType().Name : defaultSelectText;
             
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
@@ -388,7 +409,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
             {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
             }
             //SetBackgroundTexture(square, assistant.RawToolRect);
@@ -406,11 +427,18 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
         {
+            //This MUST go first since it'll save the original tilemap
+            OnTileMapChanged?.Invoke();
+
             var chrom = obj as BundleTilemapChromosome;
             if (chrom == null)
             {
                 if (selectedMap.Data == null) throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
             }
+
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             var rect = chrom.Rect;
 
@@ -424,6 +452,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 LayerPopulation.AddTileGroup(pos, gene as BundleData);
             }
             DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
@@ -518,6 +551,29 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
             Debug.Log("saved map: "+newSavedMap.Name);*/
+        }
+
+        //Reset the suggestion to its original form
+        private void ResetSuggestion()
+        {
+            if (originalTileMap == null) return;
+            if (LayerPopulation.Tilemap == null)
+            {
+                LBSMainWindow.MessageNotify("Layer tile map not found."); return;
+            }
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
+
+            LayerPopulation.ReplaceTileMap(originalTileMap);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            LBSMainWindow.MessageNotify("Layer reset.");
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
+            OnTileMapReset?.Invoke();
         }
         #endregion
 
@@ -671,8 +727,29 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             selectedMap = buttonResult;
             buttonResult.OnButtonSelected?.Invoke();
+            OnValuesUpdated?.Invoke(mapData);
         }
 
+        void SetGraph()
+        {
+            //Modify graph's colors (not necessary, it comes with default colors)
+            CurrentGraph.MainColor = Color.green;
+            CurrentGraph.SecondaryColor = Color.cyan;
+
+            CurrentGraph.SetAxisColor(Color.blue, 0);
+            CurrentGraph.SetAxisColor(Color.red, 1);
+            CurrentGraph.SetAxisColor(Color.green, 2);
+
+            OnValuesUpdated = null;
+            OnValuesUpdated += (optimizable) => {
+                var opt = optimizable as IOptimizable;
+                CurrentGraph.SetAxisValue((float)opt.Fitness, 0);
+                CurrentGraph.SetAxisValue((float)opt.xFitness, 1);
+                CurrentGraph.SetAxisValue((float)opt.yFitness, 2);
+                CurrentGraph.RecalculateCorners();
+                CurrentGraph.MarkDirtyRepaint();
+            };
+        }
         #endregion
 
         #region OTHER METHODS
@@ -725,7 +802,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }*/
 
-        //To keep the grid updated
-        #endregion
+            //To keep the grid updated
+            #endregion
+        }
     }
-}

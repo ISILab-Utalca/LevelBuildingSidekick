@@ -1,4 +1,5 @@
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor.Windows;
 using LBS.Components;
 using System.Collections.Generic;
 using UnityEditor;
@@ -42,14 +43,14 @@ namespace ISILab.LBS.Manipulators
             cornerStart = position;
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "WFC");
-            
+
             var corners = assistant.OwnerLayer.ToFixedPosition(cornerStart, position);
-            
+
             var positions = new List<Vector2Int>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -59,13 +60,19 @@ namespace ISILab.LBS.Manipulators
                     positions.Add(selected);
                 }
             }
-            
+
             assistant.Positions = positions;
 
             // No longer having empty tiles means overwrite is default
             //
             assistant.OverrideValues = e.ctrlKey;
-            assistant.TryExecute();
+            assistant.TryExecute(out string log, out LogType type);
+
+            LBSMainWindow.MessageNotify(log, type, 5);
+            if (type == LogType.Log)
+                Debug.Log(log);
+            else
+                Debug.LogWarning(log);
 
             if (EditorGUI.EndChangeCheck())
             {

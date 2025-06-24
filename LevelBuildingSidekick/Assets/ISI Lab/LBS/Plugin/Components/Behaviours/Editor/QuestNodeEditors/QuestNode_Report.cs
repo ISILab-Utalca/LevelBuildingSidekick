@@ -1,52 +1,46 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    
-    public class QuestNode_Report : NodeEditor
-    {
-        private PickerBundle _pickerBundle;
-
-        public QuestNode_Report()
+        public class NodeEditorReport : NodeEditor<DataReport>
         {
-            Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Report");
-            visualTree.CloneTree(this);
-                        
-            _pickerBundle = this.Q<PickerBundle>("ReportTarget");
-            _pickerBundle.SetInfo(
-                "Report target", 
-                "The target in the graph, that the player must report to"
-                ,true); 
-            
+                private readonly PickerBundle _pickerBundle;
 
-        }
-
-        public override void SetNodeData(BaseQuestNodeData data)
-        {
-            if(data is not DataReport currentData) return;
-            
-            _pickerBundle.ClearPicker();
-            
-            _pickerBundle._onClicked += () =>
-            {
-                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-                pickerManipulator.activeData = currentData;
-                pickerManipulator.OnBundlePicked = (pickedGuid, position) =>
+                public NodeEditorReport()
                 {
-                    currentData.bundleReportTo.guid = pickedGuid;
-                    currentData.bundleReportTo.position = position;
-                    _pickerBundle.SetTarget(currentData.bundleReportTo.guid, position);
-                };
-            };
-            
-            _pickerBundle.SetTarget(currentData.bundleReportTo.guid, currentData.bundleReportTo.position );
-        }
-    }
+                        Clear();
+                        var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Report");
+                        visualTree.CloneTree(this);
 
+                        _pickerBundle = this.Q<PickerBundle>("ReportTarget");
+                        _pickerBundle.SetInfo("Report target", "The target in the graph, that the player must report to", true);
+                }
+
+                protected override void OnDataAssigned()
+                {
+                        SetupUI();
+                }
+
+                private void SetupUI()
+                {
+                        _pickerBundle.ClearPicker();
+
+                        _pickerBundle.OnClicked += () =>
+                        {
+                                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
+                                {
+                                        NodeData.bundleReportTo = new BundleGraph(
+                                                layer,
+                                                positions,
+                                                pickedGuid);
+                                        if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleReportTo.Position);
+                                };
+                        };
+
+                        _pickerBundle.SetTarget(NodeData.bundleReportTo.layerID, NodeData.bundleReportTo.guid, NodeData.bundleReportTo.Position);
+                }
+        }
 }

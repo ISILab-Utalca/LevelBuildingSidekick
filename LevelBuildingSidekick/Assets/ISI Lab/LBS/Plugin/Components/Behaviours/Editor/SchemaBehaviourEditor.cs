@@ -91,9 +91,9 @@ namespace ISILab.LBS.Behaviours.Editor
             addSchemaTile.OnManipulationLeftClickCTRL += AddZone;
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            behaviour = target as SchemaBehaviour;
+            behaviour = paramTarget as SchemaBehaviour;
             SetAreaPallete();
             SetConnectionPallete();
         }

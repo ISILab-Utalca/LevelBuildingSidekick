@@ -15,6 +15,7 @@ namespace ISILab.AI.Categorization
     {
         protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
+            //Debug.Log("Performing ADD GENE Mutation");
             var bc = chromosome as BundleTilemapChromosome;
 
             var r = RandomizationProvider.Current;

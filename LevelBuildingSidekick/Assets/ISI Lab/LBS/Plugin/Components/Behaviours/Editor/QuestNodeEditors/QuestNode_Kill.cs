@@ -1,90 +1,70 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine.UIElements;
-using System.Linq;
-using ISILab.LBS.Manipulators;
-using LBS.VisualElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNode_Kill : NodeEditor
+    public class NodeEditorKill : NodeEditor<DataKill>
     {
-        private ListView killList;
-        private DataKill currentData;
+        private readonly ListView _killList;
 
-        public QuestNode_Kill()
+        public NodeEditorKill()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Kill");
             visualTree.CloneTree(this);
-            
-            killList = this.Q<ListView>("KillList");
 
-            if (killList == null) return;
+            _killList = this.Q<ListView>("KillList");
+            if (_killList == null) return;
 
-            // Create UI element for each item
-            killList.makeItem = () =>
+            _killList.makeItem = () =>
             {
-                killList.itemsSource ??= currentData.bundlesToKill;
-                
                 var tilePicker = new PickerBundle();
                 tilePicker.SetInfo("Kill target", "Targets that the player must kill to complete this action node.", true);
                 return tilePicker;
             };
 
-            // Bind each list item to bundleGraph
-            killList.bindItem = (element, i) =>
+            _killList.bindItem = (element, i) =>
             {
-                if (element is not PickerBundle tilePicker || currentData == null) return;
-                if (i < 0 || i >= currentData.bundlesToKill.Count) return;
+                if (element is not PickerBundle tilePicker || NodeData == null) return;
+                if (i < 0 || i >= NodeData.bundlesToKill.Count) return;
 
-                var bundleRef = currentData.bundlesToKill[i];
-
+                var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleRef.guid, bundleRef.position);
+                tilePicker.SetTarget(bundleGraph.layerID, bundleGraph.guid, bundleGraph.Position);
 
-                tilePicker._onClicked = () =>
+                tilePicker.OnClicked = () =>
                 {
-                    var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                    if (pickerManipulator != null)
+                    var pickerManipulator = AssignPickerData();
+                    pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, _) =>
                     {
-                        pickerManipulator.activeData = currentData;
-                        pickerManipulator.OnBundlePicked = (pickedGuid, pos) =>
-                        {
-                            // Update the bundle data
-                            bundleRef.guid = pickedGuid;
-                            bundleRef.position = pos;
-
-                            // Refresh UI
-                            tilePicker.SetTarget(pickedGuid, pos);
-
-                            // Force re-assign to update the object inside the list if needed
-                            currentData.bundlesToKill[i] = bundleRef;
-                        };
-                    }
+                        bundleGraph = new BundleGraph(
+                            layer,
+                            positions,
+                            pickedGuid);
+                        
+                        if(layer!=null) tilePicker.SetTarget(layer.ID, pickedGuid, bundleGraph.Position);
+                        NodeData.bundlesToKill[i] = bundleGraph;
+                    };
                 };
             };
 
-            // Handle item removal
-            killList.itemsRemoved += (removedIndices) =>
+            _killList.itemsRemoved += (_) =>
             {
-                foreach (int index in removedIndices.OrderByDescending(x => x))
-                {
-                    if (index >= 0 && index < currentData.bundlesToKill.Count)
-                        currentData.bundlesToKill.RemoveAt(index);
-                }
-                killList.Rebuild();
+                _killList.Rebuild();
+                // Redraw to remove any elements that correspond to the deleted element
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
             };
+            
+            _killList.Rebuild();
         }
 
-        public override void SetNodeData(BaseQuestNodeData data)
+        protected override void OnDataAssigned()
         {
-            currentData = data as DataKill;
-            if (currentData == null) return;
-
-            // Sync list
-            killList.itemsSource = currentData.bundlesToKill;
-            killList.Rebuild();
+            _killList.itemsSource = NodeData.bundlesToKill;
+            _killList.Rebuild();
         }
     }
 }

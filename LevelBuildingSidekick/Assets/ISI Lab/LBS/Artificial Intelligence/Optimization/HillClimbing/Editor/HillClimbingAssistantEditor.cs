@@ -62,9 +62,9 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            hillClimbing = target as HillClimbingAssistant;
+            hillClimbing = paramTarget as HillClimbingAssistant;
         }
 
         public void SetTools(ToolKit toolKit)

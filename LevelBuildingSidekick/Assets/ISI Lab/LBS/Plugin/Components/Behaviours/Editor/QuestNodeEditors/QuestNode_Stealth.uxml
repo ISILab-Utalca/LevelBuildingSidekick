@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="Stealth" style="flex-grow: 0;">
-        <ISILab.LBS.VisualElements.PickerVector2Int name="RequiredPosition" style="flex-grow: 1; align-self: stretch; align-content: stretch; align-items: stretch;" />
+        <ISILab.LBS.VisualElements.PickerVector2Int name="RequiredPosition" style="flex-grow: 1; align-self: stretch; align-content: stretch; align-items: stretch; flex-shrink: 0; flex-wrap: wrap;" />
         <ui:ListView reorder-mode="Animated" show-border="true" header-title="Observers" tooltip="Objects in map that can detect the player" name="ObserverList" show-add-remove-footer="true" fixed-item-height="30" show-foldout-header="true" virtualization-method="DynamicHeight" />
     </ui:VisualElement>
 </ui:UXML>

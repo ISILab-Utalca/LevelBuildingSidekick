@@ -119,6 +119,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 var mapEntry = SavedMapList[index];
                 mapEntryVE.SetData(mapEntry);
 
+                mapEntryVE.Name = mapEntry.Name;
+
                 mapEntryVE.RemoveMapEntry = null;
                 mapEntryVE.RemoveMapEntry += () =>
                 {
@@ -185,6 +187,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion(int index) => ApplySuggestion(SavedMapList[index]);
         private void ApplySuggestion(object obj)
         {
+            window.OnTileMapChanged?.Invoke();
             var savedMap = obj as SavedMap;
             var chrom = savedMap.Map;
             if (chrom == null) return;

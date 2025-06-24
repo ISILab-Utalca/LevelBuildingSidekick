@@ -149,6 +149,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 337d6223667092c4c9f04e4df2f319b5, type: 2}
     - {fileID: 11400000, guid: 1f6a869bbbf53f340a2716e511457881, type: 2}
     - {fileID: 11400000, guid: 77321a622d19ed0419bebddaf181da70, type: 2}
+    - {fileID: 11400000, guid: 28377c55743b4574bb1b44a0c9730e89, type: 2}
+    - {fileID: 11400000, guid: 7920f465be2dd8c42b1fc7bcf75d6874, type: 2}
+    - {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}

@@ -131,13 +131,13 @@ namespace ISILab.LBS.Generators
                 //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
-                
+                generatedComponent.LayerID = layer.ID;
                 objects.Add(go, current.PopulationType);
             }
             
             if(objects.Count == 0)
             {
-                return Tuple.Create<GameObject, string>(parent, "No population objects were created. Assign a valid bundle type");
+                return Tuple.Create(parent, "No population objects were created. Assign a valid bundle type");
             }
             
             

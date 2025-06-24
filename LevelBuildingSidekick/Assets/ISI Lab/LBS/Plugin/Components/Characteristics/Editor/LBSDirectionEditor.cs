@@ -28,10 +28,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object obj)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = obj;
-            var target = obj as LBSDirection;
+            this.target = paramTarget;
+            var target = paramTarget as LBSDirection;
 
             if (target == null)
                 return;

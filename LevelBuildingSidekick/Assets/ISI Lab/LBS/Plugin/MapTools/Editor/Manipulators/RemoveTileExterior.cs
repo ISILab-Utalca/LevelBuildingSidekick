@@ -28,7 +28,7 @@ namespace ISILab.LBS.Manipulators
             lbsLayer = layer;
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
