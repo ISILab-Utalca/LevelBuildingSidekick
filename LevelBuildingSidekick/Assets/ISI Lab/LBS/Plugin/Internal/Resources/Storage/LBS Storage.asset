@@ -564,6 +564,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
     - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
     - {fileID: 11400000, guid: 40eaef60ade8a02489f47a70bb2845c3, type: 2}
+    - {fileID: 11400000, guid: 084592a572c010d4cad07d57c841a705, type: 2}
   - type: UnityEngine.UIElements.StyleSheet
     items:
     - {fileID: 7433441132597879392, guid: ac773345d0f3bcc4392c29c0837c7f7e, type: 3}

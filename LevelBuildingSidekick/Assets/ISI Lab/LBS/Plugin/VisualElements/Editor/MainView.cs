@@ -75,7 +75,6 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             return erasedElements;
         }
-
     }
 
 
@@ -293,20 +292,30 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
             
-            // Remove only expired tiles
-            foreach (var behaviour in layer.Behaviours)
+            // Remove expired tiles in behaviours
+            foreach (var tile in layer.Behaviours.SelectMany(behaviour => behaviour.RetrieveExpiredTiles()))
             {
-                foreach (var tile in behaviour.RetrieveExpiredTiles())
+                ClearElementView(tile, container);
+            }
+            // Remove expired tiles in assistants
+            foreach (var assistant in layer.Assistants)
+            {
+                foreach (var tile in assistant.RetrieveExpiredTiles())
                 {
-                    if (tile == null) continue;
-                    var gElements = container.ClearElement(tile);
-                    if(gElements == null) continue;
-
-                    foreach (var g in gElements)
-                    {
-                        RemoveElement(g);
-                    }
+                    ClearElementView(tile, container);
                 }
+            }
+        }
+
+        private void ClearElementView(object tile, LayerContainer container)
+        {
+            if (tile == null) return;
+            var gElements = container.ClearElement(tile);
+            if(gElements == null) return;
+
+            foreach (var g in gElements)
+            {
+                RemoveElement(g);
             }
         }
         

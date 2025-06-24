@@ -48,6 +48,7 @@ namespace ISILab.LBS.Assistants
         private LBSLayer layer;
 
         private List<Zone> _prevZones;
+        private Dictionary<Zone, ConstraintPair> _pairRefs = new();
         #endregion
 
         #region PROPERTIES
@@ -683,16 +684,39 @@ namespace ISILab.LBS.Assistants
             foreach (var zone in ZonesWhitTiles.Where(zone => !_prevZones.Contains(zone)))
             {
                 RequestTilePaint(zone);
+                _prevZones.Add(zone);
             }
             
             // Expired zones
-            foreach (var zone in _prevZones.Where(zone => !ZonesWhitTiles.Contains(zone)))
+            foreach (var zone in _prevZones.Where(zone => !ZonesWhitTiles.Contains(zone)).ToList())
             {
                 RequestTileRemove(zone);
+                
+                if (_pairRefs == null) continue;
+                if (_pairRefs.TryGetValue(zone, out var pair))
+                {
+                    RequestTileRemove(pair);
+                }
+                _prevZones.Remove(zone);
+                _pairRefs.Remove(zone);
             }
         }
+
+        public void SaveConstraintKey(Zone zone, ConstraintPair constraint)
+        {
+            if (zone == null || constraint == null)
+            {
+                Debug.LogWarning("HillClimbingAssistant.SaveConstraintKey error: Zone or ConstraintPair not valid.");
+                return;
+            }
+            
+            _pairRefs ??= new Dictionary<Zone, ConstraintPair>();
+
+            _pairRefs.TryAdd(zone, constraint);
+        }
         
-        
+
+
         public override object Clone()
         {
             return new HillClimbingAssistant(this.Icon, this.Name, this.ColorTint);
