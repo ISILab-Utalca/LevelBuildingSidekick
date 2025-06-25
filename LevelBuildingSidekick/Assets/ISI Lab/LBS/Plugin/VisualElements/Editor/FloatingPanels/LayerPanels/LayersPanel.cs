@@ -77,12 +77,13 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (index >= this.data.LayerCount)
                     return;
 
-                var view = item as LayerView;
-                var layer = this.data.GetLayer(index);
+                LayerView view = item as LayerView;
+                LBSLayer layer = this.data.GetLayer(index);
                 layer.index = list.childCount - index;
                 if (view == null) return;
                 view.SetInfo(layer);
                 view.OnVisibilityChange += () => OnLayerVisibilityChange(layer);
+                view.OnNameChange += () => layer.InvokeNameChanged();
                 ChangeListItemView(item);
             };
             

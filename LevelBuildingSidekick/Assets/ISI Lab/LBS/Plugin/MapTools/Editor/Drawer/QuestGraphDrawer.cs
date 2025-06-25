@@ -82,7 +82,7 @@ namespace ISILab.LBS.Drawers.Editor
         private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest, QuestBehaviour behaviour)
         {
             /*  Start Node is now assigned by the user. Right click on a node to make it root */
-            if (node.NodeType == NodeType.start) { }
+            if (node.NodeType == NodeType.Start) { }
                 
             var nodeView = new QuestNodeView(node);
             var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;

@@ -70,7 +70,7 @@ namespace ISILab.LBS.VisualElements
 
             var bundle = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTarget(bundle.layerID, bundle.guid, bundle.Position);
+            tilePicker.SetTargetByLayer(bundle.GetLayer(), bundle.guid, bundle.Position);
 
             tilePicker.OnClicked = () =>
             {
@@ -82,7 +82,7 @@ namespace ISILab.LBS.VisualElements
                         positions,
                         guid);
         
-                    if(layer!=null) tilePicker.SetTarget(layer.ID, guid, bundle.Position);
+                    if(layer!=null) tilePicker.SetTargetByLayer(layer, guid, bundle.Position);
                     NodeData.bundlesObservers[index] = bundle;
                 };
             };

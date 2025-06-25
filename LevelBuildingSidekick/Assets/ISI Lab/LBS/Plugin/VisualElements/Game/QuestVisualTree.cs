@@ -31,13 +31,13 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Game
            var tempGraph = new QuestGraph();
            
            var q1 = new QuestNode("1", Vector2.one, "go to place", tempGraph);
-           q1.QuestState = QuestState.completed;
+           q1.QuestState = QuestState.Completed;
            var q2 = new QuestNode("2", Vector2.one, "go to place", tempGraph);
-           q2.QuestState = QuestState.failed;
+           q2.QuestState = QuestState.Failed;
            var q3 = new QuestNode("3", Vector2.one, "kiss enemy entity", tempGraph);
-           q3.QuestState = QuestState.active;
+           q3.QuestState = QuestState.Active;
            var q4 = new QuestNode("4", Vector2.one, "collect n shits", tempGraph);
-           q4.QuestState = QuestState.blocked;
+           q4.QuestState = QuestState.Blocked;
            
            exampleQuestNodes.Add(q1);
            exampleQuestNodes.Add(q2);

@@ -3,6 +3,7 @@ using ISILab.LBS.Characteristics;
 using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
 {
@@ -18,7 +19,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
 
         //Layer Id from which the object was created
         [SerializeField]
-        private string layerID;
+        private string layerName;
         
         //Original bundle reference
         [SerializeField]
@@ -33,10 +34,10 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
         
         #region PROPERTIES
         
-        public string LayerID
+        public string LayerName
         {
-            get => layerID;
-            set => layerID = value;
+            get => layerName;
+            set => layerName = value;
         }
 
         public Bundle BundleRef

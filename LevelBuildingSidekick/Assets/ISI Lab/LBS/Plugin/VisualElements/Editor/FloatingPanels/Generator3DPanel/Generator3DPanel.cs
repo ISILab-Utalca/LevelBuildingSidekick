@@ -146,7 +146,7 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         
         
-        private void GenerateLayerByName(string layerID)
+        private void GenerateLayerByName(string layerName)
         {
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
             if(mw == null) return;
@@ -155,7 +155,7 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSLayer tempLayer = null;
             if (_layer is not null) tempLayer = _layer;
             
-            var foundLayer = layers.Find(l => l.ID == layerID);
+            var foundLayer = layers.Find(l => l.Name == layerName);
             if (foundLayer != null)
             {
                 _layer = foundLayer;

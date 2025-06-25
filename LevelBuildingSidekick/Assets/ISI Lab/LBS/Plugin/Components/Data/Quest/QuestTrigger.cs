@@ -109,7 +109,7 @@ namespace ISILab.LBS
             onCompleteEvent?.Invoke();
             OnTriggerCompleted?.Invoke(this);
             
-            node.QuestState = QuestState.completed;
+            node.QuestState = QuestState.Completed;
             gameObject.SetActive(false); // Deactivate after completion to avoid trigger calls.
         }
         
