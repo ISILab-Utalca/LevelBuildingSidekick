@@ -16,18 +16,18 @@ namespace ISILab.LBS.Components
     [Serializable]
     public struct BundleGraph
     {
-        [SerializeField]public List<Vector2Int> tilePositions;
+        [SerializeField]private Rect area;
         [SerializeField]private LBSLayer layer;
         [SerializeField]public string guid;
         
         
         public BundleGraph(
             LBSLayer layer = null, 
-            List<Vector2Int> tilePositions = null, 
+            Rect area = default, 
             string guid = "")
         {
             this.layer = layer;
-            this.tilePositions = tilePositions;
+            this.area = area;
             this.guid = guid;
         }
 
@@ -38,42 +38,9 @@ namespace ISILab.LBS.Components
             return layer?.Name ?? "";
         }
 
-        /// <summary>
-        /// Returns the top left position in the grid, that the tile bundle group uses
-        /// </summary>
-        public Vector2Int Position
-        {
-            get
-            {
-                if (tilePositions == null || tilePositions.Count == 0)
-                    return default;
+        public Vector2Int Position => new((int)area.x, (int)area.y);
+        public Rect Area => area;
 
-                int minX = tilePositions.Min(p => p.x);
-                int minY = tilePositions.Max(p => p.y);
-                return new Vector2Int(minX, minY);
-            }
-        }
-        
-        public Vector2 GetElementSize()
-        {
-            Vector2 size = Vector2.one;
-            if (tilePositions is null || tilePositions.Count <= 0) return size;
-            
-            // find bound borders
-            int minX = tilePositions.Min(p => p.x);
-            int maxX = tilePositions.Max(p => p.x);
-            int minY = tilePositions.Min(p => p.y);
-            int maxY = tilePositions.Max(p => p.y);
-
-            // get size of bound box
-            int width = maxX - minX + 1;
-            int height = maxY - minY + 1;
-            // actual used space in the grid
-            size = new Vector2(width, height);
-
-            return size;
-        }
-        
         public bool Valid() => guid != string.Empty;
     }
     
@@ -130,12 +97,9 @@ namespace ISILab.LBS.Components
         
         [SerializeField, JsonRequired]
         protected string tag;
-      
-        [SerializeField, JsonRequired] 
-        protected Vector2Int position = Vector2Int.zero;
        
         [SerializeField, JsonRequired] 
-        protected float size = 1;
+        protected Rect area = new(1,1,1,1);
         
         [SerializeField, JsonRequired] 
         protected Color color =  LBSSettings.Instance.view.behavioursColor;
@@ -145,16 +109,11 @@ namespace ISILab.LBS.Components
         #region PROPERTIES
         public QuestNode Owner => owner;
         public string Tag => tag;
-        public Vector2Int Position
-        {
-            get => position;
-            set => position = value;
-        }
 
-        public float Size
+        public Rect Area
         {
-            get => size;
-            set => size = value;
+            get => area;
+            set => area = value;
         }
 
         public Color Color => color;
@@ -162,6 +121,7 @@ namespace ISILab.LBS.Components
 
         public BaseQuestNodeData(QuestNode owner, string tag)
         {
+            this.owner = owner;
             this.tag = tag;
         }
 
@@ -169,8 +129,7 @@ namespace ISILab.LBS.Components
         {
             owner = data.owner;
             tag = data.tag;
-            position = data.position;
-            size = data.size;
+            area = data.area;
         }
 
         // by default there are no references to other layers.
@@ -178,6 +137,36 @@ namespace ISILab.LBS.Components
         {
             return null;
         }
+
+        // by default no resize. Implement if using bundleGraph fields
+        public virtual void Resize()
+        {
+           
+        }
+        protected void ResizeToFitBundles(IEnumerable<BundleGraph> bundles)
+        {
+            var validRects = bundles
+                .Where(b => b.Valid())
+                .Select(b => b.Area)
+                .ToList();
+
+            if (validRects.Count == 0)
+                return;
+
+            // Only use the rects' x and y positions
+            float minX = validRects.Min(r => r.x);
+            float maxX = validRects.Max(r => r.x);
+            float minY = validRects.Min(r => r.y);
+            float maxY = validRects.Max(r => r.y);
+
+            float width = maxX - minX;
+            float height = maxY - minY;
+
+            // Inverted Y origin: anchor from maxY going downward
+            area = new Rect(minX, maxY, Mathf.Abs(width)+1, Mathf.Abs(height)+1);
+        }
+
+
     }
 
         /// <summary>
@@ -247,6 +236,11 @@ namespace ISILab.LBS.Components
             {
                 return bundlesToKill.Select(bundleGraph => bundleGraph.GetLayerName()).ToList();
             }
+            
+            public override void Resize()
+            {
+                ResizeToFitBundles(bundlesToKill);
+            }
         }
         [Serializable]
         public class DataStealth : BaseQuestNodeData
@@ -275,6 +269,12 @@ namespace ISILab.LBS.Components
             {
                 return bundlesObservers.Select(bundleGraph => bundleGraph.GetLayerName()).ToList();
             }
+            
+            public override void Resize()
+            {
+                ResizeToFitBundles(bundlesObservers);
+            }
+
         }
         [Serializable]
         public class DataTake : BaseQuestNodeData
@@ -298,6 +298,12 @@ namespace ISILab.LBS.Components
                 List<string> list = new List<string> { bundleToTake.GetLayerName() };
                 return list;
            }
+           
+           public override void Resize()
+           {
+               if (bundleToTake.Valid()) area = bundleToTake.Area;
+           }
+
         }
         [Serializable]
         public class DataRead : BaseQuestNodeData
@@ -321,6 +327,12 @@ namespace ISILab.LBS.Components
                 List<string> list = new List<string> { bundleToRead.GetLayerName() };
                 return list;
             }
+            
+            public override void Resize()
+            {
+                if (bundleToRead.Valid())area = bundleToRead.Area;
+            }
+
         }
         [Serializable]
         public class DataExchange : BaseQuestNodeData
@@ -375,6 +387,13 @@ namespace ISILab.LBS.Components
                 List<string> list = new List<string> { bundleGiveTo.GetLayerName() };
                 return list;
             }
+            
+            public override void Resize()
+            {
+                if (bundleGiveTo.Valid())  area = bundleGiveTo.Area;
+            }
+
+
         }
         [Serializable]
         public class DataReport : BaseQuestNodeData
@@ -401,6 +420,12 @@ namespace ISILab.LBS.Components
                List<string> list = new List<string> { bundleReportTo.GetLayerName() };
                return list;
            }
+           
+           public override void Resize()
+           {
+               if (bundleReportTo.Valid()) area = bundleReportTo.Area;
+           }
+
         }
         [Serializable]
         public class DataGather : BaseQuestNodeData
@@ -448,6 +473,12 @@ namespace ISILab.LBS.Components
               List<string> list = new List<string> { bundleToSpy.GetLayerName() };
               return list;
           }
+          
+          public override void Resize()
+          {
+              if (bundleToSpy.Valid())area = bundleToSpy.Area;
+          }
+
         }
         [Serializable]
         public class DataCapture : BaseQuestNodeData
@@ -466,6 +497,7 @@ namespace ISILab.LBS.Components
                 captureTime = captureData.captureTime;
                 resetTimeOnExit = captureData.resetTimeOnExit;
             }
+            
         }
         [Serializable]
         public class DataListen : BaseQuestNodeData
@@ -492,6 +524,11 @@ namespace ISILab.LBS.Components
             {
                 List<string> list = new List<string> { bundleListenTo.GetLayerName() };
                 return list;
+            }
+            
+            public override void Resize()
+            {
+                if (bundleListenTo.Valid())area = bundleListenTo.Area;
             }
         }
 

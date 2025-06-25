@@ -40,9 +40,8 @@ namespace ISILab.LBS
 
         private void DrawLayer(LBSLayer layer)
         {
-            if (layer == null || !layer.IsVisible)
-                return;
-
+            if (layer == null || !layer.IsVisible) return;
+            
             // Draw behaviours and assistants (if both share same drawer system)
             DrawVisibleComponents(layer.Behaviours, layer);
             DrawVisibleComponents(layer.Assistants, layer);

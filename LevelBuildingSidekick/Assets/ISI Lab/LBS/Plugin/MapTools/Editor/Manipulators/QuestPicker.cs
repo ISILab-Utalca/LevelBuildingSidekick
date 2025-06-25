@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LBS.Bundles;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -20,6 +21,8 @@ namespace ISILab.LBS.Manipulators
         // Private fields
         private QuestNodeBehaviour _behaviour;
 
+        public bool pickTriggerPosition = false;
+        
         // Public properties
         public BaseQuestNodeData ActiveData { get; set; }
 
@@ -30,7 +33,7 @@ namespace ISILab.LBS.Manipulators
         /// - bundleGuid
         /// - grid position
         /// </summary>
-        public Action<LBSLayer, List<Vector2Int>, string, Vector2Int> OnBundlePicked { get; set; }
+        public Action<LBSLayer, Rect, string, Vector2Int> OnBundlePicked { get; set; }
 
         /// <summary>
         /// Icon used by this manipulator.
@@ -53,52 +56,45 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
         {
             var node = _behaviour.SelectedQuestNode;
-            if (node == null || ActiveData == null)
-                return;
-
+            if (node == null || ActiveData == null) return;
+                
             Vector2Int location = LBSMainWindow._gridPosition;
-          
-
-            // Search population layers
-            var populationLayers = LBS.loadedLevel.data.Layers
-                .Where(l => l.Behaviours.Any(bh => bh is PopulationBehaviour))
-                .ToList();
-
-            TileBundleGroup bundleTile = null;
-            LBSLayer pickedLayer = null;
-
-            foreach (var layer in populationLayers)
+            
+            if (pickTriggerPosition)
             {
-                var population = layer.GetBehaviour<PopulationBehaviour>();
-                bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
-                if (bundleTile != null)
+                OnBundlePicked?.Invoke(null, Rect.zero, null, location);
+            }
+            else
+            {
+                #region Picking Bundle Graph Target
+                List<LBSLayer> populationLayers = LBS.loadedLevel.data.Layers
+                    .Where(l => l.Behaviours.Any(bh => bh is PopulationBehaviour))
+                    .ToList();
+
+                var match = populationLayers
+                    .Select(layer => new
+                    {
+                        Layer = layer,
+                        Population = layer.GetBehaviour<PopulationBehaviour>(),
+                    })
+                    .Select(entry => new
+                    {
+                        entry.Layer,
+                        BundleTile = entry.Population.GetTileGroup(entry.Population.OwnerLayer.ToFixedPosition(endPosition))
+                    })
+                    .FirstOrDefault(x => x.BundleTile != null);
+
+                if (match != null)
                 {
-                    pickedLayer = layer;
-                    break;
+                    string bundleGuid = LBSAssetMacro.GetGuidFromAsset(match.BundleTile.BundleData.Bundle);
+                    OnBundlePicked?.Invoke(match.Layer, match.BundleTile.AreaRect, bundleGuid, location);
+                    // If a new bundle is added try to resize (only implement if using bundleGraph field)
+                    ActiveData.Resize();
                 }
+                #endregion
             }
             
-            string bundleGuid = string.Empty;
-            if (bundleTile != null)
-            {
-                var bundle = bundleTile.BundleData.Bundle;
-                bundleGuid = LBSAssetMacro.GetGuidFromAsset(bundle);
-            }
-
-            var positions = new List<Vector2Int>();
-            if (bundleTile != null)
-            {
-                foreach (var tile in bundleTile.TileGroup)
-                {
-                    positions.Add(tile.Position);
-                }
-            }
-               
-
-            OnBundlePicked?.Invoke(pickedLayer, positions ,bundleGuid, location);
             _behaviour.DataChanged(node);
-            
-           // ActiveData.Position = location;
             OnManipulationEnd?.Invoke();
         }
     }

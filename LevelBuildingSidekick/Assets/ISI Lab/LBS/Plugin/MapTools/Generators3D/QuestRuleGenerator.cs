@@ -149,15 +149,15 @@ namespace ISILab.LBS.Generators
                 var trigger = (QuestTrigger)go.AddComponent(triggerType);
                 
                 // Set up visual size
-                var size = node.NodeData.Size;
+                var size = node.NodeData.Area;
                 trigger.SetSize(new Vector3(
-                    size * settings.scale.x,
-                    size * settings.scale.y,
-                    size * settings.scale.y));
+                    size.x * settings.scale.x,
+                    size.height * settings.scale.y,
+                    size.y * settings.scale.y));
 
                 // Position the trigger in the world
-                var x = node.NodeData.Position.x * settings.scale.x;
-                var z = node.NodeData.Position.y * settings.scale.y;
+                var x = node.NodeData.Area.x * settings.scale.x;
+                var z = node.NodeData.Area.y * settings.scale.y;
                 var y = pivot.transform.position.y;
 
                 var questPos = new Vector3(x, y, z);
@@ -240,7 +240,9 @@ namespace ISILab.LBS.Generators
                     break;
                 
                 case DataStealth dataStealth when trigger is QuestTriggerStealth stealthTrigger:
-                    var scenePosition = GetScenePosition(dataStealth.objective, settings, basePos, y, delta);  
+                    var scenePosition = 
+                        GetScenePosition(new Rect(dataStealth.objective.x,dataStealth.objective.y,1,1), 
+                            settings, basePos, y, delta);  
                     stealthTrigger.objectivePosition = scenePosition;
                     break;
 
@@ -351,7 +353,7 @@ namespace ISILab.LBS.Generators
             Action<GameObject> assignAction)
       {
             // Calculate the world position of the BundleGraph's position
-            var scenePosition = GetScenePosition(bundleGraph.Position, settings, basePos, y, delta);
+            var scenePosition = GetScenePosition(bundleGraph.Area, settings, basePos, y, delta);
 
             // Find objects at the position with LBSGenerated component using physics query
             var colliders = Physics.OverlapSphere(scenePosition, ProbeRadius);
@@ -380,11 +382,11 @@ namespace ISILab.LBS.Generators
             Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.guid}' found at position {scenePosition} for node {node.ID}");
         }
 
-        private static Vector3 GetScenePosition(Vector2Int graphPosition, Generator3D.Settings settings, Vector3 basePos, float y,
+        private static Vector3 GetScenePosition(Rect graphArea, Generator3D.Settings settings, Vector3 basePos, float y,
             Vector3 delta)
         {
-            var bundlePosX = graphPosition.x * settings.scale.x;
-            var bundlePosZ = graphPosition.y * settings.scale.y;
+            var bundlePosX = graphArea.x * settings.scale.x;
+            var bundlePosZ = graphArea.y * settings.scale.y;
             var scenePosition = basePos + new Vector3(bundlePosX, y, bundlePosZ) - delta;
             return scenePosition;
         }

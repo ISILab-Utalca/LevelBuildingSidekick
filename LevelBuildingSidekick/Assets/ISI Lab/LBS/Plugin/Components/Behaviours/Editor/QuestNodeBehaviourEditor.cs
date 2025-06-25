@@ -60,7 +60,7 @@ namespace ISILab.LBS.VisualElements
         private VisualElement _actionIcon;
         
         private PickerVector2Int _targetPosition;
-        private FloatField _size;
+        private RectField _area;
     
 
 
@@ -104,22 +104,23 @@ namespace ISILab.LBS.VisualElements
             #region Picker Position in Graph
             _targetPosition = this.Q<PickerVector2Int>("TargetPosition");
             _targetPosition.SetInfo("Trigger Position", "The position of the trigger in the graph.");
-            _targetPosition.vector2IntField.RegisterValueChangedCallback(evt =>
-            {
-                SetNodeDataPosition(evt.newValue);
-            });
+            _targetPosition.DisplayVectorField(false);
+            
             _targetPosition._onClicked = () =>
-            {  
-                var pickerManipulator = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
-                if (pickerManipulator == null) return;
-                
+            {
+                if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
+
+                pickerManipulator.pickTriggerPosition = true;
                 pickerManipulator.ActiveData = _behaviour.SelectedQuestNode.NodeData;
+                
                 if(pickerManipulator.ActiveData == null) return;
                 
                 pickerManipulator.OnBundlePicked = (_, _, _, pos) =>
                 {
+                    var nodeData = _behaviour.SelectedQuestNode.NodeData;
+                    
                     // Update the bundle data
-                    _behaviour.SelectedQuestNode.NodeData.Position = pos;
+                    nodeData.Area = new Rect(pos.x,pos.y, nodeData.Area.width,nodeData.Area.height);
                     // Refresh UI
                     _targetPosition.SetTarget(pos);
                 };
@@ -127,28 +128,26 @@ namespace ISILab.LBS.VisualElements
             };
             #endregion
             
-            _size = this.Q<FloatField>("Size");
-            _size.RegisterValueChangedCallback(evt => SetNodeDataSize(evt.newValue));
+            _area = this.Q<RectField>("Area");
+            _area.RegisterValueChangedCallback(evt => SetNodeDataArea(evt.newValue));
             
             // No node when instanced
             _noNodeSelectedPanel.style.display = DisplayStyle.Flex;    
             
             return this;
         }
-
-      
-        private void SetNodeDataPosition(Vector2Int newValue)
+        
+        private void SetNodeDataArea(Rect newValue)
         {
             BaseQuestNodeData nodeData = GetSelectedNode().NodeData;
             if (nodeData is null) return;
-            nodeData.Position = newValue;
-            DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
-        }
-        private void SetNodeDataSize(float newValue)
-        {
-            BaseQuestNodeData nodeData = GetSelectedNode().NodeData;
-            if (nodeData is null) return;
-            nodeData.Size = newValue;
+            
+            newValue.x = Mathf.Round(newValue.x);
+            newValue.y = Mathf.Round(newValue.y);
+            newValue.height = MathF.Abs(newValue.height);
+            newValue.width = MathF.Abs(newValue.width);
+            
+            nodeData.Area = newValue;
             DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
         }
 
@@ -172,7 +171,7 @@ namespace ISILab.LBS.VisualElements
             _nodePanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             _actionPanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             _targetPosition.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
-            _size.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
+            _area.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             
             _instancedContent.Clear();
             
@@ -185,18 +184,15 @@ namespace ISILab.LBS.VisualElements
             
             if (TypeToPanelMap.TryGetValue(dataType, out Type visualElementType))
             {
-                if (visualElementType != null)
-                {
-                    var instance = Activator.CreateInstance(visualElementType) as NodeEditor;
-                    if (instance != null)
-                    {
-                        _instancedContent.Add(instance);
-                        instance.SetNodeData(node.NodeData); // bindings per editor type
-                        SetBaseDataValues(node.NodeData); // for trigger position and size
-                        DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
-                    }
-                }
+                if (visualElementType == null) return;
+                if (Activator.CreateInstance(visualElementType) is not NodeEditor instance) return;
+                
+                _instancedContent.Add(instance);
+                instance.SetNodeData(node.NodeData); // bindings per editor type
+                SetBaseDataValues(node.NodeData); // for trigger position and size
+                DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
             }
+            
             // if not in the dictionary just set the default data: For example "GoTo" action
             else
             {
@@ -213,8 +209,8 @@ namespace ISILab.LBS.VisualElements
             _actionIcon.style.unityBackgroundImageTintColor = data.Color;
             _actionColor.SetBorder(data.Color,ActionBorderThickness);
             
-            _targetPosition.vector2IntField.value = data.Position;
-            _size.value = data.Size;
+            _area.value = data.Area;
+            
         }
 
         private QuestNode GetSelectedNode()
