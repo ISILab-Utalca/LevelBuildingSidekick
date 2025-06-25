@@ -110,6 +110,8 @@ namespace ISILab.AI.Categorization
                 foreach (var dir in Directions.Bidimencional.Edges)
                 {
                     var pos = chrom.ToMatrixPosition(parent) + dir;
+                    if (pos.x >= chrom.Rect.width)
+                        ; // No se valida?
                     var index = chrom.ToIndex(pos);
 
                     if (index < 0 || index >= chrom.Length)

@@ -171,6 +171,11 @@ namespace ISILab.LBS.Components
         {
             return id.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return "Zone " + id;
+        }
         #endregion
 
 

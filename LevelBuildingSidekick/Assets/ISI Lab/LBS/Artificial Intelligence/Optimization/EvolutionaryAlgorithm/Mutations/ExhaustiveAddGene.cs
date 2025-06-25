@@ -19,7 +19,7 @@ namespace ISILab.AI.Categorization
             var bc = chromosome as BundleTilemapChromosome;
 
             var r = RandomizationProvider.Current;
-            var mutables = bc.GetGenes().Select((g, i) => new { g, i }).Where(x => x.g != null && !chromosome.IsImmutable(x.i));
+            var mutables = bc.GetGenes().Select((g, i) => new { g, i }).Where(x => x.g != null && !(chromosome.IsImmutable(x.i) || chromosome.IsInvalid(x.i)));
             var genes = mutables.Select(x => x.g).Distinct().Cast<BundleData>().ToList();
 
             if (genes.Count == 0)
@@ -27,7 +27,7 @@ namespace ISILab.AI.Categorization
 
             for (int i = 0; i < chromosome.Length; i++)
             {
-                if (chromosome.IsImmutable(i))
+                if (chromosome.IsImmutable(i) || chromosome.IsInvalid(i))
                     continue;
                 if (chromosome.GetGene(i) == null)
                 {

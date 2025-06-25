@@ -10,6 +10,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -155,7 +156,9 @@ namespace ISILab.LBS.Assistants
         public void SetAdam(Rect rect)
         {
             var tm = OwnerLayer.GetModule<BundleTileMap>();
-            var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect));
+            var contextLayers = //new List<LBSLayer>();
+                OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing
+            var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect), CalcInvalids(rect, contextLayers));
             mapElites.Adam = chrom;
         }
 
@@ -192,7 +195,6 @@ namespace ISILab.LBS.Assistants
                             im.Add(index);
                         }
                     }
-
                 }
             }
 
@@ -235,6 +237,43 @@ namespace ISILab.LBS.Assistants
             return immutables;
         }
 
+        private int[] CalcInvalids(Rect rect, List<LBSLayer> contextLayers)
+        {
+            var invalids = new List<int>();
+            var x = (int)rect.min.x;
+            var y = (int)rect.min.y;
+        
+            foreach(var layer in contextLayers)
+            {
+                switch(layer.ID)
+                {
+                    case "Interior":
+                        var TM = layer.GetModule<TileMapModule>();
+                        if (TM == null)
+                            continue;
+                        for(int i = x; i < x + rect.width; i++)
+                        {
+                            for(int j = y; j < y + rect.height; j++)
+                            {
+                                var tile = TM.GetTile(new Vector2Int(i, j));
+                                if(tile == null)
+                                {
+                                    var pos = new Vector2(i, j) - rect.position;
+                                    var index = (int)(pos.y * rect.width + pos.x);
+                                    invalids.Add(index);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        Debug.LogError($"Invalid tiles calculation not implemented for layers of type: {layer.ID}");
+                        break;
+                }
+            }
+
+            return invalids.ToArray();
+        }
+        
         public Texture2D GetBackgroundTexture(Rect rect)
         {
             var text = new Texture2D((int)rect.width, (int)rect.height);
