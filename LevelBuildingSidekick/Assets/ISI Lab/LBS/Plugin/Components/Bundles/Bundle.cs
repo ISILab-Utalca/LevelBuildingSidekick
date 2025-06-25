@@ -62,8 +62,12 @@ namespace LBS.Bundles
         [FormerlySerializedAs("flags")] [SerializeField]
         private BundleFlags layerContentFlags;
 
-        public BundleFlags LayerContentFlags => layerContentFlags;
-        
+        public BundleFlags LayerContentFlags
+        {
+            set => layerContentFlags = value;
+            get => layerContentFlags;
+        }
+
         public enum TagType
         {
             Aesthetic, // (Style)Ej: Castle, Spaceship,
