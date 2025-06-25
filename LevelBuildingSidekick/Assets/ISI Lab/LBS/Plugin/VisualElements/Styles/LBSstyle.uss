@@ -1205,3 +1205,6 @@ Button.lbs-actionbutton {
 
 .lbs-toolbar-toggle {
 }
+
+.lbs-progressBar-score-thick {
+}
