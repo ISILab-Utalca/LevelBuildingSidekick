@@ -57,7 +57,7 @@ namespace ISILab.AI.Categorization
 
             for (int i = 0; i < chr.Length; i++)
             {
-                if (chromosome.IsImmutable(i) || chromosome.IsInvalid(i))
+                if (chr.IsImmutable(i) || chr.IsInvalid(i))
                     continue;
                 if (chr.GetGene(i) != default)
                 {
@@ -68,7 +68,7 @@ namespace ISILab.AI.Categorization
                         var j = i + chr.ToIndex(pos);
                         if (j < chr.Length && j >= 0)
                         {
-                            if (chromosome.IsImmutable(j) || chromosome.IsInvalid(j))
+                            if (chr.IsImmutable(j) || chr.IsInvalid(j))
                                 continue;
 
                             if (chr.GetGene(j) != default) // Also filters when j == i

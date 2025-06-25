@@ -25,6 +25,7 @@ using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
 using UnityEditor.Graphs;
+using LBS.Components;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -171,6 +172,8 @@ namespace ISILab.LBS.VisualElements.Editor
             yParamText = rootVisualElement.Q<Label>("YParamText");
             zParamText = rootVisualElement.Q<Label>("ZParamText");
 
+            var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
+
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
             param1Field.Type = typeof(IRangedEvaluator);
@@ -184,7 +187,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
-                if(xChoice != null) currentXField.InitializeDefault();
+                if (xChoice != null)
+                {
+                    var contextualChoice = xChoice as IContextualEvaluator;
+                    if (contextualChoice != null)
+                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
+                    else
+                        currentXField.InitializeDefault(); 
+                }
                 xParamText.text = param1Field.Value;
                 
             });
@@ -203,7 +213,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
-                if (yChoice != null) currentYField.InitializeDefault();
+                if (yChoice != null) 
+                {
+                    var contextualChoice = yChoice as IContextualEvaluator;
+                    if (contextualChoice != null)
+                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
+                    else
+                        currentYField.InitializeDefault();
+                } 
                 yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
@@ -585,7 +602,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void RepaintContent()
         {
             UpdateContent();
-            if (assistant.Finished)
+            if (assistant.Finished/* || !assistant.Running*/) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
             {
                 LBSMainWindow.OnWindowRepaint -= RepaintContent;
             }

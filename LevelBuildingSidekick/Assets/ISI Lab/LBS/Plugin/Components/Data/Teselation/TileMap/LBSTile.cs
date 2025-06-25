@@ -61,6 +61,11 @@ namespace LBS.Components.TileMap
         {
             return new LBSTile(Position);
         }
+
+        public override string ToString()
+        {
+            return "LBSTile " + Position;
+        }
         #endregion
     }
 }

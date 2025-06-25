@@ -182,7 +182,9 @@ namespace ISILab.LBS.VisualElements
                 var tooltip = "Tags:";
                 if (b.Characteristics.Count > 0)
                 {
-                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType());
+                    var tags = b.Characteristics.Select(t => t as Characteristics.LBSTagsCharacteristic).ToList();
+                    tags.ForEach(t => tooltip += "\n- " + t?.Value.Label);
+                    //b.Characteristics.ForEach(c => tooltip += "\n- " + c?.ToString());//.GetType());
                 }
                 else
                 {

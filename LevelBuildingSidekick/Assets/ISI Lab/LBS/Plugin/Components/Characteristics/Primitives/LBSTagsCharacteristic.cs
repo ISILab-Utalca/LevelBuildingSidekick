@@ -64,7 +64,7 @@ namespace ISILab.LBS.Characteristics
 
         public override string ToString()
         {
-            return base.ToString();
+            return tagName;
         }
 
         public override int GetHashCode()

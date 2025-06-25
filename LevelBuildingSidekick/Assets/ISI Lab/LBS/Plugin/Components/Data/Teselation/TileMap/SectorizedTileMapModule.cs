@@ -210,6 +210,13 @@ namespace ISILab.LBS.Modules
             return pairs.Any(t => t.Tile.Equals(tile));
         }
 
+        public bool Contains(Vector2Int pos)
+        {
+            if (pairs.Count <= 0)
+                return false;
+            return pairs.Any(t => t.Tile.Position == pos);
+        }
+
         public Rect GetBounds(Zone zone)
         {
             return GetTiles(zone).GetBounds();
@@ -659,6 +666,11 @@ namespace ISILab.LBS.Modules
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"({tile}) : ({zone})";
         }
         #endregion
 
