@@ -372,14 +372,14 @@ namespace ISILab.LBS.Generators
                 if (lbsGenerated == null || lbsGenerated.BundleRef == null) continue;
                 if (lbsGenerated.LayerName != bundleGraph.GetLayerName()) continue; 
 
-                Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.guid);
+                Bundle bundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGraph.GetGuid());
                 if (lbsGenerated.BundleRef != bundleRef) continue;
 
                 assignAction?.Invoke(collider.gameObject);
                 return;
             }
 
-            Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.guid}' found at position {scenePosition} for node {node.ID}");
+            Debug.LogWarning($"No object with LBSGenerated component and matching BundleRef Guid '{bundleGraph.GetGuid()}' found at position {scenePosition} for node {node.ID}");
         }
 
         private static Vector3 GetScenePosition(Rect graphArea, Generator3D.Settings settings, Vector3 basePos, float y,

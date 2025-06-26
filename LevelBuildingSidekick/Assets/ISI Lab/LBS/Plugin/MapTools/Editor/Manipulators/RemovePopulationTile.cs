@@ -3,7 +3,9 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor;
+using LBS.Components.TileMap;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -44,9 +46,11 @@ namespace ISILab.LBS.Manipulators
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    population.RemoveTileGroup(new Vector2Int(i, j));
+                    Vector2Int position = new Vector2Int(i, j);
+                    population.RemoveTileGroup(position);
                 }
             }
+
 
             if (EditorGUI.EndChangeCheck())
             {

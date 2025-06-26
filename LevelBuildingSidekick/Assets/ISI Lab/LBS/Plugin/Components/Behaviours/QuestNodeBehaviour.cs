@@ -51,7 +51,10 @@ namespace ISILab.LBS.Behaviours
         public override void OnDetachLayer(LBSLayer layer)
         {
         }
-        
-        public void DataChanged(QuestNode node) {OnQuestNodeSelected?.Invoke(node);}
+
+        public void DataChanged(QuestNode node)
+        {
+            OnQuestNodeSelected?.Invoke(node);
+        }
     }
 }

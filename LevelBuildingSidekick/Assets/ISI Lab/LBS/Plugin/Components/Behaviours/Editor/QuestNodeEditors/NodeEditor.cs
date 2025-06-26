@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements
         {
             if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return null;
             pickerManipulator.ActiveData = _nodeData;
-            pickerManipulator.pickTriggerPosition = false;
+            pickerManipulator.PickTriggerPosition = false;
             
             return pickerManipulator;
         }

@@ -22,7 +22,7 @@ namespace ISILab.LBS
         public override void SetTypedData(BaseQuestNodeData baseData)
         {
             dataGive = (DataGive)baseData;
-            _giveObjectType = LBSAssetMacro.LoadAssetByGuid<Bundle>(dataGive.bundleGive.guid).Assets.FirstOrDefault()?.obj.GetType();
+            _giveObjectType = LBSAssetMacro.LoadAssetByGuid<Bundle>(dataGive.bundleGive.GetGuid()).Assets.FirstOrDefault()?.obj.GetType();
         }
 
         protected override void OnTriggerEnter(Collider other) 

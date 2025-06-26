@@ -110,17 +110,16 @@ namespace ISILab.LBS.VisualElements
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
 
-                pickerManipulator.pickTriggerPosition = true;
+                pickerManipulator.PickTriggerPosition = true;
                 pickerManipulator.ActiveData = _behaviour.SelectedQuestNode.NodeData;
                 
                 if(pickerManipulator.ActiveData == null) return;
                 
-                pickerManipulator.OnBundlePicked = (_, _, _, pos) =>
+                pickerManipulator.OnPositionPicked = (pos) =>
                 {
                     var nodeData = _behaviour.SelectedQuestNode.NodeData;
-                    
-                    // Update the bundle data
                     nodeData.Area = new Rect(pos.x,pos.y, nodeData.Area.width,nodeData.Area.height);
+                    
                     // Refresh UI
                     _targetPosition.SetTarget(pos);
                 };

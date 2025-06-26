@@ -21,7 +21,7 @@ namespace ISILab.LBS.Manipulators
         // Private fields
         private QuestNodeBehaviour _behaviour;
 
-        public bool pickTriggerPosition = false;
+        public bool PickTriggerPosition = false;
         
         // Public properties
         public BaseQuestNodeData ActiveData { get; set; }
@@ -33,8 +33,9 @@ namespace ISILab.LBS.Manipulators
         /// - bundleGuid
         /// - grid position
         /// </summary>
-        public Action<LBSLayer, Rect, string, Vector2Int> OnBundlePicked { get; set; }
-
+        public Action<LBSLayer, TileBundleGroup> OnBundlePicked { get; set; }
+        public Action<Vector2Int> OnPositionPicked { get; set; }
+        
         /// <summary>
         /// Icon used by this manipulator.
         /// </summary>
@@ -60,9 +61,10 @@ namespace ISILab.LBS.Manipulators
                 
             Vector2Int location = LBSMainWindow._gridPosition;
             
-            if (pickTriggerPosition)
+            if (PickTriggerPosition)
             {
-                OnBundlePicked?.Invoke(null, Rect.zero, null, location);
+                // Only sets position on the trigger
+                OnPositionPicked?.Invoke(location);
             }
             else
             {
@@ -84,10 +86,9 @@ namespace ISILab.LBS.Manipulators
                     })
                     .FirstOrDefault(x => x.BundleTile != null);
 
-                if (match != null)
+                if (match != null && match.Layer != null && match.BundleTile != null)
                 {
-                    string bundleGuid = LBSAssetMacro.GetGuidFromAsset(match.BundleTile.BundleData.Bundle);
-                    OnBundlePicked?.Invoke(match.Layer, match.BundleTile.AreaRect, bundleGuid, location);
+                    OnBundlePicked?.Invoke(match.Layer, match.BundleTile);
                     // If a new bundle is added try to resize (only implement if using bundleGraph field)
                     ActiveData.Resize();
                 }

@@ -30,8 +30,8 @@ namespace ISILab.LBS
         public override void SetTypedData(BaseQuestNodeData baseData)
         {
             dataExchange =  (DataExchange)baseData;
-            _giveType = LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleGiveType.guid).Assets.FirstOrDefault()?.obj.GetType();
-            _receiveType =LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleReceiveType.guid).Assets.FirstOrDefault()?.obj.GetType();
+            _giveType = LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleGiveType.GetGuid()).Assets.FirstOrDefault()?.obj.GetType();
+            _receiveType =LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleReceiveType.GetGuid()).Assets.FirstOrDefault()?.obj.GetType();
         }
         
         protected override bool CompleteCondition()

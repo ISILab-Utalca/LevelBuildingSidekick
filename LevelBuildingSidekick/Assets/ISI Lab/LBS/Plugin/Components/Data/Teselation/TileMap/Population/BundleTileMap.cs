@@ -407,6 +407,12 @@ namespace ISILab.LBS.Modules
         }
         #endregion
 
+        #region EVENTS
+        
+        public event Action OnRemoved;
+        
+        #endregion
+        
         #region METHODS
         //Returns bundle size
         public Vector2Int GetBundleSize()
@@ -489,7 +495,18 @@ namespace ISILab.LBS.Modules
         {
             return base.GetHashCode();
         }
+        
+        /// <summary>
+        /// Meant to notify any Quest Node Data that references this tilemap, in order for it to be
+        /// Garbage Collected Correctly
+        /// </summary>
+        public void Removed()
+        {
+            OnRemoved?.Invoke();
+        }
         #endregion
+
+    
     }
 }
 

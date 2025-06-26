@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
             _requiredPosition._onClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (_,_, _, pos) =>
+                pickerManipulator.OnPositionPicked = (pos) =>
                 {
                     NodeData.objective = pos;
                     _requiredPosition.SetTarget(pos);
@@ -68,22 +68,18 @@ namespace ISILab.LBS.VisualElements
             if (element is not PickerBundle tilePicker) return;
             if (index < 0 || index >= NodeData.bundlesObservers.Count) return;
 
-            var bundle = NodeData.bundlesObservers[index];
+            var bundleGraph = NodeData.bundlesObservers[index];
             tilePicker.ClearPicker();
-            tilePicker.SetTargetByLayer(bundle.GetLayer(), bundle.guid, bundle.Position);
+            tilePicker.SetEditorLayerTarget(bundleGraph);
 
             tilePicker.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, positions, guid, pos) =>
+                pickerManipulator.OnBundlePicked = (layer, tileBundle) =>
                 {
-                    bundle = new BundleGraph(
-                        layer,
-                        positions,
-                        guid);
-        
-                    if(layer!=null) tilePicker.SetTargetByLayer(layer, guid, bundle.Position);
-                    NodeData.bundlesObservers[index] = bundle;
+                    bundleGraph = new BundleGraph(NodeData, layer, tileBundle);
+                    if(layer!=null) tilePicker.SetEditorLayerTarget(bundleGraph);
+                    NodeData.bundlesObservers[index] = bundleGraph;
                 };
             };
         }

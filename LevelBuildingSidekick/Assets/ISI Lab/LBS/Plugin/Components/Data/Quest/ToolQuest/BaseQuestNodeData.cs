@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -9,28 +11,12 @@ using UnityEngine;
 namespace ISILab.LBS.Components
 {
 
-    /// <summary>
-    /// Saves the bundle guid and the position in the graph to get in the scene
-    /// </summary>
-    /// 
+    #region Targets
     [Serializable]
-    public struct BundleGraph
+    public abstract class LayerTarget
     {
-        [SerializeField]private Rect area;
-        [SerializeField]private LBSLayer layer;
-        [SerializeField]public string guid;
+        [SerializeReference][SerializeField]protected LBSLayer layer;
         
-        
-        public BundleGraph(
-            LBSLayer layer = null, 
-            Rect area = default, 
-            string guid = "")
-        {
-            this.layer = layer;
-            this.area = area;
-            this.guid = guid;
-        }
-
         public LBSLayer GetLayer() => layer;
         
         public string GetLayerName()
@@ -38,21 +24,81 @@ namespace ISILab.LBS.Components
             return layer?.Name ?? "";
         }
 
-        public Vector2Int Position => new((int)area.x, (int)area.y);
-        public Rect Area => area;
+        public abstract string GetGuid();
 
-        public bool Valid() => guid != string.Empty;
     }
+    
+    /// <summary>
+    /// Saves the bundle guid and the position in the graph to get in the scene
+    /// </summary>
+    /// 
+    [Serializable]
+    public class BundleGraph : LayerTarget
+    {
+        [SerializeReference] [SerializeField] private TileBundleGroup tileBundle;
+        [SerializeField] private BaseQuestNodeData nodeData;
+        // must be assigned on all bundleGraphs to the Resize Function
+        
+        public BundleGraph(BaseQuestNodeData nodeData, LBSLayer layer = null, TileBundleGroup tileBundle = null)
+        {
+            this.layer = layer;
+            this.tileBundle = tileBundle;
+            this.nodeData = nodeData;
+            
+            if(this.tileBundle is null) return;
+            if(this.nodeData is null) return;
+            this.tileBundle!.OnRemoved += ClearTileBundle;
+        }
+
+        private void ClearTileBundle()
+        {
+            tileBundle = null;
+        }
+
+        public Vector2Int Position => new((int)Area.x, (int)Area.y);
+        public Rect Area
+        {
+            get
+            {   
+                if(tileBundle is null) return Rect.zero;
+                return tileBundle.AreaRect;
+            }
+        }
+
+        public bool Valid() => GetGuid() != string.Empty;
+        public override string GetGuid()
+        {
+            if(tileBundle?.BundleData?.Bundle is null) return string.Empty;
+            return LBSAssetMacro.GetGuidFromAsset(tileBundle.BundleData.Bundle);
+        }
+    }
+    
     
     /// <summary>
     /// Saves the bundle type
     /// </summary>
     [Serializable]
-    public struct BundleType
+    public class BundleType : LayerTarget
     {
-        [SerializeField]public string guid;
+        [SerializeField]private string guid;
+     
+        public BundleType(
+            LBSLayer layer = null, 
+            TileBundleGroup tileBundle = null)
+        {
+            this.layer = layer;
+            if (tileBundle != null) guid = LBSAssetMacro.GetGuidFromAsset(tileBundle.BundleData.Bundle);
+        }
+
+        public override string GetGuid()
+        {
+            return guid;
+        }
     }
     
+    #endregion
+    
+    # region Factory
     /// <summary>
     /// Factory to create QuestNodeData based on actions.
     /// </summary>
@@ -87,7 +133,10 @@ namespace ISILab.LBS.Components
             return nodeData;
         }
     }
+    
+    #endregion
 
+    #region QuestNodeData
     [Serializable]
     public class BaseQuestNodeData
     {
@@ -97,9 +146,9 @@ namespace ISILab.LBS.Components
         
         [SerializeField, JsonRequired]
         protected string tag;
-       
+
         [SerializeField, JsonRequired] 
-        protected Rect area = new(1,1,1,1);
+        protected Rect area;
         
         [SerializeField, JsonRequired] 
         protected Color color =  LBSSettings.Instance.view.behavioursColor;
@@ -123,7 +172,13 @@ namespace ISILab.LBS.Components
         {
             this.owner = owner;
             this.tag = tag;
+
+            if (owner?.Graph?.OwnerLayer == null) return;
+  
+            var pos = owner.Graph.OwnerLayer.ToFixedPosition(owner.Position);
+            area = new Rect(pos.x, pos.y, 1, 1);
         }
+
 
         public virtual void Clone(BaseQuestNodeData data)
         {
@@ -146,7 +201,7 @@ namespace ISILab.LBS.Components
         protected void ResizeToFitBundles(IEnumerable<BundleGraph> bundles)
         {
             var validRects = bundles
-                .Where(b => b.Valid())
+                .Where(b => (b is not null) && b.Valid())
                 .Select(b => b.Area)
                 .ToList();
 
@@ -155,15 +210,15 @@ namespace ISILab.LBS.Components
 
             // Only use the rects' x and y positions
             float minX = validRects.Min(r => r.x);
-            float maxX = validRects.Max(r => r.x);
-            float minY = validRects.Min(r => r.y);
-            float maxY = validRects.Max(r => r.y);
+            float maxX = validRects.Max(r => r.x + r.width);
+            float minY = validRects.Min(r => r.y - r.height);
+            float maxY = validRects.Max(r => r.y ); // subtract height beacause of inverted Y in graph
 
             float width = maxX - minX;
             float height = maxY - minY;
 
             // Inverted Y origin: anchor from maxY going downward
-            area = new Rect(minX, maxY, Mathf.Abs(width)+1, Mathf.Abs(height)+1);
+            area = new Rect(minX, maxY, Mathf.Abs(width), Mathf.Abs(height));
         }
 
 
@@ -282,7 +337,7 @@ namespace ISILab.LBS.Components
            [SerializeField] public BundleGraph bundleToTake;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleToTake = new BundleGraph();
+               bundleToTake = new BundleGraph(this);
                color = LBSSettings.Instance.view.colorTake;
            }
            
@@ -311,7 +366,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleToRead;
             public DataRead(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleToRead = new BundleGraph();
+                bundleToRead = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorRead;
             }
             
@@ -370,7 +425,7 @@ namespace ISILab.LBS.Components
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
                 bundleGive = new BundleType();
-                bundleGiveTo = new BundleGraph();
+                bundleGiveTo = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorGive;
             }
             
@@ -404,7 +459,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleReportTo;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
-               bundleReportTo = new BundleGraph();
+               bundleReportTo = new BundleGraph(this);
                color = LBSSettings.Instance.view.colorReport;
            }
            
@@ -455,7 +510,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
           {
-              bundleToSpy = new BundleGraph();
+              bundleToSpy = new BundleGraph(this);
               color = LBSSettings.Instance.view.colorSpy;
           }
           
@@ -509,7 +564,7 @@ namespace ISILab.LBS.Components
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {
-                bundleListenTo = new BundleGraph();
+                bundleListenTo = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorListen;
             }
             
@@ -535,5 +590,7 @@ namespace ISILab.LBS.Components
         
 
         #endregion
+        
+    #endregion
 
 } 

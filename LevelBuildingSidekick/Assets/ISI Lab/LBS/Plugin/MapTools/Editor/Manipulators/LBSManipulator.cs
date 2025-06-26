@@ -314,28 +314,28 @@ namespace ISILab.LBS.Manipulators
         /// <summary>
         /// Handles the internal mouse up event.
         /// </summary>
-        /// <param name="_event"></param>
-        protected void OnInternalMouseUp(MouseUpEvent _event)
+        /// <param name="event"></param>
+        protected void OnInternalMouseUp(MouseUpEvent @event)
         {
-            if (_event.button != 0 && _event.button != 1)
+            if (@event.button != 0 && @event.button != 1)
                 return;
             ended = true;
-            endClickPosition = MainView.Instance.FixPos(_event.localMousePosition).ToInt();
+            endClickPosition = MainView.Instance.FixPos(@event.localMousePosition).ToInt();
             EndFeedback();
 
             // right click tries deleting 
-            if (_event.button == 1 && remover != null)
+            if (@event.button == 1 && remover != null)
             {
                 remover.isRightClick = true;
                 OnManipulationRightClick?.Invoke();
-                var ne = MouseUpEvent.GetPooled(_event.localMousePosition, 0, _event.clickCount, _event.mouseDelta, _event.modifiers);
-                ne.target = _event.target as VisualElement;
-                _event.StopImmediatePropagation();
+                var ne = MouseUpEvent.GetPooled(@event.localMousePosition, 0, @event.clickCount, @event.mouseDelta, @event.modifiers);
+                ne.target = @event.target as VisualElement;
+                @event.StopImmediatePropagation();
                 remover.OnInternalMouseUp(ne);
                 return;
             }
             
-            if (_event.button == 1 && remover != null)
+            if (@event.button == 1 && remover != null)
             {
                 OnManipulationRightClick?.Invoke();
                 remover.OnManipulationNotification?.Invoke();
@@ -343,10 +343,10 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-            if (!_event.altKey)
+            if (!@event.altKey)
             {
-                _event.StopPropagation();
-                OnMouseUp(_event.target as VisualElement, endClickPosition, _event);
+                @event.StopPropagation();
+                OnMouseUp(@event.target as VisualElement, endClickPosition, @event);
                 OnManipulationEnd?.Invoke();
             }
 

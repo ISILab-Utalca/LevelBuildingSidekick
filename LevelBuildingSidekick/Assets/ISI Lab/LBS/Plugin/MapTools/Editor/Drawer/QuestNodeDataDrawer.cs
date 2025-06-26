@@ -37,6 +37,7 @@ namespace ISILab.LBS.Drawers.Editor
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
 
+            nodeData.Resize();
             
             // Selected Node Trigger View
             var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
@@ -53,7 +54,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if(!dataKill.bundlesToKill.Any()) break;
                     foreach (var bundle in dataKill.bundlesToKill)
                     {
-                        if (!bundle.Valid()) continue;
+                        if (bundle is null || !bundle.Valid()) continue;
                         
                         var visual = new TriggerElement(nodeData, bundle.Area, nodeData.Color);
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
@@ -64,7 +65,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if(!dataStealth.bundlesObservers.Any()) break;
                     foreach (var bundle in dataStealth.bundlesObservers)
                     {
-                        if (!bundle.Valid()) continue;
+                        if (bundle is null || !bundle.Valid()) continue;
                         
                         var visual = new TriggerElement(nodeData, bundle.Area, nodeData.Color);
                             
