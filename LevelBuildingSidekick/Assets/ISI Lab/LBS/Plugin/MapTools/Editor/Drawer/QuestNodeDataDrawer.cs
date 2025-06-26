@@ -34,6 +34,13 @@ namespace ISILab.LBS.Drawers.Editor
         {
             if (target is not QuestNodeBehaviour behaviour) return;
             if (behaviour.OwnerLayer is not { } layer) return;
+
+            layer.OnChange += () =>
+            {
+                view.ClearLayerComponentView(layer, behaviour);
+            };
+            
+            
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
 

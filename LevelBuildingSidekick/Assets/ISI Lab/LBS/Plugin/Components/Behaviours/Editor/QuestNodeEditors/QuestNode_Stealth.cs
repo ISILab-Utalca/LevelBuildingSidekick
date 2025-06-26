@@ -49,8 +49,12 @@ namespace ISILab.LBS.VisualElements
             _observerList.itemsRemoved += (_) =>
             {
                 _observerList.Rebuild();
-                // Redraw to remove any elements that correspond to the deleted element
-                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+                
+                // Delay Redraw because Unity reconstructs the list and it gets updated on the next tick
+                _observerList.schedule.Execute(() =>
+                {
+                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+                }).ExecuteLater(1); 
             };
 
             _observerList.Rebuild();

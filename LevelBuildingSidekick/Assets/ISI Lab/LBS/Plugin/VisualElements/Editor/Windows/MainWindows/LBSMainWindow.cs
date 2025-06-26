@@ -328,7 +328,7 @@ namespace ISILab.LBS.Editor.Windows{
         layerPanel.style.display = DisplayStyle.Flex;
 
         layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView);
-        layerPanel.OnSelectLayer += layer => OnSelectedLayerChange(layer);
+        layerPanel.OnSelectLayer += OnSelectedLayerChange;
         layerPanel.OnAddLayer += layer =>
         {
             var sw = new Stopwatch();
@@ -509,6 +509,11 @@ namespace ISILab.LBS.Editor.Windows{
         /// <param name="layer"></param>
         private void OnSelectedLayerChange(LBSLayer layer)
         {
+            if (_selectedLayer is not null)
+            {
+                _selectedLayer.OnChangeUpdate();
+
+            }
             _selectedLayer = layer;
            
             toolkit.Clear();

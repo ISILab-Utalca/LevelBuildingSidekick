@@ -26,6 +26,12 @@ namespace ISILab.LBS.VisualElements.Editor
             list.Add(element);
         }
 
+        public List<GraphElement> GetElements(object obj)
+        {
+            pairs.TryGetValue(obj, out var elements);
+            return elements;
+        }
+        
         public void Repaint(object obj)
         {
             if (!pairs.TryGetValue(obj, out var elements)) return;
@@ -263,6 +269,18 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
         
+        public void ClearLayerComponentView(LBSLayer layer, object component)
+        {
+            if (!layers.TryGetValue(layer, out var container)) return;
+            if(component is null) return;
+            
+            var elements = container.GetElements(component);
+            foreach (var element in elements)
+            {
+                RemoveElement(element);
+            }
+        }
+        
         public void AddContainer(LBSLayer layer)
         {
             layers.Add(layer, new LayerContainer());
@@ -292,5 +310,6 @@ namespace ISILab.LBS.VisualElements.Editor
         
         #endregion
 
+ 
     }
 }
