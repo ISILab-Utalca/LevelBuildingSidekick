@@ -36,19 +36,31 @@ namespace ISILab.LBS.Drawers.Editor
             if (behaviour.OwnerLayer is not { } layer) return;
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
-
-           
             
             // Selected Node Trigger View
-            
             var position = layer.FixedToPosition(nodeData.Position, true);
             var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
             
+            // Checks if a new selection must be drawn
+            var nt = behaviour.RetrieveNewTiles();
+            if (nt == null || !nt.Any()) return;
+            
+            //Debug.Log("\n --node: " + nd.Owner.ID + "--");
+            /*
+             * TODO: Replace this within the switch and pass the visualElement corresponding
+             * to the type in the switch. Perhaps use the attribute created for actions}
+             * but apply on visual Elements.
+             */
+            // view.AddElement(behaviour.OwnerLayer, behaviour, type);
+            
+            // Trigger Position
             var triggerBase = new TriggerElement(
-                position, 
-                 new Vector2(nodeData.Size,nodeData.Size), 
-                nodeData, 
-                statusColor);
+                    position, 
+                    new Vector2(nodeData.Size,nodeData.Size), 
+                    nodeData, 
+                    statusColor);
+            
+            // Stores using the behavior as key
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
             
             
@@ -73,7 +85,7 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataStealth dataStealth:
-                    if(!dataStealth.bundlesObservers.Any()) break;
+                    if(dataStealth.bundlesObservers == null || !dataStealth.bundlesObservers.Any()) break;
                     foreach (var bundle in dataStealth.bundlesObservers)
                     {
                         if (!bundle.Valid()) continue;

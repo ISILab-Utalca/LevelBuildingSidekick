@@ -142,6 +142,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
     - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
     - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
+    - {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
+    - {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
+    - {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
+    - {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
+    - {fileID: 11400000, guid: 337d6223667092c4c9f04e4df2f319b5, type: 2}
+    - {fileID: 11400000, guid: 1f6a869bbbf53f340a2716e511457881, type: 2}
+    - {fileID: 11400000, guid: 77321a622d19ed0419bebddaf181da70, type: 2}
     - {fileID: 11400000, guid: 28377c55743b4574bb1b44a0c9730e89, type: 2}
     - {fileID: 11400000, guid: 7920f465be2dd8c42b1fc7bcf75d6874, type: 2}
     - {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
@@ -537,12 +544,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: 8ec4570e052fbb34bbe8d52d99e76d07, type: 3}
     - {fileID: 9197481963319205126, guid: d4cc9867eee425f4dac7d5bb91f07845, type: 3}
     - {fileID: 9197481963319205126, guid: c4d07963851f89b48822d6273b3b3e1e, type: 3}
-    - {fileID: 9197481963319205126, guid: 754a67c6d4788447895a4349508b2f37, type: 3}
-    - {fileID: 9197481963319205126, guid: 7f54b2764826949c192810bd3944abcc, type: 3}
-    - {fileID: 9197481963319205126, guid: c700399f2adb2504dac99f1139d658f3, type: 3}
-    - {fileID: 9197481963319205126, guid: 3893b5ea9974b9549aefa44bd1b99e24, type: 3}
-    - {fileID: 9197481963319205126, guid: c04b8c76151329e42929df320c5901fe, type: 3}
-    - {fileID: 9197481963319205126, guid: 9b40f22c604c94f438696f75a42873eb, type: 3}
   - type: LBS.Bundles.BundleCollection
     items:
     - {fileID: 11400000, guid: 3e607c0f80297b849a6ea0d7f98c73a3, type: 2}
@@ -705,10 +706,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: ada555936059fa149bb48537842ee230, type: 3}
     - {fileID: 7433441132597879392, guid: 5393cdb70614ab24f94f78bfcf5d1455, type: 3}
     - {fileID: 7433441132597879392, guid: e98085123be873947970c4f10099a39a, type: 3}
-    - {fileID: 7433441132597879392, guid: fd5cb3dd3de574f1585db92b6689f86a, type: 3}
-    - {fileID: 7433441132597879392, guid: 0356b27d63ed56a4c9b6fa5b729c89f8, type: 3}
-    - {fileID: 7433441132597879392, guid: 8f9ac38644e5f664ab13b4b78f1f3faa, type: 3}
-    - {fileID: 7433441132597879392, guid: 012f251bbb5d36246a87499f75dd8b24, type: 3}
   - type: ISILab.LBS.Internal.LBSAssetsStorage
     items:
     - {fileID: 11400000}
@@ -724,13 +721,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
     - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
     - {fileID: 11400000, guid: 430b61e3f6924f949ab48de4b84eba1f, type: 2}
-  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
-    items:
-    - {fileID: 11400000, guid: f6ea011cd1aeff9479cf79e6950b69a8, type: 2}
-  - type: UnityEngine.Rendering.Universal.UniversalRendererData
-    items:
-    - {fileID: 11400000, guid: 04c7a37efc9363541b4b4e265b5f8af3, type: 2}
-    - {fileID: 11400000, guid: ba6e69114eba6af4585b7b850051b2d9, type: 2}
   - type: UnityEditor.ShaderGraph.SubGraphAsset
     items:
     - {fileID: 11400000, guid: 804c76ccbe9643147a24f07885bb47ba, type: 3}
@@ -762,9 +752,6 @@ MonoBehaviour:
     items:
     - {fileID: -4733365628477956816, guid: 5e26fd0b52320f24e9707080250ddcf9, type: 3}
     - {fileID: -4733365628477956816, guid: e143be758899db849b60f1f32e2521b7, type: 3}
-  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineGlobalSettings
-    items:
-    - {fileID: 11400000, guid: c5ebf0fbb67caa746bb160782f6a3264, type: 2}
   - type: UnityEditor.U2D.Common.SpriteAtlasPacker.SpriteAtlasScriptablePacker
     items:
     - {fileID: 11400000, guid: 9eaaf0b28a38f804f9fadea8b77e198d, type: 2}
@@ -821,10 +808,26 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 089885f17bac7464a80c68e81d8538a1, type: 2}
   - type: UnityEditor.SceneTemplate.SceneTemplateAsset
     items:
+    - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
+    - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
+    - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
+    - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
+    - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
+    - {fileID: 11400000, guid: 40eaef60ade8a02489f47a70bb2845c3, type: 2}
     - {fileID: 11400000, guid: 3f9cc3f14b0454fa7b997b33a99d539f, type: 2}
     - {fileID: 11400000, guid: 9d187c8728d2b4c398f45befcacc2827, type: 2}
+  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineGlobalSettings
+    items:
+    - {fileID: 11400000, guid: c5ebf0fbb67caa746bb160782f6a3264, type: 2}
+  - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
+    items:
+    - {fileID: 11400000, guid: f6ea011cd1aeff9479cf79e6950b69a8, type: 2}
   - type: UnityEngine.Rendering.Universal.PostProcessData
     items:
-    - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
-    - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+    - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
+    - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
+  - type: UnityEngine.Rendering.Universal.UniversalRendererData
+    items:
+    - {fileID: 11400000, guid: ba6e69114eba6af4585b7b850051b2d9, type: 2}
+    - {fileID: 11400000, guid: 04c7a37efc9363541b4b4e265b5f8af3, type: 2}

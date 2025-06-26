@@ -81,7 +81,10 @@ namespace ISILab.LBS
 
         public void RedrawLevel(LBSLevelData level, MainView view)
         {
-            view.ClearLevelView();
+            foreach (var layer in level.Layers)
+            {
+                view.ClearLayerView(layer);
+            }
             DrawLevel(level, view);
         }
 

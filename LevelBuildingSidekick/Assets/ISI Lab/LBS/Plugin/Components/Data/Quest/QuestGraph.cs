@@ -30,7 +30,12 @@ namespace ISILab.LBS.Modules
 
         [SerializeField, SerializeReference, JsonRequired]
         QuestNode root;
-
+        
+        private HashSet<QuestNode> _newNodes = new ();
+        private HashSet<QuestNode> _expiredNodes = new ();
+        
+        private HashSet<QuestEdge> _newEdges = new ();
+        private HashSet<QuestEdge> _expiredEdges = new ();
 
         [JsonIgnore]
         public Vector2Int NodeSize => nodeSize;
@@ -126,7 +131,6 @@ namespace ISILab.LBS.Modules
         
         public void SetRoot(QuestNode node)
         {
-            
             if (node == null)
             {
                 root = null;
@@ -145,6 +149,8 @@ namespace ISILab.LBS.Modules
             questNodes.Add(newNode);
             OnAddNode?.Invoke(newNode);
             UpdateFlow?.Invoke();
+
+            _newNodes.Add(newNode);
         }
         public void AddNode(QuestNode node)
         {
@@ -153,6 +159,8 @@ namespace ISILab.LBS.Modules
             OnAddNode?.Invoke(node);
             UpdateFlow?.Invoke();
             
+            _newNodes.Add(node);
+            
             QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
             if(qnb is null) return;
             qnb.SelectedQuestNode = node;
@@ -160,6 +168,7 @@ namespace ISILab.LBS.Modules
         public void RemoveQuestNode(QuestNode node)
         {
             questNodes.Remove(node);
+            _expiredNodes.Add(node);
             
             var edgesToRemove = questEdges.Where(e => e.First.Equals(node) || e.Second.Equals(node)).ToList();
             foreach (var e in edgesToRemove) RemoveEdge(e);
@@ -203,6 +212,7 @@ namespace ISILab.LBS.Modules
             questEdges.Add(edge);
             OnAddEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
+            _newEdges.Add(edge);
             
             var connectionInfo = $"Connection: {first.QuestAction} → {second.QuestAction}";
             return Tuple.Create(connectionInfo, LogType.Log);
@@ -214,7 +224,9 @@ namespace ISILab.LBS.Modules
         /// <param name="delta">higher delta easier to catch the line</param>
         public void RemoveEdge(Vector2Int position, float delta)
         {
-            RemoveEdge(GetEdge(position, delta));
+            var edge = GetEdge(position, delta);
+            _expiredEdges.Add(edge);
+            RemoveEdge(edge);
         }
         private void RemoveEdge(QuestEdge edge)
         {
@@ -222,6 +234,7 @@ namespace ISILab.LBS.Modules
             questEdges.Remove(edge);
             OnRemoveEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
+            _expiredEdges.Add(edge);
         }
         
         
@@ -443,6 +456,25 @@ namespace ISILab.LBS.Modules
             }
         }
         
+        public QuestNode[] RetrieveNewNodes() { return RetrieveSet(_newNodes); }
+        public QuestNode[] RetrieveExpiredNodes() { return RetrieveSet(_expiredNodes); }
+        public QuestEdge[] RetrieveNewEdges() { return RetrieveSet(_newEdges); }
+        public QuestEdge[] RetrieveExpiredEdges() { return RetrieveSet(_expiredEdges); }
+
+        private T[] RetrieveSet<T>(HashSet<T> set)
+        {
+            // If null create a new one
+            set ??= new HashSet<T>();
+            
+            // Turn into array
+            T[] o = set.ToArray();
+            
+            // Clear memory
+            set.Clear();
+            
+            // Return array
+            return o;
+        }
     }
 
     [Serializable]
