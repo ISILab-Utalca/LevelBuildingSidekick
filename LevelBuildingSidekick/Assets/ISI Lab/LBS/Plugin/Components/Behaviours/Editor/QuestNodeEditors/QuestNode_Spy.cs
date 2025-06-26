@@ -1,16 +1,17 @@
+using System.ComponentModel.Composition.Hosting;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeSpy : NodeEditor<DataSpy>
+    public class NodeEditorSpy : NodeEditor<DataSpy>
     {
         private readonly PickerBundle _pickerBundle;
         private readonly FloatField _requiredSpyTime;
         private readonly Toggle _resetOnExit;
 
-        public QuestNodeSpy()
+        public NodeEditorSpy()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
@@ -29,17 +30,19 @@ namespace ISILab.LBS.VisualElements
         protected override void OnDataAssigned()
         {
             _pickerBundle.ClearPicker();
-            _pickerBundle.SetTarget(NodeData.BundleToSpy.Layer, NodeData.BundleToSpy.Guid, NodeData.BundleToSpy.Position);
+            _pickerBundle.SetTarget(NodeData.bundleToSpy.layerID, NodeData.bundleToSpy.guid, NodeData.bundleToSpy.Position);
 
             _pickerBundle.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, position) =>
                 {
-                    NodeData.BundleToSpy.Layer = layer;
-                    NodeData.BundleToSpy.Guid = pickedGuid;
-                    NodeData.BundleToSpy.Position = position;
-                    _pickerBundle.SetTarget(layer, pickedGuid, position);
+                    NodeData.bundleToSpy = new BundleGraph(
+                        layer,
+                        positions,
+                        pickedGuid);
+       
+                    if(layer!=null) _pickerBundle.SetTarget(layer.ID, pickedGuid, NodeData.bundleToSpy.Position);
                 };
             };
 

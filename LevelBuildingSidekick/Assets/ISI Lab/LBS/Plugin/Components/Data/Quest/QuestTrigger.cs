@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.LBS.Components;
-using UnityEditor.SceneManagement;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,18 +8,18 @@ namespace ISILab.LBS
 {
 
     [DisallowMultipleComponent]
-    [System.Serializable]
+    [Serializable]
     public abstract class QuestTrigger : MonoBehaviour
     {
         #region FIELDS
 
-        [SerializeField] 
-        private QuestNode node;
+        [SerializeField][HideInInspector]
+        protected QuestNode node;
         
-        [SerializeField]
+        [SerializeField, ReadOnly] 
         private string nodeID;
         
-        protected BoxCollider boxCollider;
+        protected BoxCollider BoxCollider;
         
         [SerializeField]
         protected bool isCompleted;
@@ -42,22 +39,27 @@ namespace ISILab.LBS
         #region EVENTS
         public event Action<QuestTrigger> OnTriggerCompleted;
         [SerializeField]
-        public UnityEvent OnCompleteEvent;
+        public UnityEvent onCompleteEvent;
         
         #endregion
         
-
         #region METHODS
+
+        /// <summary>
+        /// Replace and cast the incoming parameter to the required data type
+        /// </summary>
+        /// <param name="baseData"></param>
+        public abstract void SetTypedData(BaseQuestNodeData baseData);
 
         /// <summary>
         /// Set the required values for each class type based on the Containers within the node data class.
         /// Always call base from overwrites as base sets the ID that quest observer uses on start 
         /// </summary>
-        /// <param name="data"></param>
-        public virtual void SetData(QuestNode node)
+        /// <param name="paramNode">incoming node with data</param>
+        public void SetData(QuestNode paramNode)
         {
-            this.node = node;
-            nodeID = node.NodeData.Owner.ID;
+            this.node = paramNode;
+            nodeID = paramNode.ID;
         }
         
         /// <summary>
@@ -66,9 +68,9 @@ namespace ISILab.LBS
         /// <param name="size"></param>
         public void SetSize(Vector3 size)
         {
-            boxCollider = gameObject.AddComponent<BoxCollider>();
-            boxCollider.isTrigger = true;
-            boxCollider.size = size;
+            BoxCollider = gameObject.AddComponent<BoxCollider>();
+            BoxCollider.isTrigger = true;
+            BoxCollider.size = size;
         }
 
         /// <summary>
@@ -81,6 +83,14 @@ namespace ISILab.LBS
         {
             CheckComplete();
         }
+
+        /// <summary>
+        /// Checks the other for the Player Tag
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool IsPlayer(Collider other)  {return other.CompareTag("Player");}
+        protected bool IsPlayer(GameObject other)  {return other.CompareTag("Player");}
         
         /// <summary>
         /// Override for unique conditions based on quest action.
@@ -92,14 +102,46 @@ namespace ISILab.LBS
             return true; 
         }
 
-        protected void CheckComplete()
+        public void CheckComplete()
         {
             if (!CompleteCondition()) return;
             isCompleted = true;
-            OnCompleteEvent?.Invoke();
-            OnTriggerCompleted.Invoke(this);
+            onCompleteEvent?.Invoke();
+            OnTriggerCompleted?.Invoke(this);
+            
+            node.QuestState = QuestState.completed;
+            gameObject.SetActive(false); // Deactivate after completion to avoid trigger calls.
         }
         
         #endregion
     }
+    
+    /// <summary>
+    /// Generic class to add box collider to the a gameObject.
+    /// By default its OnTriggerEnter will check for quest completion.
+    /// </summary>
+    [RequireComponent(typeof(BoxCollider))]
+    public class GenericObjectiveTrigger : MonoBehaviour
+    {
+        private QuestTrigger _questTrigger;
+        private const float SizeFactor = 1f; // TODO: Maybe add as value in LBSTool(node data)
+        public void Setup(QuestTrigger trigger)
+        {
+            _questTrigger = trigger;
+    
+            var boxCollider = GetComponent<BoxCollider>() ?? gameObject.AddComponent<BoxCollider>();
+    
+            boxCollider.isTrigger = true;
+            boxCollider.size = Vector3.one * SizeFactor; 
+            boxCollider.center = Vector3.zero;
+    
+        }
+    
+        protected void OnTriggerEnter(Collider other)
+        {
+            if (_questTrigger.IsPlayer(other)) _questTrigger.CheckComplete();
+        }
+    }
+
 }
+

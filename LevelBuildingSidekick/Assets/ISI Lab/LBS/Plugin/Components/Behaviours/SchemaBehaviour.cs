@@ -46,6 +46,7 @@ namespace ISILab.LBS.Behaviours
         private string pressetInsideStyle = "Castle_Wooden";
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
+        
         #endregion
 
         #region META-FIELDS
@@ -83,7 +84,7 @@ namespace ISILab.LBS.Behaviours
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => areas.ZonesWithTiles;
-
+        
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;
 
@@ -117,6 +118,8 @@ namespace ISILab.LBS.Behaviours
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
+            ReplaceTile(tile);
+            
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
             return tile;
@@ -148,14 +151,20 @@ namespace ISILab.LBS.Behaviours
         public void RemoveZone(Zone zone)
         {
             var tiles = areas.GetTiles(zone);
+            foreach (var tile in tiles)
+            {
+                RequestTileRemove(tile);
+            }
+            
             tileMap.RemoveTiles(tiles);
-
             areas.RemoveZone(zone);
         }
 
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
+            RequestTileRemove(tile);
+            
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
             areas.RemovePair(tile);
@@ -165,6 +174,7 @@ namespace ISILab.LBS.Behaviours
         {
             var t = tileConnections.GetPair(tile);
             t.SetConnection(direction, connection, editedByIA);
+            ReplaceTile(tile);
         }
 
         public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
@@ -258,6 +268,16 @@ namespace ISILab.LBS.Behaviours
             }
         }
 
+        private void ReplaceTile(LBSTile tile)
+        {
+            RequestTilePaint(tile);
+            LBSTile old = tileMap.GetTile(tile.Position);
+            if (old != null)
+            {
+                RequestTileRemove(old);
+            }
+        }
+
         public override object Clone()
         {
             return new SchemaBehaviour(this.Icon, this.Name, this.ColorTint);
@@ -278,6 +298,7 @@ namespace ISILab.LBS.Behaviours
         {
             return base.GetHashCode();
         }
+        
         #endregion
     }
 }

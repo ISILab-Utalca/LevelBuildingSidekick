@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS
@@ -13,49 +14,55 @@ namespace ISILab.LBS
     public class QuestVisualTree : MonoBehaviour
     {
         
-        #region PROPERTIES
-        private UIDocument questVisualTree;
-        private ListView questList;
+        #region FIELDS
+        private UIDocument _questVisualTree;
+        private ListView _questList;
+        private QuestObserver _observer;
+        
+        [SerializeField]
+        private GameObject observerGameObject;
+        
         #endregion
         
-        #region METHODS
-        public void Awake()
+        #region PROPERTIES
+        public GameObject Observer 
         {
-           questVisualTree = GetComponentInParent<UIDocument>();
-           var root = questVisualTree.rootVisualElement;
-           questList = root.Q<ListView>("QuestList");
-           if (questList == null) return;
+            get => observerGameObject;
+            set => observerGameObject = value;
+        }
+        
+        #endregion
+        
+        
+        #region METHODS
+        public void Start()
+        {
+           _questVisualTree = GetComponentInParent<UIDocument>();
+           var root = _questVisualTree.rootVisualElement;
+           _questList = root.Q<ListView>("QuestList");
+           if (_questList == null) return;
            
-           List<QuestNode> exampleQuestNodes = new List<QuestNode>();
-           var tempGraph = new QuestGraph();
+           _observer = observerGameObject.GetComponent<QuestObserver>();
+           _observer.OnQuestAdvance += UpdateQuestList;
            
-           var q1 = new QuestNode("1", Vector2.one, "go to place", tempGraph);
-           q1.QuestState = QuestState.completed;
-           var q2 = new QuestNode("2", Vector2.one, "go to place", tempGraph);
-           q2.QuestState = QuestState.failed;
-           var q3 = new QuestNode("3", Vector2.one, "kiss enemy entity", tempGraph);
-           q3.QuestState = QuestState.active;
-           var q4 = new QuestNode("4", Vector2.one, "collect n shits", tempGraph);
-           q4.QuestState = QuestState.blocked;
-           
-           exampleQuestNodes.Add(q1);
-           exampleQuestNodes.Add(q2);
-           exampleQuestNodes.Add(q3);
-           exampleQuestNodes.Add(q4);
-           
-           SetQuestList(exampleQuestNodes);
- 
+           UpdateQuestList();
         }
 
-        public void UpdateQuestList(List<QuestNode> quests)
+        public void UpdateQuestList()
         {
+            List<QuestNode> exampleQuest = new List<QuestNode>();
+            foreach (var node in _observer.NodeTriggerMap.Keys)
+            {
+                exampleQuest.Add(node);
+            }
             
+            SetQuestList(exampleQuest);
         }
 
         private void SetQuestList(List<QuestNode> quests)
         {
-            questList.makeItem = () => new VisualElementQuest(); 
-            questList.bindItem = (element, index) =>
+            _questList.makeItem = () => new VisualElementQuest(); 
+            _questList.bindItem = (element, index) =>
             {
                 var questEntryVe = element as VisualElementQuest;
                 if (questEntryVe == null) return;
@@ -65,7 +72,7 @@ namespace ISILab.LBS
                 questEntryVe.SetQuest(quest);
             };
             
-            questList.itemsSource = quests;
+            _questList.itemsSource = quests;
         }
         
         #endregion

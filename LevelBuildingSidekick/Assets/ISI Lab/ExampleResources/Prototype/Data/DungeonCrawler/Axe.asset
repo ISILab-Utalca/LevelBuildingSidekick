@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  layerContentFlags: 0
+  type: 2
+  anchorPosition: 0
+  color: {r: 0.34117648, g: 0.45882356, b: 0.5647059, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 6596c0ea750e1df44946154d240660b3, type: 3}
+  assets:
+  - obj: {fileID: 422927110995880576, guid: 88ad08106eccbc44f963fc7b3b998ec6, type: 3}
+    probability: 1
+  - obj: {fileID: 3860181244171653944, guid: af4af9699929707479ec0ca19c3d3bfb, type: 3}
+    probability: 1
+  characteristics:
+  - rid: 279245815319625883
+  - rid: 6953538112726761621
+  populationType: 1
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 4
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 279245815319625883
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 90c0458b7a8ee514d9c7ba0ace177f05, type: 2}
+    - rid: 6953538112726761621
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}

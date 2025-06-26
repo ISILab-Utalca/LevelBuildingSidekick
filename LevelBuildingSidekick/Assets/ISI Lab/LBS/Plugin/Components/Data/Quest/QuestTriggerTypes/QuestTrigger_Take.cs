@@ -1,31 +1,28 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" take ")]
+    [QuestNodeActionTag("take")]
     public class QuestTriggerTake : QuestTrigger
     {
-        public QuestTriggerTake() : base()
+        public DataTake dataTake;
+        public GameObject objectToTake;
+        
+        public override void SetTypedData(BaseQuestNodeData baseData)
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
-
+            dataTake = (DataTake)baseData;
+            var objectiveTrigger = objectToTake.AddComponent<GenericObjectiveTrigger>();
+            objectiveTrigger.Setup(this);
         }
 
         protected override void OnTriggerEnter(Collider other) 
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
+            if (!IsPlayer(other)) return;
+            // Use the "objectToTake" reference and add it to player controller
+            // CheckComplete();
         }
-            
+        
     }
 
 }

@@ -1,15 +1,16 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
-using System.Linq;
+using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class QuestNodeKill : NodeEditor<DataKill>
+    public class NodeEditorKill : NodeEditor<DataKill>
     {
         private readonly ListView _killList;
 
-        public QuestNodeKill()
+        public NodeEditorKill()
         {
             Clear();
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Kill");
@@ -28,40 +29,41 @@ namespace ISILab.LBS.VisualElements
             _killList.bindItem = (element, i) =>
             {
                 if (element is not PickerBundle tilePicker || NodeData == null) return;
-                if (i < 0 || i >= NodeData.BundlesToKill.Count) return;
+                if (i < 0 || i >= NodeData.bundlesToKill.Count) return;
 
-                var bundleGraph = NodeData.BundlesToKill[i];
+                var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTarget(bundleGraph.Layer, bundleGraph.Guid, bundleGraph.Position);
+                tilePicker.SetTarget(bundleGraph.layerID, bundleGraph.guid, bundleGraph.Position);
 
                 tilePicker.OnClicked = () =>
                 {
                     var pickerManipulator = AssignPickerData();
-                    pickerManipulator.OnBundlePicked = (layer, pickedGuid, pos) =>
+                    pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, _) =>
                     {
-                        bundleGraph.Layer = layer;
-                        bundleGraph.Guid = pickedGuid;
-                        bundleGraph.Position = pos;
-                        tilePicker.SetTarget(layer, pickedGuid, pos);
-                        NodeData.BundlesToKill[i] = bundleGraph;
+                        bundleGraph = new BundleGraph(
+                            layer,
+                            positions,
+                            pickedGuid);
+                        
+                        if(layer!=null) tilePicker.SetTarget(layer.ID, pickedGuid, bundleGraph.Position);
+                        NodeData.bundlesToKill[i] = bundleGraph;
                     };
                 };
             };
 
-            _killList.itemsRemoved += (removedIndices) =>
+            _killList.itemsRemoved += (_) =>
             {
-                foreach (int index in removedIndices.OrderByDescending(x => x))
-                {
-                    if (index >= 0 && index < NodeData.BundlesToKill.Count)
-                        NodeData.BundlesToKill.RemoveAt(index);
-                }
                 _killList.Rebuild();
+                // Redraw to remove any elements that correspond to the deleted element
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
             };
+            
+            _killList.Rebuild();
         }
 
         protected override void OnDataAssigned()
         {
-            _killList.itemsSource = NodeData.BundlesToKill;
+            _killList.itemsSource = NodeData.bundlesToKill;
             _killList.Rebuild();
         }
     }

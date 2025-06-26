@@ -13,10 +13,32 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
     [ExecuteInEditMode] // Allows this to run in editor mode
     public class LBSGenerated : MonoBehaviour
     {
-        #region BUNDLE REFERENCES
+        
+        #region FIELDS
+
+        //Layer Id from which the object was created
+        [SerializeField]
+        private string layerID;
+        
         //Original bundle reference
         [SerializeField]
         private Bundle bundleRef;
+        
+        //Temporal bundle reference (for when it changes using the WorldEditBar)
+        [SerializeField]
+        private Bundle bundleTemp;
+
+        
+        #endregion
+        
+        #region PROPERTIES
+        
+        public string LayerID
+        {
+            get => layerID;
+            set => layerID = value;
+        }
+
         public Bundle BundleRef
         {
             get => bundleRef;
@@ -27,18 +49,19 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
         }
         
-        //Temporal bundle reference (for when it changes using the WorldEditBar)
-        [SerializeField]
-        private Bundle bundleTemp;
         public Bundle BundleTemp
         {
             get => bundleTemp;
             set => bundleTemp = value;
         }
-        #endregion
         
         public int AssetIndex { get; set; } //Not very accurate, it adjusts when using the switch button in the WorldEditBar
 
+
+        #endregion
+
+        #region METHODS
+ 
         private void Reset()
         {
             // This runs when the script is first added to a GameObject
@@ -54,7 +77,7 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
 
         private void TryAddGizmo()
         {
-            // Check again that the object still exists and doesn’t already have the component
+            // Check again that the object still exists and doesn't already have the component
             if (this != null && gameObject != null && !GetComponent<Custom3dMeshGizmo>())
             {
                 Undo.AddComponent<Custom3dMeshGizmo>(gameObject); // Supports undo in editor
@@ -70,18 +93,20 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
         }
         
-        public bool HasLBSTag(string tag)
+        public bool HasLBSTag(string paraTag)
         {
             var characteristics = bundleRef.Characteristics;
             foreach (var lbsChar in characteristics)
             {
-                if (lbsChar is not LBSTagsCharacteristic lbstagChar) continue;
-                if (lbstagChar.Value == null) continue;
-                if (lbstagChar.Value.label != tag) continue;
+                if (lbsChar is not LBSTagsCharacteristic lbsTagsCharacteristic) continue;
+                if (lbsTagsCharacteristic.Value == null) continue;
+                if (lbsTagsCharacteristic.Value.label != paraTag) continue;
                 return true;
             }
 
             return false;
         }
+        
+        #endregion
     }
 }

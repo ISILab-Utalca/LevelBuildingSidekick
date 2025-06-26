@@ -18,9 +18,9 @@ MonoBehaviour:
     ySampleCount: 3
     devest: 0.5
     xEvaluator:
-      rid: 3939121797723063001
+      rid: 1936740652452413476
     yEvaluator:
-      rid: 3939121797723063003
+      rid: 1936740652452413480
     optimizer:
       rid: 8454501502191403727
     changedSample: 
@@ -30,78 +30,58 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3707499439976612803
+    - rid: 1936740652452413476
       type: {class: Exploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         colliderCharacteristic:
-          rid: 3707499439976612804
-    - rid: 3707499439976612804
+          rid: 1936740652452413477
+    - rid: 1936740652452413477
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
-        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 3939121797677973534
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutation:
-          rid: 3939121797677973535
-        weight: 0.2
-    - rid: 3939121797677973535
-      type: {class: ExhaustiveAddGene, ns: ISILab.AI.Categorization, asm: LBS}
-      data: 
-    - rid: 3939121797677973536
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutation:
-          rid: 3939121797677973537
-        weight: 0.2
-    - rid: 3939121797677973537
-      type: {class: ExhaustiveRemoveGene, ns: ISILab.AI.Categorization, asm: LBS}
-      data: 
-    - rid: 3939121797677973538
-      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
-      data:
-        mutation:
-          rid: 3939121797677973539
-        weight: 1
-    - rid: 3939121797677973539
-      type: {class: ExhaustiveSwapGene, ns: ISILab.AI.Categorization, asm: LBS}
-      data: 
-    - rid: 3939121797723063001
-      type: {class: SafeAreaFairness, ns: ISILab.AI.Categorization, asm: LBS}
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 1936740652452413480
+      type: {class: SafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         playerCharacteristic:
-          rid: 3939121797723063002
-    - rid: 3939121797723063002
+          rid: 1936740652452413481
+        colliderCharacteristic:
+          rid: 1936740652452413482
+    - rid: 1936740652452413481
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 3939121797723063003
+    - rid: 1936740652452413482
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 0}
+        value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+    - rid: 6943663770587628058
       type: {class: ResourcesSafetyFairness, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         playerCharacteristc:
-          rid: 3939121797723063004
+          rid: 6943663770587628059
         resourceCharactersitic:
-        - rid: 3939121797723063005
-        - rid: 3939121797723063006
-        - rid: 3939121797723063007
-    - rid: 3939121797723063004
+        - rid: 6943663770587628060
+        - rid: 6943663770587628061
+        - rid: 6943663770587628062
+    - rid: 6943663770587628059
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
-    - rid: 3939121797723063005
+    - rid: 6943663770587628060
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
-    - rid: 3939121797723063006
+    - rid: 6943663770587628061
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
-    - rid: 3939121797723063007
+    - rid: 6943663770587628062
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
@@ -112,7 +92,7 @@ MonoBehaviour:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 3707499439976612803
+          rid: 6943663770587628058
         selection:
           rid: 8454501502191403729
         termination:
@@ -140,17 +120,44 @@ MonoBehaviour:
       type: {class: RoulleteWheelMutation, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         mutations:
-        - rid: 3939121797677973534
+        - rid: 8454501502191403897
         - rid: 8454501502191403896
-        - rid: 3939121797677973536
-        - rid: 3939121797677973538
+        - rid: 8454501502191403893
+        - rid: 8454501502191403892
+    - rid: 8454501502191403883
+      type: {class: ExhaustiveAddGene, ns: ISILab.AI.Categorization, asm: LBS}
+      data: 
     - rid: 8454501502191403885
       type: {class: ExhaustiveMoveGene, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         range: 1
+    - rid: 8454501502191403887
+      type: {class: ExhaustiveRemoveGene, ns: ISILab.AI.Categorization, asm: LBS}
+      data: 
+    - rid: 8454501502191403891
+      type: {class: ExhaustiveSwapGene, ns: ISILab.AI.Categorization, asm: LBS}
+      data: 
+    - rid: 8454501502191403892
+      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        mutation:
+          rid: 8454501502191403891
+        weight: 1
+    - rid: 8454501502191403893
+      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        mutation:
+          rid: 8454501502191403887
+        weight: 0.2
     - rid: 8454501502191403896
       type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         mutation:
           rid: 8454501502191403885
         weight: 0.6
+    - rid: 8454501502191403897
+      type: {class: WeightedMutation, ns: ISILab.AI.Categorization, asm: LBS}
+      data:
+        mutation:
+          rid: 8454501502191403883
+        weight: 0.2

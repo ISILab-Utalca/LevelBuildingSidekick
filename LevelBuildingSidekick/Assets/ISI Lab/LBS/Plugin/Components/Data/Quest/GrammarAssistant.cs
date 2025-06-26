@@ -185,7 +185,7 @@ namespace ISILab.LBS.Assistants
                    // n.GrammarCheck = true;
                 }
                 
-                Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
+              //  Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
             }
         }
 
