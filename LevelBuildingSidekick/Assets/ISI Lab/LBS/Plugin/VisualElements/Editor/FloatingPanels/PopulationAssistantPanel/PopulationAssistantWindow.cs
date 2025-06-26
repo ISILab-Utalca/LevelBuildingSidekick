@@ -175,8 +175,6 @@ namespace ISILab.LBS.VisualElements.Editor
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
 
 
-
-
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
@@ -648,7 +646,10 @@ namespace ISILab.LBS.VisualElements.Editor
             xProgressBar.value = (float)mapData.xFitness;
             yProgressBar.value = (float)mapData.yFitness;
             zProgressBar.value = (float)mapData.Fitness;
-            
+            xProgressBar.title = (Mathf.FloorToInt((float)mapData.xFitness * 100)).ToString() + "%";
+            yProgressBar.title = (Mathf.FloorToInt((float)mapData.yFitness * 100)).ToString() + "%";
+            zProgressBar.title = (Mathf.FloorToInt((float)mapData.Fitness * 100)).ToString() + "%";
+
             //Takes border off selected map previously selected map
             if (selectedMap != null)
             {

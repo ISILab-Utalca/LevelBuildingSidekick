@@ -1312,3 +1312,24 @@ Button.lbs-actionbutton {
     border-bottom-left-radius: 5px;
     overflow: visible;
 }
+
+#Panel > #Content > #RightSide > #Graph > #RightRightSide > .lbs-graphHell-style > VisualElement > #Z > #ZProgressBar > #unity-progress-bar > .unity-progress-bar__background > .unity-progress-bar__title-container > .unity-progress-bar__title {
+    -unity-text-outline-width: 0.3px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+#Panel > #Content > #RightSide > #Graph > #RightRightSide > .lbs-graphHell-style > VisualElement > #X > #XProgressBar > #unity-progress-bar > .unity-progress-bar__background > .unity-progress-bar__title-container > .unity-progress-bar__title {
+    -unity-text-outline-width: 0.3px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+#Panel > #Content > #RightSide > #Graph > #RightRightSide > .lbs-graphHell-style > VisualElement > #Y > #YProgressBar > #unity-progress-bar > .unity-progress-bar__background > .unity-progress-bar__title-container > .unity-progress-bar__title {
+    -unity-text-outline-width: 0.3px;
+    -unity-text-outline-color: rgb(0, 0, 0);
+    -unity-font-style: bold;
+    font-size: 14px;
+}
