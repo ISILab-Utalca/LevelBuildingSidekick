@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
+using ISILab.Macros;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -16,6 +17,9 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         [SerializeField, JsonRequired, SerializeReference]
         protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
+        [JsonRequired]
+        protected string guid;
+
         [SerializeField, JsonRequired]
         protected string bundleName;
 
@@ -26,6 +30,19 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         #region PROPERTIES
 
         [JsonIgnore]
+        public string GUID
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(guid))
+                {
+                    guid = LBSAssetMacro.GetGuidFromAsset(bundle);
+                }
+                return guid;
+            }
+        }
+
+        [JsonIgnore]
         public string BundleName => bundleName;
 
         [JsonIgnore]
@@ -34,6 +51,7 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
             get
             {
                 if (bundle == null)
+                    //bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(GUID);
                     bundle = LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.name == bundleName);
                 return bundle;
             }
@@ -52,10 +70,13 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         {
             this.bundleName = bundle;
             this.characteristics = characteristics;
+            Debug.Log($"Bundle Data ({bundle}) Constructed.");
         }
 
         public BundleData(Bundle bundle) : this(bundle.name, bundle.Characteristics)
         {
+            this.bundle = bundle;
+            Debug.Log($"Bundle Data ({bundle.name}) Constructed.");
         }
         #endregion
 

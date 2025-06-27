@@ -23,7 +23,10 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             
             // Create empty bundle
             Bundle obj = ScriptableObject.CreateInstance<Bundle>();
-            ProjectWindowUtil.CreateAsset(obj, "New Bundle.asset");
+            //ProjectWindowUtil.CreateAsset(obj, "New Bundle.asset");
+
+            AssetDatabase.CreateAsset(obj, "New Bundle.asset");
+            AssetDatabase.SaveAssets();
         }
 
         static void CreateBundleFromPrefab(GameObject prefab)
@@ -52,10 +55,34 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             ProjectWindowUtil.CreateAsset(obj, name + ".asset");
         }
 
+        //static void CreateBundleAsset(UnityEngine.Object obj, string pathName)
+        //{
+        //    ProjectWindowUtil.StartNameEditingIfProjectWindowExists(
+        //        obj.GetInstanceID(),
+        //        () => {
+        //            ScriptableObject.CreateInstance<UnityEditor.ProjectWindowCallback.DoCreateNewAsset>();
+        //
+        //
+        //        },
+        //        pathName,
+        //        AssetPreview.GetMiniThumbnail(obj),
+        //        null
+        //        );
+        //}
+
         static bool IsPrefab(GameObject go)
         {
             return AssetDatabase.GetAssetPath(go).Contains(".prefab");
         }
 
     }
+
+    //class EndBundleNameEditAction : UnityEditor.ProjectWindowCallback.EndNameEditAction
+    //{
+    //    public override void Action(int instanceId, string pathName, string resourceFile)
+    //    {
+    //        AssetDatabase.CreateAsset(EditorUtility.InstanceIDToObject(instanceId), AssetDatabase.GenerateUniqueAssetPath(pathName));
+    //        ProjectWindowUtil.FrameObjectInProjectWindow(instanceId);
+    //    }
+    //}
 }
