@@ -135,6 +135,16 @@ namespace ISILab.LBS.Drawers
             
         }
 
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 
         /// </summary>

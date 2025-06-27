@@ -59,6 +59,16 @@ namespace ISILab.LBS.Drawers
             }
         }
 
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
         {
             var schema = target as SchemaBehaviour;

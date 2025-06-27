@@ -192,6 +192,16 @@ namespace ISILab.LBS.Drawers.Editor
             #endregion
         }
 
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
 
         private sealed class TriggerElement : GraphElement
         {
