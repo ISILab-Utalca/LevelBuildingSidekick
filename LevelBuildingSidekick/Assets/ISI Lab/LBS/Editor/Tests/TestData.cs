@@ -269,7 +269,7 @@ namespace ISILab.LBS.Tests
             //var tile = new LBSTile(new Vector2(0, 0));
             
             //Problems starts here
-            bundleMap.CreateGroup(new Vector2Int(0, 0), new BundleData("data", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
+            bundleMap.CreateGroup(new Vector2Int(0, 0), new BundleData("data", "", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
             // Load the level from JSON

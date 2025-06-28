@@ -15,13 +15,13 @@ MonoBehaviour:
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
-  color: {r: 0.1432894, g: 0.15668088, b: 0.8679245, a: 1}
+  color: {r: 0, g: 0.0323627, b: 1, a: 1}
   icon: {fileID: 7388822144124034973, guid: 574a9d6a54b9849419ced42230d25259, type: 3}
   assets:
   - obj: {fileID: 7823080364279856789, guid: 3bed9dd3c47ffb54e89795386e870bb4, type: 3}
     probability: 0
   characteristics:
-  - rid: 4305865204711817730
+  - rid: 3948994521296273545
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -32,10 +32,11 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+  guid: 8cfc10becb33d84458e3b608c94de678
   references:
     version: 2
     RefIds:
-    - rid: 4305865204711817730
+    - rid: 3948994521296273545
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}

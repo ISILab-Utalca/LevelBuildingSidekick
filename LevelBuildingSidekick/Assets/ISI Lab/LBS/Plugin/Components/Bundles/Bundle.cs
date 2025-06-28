@@ -116,6 +116,9 @@ namespace LBS.Bundles
         [SerializeField]
         private MicroGenTool microGenTool = new MicroGenTool();
 
+        [SerializeField, HideInInspector]
+        private string guid;
+
         #endregion
 
         #region PROPERTIES
@@ -149,6 +152,12 @@ namespace LBS.Bundles
         {
             get => type;
             set => type = value;
+        }
+
+        public string GUID
+        {
+            get => guid;
+            set => guid = value;
         }
 
         #endregion

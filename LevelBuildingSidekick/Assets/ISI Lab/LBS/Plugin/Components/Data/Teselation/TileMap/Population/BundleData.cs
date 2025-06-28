@@ -17,7 +17,7 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         [SerializeField, JsonRequired, SerializeReference]
         protected List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
-        [JsonRequired]
+        [SerializeField, HideInInspector, JsonRequired]
         protected string guid;
 
         [SerializeField, JsonRequired]
@@ -36,7 +36,8 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
             {
                 if(string.IsNullOrEmpty(guid))
                 {
-                    guid = LBSAssetMacro.GetGuidFromAsset(bundle);
+                    Debug.LogWarning($"No GUID stored for this Bundle Data: {bundleName}");
+                    //guid = LBSAssetMacro.GetGuidFromAsset(bundle);
                 }
                 return guid;
             }
@@ -51,8 +52,12 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
             get
             {
                 if (bundle == null)
-                    //bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(GUID);
-                    bundle = LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.name == bundleName);
+                {
+                    bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(GUID);
+                    if (bundle == null)
+                        bundle = LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.name == bundleName); // For compatibility
+                }
+                    
                 return bundle;
             }
         }
@@ -66,24 +71,25 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
         {
         }
 
-        public BundleData(string bundle, List<LBSCharacteristic> characteristics)
+        public BundleData(string bundle, string guid, List<LBSCharacteristic> characteristics)
         {
             this.bundleName = bundle;
             this.characteristics = characteristics;
-            Debug.Log($"Bundle Data ({bundle}) Constructed.");
+            this.guid = guid;
+            //Debug.Log($"Bundle Data ({bundle}) Constructed.");
         }
 
-        public BundleData(Bundle bundle) : this(bundle.name, bundle.Characteristics)
+        public BundleData(Bundle bundle) : this(bundle.name, bundle.GUID, bundle.Characteristics)
         {
             this.bundle = bundle;
-            Debug.Log($"Bundle Data ({bundle.name}) Constructed.");
+            //Debug.Log($"Bundle Data ({bundle.name}) Constructed.");
         }
         #endregion
 
         #region METHODS
         public object Clone()
         {
-            return new BundleData(bundleName, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
+            return new BundleData(bundleName, GUID, characteristics.Select(c => c.Clone() as LBSCharacteristic).ToList());
         }
 
         /*
