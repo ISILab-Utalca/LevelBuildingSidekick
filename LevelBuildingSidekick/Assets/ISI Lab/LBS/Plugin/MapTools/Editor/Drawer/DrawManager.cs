@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using ISILab.LBS.Drawers;
-using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
+using UnityEngine;
 
 namespace ISILab.LBS
 {
@@ -54,6 +54,7 @@ namespace ISILab.LBS
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
                 drawer?.Draw(component, _view, layer.TileSize);
+                Debug.Log("drawing call");
             }
         }
 

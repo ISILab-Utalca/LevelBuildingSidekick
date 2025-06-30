@@ -2,14 +2,12 @@ using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
-using ISILab.Macros;
 using LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LBS.Bundles;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -43,8 +41,8 @@ namespace ISILab.LBS.Manipulators
 
         public QuestPicker()
         {
-            name = "Pick population element";
-            description = "Pick the foremost population element from any layer in the graph. " +
+            Name = "Pick population element";
+            Description = "Pick the foremost population element from any layer in the graph. " +
                           "The picked bundle is assigned to the selected behaviour node.";
         }
 
@@ -54,7 +52,7 @@ namespace ISILab.LBS.Manipulators
             _behaviour = layer.GetBehaviour<QuestNodeBehaviour>();
         }
 
-        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
             var node = _behaviour.SelectedQuestNode;
             if (node == null || ActiveData == null) return;

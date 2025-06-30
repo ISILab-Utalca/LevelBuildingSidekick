@@ -147,7 +147,7 @@ namespace ISILab.LBS.VisualElements
             newValue.width = MathF.Abs(newValue.width);
             
             nodeData.Area = newValue;
-            DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
+        //    DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace ISILab.LBS.VisualElements
                 _instancedContent.Add(instance);
                 instance.SetNodeData(node.NodeData); // bindings per editor type
                 SetBaseDataValues(node.NodeData); // for trigger position and size
-                DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
+          //      DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
             }
             
             // if not in the dictionary just set the default data: For example "GoTo" action

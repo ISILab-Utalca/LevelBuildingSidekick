@@ -275,6 +275,8 @@ namespace ISILab.LBS.VisualElements.Editor
             if(component is null) return;
             
             var elements = container.GetElements(component);
+            if(elements is null || !elements.Any()) return;
+            
             foreach (var element in elements)
             {
                 RemoveElement(element);

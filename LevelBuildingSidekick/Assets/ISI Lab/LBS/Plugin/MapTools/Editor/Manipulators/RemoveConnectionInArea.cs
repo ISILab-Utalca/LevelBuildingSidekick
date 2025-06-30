@@ -21,10 +21,10 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, owner);
             
             exterior = (ExteriorBehaviour)owner;
-            lbsLayer = layer;
+            LBSLayer = layer;
         }
 
-        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
             var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 

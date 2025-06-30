@@ -40,7 +40,6 @@ namespace ISILab.LBS.Drawers.Editor
                 view.ClearLayerComponentView(layer, behaviour);
             };
             
-            
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
 

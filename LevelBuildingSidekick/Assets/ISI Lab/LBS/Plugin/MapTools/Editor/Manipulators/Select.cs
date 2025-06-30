@@ -11,40 +11,41 @@ namespace ISILab.LBS.Manipulators
 {
     public class Select : LBSManipulator
     {
-        private LBSLocalCurrent current;
-        protected override string IconGuid { get => "77f81c1ea560ddf4c99e41c605166e3e" ; }
-        public Select():base()
+        private LBSLocalCurrent _current;
+        protected override string IconGuid => "77f81c1ea560ddf4c99e41c605166e3e";
+
+        public Select()
         {
             // Unset feedback
-            feedback = null;
-            current = LBSInspectorPanel.Instance.data;
+            Feedback = null;
+            _current = LBSInspectorPanel.Instance.data;
 
-            name = "Select";
-            description = "Selection";
+            Name = "Select";
+            Description = "Selection";
         }
         
-        public override void Init(LBSLayer layer, object provider)
+        public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
             // Set provider reference
-            current = provider as LBSLocalCurrent;
+            _current = provider as LBSLocalCurrent;
         }
 
-        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
-            current = LBSInspectorPanel.Instance.data;
+            _current = LBSInspectorPanel.Instance.data;
             
             // Get selectable elements
             var selected = new List<object>();
-            foreach (var module in lbsLayer.Modules)
+            foreach (var module in LBSLayer.Modules)
             {
-                if (module is ISelectable)
+                if (module is ISelectable selectable)
                 {
-                    selected.AddRange((module as ISelectable).GetSelected(position));
+                    selected.AddRange(selectable.GetSelected(position));
                 }
             }
 
-            current.SetSelectedVE(selected);
+            _current.SetSelectedVE(selected);
         }
     }
 }

@@ -146,7 +146,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             UpdateVeQuestEntries();
             
-            DrawManager.Instance.RedrawLayer(questGraph?.OwnerLayer, MainView.Instance);
+            //DrawManager.Instance.RedrawLayer(questGraph?.OwnerLayer, MainView.Instance);
 
             LBSMainWindow.OnWindowRepaint?.Invoke();
             

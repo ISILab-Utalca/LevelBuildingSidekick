@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using ISILab.LBS.Settings;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
@@ -171,6 +172,12 @@ namespace LBS.VisualElements
                 LBSMainWindow.MessageManipulator(manipulator.Description);
             };
             manipulator.OnManipulationNotification?.Invoke();
+
+            manipulator.OnManipulationEnd = null;
+            manipulator.OnManipulationEnd += () =>
+            {
+                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+            };
         }
         
         private void ClearSeparators()

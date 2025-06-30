@@ -298,7 +298,7 @@ namespace ISILab.LBS.Editor.Windows{
         {
             LBS.loadedLevel = data;
             RefreshWindow();
-            drawManager.RedrawLevel(levelData, mainView);
+            //drawManager.RedrawLevel(levelData, mainView);
         };
 
         #endregion
@@ -340,12 +340,11 @@ namespace ISILab.LBS.Editor.Windows{
         };
         layerPanel.OnRemoveLayer += l =>
         {
-            drawManager.RemoveContainer(l);
-            if (levelData.LayerCount == 0)
-            {
-                toolkit.Clear();
-                OnSelectedLayerChange(null);
-            }
+            //      drawManager.RemoveContainer(l);
+            if (levelData.LayerCount != 0) return;
+            
+            toolkit.Clear();
+            OnSelectedLayerChange(null);
         };
 
         gen3DPanel = new Generator3DPanel();
@@ -421,10 +420,6 @@ namespace ISILab.LBS.Editor.Windows{
         #region TOOLKIT
 
         toolkit = rootVisualElement.Q<ToolKit>("Toolkit");
-        toolkit.OnEndAction += l =>
-        {
-            drawManager.RedrawLayer(l, mainView);
-        };
 
         #endregion
         
@@ -537,8 +532,8 @@ namespace ISILab.LBS.Editor.Windows{
         public List<LBSLayer> GetLayers()
         {
             List<LBSLayer> layers = new List<LBSLayer>();
-            if(layerPanel == null || layerPanel.data == null) return layers;
-            return layerPanel.data.Layers;
+            if(layerPanel == null || layerPanel.Data == null) return layers;
+            return layerPanel.Data.Layers;
         }
 
         private static void OnToggleButtonClick()

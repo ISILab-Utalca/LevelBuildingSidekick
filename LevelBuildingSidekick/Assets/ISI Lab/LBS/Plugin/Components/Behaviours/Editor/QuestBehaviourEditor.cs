@@ -178,7 +178,7 @@ namespace ISILab.LBS.VisualElements
                 }
             }
             
-            DrawManager.Instance.RedrawLayer(quest.OwnerLayer, MainView.Instance);
+           // DrawManager.Instance.RedrawLayer(quest.OwnerLayer, MainView.Instance);
            
         }
 
