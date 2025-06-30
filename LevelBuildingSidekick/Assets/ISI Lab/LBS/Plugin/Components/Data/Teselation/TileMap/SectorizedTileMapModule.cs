@@ -22,6 +22,8 @@ namespace ISILab.LBS.Modules
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<TileZonePair> pairs = new List<TileZonePair>();
+
+        private int[,] zonesProximity;
         #endregion
 
         #region PROPERTIES
@@ -33,6 +35,8 @@ namespace ISILab.LBS.Modules
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
+
+        public int[,] ZonesProximity => zonesProximity;
 
         [JsonIgnore]
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
@@ -56,6 +60,7 @@ namespace ISILab.LBS.Modules
 
         public SectorizedTileMapModule(List<Zone> zones, List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
         {
+            Debug.Log("Constructed Sectorized Tilemap Module.");
             foreach (var zone in zones)
             {
                 AddZone(zone);
@@ -225,6 +230,41 @@ namespace ISILab.LBS.Modules
         public Vector2 ZoneCentroid(Zone zone)
         {
             return GetBounds(zone).center;
+        }
+
+        private void RecalculateZonesProximity()
+        {
+            var tilemap = OwnerLayer.GetModule<TileMapModule>();
+            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+            zonesProximity = new int[zones.Count, zones.Count];
+            var zoneTiles = zones.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
+            for(int i = 0; i < zones.Count; i++)
+            {
+                var tilesWithDoors = zoneTiles[zones[i]].FindAll(t => connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                foreach(var t in tilesWithDoors)
+                {
+                    foreach(var dir in Dirs)
+                    {
+                        if (!connectedTM.GetConnections(t)[Dirs.IndexOf(dir)].Equals("Door"))
+                            continue;
+
+                        var neigh = tilemap.GetTileNeighbor(t, dir);
+                        var otherZone = GetZone(neigh);
+
+                        if(otherZone == null || otherZone.Equals(zones[i]))
+                            continue;
+
+                        for(int j = 0; j < zones.Count; j++)
+                        {
+                            if(otherZone.Equals(zones[j]))
+                            {
+                                zonesProximity[i, j] = zonesProximity[j, i] = 1; // Continuar con lógica para completar la matriz
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
