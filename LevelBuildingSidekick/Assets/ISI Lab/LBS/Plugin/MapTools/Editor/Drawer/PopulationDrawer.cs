@@ -85,6 +85,16 @@ namespace ISILab.LBS.Drawers
             if (assistant == null) return;                                                // // Esto hace algo?
         }
 
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private PopulationTileView CreatePopulationTileView(TileBundleGroup nTile, PopulationBehaviour population)
         {
             // Validates

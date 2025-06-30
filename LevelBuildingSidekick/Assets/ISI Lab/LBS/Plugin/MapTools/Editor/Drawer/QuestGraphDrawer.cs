@@ -71,6 +71,16 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private LBSQuestEdgeView CreateEdgeView(QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
         {
             n1.SetBorder(edge.First);

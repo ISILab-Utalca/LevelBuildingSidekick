@@ -4,8 +4,10 @@ using System.Linq;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -27,6 +29,7 @@ namespace ISILab.LBS.Behaviours
         [SerializeField, JsonRequired]
         private string name;
         
+        private HashSet<object> _keys = new ();
         private HashSet<object> _newTiles = new ();
         private HashSet<object> _expiredTiles = new ();
         #endregion
@@ -48,16 +51,13 @@ namespace ISILab.LBS.Behaviours
         }
 
         [JsonIgnore]
-        public VectorImage Icon
-        {
-            get => icon;
-        }
+        public VectorImage Icon => icon;
 
         [JsonIgnore]
-        public string Name
-        {
-            get => name;
-        }
+        public string Name => name;
+
+        [JsonIgnore]
+        public HashSet<object> Keys => _keys ??= new HashSet<object>();
 
         #endregion
 
@@ -131,15 +131,25 @@ namespace ISILab.LBS.Behaviours
         // These methods are a safer way of adding new objects to the sets
         protected void RequestTilePaint(object tile)
         {
+            _keys ??= new HashSet<object>();
             _newTiles ??= new HashSet<object>();
 
             _newTiles.Add(tile);
+            _keys.Add(tile);
         }
-        protected void RequestTileRemove(object tile)
+        protected bool RequestTileRemove(object tile)
         {
-            _expiredTiles ??= new HashSet<object>();
+            if (_keys == null)
+            {
+                _keys = new HashSet<object>();
+                return false;
+            }
+
+            if (!_keys.Remove(tile)) return false;
             
+            _expiredTiles ??= new HashSet<object>();
             _expiredTiles.Add(tile);
+            return true;
         }
         
         

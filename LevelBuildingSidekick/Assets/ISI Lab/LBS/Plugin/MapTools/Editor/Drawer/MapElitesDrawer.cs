@@ -34,5 +34,15 @@ namespace ISILab.LBS.Drawers
             dotArea.SetColor(LBSSettings.Instance.view.errorColor);
             
         }
+
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

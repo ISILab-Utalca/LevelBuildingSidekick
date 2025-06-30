@@ -20,6 +20,9 @@ namespace ISILab.LBS.Drawers
         public Drawer() { }
 
         public abstract void Draw(object target, MainView view, Vector2 teselationSize);
+        
+        public abstract void HideVisuals(object target, MainView view, Vector2 teselationSize);
+        public abstract void ShowVisuals(object target, MainView view, Vector2 teselationSize);
 
         public virtual void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize) { }
 
