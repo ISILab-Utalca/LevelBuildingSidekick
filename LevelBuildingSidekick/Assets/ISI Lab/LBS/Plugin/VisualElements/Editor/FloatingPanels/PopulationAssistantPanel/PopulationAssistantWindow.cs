@@ -245,7 +245,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
                 var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
                 currentOptimizer.Evaluator = optimizerChoice;
-                if(optimizerChoice != null) currentOptimizer.Evaluator.InitializeDefault();
+                if (optimizerChoice != null) 
+                {
+                    var contextualChoice = optimizerChoice as IContextualEvaluator;
+                    if (contextualChoice != null)
+                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
+                    else
+                        currentOptimizer.Evaluator.InitializeDefault();
+                }
                 zParamText.text = new string("Fitness ("+optimizerField.Value+")");
 
             });
@@ -319,8 +326,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
         }
 
+        private void OnDestroy()
+        {
+            Debug.Log("Closed Map Elites Window.");
+            assistant.RequestOptimizerStop();
+        }
+
         #region MAIN METHODS
-        
+
         //Add all presets in the preset directory to the preset dropdown
         private void SetPresets()
         {
@@ -394,7 +407,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             UpdateGrid();
 
-            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not.
+            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
             
 

@@ -99,6 +99,7 @@ namespace ISILab.LBS.Assistants
                     toUpdate.Add(v);
                 }
             };
+            Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
             if (mapElites.Running)
             {
                 Debug.Log("Algorithm is already running; Restarting.");
@@ -112,6 +113,8 @@ namespace ISILab.LBS.Assistants
             
             
         }
+
+        public void RequestOptimizerStop() => mapElites.Optimizer.RequestStop();
 
         public void Continue()
         {
@@ -148,6 +151,9 @@ namespace ISILab.LBS.Assistants
             {
                 throw new Exception("[ISI Lab]: Map Elite Presset not selected or null");
             }
+
+            mapElites?.Optimizer.RequestStop();
+
             mapElites = presset.MapElites;
             maskType = presset.MaskType;
             blacklist = presset.blackList;
@@ -157,7 +163,7 @@ namespace ISILab.LBS.Assistants
         {
             var tm = OwnerLayer.GetModule<BundleTileMap>();
             var contextLayers = //new List<LBSLayer>();
-                OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing
+                OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing. Change later to selected layers.
             var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect), CalcInvalids(rect, contextLayers));
             mapElites.Adam = chrom;
         }
