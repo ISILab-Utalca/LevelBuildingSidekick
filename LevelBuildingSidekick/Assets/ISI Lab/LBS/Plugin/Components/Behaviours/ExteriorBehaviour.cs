@@ -132,7 +132,7 @@ namespace ISILab.LBS.Behaviours
             return Connections.GetConnections(tile);
         }
         
-        private void ReplaceTile(LBSTile tile)
+        public void ReplaceTile(LBSTile tile)
         {
             RequestTilePaint(tile);
             LBSTile old = TileMap.GetTile(tile.Position);

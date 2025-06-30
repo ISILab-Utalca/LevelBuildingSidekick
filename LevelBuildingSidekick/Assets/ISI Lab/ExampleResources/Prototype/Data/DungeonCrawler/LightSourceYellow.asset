@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: DustParticles_Bundle
+  m_Name: LightSourceYellow
   m_EditorClassIdentifier: 
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 1, g: 0.7600213, b: 0, a: 1}
-  icon: {fileID: 7388822144124034973, guid: 96c9d1e1946bf98468b70722fb5330c5, type: 3}
+  icon: {fileID: 7388822144124034973, guid: 213dc47a109b4b0469029a7aebb82c75, type: 3}
   assets:
-  - obj: {fileID: 5611340113450946760, guid: 252412ed701cc114599d3f093785dae3, type: 3}
+  - obj: {fileID: 6807917499882460180, guid: 4bac6b00b95b6954993bf7c36868fa5a, type: 3}
     probability: 1
   characteristics:
   - rid: 683069526363078737
+  - rid: 5053258996057112587
   populationType: 5
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -41,3 +42,8 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
+    - rid: 5053258996057112587
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 03e58311bc09e0249a119c303a11b4b2, type: 2}

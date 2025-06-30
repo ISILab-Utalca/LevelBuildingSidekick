@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: LightSourceYellow01
+  m_Name: CopyPlayer
   m_EditorClassIdentifier: 
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
-  color: {r: 1, g: 0.7600213, b: 0, a: 1}
-  icon: {fileID: 7388822144124034973, guid: 213dc47a109b4b0469029a7aebb82c75, type: 3}
+  color: {r: 0, g: 0.0323627, b: 1, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 574a9d6a54b9849419ced42230d25259, type: 3}
   assets:
-  - obj: {fileID: 6807917499882460180, guid: 4bac6b00b95b6954993bf7c36868fa5a, type: 3}
-    probability: 1
+  - obj: {fileID: 7823080364279856789, guid: 3bed9dd3c47ffb54e89795386e870bb4, type: 3}
+    probability: 0
   characteristics:
-  - rid: 683069526363078737
-  - rid: 5053258996057112587
-  populationType: 5
+  - rid: 3948994521296273545
+  populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
@@ -33,16 +32,12 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+  guid: 8cfc10becb33d84458e3b608c94de678
   references:
     version: 2
     RefIds:
-    - rid: 683069526363078737
+    - rid: 3948994521296273545
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
-    - rid: 5053258996057112587
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
-      data:
-        owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: 03e58311bc09e0249a119c303a11b4b2, type: 2}
+        value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}

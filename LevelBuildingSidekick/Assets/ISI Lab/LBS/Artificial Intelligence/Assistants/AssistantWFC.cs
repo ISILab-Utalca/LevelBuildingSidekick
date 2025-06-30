@@ -12,6 +12,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using ISILab.LBS.Behaviours;
+
+
 
 
 
@@ -345,7 +348,24 @@ namespace ISILab.LBS.Assistants
             }
 
             success = toCalc.Count == 0;
-            if(safeMode && !success) connected.Rewrite(originalTM);
+            //if(success)
+            //{
+            //    
+            //}
+            //else if(safeMode)
+            //{
+            //    connected.Rewrite(originalTM);
+            //}
+            if (safeMode && !success) connected.Rewrite(originalTM);
+            else
+            {
+                    ExteriorBehaviour exterior = OwnerLayer.Behaviours
+                        .Find(b => b is ExteriorBehaviour) as ExteriorBehaviour;
+                foreach (var tile in closed)
+                {
+                    exterior.ReplaceTile(tile); // Requesting paint tiles from assistant does not seems to work
+                }
+            }
             return success;
         }
 

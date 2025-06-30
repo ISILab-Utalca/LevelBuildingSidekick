@@ -136,11 +136,13 @@ namespace ISILab.LBS.Behaviours
                 foreach (TileBundleGroup group in bundleTileMap.Groups)
                 {
                     bundleTileMap.RemoveGroup(group);
+                    RequestTileRemove(group);
                 }
             }
             foreach(TileBundleGroup group in map.Groups)
             {
                 bundleTileMap.AddGroup(group);
+                RequestTilePaint(group);
             }
         }
 
