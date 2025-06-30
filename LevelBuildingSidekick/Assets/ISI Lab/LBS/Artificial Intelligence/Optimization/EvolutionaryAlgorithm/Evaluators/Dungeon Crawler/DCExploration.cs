@@ -129,6 +129,7 @@ namespace ISILab.AI.Categorization
             {
                 int index = chrom.ToIndex(tile.Position - chrom.Rect.position);
                 //distFromStart.Add(index, int.MaxValue);
+                if (index < 0) continue;
                 remaining.Add(index);
             }
 
@@ -154,38 +155,38 @@ namespace ISILab.AI.Categorization
                     {
                         var pos = chrom.ToMatrixPosition(current) + dir + Vector2Int.RoundToInt(chrom.Rect.position);
 
-                        if(tileMap.Contains(pos))
+                        int index = chrom.ToIndex(pos - chrom.Rect.position);
+
+                        //if (tileMap.Contains(pos)) // Esto esta mal. Esto es todo el mapa, no solo la seccion seleccionada
+                        if (index < 0 || nextStep.Contains(index) || closed.Contains(index) || chrom.IsInvalid(index))
+                            continue;
+
+                        Zone otherZone = tileMap.GetZone(pos/* + Vector2Int.RoundToInt(chrom.Rect.position)*/);
+                        if (currentZone == null)
+                            ;
+                        if (!currentZone.Equals(otherZone))
                         {
-                            int index = chrom.ToIndex(pos - chrom.Rect.position);
-
-                            if (nextStep.Contains(index) || closed.Contains(index) || chrom.IsInvalid(index))
+                            var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
+                            var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
+                            if (!connection.Equals("Door"))
                                 continue;
-
-                            Zone otherZone = tileMap.GetZone(pos/* + Vector2Int.RoundToInt(chrom.Rect.position)*/);
-                            if(!currentZone.Equals(otherZone))
-                            {
-                                var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
-                                var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
-                                if (!connection.Equals("Door"))
-                                    continue;
-                                else
-                                    ;
-                            }
-
-                            for(int j = from; j < others.Count; j++)
-                            {
-                                if(index == others[j])
-                                {
-                                    distances[from, j] = distances[j, from] = i + 1;
-                                    remainingOthers.Remove(index);
-                                    if (remaining.Count == 0)
-                                        return;
-                                    break;
-                                }
-                            }
-
-                            nextStep.Add(chrom.ToIndex(pos - chrom.Rect.position));
+                            else
+                                ;
                         }
+
+                        for (int j = from; j < others.Count; j++)
+                        {
+                            if (index == others[j])
+                            {
+                                distances[from, j] = distances[j, from] = i + 1;
+                                remainingOthers.Remove(index);
+                                if (remaining.Count == 0)
+                                    return;
+                                break;
+                            }
+                        }
+
+                        nextStep.Add(index);
                     }
                 }
 
