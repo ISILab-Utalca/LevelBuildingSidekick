@@ -50,6 +50,7 @@ namespace ISILab.AI.Optimization.Terminations
         /// <param name="optimizer">The genetic algorithm.</param>
         protected override bool PerformHasReached(BaseOptimizer optimizer)
         {
+            //UnityEngine.Debug.Log($"{optimizer.GenerationsNumber} >= {ExpectedGenerationNumber} : " + (optimizer.GenerationsNumber >= ExpectedGenerationNumber).ToString().ToUpper());
             return optimizer.GenerationsNumber >= ExpectedGenerationNumber;
         }
         #endregion
