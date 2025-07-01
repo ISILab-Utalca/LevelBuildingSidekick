@@ -12,6 +12,7 @@ namespace ISILab.LBS.Drawers
     [Serializable]
     public abstract class Drawer
     {
+        protected bool Loaded = false;
         public Vector2 DefalutSize
         {
             get => LBSSettings.Instance.general.TileSize;
@@ -20,7 +21,16 @@ namespace ISILab.LBS.Drawers
         public Drawer() { }
 
         public abstract void Draw(object target, MainView view, Vector2 teselationSize);
+        
+        
+        protected void PaintNewTiles() { throw new NotImplementedException(); }
+        protected void UpdateLoadedTiles() { throw new NotImplementedException(); }
+        protected void LoadAllTiles() { throw new NotImplementedException(); }
+        protected void UpdateTileView() { throw new NotImplementedException(); }
 
+        public abstract void HideVisuals(object target, MainView view, Vector2 teselationSize);
+        public abstract void ShowVisuals(object target, MainView view, Vector2 teselationSize);
+        
         public virtual void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize) { }
 
         public virtual Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
