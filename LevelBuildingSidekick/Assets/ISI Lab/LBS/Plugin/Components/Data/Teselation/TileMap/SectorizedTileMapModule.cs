@@ -60,7 +60,7 @@ namespace ISILab.LBS.Modules
 
         public SectorizedTileMapModule(List<Zone> zones, List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
         {
-            Debug.Log("Constructed Sectorized Tilemap Module.");
+            //Debug.Log("Constructed Sectorized Tilemap Module.");
             foreach (var zone in zones)
             {
                 AddZone(zone);
@@ -232,16 +232,31 @@ namespace ISILab.LBS.Modules
             return GetBounds(zone).center;
         }
 
-        private void RecalculateZonesProximity()
+        public void RecalculateZonesProximity()
         {
-            var tilemap = OwnerLayer.GetModule<TileMapModule>();
-            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            if(OwnerLayer == null) return;
 
-            zonesProximity = new int[zones.Count, zones.Count];
-            var zoneTiles = zones.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
-            for(int i = 0; i < zones.Count; i++)
+            var tilemap = OwnerLayer.GetModule<TileMapModule>();
+            if (tilemap == null) return;
+            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            if(connectedTM == null) return;
+
+
+            int size = ZonesWithTiles.Count;
+
+            zonesProximity = new int[size, size];
+            for(int i = 0; i < size; i++)
             {
-                var tilesWithDoors = zoneTiles[zones[i]].FindAll(t => connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                for(int j = 0; j < size; j++)
+                {
+                    zonesProximity[i, j] = i == j ? 0 : int.MaxValue;
+                }
+            }
+
+            var zoneTiles = ZonesWithTiles.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
+            for(int i = 0; i < size; i++)
+            {
+                var tilesWithDoors = zoneTiles[ZonesWithTiles[i]].FindAll(t => connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
                 foreach(var t in tilesWithDoors)
                 {
                     foreach(var dir in Dirs)
@@ -252,19 +267,54 @@ namespace ISILab.LBS.Modules
                         var neigh = tilemap.GetTileNeighbor(t, dir);
                         var otherZone = GetZone(neigh);
 
-                        if(otherZone == null || otherZone.Equals(zones[i]))
+                        if(otherZone == null || otherZone.Equals(ZonesWithTiles[i]))
                             continue;
 
-                        for(int j = 0; j < zones.Count; j++)
+                        for(int j = 0; j < size; j++)
                         {
-                            if(otherZone.Equals(zones[j]))
+                            if (zonesProximity[i, j] != int.MaxValue)
+                                continue;
+                            if(otherZone.Equals(ZonesWithTiles[j]))
                             {
-                                zonesProximity[i, j] = zonesProximity[j, i] = 1; // Continuar con lógica para completar la matriz
+                                zonesProximity[i, j] = zonesProximity[j, i] = 1;
                             }
                         }
                     }
                 }
             }
+
+            for(int k = 1; k < size - 1; k++) // Find all distances equal to k + 1
+            {
+                for (int i = 0; i < size - 1; i++) 
+                {
+                    for(int j = 0; j < size; j++)
+                    {
+                        if (zonesProximity[i, j] == k) // Find zones at distance of k
+                        {
+                            for(int l = 0; l < size; l++) // Search for l neighbour zones of j
+                            {
+                                if (zonesProximity[j, l] == 1) // If j and l are neighbours
+                                {
+                                    // Set distance from i to l as k + 1 unless previously assigned distance is lower
+                                    zonesProximity[i, l] = zonesProximity[l, i] = Mathf.Min(zonesProximity[i, l], k + 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            string log = "";
+            for(int i = 0; i < size; i++)
+            {
+                log += "[";
+                for(int j = 0; j < size; j++)
+                {
+                    log += zonesProximity[i, j];
+                    log += j < size - 1 ? ", " : "";
+                }
+                log += "]\n";
+            }
+            Debug.Log(log);
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
