@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Spikes2mBundle
+  m_Name: Spikes1mBundle
   m_EditorClassIdentifier: 
   layerContentFlags: 4
   type: 2
@@ -18,11 +18,11 @@ MonoBehaviour:
   color: {r: 1, g: 0, b: 0.4672885, a: 1}
   icon: {fileID: 7388822144124034973, guid: 2ec467ae750e7914ab35445816494cb0, type: 3}
   assets:
-  - obj: {fileID: 2615229620487732085, guid: 39f0dca914f9f1c419ea118f824544ab, type: 3}
+  - obj: {fileID: 4896474818363185596, guid: 9dd1f886a5b8a8a4a814fd8460986750, type: 3}
     probability: 1
   characteristics: []
   populationType: 0
-  tileSize: {x: 2, y: 2}
+  tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
     spread: 0
@@ -31,6 +31,7 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+  guid: 
   references:
     version: 2
     RefIds: []

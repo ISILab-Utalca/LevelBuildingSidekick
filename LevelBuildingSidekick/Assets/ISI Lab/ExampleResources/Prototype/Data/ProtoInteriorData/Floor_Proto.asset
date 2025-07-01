@@ -22,6 +22,8 @@ MonoBehaviour:
     probability: 1
   - obj: {fileID: 7618605989406619308, guid: d594bc0037bcaed4aa49def1881e18b3, type: 3}
     probability: 1
+  - obj: {fileID: 4536569087624927832, guid: d5555803985ee534eb788c2598555456, type: 3}
+    probability: 1
   characteristics:
   - rid: 279245815319625876
   populationType: 0
@@ -34,6 +36,7 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+  guid: 
   references:
     version: 2
     RefIds:
