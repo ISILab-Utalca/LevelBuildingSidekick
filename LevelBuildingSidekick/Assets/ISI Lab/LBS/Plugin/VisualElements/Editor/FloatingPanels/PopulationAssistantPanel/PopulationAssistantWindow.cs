@@ -179,6 +179,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
 
             var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
+            interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
+
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
