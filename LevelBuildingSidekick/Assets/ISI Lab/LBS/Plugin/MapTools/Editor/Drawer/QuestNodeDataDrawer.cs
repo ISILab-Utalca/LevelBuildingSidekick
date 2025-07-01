@@ -23,7 +23,7 @@ namespace ISILab.LBS.Drawers.Editor
         
         private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
         private static readonly Color Correct = LBSSettings.Instance.view.successColor;
-
+        
         /// <summary>
         /// Draws the information that corresponds to the quest node behavior selected node.
         /// </summary>
@@ -130,7 +130,6 @@ namespace ISILab.LBS.Drawers.Editor
                     break;
                 
                 case DataGive dataGive:
-                {
                     if (dataGive.bundleGiveTo.Valid())
                     {
                         position = layer.FixedToPosition(dataGive.bundleGiveTo.Position, true);
@@ -142,8 +141,6 @@ namespace ISILab.LBS.Drawers.Editor
                         
                         view.AddElement(behaviour.OwnerLayer, behaviour, visual);
                     }
-                 
-                }
                     break;
                 
                 case DataReport dataReport:
@@ -190,16 +187,39 @@ namespace ISILab.LBS.Drawers.Editor
             }
             
             #endregion
-        }
-
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
-        {
-            throw new System.NotImplementedException();
+            
+            
+            // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
         }
 
         public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
         {
-            throw new System.NotImplementedException();
+            // Get behaviours
+            if (target is not QuestNodeBehaviour behaviour) return;
+            
+            foreach (object tile in behaviour.Keys)
+            {
+                foreach (var graphElement in view.GetElements(behaviour.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                {
+                    graphElement.style.display = DisplayStyle.Flex;
+                }
+            }
+        }
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            // Get behaviours
+            if (target is not QuestNodeBehaviour behaviour) return;
+            
+            foreach (object tile in behaviour.Keys)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(behaviour.OwnerLayer, tile);
+                foreach (var graphElement in elements)
+                {
+                    graphElement.style.display = DisplayStyle.None;
+                }
+            }
         }
 
 

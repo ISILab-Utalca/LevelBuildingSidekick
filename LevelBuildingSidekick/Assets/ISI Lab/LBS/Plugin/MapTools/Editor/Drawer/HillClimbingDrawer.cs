@@ -26,6 +26,7 @@ namespace ISILab.LBS.Drawers
         {
             // Set target Assistant
             var assistant = target as HillClimbingAssistant;
+            if (assistant == null) return;
 
             // Get modules
             var consts = assistant.ConstrainsZonesMod.Constraints;
@@ -34,8 +35,15 @@ namespace ISILab.LBS.Drawers
             assistant.ReloadPrevData();
             view.ClearLayerView(assistant.OwnerLayer);
             
-            var newTiles = assistant.RetrieveNewTiles();
+            PaintNewTiles(assistant, view, consts, teselationSize);
+            UpdateLoadedTiles(view, assistant, consts, teselationSize);
+        }
 
+        private void PaintNewTiles(HillClimbingAssistant assistant, MainView view,
+            List<ConstraintPair> consts, Vector2 teselationSize)
+        {
+            var newTiles = assistant.RetrieveNewTiles();
+            
             // Draw new Nodes
             foreach (var o in newTiles)
             {
@@ -70,7 +78,6 @@ namespace ISILab.LBS.Drawers
                 }
             }
             
-            
             // Draw new Edges
             foreach (var o in newTiles)
             {
@@ -86,7 +93,10 @@ namespace ISILab.LBS.Drawers
                 view.AddElement(assistant.OwnerLayer, edge, eView);
                 _keyRefs.Add(edge);
             }
-            
+        }
+        
+        private void UpdateLoadedTiles(MainView view, HillClimbingAssistant assistant, List<ConstraintPair> consts, Vector2 teselationSize)
+        {
             // Update visuals
             foreach (var key in _keyRefs.ToList())
             {
@@ -130,19 +140,37 @@ namespace ISILab.LBS.Drawers
                             Debug.LogWarning("HillClimbingDrawer error: _keyRefs contains unsupported element type " + key);
                             break;
                     }
+                    element.layer = assistant.OwnerLayer.index;
                 }
             }
-            
-        }
-
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
-        {
-            throw new NotImplementedException();
         }
 
         public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
         {
-            throw new NotImplementedException();
+            if (target is not HillClimbingAssistant assistant) return;
+            
+            foreach (object tile in _keyRefs)
+            {
+                foreach (var graphElement in view.GetElements(assistant.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                {
+                    graphElement.style.display = DisplayStyle.Flex;
+                }
+            }
+        }
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            if (target is not HillClimbingAssistant assistant) return;
+            
+            foreach (object tile in _keyRefs)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(assistant.OwnerLayer, tile);
+                foreach (var graphElement in elements)
+                {
+                    graphElement.style.display = DisplayStyle.None;
+                }
+            }
         }
 
         /// <summary>

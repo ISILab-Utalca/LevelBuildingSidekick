@@ -20,7 +20,6 @@ namespace ISILab.LBS.Drawers
     {
         private VectorImage _doorConImage = null;
         private VectorImage _windowConImage = null;
-        private bool _loaded = false;
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -32,41 +31,118 @@ namespace ISILab.LBS.Drawers
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
+            PaintNewTiles(schema, teselationSize, view, zonesMod, connectionsMod);
+            UpdateLoadedTiles(schema, teselationSize, view, zonesMod, connectionsMod);
+            if (!Loaded)
+            {
+                LoadAllTiles(schema, teselationSize, view, tilesMod, zonesMod, connectionsMod);
+                Loaded = true;
+            }
+        }
+
+        private void PaintNewTiles(SchemaBehaviour schema, Vector2 teselationSize, MainView view,
+            SectorizedTileMapModule zonesMod, ConnectedTileMapModule connectionsMod)
+        {
             foreach (LBSTile newTile in schema.RetrieveNewTiles())
             {
                 TileZonePair tz = zonesMod.GetPairTile(newTile);
                 TileConnectionsPair tc = connectionsMod.GetPair(newTile);
                 
                 var tView = GetTileView(newTile, tz.Zone, tc.Connections, teselationSize);
+                
                 // Stores using LBSTile as key
                 view.AddElement(schema.OwnerLayer, newTile, tView);
             }
-            
-            // Paint all tiles
-            if (!_loaded)
-            {
-                foreach (var tile in tilesMod.Tiles)
-                {
-                    TileZonePair tz = zonesMod.GetPairTile(tile);
-                    TileConnectionsPair tc = connectionsMod.GetPair(tile);
-                
-                    var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
-                    // Stores using LBSTile as key
-                    view.AddElement(schema.OwnerLayer, tile, tView);
-                }
-
-                _loaded = true;
-            }
         }
 
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        private void UpdateLoadedTiles(SchemaBehaviour schema, Vector2 teselationSize, MainView view,
+            SectorizedTileMapModule zonesMod, ConnectedTileMapModule connectMod)
         {
-            throw new NotImplementedException();
+            // Update stored tiles
+            foreach (LBSTile tile in schema.Keys)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(schema.OwnerLayer, tile);
+                if(elements == null) continue;
+                
+                foreach (var graphElement in elements)
+                {
+                    var tView = (SchemaTileView)graphElement;
+                    
+                    if (tView == null) continue;
+                    if (!tView.visible) continue;
+                    
+                    TileZonePair tz = zonesMod.GetPairTile(tile);
+                    TileConnectionsPair tc = connectMod.GetPair(tile);
+                    
+                    var connections = connectMod.GetConnections(tile);
+                    UpdateTileView(tView, tile, tz.Zone, connections, teselationSize, schema.OwnerLayer.index);
+                }
+            }
+        }
+        
+        private void UpdateTileView(SchemaTileView tView, LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize, int layerIndex)
+        {
+            var pos = new Vector2(tile.Position.x, -tile.Position.y);
+            var size = DefalutSize * teselationSize;
+            
+            tView.SetPosition(new Rect(pos * size, size));
+            tView.SetBackgroundColor(zone.Color);
+            tView.SetBorderColor(zone.Color, zone.BorderThickness);
+            tView.SetConnections(connections.ToArray());
+
+            // Aquí se podría ajustar el tile según el foreach que sigue en GetTileView, pero
+            // honestamente no se que hace, y no lo quiero tocar. Si hay errores en el drawer
+            // empezaría revisando por aquí :P
+            
+            tView.layer = layerIndex;
+        }
+
+        private void LoadAllTiles(SchemaBehaviour schema, Vector2 teselationSize, MainView view, 
+            TileMapModule tilesMod, SectorizedTileMapModule zonesMod, ConnectedTileMapModule connectionsMod)
+        {
+            // Paint all tiles
+            foreach (var tile in tilesMod.Tiles)
+            {
+                TileZonePair tz = zonesMod.GetPairTile(tile);
+                TileConnectionsPair tc = connectionsMod.GetPair(tile);
+                
+                var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
+                // Stores using LBSTile as key
+                view.AddElement(schema.OwnerLayer, tile, tView);
+                schema.Keys.Add(tile);
+            }
         }
 
         public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
         {
-            throw new NotImplementedException();
+            // Get behaviours
+            if (target is not SchemaBehaviour schema) return;
+            
+            foreach (LBSTile tile in schema.Keys)
+            {
+                foreach (var graphElement in view.GetElements(schema.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                {
+                    graphElement.style.display = DisplayStyle.Flex;
+                }
+            }
+        }
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            // Get behaviours
+            if (target is not SchemaBehaviour schema) return;
+            
+            foreach (LBSTile tile in schema.Keys)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(schema.OwnerLayer, tile);
+                foreach (var graphElement in elements)
+                {
+                    graphElement.style.display = DisplayStyle.None;
+                }
+            }
         }
 
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
@@ -108,7 +184,6 @@ namespace ISILab.LBS.Drawers
 
             return texture;
         }
-
         private GraphElement GetTileView(LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize)
         {
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
@@ -182,7 +257,6 @@ namespace ISILab.LBS.Drawers
             
             return tView;
         }
-
         private Texture2D GetTileTexture(Vector2Int size, Color color)
         {
             var t = new Texture2D(size.x, size.y);
@@ -197,7 +271,6 @@ namespace ISILab.LBS.Drawers
 
             return t;
         }
-
         private VectorImage GetDoorImage()
         {
             if (_doorConImage == null)

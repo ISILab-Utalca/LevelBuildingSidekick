@@ -55,12 +55,10 @@ namespace ISILab.LBS
                 switch (layer.IsVisible)
                 {
                     case true when !_preVisibility[layer]:
-                        Debug.Log("Un-hiding layer");
                         ShowVisuals(layer.Assistants, layer);
                         ShowVisuals(layer.Behaviours, layer);
                         break;
                     case false when _preVisibility[layer]:
-                        Debug.Log("Hiding layer");
                         HideVisuals(layer.Assistants, layer);
                         HideVisuals(layer.Behaviours, layer);
                         break;
