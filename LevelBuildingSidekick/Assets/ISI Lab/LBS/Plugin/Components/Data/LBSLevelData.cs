@@ -27,6 +27,9 @@ namespace ISILab.LBS
 
         [SerializeField, JsonRequired, SerializeReference]
         public List<SavedMapList> savedLayerMaps = new List<SavedMapList>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        public List<LBSLayer> contextLayers = new List<LBSLayer>();
         #endregion
 
         #region PROPERTIES
@@ -38,6 +41,9 @@ namespace ISILab.LBS
 
         [JsonIgnore]
         public List<SavedMapList> SavedLayerMaps => savedLayerMaps;
+
+        [JsonIgnore]
+        public List<LBSLayer> ContextLayers => contextLayers;
 
         [JsonIgnore]
         public int LayerCount => layers.Count;

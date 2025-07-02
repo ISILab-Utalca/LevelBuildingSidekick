@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Exterior_Proto_Cloud_Bundle
   m_EditorClassIdentifier: 
-  layerContentFlags: 0
+  layerContentFlags: 2
   type: 0
   anchorPosition: 0
   color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}
