@@ -116,6 +116,7 @@ namespace ISILab.AI.Categorization
             }
 
             fitness = sum / (float)score.Count;
+            UnityEngine.Assertions.Assert.IsFalse(fitness == float.NaN);
             return fitness;
         }
 

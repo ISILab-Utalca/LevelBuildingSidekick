@@ -73,7 +73,7 @@ namespace ISILab.AI.Categorization
 
 
             int bestPossibleScore = (int)(1.25f * resourcesInd.Count);
-            int worstPossibleScore = (int)(2.00 * bestPossibleScore);
+            int worstPossibleScore = (int)(2.00f * resourcesInd.Count);
             int score = worstPossibleScore;
             if (layer != null)
             {
@@ -84,16 +84,16 @@ namespace ISILab.AI.Categorization
             }
 
             fitness = Mathf.InverseLerp(worstPossibleScore, bestPossibleScore, score);
+            UnityEngine.Assertions.Assert.IsFalse(fitness == float.NaN);
             return fitness;
         }
 
         private int ScoreResourceDistance(List<int> players, List<int> resources, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorTM)
         {
-            var zones = sectorTM.ZonesWithTiles; // Como considerar solo el area de seleccion?
+            var zones = sectorTM.SelectedZones;
             var zonesIndex = zones.Select((z, i) => KeyValuePair.Create(z, i)).ToDictionary(x => x.Key, x => x.Value);
-            var zonesDist = sectorTM.ZonesProximity; // El area de seleccion va a afectar esto tambien
+            var zonesDist = sectorTM.ZonesProximity;
 
-            //var playerQ = new Queue<int>(players);
             var playerZones = new List<int>();
             for (int i = 0; i < players.Count; i++)
                 playerZones.Add(-1);

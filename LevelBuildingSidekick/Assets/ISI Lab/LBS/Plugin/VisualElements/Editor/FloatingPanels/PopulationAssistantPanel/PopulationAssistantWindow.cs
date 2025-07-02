@@ -178,7 +178,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
 
             var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
-            interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
+            //interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
 
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
@@ -418,6 +418,13 @@ namespace ISILab.LBS.VisualElements.Editor
                     Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
             }
+
+            var interiorLayers = new HashSet<LBSLayer>();
+            (currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            (currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            (currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect);
             assistant.Execute();
@@ -538,13 +545,19 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region GRID-RELATED METHODS
-        //
+        
         private void RepaintContent()
         {
-            UpdateContent();
-            if (assistant.Finished/* || !assistant.Running*/) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
+            try
             {
-                LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                UpdateContent();
+            }
+            finally
+            {
+                if (assistant.Finished || !assistant.Running) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
+                {
+                    LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                }
             }
         }
         
