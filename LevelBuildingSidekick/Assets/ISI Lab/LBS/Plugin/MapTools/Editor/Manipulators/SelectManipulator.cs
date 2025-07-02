@@ -9,12 +9,12 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class Select : LBSManipulator
+    public class SelectManipulator : LBSManipulator
     {
         private LBSLocalCurrent _current;
         protected override string IconGuid => "77f81c1ea560ddf4c99e41c605166e3e";
 
-        public Select()
+        public SelectManipulator()
         {
             // Unset feedback
             Feedback = null;
@@ -45,7 +45,7 @@ namespace ISILab.LBS.Manipulators
                 }
             }
 
-            _current.SetSelectedVE(selected);
+            _current.SetSelectedVe(selected);
         }
     }
 }

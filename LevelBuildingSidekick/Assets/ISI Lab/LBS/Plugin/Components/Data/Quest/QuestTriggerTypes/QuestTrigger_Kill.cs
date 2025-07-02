@@ -9,7 +9,14 @@ namespace ISILab.LBS
     {
         public DataKill dataKill;
         public List<GameObject> objectsToKill = new();
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataKill);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataKill = (DataKill)baseData;
         }

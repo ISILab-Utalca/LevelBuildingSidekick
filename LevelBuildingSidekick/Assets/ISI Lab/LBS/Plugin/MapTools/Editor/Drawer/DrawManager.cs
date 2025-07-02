@@ -54,7 +54,7 @@ namespace ISILab.LBS
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
                 drawer?.Draw(component, _view, layer.TileSize);
-                Debug.Log("drawing call");
+                //Debug.Log("drawing call");
             }
         }
 

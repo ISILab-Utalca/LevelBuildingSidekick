@@ -78,16 +78,16 @@ namespace ISILab.LBS.Generators
              foreach (var edge in quest.QuestEdges)
              {
                  assistant?.ValidateEdgeGrammarOLD(edge);
-             }
+             }   
              bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
-
+*/
 
              bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
              if (!allValid)
              {
                  return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
              }
-             */
+          
             
             GenerateTriggers(settings, quest, observer, pivot);
 
@@ -171,8 +171,17 @@ namespace ISILab.LBS.Generators
                 
                 // Find and assign population objects for specific node types
                 FindPopulationObjects(trigger, settings, node, basePos, y, delta);
-                
-                trigger.SetTypedData(node.NodeData);
+
+                if(node.NodeData.IsValid())
+                {
+                    trigger.SetDataNode(node.NodeData);
+                }
+                else
+                {
+                    Debug.LogError($"Node Data '{node.ID}' doesn't have a valid data");
+                    Object.DestroyImmediate(pivot);
+                    return;
+                }
                 
                 go.SetActive(false);
             }

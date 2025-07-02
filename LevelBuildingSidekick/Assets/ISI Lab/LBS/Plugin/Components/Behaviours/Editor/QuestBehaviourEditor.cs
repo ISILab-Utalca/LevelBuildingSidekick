@@ -22,37 +22,36 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
     public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        private AddQuestNode addNode;
-        private RemoveQuestNode removeNode;
-        private ConnectQuestNodes connectNodes;
-        private RemoveQuestConnection removeConnection;
+        private AddQuestNode _addNode;
+        private RemoveQuestNode _removeNode;
+        private ConnectQuestNodes _connectNodes;
+        private RemoveQuestConnection _removeConnection;
 
-        private QuestHistoryPanel questHistoryPanel;
-        
-        ObjectField grammarReference;
+        private QuestHistoryPanel _questHistoryPanel;
 
-        VisualElement actionPallete;
+        private ObjectField _grammarReference;
 
-        QuestBehaviour behaviour;
+        private VisualElement _actionPallete;
+
+        private QuestBehaviour _behaviour;
         
         public QuestBehaviourEditor(object target) : base(target)
-        { 
-            SetInfo(target);
+        {
+            
+            CreateVisualElement();
+            SetInfo(target);     
         }
 
         public sealed override void SetInfo(object paramTarget)
         {
-            Clear();
-            
-            CreateVisualElement();
-            
-            behaviour = paramTarget as QuestBehaviour;
-            if (behaviour == null)
-                return;
+            //Clear();
+            _behaviour = target as QuestBehaviour;
+            if (_behaviour == null)return;
+         
 
-            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
+            var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
             
-            grammarReference.value = quest.Grammar; // Loads grammar
+            _grammarReference.value = quest.Grammar; // Loads grammar
             
             ChangeGrammar(quest.Grammar);
             UpdateContent();
@@ -60,44 +59,45 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolkit)
         {
-            behaviour = target as QuestBehaviour;
+            _behaviour = target as QuestBehaviour;
             
-            addNode = new AddQuestNode();
-            var t1 = new LBSTool(addNode);
+            _addNode = new AddQuestNode();
+            var t1 = new LBSTool(_addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            removeNode = new RemoveQuestNode();
-            var t2 = new LBSTool(removeNode);
+            _removeNode = new RemoveQuestNode();
+            var t2 = new LBSTool(_removeNode);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            connectNodes = new ConnectQuestNodes();
-            var t3 = new LBSTool(connectNodes);
+            _connectNodes = new ConnectQuestNodes();
+            var t3 = new LBSTool(_connectNodes);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            removeConnection = new RemoveQuestConnection();
-            var t4 = new LBSTool(removeConnection);
+            _removeConnection = new RemoveQuestConnection();
+            var t4 = new LBSTool(_removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 
             
-            connectNodes.SetRemover(removeConnection);
+            _connectNodes.SetRemover(_removeConnection);
             
-            toolkit.ActivateTool(t1,behaviour?.OwnerLayer, target);
-            toolkit.ActivateTool(t2,behaviour?.OwnerLayer, target);
-            toolkit.ActivateTool(t3,behaviour?.OwnerLayer, target);
-            toolkit.ActivateTool(t4,behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t1,_behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t2,_behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t3,_behaviour?.OwnerLayer, target);
+            toolkit.ActivateTool(t4,_behaviour?.OwnerLayer, target);
             
-            addNode.OnManipulationEnd += RefreshHistoryPanel;
-            removeConnection.OnManipulationEnd += RefreshHistoryPanel;
-            connectNodes.OnManipulationEnd += RefreshHistoryPanel;
-            removeConnection.OnManipulationEnd += RefreshHistoryPanel;
+            _addNode.OnManipulationEnd += RefreshHistoryPanel;
+            _removeConnection.OnManipulationEnd += RefreshHistoryPanel;
+            _connectNodes.OnManipulationEnd += RefreshHistoryPanel;
+            _removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
-            behaviour ??= behaviour; // if null, assign
-            behaviour!.Graph.GoToNode += GoToQuestNode;
+            _behaviour ??= _behaviour; // if null, assign
+            _behaviour!.Graph.GoToNode = null;
+            _behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
-        private void GoToQuestNode(QuestNode Node)
+        private static void GoToQuestNode(QuestNode node)
         {
-            var nodePos = Node.Position;
+            var nodePos = node.Position;
             var scale = MainView.Instance.viewTransform.scale;
             var viewport = MainView.Instance.viewport.layout;
             
@@ -115,34 +115,34 @@ namespace ISILab.LBS.VisualElements
         private void RefreshHistoryPanel()
         {
             SetInfo(target);
-            behaviour.Graph.UpdateFlow?.Invoke();
-            var questBehaviour = target as QuestBehaviour;
-            DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
+            _behaviour.Graph.UpdateFlow?.Invoke();
+         //   var questBehaviour = target as QuestBehaviour;
+          //  DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
         }
         
-        protected override VisualElement CreateVisualElement()
+        protected sealed override VisualElement CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
             visualTree.CloneTree(this);
 
-            grammarReference = this.Q<ObjectField>(name: "Grammar");
-            grammarReference.objectType = typeof(LBSGrammar);
+            _grammarReference = this.Q<ObjectField>(name: "Grammar");
+            _grammarReference.objectType = typeof(LBSGrammar);
             
-            actionPallete = this.Q<VisualElement>(name: "Content");
+            _actionPallete = this.Q<VisualElement>(name: "Content");
             
-            grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
+            _grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
             return this;
         }
 
         private void UpdateContent()
         {
-            actionPallete.Clear();
+            _actionPallete.Clear();
 
            // var behaviour = target as QuestBehaviour;
-            if (behaviour == null)
+            if (_behaviour == null)
                 return;
 
-            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
+            var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
             if (quest == null || quest.OwnerLayer == null)
                 return;
 
@@ -156,17 +156,17 @@ namespace ISILab.LBS.VisualElements
                 b = new ActionButton(a.GrammarElement.Text, () =>
                 {
                     ToolKit.Instance.SetActive(typeof(AddQuestNode));
-                    behaviour.ToSet = a.GrammarElement;
-                    behaviour.Graph.UpdateFlow?.Invoke();
+                    _behaviour.ToSet = a.GrammarElement;
+                    _behaviour.Graph.UpdateFlow?.Invoke();
                     UpdateContent();
                 });
                 abL.Add(b);
-                actionPallete.Add(b);
+                _actionPallete.Add(b);
             }
 
             foreach (var b in abL)
             {
-                if (behaviour.ToSet?.Text == b.text.text)
+                if (_behaviour.ToSet?.Text == b.text.text)
                 {
                     b.Children().First().AddToClassList("lbs-actionbutton_selected");
                     b.Children().First().RemoveFromClassList("lbs-actionbutton");

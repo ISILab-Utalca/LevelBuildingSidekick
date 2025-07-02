@@ -175,7 +175,7 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 // Only move when left mouse button is pressed
                 if (e.pressedButtons == 0 || e.button != 0) return;
-                if (!MainView.Instance.HasManipulator<Select>()) return;
+                if (!MainView.Instance.HasManipulator<SelectManipulator>()) return;
 
                 var currentRect = GetPosition();
                 var delta = e.mouseDelta / MainView.Instance.viewTransform.scale;

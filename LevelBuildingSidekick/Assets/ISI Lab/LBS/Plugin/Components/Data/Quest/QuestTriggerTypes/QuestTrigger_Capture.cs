@@ -10,7 +10,13 @@ namespace ISILab.LBS
         public DataCapture dataCapture;
         private float ActiveCaptureTime { get; set; }
 
-        public override void SetTypedData(BaseQuestNodeData baseData)
+        public override void Init()
+        {
+            base.Init();
+            SetTypedData(dataCapture);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataCapture = (DataCapture)baseData;
         }

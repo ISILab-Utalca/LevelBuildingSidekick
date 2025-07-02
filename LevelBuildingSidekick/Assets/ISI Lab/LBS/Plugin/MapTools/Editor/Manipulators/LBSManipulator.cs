@@ -319,12 +319,11 @@ namespace ISILab.LBS.Manipulators
         /// <param name="event"></param>
         protected void OnInternalMouseUp(MouseUpEvent @event)
         {
-            Debug.Log($"OnInternalMouseUp called by: {GetType().Name}");
-
             
             if (@event.button != 0 && @event.button != 1 || _hasProcessedMouseUp)
             {
                 @event.StopImmediatePropagation();
+                DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
                 return;
             }
 
@@ -352,6 +351,7 @@ namespace ISILab.LBS.Manipulators
                 OnManipulationRightClick?.Invoke();
                 Remover.OnManipulationNotification?.Invoke();
                 @event.StopImmediatePropagation();
+                DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
                 return;
             }
             
@@ -367,11 +367,13 @@ namespace ISILab.LBS.Manipulators
             if (_isRightClick)
             {
                 _isRightClick = false;
+                OnManipulationRightClickEnd?.Invoke();
                 LBSMainWindow.WarningManipulator(); // finished using a remover
             }
             
             OnManipulationEnd?.Invoke();
             @event.StopImmediatePropagation();
+            DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
         }
         
         #endregion

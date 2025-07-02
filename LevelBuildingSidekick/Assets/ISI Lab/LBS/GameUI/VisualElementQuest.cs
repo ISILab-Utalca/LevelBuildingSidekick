@@ -49,7 +49,6 @@ namespace ISILab.LBS
 
             var color = Color.gray;
             bool closed = false;
-            bool display = true;
             switch (questNode.QuestState)
             {
                 case QuestState.Blocked: 
@@ -70,7 +69,7 @@ namespace ISILab.LBS
                     throw new ArgumentOutOfRangeException();
             }
             
-            this.style.display = display ? DisplayStyle.Flex : DisplayStyle.None;
+            style.display = DisplayStyle.Flex;
             
             _outerQuestState.style.borderBottomColor = color;
             _outerQuestState.style.borderTopColor = color;

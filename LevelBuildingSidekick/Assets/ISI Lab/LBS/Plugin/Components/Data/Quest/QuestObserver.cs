@@ -35,12 +35,7 @@ namespace ISILab.LBS
         {
             StartQuest();
         }
-
-        private void OnEnable()
-        {
-            StartQuest();
-        }
-
+        
         private void OnDisable()
         {
             foreach (var trigger in nodeTriggerMap)
@@ -73,7 +68,11 @@ namespace ISILab.LBS
             if (currentNode == null) return false;
             
             // If the current node is the last one, the quest is complete
-            if (questGraph.QuestEdges.LastOrDefault()?.Second == currentNode) return true;
+            if (questGraph.QuestEdges.LastOrDefault()?.Second == currentNode)
+            {
+                OnQuestAdvance?.Invoke();
+                return true;
+            }
 
 
             // Activate the next node and trigger
@@ -83,15 +82,14 @@ namespace ISILab.LBS
 
                 var nextNode = edge.Second;
                 nextNode.QuestState = QuestState.Active;
-                OnQuestAdvance?.Invoke();
-                
-                if (nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger))
-                {
-                    nextTrigger.gameObject.SetActive(true);
-                    nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
-                }
-            }
 
+                if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
+                
+                nextTrigger.gameObject.SetActive(true);
+                nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
+            }
+            
+            OnQuestAdvance?.Invoke();
             return false;
         }
 
@@ -128,27 +126,38 @@ namespace ISILab.LBS
             List<QuestTrigger> childTriggers = (from Transform child in transform select child.GetComponent<QuestTrigger>()).ToList();
             
             // subscribe all triggers to call advance quest when completed
-            foreach (var node in questGraph.QuestNodes)
+            foreach (var child in childTriggers)
             {
-                node.QuestState = QuestState.Blocked;
-                foreach (var child in childTriggers)
+                
+                if(child is null) continue;
+                child.Init();
+                if(child.Node is null)  continue;
+                
+                foreach (var questNode in questGraph.QuestNodes)
                 {
-                    if(!child) continue;
-                    
-                    // activate the first trigger only
-                    if(node == questGraph.Root) 
-                    {
-                        child.gameObject.SetActive(true); 
-                        node.QuestState =  QuestState.Active;
-                    }
-                    
-                    if (node.ID != child.NodeID) continue;
-                    if(!nodeTriggerMap.TryAdd(node, child)) continue;
-                    
-                    child.OnTriggerCompleted += HandleTriggerCompleted;
-                    
+                    if (child.NodeID != questNode.ID) continue;
+                    child.Node = questNode;
                 }
+                
+                var node = child.Node;
+                
+                // activate the first trigger only
+                if(node.ID == questGraph.Root.ID) 
+                {
+                    child.gameObject.SetActive(true); 
+                    node.QuestState =  QuestState.Active;
+                }
+                else
+                {
+                    child.gameObject.SetActive(false); 
+                    node.QuestState = QuestState.Blocked;
+                }
+                
+                nodeTriggerMap.TryAdd(node, child);
+                child.OnTriggerCompleted += HandleTriggerCompleted;
+                
             }
+            
         }
     }
 

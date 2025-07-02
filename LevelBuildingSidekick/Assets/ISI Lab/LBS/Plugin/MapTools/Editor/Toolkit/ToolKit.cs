@@ -111,7 +111,7 @@ namespace LBS.VisualElements
         
         public void InitGeneralTools(LBSLayer layer)
         { 
-            LBSTool selectTool = new LBSTool(new Select());
+            LBSTool selectTool = new LBSTool(new SelectManipulator());
             ActivateTool(selectTool,layer);
             selectTool.Init(layer, this);
             selectTool.OnSelect += LBSInspectorPanel.ActivateDataTab;
@@ -172,13 +172,7 @@ namespace LBS.VisualElements
                 LBSMainWindow.MessageManipulator(manipulator.Description);
             };
             manipulator.OnManipulationNotification?.Invoke();
-
-            manipulator.OnManipulationEnd = null;
-            manipulator.OnManipulationEnd += () =>
-            {
-                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
-            };
-        }
+            }
         
         private void ClearSeparators()
         {

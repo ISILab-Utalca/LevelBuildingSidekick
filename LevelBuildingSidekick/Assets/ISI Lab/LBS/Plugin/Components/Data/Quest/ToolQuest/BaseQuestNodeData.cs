@@ -25,6 +25,7 @@ namespace ISILab.LBS.Components
         }
 
         public abstract string GetGuid();
+        public abstract bool Valid();
 
     }
     
@@ -36,17 +37,17 @@ namespace ISILab.LBS.Components
     public class BundleGraph : LayerTarget
     {
         [SerializeReference] [SerializeField] private TileBundleGroup tileBundle;
-        [SerializeField] private BaseQuestNodeData nodeData;
+        [SerializeField] private BaseQuestNodeData _nodeData;
         // must be assigned on all bundleGraphs to the Resize Function
         
         public BundleGraph(BaseQuestNodeData nodeData, LBSLayer layer = null, TileBundleGroup tileBundle = null)
         {
             this.layer = layer;
             this.tileBundle = tileBundle;
-            this.nodeData = nodeData;
+            _nodeData = nodeData;
             
             if(this.tileBundle is null) return;
-            if(this.nodeData is null) return;
+            if(_nodeData is null) return;
             this.tileBundle!.OnRemoved += ClearTileBundle;
         }
 
@@ -65,7 +66,7 @@ namespace ISILab.LBS.Components
             }
         }
 
-        public bool Valid() => GetGuid() != string.Empty;
+        public override bool Valid() => GetGuid() != string.Empty;
         public override string GetGuid()
         {
             if(tileBundle?.BundleData?.Bundle is null) return string.Empty;
@@ -93,6 +94,11 @@ namespace ISILab.LBS.Components
         public override string GetGuid()
         {
             return guid;
+        }
+
+        public override bool Valid()
+        {
+            return GetGuid()!= string.Empty;
         }
     }
     
@@ -126,7 +132,7 @@ namespace ISILab.LBS.Components
         {
             if (!TagDataTypes.TryGetValue(tag, out var dataClass))
             {
-                return new BaseQuestNodeData(owner, tag);
+                return null;
             }
 
             var nodeData = (BaseQuestNodeData)Activator.CreateInstance(dataClass, owner, tag);
@@ -138,7 +144,7 @@ namespace ISILab.LBS.Components
 
     #region QuestNodeData
     [Serializable]
-    public class BaseQuestNodeData
+    public abstract class BaseQuestNodeData
     {
         #region FIELDS
         [SerializeField, JsonRequired]
@@ -168,7 +174,7 @@ namespace ISILab.LBS.Components
         public Color Color => color;
         #endregion
 
-        public BaseQuestNodeData(QuestNode owner, string tag)
+        protected BaseQuestNodeData(QuestNode owner, string tag)
         {
             this.owner = owner;
             this.tag = tag;
@@ -222,6 +228,7 @@ namespace ISILab.LBS.Components
         }
 
 
+        public abstract bool IsValid();
     }
 
         /// <summary>
@@ -242,7 +249,11 @@ namespace ISILab.LBS.Components
             public DataGoto(QuestNode owner, string tag) : base(owner, tag)
             {
             }
-            
+
+            public override bool IsValid()
+            {
+                return true;
+            }
         }
         [Serializable]
         public class DataExplore : BaseQuestNodeData
@@ -264,6 +275,11 @@ namespace ISILab.LBS.Components
                 if (data is not DataExplore exploreData) return;
                 subdivisions = exploreData.subdivisions;
                 findRandomPosition = exploreData.findRandomPosition;
+            }
+
+            public override bool IsValid()
+            {
+                return true;
             }
         }
         [Serializable]
@@ -295,6 +311,11 @@ namespace ISILab.LBS.Components
             public override void Resize()
             {
                 ResizeToFitBundles(bundlesToKill);
+            }
+
+            public override bool IsValid()
+            {
+                return bundlesToKill.Any();
             }
         }
         [Serializable]
@@ -330,6 +351,10 @@ namespace ISILab.LBS.Components
                 ResizeToFitBundles(bundlesObservers);
             }
 
+            public override bool IsValid()
+            {
+                return bundlesObservers.Any();
+            }
         }
         [Serializable]
         public class DataTake : BaseQuestNodeData
@@ -359,6 +384,10 @@ namespace ISILab.LBS.Components
                if (bundleToTake.Valid()) area = bundleToTake.Area;
            }
 
+           public override bool IsValid()
+           {
+               return bundleToTake.Valid();
+           }
         }
         [Serializable]
         public class DataRead : BaseQuestNodeData
@@ -388,6 +417,10 @@ namespace ISILab.LBS.Components
                 if (bundleToRead.Valid())area = bundleToRead.Area;
             }
 
+            public override bool IsValid()
+            {
+                return bundleToRead.Valid();
+            }
         }
         [Serializable]
         public class DataExchange : BaseQuestNodeData
@@ -412,6 +445,11 @@ namespace ISILab.LBS.Components
                 requiredAmount = exchangeData.requiredAmount;
                 bundleReceiveType = exchangeData.bundleReceiveType;
                 receiveAmount = exchangeData.receiveAmount;
+            }
+
+            public override bool IsValid()
+            {
+                return bundleGiveType.Valid() && bundleReceiveType.Valid();
             }
         }
         [Serializable]
@@ -448,7 +486,10 @@ namespace ISILab.LBS.Components
                 if (bundleGiveTo.Valid())  area = bundleGiveTo.Area;
             }
 
-
+            public override bool IsValid()
+            {
+                return bundleGive.Valid() && bundleGiveTo.Valid();
+            }
         }
         [Serializable]
         public class DataReport : BaseQuestNodeData
@@ -481,6 +522,10 @@ namespace ISILab.LBS.Components
                if (bundleReportTo.Valid()) area = bundleReportTo.Area;
            }
 
+           public override bool IsValid()
+           {
+               return bundleReportTo.Valid();
+           }
         }
         [Serializable]
         public class DataGather : BaseQuestNodeData
@@ -500,6 +545,11 @@ namespace ISILab.LBS.Components
               if (data is not DataGather gatherData) return;
               bundleGatherType = gatherData.bundleGatherType;
               gatherAmount = gatherData.gatherAmount;
+          }
+
+          public override bool IsValid()
+          {
+              return bundleGatherType.Valid() && gatherAmount > 0;
           }
         }
         [Serializable]
@@ -534,6 +584,10 @@ namespace ISILab.LBS.Components
               if (bundleToSpy.Valid())area = bundleToSpy.Area;
           }
 
+          public override bool IsValid()
+          {
+              return bundleToSpy.Valid();
+          }
         }
         [Serializable]
         public class DataCapture : BaseQuestNodeData
@@ -552,7 +606,11 @@ namespace ISILab.LBS.Components
                 captureTime = captureData.captureTime;
                 resetTimeOnExit = captureData.resetTimeOnExit;
             }
-            
+
+            public override bool IsValid()
+            {
+                return true;
+            }
         }
         [Serializable]
         public class DataListen : BaseQuestNodeData
@@ -584,6 +642,11 @@ namespace ISILab.LBS.Components
             public override void Resize()
             {
                 if (bundleListenTo.Valid())area = bundleListenTo.Area;
+            }
+
+            public override bool IsValid()
+            {
+                return bundleListenTo.Valid();
             }
         }
 

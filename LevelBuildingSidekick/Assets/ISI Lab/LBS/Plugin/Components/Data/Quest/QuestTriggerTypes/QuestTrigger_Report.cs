@@ -8,8 +8,14 @@ namespace ISILab.LBS
     {
         public DataReport dataReport;
         public GameObject objectToReport;
-        
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataReport);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataReport =  (DataReport)baseData;
             var objectiveTrigger = objectToReport.AddComponent<GenericObjectiveTrigger>();

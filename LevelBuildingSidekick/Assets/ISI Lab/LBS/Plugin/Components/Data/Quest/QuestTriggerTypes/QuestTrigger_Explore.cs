@@ -1,7 +1,5 @@
 using ISILab.LBS.Components;
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor.Experimental;
 
 namespace ISILab.LBS
 {
@@ -9,10 +7,29 @@ namespace ISILab.LBS
     public class QuestTriggerExplore : QuestTrigger
     {
         public DataExplore dataExplore;
+        [SerializeField]
         private int requiredExplored;
 
-        public override void SetTypedData(BaseQuestNodeData baseData)
+        public override void Init()
         {
+            requiredExplored = dataExplore.findRandomPosition ? 1 : dataExplore.subdivisions;
+            AssignExploredSubArea();
+        }
+
+        private void AssignExploredSubArea()
+        {
+            foreach (Transform child in transform)
+            {
+                var triggerGoto = child.GetComponent<QuestTriggerGoTo>();
+                if (triggerGoto == null) continue;
+                triggerGoto.OnTriggerCompleted -= ExploredMinus;
+                triggerGoto.OnTriggerCompleted += ExploredMinus;
+            }
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
+        {
+            
             dataExplore = (DataExplore)baseData;
             if (dataExplore.findRandomPosition)
             {
@@ -27,37 +44,51 @@ namespace ISILab.LBS
                 triggerObject.transform.position = randomPoint;
                 
                 var triggerGoto = triggerObject.AddComponent<QuestTriggerGoTo>();
-                triggerGoto.onCompleteEvent.AddListener(() => requiredExplored--);
+                triggerGoto.Init();
+
             }
             else
             {
                 requiredExplored = dataExplore.subdivisions;
-                
                 // Create subdivisions based on the main trigger
                 Vector3 mainSize = BoxCollider.size;
                 Vector3 mainCenter = BoxCollider.center;
                 float subdivisionSizeX = mainSize.x / dataExplore.subdivisions;
-  
+
                 for (int i = 0; i < dataExplore.subdivisions; i++)
                 {
-                    // Create a new GameObject for each subdivided trigger
                     GameObject triggerObject = new GameObject($"SubTrigger_{i}");
                     triggerObject.transform.SetParent(transform);
-                    
-                    // Calculate position for the new collider
+    
                     float offsetX = (i - (dataExplore.subdivisions - 1) / 2f) * subdivisionSizeX;
                     Vector3 localPosition = mainCenter + new Vector3(offsetX, 0, 0);
                     triggerObject.transform.localPosition = localPosition;
 
-                    // Add and configure BoxCollider
                     var triggerGoto = triggerObject.AddComponent<QuestTriggerGoTo>();
-                    triggerGoto.onCompleteEvent.AddListener(() => requiredExplored--);
+                    triggerGoto.Init();
+                    var size = new Vector3(
+                        Mathf.Abs(subdivisionSizeX), 
+                        Mathf.Abs(mainSize.y), 
+                        Mathf.Abs(mainSize.z)
+                    );
+                    triggerGoto.SetSize(size);
 
                 }
+
             }
         }
 
-        protected override void OnTriggerEnter(Collider other)
+        /// <summary>
+        /// May want to do something with the trigger as well plus the reduction of the required explored area
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ExploredMinus(QuestTrigger obj)
+        {
+            requiredExplored--;
+            obj.gameObject.SetActive(false);
+        }
+
+        protected void OnTriggerStay(Collider other)
         {
             if (IsPlayer(other))
             {

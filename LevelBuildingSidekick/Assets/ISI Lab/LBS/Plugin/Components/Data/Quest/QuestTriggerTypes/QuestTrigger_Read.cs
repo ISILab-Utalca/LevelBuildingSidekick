@@ -8,7 +8,14 @@ namespace ISILab.LBS
     {
         public DataRead readData;
         public GameObject objectToRead;
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(readData);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             readData = (DataRead)baseData;
             var objectiveTrigger = objectToRead.AddComponent<GenericObjectiveTrigger>();

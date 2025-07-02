@@ -298,7 +298,7 @@ namespace ISILab.LBS.Editor.Windows{
         {
             LBS.loadedLevel = data;
             RefreshWindow();
-            //drawManager.RedrawLevel(levelData, mainView);
+            drawManager.RedrawLevel(levelData, mainView);
         };
 
         #endregion
@@ -333,10 +333,10 @@ namespace ISILab.LBS.Editor.Windows{
         {
             var sw = new Stopwatch();
             sw.Start();
-            sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
+         //   sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
             sw.Restart();
             DrawManager.Instance.AddContainer(layer);
-            sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
+          //  sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
         };
         layerPanel.OnRemoveLayer += l =>
         {
@@ -513,7 +513,7 @@ namespace ISILab.LBS.Editor.Windows{
            
             toolkit.Clear();
             inspectorManager.SetTarget(layer);
-            toolkit.SetActive(typeof(Select));
+            toolkit.SetActive(typeof(SelectManipulator));
             toolkit.SetSeparators();
             
             gen3DPanel.Init(layer);

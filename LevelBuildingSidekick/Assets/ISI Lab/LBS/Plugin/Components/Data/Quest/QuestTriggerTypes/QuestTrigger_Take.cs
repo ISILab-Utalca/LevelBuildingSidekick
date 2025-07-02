@@ -8,8 +8,14 @@ namespace ISILab.LBS
     {
         public DataTake dataTake;
         public GameObject objectToTake;
-        
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataTake);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataTake = (DataTake)baseData;
             var objectiveTrigger = objectToTake.AddComponent<GenericObjectiveTrigger>();
