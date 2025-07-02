@@ -133,6 +133,7 @@ namespace ISILab.LBS.Drawers
                 var tileView = CreatePopulationTileView(tileBundleGroup, population);
                 if (tileView != null)
                     view.AddElement(population.OwnerLayer, tileBundleGroup, tileView);
+                population.Keys.Add(tileBundleGroup);
             }
         }
 

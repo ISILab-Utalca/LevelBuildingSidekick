@@ -538,13 +538,19 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region GRID-RELATED METHODS
-        //
+        
         private void RepaintContent()
         {
-            UpdateContent();
-            if (assistant.Finished/* || !assistant.Running*/) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
+            try
             {
-                LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                UpdateContent();
+            }
+            finally
+            {
+                if (assistant.Finished || !assistant.Running) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
+                {
+                    LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                }
             }
         }
         
