@@ -20,7 +20,8 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 4896474818363185596, guid: 9dd1f886a5b8a8a4a814fd8460986750, type: 3}
     probability: 1
-  characteristics: []
+  characteristics:
+  - rid: 1134171596635245921
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -34,4 +35,9 @@ MonoBehaviour:
   guid: 
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1134171596635245921
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 1c34483075e8bb54d8aa70274f2eddfe, type: 2}
