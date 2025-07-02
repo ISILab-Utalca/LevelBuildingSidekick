@@ -29,7 +29,103 @@ namespace ISILab.AI.Categorization
 
         public float Evaluate(IOptimizable evaluable)
         {
-            throw new NotImplementedException();
+            var chrom = evaluable as BundleTilemapChromosome;
+
+            if (chrom == null)
+            {
+                throw new Exception("Wrong Chromosome Type");
+            }
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
+            }
+
+            LBSLayer layer = ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
+
+            float fitness = 0;
+
+            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+
+            List<int> playersInd = new List<int>();
+            List<int> resourcesInd = new List<int>();
+
+            for (int i = 0; i < genes.Count; i++)
+            {
+                if (chrom.IsInvalid(i))
+                    continue;
+                if (genes[i] != null)
+                {
+                    if (genes[i].Characteristics.Contains(playerCharacteristic))
+                    {
+                        playersInd.Add(i);
+                        continue;
+                    }
+                    foreach (var LBSChar in resources)
+                    {
+                        if (genes[i].Characteristics.Contains(LBSChar))
+                        {
+                            resourcesInd.Add(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            int bestPossibleScore = (int)(1.25f * resourcesInd.Count);
+            int worstPossibleScore = (int)(2.00 * bestPossibleScore);
+            int score = worstPossibleScore;
+            if (layer != null)
+            {
+                if (layer.ID.Equals("Interior"))
+                {
+                    score = ScoreResourceDistance(playersInd, resourcesInd, chrom, layer.GetModule<SectorizedTileMapModule>());
+                }
+            }
+
+            fitness = Mathf.InverseLerp(worstPossibleScore, bestPossibleScore, score);
+            return fitness;
+        }
+
+        private int ScoreResourceDistance(List<int> players, List<int> resources, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorTM)
+        {
+            var zones = sectorTM.ZonesWithTiles; // Como considerar solo el area de seleccion?
+            var zonesIndex = zones.Select((z, i) => KeyValuePair.Create(z, i)).ToDictionary(x => x.Key, x => x.Value);
+            var zonesDist = sectorTM.ZonesProximity; // El area de seleccion va a afectar esto tambien
+
+            //var playerQ = new Queue<int>(players);
+            var playerZones = new List<int>();
+            for (int i = 0; i < players.Count; i++)
+                playerZones.Add(-1);
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                int p = players[i];
+                for(int j = 0; j < zones.Count; j++)
+                {
+                    if(sectorTM.GetZone(chrom.ToMatrixPosition(p) + Vector2Int.RoundToInt(chrom.Rect.position)).Equals(zones[j]))
+                    {
+                        playerZones[i] = j;
+                        break;
+                    }
+                }
+            }
+
+            int totalScore = 0;
+
+            foreach(int res in resources)
+            {
+                Zone zone = sectorTM.GetZone(chrom.ToMatrixPosition(res) + Vector2Int.RoundToInt(chrom.Rect.position));
+                int rZone = zonesIndex[zone];
+                int score = 2;
+                foreach(int pZone in playerZones)
+                {
+                    score = Mathf.Min(score, zonesDist[rZone, pZone]);
+                }
+                totalScore += score;
+            }
+
+            return totalScore;
         }
 
         public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)

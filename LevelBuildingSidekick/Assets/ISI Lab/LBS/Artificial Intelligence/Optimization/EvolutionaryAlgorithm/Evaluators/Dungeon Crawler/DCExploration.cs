@@ -78,10 +78,16 @@ namespace ISILab.AI.Categorization
 
             if (layer != null)
             {
-                for (int i = 0; i < POIs.Count; i++)
-                {
-                    FloodFill(POIs[i], POIs, i, ref distances, chrom, layer.GetModule<SectorizedTileMapModule>(), layer.GetModule<ConnectedTileMapModule>());
-                }
+                if(layer.ID.Equals("Interior"))
+                    for (int i = 0; i < POIs.Count; i++)
+                    {
+                        FloodFill(POIs[i], POIs, i, ref distances, chrom, layer.GetModule<SectorizedTileMapModule>(), layer.GetModule<ConnectedTileMapModule>());
+                    }
+                else
+                    for (int i = 0; i < POIs.Count; i++)
+                    {
+                        Manhattan(POIs[i], POIs, i, ref distances, chrom);
+                    }
             }
             else
             {
@@ -109,7 +115,8 @@ namespace ISILab.AI.Categorization
                 }
             }
 
-            return sum / (float)score.Count;
+            fitness = sum / (float)score.Count;
+            return fitness;
         }
 
         public void FloodFill(int startPos, List<int> others, int from, ref int[,] distances, BundleTilemapChromosome chrom, SectorizedTileMapModule tileMap, ConnectedTileMapModule connectedTM)
