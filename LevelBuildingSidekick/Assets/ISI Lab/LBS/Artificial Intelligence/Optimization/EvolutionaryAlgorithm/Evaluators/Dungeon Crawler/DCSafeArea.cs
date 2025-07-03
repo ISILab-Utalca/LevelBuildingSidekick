@@ -128,10 +128,29 @@ namespace ISILab.AI.Categorization
             return totalScore;
         }
 
-        private int ScoreManhattan(List<int> players, List<int> resources, BundleTilemapChromosome chrom)
+        private int ScoreManhattan(List<int> players, List<int> enemies, BundleTilemapChromosome chrom)
         {
-            Debug.LogWarning("El Evaluador Safe Area no ha implementado un método de evaluación para layers distintas a \"Interior\".");
-            return (int)(1.00f * resources.Count);
+            int totalScore = 0;
+
+            int maxSignificantDist = (int)(Mathf.Max(chrom.Rect.width, chrom.Rect.height) * 0.25f);
+            int halfDist = maxSignificantDist / 2;
+            foreach(int e in enemies)
+            {
+                int score = 2;
+                Vector2Int ePos = chrom.ToMatrixPosition(e);
+                foreach(int p in players)
+                {
+                    Vector2Int pPos = chrom.ToMatrixPosition(p);
+                    int dist = Mathf.Abs(ePos.x - pPos.x) + Mathf.Abs(ePos.y - pPos.y);
+                    score = Mathf.Min(score, dist / halfDist);
+                }
+                totalScore += score;
+            }
+
+            return totalScore;
+
+            //Debug.LogWarning("El Evaluador Safe Area no ha implementado un método de evaluación para layers distintas a \"Interior\".");
+            //return (int)(1.00f * enemies.Count);
         }
 
         public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)

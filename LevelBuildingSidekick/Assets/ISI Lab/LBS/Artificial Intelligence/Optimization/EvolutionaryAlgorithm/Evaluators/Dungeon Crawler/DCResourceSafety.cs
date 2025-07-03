@@ -133,8 +133,27 @@ namespace ISILab.AI.Categorization
 
         private int ScoreManhattan(List<int> players, List<int> resources, BundleTilemapChromosome chrom)
         {
-            Debug.LogWarning("El Evaluador Resource Safety no ha implementado un método de evaluación para layers distintas a \"Interior\".");
-            return (int)(2.00f * resources.Count);
+            int totalScore = 0;
+
+            int maxSignificantDist = (int)(Mathf.Max(chrom.Rect.width, chrom.Rect.height) * 0.25f);
+            int halfDist = maxSignificantDist / 2;
+            foreach(int r in resources)
+            {
+                int score = 2;
+                Vector2Int rPos = chrom.ToMatrixPosition(r);
+                foreach (int p in players) 
+                {
+                    Vector2Int pPos = chrom.ToMatrixPosition(p);
+                    int dist = Mathf.Abs(rPos.x - pPos.x) + Mathf.Abs(rPos.y - pPos.y);
+                    score = Mathf.Min(score, dist / halfDist);
+                }
+                totalScore += score;
+            }
+
+            return totalScore;
+
+            //Debug.LogWarning("El Evaluador Resource Safety no ha implementado un método de evaluación para layers distintas a \"Interior\".");
+            //return (int)(2.00f * resources.Count);
         }
 
         public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)

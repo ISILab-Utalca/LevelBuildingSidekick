@@ -414,6 +414,11 @@ namespace ISILab.LBS.VisualElements.Editor
             xParamText.text = param1Field.Value;
             zParamText.text = new string("Fitness (" + optimizerField.Value + ")");
 
+            InitializeAllCurrentEvaluators();
+        }
+
+        private void InitializeAllCurrentEvaluators()
+        {
             InitializeEvaluator(currentXField, currentYField, currentOptimizer.Evaluator);
         }
 
@@ -793,6 +798,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 case false: Data.ContextLayers.Add(objectLayer); break;
             }
             layerList.MarkDirtyRepaint();
+
+            InitializeAllCurrentEvaluators();
         }
         #endregion
 
