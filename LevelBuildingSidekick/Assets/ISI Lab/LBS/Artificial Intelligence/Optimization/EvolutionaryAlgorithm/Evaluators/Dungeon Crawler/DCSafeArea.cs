@@ -10,10 +10,7 @@ using LBS.Components.TileMap;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.XR;
-using static UnityEngine.UI.DefaultControls;
 
 namespace ISILab.AI.Categorization
 {
@@ -152,6 +149,7 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             var clone = new DCSafeArea();
+            clone.ContextLayers = new List<LBSLayer>(ContextLayers);
             clone.playerCharacteristic = playerCharacteristic;
             clone.enemiesCharacteristic = enemiesCharacteristic;
             return clone;
