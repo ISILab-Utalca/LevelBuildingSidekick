@@ -159,11 +159,12 @@ namespace ISILab.LBS.Assistants
             blacklist = presset.blackList;
         }
 
-        public void SetAdam(Rect rect)
+        public void SetAdam(Rect rect, List<LBSLayer> contextLayers = null)
         {
             var tm = OwnerLayer.GetModule<BundleTileMap>();
-            var contextLayers = //new List<LBSLayer>();
-                OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing. Change later to selected layers.
+            //var contextLayers = //new List<LBSLayer>();
+                //OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing. Change later to selected layers.
+            if(contextLayers == null) contextLayers = new List<LBSLayer>();
             var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect), CalcInvalids(rect, contextLayers));
             mapElites.Adam = chrom;
         }

@@ -184,7 +184,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
 
 
-            var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
+            //var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
             //interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
 
 
@@ -202,14 +202,15 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
-                if (xChoice != null)
-                {
-                    var contextualChoice = xChoice as IContextualEvaluator;
-                    if (contextualChoice != null)
-                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
-                    else
-                        currentXField.InitializeDefault(); 
-                }
+                InitializeEvaluator(xChoice);
+                //if (xChoice != null)
+                //{
+                //    var contextualChoice = xChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentXField.InitializeDefault(); 
+                //}
                 xParamText.text = param1Field.Value;
                 
             });
@@ -228,14 +229,15 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
-                if (yChoice != null) 
-                {
-                    var contextualChoice = yChoice as IContextualEvaluator;
-                    if (contextualChoice != null)
-                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
-                    else
-                        currentYField.InitializeDefault();
-                } 
+                InitializeEvaluator(yChoice);
+                //if (yChoice != null) 
+                //{
+                //    var contextualChoice = yChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentYField.InitializeDefault();
+                //} 
                 yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
@@ -253,14 +255,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
                 var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
                 currentOptimizer.Evaluator = optimizerChoice;
-                if (optimizerChoice != null) 
-                {
-                    var contextualChoice = optimizerChoice as IContextualEvaluator;
-                    if (contextualChoice != null)
-                        contextualChoice.InitializeDefaultWithContext(new List<LBSLayer>(interiorLayer));
-                    else
-                        currentOptimizer.Evaluator.InitializeDefault();
-                }
+                InitializeEvaluator(optimizerChoice);
+                //if (optimizerChoice != null) 
+                //{
+                //    var contextualChoice = optimizerChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentOptimizer.Evaluator.InitializeDefault();
+                //}
                 zParamText.text = new string("Fitness ("+optimizerField.Value+")");
 
             });
@@ -410,6 +413,28 @@ namespace ISILab.LBS.VisualElements.Editor
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
             zParamText.text = new string("Fitness (" + optimizerField.Value + ")");
+
+            InitializeEvaluator(currentXField, currentYField, currentOptimizer.Evaluator);
+        }
+
+        private void InitializeEvaluator(params IEvaluator[] evaluators)
+        {
+            foreach (var evaluator in evaluators)
+            {
+                InitializeEvaluator(evaluator);
+            }
+        }
+
+        private void InitializeEvaluator(IEvaluator evaluator)
+        {
+            if(evaluator != null)
+            {
+                var contextualChoice = evaluator as IContextualEvaluator;
+                if (contextualChoice != null)
+                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                else
+                    evaluator.InitializeDefault();
+            }
         }
 
         //Run the algorithm for suggestions
@@ -431,14 +456,17 @@ namespace ISILab.LBS.VisualElements.Editor
                     return;
             }
 
-            var interiorLayers = new HashSet<LBSLayer>();
-            (currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            (currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            (currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+            //var interiorLayers = new HashSet<LBSLayer>();
+            //(currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //(currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //(currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+            Data.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+
+            InitializeEvaluator(currentXField, currentYField, currentOptimizer.Evaluator);
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
-            assistant.SetAdam(assistant.RawToolRect);
+            assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
             assistant.Execute();
 
             //TODO: Hay que pasarle el Optimizer a los Map Elites
