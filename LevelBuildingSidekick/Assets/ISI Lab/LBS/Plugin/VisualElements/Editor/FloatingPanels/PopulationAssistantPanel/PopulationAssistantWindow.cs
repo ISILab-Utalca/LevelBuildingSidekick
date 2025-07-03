@@ -26,6 +26,8 @@ using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
 using UnityEditor.Graphs;
 using LBS.Components;
+using System.Xml.Serialization;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -91,6 +93,9 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement graphOfHell;
         private PopulationAssistantGraph hellGraph;
 
+        //Layer Context
+        private Button addLayerButton;
+        private ListView layerList;
         #endregion
 
         #region FIELDS
@@ -123,16 +128,18 @@ namespace ISILab.LBS.VisualElements.Editor
                 mapEliteBundle.Optimizer = value;
             }
         }
-
         protected PopulationAssistantGraph CurrentGraph
         {
             get => hellGraph;
             set => hellGraph = value;
         }
-
         protected PopulationBehaviour LayerPopulation
         {
             get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+        }
+        protected LBSLevelData Data
+        {
+            get => LayerPopulation.OwnerLayer.Parent;
         }
         #endregion
 
@@ -325,6 +332,11 @@ namespace ISILab.LBS.VisualElements.Editor
             SetGraph();
             graphOfHell.Add(hellGraph);
 
+            //LAYER CONTEXT
+            layerList = rootVisualElement.Q<ListView>("LayerList");
+            layerList.itemsSource = Data.ContextLayers; 
+            addLayerButton = rootVisualElement.Q<Button>("AddLayerButton");
+            addLayerButton.clicked += AddLayerMenu;
         }
 
         private void OnDestroy()
@@ -728,6 +740,34 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         #endregion
 
+        #region LAYER CONTEXT METHODS
+        public void ApplyContextLayers()
+        {         }
+
+        public void AddLayerMenu()
+        {
+            GenericMenu menu = new GenericMenu();
+            foreach(LBSLayer layer in Data.Layers)
+            {
+                //if (Data.ContextLayers.Contains(layer))  return;
+                menu.AddItem(new GUIContent(layer.Name), Data.ContextLayers.Contains(layer), ToggleLayerContext, layer);
+            }
+            menu.ShowAsContext();
+        }
+
+        private void ToggleLayerContext(object layer)
+        {
+            LBSLayer objectLayer = layer as LBSLayer;
+            if (objectLayer == null) return;
+            switch(Data.ContextLayers.Contains(layer))
+            {
+                case true: Data.ContextLayers.Remove(objectLayer); break;
+                case false: Data.ContextLayers.Add(objectLayer); break;
+            }
+            layerList.MarkDirtyRepaint();
+        }
+        #endregion
+
         #region OTHER METHODS
 
         //Return a list of all buttons available.
@@ -778,7 +818,7 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }*/
 
-            //To keep the grid updated
-            #endregion
-        }
+        //To keep the grid updated
+        #endregion
     }
+}
