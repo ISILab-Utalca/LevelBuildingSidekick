@@ -49,12 +49,9 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELDS
         //private List<SavedMap> savedMapList = new ();
         private List<PopulationMapEntry> mapEntries = new ();
-    
         #endregion
 
         #region PROPERTIES
-
-        
         protected LBSLayer TargetLayer
         {
             get => target.OwnerLayer;

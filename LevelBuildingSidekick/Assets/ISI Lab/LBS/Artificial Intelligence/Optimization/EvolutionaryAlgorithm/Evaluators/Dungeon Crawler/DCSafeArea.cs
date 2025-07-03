@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace ISILab.AI.Categorization
 {
-    public class DCResourceSafety : IContextualEvaluator, IRangedEvaluator
+    public class DCSafeArea : IContextualEvaluator, IRangedEvaluator
     {
         public float MaxValue => 1;
 
@@ -25,7 +25,8 @@ namespace ISILab.AI.Categorization
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 
-        public List<LBSCharacteristic> resources = new List<LBSCharacteristic>();
+        [SerializeField, SerializeReference]
+        public LBSCharacteristic enemiesCharacteristic;
 
         public float Evaluate(IOptimizable evaluable)
         {
@@ -47,7 +48,7 @@ namespace ISILab.AI.Categorization
             var genes = chrom.GetGenes().Cast<BundleData>().ToList();
 
             List<int> playersInd = new List<int>();
-            List<int> resourcesInd = new List<int>();
+            List<int> enemiesInd = new List<int>();
 
             for (int i = 0; i < genes.Count; i++)
             {
@@ -55,34 +56,30 @@ namespace ISILab.AI.Categorization
                     continue;
                 if (genes[i] != null)
                 {
-                    if (genes[i].Characteristics.Contains(playerCharacteristic))
+                    var geneChars = genes[i].Characteristics;
+                    if (geneChars.Contains(playerCharacteristic))
                     {
                         playersInd.Add(i);
-                        continue;
                     }
-                    foreach (var LBSChar in resources)
+                    else if(geneChars.Contains(enemiesCharacteristic))
                     {
-                        if (genes[i].Characteristics.Contains(LBSChar))
-                        {
-                            resourcesInd.Add(i);
-                            break;
-                        }
+                        enemiesInd.Add(i);
                     }
                 }
             }
 
-            int bestPossibleScore = (int)(1.25f * resourcesInd.Count);
-            int worstPossibleScore = (int)(2.00f * resourcesInd.Count);
+            int bestPossibleScore = (int)(2.00f * enemiesInd.Count);
+            int worstPossibleScore = (int)(1.00f * enemiesInd.Count);
             int score = worstPossibleScore;
-            if (layer != null)
+            if(layer != null)
             {
                 if (layer.ID.Equals("Interior"))
-                    score = ScoreResourceDistance(playersInd, resourcesInd, chrom, layer.GetModule<SectorizedTileMapModule>());
-                else score = ScoreManhattan(playersInd, resourcesInd, chrom);
+                    score = ScoreEnemyDistance(playersInd, enemiesInd, chrom, layer.GetModule<SectorizedTileMapModule>());
+                else score = ScoreManhattan(playersInd, enemiesInd, chrom);
             }
             else
             {
-                score = ScoreManhattan(playersInd, resourcesInd, chrom);
+                score = ScoreManhattan(playersInd, enemiesInd, chrom);
             }
 
             fitness = Mathf.InverseLerp(worstPossibleScore, bestPossibleScore, score);
@@ -90,8 +87,8 @@ namespace ISILab.AI.Categorization
             UnityEngine.Assertions.Assert.IsFalse(fitness == float.NaN);
             return fitness;
         }
-
-        private int ScoreResourceDistance(List<int> players, List<int> resources, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorTM)
+        // Como es practicamente a igual a DCResourceSafety.ScoreResourceDistance, podria ser una extension a futuro?
+        private int ScoreEnemyDistance(List<int> players, List<int> enemies, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorTM)
         {
             var zones = sectorTM.SelectedZones;
             var zonesIndex = zones.Select((z, i) => KeyValuePair.Create(z, i)).ToDictionary(x => x.Key, x => x.Value);
@@ -104,9 +101,9 @@ namespace ISILab.AI.Categorization
             for (int i = 0; i < players.Count; i++)
             {
                 int p = players[i];
-                for(int j = 0; j < zones.Count; j++)
+                for (int j = 0; j < zones.Count; j++)
                 {
-                    if(sectorTM.GetZone(chrom.ToMatrixPosition(p) + Vector2Int.RoundToInt(chrom.Rect.position)).Equals(zones[j]))
+                    if (sectorTM.GetZone(chrom.ToMatrixPosition(p) + Vector2Int.RoundToInt(chrom.Rect.position)).Equals(zones[j]))
                     {
                         playerZones[i] = j;
                         break;
@@ -116,14 +113,14 @@ namespace ISILab.AI.Categorization
 
             int totalScore = 0;
 
-            foreach(int res in resources)
+            foreach(int enemy in enemies)
             {
-                Zone zone = sectorTM.GetZone(chrom.ToMatrixPosition(res) + Vector2Int.RoundToInt(chrom.Rect.position));
-                int rZone = zonesIndex[zone];
+                Zone zone = sectorTM.GetZone(chrom.ToMatrixPosition(enemy) + Vector2Int.RoundToInt(chrom.Rect.position));
+                int eZone = zonesIndex[zone];
                 int score = 2;
-                foreach(int pZone in playerZones)
+                foreach (int pZone in playerZones)
                 {
-                    score = Mathf.Min(score, zonesDist[rZone, pZone]);
+                    score = Mathf.Min(score, zonesDist[eZone, pZone]);
                 }
                 totalScore += score;
             }
@@ -133,8 +130,8 @@ namespace ISILab.AI.Categorization
 
         private int ScoreManhattan(List<int> players, List<int> resources, BundleTilemapChromosome chrom)
         {
-            Debug.LogWarning("El Evaluador Resource Safety no ha implementado un método de evaluación para layers distintas a \"Interior\".");
-            return (int)(2.00f * resources.Count);
+            Debug.LogWarning("El Evaluador Safe Area no ha implementado un método de evaluación para layers distintas a \"Interior\".");
+            return (int)(1.00f * resources.Count);
         }
 
         public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)
@@ -146,21 +143,15 @@ namespace ISILab.AI.Categorization
         public void InitializeDefault()
         {
             playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
-
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Chest")));
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Axe")));
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Hammer")));
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Sword")));
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Food")));
-            resources.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Tree")));
+            enemiesCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Enemies"));
         }
 
         public object Clone()
         {
-            var clone = new DCResourceSafety();
+            var clone = new DCSafeArea();
             clone.ContextLayers = new List<LBSLayer>(ContextLayers);
             clone.playerCharacteristic = playerCharacteristic;
-            clone.resources = new List<LBSCharacteristic>(resources);
+            clone.enemiesCharacteristic = enemiesCharacteristic;
             return clone;
         }
     }

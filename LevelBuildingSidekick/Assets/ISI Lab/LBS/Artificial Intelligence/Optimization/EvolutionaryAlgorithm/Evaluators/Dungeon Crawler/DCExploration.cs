@@ -116,7 +116,7 @@ namespace ISILab.AI.Categorization
             }
 
             fitness = sum / (float)score.Count;
-            UnityEngine.Assertions.Assert.IsFalse(fitness == float.NaN);
+            UnityEngine.Assertions.Assert.IsTrue(float.IsNormal(fitness));
             return fitness;
         }
 
@@ -228,6 +228,8 @@ namespace ISILab.AI.Categorization
 
             pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Chest")));
             pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Axe")));
+            pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Hammer")));
+            pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Sword")));
             pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Food")));
             pointsOfInterest.Add(new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Tree")));
         }

@@ -37,6 +37,7 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+  guid: 
   references:
     version: 2
     RefIds:

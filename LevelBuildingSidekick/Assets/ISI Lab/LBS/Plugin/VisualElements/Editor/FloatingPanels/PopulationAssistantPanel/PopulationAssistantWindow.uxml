@@ -63,9 +63,12 @@
                     <ui:Label name="PresetSettingLabel" />
                 </ui:VisualElement>
                 <ui:VisualElement name="MapInfluenceContainer" style="flex-grow: 0; -unity-background-image-tint-color: rgba(42, 42, 42, 0); background-color: rgb(42, 42, 42); border-right-width: 1px; border-left-width: 1px; border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-bottom-width: 1px; overflow: visible;">
-                    <ui:VisualElement name="LayersElement" style="flex-grow: 1; flex-direction: row; background-color: rgba(42, 42, 42, 0); border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-left-width: 0; border-right-width: 0; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; border-top-width: 0; border-bottom-width: 0; align-self: stretch; justify-content: flex-start;">
-                        <uie:ObjectField label="Object Field" />
+                    <ui:VisualElement name="LayersElement" style="flex-grow: 1; flex-direction: row; background-color: rgba(42, 42, 42, 0); border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-left-width: 0; border-right-width: 0; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; border-top-width: 0; border-bottom-width: 0; align-self: auto; justify-content: space-around; white-space: normal; align-items: center; align-content: auto;">
+                        <ui:Label text="Layer Context" style="justify-content: flex-start;" />
+                        <ui:Button text="Select" name="AddLayerButton" style="background-color: rgb(88, 106, 55);" />
                     </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" class="lbs-title-label-container" style="height: 4px; min-height: 4px; max-height: 4px; border-top-width: 1px; border-bottom-width: 0; border-left-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-top-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); padding-right: 0; padding-left: 0; margin-left: 8px; margin-right: 8px;" />
+                    <ui:ListView name="LayerList" reorderable="true" show-foldout-header="false" show-add-remove-footer="false" allow-remove="false" allow-add="false" reorder-mode="Animated" show-border="true" horizontal-scrolling="false" show-bound-collection-size="true" fixed-item-height="32" virtualization-method="DynamicHeight" style="border-top-width: 1px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightSide" style="flex-grow: 1; align-self: flex-start; width: auto; height: 100%; overflow: hidden; min-width: 600px; max-width: none; flex-shrink: 1; left: auto;">
