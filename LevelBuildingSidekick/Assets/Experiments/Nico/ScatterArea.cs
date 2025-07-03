@@ -1,9 +1,11 @@
+using System;
 using ISILab.Extensions;
 using UnityEngine;
 using Unity.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.Jobs;
+using Random = UnityEngine.Random;
 
 namespace Experiments.Nico
 {
@@ -13,9 +15,14 @@ namespace Experiments.Nico
         public Collider baseCollider;
         public int iterations = 10;
         public float radius = 2.4f;
-        public Mesh meshToInstance;
         
         public bool clearPrevious = false;
+        
+        
+        [Category("Mesh")]
+        public Mesh meshToInstance;
+        public Material materialToInstance;
+        public bool saveGeneratedMesh = false;
         
         [Category("MeshTransforms")]
         public Vector2 randomRotationRange = new Vector2(-180, 180);
@@ -89,12 +96,47 @@ namespace Experiments.Nico
             
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
             MeshFilter mf = go.GetComponent<MeshFilter>();
-            mf.sharedMesh = meshToInstance;
+            MeshRenderer mr = go.GetComponent<MeshRenderer>();
+
+            if (saveGeneratedMesh)
+            {
+                Mesh mesh = new Mesh();
+                mesh = meshToInstance;
+                mesh.vertices = meshToInstance.vertices;
+                mesh.triangles = meshToInstance.triangles;
+                mesh.normals = meshToInstance.normals;
+                mesh.uv = meshToInstance.uv;
+
+                Color[] vColor = meshToInstance.colors;
+                float offset = Random.value;
+                Color randColor = new Color(offset, offset, offset);
+                foreach (var _color in vColor)
+                {
+                    //_color.r = randColor.r;
+                    
+                }
+                mesh.colors = vColor;
+                
+                mesh.colors = new Color[meshToInstance.colors.Length];
+                mesh.RecalculateBounds();
+                
+                mf.sharedMesh = mesh;
+                mr.sharedMaterial = materialToInstance;
+            }
+            else
+            {
+                mf.sharedMesh = meshToInstance;
+                mr.sharedMaterial = materialToInstance;
+            }
             
-            go.transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+            
+            
+            float instanceRandScale = baseScale * ( 1 + Random.Range(-scaleVariation, scaleVariation));
+            go.transform.localScale = new Vector3(instanceRandScale,instanceRandScale,instanceRandScale);
             go.transform.position = point;
             //go.transform.LookAt(point + normal);
-            go.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal); // set the y.axis align to noraml
+            go.transform.rotation = Quaternion.FromToRotation(Vector3.up, normal); // set the y.axis align to normal
+            go.transform.Rotate(Vector3.up, Random.Range(randomRotationRange.x, randomRotationRange.y));
             //go.transform.Rotate(90, 0, 0);
             go.SetParent(this.gameObject);
             //Mesh meshCopy = Instantiate(meshToInstance);

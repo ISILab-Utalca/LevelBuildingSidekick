@@ -15,7 +15,8 @@ namespace ISILab.LBS
 
         public static DrawManager Instance => instance;
 
-        private readonly Dictionary<Type, Drawer> _drawerCache = new();
+        private readonly Dictionary<Type, Drawer> drawerCache = new();
+        private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
         public DrawManager(ref MainView view)
         {
@@ -40,7 +41,29 @@ namespace ISILab.LBS
 
         private void DrawLayer(LBSLayer layer)
         {
-            if (layer == null || !layer.IsVisible) return;
+            // Validation
+            if (layer == null) return;
+            if (!_preVisibility.ContainsKey(layer))
+            {
+                _preVisibility.Add(layer, layer.IsVisible);
+            }
+            
+            // Change visibility of layer
+            else
+            {
+                switch (layer.IsVisible)
+                {
+                    case true when !_preVisibility[layer]:
+                        ShowVisuals(layer.Assistants, layer);
+                        ShowVisuals(layer.Behaviours, layer);
+                        break;
+                    case false when _preVisibility[layer]:
+                        HideVisuals(layer.Assistants, layer);
+                        HideVisuals(layer.Behaviours, layer);
+                        break;
+                }
+            }
+            _preVisibility[layer] = layer.IsVisible;
             
             // Draw behaviours and assistants (if both share same drawer system)
             DrawVisibleComponents(layer.Behaviours, layer);
@@ -55,6 +78,25 @@ namespace ISILab.LBS
                 var drawer = GetOrCreateDrawer(component.GetType());
                 drawer?.Draw(component, _view, layer.TileSize);
                 //Debug.Log("drawing call");
+            }
+        }
+
+        private void HideVisuals<T>(List<T> components, LBSLayer layer)
+        {
+            foreach (var component in components)
+            {
+                if (component == null)continue;
+                var drawer = GetOrCreateDrawer(component.GetType());
+                drawer?.HideVisuals(component, view, layer.TileSize);
+            }
+        }
+        private void ShowVisuals<T>(List<T> components, LBSLayer layer)
+        {
+            foreach (var component in components)
+            {
+                if (component == null)continue;
+                var drawer = GetOrCreateDrawer(component.GetType());
+                drawer?.ShowVisuals(component, view, layer.TileSize);
             }
         }
 
@@ -81,7 +123,10 @@ namespace ISILab.LBS
 
         public void RedrawLevel(LBSLevelData level, MainView view)
         {
-            view.ClearLevelView();
+            foreach (var layer in level.Layers)
+            {
+                view.ClearLayerView(layer);
+            }
             DrawLevel(level, view);
         }
 

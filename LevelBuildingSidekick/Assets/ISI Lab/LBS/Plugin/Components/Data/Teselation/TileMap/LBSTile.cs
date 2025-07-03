@@ -54,12 +54,17 @@ namespace LBS.Components.TileMap
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(x.GetHashCode(), y.GetHashCode());
         }
 
         public virtual object Clone()
         {
             return new LBSTile(Position);
+        }
+
+        public override string ToString()
+        {
+            return "LBSTile " + Position;
         }
         #endregion
     }

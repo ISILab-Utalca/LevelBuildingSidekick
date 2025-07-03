@@ -9,9 +9,11 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers
@@ -24,24 +26,107 @@ namespace ISILab.LBS.Drawers
 
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            //Debug.Log("Drawing Exterior Drawer");
-            
             // Get behaviours
             if (target is not ExteriorBehaviour exterior) return;
-           
             // Get modules
-            var tileMod = exterior.OwnerLayer.GetModule<TileMapModule>();
             var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
             
-            foreach (var tile in exterior.Tiles)
+            PaintNewTiles(exterior, connectMod, teselationSize, view);
+            UpdateLoadedTiles(exterior, connectMod, teselationSize, view);
+            
+            if (!Loaded)
             {
-                //if(tile.tag == null) tile.tag = exterior.identifierToSet;
-                
-                var connections = connectMod.GetConnections(tile);
-                
-                var tView = GetTileView(tile, connections, teselationSize);
+                LoadAllTiles(exterior, connectMod, teselationSize, view);
+                Loaded = true;
+            }
+        }
 
+        private void PaintNewTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
+        {
+            // Paint new tiles
+            foreach (LBSTile newTile in exterior.RetrieveNewTiles())
+            {
+                var connections = connectMod.GetConnections(newTile);
+                
+                var tView = GetTileView(newTile, connections, teselationSize);
+                
+                // Stores using LBSTile as key
+                view.AddElement(exterior.OwnerLayer, newTile, tView);
+            }
+        }
+        private void UpdateLoadedTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
+        {
+            // Update stored tiles
+            foreach (LBSTile tile in exterior.Keys)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(exterior.OwnerLayer, tile);
+                if(elements == null) continue;
+                
+                foreach (var graphElement in elements)
+                {
+                    var tView = (ExteriorTileView)graphElement;
+                    
+                    if (tView == null) continue;
+                    if (!tView.visible) continue;
+
+                    var connections = connectMod.GetConnections(tile);
+                    UpdateTileView(ref tView, tile, connections, teselationSize, exterior.OwnerLayer.index);
+                }
+            }
+        }
+        private void UpdateTileView(ref ExteriorTileView tView, LBSTile tile, List<string> connections, Vector2 teselationSize, int layerIndex)
+        {
+            tView.SetConnections(connections.ToArray());
+            var pos = new Vector2(tile.Position.x, -tile.Position.y);
+
+            var size = DefalutSize * teselationSize;
+            tView.SetPosition(new Rect(pos * size, size));
+            
+            tView.layer = layerIndex;
+        }
+        private void LoadAllTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
+        {
+            // Paint all tiles
+            foreach (var tile in exterior.Tiles)
+            {   
+                var connections = connectMod.GetConnections(tile);
+                var tView = GetTileView(tile, connections, teselationSize);
+                
+                // Stores using LBSTile as key
                 view.AddElement(exterior.OwnerLayer, tile, tView);
+                exterior.Keys.Add(tile);
+            }
+        }
+        
+        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            // Get behaviours
+            if (target is not ExteriorBehaviour exterior) return;
+            
+            foreach (LBSTile tile in exterior.Keys)
+            {
+                foreach (var graphElement in view.GetElements(exterior.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                {
+                    graphElement.style.display = DisplayStyle.Flex;
+                }
+            }
+        }
+        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        {
+            // Get behaviours
+            if (target is not ExteriorBehaviour exterior) return;
+            
+            foreach (LBSTile tile in exterior.Keys)
+            {
+                if (tile == null) continue;
+
+                var elements = view.GetElements(exterior.OwnerLayer, tile);
+                foreach (var graphElement in elements)
+                {
+                    graphElement.style.display = DisplayStyle.None;
+                }
             }
         }
 
@@ -66,13 +151,13 @@ namespace ISILab.LBS.Drawers
                 }
                 else if (o == null && n != null)
                 {
-                    if (n.GetType().Equals(typeof(LBSTile)))
+                    if (n.GetType() == typeof(LBSTile))
                     {
                         var tile = n as LBSTile;
                     
                         var connections = connectMod.GetConnections(tile);
                         var ve = GetTileView(tile, connections, teselationSize);
-                        view.AddElement(layer, tile, ve);
+                        view.AddElement(layer, this, ve);
                     }
                 }
                 else if (o != null && n == null)
@@ -81,10 +166,8 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-
-        public GraphElement GetTileView(LBSTile tile, List<string> connections, Vector2 teselationSize)
+        private GraphElement GetTileView(LBSTile tile, List<string> connections, Vector2 teselationSize)
         {
-
             ExteriorTileView tView = new ExteriorTileView(connections);
             
             //if(tile.tag) tView.SetTileCenter(tile.tag);
@@ -97,7 +180,6 @@ namespace ISILab.LBS.Drawers
 
             return tView;
         }
-
         public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
         {
             var exterior = target as ExteriorBehaviour;
@@ -137,8 +219,7 @@ namespace ISILab.LBS.Drawers
 
             return texture;
         }
-
-        public Texture2D GetTileTexture(List<string> connections, Vector2Int teselationSize)
+        private Texture2D GetTileTexture(List<string> connections, Vector2Int teselationSize)
         {
             var texture = new Texture2D(teselationSize.x, teselationSize.y);
 

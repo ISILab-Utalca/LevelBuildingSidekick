@@ -5,9 +5,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Drawers;
+using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = System.Object;
 
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -16,6 +19,11 @@ namespace ISILab.LBS.VisualElements.Editor
     {
         private Dictionary<object, List<GraphElement>> pairs = new();
 
+        /// <summary>
+        /// Adds a graphElement into the container under the drawer's list. 
+        /// </summary>
+        /// <param name="obj">Drawer, or other element, from which the element was created. If already present in dictionary, other graphElements will be added to its list.</param>
+        /// <param name="element">Graph element to be added under the key's list.</param>
         public void AddElement(object obj, GraphElement element)
         {
             if (!pairs.TryGetValue(obj, out var list))
@@ -23,15 +31,19 @@ namespace ISILab.LBS.VisualElements.Editor
                 list = new List<GraphElement>();
                 pairs[obj] = list;
             }
+            
             list.Add(element);
         }
-
-        public List<GraphElement> GetElements(object obj)
+        
+        public List<GraphElement> GetElement(object obj)
         {
-            pairs.TryGetValue(obj, out var elements);
-            return elements;
+            return pairs.GetValueOrDefault(obj);
         }
         
+        public List<GraphElement> ClearElement(object obj)
+        {
+            return pairs.Remove(obj, out var list) ? list : null;
+        }
         public void Repaint(object obj)
         {
             if (!pairs.TryGetValue(obj, out var elements)) return;
@@ -41,15 +53,27 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
 
-        public List<List<GraphElement>> Clear()
+        public List<GraphElement> Clear()
         {
-            var elements = new List<List<GraphElement>>(pairs.Count);
-            foreach (var list in pairs.Values)
+            var erasedElements = new List<GraphElement>();
+            for (int i = 0; i < pairs.Count; i++)
             {
-                elements.Add(list);
+                var list = pairs.ElementAt(i).Value;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var graph = list[j];
+                    
+                    erasedElements.Add(graph);
+                    list.RemoveAt(j);
+                    j--;
+                }
+                
+                // If list empty, remove item from dictionary
+                if (list.Count > 0) continue;
+                pairs.Remove(pairs.ElementAt(i).Key);
+                i--;
             }
-            pairs.Clear();
-            return elements;
+            return erasedElements;
         }
     }
 
@@ -255,17 +279,43 @@ namespace ISILab.LBS.VisualElements.Editor
             AddElement(bound);
         }
 
-        public void ClearLayerView(LBSLayer layer)
+        public void ClearLayerView(LBSLayer layer, bool deepClean = false)
         {
             if (!layers.TryGetValue(layer, out var container)) return;
-
-            var graphs = container.Clear();
-            foreach (var graph in graphs)
+            
+            // Remove all elements
+            if (deepClean)
             {
-                foreach (var element in graph)
+                foreach (var element in container.Clear())
                 {
                     RemoveElement(element);
                 }
+            }
+            
+            // Remove expired tiles in behaviours
+            foreach (var tile in layer.Behaviours.SelectMany(behaviour => behaviour.RetrieveExpiredTiles()))
+            {
+                ClearElementView(tile, container);
+            }
+            // Remove expired tiles in assistants
+            foreach (var assistant in layer.Assistants)
+            {
+                foreach (var tile in assistant.RetrieveExpiredTiles())
+                {
+                    ClearElementView(tile, container);
+                }
+            }
+        }
+
+        private void ClearElementView(object tile, LayerContainer container)
+        {
+            if (tile == null) return;
+            var gElements = container.ClearElement(tile);
+            if(gElements == null) return;
+
+            foreach (var g in gElements)
+            {
+                RemoveElement(g);
             }
         }
         
@@ -290,10 +340,16 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void RemoveContainer(LBSLayer layer)
         {
-            ClearLayerView(layer);
+            ClearLayerView(layer, true);
             layers.Remove(layer);
         }
 
+        /// <summary>
+        /// Saves a graphElement into a LayerContainer.
+        /// </summary>
+        /// <param name="layer">Layer where the graph element will be put. An LBSLayer does not hold graphElements, but it will create or get a LayerContainer object.</param>
+        /// <param name="obj">The drawer from where the graphElement is created.</param>
+        /// <param name="element">The graphElement to draw in screen.</param>
         public void AddElement(LBSLayer layer, object obj, GraphElement element)
         {
             var container = GetOrCreateLayerContainer(layer);
@@ -302,6 +358,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
             container.AddElement(obj, element);
             base.AddElement(element);
+        }
+
+        public List<GraphElement> GetElements(LBSLayer layer, object key)
+        {
+            return layers.TryGetValue(layer, out LayerContainer container) ? container.GetElement(key) : null;
         }
 
         private LayerContainer GetOrCreateLayerContainer(LBSLayer layer)

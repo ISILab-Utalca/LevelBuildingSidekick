@@ -15,7 +15,7 @@ namespace ISILab.AI.Categorization
 {
     public class BundleTilemapChromosome : ChromosomeBase2D, IDrawable, IChromosome
     {
-        public BundleTilemapChromosome(BundleTileMap tileMap, Rect rect, int[] immutables = null) : base(rect, immutables)
+        public BundleTilemapChromosome(BundleTileMap tileMap, Rect rect, int[] immutables = null, int[] invalids = null) : base(rect, immutables, invalids)
         {
             var groups = tileMap.Groups;
 
@@ -31,11 +31,11 @@ namespace ISILab.AI.Categorization
             }
         }
 
-        public BundleTilemapChromosome(Rect rect, int[] immutables = null) : base(rect, immutables) { }
+        public BundleTilemapChromosome(Rect rect, int[] immutables = null, int[] invalids = null) : base(rect, immutables, invalids) { }
 
         public override ChromosomeBase CloneChromosome()
         {
-            var chrom = new BundleTilemapChromosome(Rect, immutableIndexes);
+            var chrom = new BundleTilemapChromosome(Rect, immutableIndexes, invalidIndexes);
             for (int i = 0; i < Length; i++)
             {
                 chrom.ReplaceGene(i, GetGene(i));
@@ -45,10 +45,10 @@ namespace ISILab.AI.Categorization
 
         public override ChromosomeBase CreateNewChromosome()
         {
-            var chrom = new BundleTilemapChromosome(Rect, immutableIndexes);
+            var chrom = new BundleTilemapChromosome(Rect, immutableIndexes, invalidIndexes);
             for (int i = 0; i < Length; i++)
             {
-                if (!IsImmutable(i))
+                if (!(IsImmutable(i) || IsInvalid(i)))
                     chrom.ReplaceGene(i, GenerateGene());
                 else
                     chrom.ReplaceGene(i, GetGene(i));
@@ -63,7 +63,7 @@ namespace ISILab.AI.Categorization
             {
                 index = RandomizationProvider.Current.GetInt(0, Length);
             }
-            while (IsImmutable(index));
+            while (IsImmutable(index) || IsInvalid(index));
 
             return (GetGene(index) as BundleData)?.Clone();
         }

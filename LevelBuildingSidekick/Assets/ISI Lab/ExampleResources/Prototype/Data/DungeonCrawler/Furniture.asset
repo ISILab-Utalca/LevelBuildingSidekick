@@ -32,6 +32,7 @@ MonoBehaviour:
       positiveX: 0.65
       negativeZ: 0.65
       positiveZ: 0.65
+  guid: 
   references:
     version: 2
     RefIds:
