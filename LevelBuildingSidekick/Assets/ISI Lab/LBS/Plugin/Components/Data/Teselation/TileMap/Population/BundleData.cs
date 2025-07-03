@@ -36,7 +36,7 @@ namespace LBS.Components.TileMap // FIX: change namespace to ISILab.LBS.Bundle
             {
                 if(string.IsNullOrEmpty(guid))
                 {
-                    Debug.LogWarning($"No GUID stored for this Bundle Data: {bundleName}");
+                    //Debug.LogWarning($"No GUID stored for this Bundle Data: {bundleName}");
                     //guid = LBSAssetMacro.GetGuidFromAsset(bundle);
                 }
                 return guid;
