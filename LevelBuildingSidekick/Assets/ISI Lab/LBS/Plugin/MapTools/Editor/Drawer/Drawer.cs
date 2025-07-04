@@ -27,7 +27,7 @@ namespace ISILab.LBS.Drawers
         // Not all uses of a drawer needs to use all of them, but they can be used as a general guideline.
         
         // Most drawers must load the tiles that have already been created, whether it was from a missing
-        // function, or loading the map from a save file.
+        // function, or loading the map from a save file. You can use the field Loaded for this purpose.
         protected void LoadAllTiles() { throw new NotImplementedException(); }
         
         // When a new visualElement must be created, a representative object is stored in a related behaviour class,

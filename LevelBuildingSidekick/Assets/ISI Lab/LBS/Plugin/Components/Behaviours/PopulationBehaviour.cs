@@ -90,7 +90,8 @@ namespace ISILab.LBS.Behaviours
             
             //Create group
             var group = _bundleTileMap.CreateGroup(position, bundle, Vector2.right);
-
+            RequestTilePaint(group);
+            
             //Add all tiles from the group
             foreach(LBSTile tile in group.TileGroup)
             {
@@ -100,7 +101,7 @@ namespace ISILab.LBS.Behaviours
 
         public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
         {
-            RequestTilePaint(group);
+            //RequestTilePaint(group);
             return _bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
         }
 

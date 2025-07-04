@@ -79,6 +79,7 @@ namespace ISILab.LBS.Manipulators
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
                     var tile = _schema.AddTile(new Vector2Int(i, j), ToSet);
+                    if(tile == null) continue;
                     _schema.AddConnections(
                         tile,
                         new List<string>() { "", "", "", "" },
