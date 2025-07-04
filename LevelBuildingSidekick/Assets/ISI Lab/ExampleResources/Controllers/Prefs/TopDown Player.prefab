@@ -340,7 +340,7 @@ MonoBehaviour:
   rotationSpeed: 10
   idleRotationSpeed: 5
   rotationThreshold: 0.01
-  cameraTransform: {fileID: 0}
+  cameraTransform: {fileID: 1153603973283236442}
   cameraFollowDistanceMoving: 5
   cameraFollowDistanceIdle: 0
   cameraSmoothSpeed: 3
@@ -474,9 +474,9 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -3, y: 0, z: -7}
+  worldPosition: {x: 19, y: 0, z: -15}
   gizmoBounds:
-    m_Center: {x: -3, y: 0, z: -7}
+    m_Center: {x: 19, y: 0, z: -15}
     m_Extent: {x: 0, y: 0, z: 0}
   canDrawPopup: 0
 --- !u!114 &4471030859132671664
