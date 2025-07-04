@@ -47,18 +47,12 @@ namespace ISILab.LBS.Drawers.Editor
             var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
             nodeData.Resize();
             
-            // Checks if a new selection must be drawn
-            var nt = behaviour.RetrieveNewTiles();
-            if (nt == null || !nt.Any()) return;
+            //TODO: Use the new drawing system... maybe?
             
-            //Debug.Log("\n --node: " + nd.Owner.ID + "--");
-            /*
-             * TODO: Replace this within the switch and pass the visualElement corresponding
-             * to the type in the switch. Perhaps use the attribute created for actions}
-             * but apply on visual Elements.
-             */
-            // view.AddElement(behaviour.OwnerLayer, behaviour, type);
-            
+           // var nt = behaviour.RetrieveNewTiles();
+           // if (nt == null || !nt.Any()) return;
+           view.ClearLayerView(behaviour.OwnerLayer, true);
+           
             // Trigger Position
             var triggerBase = new TriggerElement(nodeData,nodeData.Area, statusColor);
             
@@ -239,6 +233,8 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (_data.Owner?.Graph?.OwnerLayer is null) return;
                 var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
+                
+                SetPosition(_data!.Area);
                 qnb.DataChanged(_data.Owner);
             }
 
