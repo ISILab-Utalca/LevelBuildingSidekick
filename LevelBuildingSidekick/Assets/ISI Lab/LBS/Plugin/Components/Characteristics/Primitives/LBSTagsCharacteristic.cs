@@ -14,7 +14,7 @@ namespace ISILab.LBS.Characteristics
         [JsonRequired]
         string tagName = "";
 
-        [SerializeField/*, JsonIgnore*/]
+        [SerializeField, JsonRequired/*, JsonIgnore*/]
         protected LBSTag value;
 
         [JsonIgnore]
