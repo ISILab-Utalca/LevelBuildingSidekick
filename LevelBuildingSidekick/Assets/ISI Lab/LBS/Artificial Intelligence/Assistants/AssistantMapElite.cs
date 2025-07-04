@@ -182,6 +182,7 @@ namespace ISILab.LBS.Assistants
                 var layers = OwnerLayer.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
                 foreach (var l in layers)
                 {
+                    break;
                     var m = l.GetModule<TileMapModule>();
 
                     if (m == null)

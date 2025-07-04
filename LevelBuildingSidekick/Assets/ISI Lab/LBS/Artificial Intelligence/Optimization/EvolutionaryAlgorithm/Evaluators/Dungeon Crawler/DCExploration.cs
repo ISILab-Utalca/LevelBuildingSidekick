@@ -74,26 +74,38 @@ namespace ISILab.AI.Categorization
                 }
             }
 
-            int[,] distances = new int[POIs.Count, POIs.Count];
+            int size = POIs.Count;
+
+            int[,] distances = new int[size, size];
+            bool[,] toIgnore = new bool[size, size];
 
             if (layer != null)
             {
                 if(layer.ID.Equals("Interior"))
-                    for (int i = 0; i < POIs.Count; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         FloodFill(POIs[i], POIs, i, ref distances, chrom, layer.GetModule<SectorizedTileMapModule>(), layer.GetModule<ConnectedTileMapModule>());
                     }
                 else
-                    for (int i = 0; i < POIs.Count; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         Manhattan(POIs[i], POIs, i, ref distances, chrom);
                     }
             }
             else
             {
-                for (int i = 0; i < POIs.Count; i++)
+                for (int i = 0; i < size; i++)
                 {
                     Manhattan(POIs[i], POIs, i, ref distances, chrom);
+                }
+            }
+
+            for(int i = 0; i < size; i++)
+            {
+                break;
+                for(int j = 0; j < size; j++)
+                {
+                    // Llenar toIgnore
                 }
             }
 
@@ -193,8 +205,11 @@ namespace ISILab.AI.Categorization
                             {
                                 distances[from, j] = distances[j, from] = i + 1;
                                 remainingOthers.Remove(index);
-                                if (remaining.Count == 0)
+                                if (remainingOthers.Count == 0)
+                                {
+                                    //Debug.Log("i = " + i);
                                     return;
+                                }
                                 break;
                             }
                         }
@@ -205,7 +220,7 @@ namespace ISILab.AI.Categorization
 
                 nextStep.ForEach(i => remainingStep.Enqueue(i));
             }
-
+            //Debug.Log("i = " + i);
             //maxDistance = i;
         }
 
