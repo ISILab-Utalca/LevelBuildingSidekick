@@ -19,10 +19,10 @@ namespace ISILab.LBS.Behaviours
     public class PopulationBehaviour : LBSBehaviour
     {
         #region FIELDS
-        [SerializeField, JsonIgnore]
-        TileMapModule tileMap;
-        [SerializeField, JsonIgnore]
-        BundleTileMap bundleTileMap;
+        [SerializeField, JsonIgnore] 
+        private TileMapModule tileMap;
+        [SerializeField, JsonIgnore] 
+        private BundleTileMap _bundleTileMap;
 
         [SerializeField,JsonRequired]
         private string bundleRefGui = "3e607c0f80297b849a6ea0d7f98c73a3";
@@ -45,10 +45,10 @@ namespace ISILab.LBS.Behaviours
 
         #region PROPERTIES
         [JsonIgnore]
-        public List<TileBundleGroup> Tilemap => bundleTileMap.Groups;
+        public List<TileBundleGroup> Tilemap => _bundleTileMap.Groups;
         
         [JsonIgnore]
-        public BundleTileMap BundleTilemap => bundleTileMap;
+        public BundleTileMap BundleTilemap => _bundleTileMap;
         
         public BundleCollection BundleCollection 
         {
@@ -89,27 +89,40 @@ namespace ISILab.LBS.Behaviours
         public void AddTileGroup(Vector2Int position, Bundle bundle) => AddTileGroup(position, new BundleData(bundle));
         public void AddTileGroup(Vector2Int position, BundleData bundle)
         {
-            if (!bundleTileMap.ValidNewGroup(position, bundle, Vector2.right)) return;
+            if (!_bundleTileMap.ValidNewGroup(position, bundle, Vector2.right)) return;
             
             //Create group
-            var group = bundleTileMap.CreateGroup(position, bundle, Vector2.right);
+            var group = _bundleTileMap.CreateGroup(position, bundle, Vector2.right);
 
             //Add all tiles from the group
             foreach(LBSTile tile in group.TileGroup)
             {
                 tileMap.AddTile(tile);
             }
+
+        {
+            return _bundleTileMap.ValidNewGroup(position, new BundleData(bundle), Vector2.right);
+        }
+
+        public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
+        {
+            return _bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
             RequestTilePaint(group);
+        public bool ValidNewGroup(Vector2Int position, Bundle bundle)
         }
 
         public void RemoveTileGroup(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
-            var group = bundleTileMap.GetGroup(position);
-
+            var group = _bundleTileMap.GetGroup(position);
+            
             //CHANGE FROM HERE
-            if (group != null)
+            if (group == null) return;
+            group.Removed();
+            
+            foreach (var groupTile in group.TileGroup)
             {
+                tileMap.RemoveTile(tile);
                 foreach (var groupTile in group.TileGroup)
                 {
                     tileMap.RemoveTile(groupTile);
@@ -117,6 +130,7 @@ namespace ISILab.LBS.Behaviours
                 bundleTileMap.RemoveGroup(group);
                 RequestTileRemove(group);
             }
+            _bundleTileMap.RemoveGroup(group);
         }
         public bool ValidNewGroup(Vector2Int position, Bundle bundle)
         {
@@ -131,16 +145,18 @@ namespace ISILab.LBS.Behaviours
         public void ReplaceTileMap(BundleTileMap map)
         {
             //Remove everything
-            if (bundleTileMap.Groups.Count > 0)
+            if (_bundleTileMap.Groups.Count > 0)
             {
-                foreach (TileBundleGroup group in bundleTileMap.Groups)
+                foreach (TileBundleGroup group in _bundleTileMap.Groups)
                 {
+                    _bundleTileMap.RemoveGroup(group);
                     bundleTileMap.RemoveGroup(group);
                     RequestTileRemove(group);
                 }
             }
             foreach(TileBundleGroup group in map.Groups)
             {
+                _bundleTileMap.AddGroup(group);
                 bundleTileMap.AddGroup(group);
                 RequestTilePaint(group);
             }
@@ -151,7 +167,7 @@ namespace ISILab.LBS.Behaviours
             group.BundleData = new BundleData(bundle);
             ReplaceTile(group);
         }
-        public void SetBundle(LBSTile tile, Bundle bundle) => SetBundle(bundleTileMap.GetGroup(tile), bundle);
+        public void SetBundle(LBSTile tile, Bundle bundle) => SetBundle(_bundleTileMap.GetGroup(tile), bundle);
 
         public LBSTile GetTile(Vector2Int position)
         {
@@ -160,12 +176,12 @@ namespace ISILab.LBS.Behaviours
 
         public TileBundleGroup GetTileGroup(Vector2Int position)
         {
-            return bundleTileMap.GetGroup(position);
+            return _bundleTileMap.GetGroup(position);
         }
 
         public BundleData GetBundleData(LBSTile tile)
         {
-            return bundleTileMap.GetGroup(tile).BundleData;
+            return _bundleTileMap.GetGroup(tile).BundleData;
         }
 
         public void RotateTile(Vector2Int pos, Vector2 rotation)
@@ -194,7 +210,7 @@ namespace ISILab.LBS.Behaviours
             if (Tilemap.Count == 0) return;
             foreach(TileBundleGroup group in Tilemap)
             {
-                bundleTileMap.RemoveGroup(group);
+                _bundleTileMap.RemoveGroup(group);
             }
             return;
         }
@@ -203,7 +219,7 @@ namespace ISILab.LBS.Behaviours
             OwnerLayer = layer;
 
             tileMap = OwnerLayer.GetModule<TileMapModule>();
-            bundleTileMap = OwnerLayer.GetModule<BundleTileMap>();
+            _bundleTileMap = OwnerLayer.GetModule<BundleTileMap>();
         }
 
         public override void OnDetachLayer(LBSLayer layer)

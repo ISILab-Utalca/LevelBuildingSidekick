@@ -80,7 +80,7 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public Vector2Int Position
         {
-            get => new Vector2Int(x, y);
+            get => new(x, y);
 
             set
             {
@@ -157,10 +157,11 @@ namespace ISILab.LBS.Components
             y = (int)position.y;
             questAction = action;
             
-            InstanceDataByAction(action);
             this.graph = graph;
             this.grammarCheck = grammarCheck;
             target = new QuestTarget();
+            
+            InstanceDataByAction(action);
         }
 
         private void InstanceDataByAction(string action)

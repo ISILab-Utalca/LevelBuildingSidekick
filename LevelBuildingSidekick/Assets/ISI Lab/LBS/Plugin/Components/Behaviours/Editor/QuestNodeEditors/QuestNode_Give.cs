@@ -39,28 +39,25 @@ namespace ISILab.LBS.VisualElements
             _pickerBundleGiveTarget.ClearPicker();
             _pickerBundleGiveTarget.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer,_, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer,tilebundle) =>
                 {
-                    NodeData.bundleGive.guid = pickedGuid;
-                    _pickerBundleGiveTarget.SetTargetByLayer(layer, pickedGuid, position);
+                    NodeData.bundleGive = new BundleType(layer, tilebundle);
+                    _pickerBundleGiveTarget.SetEditorLayerTarget(NodeData.bundleGive);
                 };
             };
-            _pickerBundleGiveTarget.SetTargetByLayer(null, NodeData.bundleGive.guid);
+            _pickerBundleGiveTarget.SetEditorLayerTarget(NodeData.bundleGive);
 
             // Receiver Picker
             _pickerBundleGiveReceiver.ClearPicker();
             _pickerBundleGiveReceiver.OnClicked += () =>
             {
-                AssignPickerData().OnBundlePicked = (layer, positions, pickedGuid, position) =>
+                AssignPickerData().OnBundlePicked = (layer, tilebundle) =>
                 {
-                    NodeData.bundleGiveTo = new BundleGraph(
-                        layer, 
-                        positions, 
-                        pickedGuid);
-                    if(layer!=null)  _pickerBundleGiveReceiver.SetTargetByLayer(layer, pickedGuid, NodeData.bundleGiveTo.Position);
+                    NodeData.bundleGiveTo = new BundleGraph(NodeData, layer, tilebundle);
+                    if(layer!=null)  _pickerBundleGiveReceiver.SetEditorLayerTarget(NodeData.bundleGiveTo);
                 };
             };
-            _pickerBundleGiveReceiver.SetTargetByLayer(NodeData.bundleGiveTo.GetLayer(), NodeData.bundleGiveTo.guid, NodeData.bundleGiveTo.Position);
+            _pickerBundleGiveReceiver.SetEditorLayerTarget(NodeData.bundleGiveTo);
         }
     }
 }

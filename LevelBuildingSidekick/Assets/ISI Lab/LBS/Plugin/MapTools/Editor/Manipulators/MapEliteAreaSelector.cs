@@ -8,35 +8,35 @@ namespace ISILab.LBS.Manipulators
 {
     public class MapEliteAreaSelector : LBSManipulator
     {
-        Action<Rect> OnSelection;
-        protected override string IconGuid { get => "132787114daf605489a3d20bafcf2844"; }
-        
+        private readonly Action<Rect> _onSelection;
+        protected override string IconGuid => "132787114daf605489a3d20bafcf2844";
+
         public MapEliteAreaSelector(Action<Rect> action)
         {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
-            OnSelection = action;
+            Feedback = new AreaFeedback();
+            Feedback.fixToTeselation = true;
+            _onSelection = action;
             
-            name = "Assistant Area Selector";
-            description = "Select an area that will be used by Map Elites Assistant.";
+            Name = "Assistant Area Selector";
+            Description = "Select an area that will be used by Map Elites Assistant.";
         }
 
 
 
-        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var Level = LBSController.CurrentLevel;
+            var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(Level, "On Rect");
+            Undo.RegisterCompleteObjectUndo(level, "On Rect");
 
-            var corners = lbsLayer.ToFixedPosition(StartPosition, EndPosition);
+            var corners = LBSLayer.ToFixedPosition(StartPosition, EndPosition);
             var size = corners.Item2 - corners.Item1 + Vector2.one;
             var rect = new Rect(corners.Item1, size);
-            OnSelection?.Invoke(rect);
+            _onSelection?.Invoke(rect);
             
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(Level);
+                EditorUtility.SetDirty(level);
             }
         }
     }

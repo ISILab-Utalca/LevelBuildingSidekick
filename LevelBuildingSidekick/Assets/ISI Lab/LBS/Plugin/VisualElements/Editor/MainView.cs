@@ -319,6 +319,20 @@ namespace ISILab.LBS.VisualElements.Editor
             }
         }
         
+        public void ClearLayerComponentView(LBSLayer layer, object component)
+        {
+            if (!layers.TryGetValue(layer, out var container)) return;
+            if(component is null) return;
+            
+            var elements = container.GetElements(component);
+            if(elements is null || !elements.Any()) return;
+            
+            foreach (var element in elements)
+            {
+                RemoveElement(element);
+            }
+        }
+        
         public void AddContainer(LBSLayer layer)
         {
             layers.Add(layer, new LayerContainer());
@@ -359,5 +373,6 @@ namespace ISILab.LBS.VisualElements.Editor
         
         #endregion
 
+ 
     }
 }

@@ -351,6 +351,26 @@ namespace ISILab.LBS.Modules
             set => tileGroup = value;
         }
 
+        public Rect AreaRect
+        {
+            get
+            {
+                if (tileGroup == null || tileGroup.Count == 0) return new Rect();
+            
+                float minX = tileGroup.Min(t => t.Position.x);
+                float minY = tileGroup.Min(t => t.Position.y);
+                float maxX = tileGroup.Max(t => t.Position.x);
+                float maxY = tileGroup.Max(t => t.Position.y);
+
+                float width = maxX - minX + 1;
+                float height = maxY - minY + 1;
+
+                // "maxY" because graph is inverted
+                return new Rect(minX, maxY, Mathf.Abs(width), Mathf.Abs(height));
+            }
+          
+        }
+
         [JsonIgnore]
         public BundleData BundleData
         {
@@ -387,6 +407,12 @@ namespace ISILab.LBS.Modules
         }
         #endregion
 
+        #region EVENTS
+        
+        public event Action OnRemoved;
+        
+        #endregion
+        
         #region METHODS
         //Returns bundle size
         public Vector2Int GetBundleSize()
@@ -469,7 +495,18 @@ namespace ISILab.LBS.Modules
         {
             return base.GetHashCode();
         }
+        
+        /// <summary>
+        /// Meant to notify any Quest Node Data that references this tilemap, in order for it to be
+        /// Garbage Collected Correctly
+        /// </summary>
+        public void Removed()
+        {
+            OnRemoved?.Invoke();
+        }
         #endregion
+
+    
     }
 }
 

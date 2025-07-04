@@ -86,7 +86,7 @@ namespace ISILab.LBS.VisualElements
             MarkDirtyRepaint();
         }
 
-        public void SetSelectedVE(List<object> objs)
+        public void SetSelectedVe(List<object> objs)
         {
             contentPanel.Clear();
 
@@ -114,15 +114,14 @@ namespace ISILab.LBS.VisualElements
                 }
 
                 // Get editor class
-                var edtr = ves.First().Item1;
-
-                // Instantiate editor class
-                var ve = Activator.CreateInstance(edtr) as LBSCustomEditor;
-
+                var editorType = ves.First().Item1;
+                
                 // set target info on visual element
+                if (Activator.CreateInstance(editorType) is not LBSCustomEditor ve) continue;
+                
                 ve.SetInfo(obj);
                 ToolKit.Instance.SetTarget(ve);
-                
+
                 // create content container
                 var container = new DataContent(ve, ves.First().Item2.First().name);
                 contentPanel.Add(container);
