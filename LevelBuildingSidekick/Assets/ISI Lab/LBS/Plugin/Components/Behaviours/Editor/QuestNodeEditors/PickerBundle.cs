@@ -120,7 +120,8 @@ namespace ISILab.LBS.VisualElements
             {
                 DefaultValues();
             }
-
+            
+            _labelLayer.style.display = DisplayStyle.None;
             _vector2FieldPosition.style.display = DisplayStyle.None;
             if (layerTarget is not BundleGraph bg) return;
             
