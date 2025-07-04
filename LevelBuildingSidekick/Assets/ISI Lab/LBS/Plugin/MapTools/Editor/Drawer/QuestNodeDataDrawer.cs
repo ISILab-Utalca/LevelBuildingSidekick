@@ -48,9 +48,10 @@ namespace ISILab.LBS.Drawers.Editor
             nodeData.Resize();
             
             // Checks if a new selection must be drawn
-            var nt = behaviour.RetrieveNewTiles();
-            if (nt == null || !nt.Any()) return;
-            
+           // var nt = behaviour.RetrieveNewTiles();
+           // if (nt == null || !nt.Any()) return;
+           view.ClearLayerView(behaviour.OwnerLayer, true);
+           
             // Trigger Position
             var triggerBase = new TriggerElement(nodeData,nodeData.Area, statusColor);
             
@@ -231,6 +232,8 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (_data.Owner?.Graph?.OwnerLayer is null) return;
                 var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
+                
+                SetPosition(_data!.Area);
                 qnb.DataChanged(_data.Owner);
             }
 
