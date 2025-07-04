@@ -170,17 +170,22 @@ namespace ISILab.AI.Categorization
                             continue;
 
                         Zone otherZone = tileMap.GetZone(pos/* + Vector2Int.RoundToInt(chrom.Rect.position)*/);
-                        if (currentZone == null)
-                            ;
-                        if (!currentZone.Equals(otherZone))
-                        {
-                            var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
-                            var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
-                            if (!connection.Equals("Door"))
-                                continue;
-                            else
-                                ;
-                        }
+                        //if (currentZone == null)
+                        //    ;
+                        //if (!currentZone.Equals(otherZone))
+                        //{
+                        //    var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
+                        //    var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
+                        //    if (!connection.Equals("Door"))
+                        //        continue;
+                        //}
+
+
+                        var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
+                        var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
+                        if (!(connection.Equals("Door") || connection.Equals("Empty")))
+                            continue;
+
 
                         for (int j = from; j < others.Count; j++)
                         {
