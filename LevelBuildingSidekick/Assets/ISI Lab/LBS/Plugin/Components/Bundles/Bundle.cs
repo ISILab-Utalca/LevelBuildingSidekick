@@ -4,6 +4,7 @@ using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
+using LBS.Bundles.Tools;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;

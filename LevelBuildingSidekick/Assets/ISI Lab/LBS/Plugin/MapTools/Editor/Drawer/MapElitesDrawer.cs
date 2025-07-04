@@ -37,13 +37,13 @@ namespace ISILab.LBS.Drawers
             _dotArea.layer = assistant.OwnerLayer.index;
         }
 
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             if (!Loaded) return;
             _dotArea.style.display = DisplayStyle.None;
         }
 
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             if (!Loaded) return;
             _dotArea.style.display = DisplayStyle.Flex;
