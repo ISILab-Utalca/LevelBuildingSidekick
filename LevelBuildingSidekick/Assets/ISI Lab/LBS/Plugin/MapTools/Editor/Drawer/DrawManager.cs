@@ -15,7 +15,7 @@ namespace ISILab.LBS
 
         public static DrawManager Instance => instance;
 
-        private readonly Dictionary<Type, Drawer> drawerCache = new();
+        private readonly Dictionary<Type, Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
         public DrawManager(ref MainView view)
@@ -87,7 +87,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.HideVisuals(component, view, layer.TileSize);
+                drawer?.HideVisuals(component, _view, layer.TileSize);
             }
         }
         private void ShowVisuals<T>(List<T> components, LBSLayer layer)
@@ -96,7 +96,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.ShowVisuals(component, view, layer.TileSize);
+                drawer?.ShowVisuals(component, _view, layer.TileSize);
             }
         }
 

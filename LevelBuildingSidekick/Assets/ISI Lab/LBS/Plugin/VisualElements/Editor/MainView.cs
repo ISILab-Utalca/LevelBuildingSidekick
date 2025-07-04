@@ -324,7 +324,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if (!layers.TryGetValue(layer, out var container)) return;
             if(component is null) return;
             
-            var elements = container.GetElements(component);
+            var elements = container.GetElement(component);
             if(elements is null || !elements.Any()) return;
             
             foreach (var element in elements)

@@ -62,12 +62,10 @@ namespace ISILab.LBS.Drawers.Editor
              */
             // view.AddElement(behaviour.OwnerLayer, behaviour, type);
             
-            // Trigger Position
-            var triggerBase = new TriggerElement(
-                    position, 
-                    new Vector2(nodeData.Size,nodeData.Size), 
-                    nodeData, 
-                    statusColor);
+            
+            // Trigger Position 
+            //TODO: Set the rect to the size it's supposed to be
+            TriggerElement triggerBase = new TriggerElement(nodeData, new Rect(), statusColor);
             
             // Stores using the behavior as key
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
