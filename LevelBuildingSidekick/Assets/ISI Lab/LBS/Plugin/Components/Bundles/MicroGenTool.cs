@@ -1,20 +1,24 @@
 using System;
+using System.Collections;
+using System.Dynamic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace LBS.Bundles
+namespace LBS.Bundles.Tools
 {
     [Serializable]
     public class MicroGenTool
     {
+        #region ADITIONAL STRUCTURES
         public enum SpreadType
         {
             Center,
             Side,
             WallSnap,
             Random,
-            CenterFloating
+            CenterFloating,
+            Scatter
         }
 
         [Serializable]
@@ -27,10 +31,10 @@ namespace LBS.Bundles
 
             public Margin(float _negativeX, float _positiveX, float _negativeZ, float _positiveZ)
             {
-                this.negativeX = _negativeX;
-                this.positiveX = _positiveX;
-                this.negativeZ = _negativeZ;
-                this.positiveZ = _positiveZ;
+                negativeX = _negativeX;
+                positiveX = _positiveX;
+                negativeZ = _negativeZ;
+                positiveZ = _positiveZ;
             }
 
             public Vector2 GetPointInside()
@@ -42,27 +46,37 @@ namespace LBS.Bundles
             }
         }
         
+        // Helper MonoBehaviour
+        public class MonoHelper : MonoBehaviour { }
+        #endregion
+
+        #region FIELDS
         [SerializeField]
-        private SpreadType spread;
+        private SpreadType spread = SpreadType.Center;
+        
+        [SerializeField]
+        private Margin margin = new(1,1,1,1);
+        
+        [SerializeField]
+        private Mesh mesh = null;
+        
+        [SerializeField]
+        private Material material = null;
+        
+        #endregion
+
+        #region PROPERTIES
         public SpreadType Spread
         {
             get => spread;
             set => spread = value;
         }
-
-        [SerializeField]
-        private Margin margin;
         public Margin GetMargin
         {
             get => margin;
         }
+        #endregion
 
-        public MicroGenTool()
-        {
-            spread = SpreadType.Center;
-            margin = new Margin(1,1,1,1);
-        }
-    
         public Vector3 MicroPosVector(Transform objTransform, Vector2 scale, int rotation)
         {
             //Calculate rotation
@@ -83,28 +97,46 @@ namespace LBS.Bundles
             switch (spread)
             {
                 case SpreadType.Side:
-                    vec =  applicableRotation * Vector3.back * applicableScale * GetMarginSideByIndex(rotation, true);
+                    vec =  applicableRotation * Vector3.back * applicableScale * GetMarginSideByRotation(rotation, true);
                     break;
+                
                 case SpreadType.Random:
                     Vector2 p = margin.GetPointInside();
                     vec = new Vector3(p.x, 0, p.y);
                     break;
+                
                 case SpreadType.WallSnap:
                     if (Physics.Raycast(objTransform.position, -objTransform.forward, out var hit, applicableScale))
                     {
                         vec = -objTransform.forward * hit.distance;
                     }
                     break;
-                case  SpreadType.CenterFloating:
+                
+                case SpreadType.CenterFloating:
                     vec = Vector3.up;
                     break;
                 
+                case SpreadType.Scatter:
+                    if (mesh == null || material == null)
+                    {
+                        Debug.LogError("MicroGenTool: Mesh or Material is missing");
+                        break;
+                    }
+                    
+                    var scatter = objTransform.GetComponent<ScatterArea>() ?? objTransform.gameObject.AddComponent<ScatterArea>();
+                    scatter.baseCollider = objTransform.GetComponent<Collider>() ?? objTransform.gameObject.AddComponent<Collider>();
+                    scatter.meshToInstance = mesh;
+                    scatter.materialToInstance = material;
+
+                    var helper = objTransform.gameObject.AddComponent<MonoHelper>();
+                    helper.StartCoroutine(StartScatter(scatter, helper));
+                    break;
             }
 
             return vec;
         }
 
-        float GetMarginSideByIndex(int index, bool invert = false)
+        float GetMarginSideByRotation(int rotation, bool invert = false)
         {
             //rotation 0 = parallels with global x
             //rotation 1 = parallels with global -z
@@ -113,7 +145,7 @@ namespace LBS.Bundles
             
             if (!invert)
             {
-                switch (index)
+                switch (rotation)
                 {
                     case 0: return margin.positiveX;
                     case 1: return margin.negativeZ;
@@ -123,7 +155,7 @@ namespace LBS.Bundles
                 }
             }
 
-            switch (index)
+            switch (rotation)
             {
                 case 0: return margin.negativeX;
                 case 1: return margin.positiveZ;
@@ -132,6 +164,13 @@ namespace LBS.Bundles
                 
                 default: return 0;
             }
+        }
+
+        private IEnumerator StartScatter(ScatterArea scatter, MonoHelper helper)
+        {
+            yield return new WaitForSeconds(0);
+            scatter.RunCommand();
+            helper.StopAllCoroutines();
         }
 
     }

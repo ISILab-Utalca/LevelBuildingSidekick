@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Experiments.Nico
+namespace LBS.Bundles.Tools.Editor
 {
     [CustomEditor(typeof(ScatterArea))]
-    public class ScatterAreaEditor : Editor
+    public class ScatterAreaEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
