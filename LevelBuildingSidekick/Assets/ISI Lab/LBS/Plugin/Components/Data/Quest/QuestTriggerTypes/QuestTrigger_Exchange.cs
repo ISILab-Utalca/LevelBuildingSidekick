@@ -19,19 +19,25 @@ namespace ISILab.LBS
     {
         public DataExchange dataExchange;
         [SerializeField]
-        private Type _giveType;
+        private string _giveType;
         [SerializeField]
-        private Type _receiveType;
+        private string _receiveType;
         
         private LBSInventory _playerInventory;
         
         public int givenAmount;
-        
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataExchange);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataExchange =  (DataExchange)baseData;
-            _giveType = LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleGiveType.guid).Assets.FirstOrDefault()?.obj.GetType();
-            _receiveType =LBSAssetMacro.LoadAssetByGuid<Bundle>(dataExchange.bundleReceiveType.guid).Assets.FirstOrDefault()?.obj.GetType();
+            _giveType = dataExchange.bundleGiveType.GetGuid();
+            _receiveType =dataExchange.bundleReceiveType.GetGuid();
         }
         
         protected override bool CompleteCondition()
@@ -48,7 +54,6 @@ namespace ISILab.LBS
             _playerInventory.AddItems(_receiveType, dataExchange.receiveAmount);
           
         }
-
 
         protected override void OnTriggerEnter(Collider other) 
         {

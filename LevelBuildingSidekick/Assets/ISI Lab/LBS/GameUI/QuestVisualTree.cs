@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using UnityEngine;
@@ -43,23 +44,21 @@ namespace ISILab.LBS
            if (_questList == null) return;
            
            _observer = observerGameObject.GetComponent<QuestObserver>();
-           _observer.OnQuestAdvance += UpdateQuestList;
+           _observer.OnQuestAdvance +=  UpdateQuest;
            
-           UpdateQuestList();
+           UpdateQuest();
+           MakeQuestList();
+
         }
 
-        public void UpdateQuestList()
+        private void UpdateQuest()
         {
-            List<QuestNode> exampleQuest = new List<QuestNode>();
-            foreach (var node in _observer.NodeTriggerMap.Keys)
-            {
-                exampleQuest.Add(node);
-            }
-            
-            SetQuestList(exampleQuest);
+            var quest = _observer.NodeTriggerMap.Keys.ToList();
+            _questList.itemsSource = quest;
+            _questList.Rebuild();
         }
 
-        private void SetQuestList(List<QuestNode> quests)
+        private void MakeQuestList()
         {
             _questList.makeItem = () => new VisualElementQuest(); 
             _questList.bindItem = (element, index) =>
@@ -67,12 +66,10 @@ namespace ISILab.LBS
                 var questEntryVe = element as VisualElementQuest;
                 if (questEntryVe == null) return;
 
-                var quest = quests[index]; 
+                var quest = _questList.itemsSource[index]; 
                
-                questEntryVe.SetQuest(quest);
+                questEntryVe.SetQuest(quest as QuestNode);
             };
-            
-            _questList.itemsSource = quests;
         }
         
         #endregion

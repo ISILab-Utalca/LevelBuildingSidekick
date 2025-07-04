@@ -8,7 +8,13 @@ namespace ISILab.LBS
     {
         public DataGoto dataGoto;
 
-        public override void SetTypedData(BaseQuestNodeData baseData)
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataGoto);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataGoto =  (DataGoto)baseData;
         }

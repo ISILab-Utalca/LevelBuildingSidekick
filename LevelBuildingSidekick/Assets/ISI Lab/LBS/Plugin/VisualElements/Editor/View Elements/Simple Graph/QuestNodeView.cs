@@ -57,13 +57,13 @@ namespace ISILab.LBS.VisualElements
             _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
             _toolbar.style.display = DisplayStyle.None;
             
-            SetText(node.QuestAction);
+            SetText(node.ID);
             SetBorder(node);
             
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
-            this._node = node;
+            _node = node;
             _startIcon.style.display = DisplayStyle.None;
         }
 
@@ -97,7 +97,7 @@ namespace ISILab.LBS.VisualElements
 
         public void SetText(string text)
         {
-            if (text.Length > 11)
+            if (text.Length > 20)
             {
                 text = text.Substring(0, 8) + "...";
             }
@@ -111,7 +111,7 @@ namespace ISILab.LBS.VisualElements
         {
             // left button pressed
             if (e.pressedButtons != 1) return;
-            if (!MainView.Instance.HasManipulator<Select>() ) return;
+            if (!MainView.Instance.HasManipulator<SelectManipulator>() ) return;
             
             var grabPosition =  GetPosition().position + e.mouseDelta / MainView.Instance.viewTransform.scale;
             grabPosition *= MainView.Instance.viewport.transform.scale;

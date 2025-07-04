@@ -5,158 +5,136 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
-using ISILab.Macros;
-using UnityEditor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
     [UxmlElement]
     public partial class QuestHistoryPanel : VisualElement
     {
-        #region UXMLFACTORY
-        [UxmlElementAttribute]
-        public new class UxmlFactory { }
-        #endregion
-
         #region VIEW ELEMENTS
-        private ListView questList;
-        private QuestFlowBehaviour questBehaviour;
+        private ListView _questList;
+        private QuestFlowBehaviour _questBehaviour;
         #endregion
 
         #region FIELDS
-        
-        private QuestGraph questGraph = new ();
-        private List<QuestEntry> questEntries = new ();
-    
+
+        private readonly List<QuestEntry> _questEntries = new();
+        private bool _isRefreshing;
+        private bool _isSubscribed;
+
         #endregion
 
         #region PROPERTIES
+        private QuestGraph QuestGraphs { get; set; } = new();
 
-        QuestGraph QuestGraphs
-        {
-            get => questGraph;
-            set => questGraph = value;
-        }
-        #endregion
-
-        #region EVENTS
-
-        #endregion
-        
-        #region CONSTRUCTORS
-        public QuestHistoryPanel()
-        {
-
-        }
-        
         #endregion
 
         #region METHODS
 
-      
-        
         public void SetInfo(QuestFlowBehaviour target)
         {
             Clear();
+
             if (target == null) return;
-            questBehaviour = target;
+
+            _questBehaviour = target;
             CreateVisualElement();
-     
         }
-        
+
         private void CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestHistoryPanel");
             visualTree.CloneTree(this);
 
-            questEntries.Clear();
+            _questEntries.Clear();
 
-            if (questBehaviour == null) return;
+            if (_questBehaviour == null) return;
 
-            questGraph = questBehaviour.Graph;
-            foreach (var unused in questBehaviour.Graph.QuestNodes)
+            QuestGraphs = _questBehaviour.Graph;
+
+            _questList = this.Q<ListView>("QuestList");
+            _questList.reorderable = true;
+
+            _questList.makeItem = () => new QuestEntry();
+
+            _questList.bindItem = (element, index) =>
             {
-                AddEntry();
-            }
-            
-            questList = this.Q<ListView>("QuestList");
-            questList.reorderable = true;
-            
-            questList.makeItem = () => new QuestEntry(); 
-            questList.bindItem = (element, index) =>
-            {
-                var questEntryVe = element as QuestEntry;
-                if (questEntryVe == null) return;
+                if (index < 0 || index >= QuestGraphs.QuestNodes.Count)
+                    return;
 
-                var quest = questGraph.QuestNodes[index]; 
-               
+                if (element is not QuestEntry questEntryVe)
+                    return;
+
+                var quest = QuestGraphs.QuestNodes[index];
                 questEntryVe.SetData(quest);
-                questEntries.Add(questEntryVe);
-                
-                questEntryVe.RemoveNode = null;
-                questEntryVe.RemoveNode += () =>
+                _questEntries.Add(questEntryVe);
+
+                questEntryVe.RemoveNode = () =>
                 {
-                    questGraph.RemoveQuestNode(questGraph.QuestNodes[index]);
-                    Refresh();
+                    QuestGraphs.RemoveQuestNode(quest);
+                    QuestGraphs.UpdateFlow.Invoke();
+                    // No direct Refresh(); UpdateFlow will trigger it.
                 };
 
-                questEntryVe.GoToNode = null;
-                questEntryVe.GoToNode += () => GoToNode(questGraph.QuestNodes[index]);
+                questEntryVe.GoToNode = () => GoToNode(quest);
             };
-            
-            questList.itemIndexChanged += (_, _) =>
+
+            _questList.itemsRemoved += (_) =>
             {
-                questGraph?.Reorder();
                 Refresh();
             };
             
-            questList.itemsSource = questGraph.QuestNodes;
-            
-            questGraph.UpdateFlow -= Refresh;
-            questGraph.UpdateFlow += Refresh;
+            _questList.itemIndexChanged += (_, _) =>
+            {
+                QuestGraphs?.Reorder();
+                // Let UpdateFlow trigger Refresh
+            };
+
+            _questList.itemsSource = QuestGraphs.QuestNodes;
+
+            // Avoid double subscription
+            if (!_isSubscribed)
+            {
+                QuestGraphs.UpdateFlow += Refresh;
+                _isSubscribed = true;
+            }
+
             Refresh();
-        }
-        
-        // should pass the preset as parameter
-        private void AddEntry()
-        {
-            var questEntryVe = new QuestEntry();
-            questEntries.Add(questEntryVe);
         }
 
         private void GoToNode(QuestNode node)
         {
-            if(node == null) return;
-            questGraph?.GoToNode.Invoke(node);
+            if (node == null) return;
+            QuestGraphs?.GoToNode?.Invoke(node);
         }
-        
+
         private void UpdateVeQuestEntries()
         {
-            foreach (var qe in questEntries)
+            foreach (var qe in _questEntries)
             {
                 qe?.Update();
             }
         }
-        
-        public void Refresh()
+
+        private void Refresh()
         {
-            questList?.Rebuild();
-            
-            questGraph.UpdateQuestNodes();
-            
+            if (_isRefreshing) return;
+            _isRefreshing = true;
+
+            _questEntries.Clear();
+
+            _questList?.Rebuild();
+            QuestGraphs?.UpdateQuestNodes();
             UpdateVeQuestEntries();
-            
-            DrawManager.Instance.RedrawLayer(questGraph?.OwnerLayer, MainView.Instance);
 
+            DrawManager.Instance.RedrawLayer(QuestGraphs?.OwnerLayer, MainView.Instance);
             LBSMainWindow.OnWindowRepaint?.Invoke();
-            
+
             MarkDirtyRepaint();
+
+            _isRefreshing = false;
         }
-        
+
         #endregion
-       
     }
-    
-
 }
-

@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 494122307571820715}
   - component: {fileID: 6480842328751299746}
   - component: {fileID: 1099961210806699735}
+  - component: {fileID: 4471030859132671664}
   m_Layer: 0
   m_Name: TopDown Player
   m_TagString: Player
@@ -273,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 422667535d401334f8faa4e1015a01ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerName: 
   bundleRef: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
   bundleTemp: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
 --- !u!23 &6480842328751299746
@@ -335,11 +337,23 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 11, y: 0, z: -7}
+  worldPosition: {x: 0, y: 0.1, z: 0}
   gizmoBounds:
-    m_Center: {x: 11, y: 0, z: -7}
+    m_Center: {x: 0, y: 0.1, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   canDrawPopup: 0
+--- !u!114 &4471030859132671664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823080364279856789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9e327dc43a5e643a893c0696c2884e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7823080365787624990
 GameObject:
   m_ObjectHideFlags: 0

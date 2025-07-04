@@ -88,7 +88,7 @@ namespace ISILab.LBS.Behaviours.Editor
             toolKit.ActivateTool(t3,behaviour.OwnerLayer, behaviour);
             toolKit.ActivateTool(t4,behaviour.OwnerLayer, behaviour);
             
-            addSchemaTile.OnManipulationLeftClickCTRL += AddZone;
+            addSchemaTile.OnManipulationLeftClickCtrl += AddZone;
         }
 
         public override void SetInfo(object paramTarget)
