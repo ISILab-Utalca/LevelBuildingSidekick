@@ -117,11 +117,14 @@ namespace ISILab.LBS.Behaviours
 
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
+            if (tileMap.Contains(position)) return null;
+                
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
-            ReplaceTile(tile);
             
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
+            
+            RequestTilePaint(tile);
             return tile;
         }
 
@@ -163,6 +166,7 @@ namespace ISILab.LBS.Behaviours
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
+            
             RequestTileRemove(tile);
             
             tileMap.RemoveTile(tile);
@@ -174,7 +178,6 @@ namespace ISILab.LBS.Behaviours
         {
             var t = tileConnections.GetPair(tile);
             t.SetConnection(direction, connection, editedByIA);
-            ReplaceTile(tile);
         }
 
         public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
@@ -265,16 +268,6 @@ namespace ISILab.LBS.Behaviours
                         }
                     }
                 }
-            }
-        }
-
-        private void ReplaceTile(LBSTile tile)
-        {
-            RequestTilePaint(tile);
-            LBSTile old = tileMap.GetTile(tile.Position);
-            if (old != null)
-            {
-                RequestTileRemove(old);
             }
         }
 
