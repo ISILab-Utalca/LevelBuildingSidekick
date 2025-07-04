@@ -75,6 +75,11 @@ namespace ISILab.LBS.Drawers
                     
                     TileZonePair tz = zonesMod.GetPairTile(tile);
                     var connections = connectMod.GetConnections(tile);
+                    if (tz == null || connections == null)
+                    {
+                        Debug.LogWarning("SchemaDrawer: TileZonePair or connections not found fot tile " + tile);
+                        continue;
+                    }
                     
                     UpdateTileView(tView, tile, tz.Zone, connections, teselationSize, schema.OwnerLayer.index);
                 }
