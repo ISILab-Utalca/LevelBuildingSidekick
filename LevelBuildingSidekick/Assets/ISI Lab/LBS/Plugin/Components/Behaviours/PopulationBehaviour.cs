@@ -63,10 +63,7 @@ namespace ISILab.LBS.Behaviours
         public string SelectedFilter 
         {
             get => GetFilter();
-            set
-            {
-                selectedTypeFilter = value;
-            }
+            set => selectedTypeFilter = value;
         }
 
         private string GetFilter()
@@ -103,9 +100,8 @@ namespace ISILab.LBS.Behaviours
 
         public bool ValidMoveGroup(Vector2Int position, TileBundleGroup group)
         {
-            bool valid = _bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
             RequestTilePaint(group);
-            return valid;
+            return _bundleTileMap.ValidMoveGroup(position, group, Vector2.right);
         }
 
         public void RemoveTileGroup(Vector2Int position)
@@ -182,7 +178,7 @@ namespace ISILab.LBS.Behaviours
         public Vector2 GetTileRotation(Vector2Int pos)
         {
             TileBundleGroup t = GetTileGroup(pos);
-            return t == null ? default : t.Rotation;
+            return t?.Rotation ?? default;
         }
 
         public BundleData GetBundleData(Vector2 position)
@@ -197,7 +193,6 @@ namespace ISILab.LBS.Behaviours
             {
                 _bundleTileMap.RemoveGroup(group);
             }
-            return;
         }
         public override void OnAttachLayer(LBSLayer layer)
         {

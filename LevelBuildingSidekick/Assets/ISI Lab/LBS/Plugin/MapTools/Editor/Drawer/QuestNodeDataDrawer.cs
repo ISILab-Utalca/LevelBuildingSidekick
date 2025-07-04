@@ -42,13 +42,10 @@ namespace ISILab.LBS.Drawers.Editor
             
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
-
-           
             
-            // Selected Node Trigger View TODO CHECK RESIZE AND USING RECT ON THESE ELEMENTS
-            
-            var position = layer.FixedToPosition(nodeData.Position, true);
+            // Selected Node Trigger View 
             var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
+            nodeData.Resize();
             
             // Checks if a new selection must be drawn
             var nt = behaviour.RetrieveNewTiles();
@@ -62,10 +59,8 @@ namespace ISILab.LBS.Drawers.Editor
              */
             // view.AddElement(behaviour.OwnerLayer, behaviour, type);
             
-            
-            // Trigger Position 
-            //TODO: Set the rect to the size it's supposed to be
-            TriggerElement triggerBase = new TriggerElement(nodeData, new Rect(), statusColor);
+            // Trigger Position
+            var triggerBase = new TriggerElement(nodeData,nodeData.Area, statusColor);
             
             // Stores using the behavior as key
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
@@ -149,8 +144,7 @@ namespace ISILab.LBS.Drawers.Editor
             
             #endregion
             
-            
-            // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
+  
         }
 
         public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
