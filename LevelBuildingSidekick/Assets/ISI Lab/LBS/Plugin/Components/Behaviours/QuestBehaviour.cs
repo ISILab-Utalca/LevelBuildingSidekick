@@ -45,7 +45,7 @@ namespace ISILab.LBS.Behaviours
             }
             for (int i = qn.Length; i < qn.Length + qe.Length; i++)
             {
-                o[i] =  qe[i];
+                o[i] = qe[i - qn.Length]; // subtracting length of nodes, because counter adds edges
             }   
             return o;
         }

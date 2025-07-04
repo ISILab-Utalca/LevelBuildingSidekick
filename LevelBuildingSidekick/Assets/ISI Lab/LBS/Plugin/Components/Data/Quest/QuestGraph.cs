@@ -140,18 +140,20 @@ namespace ISILab.LBS.Modules
         {
             var newNode = new QuestNode(paramId, position, action, this);
             questNodes.Add(newNode);
+            _newNodes.Add(newNode);
+            
             OnAddNode?.Invoke(newNode);
            // UpdateFlow?.Invoke();
 
-            _newNodes.Add(newNode);
+   
         }
         public void AddNode(QuestNode node)
         {
             if(root == null) SetRoot(node);
             questNodes.Add(node);
-            OnAddNode?.Invoke(node);
-            
             _newNodes.Add(node);
+            
+            OnAddNode?.Invoke(node);
             
             QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
             if(qnb is null) return;
@@ -202,9 +204,11 @@ namespace ISILab.LBS.Modules
                 return Tuple.Create("Invalid connection, loop detected", LogType.Error);
 
             questEdges.Add(edge);
+            _newEdges.Add(edge);
+            
             OnAddEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
-            _newEdges.Add(edge);
+            
             
             var connectionInfo = $"Connection: {first.QuestAction} → {second.QuestAction}";
             return Tuple.Create(connectionInfo, LogType.Log);
@@ -224,9 +228,11 @@ namespace ISILab.LBS.Modules
         {
             if (edge == null) return;
             questEdges.Remove(edge);
+            _expiredEdges.Add(edge);
+            
             OnRemoveEdge?.Invoke(edge);
          //   UpdateFlow?.Invoke();
-            _expiredEdges.Add(edge);
+         
         }
         
         

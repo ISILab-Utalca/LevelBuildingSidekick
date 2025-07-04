@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
-using UnityEngine;
 
 namespace ISILab.LBS
 {
@@ -15,7 +14,7 @@ namespace ISILab.LBS
 
         public static DrawManager Instance => instance;
 
-        private readonly Dictionary<Type, Drawer> drawerCache = new();
+        private readonly Dictionary<Type, Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
         public DrawManager(ref MainView view)
@@ -76,7 +75,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.Draw(component, _view, layer.TileSize);
+                drawer?.Draw(component, MainView.Instance,layer.TileSize);
                 //Debug.Log("drawing call");
             }
         }
@@ -87,7 +86,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.HideVisuals(component, view, layer.TileSize);
+                drawer?.HideVisuals(component, MainView.Instance, layer.TileSize);
             }
         }
         private void ShowVisuals<T>(List<T> components, LBSLayer layer)
@@ -96,22 +95,21 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.ShowVisuals(component, view, layer.TileSize);
+                drawer?.ShowVisuals(component, MainView.Instance, layer.TileSize);
             }
         }
 
         private Drawer GetOrCreateDrawer(Type type)
         {
-            if (!_drawerCache.TryGetValue(type, out var drawer))
-            {
-                var drawerType = LBS_Editor.GetDrawer(type);
-                if (drawerType == null)
-                    return null;
+            if (_drawerCache.TryGetValue(type, out var drawer)) return drawer;
+            
+            var drawerType = LBS_Editor.GetDrawer(type);
+            if (drawerType == null)
+                return null;
 
-                drawer = Activator.CreateInstance(drawerType) as Drawer;
-                if (drawer != null)
-                    _drawerCache[type] = drawer;
-            }
+            drawer = Activator.CreateInstance(drawerType) as Drawer;
+            if (drawer != null)
+                _drawerCache[type] = drawer;
             return drawer;
         }
 

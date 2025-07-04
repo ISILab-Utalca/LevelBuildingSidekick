@@ -42,32 +42,17 @@ namespace ISILab.LBS.Drawers.Editor
             
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
-
-           
             
-            // Selected Node Trigger View TODO CHECK RESIZE AND USING RECT ON THESE ELEMENTS
-            
-            var position = layer.FixedToPosition(nodeData.Position, true);
+            // Selected Node Trigger View 
             var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
+            nodeData.Resize();
             
             // Checks if a new selection must be drawn
             var nt = behaviour.RetrieveNewTiles();
             if (nt == null || !nt.Any()) return;
             
-            //Debug.Log("\n --node: " + nd.Owner.ID + "--");
-            /*
-             * TODO: Replace this within the switch and pass the visualElement corresponding
-             * to the type in the switch. Perhaps use the attribute created for actions}
-             * but apply on visual Elements.
-             */
-            // view.AddElement(behaviour.OwnerLayer, behaviour, type);
-            
             // Trigger Position
-            var triggerBase = new TriggerElement(
-                    position, 
-                    new Vector2(nodeData.Size,nodeData.Size), 
-                    nodeData, 
-                    statusColor);
+            var triggerBase = new TriggerElement(nodeData,nodeData.Area, statusColor);
             
             // Stores using the behavior as key
             view.AddElement(behaviour.OwnerLayer, behaviour, triggerBase);
@@ -151,8 +136,7 @@ namespace ISILab.LBS.Drawers.Editor
             
             #endregion
             
-            
-            // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
+  
         }
 
         public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)

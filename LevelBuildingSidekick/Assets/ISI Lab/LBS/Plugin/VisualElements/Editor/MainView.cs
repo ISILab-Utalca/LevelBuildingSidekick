@@ -2,22 +2,18 @@ using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using ISILab.LBS.Settings;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.LBS.Drawers;
-using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Object = System.Object;
 
 
 namespace ISILab.LBS.VisualElements.Editor
 {
     public class LayerContainer
     {
-        private Dictionary<object, List<GraphElement>> pairs = new();
+        private readonly Dictionary<object, List<GraphElement>> _pairs = new();
 
         /// <summary>
         /// Adds a graphElement into the container under the drawer's list. 
@@ -26,10 +22,10 @@ namespace ISILab.LBS.VisualElements.Editor
         /// <param name="element">Graph element to be added under the key's list.</param>
         public void AddElement(object obj, GraphElement element)
         {
-            if (!pairs.TryGetValue(obj, out var list))
+            if (!_pairs.TryGetValue(obj, out var list))
             {
                 list = new List<GraphElement>();
-                pairs[obj] = list;
+                _pairs[obj] = list;
             }
             
             list.Add(element);
@@ -37,16 +33,16 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public List<GraphElement> GetElement(object obj)
         {
-            return pairs.GetValueOrDefault(obj);
+            return _pairs.GetValueOrDefault(obj);
         }
         
         public List<GraphElement> ClearElement(object obj)
         {
-            return pairs.Remove(obj, out var list) ? list : null;
+            return _pairs.Remove(obj, out var list) ? list : null;
         }
         public void Repaint(object obj)
         {
-            if (!pairs.TryGetValue(obj, out var elements)) return;
+            if (!_pairs.TryGetValue(obj, out var elements)) return;
             foreach (var element in elements)
             {
                 element.MarkDirtyRepaint();
@@ -56,9 +52,9 @@ namespace ISILab.LBS.VisualElements.Editor
         public List<GraphElement> Clear()
         {
             var erasedElements = new List<GraphElement>();
-            for (int i = 0; i < pairs.Count; i++)
+            for (int i = 0; i < _pairs.Count; i++)
             {
-                var list = pairs.ElementAt(i).Value;
+                var list = _pairs.ElementAt(i).Value;
                 for (int j = 0; j < list.Count; j++)
                 {
                     var graph = list[j];
@@ -70,7 +66,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 
                 // If list empty, remove item from dictionary
                 if (list.Count > 0) continue;
-                pairs.Remove(pairs.ElementAt(i).Key);
+                _pairs.Remove(_pairs.ElementAt(i).Key);
                 i--;
             }
             return erasedElements;
@@ -87,10 +83,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region SINGLETON
         private static MainView instance;
-        public static MainView Instance
-        {
-            get => instance;
-        }
+        public static MainView Instance => instance;
 
         public Vector2 FixPos(Vector2 v)
         {
@@ -101,18 +94,18 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
-        private ExternalBounds bound;
-        private List<Manipulator> manipulators = new();
+        private ExternalBounds _bound;
+        private readonly List<Manipulator> _manipulators = new();
 
-        private LayerContainer defaultLayer = new();
-        private Dictionary<LBSLayer, LayerContainer> layers = new();
+        private readonly LayerContainer _defaultLayer = new();
+        private readonly Dictionary<LBSLayer, LayerContainer> _layers = new();
         
         // shared manipulators such as drag, zoom
-        private List<Manipulator> defaultManipulators = new();
-        private ContentZoomer zoomer;
-        private ContentDragger cDragger;
-        private SelectionDragger sDragger;
-        private bool zoomEnabled = true;
+        private List<Manipulator> _defaultManipulators = new();
+        private ContentZoomer _zoomer;
+        private ContentDragger _cDragger;
+        private SelectionDragger _sDragger;
+        private bool _zoomEnabled = true;
 
         #endregion
 
@@ -131,11 +124,11 @@ namespace ISILab.LBS.VisualElements.Editor
             SetBasicManipulators();
             InitBound(20000, int.MaxValue / 2);
 
-            AddElement(bound);
+            AddElement(_bound);
 
             // Singleton
-            if (instance != this)
-                instance = this;
+            if (instance != this) instance = this;
+                
             
             AddManipulator(new ContextualMenuManipulator((evt) =>
             {
@@ -152,7 +145,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region INTERNAL_METHODS
         private void InitBound(int interior, int exterior)
         {
-            this.bound = new ExternalBounds(
+            this._bound = new ExternalBounds(
                 new Rect(
                     new Vector2(-interior, -interior),
                     new Vector2(interior * 2, interior * 2)
@@ -167,28 +160,28 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region METHODS_MANIPULATORS
 
-        public void SetBasicManipulators()
+        private void SetBasicManipulators()
         {
             var setting = LBSSettings.Instance.general;
 
-            zoomer = new ContentZoomer();
+            _zoomer = new ContentZoomer();
 
             setting.OnChangeZoomValue = (min, max) =>
             {
-                zoomer.maxScale = setting.zoomMax;
-                zoomer.minScale = setting.zoomMin;
+                _zoomer.maxScale = setting.zoomMax;
+                _zoomer.minScale = setting.zoomMin;
             };
 
-            zoomer.maxScale = setting.zoomMax;
-            zoomer.minScale = setting.zoomMin;
+            _zoomer.maxScale = setting.zoomMax;
+            _zoomer.minScale = setting.zoomMin;
 
-            RegisterCallback<WheelEvent>(evt => { zoomer.target = !zoomEnabled ? null : this; });
+            RegisterCallback<WheelEvent>(evt => { _zoomer.target = !_zoomEnabled ? null : this; });
             
-            cDragger = new ContentDragger();
-            sDragger = new SelectionDragger();
+            _cDragger = new ContentDragger();
+            _sDragger = new SelectionDragger();
 
-            var manis = new List<Manipulator>() { zoomer, cDragger, sDragger };
-            defaultManipulators = manis;
+            var manis = new List<Manipulator>() { _zoomer, _cDragger, _sDragger };
+            _defaultManipulators = manis;
             SetManipulators(manis);
         }
 
@@ -204,28 +197,28 @@ namespace ISILab.LBS.VisualElements.Editor
         public void SetManipulator(Manipulator current, bool keepDefaults = false)
         {
             ClearManipulators();
-            if(keepDefaults) AddManipulators(defaultManipulators);
+            if(keepDefaults) AddManipulators(_defaultManipulators);
             this.AddManipulator(current);
         }
 
-        public void SetManipulators(List<Manipulator> manipulators)
+        private void SetManipulators(List<Manipulator> manipulators)
         {
             ClearManipulators();
             AddManipulators(manipulators);
         }
-        
-        public void ClearManipulators()
+
+        private void ClearManipulators()
         {
-            foreach (var m in this.manipulators)
+            foreach (var m in this._manipulators)
             {
                 this.RemoveManipulator(m as IManipulator);
             }
-            this.manipulators.Clear();
+            this._manipulators.Clear();
         }
 
         public void RemoveManipulator(Manipulator manipulator)
         {
-            this.manipulators.Remove(manipulator);
+            this._manipulators.Remove(manipulator);
             this.RemoveManipulator(manipulator as IManipulator);
         }
 
@@ -233,25 +226,25 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             foreach (var m in manipulators)
             {
-                this.manipulators.Remove(m);
+                this._manipulators.Remove(m);
                 this.RemoveManipulator(m as IManipulator);
             }
         }
 
         public void AddManipulator(Manipulator manipulator)
         {
-            if (manipulators.Contains(manipulator)) return;
-            this.manipulators.Add(manipulator);
+            if (_manipulators.Contains(manipulator)) return;
+            this._manipulators.Add(manipulator);
             this.AddManipulator(manipulator as IManipulator);
         }
 
-        public void AddManipulators(List<Manipulator> manipulators)
+        private void AddManipulators(List<Manipulator> manipulators)
         {
             foreach (var m in manipulators)
             {
-                if (!this.manipulators.Contains(m))
+                if (!this._manipulators.Contains(m))
                 {
-                    this.manipulators.Add(m);
+                    this._manipulators.Add(m);
                     this.AddManipulator(m as IManipulator);
                 }
             }
@@ -259,12 +252,12 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public bool HasManipulator<T>() where T : Manipulator
         {
-            return manipulators.Any(m => m is T);
+            return _manipulators.Any(m => m is T);
         }
 
         public void SetManipulatorZoom(bool enable)
         {
-            zoomEnabled = enable;
+            _zoomEnabled = enable;
         }
 
         #endregion
@@ -273,15 +266,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void ClearLevelView()
         {
-            graphElements.ForEach(e => RemoveElement(e));
-            new List<LayerContainer>(layers.Values).ForEach(l => l.Clear());
-            defaultLayer.Clear();
-            AddElement(bound);
+            graphElements.ForEach(RemoveElement);
+            new List<LayerContainer>(_layers.Values).ForEach(l => l.Clear());
+            _defaultLayer.Clear();
+            AddElement(_bound);
         }
 
         public void ClearLayerView(LBSLayer layer, bool deepClean = false)
         {
-            if (!layers.TryGetValue(layer, out var container)) return;
+            if (!_layers.TryGetValue(layer, out var container)) return;
             
             // Remove all elements
             if (deepClean)
@@ -321,10 +314,10 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void ClearLayerComponentView(LBSLayer layer, object component)
         {
-            if (!layers.TryGetValue(layer, out var container)) return;
+            if (!_layers.TryGetValue(layer, out var container)) return;
             if(component is null) return;
             
-            var elements = container.GetElements(component);
+            var elements = container.GetElement(component);
             if(elements is null || !elements.Any()) return;
             
             foreach (var element in elements)
@@ -335,13 +328,13 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void AddContainer(LBSLayer layer)
         {
-            layers.Add(layer, new LayerContainer());
+            _layers.Add(layer, new LayerContainer());
         }
 
         public void RemoveContainer(LBSLayer layer)
         {
             ClearLayerView(layer, true);
-            layers.Remove(layer);
+            _layers.Remove(layer);
         }
 
         /// <summary>
@@ -362,12 +355,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public List<GraphElement> GetElements(LBSLayer layer, object key)
         {
-            return layers.TryGetValue(layer, out LayerContainer container) ? container.GetElement(key) : null;
+            return _layers.TryGetValue(layer, out LayerContainer container) ? container.GetElement(key) : null;
         }
 
         private LayerContainer GetOrCreateLayerContainer(LBSLayer layer)
         {
-            layers.TryGetValue(layer, out var container);
+            _layers.TryGetValue(layer, out var container);
             return container;
         }
         
