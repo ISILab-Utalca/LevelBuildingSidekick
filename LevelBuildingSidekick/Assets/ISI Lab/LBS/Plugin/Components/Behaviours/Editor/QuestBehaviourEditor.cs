@@ -86,7 +86,7 @@ namespace ISILab.LBS.VisualElements
             toolkit.ActivateTool(t4,_behaviour?.OwnerLayer, target);
             
             _addNode.OnManipulationEnd += RefreshHistoryPanel;
-            _removeConnection.OnManipulationEnd += RefreshHistoryPanel;
+            _removeNode.OnManipulationEnd += RefreshHistoryPanel;
             _connectNodes.OnManipulationEnd += RefreshHistoryPanel;
             _removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
