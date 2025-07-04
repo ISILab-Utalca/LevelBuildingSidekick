@@ -280,7 +280,7 @@ namespace ISILab.LBS.Modules
                             continue;
 
                         var neigh = tilemap.GetTileNeighbor(t, dir);
-                        if (!selection.Contains(neigh.Position))
+                        if (neigh == null || !selection.Contains(neigh.Position))
                             continue;
 
                         var otherZone = GetZone(neigh);
