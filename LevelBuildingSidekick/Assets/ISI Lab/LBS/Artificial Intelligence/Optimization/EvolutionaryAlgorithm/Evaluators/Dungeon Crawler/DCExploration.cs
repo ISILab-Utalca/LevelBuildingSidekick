@@ -23,6 +23,10 @@ namespace ISILab.AI.Categorization
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public string Tooltip => "DC Exploration Evaluator\n\n" +
+            "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
+            "The currently supported context is either a single Interior Layer or no Context Layers.";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 

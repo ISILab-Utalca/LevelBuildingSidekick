@@ -15,6 +15,8 @@ namespace ISILab.AI.Optimization
     {
         private LBSLayer _original;
 
+        public string Tooltip => "Areas Evaluator";
+
         public AreasEvaluator(LBSLayer layer)
         {
             this._original = layer;

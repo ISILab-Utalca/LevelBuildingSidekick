@@ -20,6 +20,8 @@ namespace ISILab.AI.Optimization
             this.original = layer;
         }
 
+        public string Tooltip => "Empty Space Evaluator";
+
         public object Clone()
         {
             throw new System.NotImplementedException(); // TODO: Implement this

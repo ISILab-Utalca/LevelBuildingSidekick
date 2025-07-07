@@ -212,7 +212,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 //        currentXField.InitializeDefault(); 
                 //}
                 xParamText.text = param1Field.Value;
-                
+
             });
             param1Field.SetEnabled(false);
 
@@ -414,7 +414,18 @@ namespace ISILab.LBS.VisualElements.Editor
             xParamText.text = param1Field.Value;
             zParamText.text = new string("Fitness (" + optimizerField.Value + ")");
 
+            //param1Field.tooltip = currentXField.Tooltip;
+            //param2Field.tooltip = currentYField.Tooltip;
+            //optimizerField.tooltip = currentOptimizer?.Evaluator.Tooltip;
+
             InitializeAllCurrentEvaluators();
+        }
+
+        private void UpdateTooltips()
+        {
+            param1Field.tooltip = currentXField?.Tooltip;
+            param2Field.tooltip = currentYField?.Tooltip;
+            optimizerField.tooltip = currentOptimizer?.Evaluator?.Tooltip;
         }
 
         private void InitializeAllCurrentEvaluators()
@@ -440,6 +451,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 else
                     evaluator.InitializeDefault();
             }
+
+            UpdateTooltips();
         }
 
         //Run the algorithm for suggestions
@@ -468,7 +481,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
             Data.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
 
-            InitializeEvaluator(currentXField, currentYField, currentOptimizer.Evaluator);
+            InitializeAllCurrentEvaluators();
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);

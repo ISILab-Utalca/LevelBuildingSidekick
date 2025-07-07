@@ -22,6 +22,10 @@ namespace ISILab.AI.Categorization
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public string Tooltip => "DC Safe Area Evaluator\n\n" +
+            "This evaluator aims to distribute enemies and other dangers in a way that most of them are in areas far from the players.\n\n" +
+            "The currently supported context is either a single Interior Layer or no Context Layers.";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 

@@ -21,6 +21,8 @@ namespace ISILab.AI.Optimization
             this.connectedZones = layer.GetModule<ConnectedZonesModule>();
         }
 
+        public string Tooltip => "Adjacencies Evaluator";
+
         public object Clone()
         {
             throw new System.NotImplementedException();

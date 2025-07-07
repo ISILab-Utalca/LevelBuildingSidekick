@@ -22,6 +22,10 @@ namespace ISILab.AI.Categorization
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public string Tooltip => "DC Resource Safety Evaluator\n\n" +
+            "This evaluator aims to distribute chests, weapons and other resources in a way that most of them are in areas close to the players.\n\n" +
+            "The currently supported context is either a single Interior Layer or no Context Layers.";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 

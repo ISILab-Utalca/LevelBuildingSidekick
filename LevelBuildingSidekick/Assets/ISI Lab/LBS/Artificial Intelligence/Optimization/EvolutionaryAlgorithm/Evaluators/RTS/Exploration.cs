@@ -20,6 +20,8 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Exploration Evaluator";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic colliderCharacteristic;
 

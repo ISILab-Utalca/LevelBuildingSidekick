@@ -19,6 +19,8 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Safety Fairness Evaluator";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 

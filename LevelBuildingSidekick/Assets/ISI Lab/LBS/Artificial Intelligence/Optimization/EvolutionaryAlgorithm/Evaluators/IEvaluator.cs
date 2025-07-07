@@ -21,6 +21,8 @@ namespace Commons.Optimization.Evaluator
         float Evaluate(IOptimizable evaluable);
 
         abstract void InitializeDefault();
+
+        string Tooltip { get; }
     }
 
     public interface INameable

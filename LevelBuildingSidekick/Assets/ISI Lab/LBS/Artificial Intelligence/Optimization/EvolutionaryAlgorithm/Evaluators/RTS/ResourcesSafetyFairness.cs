@@ -18,6 +18,8 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Resource Safety Fairness Evaluator";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristc;
 
