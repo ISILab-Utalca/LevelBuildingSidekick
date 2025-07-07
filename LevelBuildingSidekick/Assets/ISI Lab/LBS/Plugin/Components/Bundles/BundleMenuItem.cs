@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using ISILab.Macros;
 using LBS.Bundles;
@@ -44,7 +42,7 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             name ??= "New Bundle";
             name = name.Replace("prefab", "bundle");
             var endAction = ScriptableObject.CreateInstance<EndBundleNameEditAction>();
-            CreateBundleAsset(obj, name + ".asset"); // Nueva función. Testear para este caso.
+            CreateBundleAsset(obj, name + ".asset"); // New function. Test require for this case.
             //ProjectWindowUtil.CreateAsset(obj, name + ".asset");
         }
 

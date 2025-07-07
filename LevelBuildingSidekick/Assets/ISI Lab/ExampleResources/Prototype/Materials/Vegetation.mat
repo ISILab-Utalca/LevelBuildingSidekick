@@ -115,7 +115,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Intensity: 0.1
+    - _Intensity: 0
     - _Metallic: 0
     - _Metalness: 0
     - _Mode: 3
@@ -130,13 +130,13 @@ Material:
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.6
+    - _Speed: 0
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _UVSec: 0
     - _UseVertexColor: 1
-    - _VertexBlend: 0.363
+    - _VertexBlend: 0.333
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

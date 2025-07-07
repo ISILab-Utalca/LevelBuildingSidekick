@@ -8,7 +8,14 @@ namespace ISILab.LBS
     {
         public DataListen dataListen;
         public GameObject objectToListen;
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataListen);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataListen = (DataListen)baseData;
         }

@@ -8,8 +8,14 @@ namespace ISILab.LBS
     {
         public DataSpy dataSpy;
         public GameObject objectToSpy;
-        
-        public override void SetTypedData(BaseQuestNodeData baseData)
+
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataSpy);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataSpy = (DataSpy)baseData;
             

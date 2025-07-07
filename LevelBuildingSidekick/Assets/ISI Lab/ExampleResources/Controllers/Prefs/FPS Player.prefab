@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 1673433292}
   - component: {fileID: 3253430583971355092}
   - component: {fileID: 3587990030064652793}
+  - component: {fileID: 8889107054395935694}
   m_Layer: 0
   m_Name: FPS Player
   m_TagString: Untagged
@@ -215,6 +216,18 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1981861264001897172, guid: d96730142a3a637468da40f357d7db5c, type: 3}
   firePoint: {fileID: 6632870608559370525}
   bulletSpeed: 10
+--- !u!114 &8889107054395935694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842695113314774871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9e327dc43a5e643a893c0696c2884e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &842695114768913135
 GameObject:
   m_ObjectHideFlags: 0

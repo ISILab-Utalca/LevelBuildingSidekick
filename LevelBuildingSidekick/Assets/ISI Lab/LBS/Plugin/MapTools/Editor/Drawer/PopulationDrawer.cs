@@ -137,7 +137,7 @@ namespace ISILab.LBS.Drawers
             }
         }
 
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not PopulationBehaviour population) return;
@@ -150,7 +150,7 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not PopulationBehaviour population) return;

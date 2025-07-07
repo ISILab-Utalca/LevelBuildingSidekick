@@ -9,7 +9,7 @@ namespace ISILab.LBS
 
     [DisallowMultipleComponent]
     [Serializable]
-    public abstract class QuestTrigger : MonoBehaviour
+    public class QuestTrigger : MonoBehaviour
     {
         #region FIELDS
 
@@ -33,23 +33,53 @@ namespace ISILab.LBS
             get => isCompleted;
             set => isCompleted = value;
         }
+        
+        public QuestNode Node
+        {
+            get => node;
+            set => node = value;
+        }
 
         #endregion
        
         #region EVENTS
+        
         public event Action<QuestTrigger> OnTriggerCompleted;
-        [SerializeField]
-        public UnityEvent onCompleteEvent;
+        [SerializeField, SerializeReference]
+        public UnityEvent onCompleteEvent = new();
         
         #endregion
         
         #region METHODS
 
+        protected void EnsureCollider()
+        {
+            if (BoxCollider != null) return;
+            BoxCollider = GetComponent<BoxCollider>();
+            if (BoxCollider != null) return;
+            BoxCollider = gameObject.AddComponent<BoxCollider>();
+            BoxCollider.isTrigger = true;
+            BoxCollider.size = Vector3.one;
+        }
+
+
+        
+        /// <summary>
+        /// Call to set SetTypedData from Runtime Function
+        /// </summary>
+        public virtual void Init()
+        {
+            EnsureCollider();
+        }
+
         /// <summary>
         /// Replace and cast the incoming parameter to the required data type
         /// </summary>
         /// <param name="baseData"></param>
-        public abstract void SetTypedData(BaseQuestNodeData baseData);
+        public virtual void SetDataNode(BaseQuestNodeData baseData)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Set the required values for each class type based on the Containers within the node data class.
@@ -58,7 +88,7 @@ namespace ISILab.LBS
         /// <param name="paramNode">incoming node with data</param>
         public void SetData(QuestNode paramNode)
         {
-            this.node = paramNode;
+            node = paramNode;
             nodeID = paramNode.ID;
         }
         
@@ -68,6 +98,10 @@ namespace ISILab.LBS
         /// <param name="size"></param>
         public void SetSize(Vector3 size)
         {
+            size.x = Mathf.Abs(size.x);
+            size.y = Mathf.Abs(size.y);
+            size.z = Mathf.Abs(size.z);
+            
             BoxCollider = gameObject.AddComponent<BoxCollider>();
             BoxCollider.isTrigger = true;
             BoxCollider.size = size;
@@ -105,13 +139,32 @@ namespace ISILab.LBS
         public void CheckComplete()
         {
             if (!CompleteCondition()) return;
+            Completed();
+
+        }
+
+        private void Completed()
+        {
             isCompleted = true;
             onCompleteEvent?.Invoke();
-            OnTriggerCompleted?.Invoke(this);
             
-            node.QuestState = QuestState.Completed;
+            if(node is not null) node.QuestState = QuestState.Completed;
             gameObject.SetActive(false); // Deactivate after completion to avoid trigger calls.
+            
+            OnTriggerCompleted?.Invoke(this);
         }
+        
+        
+#if UNITY_EDITOR
+        /// <summary>
+        /// Right click the cog icon in the inspector of the Script
+        /// </summary>
+        [ContextMenu("Force Complete")]
+        private void ForceComplete()
+        {
+            Completed();
+        }
+#endif
         
         #endregion
     }

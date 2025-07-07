@@ -30,19 +30,15 @@ namespace ISILab.LBS.VisualElements
         protected override void OnDataAssigned()
         {
             _pickerBundle.ClearPicker();
-            _pickerBundle.SetTargetByLayer(NodeData.bundleToSpy.GetLayer(), NodeData.bundleToSpy.guid, NodeData.bundleToSpy.Position);
+            _pickerBundle.SetEditorLayerTarget(NodeData.bundleToSpy);
 
             _pickerBundle.OnClicked = () =>
             {
                 var pickerManipulator = AssignPickerData();
-                pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, position) =>
+                pickerManipulator.OnBundlePicked = (layer, tileBundle) =>
                 {
-                    NodeData.bundleToSpy = new BundleGraph(
-                        layer,
-                        positions,
-                        pickedGuid);
-       
-                    if(layer!=null) _pickerBundle.SetTargetByLayer(layer, pickedGuid, NodeData.bundleToSpy.Position);
+                    NodeData.bundleToSpy = new BundleGraph(NodeData, layer, tileBundle);
+                    _pickerBundle.SetEditorLayerTarget(NodeData.bundleToSpy);
                 };
             };
 

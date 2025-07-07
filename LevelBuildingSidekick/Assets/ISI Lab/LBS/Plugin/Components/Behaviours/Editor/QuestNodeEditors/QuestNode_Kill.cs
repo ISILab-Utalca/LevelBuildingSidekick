@@ -33,19 +33,15 @@ namespace ISILab.LBS.VisualElements
 
                 var bundleGraph = NodeData.bundlesToKill[i];
                 tilePicker.ClearPicker();
-                tilePicker.SetTargetByLayer(bundleGraph.GetLayer(), bundleGraph.guid, bundleGraph.Position);
+                tilePicker.SetEditorLayerTarget(bundleGraph);
 
                 tilePicker.OnClicked = () =>
                 {
                     var pickerManipulator = AssignPickerData();
-                    pickerManipulator.OnBundlePicked = (layer, positions, pickedGuid, _) =>
+                    pickerManipulator.OnBundlePicked = (layer,tileBundle) =>
                     {
-                        bundleGraph = new BundleGraph(
-                            layer,
-                            positions,
-                            pickedGuid);
-                        
-                        if(layer!=null) tilePicker.SetTargetByLayer(layer, pickedGuid, bundleGraph.Position);
+                        bundleGraph = new BundleGraph(NodeData, layer, tileBundle);
+                        tilePicker.SetEditorLayerTarget(bundleGraph);
                         NodeData.bundlesToKill[i] = bundleGraph;
                     };
                 };
@@ -54,8 +50,13 @@ namespace ISILab.LBS.VisualElements
             _killList.itemsRemoved += (_) =>
             {
                 _killList.Rebuild();
-                // Redraw to remove any elements that correspond to the deleted element
-                DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+                
+                // Delay Redraw because Unity reconstructs the list and it gets updated on the next tick
+                _killList.schedule.Execute(() =>
+                {
+                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+                }).ExecuteLater(1); 
+                
             };
             
             _killList.Rebuild();

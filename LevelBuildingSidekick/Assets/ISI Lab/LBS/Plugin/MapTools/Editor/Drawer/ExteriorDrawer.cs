@@ -56,11 +56,13 @@ namespace ISILab.LBS.Drawers
         }
         private void UpdateLoadedTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
         {
-            // Update stored tiles
-            foreach (LBSTile tile in exterior.Keys)
+            exterior.Keys.RemoveWhere(item => item == null);
+            
+            // Update stored tile
+            foreach (object obj in exterior.Keys)
             {
-                if (tile == null) continue;
-
+                if(obj is not LBSTile tile) continue;
+                
                 var elements = view.GetElements(exterior.OwnerLayer, tile);
                 if(elements == null) continue;
                 
@@ -100,7 +102,7 @@ namespace ISILab.LBS.Drawers
             }
         }
         
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not ExteriorBehaviour exterior) return;
@@ -113,7 +115,7 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not ExteriorBehaviour exterior) return;

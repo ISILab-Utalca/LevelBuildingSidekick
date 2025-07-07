@@ -27,7 +27,10 @@ namespace ISILab.LBS.Drawers.Editor
             if (quest == null) return;
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-            PaintNewTiles(quest, behaviour, nodeViews, view);
+           // view.ClearLayerView(behaviour.OwnerLayer, true);
+          //  PaintNewTiles(quest, behaviour, nodeViews, view);
+            LoadAllTiles(quest, behaviour, nodeViews, view);
+           
 
             // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
             
@@ -66,27 +69,28 @@ namespace ISILab.LBS.Drawers.Editor
         {
             foreach (var node in quest.QuestNodes)
             {
-                var nodeView = CreateNodeView(node, quest, behaviour);
-                
-                nodeViews.Add(node, nodeView);
-                // Stores using QuestNode as key
+                if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
+                {
+                    nodeView = CreateNodeView(node, quest, behaviour);
+                    nodeViews[node] = nodeView;
+                }
+
                 view.AddElement(quest.OwnerLayer, node, nodeView);
                 behaviour.Keys.Add(node);
             }
-            
+
             foreach (var edge in quest.QuestEdges)
             {
                 if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
                 if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
-                
+
                 var edgeView = CreateEdgeView(edge, n1, n2);
-                // Stores using QuestEdge as key
                 view.AddElement(quest.OwnerLayer, edge, edgeView);
                 behaviour.Keys.Add(edge);
             }
         }
 
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not QuestBehaviour behaviour) return;
@@ -99,7 +103,7 @@ namespace ISILab.LBS.Drawers.Editor
                 }
             }
         }
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not QuestBehaviour behaviour) return;

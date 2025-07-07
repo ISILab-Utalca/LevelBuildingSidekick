@@ -21,15 +21,29 @@ namespace ISILab.LBS.Drawers
         public Drawer() { }
 
         public abstract void Draw(object target, MainView view, Vector2 teselationSize);
-        
-        
-        protected void PaintNewTiles() { throw new NotImplementedException(); }
-        protected void UpdateLoadedTiles() { throw new NotImplementedException(); }
-        protected void LoadAllTiles() { throw new NotImplementedException(); }
-        protected void UpdateTileView() { throw new NotImplementedException(); }
 
-        public abstract void HideVisuals(object target, MainView view, Vector2 teselationSize);
-        public abstract void ShowVisuals(object target, MainView view, Vector2 teselationSize);
+        #region RECOMMENDED METHODS
+        // To optimally handle the visual elements, it is recommended that a drawer's Draw method contains the next steps.
+        // Not all uses of a drawer needs to use all of them, but they can be used as a general guideline.
+        
+        // Most drawers must load the tiles that have already been created, whether it was from a missing
+        // function, or loading the map from a save file. You can use the field Loaded for this purpose.
+        protected void LoadAllTiles() { throw new NotImplementedException(); }
+        
+        // When a new visualElement must be created, a representative object is stored in a related behaviour class,
+        // then, the Drawer gets them and create visualElements with the information associated to the objects.
+        protected void PaintNewTiles() { throw new NotImplementedException(); }
+        
+        // Some visualElements need to be updated through their life cycle, to do this, you can use the Keys property
+        // in a related behaviour class. This property stores all objects used to create a visualElement, and you
+        // should also use it in LoadAllTiles.
+        // With these keys, you can ask the MainView for a the visualElements associated with it, and update its
+        // parameters.
+        protected void UpdateLoadedTiles() { throw new NotImplementedException(); }
+        #endregion
+
+        public abstract void HideVisuals(object target, MainView view);
+        public abstract void ShowVisuals(object target, MainView view);
         
         public virtual void ReDraw(LBSLayer layer, object[] olds, object[] news, MainView view, Vector2 teselationSize) { }
 

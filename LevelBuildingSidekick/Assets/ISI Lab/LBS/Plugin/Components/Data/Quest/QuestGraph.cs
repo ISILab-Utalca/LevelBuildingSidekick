@@ -5,22 +5,21 @@ using ISILab.AI.Grammar;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
-using ISILab.LBS.Internal;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Modules
 {
-    [System.Serializable]
+    [Serializable]
     public class QuestGraph : LBSModule, ICloneable, ISelectable
     {
         [SerializeField, JsonRequired]
-        private Vector2Int nodeSize;
+        private Vector2Int nodeSize = new(5, 1);
 
-        [SerializeField, JsonRequired]
-        string grammarName;
+        [SerializeField, JsonRequired] private string grammarName;
 
         [SerializeField, SerializeReference, JsonRequired]
         List<QuestNode> questNodes = new();
@@ -44,9 +43,9 @@ namespace ISILab.LBS.Modules
         public QuestNode Root => root;
 
         [JsonIgnore]
-        private LBSGrammar grammar;
+        private LBSGrammar _grammar;
         
-        [SerializeField] private string LBSGrammarGui = "63ab688b53411154db5edd0ec7171c42"; // default value is DefaultGrammar
+        [FormerlySerializedAs("LBSGrammarGui")] [SerializeField] private string lbsGrammarGui = "63ab688b53411154db5edd0ec7171c42"; // default value is DefaultGrammar
         
         [JsonIgnore]
         public LBSGrammar Grammar
@@ -54,15 +53,15 @@ namespace ISILab.LBS.Modules
             get => GetQuestGrammar();
             set
             {
-                grammar = value;
+                _grammar = value;
                 grammarName = value.name;
-                LBSGrammarGui = LBSAssetMacro.GetGuidFromAsset(value);
+                lbsGrammarGui = LBSAssetMacro.GetGuidFromAsset(value);
             }
         }
 
         private LBSGrammar GetQuestGrammar()
         {
-            return LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(LBSGrammarGui);
+            return LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(lbsGrammarGui);
         }
 
         [JsonIgnore]
@@ -72,8 +71,8 @@ namespace ISILab.LBS.Modules
         public List<QuestEdge> QuestEdges => questEdges;
 
         [JsonIgnore]
-        public bool IsVisible { get; set; }
-        
+        public bool IsVisible { get; set; } = true;
+
         #region EVENTS
         [JsonIgnore]
         public Action<QuestNode> GoToNode;
@@ -89,12 +88,6 @@ namespace ISILab.LBS.Modules
         public Action<QuestEdge> OnRemoveEdge;
         #endregion
 
-        public QuestGraph()
-        {
-            IsVisible = true;
-            nodeSize = new Vector2Int(5, 1);
-        }
-        
         public QuestNode GetQuestNode(Vector2 position)
         {
             var size = nodeSize * LBSSettings.Instance.general.TileSize;
@@ -143,23 +136,24 @@ namespace ISILab.LBS.Modules
         }
         
         
-        public void AddNode(string id, Vector2 position, string action)
+        public void AddNode(string paramId, Vector2 position, string action)
         {
-            var newNode = new QuestNode(id, position, action, this);
+            var newNode = new QuestNode(paramId, position, action, this);
             questNodes.Add(newNode);
-            OnAddNode?.Invoke(newNode);
-            UpdateFlow?.Invoke();
-
             _newNodes.Add(newNode);
+            
+            OnAddNode?.Invoke(newNode);
+           // UpdateFlow?.Invoke();
+
+   
         }
         public void AddNode(QuestNode node)
         {
             if(root == null) SetRoot(node);
             questNodes.Add(node);
-            OnAddNode?.Invoke(node);
-            UpdateFlow?.Invoke();
-            
             _newNodes.Add(node);
+            
+            OnAddNode?.Invoke(node);
             
             QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
             if(qnb is null) return;
@@ -174,7 +168,7 @@ namespace ISILab.LBS.Modules
             foreach (var e in edgesToRemove) RemoveEdge(e);
             OnRemoveNode?.Invoke(node);
             
-            UpdateFlow?.Invoke();
+            //UpdateFlow?.Invoke();
             
             QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(OwnerLayer);
             if(qnb is null) return;
@@ -210,9 +204,11 @@ namespace ISILab.LBS.Modules
                 return Tuple.Create("Invalid connection, loop detected", LogType.Error);
 
             questEdges.Add(edge);
+            _newEdges.Add(edge);
+            
             OnAddEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
-            _newEdges.Add(edge);
+            
             
             var connectionInfo = $"Connection: {first.QuestAction} → {second.QuestAction}";
             return Tuple.Create(connectionInfo, LogType.Log);
@@ -232,9 +228,11 @@ namespace ISILab.LBS.Modules
         {
             if (edge == null) return;
             questEdges.Remove(edge);
-            OnRemoveEdge?.Invoke(edge);
-            UpdateFlow?.Invoke();
             _expiredEdges.Add(edge);
+            
+            OnRemoveEdge?.Invoke(edge);
+         //   UpdateFlow?.Invoke();
+         
         }
         
         
@@ -258,11 +256,11 @@ namespace ISILab.LBS.Modules
             queue.Enqueue(edge.Second);
 
             int iteration = 0; // Debug limit
-            const int MAX_ITERATIONS = 1000;
+            const int maxIterations = 1000;
 
             while (queue.Count > 0)
             {
-                if (iteration++ > MAX_ITERATIONS)
+                if (iteration++ > maxIterations)
                 {
                     Debug.LogError("IsLooped exceeded max iterations; possible graph corruption");
                     return true; 
@@ -301,16 +299,12 @@ namespace ISILab.LBS.Modules
                 if (current == edge.First)
                     return true;
 
-                if (visited.Contains(current))
+                if (!visited.Add(current))
                     continue;
 
-                visited.Add(current);
-
-                foreach (var e in GetBranches(current))
+                foreach (var e in GetBranches(current).Where(e => !visited.Contains(e.Second)))
                 {
-                    // avoid enqueue visited nodes
-                    if (!visited.Contains(e.Second)) 
-                        queue.Enqueue(e.Second);
+                    queue.Enqueue(e.Second);
                 }
             }
 
@@ -342,33 +336,31 @@ namespace ISILab.LBS.Modules
         public bool HasRequiredConnection(QuestNode questNode)
         {
             if (!questNodes.Any()) return false;
-            var valid = false;
+            bool valid;
             
             bool hasNext = questEdges.Any(qe => qe.First == questNode && qe.Second != null);
             bool hasPrevious = questEdges.Any(qe => qe.Second == questNode && qe.First != null);
           
-            if (questNode.NodeType == NodeType.Start)
+            switch (questNode.NodeType)
             {
-                // if first node check for next connection
-                valid = hasNext & !hasPrevious;
-                //   Debug.Log($"start ({questNode.ID}) - edges: {valid} ");
-                return valid;
+                case NodeType.Start:
+                    // if first node check for next connection
+                    valid = hasNext & !hasPrevious;
+                    //   Debug.Log($"start ({questNode.ID}) - edges: {valid} ");
+                    return valid;
+                case NodeType.Goal:
+                    // if last node check for previous connection
+                    valid = hasPrevious & !hasNext;
+                    //    Debug.Log($"goal ({questNode.ID}) - edges: {valid} ");
+                    return valid;
+                default:
+                    // mid node must have both connections
+                    valid = hasNext && hasPrevious;
+            
+                    // Debug.Log($"mid ({questNode.ID}) - edges: {valid} ");
+            
+                    return valid;
             }
-            
-            if (questNode.NodeType == NodeType.Goal)
-            {
-                // if last node check for previous connection
-                valid = hasPrevious & !hasNext;
-                //    Debug.Log($"goal ({questNode.ID}) - edges: {valid} ");
-                return valid;
-            }
-
-            // mid node must have both connetions
-            valid = hasNext && hasPrevious;
-            
-            // Debug.Log($"mid ({questNode.ID}) - edges: {valid} ");
-            
-            return valid;
         }
         
         public override void Print()
@@ -395,14 +387,14 @@ namespace ISILab.LBS.Modules
 
             clone.questNodes.Clear();
 
-            var nodes = questNodes.Select(n => CloneRefs.Get(n)).Cast<QuestNode>();
+            var nodes = questNodes.Select(CloneRefs.Get).Cast<QuestNode>();
 
             foreach (var node in nodes)
             {
                 clone.questNodes.Add(node);
             }
 
-            var edgesClone = questEdges.Select(e => CloneRefs.Get(e)).Cast<QuestEdge>();
+            var edgesClone = questEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
             foreach (var edge in edgesClone)
             {
                 clone.questEdges.Add(edge);
@@ -414,13 +406,13 @@ namespace ISILab.LBS.Modules
         }
         public List<object> GetSelected(Vector2Int position)
         {
-            var selecteds = new List<object>();
+            var selected = new List<object>();
 
             var node = GetQuestNode(position);
             if (node != null)
-                selecteds.Add(node);
+                selected.Add(node);
 
-            return selecteds;
+            return selected;
         }
         public override void Rewrite(LBSModule other)
         {
@@ -447,13 +439,37 @@ namespace ISILab.LBS.Modules
         }
         public void Reorder()
         {
-            questEdges.Clear(); 
+            if (!questNodes.Any()) return;
+
+            // 1. Reset root and types before doing anything else
+            foreach (var qn in questNodes)
+            {
+                qn.NodeType = NodeType.Middle;
+            }
+
+            var firstNode = questNodes.First();
+            var lastNode = questNodes.Last();
+
+            SetRoot(firstNode);
+            lastNode.NodeType = NodeType.Goal;
+
+            // 2. Clear old edges
+            questEdges.Clear();
+
+            // 3. Add new sequential edges
             for (int i = 0; i < questNodes.Count - 1; i++)
             {
                 var node1 = questNodes[i];
                 var node2 = questNodes[i + 1];
-                AddEdge(node1, node2);
+
+                var result = AddEdge(node1, node2);
+                if (result.Item2 == LogType.Error)
+                {
+                    Debug.LogWarning($"[QuestGraph::Reorder] Failed to add edge: {result.Item1}");
+                }
             }
+
+            //UpdateFlow?.Invoke(); // Optional: force redraw if needed
         }
         
         public QuestNode[] RetrieveNewNodes() { return RetrieveSet(_newNodes); }

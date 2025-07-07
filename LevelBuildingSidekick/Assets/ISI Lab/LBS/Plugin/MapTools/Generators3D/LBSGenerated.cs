@@ -3,7 +3,6 @@ using ISILab.LBS.Characteristics;
 using LBS.Bundles;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
 {
@@ -94,14 +93,14 @@ namespace ISI_Lab.LBS.Plugin.MapTools.Generators3D
             }
         }
         
-        public bool HasLBSTag(string paraTag)
+        public bool HasLBSTag(string _paraTag)
         {
             var characteristics = bundleRef.Characteristics;
             foreach (var lbsChar in characteristics)
             {
                 if (lbsChar is not LBSTagsCharacteristic lbsTagsCharacteristic) continue;
                 if (lbsTagsCharacteristic.Value == null) continue;
-                if (lbsTagsCharacteristic.Value.label != paraTag) continue;
+                if (lbsTagsCharacteristic.Value.label != _paraTag) continue;
                 return true;
             }
 

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: ActivateButton_01_Bundle
+  m_EditorClassIdentifier: 
+  layerContentFlags: 4
+  type: 0
+  anchorPosition: 0
+  color: {r: 0.3764706, g: 0, b: 0, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 518ad283ddcdaa54586067d782f7ff22, type: 3}
+  assets:
+  - obj: {fileID: 77413969324000464, guid: 101051ab3a4931d47aa39585c5fd75a2, type: 3}
+    probability: 0.5
+  characteristics: []
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+  guid: c29b41cfbce257c40b40b9e3cdbe7c8e
+  references:
+    version: 2
+    RefIds: []

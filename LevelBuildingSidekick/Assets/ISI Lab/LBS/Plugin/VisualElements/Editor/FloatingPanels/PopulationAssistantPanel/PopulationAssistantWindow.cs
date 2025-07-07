@@ -101,6 +101,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELDS
         private MAPElitesPreset mapEliteBundle;
         private PopulationAssistantButtonResult selectedMap;
+        private List<LayerContextEntry> contextEntries = new();
 
         protected IRangedEvaluator currentXField
         {
@@ -337,7 +338,29 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //LAYER CONTEXT
             layerList = rootVisualElement.Q<ListView>("LayerList");
-            layerList.itemsSource = Data.ContextLayers; 
+            UpdateContextEntries();
+
+            layerList.reorderable = false;
+            layerList.makeItem += () => new LayerContextEntry();
+            layerList.bindItem = (element, index) =>
+            {
+                var layerContextVE = element as LayerContextEntry;
+                if (layerContextVE == null) return;
+
+                layerContextVE.UpdateData(Data.ContextLayers[index]);
+                layerContextVE.OnRemoveButtonClicked = null;
+                layerContextVE.OnRemoveButtonClicked += () =>
+                {
+                    Debug.Log("clicked");
+                    Data.ContextLayers.RemoveAt(index);
+                    layerList.Remove(element);
+                    layerList.Rebuild();
+                };
+
+            };
+
+            layerList.itemsSource = Data.ContextLayers;
+
             addLayerButton = rootVisualElement.Q<Button>("AddLayerButton");
             addLayerButton.clicked += AddLayerMenu;
         }
@@ -787,8 +810,15 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region LAYER CONTEXT METHODS
-        public void ApplyContextLayers()
-        {         }
+        public void UpdateContextEntries()
+        {     
+
+            foreach(LBSLayer layer in Data.ContextLayers)
+            {
+                Debug.Log("a");
+                contextEntries.Add(new LayerContextEntry());
+            }
+        }
 
         public void AddLayerMenu()
         {
@@ -810,7 +840,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 case true: Data.ContextLayers.Remove(objectLayer); break;
                 case false: Data.ContextLayers.Add(objectLayer); break;
             }
-            layerList.MarkDirtyRepaint();
+            layerList.Rebuild();
 
             InitializeAllCurrentEvaluators();
         }

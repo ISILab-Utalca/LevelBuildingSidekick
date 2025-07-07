@@ -284,8 +284,9 @@ namespace ISILab.LBS.Modules
             var other = obj as TileConnectionsPair;
 
             if (other == null) return false;
+            if (other.tile == null) return false;
 
-            if (!this.tile.Equals(other.tile)) return false;
+            if (!tile.Equals(other.tile)) return false;
 
             var cCount = other.connections.Count;
 

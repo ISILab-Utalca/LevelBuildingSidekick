@@ -328,24 +328,23 @@ namespace ISILab.LBS.Editor.Windows{
         layerPanel.style.display = DisplayStyle.Flex;
 
         layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView);
-        layerPanel.OnSelectLayer += layer => OnSelectedLayerChange(layer);
+        layerPanel.OnSelectLayer += OnSelectedLayerChange;
         layerPanel.OnAddLayer += layer =>
         {
             var sw = new Stopwatch();
             sw.Start();
-            sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
+         //   sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
             sw.Restart();
             DrawManager.Instance.AddContainer(layer);
-            sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
+          //  sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
         };
         layerPanel.OnRemoveLayer += l =>
         {
-            drawManager.RemoveContainer(l);
-            if (levelData.LayerCount == 0)
-            {
-                toolkit.Clear();
-                OnSelectedLayerChange(null);
-            }
+            //      drawManager.RemoveContainer(l);
+            if (levelData.LayerCount != 0) return;
+            
+            toolkit.Clear();
+            OnSelectedLayerChange(null);
         };
 
         gen3DPanel = new Generator3DPanel();
@@ -421,10 +420,6 @@ namespace ISILab.LBS.Editor.Windows{
         #region TOOLKIT
 
         toolkit = rootVisualElement.Q<ToolKit>("Toolkit");
-        toolkit.OnEndAction += l =>
-        {
-            drawManager.RedrawLayer(l, mainView);
-        };
 
         #endregion
         
@@ -509,11 +504,16 @@ namespace ISILab.LBS.Editor.Windows{
         /// <param name="layer"></param>
         private void OnSelectedLayerChange(LBSLayer layer)
         {
+            if (_selectedLayer is not null)
+            {
+                _selectedLayer.OnChangeUpdate();
+
+            }
             _selectedLayer = layer;
            
             toolkit.Clear();
             inspectorManager.SetTarget(layer);
-            toolkit.SetActive(typeof(Select));
+            toolkit.SetActive(typeof(SelectManipulator));
             toolkit.SetSeparators();
             
             gen3DPanel.Init(layer);
@@ -532,8 +532,8 @@ namespace ISILab.LBS.Editor.Windows{
         public List<LBSLayer> GetLayers()
         {
             List<LBSLayer> layers = new List<LBSLayer>();
-            if(layerPanel == null || layerPanel.data == null) return layers;
-            return layerPanel.data.Layers;
+            if(layerPanel == null || layerPanel.Data == null) return layers;
+            return layerPanel.Data.Layers;
         }
 
         private static void OnToggleButtonClick()
