@@ -10,6 +10,7 @@ using LBS.Components;
 using ISILab.LBS.Behaviours;
 using System.Numerics;
 using ISILab.Macros;
+using System.Collections.Generic;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -51,8 +52,6 @@ namespace ISILab.LBS.VisualElements.Editor
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerContextEntry");
             visualTree.CloneTree(this);
 
-            Debug.Log("adding");
-
             layerImage = this.Q<VisualElement>("LayerImage");
             layerNameLabel = this.Q<Label>("LayerName");
             entryWarning = this.Q<VisualElement>("EntryWarning");
@@ -60,7 +59,7 @@ namespace ISILab.LBS.VisualElements.Editor
             removeButton.clicked += () => OnRemoveButtonClicked?.Invoke();
 
             entryWarning.tooltip = "This layer's information overlaps with another layer of the same type. Remove or modify one of them or the evaluation may not yield the desired results.";
-            entryWarning.SetEnabled(false);
+            entryWarning.visible = false;
         }
 
         public void UpdateData(object layer)
@@ -68,6 +67,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var layerData = layer as LBSLayer;
             if (layerData == null) return;
 
+            layerReference = layerData;
             name = layerData.Name;
             layerNameLabel.text = layerData.Name;
 
@@ -77,6 +77,28 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             VectorImage icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(guid);
             layerImage.style.backgroundImage = new StyleBackground(icon);
+        }
+
+        public void EvaluateOverlap(List<LBSLayer> layers)
+        {
+            foreach(LBSLayer layer in layers)
+            {
+                if(layer.ID == layerReference.ID)
+                {
+                    switch (layerReference.ID)
+                    {
+                        case "Population":
+                            break;
+                        case "Exterior":
+                            break;
+                        case "Interior":
+                            break;
+                        case "Quest":
+                            break;
+                    }
+                }
+            }
+            
         }
     }
 }
