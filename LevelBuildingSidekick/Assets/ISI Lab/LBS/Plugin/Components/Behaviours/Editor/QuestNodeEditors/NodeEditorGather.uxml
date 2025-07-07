@@ -2,6 +2,6 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="Gather" style="flex-grow: 0;">
         <ISILab.LBS.VisualElements.PickerBundle name="GatherTarget" />
-        <ui:IntegerField label="Gather Amount" value="1" name="GatherAmount" style="margin-bottom: 6px;" />
+        <ui:IntegerField label="Gather Amount" value="1" name="GatherAmount" class="lbs-pickerPanel" style="margin-bottom: 6px;" />
     </ui:VisualElement>
 </ui:UXML>

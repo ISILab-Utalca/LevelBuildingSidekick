@@ -13,7 +13,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorKill()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Kill");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorKill");
             visualTree.CloneTree(this);
 
             _killList = this.Q<ListView>("KillList");

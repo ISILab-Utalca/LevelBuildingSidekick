@@ -10,17 +10,17 @@ namespace ISILab.LBS.VisualElements
     
     public class NodeEditorCapture : NodeEditor
     {
-        private FloatField requiredCaptureTime;
-        private Toggle resetOnExit;
+        private FloatField _requiredCaptureTime;
+        private Toggle _resetOnExit;
 
         public NodeEditorCapture()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Capture");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorCapture");
             visualTree.CloneTree(this);
             
-            requiredCaptureTime = this.Q<FloatField>("CaptureTime");
-            resetOnExit = this.Q<Toggle>("CaptureResetOnExit");
+            _requiredCaptureTime = this.Q<FloatField>("CaptureTime");
+            _resetOnExit = this.Q<Toggle>("CaptureResetOnExit");
             
         }
 

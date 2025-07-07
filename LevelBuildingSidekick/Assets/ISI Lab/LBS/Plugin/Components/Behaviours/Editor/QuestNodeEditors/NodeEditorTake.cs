@@ -12,7 +12,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorTake()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Take");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorTake");
             visualTree.CloneTree(this);
 
             _pickerBundle = this.Q<PickerBundle>("TakeTarget");

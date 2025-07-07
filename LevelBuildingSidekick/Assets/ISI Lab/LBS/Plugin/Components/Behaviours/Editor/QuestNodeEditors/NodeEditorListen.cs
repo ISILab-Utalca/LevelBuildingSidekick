@@ -11,7 +11,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorListen()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Listen");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorListen");
             visualTree.CloneTree(this);
 
             _pickerBundle = this.Q<PickerBundle>("ListenTarget");

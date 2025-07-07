@@ -5,6 +5,6 @@
         <ui:IntegerField label="Give Amount" value="1" name="ExchangeGiveAmount" style="margin-bottom: 6px;" />
         <ui:VisualElement style="flex-grow: 1; border-left-color: rgb(217, 217, 217); border-right-color: rgb(217, 217, 217); border-top-color: rgb(217, 217, 217); border-bottom-color: rgb(217, 217, 217); border-bottom-width: 1px; margin-top: 3px; margin-bottom: 3px;" />
         <ISILab.LBS.VisualElements.PickerBundle name="ExchangeReceiveTarget" />
-        <ui:IntegerField label="Receive Amount" value="1" name="ExhangeReceiveAmount" style="margin-bottom: 6px;" />
+        <ui:IntegerField label="Receive Amount" value="1" name="ExhangeReceiveAmount" class="lbs-pickerPanel" style="margin-bottom: 6px;" />
     </ui:VisualElement>
 </ui:UXML>

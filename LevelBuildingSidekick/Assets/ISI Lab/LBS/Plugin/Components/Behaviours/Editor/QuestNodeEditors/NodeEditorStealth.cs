@@ -15,7 +15,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorStealth()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Stealth");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorStealth");
             visualTree.CloneTree(this);
 
             _requiredPosition = this.Q<PickerVector2Int>("RequiredPosition");

@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorSpy()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Spy");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorSpy");
             visualTree.CloneTree(this);
 
             _pickerBundle = this.Q<PickerBundle>("SpyTarget");

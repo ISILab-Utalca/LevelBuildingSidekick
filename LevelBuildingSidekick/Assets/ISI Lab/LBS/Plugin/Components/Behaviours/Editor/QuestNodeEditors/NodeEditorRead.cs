@@ -11,7 +11,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorRead()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Read");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorRead");
             visualTree.CloneTree(this);
 
             _pickerBundle = this.Q<PickerBundle>("ReadTarget");
