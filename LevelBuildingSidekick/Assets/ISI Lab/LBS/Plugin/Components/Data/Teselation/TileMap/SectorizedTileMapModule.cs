@@ -169,7 +169,7 @@ namespace ISILab.LBS.Modules
 
             foreach (var pair in pairs)
             {
-                if (pair.Tile == tile)
+                if (pair.Tile.Equals(tile))
                     return pair;
             }
             return null;

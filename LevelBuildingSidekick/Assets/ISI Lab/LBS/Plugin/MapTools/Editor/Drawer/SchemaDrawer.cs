@@ -1,16 +1,17 @@
+using ISILab.Commons.VisualElements;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
+using LBS.Components.TileMap;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
-using ISILab.LBS.VisualElements.Editor;
-using ISILab.LBS.Components;
-using ISILab.LBS.Modules;
-using ISILab.LBS.Behaviours;
-using ISILab.Commons.VisualElements;
-using ISILab.LBS.VisualElements;
+using UnityEditor.MemoryProfiler;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers
@@ -88,17 +89,11 @@ namespace ISILab.LBS.Drawers
         
         private void UpdateTileView(SchemaTileView tView, LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize, int layerIndex)
         {
-            var pos = new Vector2(tile.Position.x, -tile.Position.y);
-            var size = DefalutSize * teselationSize;
-            
-            tView.SetPosition(new Rect(pos * size, size));
-            tView.SetBackgroundColor(zone.Color);
-            tView.SetBorderColor(zone.Color, zone.BorderThickness);
-            tView.SetConnections(connections.ToArray());
-
             // Aquí se podría ajustar el tile según el foreach que sigue en GetTileView, pero
             // honestamente no se que hace, y no lo quiero tocar. Si hay errores en el drawer
             // empezaría revisando por aquí :P
+
+            AdjustTileView(tView, tile, zone, connections, teselationSize);
             
             tView.layer = layerIndex;
         }
@@ -190,32 +185,39 @@ namespace ISILab.LBS.Drawers
         }
         private GraphElement GetTileView(LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize)
         {
-            var pos = new Vector2(tile.Position.x, -tile.Position.y);
             var tView = new SchemaTileView();
+            
+            AdjustTileView(tView, tile, zone, connections, teselationSize);
+            
+            return tView;
+        }
+
+        private void AdjustTileView(SchemaTileView tView, LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize)
+        {
+            var pos = new Vector2(tile.Position.x, -tile.Position.y);
             var size = DefalutSize * teselationSize;
             tView.SetPosition(new Rect(pos * size, size));
 
             tView.SetBackgroundColor(zone.Color);
 
             tView.SetBorderColor(zone.Color, zone.BorderThickness);
-            
+
             tView.SetConnections(connections.ToArray());
 
             var Connections = SchemaTileView.GetConnectionPoints(connections);
-            var tempSchemaBehaviour = new SchemaBehaviour(ScriptableObject.CreateInstance<VectorImage>(), "temp", Color.clear);
-            
+
             foreach (var connection in Connections)
             {
-                if (string.IsNullOrEmpty(connection.Key) || string.IsNullOrEmpty(connection.Value)) continue; 
+                if (string.IsNullOrEmpty(connection.Key) || string.IsNullOrEmpty(connection.Value)) continue;
 
                 // divided by 4 offsets to center the background image
-                var xOffset = tView.GetPosition().width/8f;
-                var yOffset = tView.GetPosition().height/8f;
+                var xOffset = tView.GetPosition().width / 8f;
+                var yOffset = tView.GetPosition().height / 8f;
 
                 float xPos = xOffset;
                 float yPos = yOffset;
-                
-                
+
+
                 switch (connection.Key)
                 {
                     case "top":
@@ -232,7 +234,7 @@ namespace ISILab.LBS.Drawers
                         break;
                 }
                 string connectionType = connection.Value;
-                var connectionTypes = tempSchemaBehaviour.Connections;
+                var connectionTypes = SchemaBehaviour.Connections;
                 // Draw connection tile only if its not wall or open
                 if (connectionType != connectionTypes[0] && connectionType != connectionTypes[1])
                 {
@@ -257,10 +259,8 @@ namespace ISILab.LBS.Drawers
                     tView.Add(connectionPoint);
                 }
             }
-
-            
-            return tView;
         }
+
         private Texture2D GetTileTexture(Vector2Int size, Color color)
         {
             var t = new Texture2D(size.x, size.y);

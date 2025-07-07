@@ -227,7 +227,7 @@ namespace ISILab.LBS.Behaviours.Editor
             connectionPallete.SetName("Connections");
             connectionPallete.SetIcon(icon, BHcolor);
             
-            var connections = behaviour.Connections;
+            var connections = SchemaBehaviour.Connections;
             var options = new object[connections.Count];
             for (int i = 0; i < connections.Count; i++)
             {
