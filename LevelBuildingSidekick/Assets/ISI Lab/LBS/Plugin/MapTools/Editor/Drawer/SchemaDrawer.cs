@@ -58,25 +58,29 @@ namespace ISILab.LBS.Drawers
         private void UpdateLoadedTiles(SchemaBehaviour schema, Vector2 teselationSize, MainView view,
             SectorizedTileMapModule zonesMod, ConnectedTileMapModule connectMod)
         {
+            schema.Keys.RemoveWhere(item => item == null);
+            
             // Update stored tiles
-            foreach (LBSTile tile in schema.Keys)
+            foreach (object obj in schema.Keys)
             {
-                if (tile == null) continue;
+                if(obj is not LBSTile tile) continue;
 
                 var elements = view.GetElements(schema.OwnerLayer, tile);
                 if(elements == null) continue;
                 
                 foreach (var graphElement in elements)
                 {
-                    var tView = (SchemaTileView)graphElement;
-                    
-                    if (tView == null) continue;
+                    if (graphElement is not SchemaTileView tView) continue;
                     if (!tView.visible) continue;
                     
                     TileZonePair tz = zonesMod.GetPairTile(tile);
-                    TileConnectionsPair tc = connectMod.GetPair(tile);
-                    
                     var connections = connectMod.GetConnections(tile);
+                    if (tz == null || connections == null)
+                    {
+                        Debug.LogWarning("SchemaDrawer: TileZonePair or connections not found fot tile " + tile);
+                        continue;
+                    }
+                    
                     UpdateTileView(tView, tile, tz.Zone, connections, teselationSize, schema.OwnerLayer.index);
                 }
             }
@@ -115,7 +119,7 @@ namespace ISILab.LBS.Drawers
             }
         }
 
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not SchemaBehaviour schema) return;
@@ -128,7 +132,7 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             // Get behaviours
             if (target is not SchemaBehaviour schema) return;

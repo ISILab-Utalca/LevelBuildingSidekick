@@ -124,24 +124,12 @@ namespace ISILab.LBS.Behaviours
         {
             var t = OwnerLayer.GetModule<ConnectedTileMapModule>().GetPair(tile);
             t.SetConnection(direction, connection, canEditedByAI);
-            ReplaceTile(tile);
         }
 
         public List<string> GetConnections(LBSTile tile)
         {
             return Connections.GetConnections(tile);
         }
-        
-        public void ReplaceTile(LBSTile tile)
-        {
-            RequestTilePaint(tile);
-            LBSTile old = TileMap.GetTile(tile.Position);
-            if (old != null)
-            {
-                RequestTileRemove(old);
-            }
-        }
-        
 
         public override object Clone()
         {

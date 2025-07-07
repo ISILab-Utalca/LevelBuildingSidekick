@@ -1,43 +1,41 @@
 using System;
 using System.Collections.Generic;
 using ISILab.LBS.Drawers;
-using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
-using UnityEngine;
 
 namespace ISILab.LBS
 {
     public class DrawManager
     {
-        private MainView view;
-        private LBSLevelData level;
+        private MainView _view;
+        private LBSLevelData _level;
         private static DrawManager instance;
 
         public static DrawManager Instance => instance;
 
-        private readonly Dictionary<Type, Drawer> drawerCache = new();
+        private readonly Dictionary<Type, Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
         public DrawManager(ref MainView view)
         {
-            this.view = view;
+            this._view = view;
             instance = this;
         }
 
         public void AddContainer(LBSLayer layer)
         {
-            view.AddContainer(layer);
+            _view.AddContainer(layer);
         }
 
         public void RemoveContainer(LBSLayer layer)
         {
-            view.RemoveContainer(layer);
+            _view.RemoveContainer(layer);
         }
 
         public static void ReDraw()
         {
-            instance.RedrawLevel(instance.level, instance.view);
+            instance.RedrawLevel(instance._level, instance._view);
         }
 
         private void DrawLayer(LBSLayer layer)
@@ -77,7 +75,8 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.Draw(component, view, layer.TileSize);
+                drawer?.Draw(component, MainView.Instance,layer.TileSize);
+                //Debug.Log("drawing call");
             }
         }
 
@@ -87,7 +86,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.HideVisuals(component, view, layer.TileSize);
+                drawer?.HideVisuals(component, _view);
             }
         }
         private void ShowVisuals<T>(List<T> components, LBSLayer layer)
@@ -96,22 +95,21 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType());
-                drawer?.ShowVisuals(component, view, layer.TileSize);
+                drawer?.ShowVisuals(component, _view);
             }
         }
 
         private Drawer GetOrCreateDrawer(Type type)
         {
-            if (!drawerCache.TryGetValue(type, out var drawer))
-            {
-                var drawerType = LBS_Editor.GetDrawer(type);
-                if (drawerType == null)
-                    return null;
+            if (_drawerCache.TryGetValue(type, out var drawer)) return drawer;
+            
+            var drawerType = LBS_Editor.GetDrawer(type);
+            if (drawerType == null)
+                return null;
 
-                drawer = Activator.CreateInstance(drawerType) as Drawer;
-                if (drawer != null)
-                    drawerCache[type] = drawer;
-            }
+            drawer = Activator.CreateInstance(drawerType) as Drawer;
+            if (drawer != null)
+                _drawerCache[type] = drawer;
             return drawer;
         }
 
@@ -132,8 +130,8 @@ namespace ISILab.LBS
 
         private void DrawLevel(LBSLevelData level, MainView view)
         {
-            this.level = level;
-            this.view = view;
+            this._level = level;
+            this._view = view;
 
             foreach (var layer in level.Layers)
             {

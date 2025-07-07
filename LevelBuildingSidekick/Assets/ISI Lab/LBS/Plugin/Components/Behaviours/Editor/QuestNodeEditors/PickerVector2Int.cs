@@ -92,6 +92,12 @@ namespace ISILab.LBS.VisualElements
         {
             _onClicked = null;
         }
+
+
+        public void DisplayVectorField(bool display)
+        {
+            vector2IntField.style.display = display ? DisplayStyle.Flex : DisplayStyle.None;
+        }
         
         #endregion
 

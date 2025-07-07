@@ -7,7 +7,7 @@ using System.ComponentModel;
 using Unity.Jobs;
 using Random = UnityEngine.Random;
 
-namespace Experiments.Nico
+namespace LBS.Bundles.Tools
 {
     [RequireComponent(typeof(SphereCollider))]
     public class ScatterArea : MonoBehaviour

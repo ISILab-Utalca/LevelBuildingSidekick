@@ -32,11 +32,65 @@ namespace ISILab.LBS.Drawers
             var consts = assistant.ConstrainsZonesMod.Constraints;
 
             // Get new tiles
-            assistant.ReloadPrevData();
-            view.ClearLayerView(assistant.OwnerLayer);
+            //assistant.ReloadPrevData();
+            view.ClearLayerComponentView(assistant.OwnerLayer, this);
+            PaintEverything(assistant, view, consts, teselationSize);
+
+            //PaintNewTiles(assistant, view, consts, teselationSize);
+            //UpdateLoadedTiles(view, assistant, consts, teselationSize);
+        }
+
+        private void PaintEverything(HillClimbingAssistant assistant, MainView view,
+            List<ConstraintPair> consts, Vector2 teselationSize)
+        {
+            if (!assistant.OwnerLayer.IsVisible) return;
             
-            PaintNewTiles(assistant, view, consts, teselationSize);
-            UpdateLoadedTiles(view, assistant, consts, teselationSize);
+            foreach (Zone zone in assistant.ZonesWhitTiles)
+            {
+                // Zone node
+                var nView = CreateNode(assistant, zone);
+                view.AddElement(assistant.OwnerLayer, this, nView);
+                
+                if (!_nodeRefs.TryAdd(zone, nView))
+                {
+                    _nodeRefs[zone] = nView;
+                }
+                _keyRefs.Add(zone);
+
+                if (!assistant.visibleConstraints) continue;
+
+                // Constrains
+                foreach (var pair in consts)
+                {
+                    if (!pair.Zone.Equals(zone)) continue;
+                    
+                    var vws = CreateFeedBackAreas(nView, pair, teselationSize);
+                    var ve = new Empty();
+                    foreach (var v in vws)
+                    {
+                        ve.Add(v);
+                    }
+
+                    view.AddElement(assistant.OwnerLayer, this, ve);
+                    assistant.SaveConstraintKey(zone,pair);
+                    _keyRefs.Add(pair);
+                    break;
+                }
+            }
+            
+            // Edges
+            foreach (ZoneEdge edge in assistant.GetEdges())
+            {
+                // Get view nodes
+                var n1 = _nodeRefs[edge.First];
+                var n2 = _nodeRefs[edge.Second];
+
+                // Create EdgeView
+                var eView = new LBSEdgeView(edge, n1, n2, 4, 4);
+                
+                view.AddElement(assistant.OwnerLayer, this, eView);
+                _keyRefs.Add(edge);
+            }
         }
 
         private void PaintNewTiles(HillClimbingAssistant assistant, MainView view,
@@ -145,7 +199,7 @@ namespace ISILab.LBS.Drawers
             }
         }
 
-        public override void ShowVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void ShowVisuals(object target, MainView view)
         {
             if (target is not HillClimbingAssistant assistant) return;
             
@@ -157,7 +211,7 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-        public override void HideVisuals(object target, MainView view, Vector2 teselationSize)
+        public override void HideVisuals(object target, MainView view)
         {
             if (target is not HillClimbingAssistant assistant) return;
             

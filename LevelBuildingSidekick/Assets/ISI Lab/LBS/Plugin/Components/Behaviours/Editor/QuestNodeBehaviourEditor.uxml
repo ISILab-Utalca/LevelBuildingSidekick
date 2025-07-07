@@ -19,8 +19,10 @@
             <ui:VisualElement style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Important&apos;); -unity-background-scale-mode: scale-and-crop; background-size: 100% 100%; min-height: 36px; max-height: 36px; min-width: 36px; max-width: 36px; align-self: center; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
             <ui:Label text="No node is currently selected." style="align-self: center; padding-left: 12px; justify-content: space-between; align-content: stretch; align-items: stretch; flex-grow: 1;" />
         </ui:VisualElement>
-        <ISILab.LBS.VisualElements.PickerVector2Int name="TargetPosition" />
-        <ui:FloatField label="Trigger Size" value="42.2" name="Size" style="margin-bottom: 6px;" />
+        <ui:VisualElement style="flex-grow: 0; flex-direction: row;">
+            <ISILab.LBS.VisualElements.PickerVector2Int name="TargetPosition" style="min-width: 32px; max-width: 32px;" />
+            <ui:RectField label="Trigger Area" name="Area" tooltip="The area in which this trigger is activated. When using graph targets, make sure all of them are within the area." style="flex-grow: 1;" />
+        </ui:VisualElement>
         <ui:VisualElement name="InstancedContent" style="flex-grow: 1;" />
     </ui:VisualElement>
 </ui:UXML>

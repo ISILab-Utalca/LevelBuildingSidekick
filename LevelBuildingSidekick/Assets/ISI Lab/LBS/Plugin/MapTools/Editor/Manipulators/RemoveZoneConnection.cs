@@ -1,8 +1,6 @@
 using ISILab.LBS.Assistants;
 using LBS.Components;
 using ISILab.LBS.Settings;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -11,34 +9,34 @@ namespace ISILab.LBS.Manipulators
 {
     public class RemoveZoneConnection : LBSManipulator
     {
-        HillClimbingAssistant hillclimbing;
+        private HillClimbingAssistant _hillclimbing;
 
-        public RemoveZoneConnection() : base()
+        public RemoveZoneConnection()
         {
-            name = "Remove Assistant zone connection";
-            description = "Click a connection between zones to remove it.";
+            Name = "Remove Assistant zone connection";
+            Description = "Click a connection between zones to remove it.";
         }
 
-        protected override string IconGuid { get => "42830f36abd22544fb35c697171f8374"; }
+        protected override string IconGuid => "42830f36abd22544fb35c697171f8374";
 
-        public override void Init(LBSLayer layer, object owner)
+        public override void Init(LBSLayer layer, object provider = null)
         {
-            base.Init(layer, owner);
+            base.Init(layer, provider);
             
-            hillclimbing = owner as HillClimbingAssistant;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _hillclimbing = provider as HillClimbingAssistant;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseUp(VisualElement paramTarget, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
-            Undo.RegisterCompleteObjectUndo(x, "Remove Zone Conection");
+            Undo.RegisterCompleteObjectUndo(x, "Remove Zone Connection");
 
-            Vector2 pos = position / (hillclimbing.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize);
+            Vector2 pos = position / (_hillclimbing.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize);
             pos = new Vector2(pos.x, -(pos.y - 1));
 
-            hillclimbing.RemoveZoneConnection(pos, 0.2f);
+            _hillclimbing.RemoveZoneConnection(pos, 0.2f);
 
 
             if (EditorGUI.EndChangeCheck())

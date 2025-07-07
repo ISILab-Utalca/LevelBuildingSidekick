@@ -363,7 +363,8 @@ namespace ISILab.LBS.Assistants
                         .Find(b => b is ExteriorBehaviour) as ExteriorBehaviour;
                 foreach (var tile in closed)
                 {
-                    exterior.ReplaceTile(tile); // Requesting paint tiles from assistant does not seems to work
+                    //This function doesn't exist anymore, sorry!
+                    //exterior.ReplaceTile(tile); // Requesting paint tiles from assistant does not seems to work
                 }
             }
             return success;

@@ -107,23 +107,27 @@ namespace ISILab.LBS.Behaviours
          * represented through a VisualElement, it might be a LBSTile, QuestNodeView, or even different
          * classes from the same behaviour. Eventually, all VisualElements are stored in MainView
          * dictionaries, using the defined object as key.
+         
+         * It is important that the key is representative of the visualElement, since if you want to
+         * access it to update it, or delete it, you are gonna need to get that key's reference. For
+         * example, in a tile map, every tile is representative of the element drawn on its position.
         
          * VisualElements are added and erased from the MainView as the following cycle:
-         * Note that tile here is used as any class that is being represented through a VisualElement.
+         * Note that "tile" here is used as any VisualElement that represents an object.
          *
          * 1.- The expired tiles are removed.
          *     MainView gets the _expiredTiles set from all the behaviours in a layer, while clearing
-         *     its memory, and erases them if they are in the view.
+         *     their memory, and erases them if they are in the view.
          *
          * 2.- The Drawers create new tiles.
-         *      2.1.- Each Drawer gets the new elements from their respective behaviors, while clearing its
-         *            memory.
-         *      2.2.- The new VisualElements are created from the retrieved elements, and drawn in the
+         *      2.1.- Each Drawer gets the new elements from their respective behaviors, while clearing
+         *            their memory.
+         *      2.2.- The new tiles are created from the retrieved elements, and drawn in the
          *            MainView.
          * 
          * 3.- New tiles, and new expired tiles are saved.
-         *     In each behavior, when an action is supposed to create a new VisualElement, a
-         *     representative instance is stored for later in the _newTiles set.
+         *     In each behavior, when an action is supposed to create a new VisualElement, a representative
+         *     object is stored for later in the _newTiles set.
          *     If an action is supposed to make a VisualElement disappear, then the class used for its
          *     construction is again stored for later but in the _expiredTiles set.
         */

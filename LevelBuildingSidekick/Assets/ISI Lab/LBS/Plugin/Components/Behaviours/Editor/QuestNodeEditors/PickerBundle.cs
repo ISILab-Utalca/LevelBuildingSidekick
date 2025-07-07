@@ -1,5 +1,6 @@
 using System;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using ISILab.LBS.Manipulators;
 using ISILab.Macros;
 using LBS.Bundles;
@@ -63,10 +64,17 @@ namespace ISILab.LBS.VisualElements
             _buttonPickerTarget.clicked += () =>
             {
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
+                
+                // by default not picking the main trigger - its set on its OnClicked Implementation on QuestNodeBehaviourEditor
+                var mani = ToolKit.Instance.GetActiveManipulator();
+                if (mani is QuestPicker questPicker) questPicker.PickTriggerPosition = false;
+                
                 OnClicked?.Invoke();
             };
 
             _labelLayer = this.Q<Label>("Layer");
+
+            DefaultValues();
         }
 
         private void BundleChangeCallback(ChangeEvent<Object> evt)
@@ -98,18 +106,28 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Call this when the active node is changed to update the UI.
         /// </summary>
-        /// <param name="layer">Optional: the layer to display.</param>
-        /// <param name="guid">Optional: the bundle GUID to load and show.</param>
-        /// <param name="position">Optional: position in the graph to show.</param>
-        public void SetTargetByLayer(LBSLayer layer = null, string guid = "", Vector2Int position = default)
+        /// <param name="layerTarget"></param>
+        public void SetEditorLayerTarget(LayerTarget layerTarget)
         {
+            if (layerTarget == null) return;
+            var guid = layerTarget.GetGuid();
             if (!string.IsNullOrEmpty(guid))
             {
                 var bundle = LBSAssetMacro.LoadAssetByGuid<Bundle>(guid);
                 _objectFieldBundle.value = bundle;
             }
-
-            if (layer != null)
+            else
+            {
+                DefaultValues();
+            }
+            
+            _labelLayer.style.display = DisplayStyle.None;
+            _vector2FieldPosition.style.display = DisplayStyle.None;
+            if (layerTarget is not BundleGraph bg) return;
+            
+            
+            var layer = layerTarget.GetLayer();
+            if(layer != null)
             {
                 layer.OnChangeName += () =>
                 {
@@ -124,11 +142,19 @@ namespace ISILab.LBS.VisualElements
                 _labelLayer.style.display = DisplayStyle.None;
             }
 
-            bool hasPosition = position != default;
-            _vector2FieldPosition.style.display = hasPosition ? DisplayStyle.Flex : DisplayStyle.None;
-            _vector2FieldPosition.value = position;
+            _vector2FieldPosition.style.display = DisplayStyle.Flex;
+            _vector2FieldPosition.value = bg.Position;
+
         }
-        
+
+        private void DefaultValues()
+        {
+            _objectFieldBundle.value = null;
+            _labelLayer.text = "No Layer";
+            _vector2FieldPosition.value = Vector2Int.zero;
+        }
+
+
         /// <summary>
         /// Clears the picker click callback.
         /// </summary>

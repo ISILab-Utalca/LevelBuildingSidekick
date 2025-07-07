@@ -674,8 +674,7 @@ namespace ISILab.LBS.Assistants
         {
             return GraphMod.EdgesConnected(first, second);
         }
-
-
+        
         public void ReloadPrevData()
         {
             _prevZones ??= new List<Zone>();

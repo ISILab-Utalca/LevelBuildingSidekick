@@ -19,7 +19,13 @@ namespace ISILab.LBS
         /// </summary>
         private bool _stealthDetected;
 
-        public override void SetTypedData(BaseQuestNodeData baseData)
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(dataStealth);
+        }
+
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataStealth = (DataStealth)baseData;
             

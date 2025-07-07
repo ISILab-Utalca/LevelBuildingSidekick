@@ -115,23 +115,23 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             _layer = layer;
-            Generator = new Generator3D();
+            Generator = new Generator3D
+            {
+                settings = _settings
+            };
 
-            Generator.settings = _settings;
             _settings = layer.Settings;
 
 
-            if (Generator != null)
-            {
-                _dropDownField.Value = Generator.GetType().Name;
-                _scaleField.value = _settings.scale;
-                _positionField.value = _settings.position;
-                _nameField.value = layer.Name;
-                _resizeField.value = _settings.resize;
-            }
+            if (Generator == null) return;
+            _dropDownField.Value = Generator.GetType().Name;
+            _scaleField.value = _settings.scale;
+            _positionField.value = _settings.position;
+            _nameField.value = layer.Name;
+            _resizeField.value = _settings.resize;
         }
 
-        public void GenerateAllLayers()
+        private void GenerateAllLayers()
         {
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
             if(mw == null) return;
@@ -191,18 +191,18 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private void GenerateCurrentLayer()
         {
-            GenerateSingleLayer();
-            OnFinishGenerate();
+            var valid = GenerateSingleLayer();
+            if(valid) OnFinishGenerate();
         }
 
-        private void GenerateSingleLayer()
+        private bool GenerateSingleLayer()
         {
             string ifReplace = "";
             
             if (_layer == null)
             {
                 LBSMainWindow.MessageNotify("There is no reference for any layer to generate.", LogType.Error, 2);
-                return;
+                return false;
             }
 
             if (_replacePrev.value)
@@ -235,7 +235,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 lightVolume = _buildLightProbes.value
             };
 
-            if (Generator == null) return;
+            if (Generator == null) return false;
 
             var questGen = Generator.GetRule<QuestRuleGenerator>(_layer.GeneratorRules);
             if (questGen is not null) questGen.OnLayerRequired += GenerateLayerByName;
@@ -247,12 +247,17 @@ namespace ISILab.LBS.VisualElements.Editor
             if (generated.Item1 == null || generated.Item1.gameObject == null ||
                 !generated.Item1.GetComponentsInChildren<Transform>().Any() || generated.Item2.Any())
             {
-                LBSMainWindow.MessageNotify("Layer " + _layer.Name + " could not be created.", LogType.Error);
+                var errormessage = "Layer " + _layer.Name + " could not be created correctly.";
+                LBSMainWindow.MessageNotify(errormessage, LogType.Error);
+                Debug.LogError(errormessage);
+                
                 foreach (var message in generated.Item2)
                 {
                     LBSMainWindow.MessageNotify("   " + message, LogType.Error, 6);
                 }
-                return;
+
+                if (generated.Item1 is not null) Object.DestroyImmediate(generated.Item1.gameObject);
+                return false;
             }
             
             Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
@@ -270,6 +275,8 @@ namespace ISILab.LBS.VisualElements.Editor
                     Object.FindObjectsByType<LightProbeCubeGenerator>(FindObjectsSortMode.None);
                 foreach (var lpcg in allLightProbes) lpcg.Execute();
             }
+
+            return true;
 
         }
 
