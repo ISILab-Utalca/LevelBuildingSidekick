@@ -1,20 +1,21 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
-        <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1087164816274819069&amp;guid=e143be758899db849b60f1f32e2521b7&amp;type=3#arrow-right@2x&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement style="flex-grow: 1; background-color: rgb(91, 91, 91); flex-direction: row;">
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Arrows/Icon=ArrowRight&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
             <uie:ObjectField label="Right Direction Tag: " name="Right" style="flex-grow: 1; flex-shrink: 1;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-4528830608231651361&amp;guid=e143be758899db849b60f1f32e2521b7&amp;type=3#arrow-up@2x&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Arrows/Icon=ArrowUp&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
             <uie:ObjectField label="Up Direction Tag: " name="Up" style="flex-grow: 1; flex-shrink: 1;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-2236324273849735119&amp;guid=e143be758899db849b60f1f32e2521b7&amp;type=3#arrow-left@2x&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Arrows/Icon=ArrowLeft&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
             <uie:ObjectField label="Left Direction Tag: " name="Left" style="flex-grow: 1; flex-shrink: 1;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row;">
-            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: url(&apos;project://database/Assets/UnityDefaultRuntimeTheme.tss?fileID=-1304905567622442630&amp;guid=e143be758899db849b60f1f32e2521b7&amp;type=3#arrow-down@2x&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
+            <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Arrows/Icon=ArrowDown&apos;); max-width: 16px; max-height: 16px; min-width: 16px; min-height: 16px;" />
             <uie:ObjectField label="Down Direction Tag: " name="Down" style="flex-grow: 1; flex-shrink: 1;" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:Button text="Open  Direction Tool" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=ConnectionType.svg?fileID=7388822144124034973&amp;guid=aa37444bbc7d2aa4185a69cf71c35048&amp;type=3#Icon=ConnectionType" name="Button" style="height: 45px;" />
 </ui:UXML>

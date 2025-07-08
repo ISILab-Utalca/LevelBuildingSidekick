@@ -10,18 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
-  m_Name: Rug_scifi
+  m_Name: DemoTestBundle
   m_EditorClassIdentifier: 
   layerContentFlags: 0
-  type: 1
+  type: 0
   anchorPosition: 0
-  color: {r: 0, g: 0, b: 0, a: 1}
-  icon: {fileID: 2800000, guid: 4b1ed2f09a57c984baf4cba2d9b4e150, type: 3}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
   assets:
-  - obj: {fileID: 4749066316690188929, guid: 871012863cf5d1644a33257df9a4e1aa, type: 3}
-    probability: 1
+  - obj: {fileID: 919132149155446097, guid: 4a904ef4b68a8e64b95c9cc982daf571, type: 3}
+    probability: 0
   characteristics:
-  - rid: 279245815319625891
+  - rid: 1303960495126217047
+  - rid: -2
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -34,12 +35,18 @@ MonoBehaviour:
       positiveZ: 1
     mesh: {fileID: 0}
     material: {fileID: 0}
-  guid: 
+  guid: 8496942e57574694b854cea8b3e2fa18
   references:
     version: 2
     RefIds:
-    - rid: 279245815319625891
-      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1303960495126217047
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
-        value: {fileID: 11400000, guid: 94b707ea81720694d8e3ac214351af91, type: 2}
+        connections:
+        - 
+        - 
+        - 
+        - 

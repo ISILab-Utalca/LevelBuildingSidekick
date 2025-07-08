@@ -203,8 +203,6 @@ namespace ISILab.LBS.Bundles.Editor
             root.Add(buttonContainer);
             
             #endregion
-    
-
             
             return root;
         }

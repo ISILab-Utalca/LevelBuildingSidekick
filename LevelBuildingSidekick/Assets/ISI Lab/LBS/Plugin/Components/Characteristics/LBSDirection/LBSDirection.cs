@@ -25,7 +25,7 @@ namespace ISILab.LBS.Characteristics
             public GameObject target;
 
             [Range(0f, 1f)]
-            public float weigth;
+            public float weigh;
         };*/
         #endregion
 
