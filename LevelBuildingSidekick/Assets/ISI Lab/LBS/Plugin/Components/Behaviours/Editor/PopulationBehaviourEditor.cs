@@ -94,22 +94,18 @@ namespace ISILab.LBS.VisualElements
             addPopulationTile = new AddPopulationTile();
             var t1 = new LBSTool(addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(removePopulationTile);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             rotatePopulationTile = new RotatePopulationTile();
             var t3 = new LBSTool(rotatePopulationTile);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             movePopulationTile = new MovePopulationTile();
             var t4 = new LBSTool(movePopulationTile);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t4.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             addPopulationTile.SetRemover(removePopulationTile);
             
