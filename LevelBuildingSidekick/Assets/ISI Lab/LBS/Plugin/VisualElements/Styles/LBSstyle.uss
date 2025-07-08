@@ -1208,3 +1208,29 @@ Button.lbs-actionbutton {
 
 .lbs-progressBar-score-thick {
 }
+
+.lbs-pickerPanel {
+    flex-grow: 0;
+    flex-direction: column;
+    max-height: none;
+    min-height: auto;
+    margin-right: 1px;
+    margin-left: 1px;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    align-self: stretch;
+    justify-content: space-between;
+    align-items: stretch;
+    border-left-color: rgba(0, 0, 0, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.3);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+}

@@ -15,6 +15,7 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
 using LBS.Components;
+using LBS.VisualElements;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -31,13 +32,15 @@ namespace ISILab.LBS.VisualElements
 
         private ToolbarMenu _toolbar;
         private Label _label;
-        
+
         public Action<Rect> OnMoving;
+
+        private Color defaultBackgroundColor;
 
         public static Color GrammarWrong = LBSSettings.Instance.view.warningColor;
         public static Color MapWrong = LBSSettings.Instance.view.errorColor;
-        public static Color Unchecked = LBSSettings.Instance.view.okColor ;
-        public static Color Correct = LBSSettings.Instance.view.successColor;
+        public static Color UncheckedGrammar = LBSSettings.Instance.view.okColor ;
+        public static Color CorrectGrammar = LBSSettings.Instance.view.successColor;
 
         protected QuestNodeView() { }
 
@@ -65,6 +68,7 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             _node = node;
             _startIcon.style.display = DisplayStyle.None;
+            defaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
         }
 
         private void OnMouseLeave(MouseLeaveEvent e)
@@ -74,14 +78,14 @@ namespace ISILab.LBS.VisualElements
 
         public void SetBorder(QuestNode node)
         {
-            _root.SetBorder(Unchecked, 1f);
+            _root.SetBorder(UncheckedGrammar, 1f);
             if (!node.GrammarCheck)
             {
                 _root.SetBorder(GrammarWrong, 1f);
                 return;
             }
 
-            _root.SetBorder(Correct, 1f);
+            _root.SetBorder(CorrectGrammar, 1f);
         }
 
         public override void SetPosition(Rect newPos)
@@ -138,6 +142,8 @@ namespace ISILab.LBS.VisualElements
                 LBSInspectorPanel.ActivateBehaviourTab();
                 if (!qnb.Graph.QuestNodes.Contains(_node)) return;
                 qnb.SelectedQuestNode = _node;
+                
+                ToolKit.Instance.SetActive(typeof(SelectManipulator)); // If clicking on a node set the selector
             }
         }
 
@@ -156,5 +162,19 @@ namespace ISILab.LBS.VisualElements
             _toolbar.menu.ClearItems();
             _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
         }
+
+        public void IsSelected(bool selected)
+        {
+            Color color = defaultBackgroundColor;
+            color.a = 1f;
+            if (selected)
+            {
+                color = _node.GrammarCheck ? CorrectGrammar : GrammarWrong;
+                color.a = 0.33f;
+            }
+            
+            _root.style.backgroundColor = new StyleColor(color);
+        }
+
     }
 }

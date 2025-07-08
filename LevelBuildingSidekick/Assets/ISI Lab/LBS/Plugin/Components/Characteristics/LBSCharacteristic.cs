@@ -34,8 +34,8 @@ namespace ISILab.LBS.Characteristics
 
         #region METHODS
         /// <summary>
-        /// esta funcion es para que la characteristic tenga axeso a el bundle que lo posee
-        /// asi podemos tener acciones o itenracciones dentro bharacteristics
+        /// this function allow the characteristic known what bundle its is owner
+        /// asi podemos tener acciones o itenracciones dentro characteristics
         /// </summary>
         public void Init(Bundle owner)
         {

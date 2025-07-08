@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Linq;
+using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
@@ -9,6 +11,7 @@ using ISILab.LBS.Settings;
 using ISILab.Macros;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Drawers.Editor
 {
@@ -179,6 +182,10 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 _data = data;
                 
+                VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TriggerElementArea");
+                visualTree.CloneTree(this);
+                
+                
                 // Scale the tile size by the base size (assuming BaseSize is a constant somewhere)
                 //Vector2 pixelSize = tileSize * BaseSize; todo
                 var position = LBSMainWindow.Instance._selectedLayer.FixedToPosition(new Vector2Int((int)area.x,(int)area.y), true);
@@ -187,24 +194,44 @@ namespace ISILab.LBS.Drawers.Editor
                 // Properly position the element using SetPosition to avoid layout offset
                 SetPosition(drawArea);
 
+                VisualElement triggerElementGizmo = this.Q<VisualElement>("TriggerElementSelector");
+                VisualElement targetIcon = this.Q<VisualElement>("TargetIcon");
                 // Set border thickness
-                style.borderBottomWidth = BorderThickness;
-                style.borderTopWidth = BorderThickness;
-                style.borderLeftWidth = BorderThickness;
-                style.borderRightWidth = BorderThickness;
+                // style.borderBottomWidth = BorderThickness;
+                // style.borderTopWidth = BorderThickness;
+                // style.borderLeftWidth = BorderThickness;
+                // style.borderRightWidth = BorderThickness;
 
                 // Color configuration
                 Color backgroundColor = color;
-                backgroundColor.a = BackgroundOpacity;
+                targetIcon.style.unityBackgroundImageTintColor = backgroundColor;
+                
+                backgroundColor.a = 0.2f;
+                triggerElementGizmo.style.backgroundColor = backgroundColor;
+                triggerElementGizmo.style.unityBackgroundImageTintColor = backgroundColor;
+                
+                triggerElementGizmo.style.borderBottomColor = color;
+                triggerElementGizmo.style.borderTopColor = color;
+                triggerElementGizmo.style.borderRightColor = color;
+                triggerElementGizmo.style.borderLeftColor = color;    
+                
+                // backgroundColor.a = BackgroundOpacity;
+                //
+                // Texture2D bgTexture = Macros.LBSAssetMacro.LoadAssetByGuid<Texture2D>("da949edd419a40347b7e7d382b96a7e2");
+                // VectorImage handle = Macros.LBSAssetMacro.LoadAssetByGuid<VectorImage>("Nice");
+                // style.backgroundImage = new StyleBackground(handle);
+                //
+                // style.backgroundImage = bgTexture;
+                // style.unityBackgroundImageTintColor = backgroundColor;
+                
 
-                style.backgroundColor = backgroundColor;
-                style.borderBottomColor = color;
-                style.borderTopColor = color;
-                style.borderRightColor = color;
-                style.borderLeftColor = color;
-
-                RegisterCallback<MouseMoveEvent>(OnMouseMove);
-                RegisterCallback<MouseUpEvent>(OnMouseUp);
+                triggerElementGizmo.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+                triggerElementGizmo.RegisterCallback<MouseUpEvent>(OnMouseUp);
+                
+                VisualElement handle = this.Q<VisualElement>("ScaleHandle");
+                handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+                
+                
             }
 
 
@@ -239,6 +266,27 @@ namespace ISILab.LBS.Drawers.Editor
             }
 
 
+            private void OnHandleRectMove(MouseMoveEvent _evt)
+            {
+                if (_evt.pressedButtons == 0 || _evt.button != 0) return;
+                
+                Vector2 delta = _evt.mouseDelta / MainView.Instance.viewTransform.scale;
+                delta = delta.normalized;
+                Debug.Log(delta);
+                
+                Rect currentRect = GetPosition();
+                Rect newRect = new Rect(
+                    currentRect.x,
+                    currentRect.y,
+                    currentRect.width + delta.x,
+                    currentRect.height + delta.y
+                    );
+                SetPosition(newRect);
+                
+                
+                
+            }
+            
         }
       
     }        

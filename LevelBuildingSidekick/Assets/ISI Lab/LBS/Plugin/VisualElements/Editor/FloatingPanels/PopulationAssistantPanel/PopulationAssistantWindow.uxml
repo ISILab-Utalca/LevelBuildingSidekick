@@ -68,7 +68,11 @@
                         <ui:Button text="Select" name="AddLayerButton" style="background-color: rgb(88, 106, 55);" />
                     </ui:VisualElement>
                     <ui:VisualElement name="Spacer" class="lbs-title-label-container" style="height: 4px; min-height: 4px; max-height: 4px; border-top-width: 1px; border-bottom-width: 0; border-left-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-top-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); padding-right: 0; padding-left: 0; margin-left: 8px; margin-right: 8px;" />
-                    <ui:ListView name="LayerList" reorderable="true" show-foldout-header="false" show-add-remove-footer="false" allow-remove="false" allow-add="false" reorder-mode="Animated" show-border="true" horizontal-scrolling="false" show-bound-collection-size="true" fixed-item-height="32" virtualization-method="DynamicHeight" style="border-top-width: 1px;" />
+                    <ui:VisualElement name="LayerContextContainer" style="flex-grow: 1;">
+                        <ui:VisualElement name="LockedLayerContainer" style="flex-grow: 1;" />
+                        <ui:VisualElement name="Spacer" class="lbs-title-label-container" style="height: 4px; min-height: 4px; max-height: 4px; border-top-width: 1px; border-bottom-width: 0; border-left-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-top-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); padding-right: 0; padding-left: 0; margin-left: 8px; margin-right: 8px;" />
+                        <ui:ListView name="LayerList" reorderable="true" show-foldout-header="false" show-add-remove-footer="false" allow-remove="false" allow-add="false" reorder-mode="Animated" show-border="true" horizontal-scrolling="false" show-bound-collection-size="true" fixed-item-height="32" virtualization-method="DynamicHeight" style="border-top-width: 1px;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="RightSide" style="flex-grow: 1; align-self: flex-start; width: auto; height: 100%; overflow: hidden; min-width: 600px; max-width: none; flex-shrink: 1; left: auto;">

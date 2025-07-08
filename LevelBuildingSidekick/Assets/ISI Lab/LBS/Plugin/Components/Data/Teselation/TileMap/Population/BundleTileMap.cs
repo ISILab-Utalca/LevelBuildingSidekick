@@ -112,6 +112,7 @@ namespace ISILab.LBS.Modules
         
         public bool ValidMoveGroup(Vector2Int newPosition, TileBundleGroup currentGroup, Vector2 rotation)
         {
+            if (currentGroup is null) return false;
             // Create a temporary group at the new position to get the tile layout
             TileBundleGroup tempGroup = new TileBundleGroup(new List<LBSTile>(), currentGroup.BundleData, rotation);
             Vector2Int groupSize = tempGroup.GetBundleSize();

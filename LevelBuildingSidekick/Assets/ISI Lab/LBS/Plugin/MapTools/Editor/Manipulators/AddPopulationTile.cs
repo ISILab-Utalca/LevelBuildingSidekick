@@ -120,8 +120,7 @@ namespace ISILab.LBS.Manipulators
             var tile = _population.GetTile(_population.OwnerLayer.ToFixedPosition(startPosition));
             if (tile == null) return;
             _selectedTile = _population.GetTileGroup(tile.Position);
-            if (_selectedTile == null) return;
-            Debug.Log(_selectedTile.BundleData.BundleName);
+
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
