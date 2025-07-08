@@ -40,12 +40,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary;
+        private MAPElitesPreset mapEliteBundle;
+
         private BundleTileMap originalTileMap;
-        [SerializeField]
-        private PopulationAssistantEditor editor;
-        [SerializeField]
         private AssistantMapElite assistant;
-        
 
         //Default text for unchosen elements
         private string defaultSelectText = "Select...";
@@ -57,10 +55,6 @@ namespace ISILab.LBS.VisualElements.Editor
         private ClassDropDown param1Field;
         private ClassDropDown param2Field;
         private ClassDropDown optimizerField;
-        private Button optimizerButton;
-
-        //Optimizer Editor
-        private LBSCustomEditor optimizerEditor;
 
         //Parameter Information
         private Label xParamText;
@@ -78,7 +72,9 @@ namespace ISILab.LBS.VisualElements.Editor
         //Visualization Information
         private SliderInt rows;
         private SliderInt columns;
-        
+        private PopulationAssistantButtonResult selectedMap;
+
+        //Functionality buttons
         private Button recalculate;
         private Button applySuggestion;
         private Button resetButton;
@@ -94,15 +90,19 @@ namespace ISILab.LBS.VisualElements.Editor
         private PopulationAssistantGraph hellGraph;
 
         //Layer Context
-        private Button addLayerButton;
         private ListView layerList;
+        private Button addLayerButton;
+        private VisualElement lockedContextEntryContainer;
+
+        //Context Evaluator (the hardest part lol)
         #endregion
 
         #region FIELDS
-        private MAPElitesPreset mapEliteBundle;
-        private PopulationAssistantButtonResult selectedMap;
-        private List<LayerContextEntry> contextEntries = new();
-
+        MAPElitesPreset MapEliteBundle
+        {
+            get => mapEliteBundle;
+            set => mapEliteBundle = value;
+        }
         protected IRangedEvaluator currentXField
         {
             get => mapEliteBundle?.XEvaluator;
@@ -153,15 +153,6 @@ namespace ISILab.LBS.VisualElements.Editor
         public Action<IOptimizable> OnValuesUpdated;
         #endregion
 
-        #region PROPERTIES
-
-        MAPElitesPreset MapEliteBundle
-        {
-            get => mapEliteBundle;
-            set => mapEliteBundle = value;
-        }
-        #endregion
-
         public void CreateGUI()
         {
             presetDictionary = new Dictionary<string, MAPElitesPreset>();
@@ -183,11 +174,8 @@ namespace ISILab.LBS.VisualElements.Editor
             yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
 
-
-
             //var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
             //interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
-
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
@@ -337,8 +325,10 @@ namespace ISILab.LBS.VisualElements.Editor
             graphOfHell.Add(hellGraph);
 
             //LAYER CONTEXT
+            lockedContextEntryContainer = rootVisualElement.Q<VisualElement>("LockedLayerContainer");
+            AddLockedLayer();
+
             layerList = rootVisualElement.Q<ListView>("LayerList");
-            UpdateContextEntries();
 
             layerList.reorderable = false;
             layerList.makeItem += () => new LayerContextEntry();
@@ -348,15 +338,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (layerContextVE == null) return;
 
                 layerContextVE.UpdateData(Data.ContextLayers[index]);
+                layerContextVE.EvaluateOverlap(Data.ContextLayers);
                 layerContextVE.OnRemoveButtonClicked = null;
                 layerContextVE.OnRemoveButtonClicked += () =>
                 {
-                    Debug.Log("clicked");
                     Data.ContextLayers.RemoveAt(index);
                     layerList.Remove(element);
                     layerList.Rebuild();
                 };
-
             };
 
             layerList.itemsSource = Data.ContextLayers;
@@ -367,7 +356,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void OnDestroy()
         {
-            Debug.Log("Closed Map Elites Window.");
             assistant.RequestOptimizerStop();
         }
 
@@ -453,7 +441,13 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void InitializeAllCurrentEvaluators()
         {
-            InitializeEvaluator(currentXField, currentYField, currentOptimizer.Evaluator);
+            var evalList = new List<IEvaluator>();
+            if (currentXField != null) { evalList.Add(currentXField); }
+            if (currentYField != null) { evalList.Add(currentYField); }
+            if (currentOptimizer?.Evaluator != null) { evalList.Add(currentOptimizer.Evaluator); }
+            if (evalList.Count == 0) return;
+
+            InitializeEvaluator(evalList.ToArray());
         }
 
         private void InitializeEvaluator(params IEvaluator[] evaluators)
@@ -810,14 +804,13 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region LAYER CONTEXT METHODS
-        public void UpdateContextEntries()
-        {     
-
-            foreach(LBSLayer layer in Data.ContextLayers)
-            {
-                Debug.Log("a");
-                contextEntries.Add(new LayerContextEntry());
-            }
+        public void AddLockedLayer()
+        {
+            //Add the layer to Layer context
+            var lockedLayer = new LayerContextEntry();
+            lockedLayer.UpdateData(assistant.OwnerLayer);
+            lockedLayer.SetEnabled(false);
+            lockedContextEntryContainer.Add(lockedLayer);
         }
 
         public void AddLayerMenu()
@@ -825,8 +818,11 @@ namespace ISILab.LBS.VisualElements.Editor
             GenericMenu menu = new GenericMenu();
             foreach(LBSLayer layer in Data.Layers)
             {
-                //if (Data.ContextLayers.Contains(layer))  return;
-                menu.AddItem(new GUIContent(layer.Name), Data.ContextLayers.Contains(layer), ToggleLayerContext, layer);
+                //The layer the assistant is working on can't be used as context, since its content is overwritten.
+                if (!assistant.OwnerLayer.Equals(layer))
+                { 
+                    menu.AddItem(new GUIContent(layer.Name), Data.ContextLayers.Contains(layer), ToggleLayerContext, layer); 
+                }
             }
             menu.ShowAsContext();
         }
