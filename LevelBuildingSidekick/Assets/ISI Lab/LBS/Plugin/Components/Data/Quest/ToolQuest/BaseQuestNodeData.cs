@@ -554,7 +554,7 @@ namespace ISILab.LBS.Components
 
           public override bool IsValid()
           {
-              return bundleGatherType.Valid() && gatherAmount > 0;
+              return bundleGatherType.Valid();
           }
         }
         [Serializable]

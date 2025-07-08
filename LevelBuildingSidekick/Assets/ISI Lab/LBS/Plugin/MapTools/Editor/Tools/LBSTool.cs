@@ -10,21 +10,17 @@ using UnityEngine.UIElements;
 
 namespace LBS
 {
-    public class LBSTool
+    public sealed class LBSTool
     {
-        #region FIELDS
-        private VectorImage icon;
-        private string name;
-        private string description;
-        private LBSManipulator manipulator;
-        #endregion
-
         #region PROPERTIES
-        public VectorImage Icon => icon;
-        public string Name => name;
-        public string Description => description;
-        public LBSManipulator Manipulator => manipulator;
-        
+        public VectorImage Icon { get; }
+
+        public string Name { get; }
+
+        public string Description { get; }
+
+        public LBSManipulator Manipulator { get; }
+
         #endregion
 
         #region EVENTS
@@ -38,29 +34,29 @@ namespace LBS
         #region CONSTRUCTORS
         public LBSTool(LBSManipulator manipulator)
         {
-            this.manipulator = manipulator;
-            name = manipulator.Name;
-            description = manipulator.Description;
-            icon =  manipulator.Icon;
+            this.Manipulator = manipulator;
+            Name = manipulator.Name;
+            Description = manipulator.Description;
+            Icon =  manipulator.Icon;
         }
         #endregion
 
         #region METHODS
-        public virtual void Init(LBSLayer layer, object behaviour)
+        public void Init(LBSLayer layer, object behaviour)
         {
             // Layer was assigned already - unsubscribe old methods
-            if(manipulator.Layer != null)
+            if(Manipulator.Layer != null)
             {
-                manipulator.OnManipulationStart -= () => { OnStart?.Invoke(manipulator.Layer); };
-                manipulator.OnManipulationUpdate -= () => { OnPressed?.Invoke(manipulator.Layer); };
-                manipulator.OnManipulationEnd -= () => { OnEnd?.Invoke(manipulator.Layer); };
+                Manipulator.OnManipulationStart -= () => { OnStart?.Invoke(Manipulator.Layer); };
+                Manipulator.OnManipulationUpdate -= () => { OnPressed?.Invoke(Manipulator.Layer); };
+                Manipulator.OnManipulationEnd -= () => { OnEnd?.Invoke(Manipulator.Layer); };
             }
             
-            manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
-            manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
-            manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
+            Manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
+            Manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
+            Manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
 
-            manipulator.Init(layer, behaviour);
+            Manipulator.Init(layer, behaviour);
         }
         
 
@@ -70,13 +66,13 @@ namespace LBS
             
             button.OnFocusEvent += () =>
             {
-                canvas.AddManipulator(this.manipulator);
+                canvas.AddManipulator(this.Manipulator);
                 OnSelect?.Invoke();
 
             };
             button.OnBlurEvent += () =>
             {
-                canvas.RemoveManipulator(this.manipulator);
+                canvas.RemoveManipulator(this.Manipulator);
                 OnDeselect?.Invoke();
                 LBSMainWindow.MessageManipulator("-");
             };

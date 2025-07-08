@@ -7,64 +7,64 @@ namespace ISILab.LBS.VisualElements
 {
     public class NodeEditorExplore : NodeEditor
     {
-        private IntegerField subareas;
-        private Toggle useRandomPoint;
-        private DataExplore currentData;
+        private readonly IntegerField _subareas;
+        private readonly Toggle _useRandomPoint;
+        private DataExplore _currentData;
 
-        private EventCallback<ChangeEvent<bool>> onToggleChanged;
-        private EventCallback<ChangeEvent<int>> onSubareasChanged;
+        private EventCallback<ChangeEvent<bool>> _onToggleChanged;
+        private EventCallback<ChangeEvent<int>> _onSubareasChanged;
 
         public NodeEditorExplore()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Explore");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorExplore");
             visualTree.CloneTree(this);
 
-            subareas = this.Q<IntegerField>("ExploreSubareas");
-            useRandomPoint = this.Q<Toggle>("ExploreUseRandomPosition");
+            _subareas = this.Q<IntegerField>("ExploreSubareas");
+            _useRandomPoint = this.Q<Toggle>("ExploreUseRandomPosition");
 
-            useRandomPoint.value = false;
+            _useRandomPoint.value = false;
         }
 
         public override void SetNodeData(BaseQuestNodeData data)
         {
             if (data is not DataExplore de) return;
-            currentData = de;
+            _currentData = de;
             
             // Unregister previous to avoid stacking calls
-            if (onToggleChanged != null)
-                useRandomPoint.UnregisterValueChangedCallback(onToggleChanged);
-            if (onSubareasChanged != null)
-                subareas.UnregisterValueChangedCallback(onSubareasChanged);
+            if (_onToggleChanged != null)
+                _useRandomPoint.UnregisterValueChangedCallback(_onToggleChanged);
+            if (_onSubareasChanged != null)
+                _subareas.UnregisterValueChangedCallback(_onSubareasChanged);
             
             SetToggleCallback();
             SetSubareaCallback();
             
-            useRandomPoint.SetValueWithoutNotify(currentData.findRandomPosition);
-            subareas.SetValueWithoutNotify(currentData.subdivisions);
+            _useRandomPoint.SetValueWithoutNotify(_currentData.findRandomPosition);
+            _subareas.SetValueWithoutNotify(_currentData.subdivisions);
 
             // must manually set the display type, because unity has no function via code that calls SetValue
             // thanks unity.
-            subareas.style.display = currentData.findRandomPosition ? DisplayStyle.None : DisplayStyle.Flex;
+            _subareas.style.display = _currentData.findRandomPosition ? DisplayStyle.None : DisplayStyle.Flex;
         }
 
         private void SetSubareaCallback()
         {
-            onSubareasChanged = evt =>
+            _onSubareasChanged = evt =>
             {
-                currentData.subdivisions = evt.newValue;
+                _currentData.subdivisions = evt.newValue;
             };
-            subareas.RegisterValueChangedCallback(onSubareasChanged);
+            _subareas.RegisterValueChangedCallback(_onSubareasChanged);
         }
 
         private void SetToggleCallback()
         {
-            onToggleChanged = evt =>
+            _onToggleChanged = evt =>
             {
-                currentData.findRandomPosition = evt.newValue;
-                subareas.style.display = evt.newValue ? DisplayStyle.None : DisplayStyle.Flex;
+                _currentData.findRandomPosition = evt.newValue;
+                _subareas.style.display = evt.newValue ? DisplayStyle.None : DisplayStyle.Flex;
             };
-            useRandomPoint.RegisterValueChangedCallback(onToggleChanged);
+            _useRandomPoint.RegisterValueChangedCallback(_onToggleChanged);
         }
     }
 }

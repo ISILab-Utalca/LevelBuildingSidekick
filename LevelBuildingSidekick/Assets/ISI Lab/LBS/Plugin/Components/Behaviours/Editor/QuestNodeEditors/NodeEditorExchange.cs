@@ -12,7 +12,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorExchange()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Exchange");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorExchange");
             visualTree.CloneTree(this);
 
             _pickerBundleGive = this.Q<PickerBundle>("ExchangeGiveTarget");

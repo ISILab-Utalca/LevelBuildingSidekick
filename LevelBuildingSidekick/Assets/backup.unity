@@ -347,10 +347,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 27, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 27, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 27, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 27, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &11165394
 MonoBehaviour:
@@ -1853,6 +1853,7 @@ MonoBehaviour:
         bData:
           characteristics:
           - rid: 6732893602743320952
+          guid: 
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
@@ -1864,6 +1865,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -1875,6 +1877,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -1886,6 +1889,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -2015,10 +2019,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 19, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 19, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 19, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 19, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &49809973
 MonoBehaviour:
@@ -3154,10 +3158,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 23, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 23, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 23, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 23, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &86985317
 MonoBehaviour:
@@ -5121,10 +5125,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -11}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -11}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -11}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -11}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &140567688
 MonoBehaviour:
@@ -5274,10 +5278,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 19, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 19, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 19, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 19, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &144828712
 MonoBehaviour:
@@ -5319,10 +5323,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 5, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 5, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 5, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 5, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &144998539
 MonoBehaviour:
@@ -5490,10 +5494,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -7}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -7}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -7}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -7}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &149547467
 MonoBehaviour:
@@ -6475,10 +6479,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -17}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -17}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -17}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -17}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &174499545
 MonoBehaviour:
@@ -6583,10 +6587,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 25, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 25, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 25, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 25, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &176122589
 MonoBehaviour:
@@ -7358,10 +7362,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 29, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 29, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 29, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 29, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &193811076
 MonoBehaviour:
@@ -7448,10 +7452,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 42.1, y: 1.4993492, z: -17}
+  worldPosition: {x: 42.1, y: 1.4993491, z: -17}
   gizmoBounds:
-    m_Center: {x: 42.1, y: 1.4993492, z: -17}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 42.1, y: 1.4993491, z: -17}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &195002311
 MonoBehaviour:
@@ -8214,10 +8218,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 21, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 21, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 21, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 21, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &222084362
 MonoBehaviour:
@@ -8429,10 +8433,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 39, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 39, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 39, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 39, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &234056048
 MonoBehaviour:
@@ -9913,10 +9917,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 25, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 25, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 25, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 25, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &284370367
 MonoBehaviour:
@@ -9958,10 +9962,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 11, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 11, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 11, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 11, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &284483469
 MonoBehaviour:
@@ -10162,10 +10166,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 41, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 41, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 41, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &292573807
 MonoBehaviour:
@@ -10881,10 +10885,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -7}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -7}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -7}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -7}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &322639727
 MonoBehaviour:
@@ -11774,10 +11778,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 42.1, y: 1.4993492, z: -15}
+  worldPosition: {x: 42.1, y: 1.4993491, z: -15}
   gizmoBounds:
-    m_Center: {x: 42.1, y: 1.4993492, z: -15}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 42.1, y: 1.4993491, z: -15}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &353098495
 MonoBehaviour:
@@ -12357,10 +12361,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -9}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -9}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -9}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -9}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &366085593
 MonoBehaviour:
@@ -12465,10 +12469,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 37, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 37, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 37, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 37, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &375287483
 MonoBehaviour:
@@ -12988,10 +12992,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 15, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 15, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 15, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 15, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &392512072
 MonoBehaviour:
@@ -13862,6 +13866,7 @@ MonoBehaviour:
         bData:
           characteristics:
           - rid: 6732893602743320987
+          guid: 
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
@@ -13873,6 +13878,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -13884,6 +13890,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -13895,6 +13902,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -15469,10 +15477,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 15, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 15, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 15, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 15, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &455732543
 MonoBehaviour:
@@ -15667,10 +15675,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 13, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 13, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 13, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 13, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &464411172
 MonoBehaviour:
@@ -18277,10 +18285,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 7, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 7, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 7, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 7, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &549297036
 MonoBehaviour:
@@ -18804,10 +18812,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 3, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 2.9999998, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 3, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 2.9999998, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &559194802
 MonoBehaviour:
@@ -21193,6 +21201,7 @@ MonoBehaviour:
         bData:
           characteristics:
           - rid: 6732893602743320917
+          guid: 
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
@@ -21204,6 +21213,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -21215,6 +21225,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -21226,6 +21237,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -21291,10 +21303,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 31, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 31, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 31, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 31, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &609983188
 MonoBehaviour:
@@ -21755,10 +21767,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -29}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -29}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -29}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -29}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &628007152
 MonoBehaviour:
@@ -22667,10 +22679,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -19}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -19}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -19}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -19}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &657079964
 MonoBehaviour:
@@ -23042,10 +23054,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 27, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 27, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 27, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 27, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &674010133
 MonoBehaviour:
@@ -24541,10 +24553,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -25}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -25}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -25}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -25}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &723159116
 MonoBehaviour:
@@ -25690,10 +25702,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 17, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 17, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 17, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 17, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &760463062
 MonoBehaviour:
@@ -26537,10 +26549,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 13, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 13, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 13, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 13, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &795648540
 MonoBehaviour:
@@ -28025,10 +28037,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 27, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 27, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 27, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 27, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &837531687
 MonoBehaviour:
@@ -28600,10 +28612,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 42.1, y: 1.4993492, z: -9}
+  worldPosition: {x: 42.1, y: 1.4993491, z: -9}
   gizmoBounds:
-    m_Center: {x: 42.1, y: 1.4993492, z: -9}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 42.1, y: 1.4993491, z: -9}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &854906560
 MonoBehaviour:
@@ -28740,10 +28752,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 5, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 5, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 5, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 5, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &860423541
 MonoBehaviour:
@@ -29677,7 +29689,7 @@ MonoBehaviour:
   worldPosition: {x: 42.1, y: 1.4993807, z: -30.1}
   gizmoBounds:
     m_Center: {x: 42.1, y: 1.4993807, z: -30.1}
-    m_Extent: {x: 0.100000106, y: 1.6, z: 0.10000006}
+    m_Extent: {x: 0.100000106, y: 1.6, z: 0.10000013}
   canDrawPopup: 0
 --- !u!114 &889885548
 MonoBehaviour:
@@ -30660,10 +30672,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 42.1, y: 1.4993492, z: -21}
+  worldPosition: {x: 42.1, y: 1.4993491, z: -21}
   gizmoBounds:
-    m_Center: {x: 42.1, y: 1.4993492, z: -21}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 42.1, y: 1.4993491, z: -21}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &909691291
 MonoBehaviour:
@@ -31262,10 +31274,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 21, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 21, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 21, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 21, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &931362543
 MonoBehaviour:
@@ -32209,10 +32221,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 2.9999998, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 3, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 2.9999998, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 3, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &965886631
 MonoBehaviour:
@@ -33659,10 +33671,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -5}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -5}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -5}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -5}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &1012712367
 MonoBehaviour:
@@ -35155,10 +35167,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 29, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 29, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 29, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 29, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &1059460800
 MonoBehaviour:
@@ -35294,10 +35306,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -19}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -19}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -19}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -19}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1062701437
 MonoBehaviour:
@@ -36009,10 +36021,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -17}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -17}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -17}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -17}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &1085622103
 MonoBehaviour:
@@ -36085,10 +36097,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 33, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 33, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 33, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 33, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1086857073
 MonoBehaviour:
@@ -36288,10 +36300,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 31, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 31, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 31, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 31, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1101577542
 MonoBehaviour:
@@ -38010,10 +38022,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 1.0000001, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 0.9999999, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 1.0000001, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 0.9999999, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1165448447
 MonoBehaviour:
@@ -38595,10 +38607,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 31, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 31, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 31, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 31, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &1182107621
 MonoBehaviour:
@@ -38920,10 +38932,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -9}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -9}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -9}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -9}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &1192926699
 MonoBehaviour:
@@ -39245,10 +39257,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -5}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -5}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -5}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -5}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1214328239
 MonoBehaviour:
@@ -39696,10 +39708,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -17}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -17}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -17}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -17}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1227606768
 MonoBehaviour:
@@ -46169,10 +46181,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999992, y: 1.4993807, z: -30.1}
+  worldPosition: {x: -0.09999985, y: 1.4993807, z: -30.1}
   gizmoBounds:
-    m_Center: {x: -0.09999992, y: 1.4993807, z: -30.1}
-    m_Extent: {x: 0.10000008, y: 1.6, z: 0.10000013}
+    m_Center: {x: -0.09999985, y: 1.4993807, z: -30.1}
+    m_Extent: {x: 0.10000015, y: 1.6, z: 0.10000013}
   canDrawPopup: 0
 --- !u!114 &1463348935
 MonoBehaviour:
@@ -46970,10 +46982,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 35, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 35, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 35, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 35, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1488067602
 MonoBehaviour:
@@ -47435,10 +47447,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -23}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -23}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -23}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -23}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1504140742
 MonoBehaviour:
@@ -49305,7 +49317,7 @@ MonoBehaviour:
   worldPosition: {x: 42.1, y: 1.4993807, z: -3.9}
   gizmoBounds:
     m_Center: {x: 42.1, y: 1.4993807, z: -3.9}
-    m_Extent: {x: 0.10000008, y: 1.6, z: 0.10000013}
+    m_Extent: {x: 0.10000015, y: 1.6, z: 0.10000013}
   canDrawPopup: 0
 --- !u!114 &1569107800
 MonoBehaviour:
@@ -49759,10 +49771,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -13}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -13}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -13}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -13}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1581664761
 MonoBehaviour:
@@ -50162,10 +50174,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 29, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 29, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 29, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 29, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1589263798
 MonoBehaviour:
@@ -50425,10 +50437,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -19}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -19}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -19}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -19}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1604305222
 MonoBehaviour:
@@ -51752,10 +51764,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 33, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 33, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 33, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 33, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &1650299937
 MonoBehaviour:
@@ -52126,10 +52138,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -13}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -13}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -13}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -13}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1655936723
 MonoBehaviour:
@@ -52324,10 +52336,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -27}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -27}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -27}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -27}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1661649083
 MonoBehaviour:
@@ -52597,10 +52609,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 19, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 19, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 19, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 19, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1667247341
 MonoBehaviour:
@@ -52642,10 +52654,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 39, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 39, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 39, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 39, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1667703989
 MonoBehaviour:
@@ -52732,10 +52744,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 5, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 5, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 5, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 5, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1672426796
 MonoBehaviour:
@@ -53336,10 +53348,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -21}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -21}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -21}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -21}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1691170932
 MonoBehaviour:
@@ -53492,7 +53504,7 @@ MonoBehaviour:
   worldPosition: {x: -0.099999875, y: 1.4993807, z: -3.9}
   gizmoBounds:
     m_Center: {x: -0.099999875, y: 1.4993807, z: -3.9}
-    m_Extent: {x: 0.1000001, y: 1.6, z: 0.10000005}
+    m_Extent: {x: 0.1000001, y: 1.6, z: 0.10000012}
   canDrawPopup: 0
 --- !u!114 &1698030799
 MonoBehaviour:
@@ -55480,10 +55492,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -11}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -11}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -11}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -11}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1789193806
 MonoBehaviour:
@@ -55678,10 +55690,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 11, y: 1.4993492, z: -3.9000003}
+  worldPosition: {x: 11, y: 1.4993491, z: -3.9000003}
   gizmoBounds:
-    m_Center: {x: 11, y: 1.4993492, z: -3.9000003}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 11, y: 1.4993491, z: -3.9000003}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &1792883010
 MonoBehaviour:
@@ -56204,10 +56216,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 41.9, y: 1.4993492, z: -21}
+  worldPosition: {x: 41.9, y: 1.4993491, z: -21}
   gizmoBounds:
-    m_Center: {x: 41.9, y: 1.4993492, z: -21}
-    m_Extent: {x: 0.10000017, y: 1.6, z: 1}
+    m_Center: {x: 41.9, y: 1.4993491, z: -21}
+    m_Extent: {x: 0.10000017, y: 1.6000001, z: 1}
   canDrawPopup: 0
 --- !u!114 &1812293107
 MonoBehaviour:
@@ -56249,10 +56261,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 0.09999969, y: 1.4993492, z: -9}
+  worldPosition: {x: 0.09999969, y: 1.4993491, z: -9}
   gizmoBounds:
-    m_Center: {x: 0.09999969, y: 1.4993492, z: -9}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: 0.09999969, y: 1.4993491, z: -9}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1814347366
 MonoBehaviour:
@@ -56726,10 +56738,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 9, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 9, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 9, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 9, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &1829639088
 MonoBehaviour:
@@ -56899,10 +56911,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 35, y: 1.4993492, z: -30.1}
+  worldPosition: {x: 35, y: 1.4993491, z: -30.1}
   gizmoBounds:
-    m_Center: {x: 35, y: 1.4993492, z: -30.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.1}
+    m_Center: {x: 35, y: 1.4993491, z: -30.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.1}
   canDrawPopup: 0
 --- !u!114 &1835330738
 MonoBehaviour:
@@ -58879,10 +58891,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 35, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 35, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 35, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 35, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &1902706426
 MonoBehaviour:
@@ -58956,10 +58968,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 7, y: 1.4993492, z: -4.1}
+  worldPosition: {x: 7, y: 1.4993491, z: -4.1}
   gizmoBounds:
-    m_Center: {x: 7, y: 1.4993492, z: -4.1}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000017}
+    m_Center: {x: 7, y: 1.4993491, z: -4.1}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000017}
   canDrawPopup: 0
 --- !u!114 &1903847660
 MonoBehaviour:
@@ -61818,10 +61830,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: -0.09999969, y: 1.4993492, z: -5}
+  worldPosition: {x: -0.09999969, y: 1.4993491, z: -5}
   gizmoBounds:
-    m_Center: {x: -0.09999969, y: 1.4993492, z: -5}
-    m_Extent: {x: 0.100000136, y: 1.6, z: 1.0000002}
+    m_Center: {x: -0.09999969, y: 1.4993491, z: -5}
+    m_Extent: {x: 0.100000136, y: 1.6000001, z: 1.0000002}
   canDrawPopup: 0
 --- !u!114 &1997272599
 MonoBehaviour:
@@ -64484,6 +64496,7 @@ MonoBehaviour:
         bData:
           characteristics:
           - rid: 6732893602743320882
+          guid: 
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
@@ -64495,6 +64508,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -64506,6 +64520,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -64517,6 +64532,7 @@ MonoBehaviour:
           y: -12
         bData:
           characteristics: []
+          guid: 
           bundleName: Proto_Coin_01_Bundle
           bundle: {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
         rotation: {x: 1, y: 0}
@@ -64550,10 +64566,10 @@ MonoBehaviour:
   gizmoColor: {r: 1, g: 0.67, b: 0.06, a: 1}
   gizmoMesh: {fileID: -7343344355624583655, guid: b3c0386b2bf92524bbb3ce850b3feb37, type: 3}
   meshGizmoScale: 0.3
-  worldPosition: {x: 17, y: 1.4993492, z: -29.9}
+  worldPosition: {x: 17, y: 1.4993491, z: -29.9}
   gizmoBounds:
-    m_Center: {x: 17, y: 1.4993492, z: -29.9}
-    m_Extent: {x: 1.0000001, y: 1.6, z: 0.10000009}
+    m_Center: {x: 17, y: 1.4993491, z: -29.9}
+    m_Extent: {x: 1.0000001, y: 1.6000001, z: 0.10000009}
   canDrawPopup: 0
 --- !u!114 &2056622006
 MonoBehaviour:

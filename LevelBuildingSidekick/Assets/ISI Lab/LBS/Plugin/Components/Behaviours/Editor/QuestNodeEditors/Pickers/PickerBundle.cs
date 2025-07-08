@@ -4,7 +4,6 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Manipulators;
 using ISILab.Macros;
 using LBS.Bundles;
-using LBS.Components;
 using LBS.VisualElements;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -14,13 +13,15 @@ using Object = UnityEngine.Object;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class PickerBundle : VisualElement
+    public partial class PickerBundle : PickerBase
     {
         private readonly ObjectField _objectFieldBundle;
-        private readonly Vector2IntField _vector2FieldPosition;
         private readonly Button _buttonPickerTarget;
         private readonly Label _labelLayer;
-
+        private readonly VisualElement _warning;
+        private readonly VisualElement _layerDisplay;
+        private readonly Vector2IntField _position;
+        
         public Action OnClicked;
         private readonly Action<Bundle> _onBundleChanged = null;
 
@@ -30,7 +31,7 @@ namespace ISILab.LBS.VisualElements
         {
             Clear();
 
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetBundle");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PickerBundle");
             if (!visualTree)
             {
                 Debug.LogError("VisualElement_QuestTargetBundle.uxml not found. Check the file name and folder path.");
@@ -38,10 +39,6 @@ namespace ISILab.LBS.VisualElements
             }
 
             visualTree.CloneTree(this);
-
-            _vector2FieldPosition = this.Q<Vector2IntField>("TargetPosition");
-            _vector2FieldPosition.tooltip = "Target position in graph.";
-            _vector2FieldPosition.SetEnabled(false);
 
             _objectFieldBundle = this.Q<ObjectField>("TargetFieldBundle");
             if (_objectFieldBundle == null)
@@ -63,18 +60,31 @@ namespace ISILab.LBS.VisualElements
 
             _buttonPickerTarget.clicked += () =>
             {
-                ToolKit.Instance.SetActive(typeof(QuestPicker));
-                
-                // by default not picking the main trigger - its set on its OnClicked Implementation on QuestNodeBehaviourEditor
-                var mani = ToolKit.Instance.GetActiveManipulator();
-                if (mani is QuestPicker questPicker) questPicker.PickTriggerPosition = false;
-                
+                ActivateButton(_buttonPickerTarget);
                 OnClicked?.Invoke();
             };
 
-            _labelLayer = this.Q<Label>("Layer");
+            OnClicked += SetPickerManipulator;
 
+            _warning = this.Q<VisualElement>("Warning");
+            _warning.tooltip = "Data Information Missing. Correct nulls and non-assigned values";
+            
+            
+            _labelLayer = this.Q<Label>("Layer");
+            _layerDisplay = this.Q<VisualElement>("LayerDisplay");
+            _position = this.Q<Vector2IntField>("Position");
+            
+            
             DefaultValues();
+        }
+
+        private static void SetPickerManipulator()
+        {
+            ToolKit.Instance.SetActive(typeof(QuestPicker));
+
+            // by default not picking the main trigger - its set on its OnClicked Implementation on QuestNodeBehaviourEditor
+            var mani = ToolKit.Instance.GetActiveManipulator();
+            if (mani is QuestPicker questPicker) questPicker.PickTriggerPosition = false;
         }
 
         private void BundleChangeCallback(ChangeEvent<Object> evt)
@@ -95,11 +105,12 @@ namespace ISILab.LBS.VisualElements
         public void SetInfo(string paramLabel, string paramTooltip, bool graphOnly = false)
         {
             string suffix = graphOnly ? " (In Graph)" : " (Type)";
-            _vector2FieldPosition.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
 
             _objectFieldBundle.labelElement.text = paramLabel + suffix;
             _objectFieldBundle.SetEnabled(!graphOnly);
-
+            
+            _layerDisplay.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
+            
             tooltip = paramTooltip;
         }
 
@@ -121,37 +132,35 @@ namespace ISILab.LBS.VisualElements
                 DefaultValues();
             }
             
-            _labelLayer.style.display = DisplayStyle.None;
-            _vector2FieldPosition.style.display = DisplayStyle.None;
+            // display danger if invalid
+            _warning.style.display = layerTarget.Valid() ? DisplayStyle.None : DisplayStyle.Flex;
+            
+            _layerDisplay.style.display = DisplayStyle.None;
             if (layerTarget is not BundleGraph bg) return;
             
             
             var layer = layerTarget.GetLayer();
             if(layer != null)
             {
+                _layerDisplay.style.display = DisplayStyle.Flex;
+                _labelLayer.text = layer.Name;
+                _position.value = bg.Position;
+                
                 layer.OnChangeName += () =>
                 {
                     _labelLayer.text = layer.Name;
+                    _position.value = bg.Position;
                 };
                 
-                _labelLayer.text = layer.Name;
-                _labelLayer.style.display = DisplayStyle.Flex;
+            
             }
-            else
-            {
-                _labelLayer.style.display = DisplayStyle.None;
-            }
-
-            _vector2FieldPosition.style.display = DisplayStyle.Flex;
-            _vector2FieldPosition.value = bg.Position;
-
+  
         }
 
         private void DefaultValues()
         {
             _objectFieldBundle.value = null;
             _labelLayer.text = "No Layer";
-            _vector2FieldPosition.value = Vector2Int.zero;
         }
 
 

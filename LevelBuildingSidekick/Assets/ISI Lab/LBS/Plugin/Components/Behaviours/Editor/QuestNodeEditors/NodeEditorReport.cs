@@ -12,7 +12,7 @@ namespace ISILab.LBS.VisualElements
         public NodeEditorReport()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNode_Report");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("NodeEditorReport");
             visualTree.CloneTree(this);
 
             _pickerBundle = this.Q<PickerBundle>("ReportTarget");

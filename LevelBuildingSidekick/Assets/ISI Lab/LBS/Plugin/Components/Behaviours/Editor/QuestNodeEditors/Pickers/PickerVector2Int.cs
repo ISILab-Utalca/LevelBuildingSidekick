@@ -10,6 +10,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
 using LBS;
@@ -23,10 +24,13 @@ using UnityEngine.UIElements;
 namespace ISILab.LBS.VisualElements
 {
     [UxmlElement]
-    public partial class PickerVector2Int : VisualElement
+    public partial class PickerVector2Int : PickerBase
     {
+        private Color _color = LBSSettings.Instance.view.toolkitNormal;
+        private Color _selected = LBSSettings.Instance.view.newToolkitSelected;
+        
         public Vector2IntField vector2IntField;
-        private Button pickerTarget;
+        private Button _buttonPickerTarget;
 
         public Action _onClicked;
 
@@ -34,7 +38,7 @@ namespace ISILab.LBS.VisualElements
         public PickerVector2Int() : base()
         {
             Clear();
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElement_QuestTargetPosition");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("PickerVector2Int");
             if (visualTree == null)
             {
                 Debug.LogError("VisualElement_QuestTargetBundle.uxml not found. Check the file name and folder path.");
@@ -47,15 +51,16 @@ namespace ISILab.LBS.VisualElements
             vector2IntField.tooltip = "The position that must be reached in the graph.";
             vector2IntField.SetEnabled(true);
             
-            pickerTarget = this.Q<Button>("PickerTarget");
-            if (pickerTarget == null)
+            _buttonPickerTarget = this.Q<Button>("PickerTarget");
+            if (_buttonPickerTarget == null)
             {
                 Debug.LogError("PickerTarget not found in VisualElement_QuestTargetPosition.uxml");
                 return;
             }
 
-            pickerTarget.clicked += () =>
+            _buttonPickerTarget.clicked += () =>
             {
+                ActivateButton(_buttonPickerTarget);
                 ToolKit.Instance.SetActive(typeof(QuestPicker));
                 var qp = ToolKit.Instance.GetActiveManipulatorInstance() as QuestPicker;
                 _onClicked?.Invoke();
@@ -71,7 +76,7 @@ namespace ISILab.LBS.VisualElements
        /// Call only during init of editor
        /// </summary>
        /// <param name="label">Description of target</param>
-       /// <param name="graphOnly">whether the target must be assigned from the graph.</param>
+       /// <param name="tooltip">Description of what this position represents.</param>
        public void SetInfo(string label, string tooltip)
        {
            vector2IntField.labelElement.text = label;
@@ -82,7 +87,7 @@ namespace ISILab.LBS.VisualElements
         /// <summary>
         /// Call whenever a active node is changed
         /// </summary>
-        /// <param name="guid"></param>
+        /// <param name="position">a position to assign into the field</param>
         public void SetTarget(Vector2Int position = default)
         {
             vector2IntField.value = position;
