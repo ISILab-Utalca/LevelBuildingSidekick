@@ -1,4 +1,5 @@
 using System.Linq;
+using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
@@ -179,6 +180,10 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 _data = data;
                 
+                VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TriggerElementArea");
+                visualTree.CloneTree(this);
+                
+                
                 // Scale the tile size by the base size (assuming BaseSize is a constant somewhere)
                 //Vector2 pixelSize = tileSize * BaseSize; todo
                 var position = LBSMainWindow.Instance._selectedLayer.FixedToPosition(new Vector2Int((int)area.x,(int)area.y), true);
@@ -187,24 +192,44 @@ namespace ISILab.LBS.Drawers.Editor
                 // Properly position the element using SetPosition to avoid layout offset
                 SetPosition(drawArea);
 
+                VisualElement triggerElementGizmo = this.Q<VisualElement>("TriggerElementSelector");
+                
                 // Set border thickness
-                style.borderBottomWidth = BorderThickness;
-                style.borderTopWidth = BorderThickness;
-                style.borderLeftWidth = BorderThickness;
-                style.borderRightWidth = BorderThickness;
+                // style.borderBottomWidth = BorderThickness;
+                // style.borderTopWidth = BorderThickness;
+                // style.borderLeftWidth = BorderThickness;
+                // style.borderRightWidth = BorderThickness;
 
                 // Color configuration
                 Color backgroundColor = color;
-                backgroundColor.a = BackgroundOpacity;
-
-                style.backgroundColor = backgroundColor;
-                style.borderBottomColor = color;
-                style.borderTopColor = color;
-                style.borderRightColor = color;
-                style.borderLeftColor = color;
+                backgroundColor.a = 0.2f;
+                triggerElementGizmo.style.backgroundColor = backgroundColor;
+                triggerElementGizmo.style.unityBackgroundImageTintColor = backgroundColor;
+                    
+                triggerElementGizmo.style.borderBottomColor = color;
+                triggerElementGizmo.style.borderTopColor = color;
+                triggerElementGizmo.style.borderRightColor = color;
+                triggerElementGizmo.style.borderLeftColor = color;    
+                    
+                
+                // backgroundColor.a = BackgroundOpacity;
+                //
+                // Texture2D bgTexture = Macros.LBSAssetMacro.LoadAssetByGuid<Texture2D>("da949edd419a40347b7e7d382b96a7e2");
+                // VectorImage handle = Macros.LBSAssetMacro.LoadAssetByGuid<VectorImage>("Nice");
+                // style.backgroundImage = new StyleBackground(handle);
+                //
+                // style.backgroundImage = bgTexture;
+                // style.unityBackgroundImageTintColor = backgroundColor;
+                //
+                // style.borderBottomColor = color;
+                // style.borderTopColor = color;
+                // style.borderRightColor = color;
+                // style.borderLeftColor = color;
 
                 RegisterCallback<MouseMoveEvent>(OnMouseMove);
                 RegisterCallback<MouseUpEvent>(OnMouseUp);
+                
+                
             }
 
 
