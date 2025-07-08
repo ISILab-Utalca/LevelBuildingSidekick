@@ -195,7 +195,7 @@ namespace ISILab.LBS.Drawers.Editor
                 SetPosition(drawArea);
 
                 VisualElement triggerElementGizmo = this.Q<VisualElement>("TriggerElementSelector");
-                
+                VisualElement targetIcon = this.Q<VisualElement>("TargetIcon");
                 // Set border thickness
                 // style.borderBottomWidth = BorderThickness;
                 // style.borderTopWidth = BorderThickness;
@@ -204,10 +204,12 @@ namespace ISILab.LBS.Drawers.Editor
 
                 // Color configuration
                 Color backgroundColor = color;
+                targetIcon.style.unityBackgroundImageTintColor = backgroundColor;
+                
                 backgroundColor.a = 0.2f;
                 triggerElementGizmo.style.backgroundColor = backgroundColor;
                 triggerElementGizmo.style.unityBackgroundImageTintColor = backgroundColor;
-                    
+                
                 triggerElementGizmo.style.borderBottomColor = color;
                 triggerElementGizmo.style.borderTopColor = color;
                 triggerElementGizmo.style.borderRightColor = color;
