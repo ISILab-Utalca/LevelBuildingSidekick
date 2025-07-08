@@ -166,12 +166,14 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void SelectionChange(IEnumerable<object> objs)
         {
-            if (!objs.Any()) 
+            var enumerable = objs as object[] ?? objs.ToArray();
+            if (!enumerable.Any()) 
             {
                 return;
             }
 
-            var selected = objs.ToList()[0] as LBSLayer;
+            var selected = enumerable.ToList()[0] as LBSLayer;
+            _noSelectedLayerNotificator.style.display = selected == null ? DisplayStyle.Flex : DisplayStyle.None;
             OnSelectLayer?.Invoke(selected);
         }
         private void ItemChosen(IEnumerable<object> objs)

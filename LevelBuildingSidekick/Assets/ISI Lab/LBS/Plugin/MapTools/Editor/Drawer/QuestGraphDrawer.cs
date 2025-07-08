@@ -84,6 +84,7 @@ namespace ISILab.LBS.Drawers.Editor
                 }
                 
                 view.AddElement(quest.OwnerLayer, node, nodeView);
+                node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
             }
 

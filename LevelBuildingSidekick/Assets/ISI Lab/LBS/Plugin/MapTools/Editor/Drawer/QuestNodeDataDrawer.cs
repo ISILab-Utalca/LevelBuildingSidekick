@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
@@ -8,6 +9,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Settings;
+using ISILab.LBS.VisualElements;
 using ISILab.Macros;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -177,14 +179,16 @@ namespace ISILab.LBS.Drawers.Editor
         private sealed class TriggerElement : GraphElement
         {
             private readonly BaseQuestNodeData _data;
-
+            private readonly Color _currentColor;
+            
             public TriggerElement(BaseQuestNodeData data ,Rect area, Color color)
             {
                 _data = data;
                 
                 VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TriggerElementArea");
                 visualTree.CloneTree(this);
-                
+
+                _currentColor = color;
                 
                 // Scale the tile size by the base size (assuming BaseSize is a constant somewhere)
                 //Vector2 pixelSize = tileSize * BaseSize; todo
@@ -229,19 +233,35 @@ namespace ISILab.LBS.Drawers.Editor
                 VisualElement handle = this.Q<VisualElement>("ScaleHandle");
                 handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
                 
-                
+                generateVisualContent -= OnGenerateVisualContent;
+                generateVisualContent += OnGenerateVisualContent;
             }
 
+            void OnGenerateVisualContent(MeshGenerationContext mgc)
+            {
+                var painter = mgc.painter2D;
+
+            //    var endPos = new Vector2Int((int)_data.Owner.GetPosition().xMax - pos_offset, (int)node1.GetPosition().center.y);
+                //endPos.y *= -1;
+                var qbh = _data.Owner.Graph.OwnerLayer.GetBehaviour<QuestBehaviour>();
+                if (qbh is null) return;
+
+            //    if (!qbh.Keys.TryGetValue(_data.Owner, out object viewNode)) return;
+            //    if(viewNode is not QuestNodeView vn) return;
+                painter.DrawDottedLine(Vector2.zero  ,_data.Owner.NodeViewPosition.center , _currentColor, 1f, 2.5f);
+                Debug.Log("redraw");
+            }
 
             private void OnMouseMove(MouseMoveEvent e)
             {
                 // Only move when left mouse button is pressed
-                if (e.pressedButtons == 0 || e.button != 0) return;
+                if (e.pressedButtons != 1) return;
                 if (!MainView.Instance.HasManipulator<SelectManipulator>()) return;
 
-                var currentRect = GetPosition();
-                var delta = e.mouseDelta / MainView.Instance.viewTransform.scale;
-                var newPos = new Rect(currentRect.x + delta.x, currentRect.y + delta.y, currentRect.width, currentRect.height);
+                var scale = MainView.Instance.viewport.transform.scale;
+                var grabPosition = GetPosition().position + e.mouseDelta / scale;
+                grabPosition *= scale;
+                Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
                 SetPosition(newPos);
 
                 // Update node data position (convert to grid if needed)

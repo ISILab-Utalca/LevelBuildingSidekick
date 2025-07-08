@@ -135,15 +135,17 @@ namespace ISILab.LBS.VisualElements
             // Assign selected quest node behavior only if the node belongs to the active layer
             else if (evt.button == 0)
             {
+                if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator)) return;
+
                 if (!Equals(LBSMainWindow.Instance._selectedLayer, _node.Graph.OwnerLayer)) return;
                 
                 QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
                 if(qnb is null) return;
                 LBSInspectorPanel.ActivateBehaviourTab();
+                
                 if (!qnb.Graph.QuestNodes.Contains(_node)) return;
                 qnb.SelectedQuestNode = _node;
-                
-                ToolKit.Instance.SetActive(typeof(SelectManipulator)); // If clicking on a node set the selector
+
             }
         }
 

@@ -143,7 +143,8 @@ namespace ISILab.LBS.Components
 
         [JsonIgnore]
         public QuestState QuestState { get; set; }
-
+        
+        public Rect NodeViewPosition { get; set; }
 
         #endregion
 
@@ -183,6 +184,7 @@ namespace ISILab.LBS.Components
                 target = target.Clone() as QuestTarget
             };
             if(NodeData is not null )node.NodeData.Clone(NodeData);
+            node.NodeViewPosition = NodeViewPosition;
             return node;
         }
     }
