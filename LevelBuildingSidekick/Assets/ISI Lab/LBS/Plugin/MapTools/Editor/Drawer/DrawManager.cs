@@ -14,7 +14,7 @@ namespace ISILab.LBS
 
         public static DrawManager Instance => instance;
 
-        private readonly Dictionary<Type, Drawer> _drawerCache = new();
+        private readonly Dictionary<(Type, LBSLayer), Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
         public DrawManager(ref MainView view)
@@ -74,7 +74,7 @@ namespace ISILab.LBS
             foreach (var component in components)
             {
                 if (component == null)continue;
-                var drawer = GetOrCreateDrawer(component.GetType());
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
                 drawer?.Draw(component, MainView.Instance,layer.TileSize);
                 //Debug.Log("drawing call");
             }
@@ -85,7 +85,7 @@ namespace ISILab.LBS
             foreach (var component in components)
             {
                 if (component == null)continue;
-                var drawer = GetOrCreateDrawer(component.GetType());
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
                 drawer?.HideVisuals(component, _view);
             }
         }
@@ -94,14 +94,15 @@ namespace ISILab.LBS
             foreach (var component in components)
             {
                 if (component == null)continue;
-                var drawer = GetOrCreateDrawer(component.GetType());
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
                 drawer?.ShowVisuals(component, _view);
             }
         }
 
-        private Drawer GetOrCreateDrawer(Type type)
+        private Drawer GetOrCreateDrawer(Type type, LBSLayer layer)
         {
-            if (_drawerCache.TryGetValue(type, out var drawer)) return drawer;
+            var pairKey = (type, layer);
+            if (_drawerCache.TryGetValue(pairKey, out var drawer)) return drawer;
             
             var drawerType = LBS_Editor.GetDrawer(type);
             if (drawerType == null)
@@ -109,7 +110,7 @@ namespace ISILab.LBS
 
             drawer = Activator.CreateInstance(drawerType) as Drawer;
             if (drawer != null)
-                _drawerCache[type] = drawer;
+                _drawerCache[pairKey] = drawer;
             return drawer;
         }
 
