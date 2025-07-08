@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.VisualElements.Editor;
@@ -10,6 +11,7 @@ using ISILab.LBS.Settings;
 using ISILab.Macros;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Drawers.Editor
 {
@@ -210,7 +212,6 @@ namespace ISILab.LBS.Drawers.Editor
                 triggerElementGizmo.style.borderTopColor = color;
                 triggerElementGizmo.style.borderRightColor = color;
                 triggerElementGizmo.style.borderLeftColor = color;    
-                    
                 
                 // backgroundColor.a = BackgroundOpacity;
                 //
@@ -220,14 +221,13 @@ namespace ISILab.LBS.Drawers.Editor
                 //
                 // style.backgroundImage = bgTexture;
                 // style.unityBackgroundImageTintColor = backgroundColor;
-                //
-                // style.borderBottomColor = color;
-                // style.borderTopColor = color;
-                // style.borderRightColor = color;
-                // style.borderLeftColor = color;
+                
 
-                RegisterCallback<MouseMoveEvent>(OnMouseMove);
-                RegisterCallback<MouseUpEvent>(OnMouseUp);
+                triggerElementGizmo.RegisterCallback<MouseMoveEvent>(OnMouseMove);
+                triggerElementGizmo.RegisterCallback<MouseUpEvent>(OnMouseUp);
+                
+                VisualElement handle = this.Q<VisualElement>("ScaleHandle");
+                handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
                 
                 
             }
@@ -264,6 +264,27 @@ namespace ISILab.LBS.Drawers.Editor
             }
 
 
+            private void OnHandleRectMove(MouseMoveEvent _evt)
+            {
+                if (_evt.pressedButtons == 0 || _evt.button != 0) return;
+                
+                Vector2 delta = _evt.mouseDelta / MainView.Instance.viewTransform.scale;
+                delta = delta.normalized;
+                Debug.Log(delta);
+                
+                Rect currentRect = GetPosition();
+                Rect newRect = new Rect(
+                    currentRect.x,
+                    currentRect.y,
+                    currentRect.width + delta.x,
+                    currentRect.height + delta.y
+                    );
+                SetPosition(newRect);
+                
+                
+                
+            }
+            
         }
       
     }        
