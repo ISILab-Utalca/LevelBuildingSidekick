@@ -21,8 +21,6 @@ namespace ISILab.LBS.Manipulators
 
         public RotatePopulationTile()
         {
-            //feedback = new ConnectedLine();
-           // feedback.fixToTeselation = true;
            Name = "Rotate Tile";
            Description = "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.";
         }
@@ -30,10 +28,7 @@ namespace ISILab.LBS.Manipulators
         public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
-            
             _population = provider as PopulationBehaviour; 
-           // feedback.TeselationSize = layer.TileSize;
-            //layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
         }
 
         protected override void OnWheelEvent(WheelEvent evt)
@@ -44,29 +39,24 @@ namespace ISILab.LBS.Manipulators
                 return;
             }  
     
-            if (evt.delta.y > 0)
-            {
-                RotateLeft();
-            }
-            else if (evt.delta.y < 0)
-            {
-                RotateRight();
-            }
+            if (evt.delta.y > 0) RotateLeft();
+            else if (evt.delta.y < 0) RotateRight();
+
         }
 
         protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
         {
             var position = _population.OwnerLayer.ToFixedPosition(movePosition);
-             var tilegroup = _population.GetTileGroup(position);
-             if (tilegroup == null ||
-                 tilegroup.BundleData == null ||
-                 !tilegroup.BundleData.Bundle ||
-                !tilegroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
+             var tileGroup = _population.GetTileGroup(position);
+             if (tileGroup == null ||
+                 tileGroup.BundleData == null ||
+                 !tileGroup.BundleData.Bundle ||
+                !tileGroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
              {
                  Selected = null;
              }
              
-             Selected = tilegroup;
+             Selected = tileGroup;
              if(Selected!=null) _storedPosition = position;
              MainView.Instance.SetManipulatorZoom(Selected == null);
             DrawManager.Instance.RedrawLayer(_population.OwnerLayer, MainView.Instance);
