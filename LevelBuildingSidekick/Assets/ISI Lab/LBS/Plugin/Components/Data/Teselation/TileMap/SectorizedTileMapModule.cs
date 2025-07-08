@@ -716,7 +716,7 @@ namespace ISILab.LBS.Modules
                 var z1 = this.zones[i];
                 var z2 = other.zones[i];
 
-                if (!z1.Equals(z2)) return false;
+                if (!z1.ExactlyEquals(z2)/*Equals(z2 as object)*/) return false;
             }
 
             var pCount = other.pairs.Count;
@@ -789,7 +789,7 @@ namespace ISILab.LBS.Modules
 
             if (!this.tile.Equals(other.tile)) return false;
 
-            if (!this.zone.Equals(other.zone)) return false;
+            if (!this.zone.ExactlyEquals(other.zone)/*Equals(other.zone as object)*/) return false;
 
             return true;
         }
