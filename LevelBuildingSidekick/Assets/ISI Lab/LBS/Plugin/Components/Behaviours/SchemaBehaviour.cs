@@ -88,7 +88,7 @@ namespace ISILab.LBS.Behaviours
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;
 
-        public List<string> Connections => connections;
+        public static List<string> Connections => connections;
 
         [JsonIgnore]
         public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
@@ -172,6 +172,12 @@ namespace ISILab.LBS.Behaviours
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
             areas.RemovePair(tile);
+        }
+
+        public void RequestFullRepaint(List<LBSTile> olds, List<LBSTile> news)
+        {
+            olds.ForEach(t => RequestTileRemove(t));
+            news.ForEach(t => RequestTilePaint(t));
         }
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)

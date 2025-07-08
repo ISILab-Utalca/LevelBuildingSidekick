@@ -85,6 +85,8 @@ namespace ISILab.LBS.Assistants
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
+            var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
+            schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
             RecalculateWalls(modules);
 
             SetDoors(modules);
@@ -114,6 +116,12 @@ namespace ISILab.LBS.Assistants
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
+            var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
+            schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
+            //foreach (var tile in OwnerLayer.GetModule<TileMapModule>().Tiles)
+            //{
+            //    RequestTileRemove(tile);
+            //}
             RecalculateWalls(modules);
 
             SetDoors(modules);
@@ -125,6 +133,10 @@ namespace ISILab.LBS.Assistants
             }
 
             OwnerLayer.Reload();
+            //foreach (var tile in OwnerLayer.GetModule<TileMapModule>().Tiles)
+            //{
+            //    RequestTilePaint(tile);
+            //}
             OnTermination?.Invoke();
             UnityEngine.Debug.Log("HillClimbing on step, finish!");
         }
