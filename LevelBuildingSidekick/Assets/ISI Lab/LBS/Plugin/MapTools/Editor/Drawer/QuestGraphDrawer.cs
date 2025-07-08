@@ -8,6 +8,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -67,6 +68,7 @@ namespace ISILab.LBS.Drawers.Editor
 
         private void LoadAllTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
         {
+            QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(quest.OwnerLayer);
             foreach (var node in quest.QuestNodes)
             {
                 if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
@@ -75,6 +77,12 @@ namespace ISILab.LBS.Drawers.Editor
                     nodeViews[node] = nodeView;
                 }
 
+                nodeViews[node].IsSelected(false);
+                if (qnb.SelectedQuestNode is not null)
+                {
+                    nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
+                }
+                
                 view.AddElement(quest.OwnerLayer, node, nodeView);
                 behaviour.Keys.Add(node);
             }
