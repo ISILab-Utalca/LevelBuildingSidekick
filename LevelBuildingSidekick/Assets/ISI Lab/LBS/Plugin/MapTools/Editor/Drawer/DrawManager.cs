@@ -120,11 +120,11 @@ namespace ISILab.LBS
             DrawLayer(layer);
         }
 
-        public void RedrawLevel(LBSLevelData level, MainView view)
+        public void RedrawLevel(LBSLevelData level, MainView view, bool deepClean = false)
         {
             foreach (var layer in level.Layers)
             {
-                view.ClearLayerView(layer);
+                view.ClearLayerView(layer, deepClean);
             }
             DrawLevel(level, view);
         }

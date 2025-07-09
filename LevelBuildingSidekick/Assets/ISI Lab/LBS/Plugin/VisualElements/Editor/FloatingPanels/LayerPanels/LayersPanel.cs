@@ -35,6 +35,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnLayerVisibilityChange;
 
         private bool layerDragged = false;
+        private List<int> dragAffected = new List<int>();
 
         public LayersPanel() { }
 
@@ -54,23 +55,49 @@ namespace ISILab.LBS.VisualElements.Editor
             VisualElement MakeItem() => new LayerView();
             _list.bindItem += (item, index) =>
             {
-                if (index >= this.Data.LayerCount) return;
+                if (index >= this.Data.LayerCount) 
+                {
+                    dragAffected.Remove(index);
+                    return;
+                }
 
                 if (item is LayerView view)
                 {
                     var layer = this.Data.GetLayer(index);
                     layer.index = _list.childCount - index;
-                    view.SetInfo(layer);
-                    if(view.OnLayerVisibilityChangeAction != null)
-                        view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
-                    view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
-                    view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
-                    view.OnNameChange += () => layer.InvokeNameChanged();
+                    if(dragAffected.Count == 0)
+                    {
+
+                        if(view.OnLayerVisibilityChangeAction != null)
+                            view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
+                        view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
+                        view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
+                        view.SetInfo(layer);
+                        view.OnNameChange += () => layer.InvokeNameChanged();
+                    }
+                    else
+                    {
+                        dragAffected.Remove(index);
+                        if(dragAffected.Count == 0)
+                        {
+                            OnLayerVisibilityChange?.Invoke(layer);
+                        }
+                    }
+
                     ChangeListItemView(item);
                 }
             };
-            _list.itemIndexChanged += (a, aa) => {
-                layerDragged = true;
+            _list.itemIndexChanged += (_old, _new) => {
+                //UnityEngine.Assertions.Assert.IsFalse(layerDragged);
+                UnityEngine.Assertions.Assert.IsTrue(dragAffected.Count == 0);
+                //layerDragged = true;
+                int count = Mathf.Abs(_new - _old) + 1;
+                int step = (int)Mathf.Sign(_new - _old);
+                for(int i = 0; i < count; i++)
+                {
+                    int index = _old + i * step;
+                    dragAffected.Add(index);
+                }
             };
 
             _list.fixedItemHeight = 24;
