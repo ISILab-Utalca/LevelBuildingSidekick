@@ -13,7 +13,7 @@ namespace ISILab.LBS.Drawers
     public abstract class Drawer
     {
         protected bool Loaded = false;
-        protected bool fullRedrawRequested = false;
+        public bool FullRedrawRequested { get; set; } = false;
         public Vector2 DefalutSize
         {
             get => LBSSettings.Instance.general.TileSize;
