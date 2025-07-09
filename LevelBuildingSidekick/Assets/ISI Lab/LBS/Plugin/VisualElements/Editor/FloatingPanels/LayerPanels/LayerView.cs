@@ -38,6 +38,9 @@ namespace ISILab.LBS.VisualElements.Editor
             add => _onNameChange += value;
             remove => _onNameChange -= value;
         }
+
+        public Action OnLayerVisibilityChangeAction;
+
         public LayerView()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");

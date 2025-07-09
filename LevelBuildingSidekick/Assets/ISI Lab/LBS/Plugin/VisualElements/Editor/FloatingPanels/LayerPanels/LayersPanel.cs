@@ -34,6 +34,8 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnDoubleSelectLayer;
         public event Action<LBSLayer> OnLayerVisibilityChange;
 
+        private bool layerDragged = false;
+
         public LayersPanel() { }
 
         public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
@@ -50,7 +52,6 @@ namespace ISILab.LBS.VisualElements.Editor
             _list = this.Q<ListView>("List");
 
             VisualElement MakeItem() => new LayerView();
-
             _list.bindItem += (item, index) =>
             {
                 if (index >= this.Data.LayerCount) return;
@@ -60,10 +61,16 @@ namespace ISILab.LBS.VisualElements.Editor
                     var layer = this.Data.GetLayer(index);
                     layer.index = _list.childCount - index;
                     view.SetInfo(layer);
-                    view.OnVisibilityChange += () => OnLayerVisibilityChange?.Invoke(layer);
+                    if(view.OnLayerVisibilityChangeAction != null)
+                        view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
+                    view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
+                    view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
                     view.OnNameChange += () => layer.InvokeNameChanged();
                     ChangeListItemView(item);
                 }
+            };
+            _list.itemIndexChanged += (a, aa) => {
+                layerDragged = true;
             };
 
             _list.fixedItemHeight = 24;
