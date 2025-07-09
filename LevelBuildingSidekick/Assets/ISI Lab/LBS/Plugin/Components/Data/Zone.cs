@@ -146,9 +146,9 @@ namespace ISILab.LBS.Components
 
             if (!color.Equals(other.color)) return false;
 
-            if (!pivot.Equals(other.pivot)) return false;
+            //if (!pivot.Equals(other.pivot)) return false;
             
-            if (!positions.Equals(other.positions)) return false;
+            //if (!positions.Equals(other.positions)) return false;
 
             return true;
         }
@@ -160,8 +160,25 @@ namespace ISILab.LBS.Components
 
             if (!color.Equals(other.color)) return false;
 
-            if (!pivot.Equals(other.pivot)) return false;
+            //if (!pivot.Equals(other.pivot)) return false;
             
+            //if (!positions.Equals(other.positions)) return false;
+
+            return true;
+        }
+
+        public bool ExactlyEquals(object obj)
+        {
+            var other = obj as Zone;
+
+            if (other == null) return false;
+
+            if (!id.Equals(other.id)) return false;
+
+            if (!color.Equals(other.color)) return false;
+
+            if (!pivot.Equals(other.pivot)) return false;
+
             if (!positions.Equals(other.positions)) return false;
 
             return true;

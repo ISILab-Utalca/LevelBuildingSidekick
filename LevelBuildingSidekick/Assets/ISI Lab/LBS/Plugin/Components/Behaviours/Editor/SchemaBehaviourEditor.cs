@@ -1,17 +1,17 @@
-using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
+using ISILab.Macros;
 using LBS;
 using LBS.Bundles;
-using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
-using ISILab.Macros;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -194,6 +194,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 if (!answer) return;
 
                 behaviour.RemoveZone(option as Zone);
+                DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
                 ToolKit.Instance.SetActive(typeof(AddSchemaTile));
                 areaPallete.Repaint();
             };

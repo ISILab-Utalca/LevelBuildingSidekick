@@ -89,12 +89,7 @@ namespace ISILab.LBS.Drawers
         
         private void UpdateTileView(SchemaTileView tView, LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize, int layerIndex)
         {
-            // Aquí se podría ajustar el tile según el foreach que sigue en GetTileView, pero
-            // honestamente no se que hace, y no lo quiero tocar. Si hay errores en el drawer
-            // empezaría revisando por aquí :P
-
             AdjustTileView(tView, tile, zone, connections, teselationSize);
-            
             tView.layer = layerIndex;
         }
 
@@ -186,9 +181,7 @@ namespace ISILab.LBS.Drawers
         private GraphElement GetTileView(LBSTile tile, Zone zone, List<string> connections, Vector2 teselationSize)
         {
             var tView = new SchemaTileView();
-            
             AdjustTileView(tView, tile, zone, connections, teselationSize);
-            
             return tView;
         }
 
@@ -197,12 +190,11 @@ namespace ISILab.LBS.Drawers
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
             var size = DefalutSize * teselationSize;
             tView.SetPosition(new Rect(pos * size, size));
-
             tView.SetBackgroundColor(zone.Color);
-
             tView.SetBorderColor(zone.Color, zone.BorderThickness);
-
             tView.SetConnections(connections.ToArray());
+
+            tView.RemoveConnectionViews();
 
             var Connections = SchemaTileView.GetConnectionPoints(connections);
 
@@ -240,23 +232,15 @@ namespace ISILab.LBS.Drawers
                 {
                     VectorImage setIcon = null;
                     if (connectionType == connectionTypes[2])
-                        setIcon = GetDoorImage();
-                    else if (connectionType == connectionTypes[3])
-                        setIcon = GetWindowImage();
-
-                    var connectionPoint = new SchemaTileConnectionView(setIcon)
                     {
-                        style =
-                        {
-                            width = 64,
-                            height = 64,
-                            backgroundColor = Color.clear,
-                            position = Position.Absolute,
-                            left = xPos-2.5f,
-                            top = yPos-2.5f
-                        }
-                    };
-                    tView.Add(connectionPoint);
+                        setIcon = GetDoorImage();
+                        tView.CreateConnectionView(setIcon, new Vector2(xPos, yPos), connection.Key);
+                    }
+                    else if (connectionType == connectionTypes[3])
+                    {
+                        setIcon = GetWindowImage();
+                        tView.CreateConnectionView(setIcon, new Vector2(xPos, yPos), connection.Key);
+                    }
                 }
             }
         }

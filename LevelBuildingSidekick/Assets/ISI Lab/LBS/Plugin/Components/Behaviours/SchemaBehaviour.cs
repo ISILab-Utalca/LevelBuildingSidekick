@@ -125,6 +125,7 @@ namespace ISILab.LBS.Behaviours
             areas.AddTile(tile, zone);
             
             RequestTilePaint(tile);
+            
             return tile;
         }
 
@@ -132,6 +133,7 @@ namespace ISILab.LBS.Behaviours
         {
             string prefix = "Zone: ";
             int counter = 0;
+            string suffix = " (" + OwnerLayer.Name + ")";
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
             while (names.Contains(name))
@@ -260,7 +262,7 @@ namespace ISILab.LBS.Behaviours
                     }
 
                     var otherZone = GetZone(neigs[i]);
-                    if (otherZone == currZone)
+                    if (otherZone.Equals(currZone))
                     {
 
 

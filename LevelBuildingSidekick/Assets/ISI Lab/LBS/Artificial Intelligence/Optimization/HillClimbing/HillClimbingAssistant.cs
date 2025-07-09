@@ -53,6 +53,8 @@ namespace ISILab.LBS.Assistants
 
         #region PROPERTIES
         [JsonIgnore]
+        public List<Zone> Zones => OwnerLayer.GetModule<SectorizedTileMapModule>().Zones;
+        [JsonIgnore]
         public List<Zone> ZonesWhitTiles => OwnerLayer.GetModule<SectorizedTileMapModule>().ZonesWithTiles;
         public TileMapModule TileMapMod => OwnerLayer.GetModule<TileMapModule>();
         public SectorizedTileMapModule AreasMod => OwnerLayer.GetModule<SectorizedTileMapModule>();
