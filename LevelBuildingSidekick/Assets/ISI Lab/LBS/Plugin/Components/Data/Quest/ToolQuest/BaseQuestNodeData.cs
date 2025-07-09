@@ -171,11 +171,6 @@ namespace ISILab.LBS.Components
             set => area = value;
         }
 
-        //TODO: Missing properties were being used in QuestNodeDataDrawer,
-        //for it to work properly, implement Position and Size.
-        public Vector2Int Position => throw new NotImplementedException();
-        public float Size => throw new NotImplementedException();
-
         public Color Color => color;
         #endregion
 
