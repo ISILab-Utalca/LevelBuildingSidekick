@@ -38,6 +38,7 @@ namespace ISILab.LBS.Drawers
                 view.ClearLayerComponentView(assistant.OwnerLayer, key);
             }
             _keyRefs.Clear();
+            _nodeRefs.Clear();
             PaintEverything(assistant, view, consts, teselationSize);
 
             //PaintNewTiles(assistant, view, consts, teselationSize);
