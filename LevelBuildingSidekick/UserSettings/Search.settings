@@ -110,6 +110,8 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"p: 94428ede71c74c05bf538dd451605682"
+	"p:"
 	"type: Chara"
 	"type:"
 	"type: DirectionCh"
