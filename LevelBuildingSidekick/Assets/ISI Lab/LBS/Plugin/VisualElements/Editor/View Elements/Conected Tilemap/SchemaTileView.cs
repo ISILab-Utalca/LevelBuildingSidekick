@@ -27,6 +27,11 @@ namespace ISILab.LBS.VisualElements
         private VisualElement border;
         #endregion
 
+        SchemaTileConnectionView leftConnectionView;
+        SchemaTileConnectionView rightConnectionView;
+        SchemaTileConnectionView topConnectionView;
+        SchemaTileConnectionView bottomConnectionView;
+
         public SchemaTileView()
         {
             if (view == null)
@@ -81,6 +86,57 @@ namespace ISILab.LBS.VisualElements
             border.style.borderTopWidth = tags[1].Equals("Empty") ? 0f : borderThickness;
             border.style.borderLeftWidth = tags[2].Equals("Empty") ? 0f : borderThickness;
             border.style.borderBottomWidth = tags[3].Equals("Empty") ? 0f : borderThickness;
+        }
+
+        public void CreateConnectionView(VectorImage icon, Vector2 pos, string key)
+        {
+            var connectionView = new SchemaTileConnectionView(icon)
+            {
+                style =
+                {
+                    width = 64,
+                    height = 64,
+                    backgroundColor = Color.clear,
+                    position = Position.Absolute,
+                    left = pos.x-2.5f,
+                    top = pos.y-2.5f
+                }
+            };
+
+            switch (key)
+            {
+                case "right":
+                    rightConnectionView = connectionView;
+                    break;
+
+                case "top":
+                    topConnectionView = connectionView;
+                    break;
+
+                case "left":
+                    leftConnectionView = connectionView;
+                    break;
+
+                case "bottom":
+                    bottomConnectionView = connectionView;
+                    break;
+
+                default:
+                    Debug.LogWarning("Wrong key type");
+                    break;
+            }
+
+            Add(connectionView);
+        }
+
+        public void RemoveConnectionViews()
+        {
+            if (rightConnectionView     is not null) Remove(rightConnectionView);
+            if (topConnectionView       is not null) Remove(topConnectionView);
+            if (leftConnectionView      is not null) Remove(leftConnectionView);
+            if (bottomConnectionView    is not null) Remove(bottomConnectionView);
+
+            rightConnectionView = topConnectionView = leftConnectionView = bottomConnectionView = null;
         }
 
         /// <summary>
