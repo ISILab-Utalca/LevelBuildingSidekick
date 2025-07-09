@@ -205,7 +205,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     continue;
                 layerPopulation.AddTileGroup(pos, gene as BundleData);
             }
-            DrawManager.Instance.RedrawLayer(TargetLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(TargetLayer);
 
             if (EditorGUI.EndChangeCheck())
             {
