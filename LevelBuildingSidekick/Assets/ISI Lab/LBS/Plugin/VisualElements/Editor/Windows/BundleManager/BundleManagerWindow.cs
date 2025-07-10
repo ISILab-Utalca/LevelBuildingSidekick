@@ -53,7 +53,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
         [MenuItem("Window/ISILab/Bundle Manager", priority = 1)]
         public static void ShowWindow()
         {
-            BundleManagerWindow window = GetWindow<BundleManagerWindow>();
+            var window = GetWindow<BundleManagerWindow>();
             Texture icon = LBSAssetMacro.LoadAssetByGuid<Texture>("6351057aa17189c44902075c0b9353fd");
             window.titleContent = new GUIContent("Bundle Manager", icon);
         }

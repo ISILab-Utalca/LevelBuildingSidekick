@@ -539,7 +539,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     continue;
                 LayerPopulation.AddTileGroup(pos, gene as BundleData);
             }
-            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -608,7 +608,7 @@ namespace ISILab.LBS.VisualElements.Editor
             Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             LayerPopulation.ReplaceTileMap(originalTileMap);
-            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
             LBSMainWindow.MessageNotify("Layer reset.");
 
             if (EditorGUI.EndChangeCheck())

@@ -1,5 +1,18 @@
-@import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
 :root {
+    --lbs-light-red-color: rgb(254, 118, 105);
+    --lbs-light-green-color: rgb(194, 246, 100);
+    --lbs-light-yellow-color: rgb(247, 196, 64);
+    --lbs-light-blue-color: rgb(135, 215, 246);
+    --lbs-light-purple-color: rgb(163, 160, 251);
+    --lbs-base-solid-gray-color: rgb(60, 60, 60);
+    --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
+    --lbs-darker-solid-gray-color: rgb(33, 33, 33);
+    --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
+    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(24, 55, 110);
+    --lbs-selection-dark-green-color: rgb(118, 151, 67);
+    --lbs-selection-dark-red-color: rgb(200, 92, 82);
+    --lbs-selection-dark-teal-color: rgb(98, 139, 200);
 }
 
 .unity-base-field__label {
@@ -1196,7 +1209,7 @@ Button.lbs-actionbutton {
 .lbs-progressBar-score-thick {
 }
 
-.lbs-vector-2-picker-panel {
+.lbs-pickerPanel {
     flex-grow: 0;
     flex-direction: column;
     max-height: none;
@@ -1220,51 +1233,4 @@ Button.lbs-actionbutton {
     padding-right: 3px;
     padding-bottom: 3px;
     padding-left: 3px;
-}
-
-.lbs-windows-panel {
-    border-left-color: rgba(0, 0, 0, 0.4);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-top-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    margin-left: 2px;
-    margin-top: 2px;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    padding-left: 4px;
-    padding-top: 4px;
-    padding-right: 4px;
-    padding-bottom: 4px;
-}
-
-.lbs-enum-field {
-    background-color: rgb(45, 45, 45);
-    padding-top: 2px;
-    padding-right: 2px;
-    padding-bottom: 2px;
-    padding-left: 2px;
-    margin-top: 2px;
-    margin-right: 2px;
-    margin-bottom: 2px;
-    margin-left: 2px;
-    border-left-color: rgba(0, 0, 0, 0.33);
-    border-right-color: rgba(0, 0, 0, 0.33);
-    border-top-color: rgba(0, 0, 0, 0.33);
-    border-bottom-color: rgba(0, 0, 0, 0.33);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-}
-
-.lbs-quest-action-icon {
-    -unity-background-image-tint-color: var(--lbs-light-blue-color);
 }

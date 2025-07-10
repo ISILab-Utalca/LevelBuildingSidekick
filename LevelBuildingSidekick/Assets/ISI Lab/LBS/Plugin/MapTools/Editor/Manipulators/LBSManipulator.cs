@@ -323,7 +323,7 @@ namespace ISILab.LBS.Manipulators
             if (@event.button != 0 && @event.button != 1 || _hasProcessedMouseUp)
             {
                 @event.StopImmediatePropagation();
-                DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
+                DrawManager.Instance.RedrawLayer(LBSLayer);
                 return;
             }
 
@@ -351,7 +351,7 @@ namespace ISILab.LBS.Manipulators
                 OnManipulationRightClick?.Invoke();
                 Remover.OnManipulationNotification?.Invoke();
                 @event.StopImmediatePropagation();
-                DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
+                DrawManager.Instance.RedrawLayer(LBSLayer);
                 return;
             }
             
@@ -373,7 +373,7 @@ namespace ISILab.LBS.Manipulators
             
             OnManipulationEnd?.Invoke();
             @event.StopImmediatePropagation();
-            DrawManager.Instance.RedrawLayer(LBSLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(LBSLayer);
         }
         
         #endregion

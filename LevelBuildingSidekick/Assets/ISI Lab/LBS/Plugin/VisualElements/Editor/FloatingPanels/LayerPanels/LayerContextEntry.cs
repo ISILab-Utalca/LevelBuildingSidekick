@@ -11,9 +11,6 @@ using ISILab.LBS.Behaviours;
 using System.Numerics;
 using ISILab.Macros;
 using System.Collections.Generic;
-using ISILab.LBS.Modules;
-using ISILab.LBS.Components;
-using LBS.Components.TileMap;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -84,67 +81,24 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void EvaluateOverlap(List<LBSLayer> layers)
         {
-            //Check all layers...
             foreach(LBSLayer layer in layers)
             {
-                if (layerReference.Equals(layer)) continue;
-                //...But only if they coincide with the ID
                 if(layer.ID == layerReference.ID)
                 {
-                    //Then take action depending on the ID
                     switch (layerReference.ID)
                     {
                         case "Population":
-                            var populationBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
-                            var referenceBehaviorPop = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
-                            if (populationBehavior == null) continue;
-                            if (referenceBehaviorPop == null) continue;
-
-                            //Every group in the reference behavior is checked. If there's a population asset in any location that belongs to the reference behavior, it'll enable the warning.
-                            foreach (TileBundleGroup group in referenceBehaviorPop.Tilemap)
-                            {
-                                var groupBounds = group.GetBounds();
-                                for(int i= (int)groupBounds.x; i< (int)groupBounds.x+(int)groupBounds.width; i++)
-                                {
-                                    for (int j = (int)groupBounds.y; j < (int)groupBounds.y+(int)groupBounds.height; j++)
-                                    {
-                                        if (populationBehavior.GetTileGroup(new Vector2Int(i, j)) !=null)
-                                        {
-                                            //Enable warning.
-                                            entryWarning.visible = true;
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
                             break;
                         case "Exterior":
-                            //No real way to find discrepancies here for now. There will probably be at some point, though.
                             break;
                         case "Interior":
-                            var interiorBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
-                            var referenceBehaviorInt = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
-                            if (interiorBehavior == null) continue;
-                            if (referenceBehaviorInt == null) continue;
-
-                            foreach(LBSTile tile in referenceBehaviorInt.Tiles)
-                            {
-                                if (interiorBehavior.GetTile(tile.Position) != null)
-                                {
-                                    //Enable warning.
-                                    entryWarning.visible = true;
-                                    return;
-                                }
-                            }
                             break;
                         case "Quest":
-                            //Nothing to see here lol
                             break;
                     }
                 }
             }
-            //If it survived the entire switch, it's because there's nothing to worry about and the warning can be disabled.
-            entryWarning.visible = false;
+            
         }
     }
 }
