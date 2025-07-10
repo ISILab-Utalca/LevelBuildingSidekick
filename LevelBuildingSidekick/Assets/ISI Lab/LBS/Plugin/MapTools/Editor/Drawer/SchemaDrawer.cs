@@ -52,7 +52,7 @@ namespace ISILab.LBS.Drawers
                 var tView = GetTileView(newTile, tz.Zone, tc.Connections, teselationSize);
                 
                 // Stores using LBSTile as key
-                view.AddElement(schema.OwnerLayer, newTile, tView);
+                view.AddElementToLayerContainer(schema.OwnerLayer, newTile, tView);
             }
         }
 
@@ -66,7 +66,7 @@ namespace ISILab.LBS.Drawers
             {
                 if(obj is not LBSTile tile) continue;
 
-                var elements = view.GetElements(schema.OwnerLayer, tile);
+                var elements = view.GetElementsFromLayerContainer(schema.OwnerLayer, tile);
                 if(elements == null) continue;
                 
                 foreach (var graphElement in elements)
@@ -104,7 +104,7 @@ namespace ISILab.LBS.Drawers
                 
                 var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
                 // Stores using LBSTile as key
-                view.AddElement(schema.OwnerLayer, tile, tView);
+                view.AddElementToLayerContainer(schema.OwnerLayer, tile, tView);
                 schema.Keys.Add(tile);
             }
         }
@@ -116,7 +116,7 @@ namespace ISILab.LBS.Drawers
             
             foreach (LBSTile tile in schema.Keys)
             {
-                foreach (var graphElement in view.GetElements(schema.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                foreach (var graphElement in view.GetElementsFromLayerContainer(schema.OwnerLayer, tile).Where(graphElement => graphElement != null))
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -131,7 +131,7 @@ namespace ISILab.LBS.Drawers
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElements(schema.OwnerLayer, tile);
+                var elements = view.GetElementsFromLayerContainer(schema.OwnerLayer, tile);
                 foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.None;

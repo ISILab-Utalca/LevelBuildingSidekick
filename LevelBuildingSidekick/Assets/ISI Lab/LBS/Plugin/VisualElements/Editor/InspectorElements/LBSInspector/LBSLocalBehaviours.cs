@@ -15,7 +15,7 @@ namespace ISILab.LBS.VisualElements
     [UxmlElement]
     public partial class LBSLocalBehaviours : LBSInspector
     {
-        private LBSLayer target;
+        private LBSLayer _target;
 
         #region CONSTRUCTORS
         public LBSLocalBehaviours()
@@ -64,15 +64,15 @@ namespace ISILab.LBS.VisualElements
         {
             noContentPanel.SetDisplay(layer is null);
             contentPanel.Clear();
-            target = layer;
+            _target = layer;
             
             if (layer == null)
                 return;
             
-            noContentPanel.SetDisplay(!target.Behaviours.Any());
+            noContentPanel.SetDisplay(!_target.Behaviours.Any());
             
             // Add the tools into the toolkit and set the data of behaviour
-            foreach (var behaviour in target.Behaviours)
+            foreach (var behaviour in _target.Behaviours)
             {
                 Type editorType = customEditor.GetValueOrDefault(behaviour.GetType());
                 if(editorType == null) continue;
@@ -89,7 +89,7 @@ namespace ISILab.LBS.VisualElements
 
         public override void Repaint()
         {
-            if(target is not null)SetTarget(target);
+            if(_target is not null)SetTarget(_target);
             MarkDirtyRepaint();
         }
         #endregion
