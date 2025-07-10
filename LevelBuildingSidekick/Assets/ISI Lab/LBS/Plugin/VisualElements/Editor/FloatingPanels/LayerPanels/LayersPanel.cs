@@ -33,6 +33,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnSelectLayer;
         public event Action<LBSLayer> OnDoubleSelectLayer;
         public event Action<LBSLayer> OnLayerVisibilityChange;
+        public event Action<LBSLayer> OnLayerOrderChange;
 
         private bool layerDragged = false;
         private List<int> dragAffected = new List<int>();
@@ -80,7 +81,8 @@ namespace ISILab.LBS.VisualElements.Editor
                         dragAffected.Remove(index);
                         if(dragAffected.Count == 0)
                         {
-                            OnLayerVisibilityChange?.Invoke(layer);
+                            OnLayerOrderChange?.Invoke(layer);
+                            ;
                         }
                     }
 

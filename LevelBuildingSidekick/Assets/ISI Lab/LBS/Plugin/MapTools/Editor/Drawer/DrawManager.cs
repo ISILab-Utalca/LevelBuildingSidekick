@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
@@ -75,7 +76,10 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType(), layer);
-                drawer?.Draw(component, MainView.Instance,layer.TileSize);
+                if(drawer == null) continue;
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = false;
+                drawer.Draw(component, MainView.Instance,layer.TileSize);
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = true;
                 //Debug.Log("drawing call");
             }
         }
@@ -114,6 +118,11 @@ namespace ISILab.LBS
             return drawer;
         }
 
+        private List<Drawer> GetLayerDrawers(LBSLayer layer)
+        {
+            return _drawerCache.Where(kvp => kvp.Key.Item2.Equals(layer)).Select(kvp => kvp.Value).ToList();
+        }
+
         public void RedrawLayer(LBSLayer layer, MainView view)
         {
             view.ClearLayerView(layer);
@@ -124,7 +133,14 @@ namespace ISILab.LBS
         {
             foreach (var layer in level.Layers)
             {
-                view.ClearLayerView(layer, deepClean);
+                bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
+                //if(deepClean)
+                
+                    GetLayerDrawers(layer)
+                    .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
+                
+                if(!layer.IsVisible) continue;
+                view.ClearLayerView(layer, deepClean || (preVisible && layer.IsVisible));
             }
             DrawLevel(level, view);
         }
