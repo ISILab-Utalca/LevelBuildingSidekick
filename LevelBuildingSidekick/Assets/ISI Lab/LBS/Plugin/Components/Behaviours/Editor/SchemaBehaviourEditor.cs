@@ -194,7 +194,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 if (!answer) return;
 
                 behaviour.RemoveZone(option as Zone);
-                DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer);
+                DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
                 ToolKit.Instance.SetActive(typeof(AddSchemaTile));
                 areaPallete.Repaint();
             };
