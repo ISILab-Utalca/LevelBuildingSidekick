@@ -51,7 +51,7 @@ namespace ISILab.LBS.Drawers
                 var tView = GetTileView(newTile, connections, teselationSize);
                 
                 // Stores using LBSTile as key
-                view.AddElementToLayerContainer(exterior.OwnerLayer, newTile, tView);
+                view.AddElement(exterior.OwnerLayer, newTile, tView);
             }
         }
         private void UpdateLoadedTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
@@ -63,7 +63,7 @@ namespace ISILab.LBS.Drawers
             {
                 if(obj is not LBSTile tile) continue;
                 
-                var elements = view.GetElementsFromLayerContainer(exterior.OwnerLayer, tile);
+                var elements = view.GetElements(exterior.OwnerLayer, tile);
                 if(elements == null) continue;
                 
                 foreach (var graphElement in elements)
@@ -97,7 +97,7 @@ namespace ISILab.LBS.Drawers
                 var tView = GetTileView(tile, connections, teselationSize);
                 
                 // Stores using LBSTile as key
-                view.AddElementToLayerContainer(exterior.OwnerLayer, tile, tView);
+                view.AddElement(exterior.OwnerLayer, tile, tView);
                 exterior.Keys.Add(tile);
             }
         }
@@ -109,7 +109,7 @@ namespace ISILab.LBS.Drawers
             
             foreach (LBSTile tile in exterior.Keys)
             {
-                foreach (var graphElement in view.GetElementsFromLayerContainer(exterior.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                foreach (var graphElement in view.GetElements(exterior.OwnerLayer, tile).Where(graphElement => graphElement != null))
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -124,7 +124,7 @@ namespace ISILab.LBS.Drawers
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElementsFromLayerContainer(exterior.OwnerLayer, tile);
+                var elements = view.GetElements(exterior.OwnerLayer, tile);
                 foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.None;
@@ -159,7 +159,7 @@ namespace ISILab.LBS.Drawers
                     
                         var connections = connectMod.GetConnections(tile);
                         var ve = GetTileView(tile, connections, teselationSize);
-                        view.AddElementToLayerContainer(layer, this, ve);
+                        view.AddElement(layer, this, ve);
                     }
                 }
                 else if (o != null && n == null)

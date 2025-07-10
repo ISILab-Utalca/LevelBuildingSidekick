@@ -124,12 +124,7 @@ namespace LBS.VisualElements
         
         public LBSManipulator GetActiveManipulatorInstance()
         {
-            if(current.Item1 == null || current.Item2 == null) 
-            {
-                SetActive(typeof(SelectManipulator)); // should only happen on reloading issues
-            }
-
-            return current.Item1?.Manipulator;
+            return current.Item1.Manipulator;
         }
         
         private KeyValuePair<Type, (LBSTool, ToolButton)> GetTool(Type manipulatorType)

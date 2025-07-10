@@ -8,17 +8,19 @@ namespace ISILab.LBS
 {
     public class DrawManager
     {
-        private readonly MainView _view = MainView.Instance;
+        private MainView _view;
         private LBSLevelData _level;
+        private static DrawManager instance;
 
-        public static DrawManager Instance { get; private set; }
+        public static DrawManager Instance => instance;
 
         private readonly Dictionary<(Type, LBSLayer), Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
-        public DrawManager()
+        public DrawManager(ref MainView view)
         {
-            Instance = this;
+            this._view = view;
+            instance = this;
         }
 
         public void AddContainer(LBSLayer layer)
@@ -33,7 +35,7 @@ namespace ISILab.LBS
 
         public static void ReDraw()
         {
-            Instance.RedrawLevel(Instance._level);
+            instance.RedrawLevel(instance._level, instance._view);
         }
 
         private void DrawLayer(LBSLayer layer)
@@ -112,23 +114,26 @@ namespace ISILab.LBS
             return drawer;
         }
 
-        public void RedrawLayer(LBSLayer layer)
+        public void RedrawLayer(LBSLayer layer, MainView view)
         {
-            _view.ClearLayerContainer(layer);
+            view.ClearLayerView(layer);
             DrawLayer(layer);
         }
 
-        public void RedrawLevel(LBSLevelData level)
+        public void RedrawLevel(LBSLevelData level, MainView view)
         {
             foreach (var layer in level.Layers)
             {
-                _view.ClearLayerContainer(layer);
+                view.ClearLayerView(layer);
             }
-            DrawLevel(level);
+            DrawLevel(level, view);
         }
 
-        private void DrawLevel(LBSLevelData level)
+        private void DrawLevel(LBSLevelData level, MainView view)
         {
+            this._level = level;
+            this._view = view;
+
             foreach (var layer in level.Layers)
             {
                 DrawLayer(layer);

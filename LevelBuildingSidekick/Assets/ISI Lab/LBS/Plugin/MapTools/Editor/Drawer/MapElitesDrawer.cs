@@ -21,7 +21,7 @@ namespace ISILab.LBS.Drawers
             if (!Loaded)
             {
                 _dotArea = new DottedAreaFeedback();
-                view.AddElementToLayerContainer(assistant.OwnerLayer,this,_dotArea);
+                view.AddElement(assistant.OwnerLayer,this,_dotArea);
                 Loaded = true;
             }
 

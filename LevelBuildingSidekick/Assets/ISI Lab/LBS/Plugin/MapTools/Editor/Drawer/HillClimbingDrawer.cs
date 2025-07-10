@@ -81,7 +81,7 @@ namespace ISILab.LBS.Drawers
                         ve.Add(v);
                     }
 
-                    view.AddElementToLayerContainer(assistant.OwnerLayer, pair, ve);
+                    view.AddElement(assistant.OwnerLayer, pair, ve);
                     assistant.SaveConstraintKey(zone,pair);
                     _keyRefs.Add(pair);
                     break;
@@ -98,13 +98,13 @@ namespace ISILab.LBS.Drawers
                 // Create EdgeView
                 var eView = new LBSEdgeView(edge, n1, n2, 4, 4);
                 
-                view.AddElementToLayerContainer(assistant.OwnerLayer, edge, eView);
+                view.AddElement(assistant.OwnerLayer, edge, eView);
                 _keyRefs.Add(edge);
             }
 
             foreach(var node in _nodeRefs)
             {
-                view.AddElementToLayerContainer(assistant.OwnerLayer, node.Key, node.Value);
+                view.AddElement(assistant.OwnerLayer, node.Key, node.Value);
             }
         }
 
@@ -119,7 +119,7 @@ namespace ISILab.LBS.Drawers
                 if (o is not Zone zone) continue;
                 
                 var nView = CreateNode(assistant, zone);
-                view.AddElementToLayerContainer(assistant.OwnerLayer, zone, nView);
+                view.AddElement(assistant.OwnerLayer, zone, nView);
                 
                 if (!_nodeRefs.TryAdd(zone, nView))
                 {
@@ -140,7 +140,7 @@ namespace ISILab.LBS.Drawers
                         ve.Add(v);
                     }
 
-                    view.AddElementToLayerContainer(assistant.OwnerLayer, pair, ve);
+                    view.AddElement(assistant.OwnerLayer, pair, ve);
                     assistant.SaveConstraintKey(zone,pair);
                     _keyRefs.Add(pair);
                     break;
@@ -159,7 +159,7 @@ namespace ISILab.LBS.Drawers
                 // Create EdgeView
                 var eView = new LBSEdgeView(edge, n1, n2, 4, 4);
                 
-                view.AddElementToLayerContainer(assistant.OwnerLayer, edge, eView);
+                view.AddElement(assistant.OwnerLayer, edge, eView);
                 _keyRefs.Add(edge);
             }
         }
@@ -169,7 +169,7 @@ namespace ISILab.LBS.Drawers
             // Update visuals
             foreach (var key in _keyRefs.ToList())
             {
-                var elements = view.GetElementsFromLayerContainer(assistant.OwnerLayer, key);
+                var elements = view.GetElements(assistant.OwnerLayer, key);
                 
                 // Remove lost references
                 if (elements == null)
@@ -225,7 +225,7 @@ namespace ISILab.LBS.Drawers
 
             foreach (object tile in _keyRefs)
             {
-                foreach (var graphElement in view.GetElementsFromLayerContainer(assistant.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                foreach (var graphElement in view.GetElements(assistant.OwnerLayer, tile).Where(graphElement => graphElement != null))
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -245,7 +245,7 @@ namespace ISILab.LBS.Drawers
             {
                 if (tile == null) continue;
             
-                var _elements = view.GetElementsFromLayerContainer(assistant.OwnerLayer, tile);
+                var _elements = view.GetElements(assistant.OwnerLayer, tile);
                 foreach (var graphElement in _elements)
                 {
                     graphElement.style.display = DisplayStyle.None;

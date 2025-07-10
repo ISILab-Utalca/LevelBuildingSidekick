@@ -54,7 +54,7 @@ namespace ISILab.LBS.Drawers
             foreach (TileBundleGroup nTile in population.RetrieveNewTiles())
             {
                 // Stores using TileBundleGroup as key
-                view.AddElementToLayerContainer(population.OwnerLayer, nTile, CreatePopulationTileView(nTile, population));
+                view.AddElement(population.OwnerLayer, nTile, CreatePopulationTileView(nTile, population));
             }
         }
 
@@ -72,7 +72,7 @@ namespace ISILab.LBS.Drawers
             foreach (var nTileGroup in population.RetrieveNewRotations())
             {
                 // Get PopulationTileViews from MainView
-                foreach (var graphElement in view.GetElementsFromLayerContainer(population.OwnerLayer, nTileGroup))
+                foreach (var graphElement in view.GetElements(population.OwnerLayer, nTileGroup))
                 {
                     // Rotate visual element
                     var tView = (PopulationTileView)graphElement;
@@ -94,7 +94,7 @@ namespace ISILab.LBS.Drawers
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElementsFromLayerContainer(population.OwnerLayer, tile);
+                var elements = view.GetElements(population.OwnerLayer, tile);
                 if(elements == null) continue;
                 
                 foreach (var graphElement in elements)
@@ -132,7 +132,7 @@ namespace ISILab.LBS.Drawers
                 // Stores using TileBundleGroup as key
                 var tileView = CreatePopulationTileView(tileBundleGroup, population);
                 if (tileView != null)
-                    view.AddElementToLayerContainer(population.OwnerLayer, tileBundleGroup, tileView);
+                    view.AddElement(population.OwnerLayer, tileBundleGroup, tileView);
                 population.Keys.Add(tileBundleGroup);
             }
         }
@@ -144,7 +144,7 @@ namespace ISILab.LBS.Drawers
             
             foreach (TileBundleGroup tile in population.Keys)
             {
-                foreach (var graphElement in view.GetElementsFromLayerContainer(population.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                foreach (var graphElement in view.GetElements(population.OwnerLayer, tile).Where(graphElement => graphElement != null))
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -159,7 +159,7 @@ namespace ISILab.LBS.Drawers
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElementsFromLayerContainer(population.OwnerLayer, tile);
+                var elements = view.GetElements(population.OwnerLayer, tile);
                 foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.None;

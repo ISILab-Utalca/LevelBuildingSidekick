@@ -148,7 +148,7 @@ namespace ISILab.LBS.VisualElements
                 EditorUtility.SetDirty(x);
             }
 
-            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer, MainView.Instance);
             Paint();
         }
 

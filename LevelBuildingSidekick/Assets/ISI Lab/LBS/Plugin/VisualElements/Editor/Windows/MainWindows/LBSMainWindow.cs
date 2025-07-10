@@ -298,7 +298,7 @@ namespace ISILab.LBS.Editor.Windows{
         {
             LBS.loadedLevel = data;
             RefreshWindow();
-            drawManager.RedrawLevel(levelData);
+            drawManager.RedrawLevel(levelData, mainView);
         };
 
         #endregion
@@ -327,7 +327,7 @@ namespace ISILab.LBS.Editor.Windows{
         extraPanel.Add(layerPanel);
         layerPanel.style.display = DisplayStyle.Flex;
 
-        layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData);
+        layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView);
         layerPanel.OnSelectLayer += OnSelectedLayerChange;
         layerPanel.OnAddLayer += layer =>
         {
@@ -429,9 +429,9 @@ namespace ISILab.LBS.Editor.Windows{
         OnLevelDataChange(levelData);
         levelData.OnChanged += OnLevelDataChange;
 
-        drawManager = new DrawManager();
+        drawManager = new DrawManager(ref mainView);
         inspectorManager.CreateContainers(levelData, mainView);
-        drawManager.RedrawLevel(levelData);
+        drawManager.RedrawLevel(levelData, mainView);
 
         #endregion
     }
@@ -472,7 +472,7 @@ namespace ISILab.LBS.Editor.Windows{
         public new void Repaint()
         {
             base.Repaint();
-            drawManager.RedrawLevel(levelData);
+            drawManager.RedrawLevel(levelData, mainView);
         }
 
         /// <summary>
@@ -559,7 +559,7 @@ namespace ISILab.LBS.Editor.Windows{
 
         private void UNDO()
         {
-            if(_selectedLayer is not null ) DrawManager.Instance.RedrawLayer(_selectedLayer);
+            if(_selectedLayer is not null ) DrawManager.Instance.RedrawLayer(_selectedLayer, mainView);
             else DrawManager.ReDraw();
             
             LBSInspectorPanel.ReDraw();

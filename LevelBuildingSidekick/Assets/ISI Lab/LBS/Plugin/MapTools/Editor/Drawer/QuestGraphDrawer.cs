@@ -7,9 +7,10 @@ using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
-using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
+using LBS.Components.TileMap;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
@@ -17,16 +18,18 @@ namespace ISILab.LBS.Drawers.Editor
     [Drawer(typeof(QuestBehaviour))]
     public class QuestGraphDrawer : Drawer
     {
+        public QuestGraphDrawer() : base() { }
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             var behaviour = target as QuestBehaviour;
- 
+
             var quest = behaviour?.Graph;
             if (quest == null) return;
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-            // view.ClearLayerView(behaviour.OwnerLayer, true);
-            // PaintNewTiles(quest, behaviour, nodeViews, view);
+           // view.ClearLayerView(behaviour.OwnerLayer, true);
+          //  PaintNewTiles(quest, behaviour, nodeViews, view);
             LoadAllTiles(quest, behaviour, nodeViews, view);
            
 
@@ -48,7 +51,7 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 nodeViews.Add(node, nodeView);
                 // Stores using QuestNode as key
-                view.AddElementToLayerContainer(quest.OwnerLayer, node, nodeView);
+                view.AddElement(quest.OwnerLayer, node, nodeView);
             }
             
             // Paint new Edges
@@ -59,7 +62,7 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 var edgeView = CreateEdgeView(edge, n1, n2);
                 // Stores using QuestEdge as key
-                view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
+                view.AddElement(quest.OwnerLayer, edge, edgeView);
             }
         }
 
@@ -75,16 +78,12 @@ namespace ISILab.LBS.Drawers.Editor
                 }
 
                 nodeViews[node].IsSelected(false);
-                if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
+                if (qnb.SelectedQuestNode is not null)
                 {
-                    if (qnb.SelectedQuestNode is not null)
-                    {
-                        nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
-                    }
-
+                    nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
                 }
-               
-                view.AddElementToLayerContainer(quest.OwnerLayer, node.ID, nodeView);
+                
+                view.AddElement(quest.OwnerLayer, node, nodeView);
                 node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
             }
@@ -95,7 +94,7 @@ namespace ISILab.LBS.Drawers.Editor
                 if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
 
                 var edgeView = CreateEdgeView(edge, n1, n2);
-                view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
+                view.AddElement(quest.OwnerLayer, edge, edgeView);
                 behaviour.Keys.Add(edge);
             }
         }
@@ -107,7 +106,7 @@ namespace ISILab.LBS.Drawers.Editor
             
             foreach (object tile in behaviour.Keys)
             {
-                foreach (var graphElement in view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                foreach (var graphElement in view.GetElements(behaviour.OwnerLayer, tile).Where(graphElement => graphElement != null))
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -122,7 +121,7 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile);
+                var elements = view.GetElements(behaviour.OwnerLayer, tile);
                 foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.None;
@@ -147,8 +146,7 @@ namespace ISILab.LBS.Drawers.Editor
             var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
 
             nodeView.SetPosition(new Rect(node.Position, size));
-            node.NodeViewPosition = nodeView.GetPosition();
-            
+                
             if (!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
             {
                 var rectView = new DottedAreaFeedback(); // TODO make this a DottedAreaUnique for quest

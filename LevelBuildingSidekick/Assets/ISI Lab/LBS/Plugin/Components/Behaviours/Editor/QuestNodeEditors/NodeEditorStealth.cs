@@ -53,7 +53,7 @@ namespace ISILab.LBS.VisualElements
                 // Delay Redraw because Unity reconstructs the list and it gets updated on the next tick
                 _observerList.schedule.Execute(() =>
                 {
-                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer);
+                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
                 }).ExecuteLater(1); 
             };
 

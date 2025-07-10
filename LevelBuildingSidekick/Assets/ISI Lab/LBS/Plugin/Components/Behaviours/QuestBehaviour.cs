@@ -14,7 +14,6 @@ namespace ISILab.LBS.Behaviours
     {
         [JsonIgnore]
         public GrammarTerminal ToSet { get; set; }
-        
 
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
         

@@ -59,7 +59,7 @@ namespace ISILab.LBS.Manipulators
              Selected = tileGroup;
              if(Selected!=null) _storedPosition = position;
              MainView.Instance.SetManipulatorZoom(Selected == null);
-            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer, MainView.Instance);
         }
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
@@ -123,7 +123,7 @@ namespace ISILab.LBS.Manipulators
                 EditorUtility.SetDirty(level);
             }
             
-            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer, MainView.Instance);
         }
     }
 }
