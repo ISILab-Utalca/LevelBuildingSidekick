@@ -74,6 +74,7 @@ namespace ISILab.LBS.Drawers.Editor
                     nodeViews[node] = nodeView;
                 }
                 
+                nodeViews[node].IsSelected(false);
                 if(qnb.SelectedQuestNode is not null) nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
                
                 view.AddElementToLayerContainer(quest.OwnerLayer, node.ID, nodeView);

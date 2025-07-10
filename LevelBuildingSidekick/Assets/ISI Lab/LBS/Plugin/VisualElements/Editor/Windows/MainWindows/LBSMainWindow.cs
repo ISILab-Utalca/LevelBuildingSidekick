@@ -327,8 +327,8 @@ namespace ISILab.LBS.Editor.Windows{
             extraPanel.Add(layerPanel);
             layerPanel.style.display = DisplayStyle.Flex;
 
-            layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView);
-            layerPanel.OnLayerOrderChange += _ => DrawManager.Instance.RedrawLevel(levelData, mainView, true);
+            layerPanel.OnLayerVisibilityChange += _ => DrawManager.Instance.RedrawLevel(levelData);
+            layerPanel.OnLayerOrderChange += _ => DrawManager.Instance.RedrawLevel(levelData, true);
             layerPanel.OnSelectLayer += OnSelectedLayerChange;
             layerPanel.OnAddLayer += layer =>
             {
