@@ -13,6 +13,7 @@ using ISILab.Macros;
 using System.Collections.Generic;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Components;
+using LBS.Components.TileMap;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -86,6 +87,7 @@ namespace ISILab.LBS.VisualElements.Editor
             //Check all layers...
             foreach(LBSLayer layer in layers)
             {
+                if (layerReference.Equals(layer)) continue;
                 //...But only if they coincide with the ID
                 if(layer.ID == layerReference.ID)
                 {
@@ -125,16 +127,13 @@ namespace ISILab.LBS.VisualElements.Editor
                             if (interiorBehavior == null) continue;
                             if (referenceBehaviorInt == null) continue;
 
-                            foreach(Zone zone in referenceBehaviorInt.Zones)
+                            foreach(LBSTile tile in referenceBehaviorInt.Tiles)
                             {
-                                foreach(Vector2Int position in zone.Positions)
+                                if (interiorBehavior.GetTile(tile.Position) != null)
                                 {
-                                    if(interiorBehavior.GetZone(position)!=null)
-                                    {
-                                        //Enable warning.
-                                        entryWarning.visible = true;
-                                        return;
-                                    }
+                                    //Enable warning.
+                                    entryWarning.visible = true;
+                                    return;
                                 }
                             }
                             break;
