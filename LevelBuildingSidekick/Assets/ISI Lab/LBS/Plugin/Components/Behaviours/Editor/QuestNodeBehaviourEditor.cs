@@ -80,6 +80,7 @@ namespace ISILab.LBS.VisualElements
         {
             _behaviour = paramTarget as QuestNodeBehaviour;
             _behaviour!.OnQuestNodeSelected += OnSelectNode;
+            DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
         }
         protected sealed override VisualElement CreateVisualElement()
         {

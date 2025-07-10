@@ -54,7 +54,7 @@ namespace ISILab.LBS.VisualElements
                 // Delay Redraw because Unity reconstructs the list and it gets updated on the next tick
                 _killList.schedule.Execute(() =>
                 {
-                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer, MainView.Instance);
+                    DrawManager.Instance.RedrawLayer(LBSMainWindow.Instance._selectedLayer);
                 }).ExecuteLater(1); 
                 
             };
