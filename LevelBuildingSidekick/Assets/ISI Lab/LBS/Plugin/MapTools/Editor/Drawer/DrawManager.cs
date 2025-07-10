@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
@@ -9,17 +8,19 @@ namespace ISILab.LBS
 {
     public class DrawManager
     {
-        private readonly MainView _view = MainView.Instance;
+        private MainView _view;
         private LBSLevelData _level;
+        private static DrawManager instance;
 
-        public static DrawManager Instance { get; private set; }
+        public static DrawManager Instance => instance;
 
         private readonly Dictionary<(Type, LBSLayer), Drawer> _drawerCache = new();
         private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
 
-        public DrawManager()
+        public DrawManager(ref MainView view)
         {
-            Instance = this;
+            this._view = view;
+            instance = this;
         }
 
         public void AddContainer(LBSLayer layer)
@@ -34,7 +35,7 @@ namespace ISILab.LBS
 
         public static void ReDraw()
         {
-            Instance.RedrawLevel(Instance._level);
+            instance.RedrawLevel(instance._level, instance._view);
         }
 
         private void DrawLayer(LBSLayer layer)
@@ -74,10 +75,7 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType(), layer);
-                if(drawer == null) continue;
-                //if (!layer.IsVisible) drawer.FullRedrawRequested = false;
-                drawer.Draw(component, MainView.Instance,layer.TileSize);
-                //if (!layer.IsVisible) drawer.FullRedrawRequested = true;
+                drawer?.Draw(component, MainView.Instance,layer.TileSize);
                 //Debug.Log("drawing call");
             }
         }
@@ -116,35 +114,26 @@ namespace ISILab.LBS
             return drawer;
         }
 
-        private List<Drawer> GetLayerDrawers(LBSLayer layer)
+        public void RedrawLayer(LBSLayer layer, MainView view)
         {
-            return _drawerCache.Where(kvp => kvp.Key.Item2.Equals(layer)).Select(kvp => kvp.Value).ToList();
-        }
-
-        public void RedrawLayer(LBSLayer layer)
-        {
-            _view.ClearLayerContainer(layer);
+            view.ClearLayerView(layer);
             DrawLayer(layer);
         }
 
-        public void RedrawLevel(LBSLevelData level, bool deepClean = false)
+        public void RedrawLevel(LBSLevelData level, MainView view)
         {
             foreach (var layer in level.Layers)
             {
-                bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
-                //if(deepClean)
-                
-                    GetLayerDrawers(layer)
-                    .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
-                
-                if(!layer.IsVisible) continue;
-                _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
+                view.ClearLayerView(layer);
             }
-            DrawLevel(level);
+            DrawLevel(level, view);
         }
 
-        private void DrawLevel(LBSLevelData level)
+        private void DrawLevel(LBSLevelData level, MainView view)
         {
+            this._level = level;
+            this._view = view;
+
             foreach (var layer in level.Layers)
             {
                 DrawLayer(layer);

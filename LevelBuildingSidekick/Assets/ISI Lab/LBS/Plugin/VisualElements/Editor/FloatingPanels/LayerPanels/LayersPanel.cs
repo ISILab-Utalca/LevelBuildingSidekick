@@ -33,10 +33,6 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnSelectLayer;
         public event Action<LBSLayer> OnDoubleSelectLayer;
         public event Action<LBSLayer> OnLayerVisibilityChange;
-        public event Action<LBSLayer> OnLayerOrderChange;
-
-        private bool layerDragged = false;
-        private List<int> dragAffected = new List<int>();
 
         public LayersPanel() { }
 
@@ -54,51 +50,19 @@ namespace ISILab.LBS.VisualElements.Editor
             _list = this.Q<ListView>("List");
 
             VisualElement MakeItem() => new LayerView();
+
             _list.bindItem += (item, index) =>
             {
-                if (index >= this.Data.LayerCount) 
-                {
-                    dragAffected.Remove(index);
-                    return;
-                }
+                if (index >= this.Data.LayerCount) return;
 
                 if (item is LayerView view)
                 {
                     var layer = this.Data.GetLayer(index);
                     layer.index = _list.childCount - index;
-                    if(dragAffected.Count == 0)
-                    {
-
-                        if(view.OnLayerVisibilityChangeAction != null)
-                            view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
-                        view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
-                        view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
-                        view.SetInfo(layer);
-                        view.OnNameChange += () => layer.InvokeNameChanged();
-                    }
-                    else
-                    {
-                        dragAffected.Remove(index);
-                        if(dragAffected.Count == 0)
-                        {
-                            OnLayerOrderChange?.Invoke(layer);
-                            ;
-                        }
-                    }
-
+                    view.SetInfo(layer);
+                    view.OnVisibilityChange += () => OnLayerVisibilityChange?.Invoke(layer);
+                    view.OnNameChange += () => layer.InvokeNameChanged();
                     ChangeListItemView(item);
-                }
-            };
-            _list.itemIndexChanged += (_old, _new) => {
-                //UnityEngine.Assertions.Assert.IsFalse(layerDragged);
-                UnityEngine.Assertions.Assert.IsTrue(dragAffected.Count == 0);
-                //layerDragged = true;
-                int count = Mathf.Abs(_new - _old) + 1;
-                int step = (int)Mathf.Sign(_new - _old);
-                for(int i = 0; i < count; i++)
-                {
-                    int index = _old + i * step;
-                    dragAffected.Add(index);
                 }
             };
 
