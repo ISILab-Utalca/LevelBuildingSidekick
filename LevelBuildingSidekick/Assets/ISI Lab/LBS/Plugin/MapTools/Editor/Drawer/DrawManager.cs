@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Drawers;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
@@ -73,7 +74,10 @@ namespace ISILab.LBS
             {
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType(), layer);
-                drawer?.Draw(component, MainView.Instance,layer.TileSize);
+                if(drawer == null) continue;
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = false;
+                drawer.Draw(component, MainView.Instance,layer.TileSize);
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = true;
                 //Debug.Log("drawing call");
             }
         }
@@ -110,6 +114,11 @@ namespace ISILab.LBS
             if (drawer != null)
                 _drawerCache[pairKey] = drawer;
             return drawer;
+        }
+        
+        private List<Drawer> GetLayerDrawers(LBSLayer layer)
+        {
+            return _drawerCache.Where(kvp => kvp.Key.Item2.Equals(layer)).Select(kvp => kvp.Value).ToList();
         }
 
         public void RedrawLayer(LBSLayer layer)

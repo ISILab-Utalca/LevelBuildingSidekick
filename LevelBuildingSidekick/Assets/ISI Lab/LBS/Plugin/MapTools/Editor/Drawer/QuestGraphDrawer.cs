@@ -73,7 +73,7 @@ namespace ISILab.LBS.Drawers.Editor
                     nodeView = CreateNodeView(node, quest, behaviour);
                     nodeViews[node] = nodeView;
                 }
-
+                
                 nodeViews[node].IsSelected(false);
                 if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
                 {
