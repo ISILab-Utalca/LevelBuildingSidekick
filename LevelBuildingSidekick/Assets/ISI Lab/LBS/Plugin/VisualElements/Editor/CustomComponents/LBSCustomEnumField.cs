@@ -61,7 +61,7 @@ namespace ISILab.LBS.CustomComponents
         
         private int iconSize = 16;
         private VectorImage iconImage;
-        private Color iconColor;
+        private Color iconColor = Color.white;
         
         #endregion
         
