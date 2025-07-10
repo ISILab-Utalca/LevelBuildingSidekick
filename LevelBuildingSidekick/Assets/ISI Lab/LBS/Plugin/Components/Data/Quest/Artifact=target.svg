@@ -5,4 +5,5 @@
 <path d="M23.5242 15.9951H30.6021" stroke="white"/>
 <path d="M16.0051 1.39844L16.0051 8.47632" stroke="white"/>
 <path d="M16.0051 23.5239L16.0051 30.6018" stroke="white"/>
+<circle cx="16" cy="16" r="2" fill="white"/>
 </svg>

@@ -33,7 +33,12 @@ namespace ISILab.LBS.Drawers
 
             // Get new tiles
             //assistant.ReloadPrevData();
-            view.ClearLayerComponentView(assistant.OwnerLayer, this);
+            foreach (var key in _keyRefs)
+            {
+                view.ClearLayerComponentView(assistant.OwnerLayer, key);
+            }
+            _keyRefs.Clear();
+            _nodeRefs.Clear();
             PaintEverything(assistant, view, consts, teselationSize);
 
             //PaintNewTiles(assistant, view, consts, teselationSize);
@@ -45,8 +50,14 @@ namespace ISILab.LBS.Drawers
         {
             if (!assistant.OwnerLayer.IsVisible) return;
             
-            foreach (Zone zone in assistant.ZonesWhitTiles)
+            foreach (Zone zone in assistant.Zones)
             {
+                if(!assistant.ZonesWhitTiles.Contains(zone))
+                {
+                    _nodeRefs.Remove(zone);
+                    continue;
+                }
+
                 // Zone node
                 var nView = CreateNode(assistant, zone);
 

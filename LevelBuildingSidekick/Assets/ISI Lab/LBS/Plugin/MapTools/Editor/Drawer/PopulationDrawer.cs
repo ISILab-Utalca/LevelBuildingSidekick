@@ -37,10 +37,11 @@ namespace ISILab.LBS.Drawers
             UpdateLoadedTiles(population, view);
             
             // Paint all tiles
-            if (!Loaded)
+            if (!Loaded || FullRedrawRequested)
             {
                 LoadAllTiles(population, view);
                 Loaded = true;
+                FullRedrawRequested = false;
             }
 
             var layer = population.OwnerLayer;
