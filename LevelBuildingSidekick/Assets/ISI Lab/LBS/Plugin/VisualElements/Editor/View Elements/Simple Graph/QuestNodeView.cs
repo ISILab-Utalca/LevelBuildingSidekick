@@ -10,38 +10,46 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
-using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
-using LBS.Components;
 using LBS.VisualElements;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    /**
-     * Node that is displayed in the quest graph
-     */
+    /// <summary>
+    /// Represents the visual node element for a <see cref="QuestNode"/> inside the quest graph editor.
+    /// 
+    /// This class is a UI container (`GraphElement`) that displays node-related information such as:
+    /// - Its ID as a label
+    /// - Start node icon
+    /// - Toolbar menu for node actions (e.g., Set as Start Node)
+    /// - Grammar status via colored borders
+    /// 
+    /// It also supports mouse interaction (dragging, right-click for menu) and syncs its UI position with the logical node data.
+    /// </summary>
     public class QuestNodeView : GraphElement
     {
-        private QuestNode _node;
-        private VisualElement _root;
-        private VisualElement _startIcon;
+        private readonly QuestNode _node;
+        private readonly VisualElement _root;
+        private readonly VisualElement _startIcon;
         private static VisualTreeAsset _view;
 
-        private ToolbarMenu _toolbar;
-        private Label _label;
+        private readonly ToolbarMenu _toolbar;
+        private readonly Label _label;
 
         public Action<Rect> OnMoving;
 
-        private Color defaultBackgroundColor;
+        private readonly Color _defaultBackgroundColor;
 
-        public static Color GrammarWrong = LBSSettings.Instance.view.warningColor;
-        public static Color MapWrong = LBSSettings.Instance.view.errorColor;
-        public static Color UncheckedGrammar = LBSSettings.Instance.view.okColor ;
-        public static Color CorrectGrammar = LBSSettings.Instance.view.successColor;
+        private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
+        private static readonly Color UncheckedGrammar = LBSSettings.Instance.view.okColor ;
+        private static readonly Color CorrectGrammar = LBSSettings.Instance.view.successColor;
 
+        // Only one instance can be highlighted
+        private static QuestNodeView _highligheted;
+        
         protected QuestNodeView() { }
 
         public QuestNodeView(QuestNode node)
@@ -66,16 +74,17 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            
             _node = node;
             _startIcon.style.display = DisplayStyle.None;
-            defaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
+            _defaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
         }
 
         private void OnMouseLeave(MouseLeaveEvent e)
         {
-            OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta, EventModifiers.None ));
+            OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta ));
         }
-
+        
         public void SetBorder(QuestNode node)
         {
             _root.SetBorder(UncheckedGrammar, 1f);
@@ -95,11 +104,10 @@ namespace ISILab.LBS.VisualElements
 
             // call movement event
             OnMoving?.Invoke(newPos);
-
             MarkDirtyRepaint();
         }
 
-        public void SetText(string text)
+        private void SetText(string text)
         {
             if (text.Length > 20)
             {
@@ -113,6 +121,8 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseMove(MouseMoveEvent e)
         {
+            if (!Equals(LBSMainWindow.Instance._selectedLayer, _node.Graph.OwnerLayer)) return;
+            
             // left button pressed
             if (e.pressedButtons != 1) return;
             if (!MainView.Instance.HasManipulator<SelectManipulator>() ) return;
@@ -122,10 +132,15 @@ namespace ISILab.LBS.VisualElements
             Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
             SetPosition(newPos);
             _node.Position = grabPosition.ToInt();
+            _node.NodeViewPosition = newPos;
         }
         
         private void OnMouseDown(MouseDownEvent evt)
         {
+            if (!Equals(LBSMainWindow.Instance._selectedLayer, _node.Graph.OwnerLayer)) return;
+            
+            DrawManager.Instance.RedrawLayer(_node.Graph.OwnerLayer);
+            
             // RightClick
             if (evt.button == 1)
             {
@@ -136,8 +151,6 @@ namespace ISILab.LBS.VisualElements
             else if (evt.button == 0)
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator)) return;
-
-                if (!Equals(LBSMainWindow.Instance._selectedLayer, _node.Graph.OwnerLayer)) return;
                 
                 QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
                 if(qnb is null) return;
@@ -149,7 +162,7 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public void MakeRoot(DropdownMenuAction obj = null)
+        private void MakeRoot(DropdownMenuAction obj = null)
         {
             _startIcon.style.display = DisplayStyle.Flex;
             _node.Graph.SetRoot(_node);
@@ -165,14 +178,21 @@ namespace ISILab.LBS.VisualElements
             _toolbar.menu.AppendAction("Set as Start Node", MakeRoot);
         }
 
-        public void IsSelected(bool selected)
+        public void IsSelected(bool isSelected)
         {
-            Color color = defaultBackgroundColor;
+            Color color = _defaultBackgroundColor;
             color.a = 1f;
-            if (selected)
+            if (isSelected)
             {
+                // deactivate previous highlighted
+                if (this != _highligheted && _highligheted is not null)
+                {
+                    _highligheted.IsSelected(false);
+                }
+                
                 color = _node.GrammarCheck ? CorrectGrammar : GrammarWrong;
                 color.a = 0.33f;
+                _highligheted = this;
             }
             
             _root.style.backgroundColor = new StyleColor(color);

@@ -34,10 +34,11 @@ namespace ISILab.LBS.Drawers
 
             PaintNewTiles(schema, teselationSize, view, zonesMod, connectionsMod);
             UpdateLoadedTiles(schema, teselationSize, view, zonesMod, connectionsMod);
-            if (!Loaded)
+            if (!Loaded || FullRedrawRequested)
             {
                 LoadAllTiles(schema, teselationSize, view, tilesMod, zonesMod, connectionsMod);
                 Loaded = true;
+                FullRedrawRequested = false;
             }
         }
 
