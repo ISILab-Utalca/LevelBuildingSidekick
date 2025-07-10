@@ -1,18 +1,5 @@
+@import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
 :root {
-    --lbs-light-red-color: rgb(254, 118, 105);
-    --lbs-light-green-color: rgb(194, 246, 100);
-    --lbs-light-yellow-color: rgb(247, 196, 64);
-    --lbs-light-blue-color: rgb(135, 215, 246);
-    --lbs-light-purple-color: rgb(163, 160, 251);
-    --lbs-base-solid-gray-color: rgb(60, 60, 60);
-    --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
-    --lbs-darker-solid-gray-color: rgb(33, 33, 33);
-    --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
-    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
-    --lbs-selection-dark-blue-color: rgb(24, 55, 110);
-    --lbs-selection-dark-green-color: rgb(118, 151, 67);
-    --lbs-selection-dark-red-color: rgb(200, 92, 82);
-    --lbs-selection-dark-teal-color: rgb(98, 139, 200);
 }
 
 .unity-base-field__label {
@@ -1276,4 +1263,8 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+}
+
+.lbs-quest-action-icon {
+    -unity-background-image-tint-color: var(--lbs-light-blue-color);
 }
