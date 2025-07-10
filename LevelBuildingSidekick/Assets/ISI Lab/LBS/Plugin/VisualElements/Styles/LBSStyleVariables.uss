@@ -19,5 +19,5 @@
     
     --lbs-quest-teal-color: rgb(0,255,174);
     --lbs-quest-rose-color: rgb(207,32,80);
-    
+    --lbs-quest-purple-color: rgb(151,71,255);
 }

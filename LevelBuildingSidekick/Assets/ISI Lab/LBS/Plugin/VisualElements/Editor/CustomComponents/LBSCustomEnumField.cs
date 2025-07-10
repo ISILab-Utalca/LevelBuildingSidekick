@@ -40,12 +40,30 @@ namespace ISILab.LBS.CustomComponents
             }
         }
 
+        [UxmlAttribute]
+        public Color IconColor
+        {
+            get => iconColor;
+            set
+            {
+                iconColor = value;
+                if (m_Icon != null)
+                {
+                    m_Icon.style.unityBackgroundImageTintColor = value;
+                }
+            }
+        }
+
         #endregion
         
         
+        #region Fields
         
         private int iconSize = 16;
         private VectorImage iconImage;
+        private Color iconColor;
+        
+        #endregion
         
         private VisualElement m_Icon;
 
@@ -69,6 +87,7 @@ namespace ISILab.LBS.CustomComponents
             if (IconImage != null)
             {
                 m_Icon.style.backgroundImage = new StyleBackground(IconImage);
+                m_Icon.style.unityBackgroundImageTintColor = iconColor;
             }
             
             // RegisterCallback<AttachToPanelEvent>(e => { });
