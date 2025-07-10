@@ -26,17 +26,35 @@ namespace ISILab.LBS.CustomComponents
             }
         }
 
-        #endregion
+        [UxmlAttribute]
+        public VectorImage IconImage
+        {
+            get => iconImage;
+            set
+            {
+                iconImage = value;
+                if (m_Icon != null && iconImage != null)
+                {
+                    m_Icon.style.backgroundImage = new StyleBackground(IconImage);
+                }
+            }
+        }
 
-        //private const string t_placeholder_guid = "edcbfe04a88995d49aabd5bf8ee28e79";
+        #endregion
         
-        VisualElement m_Icon;
+        
+        
         private int iconSize = 16;
+        private VectorImage iconImage;
+        
+        private VisualElement m_Icon;
 
         public LBSCustomEnumField(): this("CustomEnumField"){}
 
         public LBSCustomEnumField(string _label) : base(_label)
         {
+            style.alignItems = Align.Center;
+            
             m_Icon = new VisualElement();
             
             //styles
@@ -47,6 +65,14 @@ namespace ISILab.LBS.CustomComponents
             m_Icon.AddToClassList("lbs-icon");
             this.Add(m_Icon);
             m_Icon.PlaceBehind(this.Children().First());
+
+            if (IconImage != null)
+            {
+                m_Icon.style.backgroundImage = new StyleBackground(IconImage);
+            }
+            
+            // RegisterCallback<AttachToPanelEvent>(e => { });
+            // RegisterCallback<DetachFromPanelEvent>(e => { });
             
         }
         
