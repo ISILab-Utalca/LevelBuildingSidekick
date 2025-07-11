@@ -15,7 +15,7 @@ MonoBehaviour:
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
-  color: {r: 0.8235295, g: 0.54509807, b: 0.3803922, a: 1}
+  color: {r: 0.53647244, g: 0.764151, b: 0.24870951, a: 1}
   icon: {fileID: 7388822144124034973, guid: 6834449120e351d449c5311c4b0dc289, type: 3}
   assets:
   - obj: {fileID: 1782398106950529116, guid: 26ef71e178a237b4a8555d2a041e60a9, type: 3}
@@ -27,12 +27,14 @@ MonoBehaviour:
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
-    spread: 0
+    spread: 5
     margin:
       negativeX: 1
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: -4550125092169740112, guid: ad3119cbd6dce024e8460ef32dec49df, type: 3}
+    material: {fileID: -876546973899608171, guid: 955c9020cc8b33848a00e25652c1f984, type: 3}
   guid: 
   references:
     version: 2
