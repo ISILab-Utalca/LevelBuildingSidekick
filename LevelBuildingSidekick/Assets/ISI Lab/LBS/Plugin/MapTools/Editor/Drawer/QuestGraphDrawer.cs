@@ -19,16 +19,25 @@ namespace ISILab.LBS.Drawers.Editor
     {
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            var behaviour = target as QuestBehaviour;
+            if (target is not QuestBehaviour behaviour) return;
+            if (behaviour.OwnerLayer is not { } layer) return;
+
+            layer.OnChange += QuestNodeView.Deselect;
  
-            var quest = behaviour?.Graph;
+            var quest = behaviour.Graph;
             if (quest == null) return;
             
+  
+            
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
-            // view.ClearLayerView(behaviour.OwnerLayer, true);
+           //  view.ClearLayerContainer(behaviour.OwnerLayer, true);
             // PaintNewTiles(quest, behaviour, nodeViews, view);
+            
+
+           // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour);
+           // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour.Graph);
             LoadAllTiles(quest, behaviour, nodeViews, view);
-           
+ 
 
             // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
             
@@ -65,7 +74,8 @@ namespace ISILab.LBS.Drawers.Editor
 
         private void LoadAllTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
         {
-            QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(quest.OwnerLayer);
+            QuestNodeView.Deselect();
+            
             foreach (var node in quest.QuestNodes)
             {
                 if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
@@ -74,9 +84,9 @@ namespace ISILab.LBS.Drawers.Editor
                     nodeViews[node] = nodeView;
                 }
                 
-                nodeViews[node].IsSelected(false);
                 if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
                 {
+                    QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(quest.OwnerLayer);
                     if (qnb.SelectedQuestNode is not null)
                     {
                         nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
@@ -96,8 +106,13 @@ namespace ISILab.LBS.Drawers.Editor
 
                 var edgeView = CreateEdgeView(edge, n1, n2);
                 view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
+                edgeView.layer = n1.layer - 1;
                 behaviour.Keys.Add(edge);
+                
+                Debug.Log($"EdgeView Layer: {edgeView.layer}, Node Layer: {n1.layer}");
+
             }
+          
         }
 
         public override void ShowVisuals(object target, MainView view)

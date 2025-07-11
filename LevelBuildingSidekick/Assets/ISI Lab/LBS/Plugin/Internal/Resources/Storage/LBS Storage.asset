@@ -832,3 +832,20 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
     - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+  - type: UnityEngine.UIElements.PanelTextSettings
+    items:
+    - {fileID: 11400000, guid: 801e04d90bdf27f4aa3ab49ad460fe43, type: 2}
+  - type: TMPro.TMP_FontAsset
+    items:
+    - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - {fileID: 11400000, guid: 0497d686e20864f4c9dd8e713386f3ee, type: 2}
+  - type: TMPro.TMP_StyleSheet
+    items:
+    - {fileID: 11400000, guid: f952c082cb03451daed3ee968ac6c63e, type: 2}
+  - type: TMPro.TMP_SpriteAsset
+    items:
+    - {fileID: 11400000, guid: c41005c129ba4d66911b75229fd70b45, type: 2}
+  - type: TMPro.TMP_Settings
+    items:
+    - {fileID: 11400000, guid: 3f5b5dff67a942289a9defa416b206f3, type: 2}

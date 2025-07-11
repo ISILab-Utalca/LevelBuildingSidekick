@@ -76,7 +76,6 @@ namespace ISILab.LBS.VisualElements
             _removeConnection = new RemoveQuestConnection();
             var t4 = new LBSTool(_removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-
             
             _connectNodes.SetRemover(_removeConnection);
             
@@ -116,6 +115,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             _behaviour.Graph.UpdateFlow?.Invoke();
+         //   DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
          //   var questBehaviour = target as QuestBehaviour;
           //  DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
         }
