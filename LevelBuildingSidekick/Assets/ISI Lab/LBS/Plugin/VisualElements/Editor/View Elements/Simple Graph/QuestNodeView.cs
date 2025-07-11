@@ -44,6 +44,7 @@ namespace ISILab.LBS.VisualElements
         private readonly Color _defaultBackgroundColor;
 
         private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
+       // private static Color _mapWrong = LBSSettings.Instance.view.errorColor;
         private static readonly Color UncheckedGrammar = LBSSettings.Instance.view.okColor ;
         private static readonly Color CorrectGrammar = LBSSettings.Instance.view.successColor;
 

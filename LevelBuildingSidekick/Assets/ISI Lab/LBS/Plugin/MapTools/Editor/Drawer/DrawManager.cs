@@ -115,7 +115,7 @@ namespace ISILab.LBS
                 _drawerCache[pairKey] = drawer;
             return drawer;
         }
-
+        
         private List<Drawer> GetLayerDrawers(LBSLayer layer)
         {
             return _drawerCache.Where(kvp => kvp.Key.Item2.Equals(layer)).Select(kvp => kvp.Value).ToList();
@@ -127,18 +127,11 @@ namespace ISILab.LBS
             DrawLayer(layer);
         }
 
-        public void RedrawLevel(LBSLevelData level, bool deepClean = false)
+        public void RedrawLevel(LBSLevelData level)
         {
             foreach (var layer in level.Layers)
             {
-                bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
-                //if(deepClean)
-                
-                    GetLayerDrawers(layer)
-                    .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
-                
-                if(!layer.IsVisible) continue;
-                _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
+                _view.ClearLayerContainer(layer);
             }
             DrawLevel(level);
         }

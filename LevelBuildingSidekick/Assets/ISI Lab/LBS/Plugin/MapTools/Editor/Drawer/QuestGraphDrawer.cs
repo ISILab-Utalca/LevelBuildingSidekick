@@ -75,7 +75,14 @@ namespace ISILab.LBS.Drawers.Editor
                 }
                 
                 nodeViews[node].IsSelected(false);
-                if(qnb.SelectedQuestNode is not null) nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
+                if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
+                {
+                    if (qnb.SelectedQuestNode is not null)
+                    {
+                        nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
+                    }
+
+                }
                
                 view.AddElementToLayerContainer(quest.OwnerLayer, node.ID, nodeView);
                 node.NodeViewPosition = nodeView.GetPosition();
