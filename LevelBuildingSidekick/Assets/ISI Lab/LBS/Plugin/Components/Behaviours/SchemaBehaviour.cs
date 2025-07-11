@@ -46,6 +46,7 @@ namespace ISILab.LBS.Behaviours
         private string pressetInsideStyle = "Castle_Wooden";
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
+        
         #endregion
 
         #region META-FIELDS
@@ -83,11 +84,11 @@ namespace ISILab.LBS.Behaviours
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => areas.ZonesWithTiles;
-
+        
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;
 
-        public List<string> Connections => connections;
+        public static List<string> Connections => connections;
 
         [JsonIgnore]
         public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
@@ -116,9 +117,15 @@ namespace ISILab.LBS.Behaviours
 
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
+            if (tileMap.Contains(position)) return null;
+                
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
+            
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
+            
+            RequestTilePaint(tile);
+            
             return tile;
         }
 
@@ -126,6 +133,7 @@ namespace ISILab.LBS.Behaviours
         {
             string prefix = "Zone: ";
             int counter = 0;
+            string suffix = " (" + OwnerLayer.Name + ")";
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
             while (names.Contains(name))
@@ -148,17 +156,30 @@ namespace ISILab.LBS.Behaviours
         public void RemoveZone(Zone zone)
         {
             var tiles = areas.GetTiles(zone);
+            foreach (var tile in tiles)
+            {
+                RequestTileRemove(tile);
+            }
+            
             tileMap.RemoveTiles(tiles);
-
             areas.RemoveZone(zone);
         }
 
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
+            
+            RequestTileRemove(tile);
+            
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
             areas.RemovePair(tile);
+        }
+
+        public void RequestFullRepaint(List<LBSTile> olds, List<LBSTile> news)
+        {
+            olds.ForEach(t => RequestTileRemove(t));
+            news.ForEach(t => RequestTilePaint(t));
         }
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
@@ -241,7 +262,7 @@ namespace ISILab.LBS.Behaviours
                     }
 
                     var otherZone = GetZone(neigs[i]);
-                    if (otherZone == currZone)
+                    if (otherZone.Equals(currZone))
                     {
 
 
@@ -278,6 +299,7 @@ namespace ISILab.LBS.Behaviours
         {
             return base.GetHashCode();
         }
+        
         #endregion
     }
 }

@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement style="flex-grow: 0; flex-direction: column; max-height: none; min-height: auto; margin-right: 10px; margin-left: 3px; margin-bottom: 6px; margin-top: 1px; align-self: stretch; justify-content: space-between; align-items: stretch;">
-        <ui:VisualElement style="flex-grow: 0; align-self: stretch; justify-content: space-between; align-content: stretch; flex-direction: row; margin-bottom: 6px;">
-            <ui:Button icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=ToolColor_Picker.svg?fileID=7388822144124034973&amp;guid=f53f51dae7956eb4b99123e868e99d67&amp;type=3#Icon=ToolColor_Picker" name="PickerTarget" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; min-width: 24px; max-width: 24px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
-            <ui:Vector2IntField label="Target Graph Position: " name="TargetPosition" value="0,0" style="align-self: stretch; justify-content: flex-start; align-items: center; flex-grow: 1; margin-left: 6px;" />
-        </ui:VisualElement>
-    </ui:VisualElement>
-</ui:UXML>

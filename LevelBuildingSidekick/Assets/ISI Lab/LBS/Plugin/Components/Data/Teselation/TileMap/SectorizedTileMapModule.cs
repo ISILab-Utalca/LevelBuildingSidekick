@@ -22,6 +22,8 @@ namespace ISILab.LBS.Modules
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<TileZonePair> pairs = new List<TileZonePair>();
+
+        private int[,] zonesProximity;
         #endregion
 
         #region PROPERTIES
@@ -33,6 +35,10 @@ namespace ISILab.LBS.Modules
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
+
+        public int[,] ZonesProximity => zonesProximity;
+
+        public List<Zone> SelectedZones { get; set; } = new List<Zone>();
 
         [JsonIgnore]
         private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
@@ -56,6 +62,7 @@ namespace ISILab.LBS.Modules
 
         public SectorizedTileMapModule(List<Zone> zones, List<TileZonePair> tiles, string id = "TilesToAreaModule") : base(id)
         {
+            //Debug.Log("Constructed Sectorized Tilemap Module.");
             foreach (var zone in zones)
             {
                 AddZone(zone);
@@ -162,14 +169,14 @@ namespace ISILab.LBS.Modules
 
             foreach (var pair in pairs)
             {
-                if (pair.Tile == tile)
+                if (pair.Tile.Equals(tile))
                     return pair;
             }
             return null;
             //return pairs.Find(t => t.Tile.Equals(tile));
         }
 
-        private TileZonePair GetPairTile(Vector2Int pos)
+        public TileZonePair GetPairTile(Vector2Int pos)
         {
             return pairs.Find(t => t.Tile.Position == pos);
         }
@@ -210,6 +217,13 @@ namespace ISILab.LBS.Modules
             return pairs.Any(t => t.Tile.Equals(tile));
         }
 
+        public bool Contains(Vector2Int pos)
+        {
+            if (pairs.Count <= 0)
+                return false;
+            return pairs.Any(t => t.Tile.Position == pos);
+        }
+
         public Rect GetBounds(Zone zone)
         {
             return GetTiles(zone).GetBounds();
@@ -218,6 +232,106 @@ namespace ISILab.LBS.Modules
         public Vector2 ZoneCentroid(Zone zone)
         {
             return GetBounds(zone).center;
+        }
+
+        public void RecalculateZonesProximity() => RecalculateZonesProximity(GetBounds());
+
+        public void RecalculateZonesProximity(Rect selection)
+        {
+            if(OwnerLayer == null) return;
+
+            var tilemap = OwnerLayer.GetModule<TileMapModule>();
+            if (tilemap == null) return;
+            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            if(connectedTM == null) return;
+
+            var zonesToCalc = new List<Zone>(ZonesWithTiles);
+            for(int i = 0; i < zonesToCalc.Count; i++)
+            {
+                if(!selection.Overlaps(GetBounds(zonesToCalc[i])))
+                {
+                    zonesToCalc.RemoveAt(i);
+                    i--;
+                }
+            }
+            SelectedZones = new List<Zone>(zonesToCalc);
+
+            int size = zonesToCalc.Count;
+            zonesProximity = new int[size, size];
+            // Fill with 0 and infinite distances
+            for(int i = 0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    zonesProximity[i, j] = i == j ? 0 : int.MaxValue;
+                }
+            }
+
+            // Find neighbours and set distances to 1
+            var zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
+            for(int i = 0; i < size; i++)
+            {
+                var tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                foreach(var t in tilesWithDoors)
+                {
+                    foreach(var dir in Dirs)
+                    {
+                        if (!connectedTM.GetConnections(t)[Dirs.IndexOf(dir)].Equals("Door"))
+                            continue;
+
+                        var neigh = tilemap.GetTileNeighbor(t, dir);
+                        if (neigh == null || !selection.Contains(neigh.Position))
+                            continue;
+
+                        var otherZone = GetZone(neigh);
+                        if(otherZone == null || otherZone.Equals(zonesToCalc[i]))
+                            continue;
+
+                        for(int j = 0; j < size; j++)
+                        {
+                            if (zonesProximity[i, j] != int.MaxValue)
+                                continue;
+                            if(otherZone.Equals(zonesToCalc[j]))
+                            {
+                                zonesProximity[i, j] = zonesProximity[j, i] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for(int k = 1; k < size - 1; k++) // Find all distances equal to k + 1
+            {
+                for (int i = 0; i < size - 1; i++) 
+                {
+                    for(int j = 0; j < size; j++)
+                    {
+                        if (zonesProximity[i, j] == k) // Find zones at distance of k
+                        {
+                            for(int l = 0; l < size; l++) // Search for l neighbour zones of j
+                            {
+                                if (zonesProximity[j, l] == 1) // If j and l are neighbours
+                                {
+                                    // Set distance from i to l as k + 1 unless previously assigned distance is lower
+                                    zonesProximity[i, l] = zonesProximity[l, i] = Mathf.Min(zonesProximity[i, l], k + 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            string log = "";
+            for(int i = 0; i < size; i++)
+            {
+                log += "[";
+                for(int j = 0; j < size; j++)
+                {
+                    log += zonesProximity[i, j];
+                    log += j < size - 1 ? ", " : "";
+                }
+                log += "]\n";
+            }
+            Debug.Log(log);
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -511,6 +625,30 @@ namespace ISILab.LBS.Modules
             return r;
         }
 
+        public void UpdateZonePositions()
+        {
+            // Initialize auxiliary lists
+            var positions = new List<Vector2Int>[zones.Count];
+            for (int i = 0; i < zones.Count; i++)
+            {
+                positions[i] = new List<Vector2Int>();
+            }
+            
+            // Save positions in auxiliary lists
+            foreach (var tile in PairTiles)
+            {
+                int index = Zones.IndexOf(tile.Zone);
+                positions[index].Add(tile.Tile.Position);
+            }
+            
+            // Replace positions in zones
+            for (int i = 0; i < zones.Count; i++)
+            {
+                zones[i].ClearPositions();
+                zones[i].AddPositionRange(positions[i]);
+            }
+        }
+        
         public override Rect GetBounds()
         {
             if (pairs.Count == 0)
@@ -578,7 +716,7 @@ namespace ISILab.LBS.Modules
                 var z1 = this.zones[i];
                 var z2 = other.zones[i];
 
-                if (!z1.Equals(z2)) return false;
+                if (!z1.ExactlyEquals(z2)/*Equals(z2 as object)*/) return false;
             }
 
             var pCount = other.pairs.Count;
@@ -651,14 +789,19 @@ namespace ISILab.LBS.Modules
 
             if (!this.tile.Equals(other.tile)) return false;
 
-            if (!this.zone.Equals(other.zone)) return false;
+            if (!this.zone.ExactlyEquals(other.zone)/*Equals(other.zone as object)*/) return false;
 
             return true;
         }
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(zone.GetHashCode());
+        }
+
+        public override string ToString()
+        {
+            return $"({tile}) : ({zone})";
         }
         #endregion
 

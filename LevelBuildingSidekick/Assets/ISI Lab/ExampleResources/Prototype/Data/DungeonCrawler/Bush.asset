@@ -27,12 +27,15 @@ MonoBehaviour:
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
-    spread: 0
+    spread: 5
     margin:
       negativeX: 1
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 8739603187252021473, guid: 5f415fd0a46ad1d479d39b65bb935f32, type: 3}
+    material: {fileID: 2100000, guid: 71f6ec5b0386a624dbfa7de2aff67696, type: 2}
+  guid: 
   references:
     version: 2
     RefIds:

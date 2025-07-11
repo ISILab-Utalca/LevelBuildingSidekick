@@ -1,30 +1,101 @@
-using ISILab.LBS;
+using System;
+using System.Collections.Generic;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" stealth ")]
+    [QuestNodeActionTag("stealth")]
     public class QuestTriggerStealth : QuestTrigger
     {
-        public QuestTriggerStealth() : base()
+        public DataStealth dataStealth;
+        public List<GameObject> objectsObservers = new();
+        /// <summary>
+        /// The objective that must be reached to complete the quest
+        /// </summary>
+        public Vector3 objectivePosition;
+        /// <summary>
+        /// Tracks if the mission can be completed
+        /// </summary>
+        private bool _stealthDetected;
+
+        public override void Init()
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            base.Init();
+            SetDataNode(dataStealth);
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
-        }
+            dataStealth = (DataStealth)baseData;
             
+            foreach (var observer in objectsObservers)
+            {
+                if (observer is null)continue;
+                
+                var observerTrigger = observer.AddComponent<StealthObserverTrigger>();
+                observerTrigger.Setup(this);
+            }
+
+            // Create objective trigger
+            var objectiveGameObject = new GameObject("StealthObjectiveTrigger")
+            {
+                transform = { parent = transform, position = objectivePosition }
+            };
+
+            var objectiveTrigger = objectiveGameObject.AddComponent<GenericObjectiveTrigger>();
+            objectiveTrigger.Setup(this);
+        }
+        
+        protected override void OnTriggerEnter(Collider other)
+        {
+            // When entering the trigger area, reset the stealthDetected state
+            if (IsPlayer(other)) _stealthDetected = false;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            // When entering the trigger area, reset the stealthDetected state
+            if (IsPlayer(other)) _stealthDetected = false;
+        }
+
+        public void OnPlayerDetected()
+        {
+            _stealthDetected = true;
+        }
+
+        /// <summary>
+        /// Complete if non detectable
+        /// </summary>
+        /// <returns></returns>
+        protected override bool CompleteCondition()
+        {
+            return _stealthDetected == false;
+        }
     }
 
+    [RequireComponent(typeof(SphereCollider))]
+    public class StealthObserverTrigger : MonoBehaviour
+    {
+        private QuestTriggerStealth _questTrigger;
+        
+        private const float DetectRadius = 5f; //TODO: Maybe add as value in LBSTool(node data)
+        
+        public void Setup(QuestTriggerStealth trigger)
+        {
+            _questTrigger = trigger;
+
+            var sphereCollider = GetComponent<SphereCollider>() ?? gameObject.AddComponent<SphereCollider>();
+
+            sphereCollider.isTrigger = true;
+            sphereCollider.radius = DetectRadius; 
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (_questTrigger.IsPlayer(other)) _questTrigger.OnPlayerDetected();
+        }
+    }
+
+   
 }

@@ -1,29 +1,33 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" report ")]
+    [QuestNodeActionTag("report")]
     public class QuestTriggerReport : QuestTrigger
     {
-        public QuestTriggerReport() : base()
+        public DataReport dataReport;
+        public GameObject objectToReport;
+
+        public override void Init()
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
- 
+            base.Init();
+            SetDataNode(dataReport);
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
+            dataReport =  (DataReport)baseData;
+            var objectiveTrigger = objectToReport.AddComponent<GenericObjectiveTrigger>();
+            objectiveTrigger.Setup(this);
+        }
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            if (!IsPlayer(other)) return;
+            
+            // Use the "objectToReport" reference to start a dialogue/report
+            //CheckComplete();
         }
             
     }

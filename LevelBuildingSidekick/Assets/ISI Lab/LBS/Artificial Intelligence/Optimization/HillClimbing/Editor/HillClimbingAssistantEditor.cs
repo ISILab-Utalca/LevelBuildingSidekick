@@ -62,9 +62,9 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            hillClimbing = target as HillClimbingAssistant;
+            hillClimbing = paramTarget as HillClimbingAssistant;
         }
 
         public void SetTools(ToolKit toolKit)
@@ -148,7 +148,7 @@ namespace ISILab.LBS.VisualElements
                 EditorUtility.SetDirty(x);
             }
 
-            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
             Paint();
         }
 

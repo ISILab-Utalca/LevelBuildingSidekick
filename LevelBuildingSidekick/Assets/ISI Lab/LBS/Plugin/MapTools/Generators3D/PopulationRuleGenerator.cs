@@ -127,17 +127,18 @@ namespace ISILab.LBS.Generators
                 
                 //Micro population tool
                 go.transform.position += current.GetMicroGenTool().MicroPosVector(go.transform, scale, r);
-
-                //Add components
+                
+                
+               //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
-                
+                generatedComponent.LayerName = layer.Name;
                 objects.Add(go, current.PopulationType);
             }
             
             if(objects.Count == 0)
             {
-                return Tuple.Create<GameObject, string>(parent, "No population objects were created. Assign a valid bundle type");
+                return Tuple.Create(parent, "No population objects were created. Assign a valid bundle type");
             }
             
             

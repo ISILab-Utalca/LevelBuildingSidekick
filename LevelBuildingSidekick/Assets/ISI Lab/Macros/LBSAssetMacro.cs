@@ -2,8 +2,6 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.LBS.Components;
-using ISILab.LBS.Internal;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,6 +9,9 @@ namespace ISILab.Macros
 {
     public class LBSAssetMacro
     {
+        
+        private const string PlaceholderTextureGuid = "edcbfe04a88995d49aabd5bf8ee28e79";
+        
         /// <summary>
         /// Loads an asset of type T from its GUID.
         /// </summary>
@@ -45,6 +46,12 @@ namespace ISILab.Macros
             var lbsTags = LBSAssetsStorage.Instance.Get<LBSTag>();
             return lbsTags.FirstOrDefault(lbsTag => lbsTag.Label == tag);
         }
+        
+        public static Texture2D LoadPlaceholderTexture()
+        {
+            return LoadAssetByGuid<Texture2D>(PlaceholderTextureGuid);
+        }
+        
     }
 
     public class LBSLayerHelper

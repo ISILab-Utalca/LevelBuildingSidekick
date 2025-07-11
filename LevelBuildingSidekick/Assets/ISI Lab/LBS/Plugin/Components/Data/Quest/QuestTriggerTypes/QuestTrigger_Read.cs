@@ -1,29 +1,32 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" read ")]
+    [QuestNodeActionTag("read")]
     public class QuestTriggerRead : QuestTrigger
     {
-        public QuestTriggerRead() : base()
-        {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+        public DataRead readData;
+        public GameObject objectToRead;
 
+        public override void Init()
+        {
+            base.Init();
+            SetDataNode(readData);
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
+            readData = (DataRead)baseData;
+            var objectiveTrigger = objectToRead.AddComponent<GenericObjectiveTrigger>();
+            objectiveTrigger.Setup(this);
+        }
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            if (!IsPlayer(other)) return;
+            // Use the "objectToRead" reference to start an interaction
+            // CheckComplete();
         }
             
     }

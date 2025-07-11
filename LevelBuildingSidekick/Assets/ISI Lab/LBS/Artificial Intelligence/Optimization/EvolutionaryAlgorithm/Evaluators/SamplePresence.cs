@@ -20,6 +20,8 @@ namespace ISILab.AI.Categorization
             set => sample = value;
         }
 
+        public string Tooltip => "Sample Presence";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SamplePresence"/> class
         /// </summary>

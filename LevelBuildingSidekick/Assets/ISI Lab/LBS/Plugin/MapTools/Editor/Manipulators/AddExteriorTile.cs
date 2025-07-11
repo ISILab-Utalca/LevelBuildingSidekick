@@ -1,4 +1,3 @@
-using System;
 using ISILab.LBS.Behaviours;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -12,21 +11,21 @@ namespace ISILab.LBS.Manipulators
 {
     public class AddExteriorTile : ManipulateTeselation
     {
-        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
-        private ExteriorBehaviour exterior;
+        private static List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
+        private ExteriorBehaviour _exterior;
         protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
-        public AddExteriorTile() : base()
+        public AddExteriorTile()
         {
-            name = "Add Tile";
-            description = "Add an Exterior Tile. Hold CTRL to paint neighbors as well.";
+            Name = "Add Tile";
+            Description = "Add an Exterior Tile. Hold CTRL to paint neighbors as well.";
         }
         
-        public override void Init(LBSLayer layer, object owner)
+        public override void Init(LBSLayer layer, object provider)
         {
-            base.Init(layer, owner);
+            base.Init(layer, provider);
 
-            exterior = owner as ExteriorBehaviour;
+            _exterior = provider as ExteriorBehaviour;
         }
 
         protected override void OnKeyDown(KeyDownEvent e)
@@ -40,7 +39,7 @@ namespace ISILab.LBS.Manipulators
             LBSMainWindow.WarningManipulator();
         }
         
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
@@ -48,7 +47,7 @@ namespace ISILab.LBS.Manipulators
 
             var paintNeighbors = e.ctrlKey;
             
-            var corners = exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
+            var corners = _exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
@@ -57,11 +56,11 @@ namespace ISILab.LBS.Manipulators
                     var pos = new Vector2Int(i, j);
                     var tile = new LBSTile(pos);
            
-                    exterior.AddTile(tile);
+                    _exterior.AddTile(tile);
               
                     
-                    if (!exterior.identifierToSet || 
-                        exterior.identifierToSet.Label == null ||exterior.identifierToSet.Label == "Empty" ) continue;
+                    if (!_exterior.identifierToSet || 
+                        _exterior.identifierToSet.Label == null ||_exterior.identifierToSet.Label == "Empty" ) continue;
             
                     SetConnections(tile, pos, paintNeighbors);
                 }
@@ -78,15 +77,14 @@ namespace ISILab.LBS.Manipulators
             // Paint all connections
             for (int k = 0; k < Directions.Count; k++)
             {
-                exterior.SetConnection(tile, k, exterior.identifierToSet.Label, true);
+                _exterior.SetConnection(tile, k, _exterior.identifierToSet.Label, true);
 
                 if(!paintNeighbors) continue;
                 
                 var dir = Directions[k];
-                var neig = exterior.GetTile(pos + dir);
-                if (neig != null)
+                if (_exterior.GetTile(pos + dir) is { } neighbor)
                 {
-                    exterior.SetConnection(neig, (k + 2) % 4, exterior.identifierToSet.Label, true);
+                    _exterior.SetConnection(neighbor, (k + 2) % 4, _exterior.identifierToSet.Label, true);
                 }
             }
         }

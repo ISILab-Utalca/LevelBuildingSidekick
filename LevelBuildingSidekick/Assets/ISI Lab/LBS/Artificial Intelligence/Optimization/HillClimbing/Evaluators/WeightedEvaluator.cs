@@ -12,6 +12,8 @@ namespace ISILab.AI.Optimization
     {
         Tuple<IEvaluator, float>[] evaluators;
 
+        public string Tooltip => "Weighted Evaluator";
+
         public WeightedEvaluator(params Tuple<IEvaluator, float>[] evaluators)
         {
             this.evaluators = evaluators;

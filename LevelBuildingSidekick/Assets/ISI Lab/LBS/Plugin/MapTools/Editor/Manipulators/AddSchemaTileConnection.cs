@@ -13,43 +13,41 @@ namespace ISILab.LBS.Manipulators
 {
     public class AddSchemaTileConnection : LBSManipulator
     {
-        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
-
-        private SchemaBehaviour schema;
-        private Vector2Int first;
+        private SchemaBehaviour _schema;
+        private Vector2Int _first;
 
         protected override string IconGuid => "b06c784e5d88d1547a40d4fc2f54b485";
         
         public string ToSet
         {
-            get => schema.conectionToSet;
-            set => schema.conectionToSet = value;
+            get => _schema.conectionToSet;
+            set => _schema.conectionToSet = value;
         }
 
         public AddSchemaTileConnection()
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = true;
+            Feedback = new ConnectedLine();
+            Feedback.fixToTeselation = true;
 
-            name = "Set connection";
-            description = "Draw across a zone's border to generate a connection.";
+            Name = "Set connection";
+            Description = "Draw across a zone's border to generate a connection.";
         }
 
-        public override void Init(LBSLayer layer, object behaviour)
+        public override void Init(LBSLayer layer, object provider = null)
         {
-            base.Init(layer, behaviour);
+            base.Init(layer, provider);
             
-            schema = behaviour as SchemaBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _schema = provider as SchemaBehaviour;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseDown(VisualElement _target, Vector2Int position, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int position, MouseDownEvent e)
         {
-            first = schema.OwnerLayer.ToFixedPosition(position);
+            _first = _schema.OwnerLayer.ToFixedPosition(position);
         }
 
-        protected override void OnMouseUp(VisualElement _target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             if (ToSet == null)
             {
@@ -62,16 +60,16 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(level, "Add Connection between tile");
             
             // Get second fixed position
-            Vector2Int lastPos = schema.OwnerLayer.ToFixedPosition(position);
+            Vector2Int lastPos = _schema.OwnerLayer.ToFixedPosition(position);
 
             // Get vector direction
-            int dx =  first.x - lastPos.x;
-            int dy = first.y - lastPos.y;
+            int dx =  _first.x - lastPos.x;
+            int dy = _first.y - lastPos.y;
             
             
             // Get index of directions
-            int frontDirIndex = -1;
-            int backDirIndex = -1;
+            int frontDirIndex;
+            int backDirIndex;
             
             float  dLenght =  Mathf.Sqrt(dx * dx  +  dy * dy);
             
@@ -83,26 +81,25 @@ namespace ISILab.LBS.Manipulators
                 for (int i = 0; i <= totalConnections; i++)
                 {
                     //Get the next tile 
-                    selectedTiles.Add(schema.GetTile(first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
+                    selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
                 }
                 
-                frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-                backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+                frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+                backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
 
                 for(int i = 0; i <= selectedTiles.Count; i++)
                 {
                     //TODO - Allow Paint More Thant 1 Tile 
                     LBSTile tile = selectedTiles[i];
-                    LBSTile nextTile = selectedTiles[i+1];
-                    
+
                     if (tile != null)
                     {
-                        List<string> connections = schema.GetConnections(tile);
+                        List<string> connections = _schema.GetConnections(tile);
                         
                         foreach (var connection in connections)
                         {
 
-                            if (frontDirIndex != -1 || frontDirIndex < schema.Directions.Count)
+                            if (frontDirIndex != -1 || frontDirIndex < _schema.Directions.Count)
                             {
                                 
                                 Debug.Log(frontDirIndex + ", " + backDirIndex);
@@ -121,15 +118,15 @@ namespace ISILab.LBS.Manipulators
                 
             }
             
-            frontDirIndex = schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-            backDirIndex = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
             
             // Check if index is validate
-            if (frontDirIndex < 0 || frontDirIndex >= schema.Directions.Count)
+            if (frontDirIndex < 0 || frontDirIndex >= _schema.Directions.Count)
                 return;
             
-            LBSTile t1 = schema.GetTile(first);
-            LBSTile t2 = schema.GetTile(lastPos);
+            LBSTile t1 = _schema.GetTile(_first);
+            LBSTile t2 = _schema.GetTile(lastPos);
             
             TrySetSingleConnection(t1, t2 ,frontDirIndex, backDirIndex);
             
@@ -142,43 +139,43 @@ namespace ISILab.LBS.Manipulators
         }
 
         private void TrySetSingleConnection(
-            LBSTile _firstTile,
-            LBSTile _secondTile,
-            int _frontDirIndex,
-            int _backDirIndex
+            LBSTile firstTile,
+            LBSTile secondTile,
+            int frontDirIndex,
+            int backDirIndex
             )
         {
             
-            if (_firstTile == null)
+            if (firstTile == null)
             {
-                if (_secondTile != null)
+                if (secondTile != null)
                 {
-                    schema.SetConnection(_secondTile, _backDirIndex, ToSet, false);
+                    _schema.SetConnection(secondTile, backDirIndex, ToSet, false);
                     return;
                 }
             }
             else
             {
-                if (_firstTile.Equals(_secondTile))
+                if (firstTile.Equals(secondTile))
                 {
                     Debug.Log("Not Valid Tile - Same Tile with lenght 0");
                     return;
                 }
             }
             
-            if (_secondTile == null)
+            if (secondTile == null)
             {
-                if (_firstTile == null)
+                if (firstTile == null)
                 {
                     return;
                 }
-                schema.SetConnection(_firstTile, _frontDirIndex, ToSet, false);
+                _schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
                 return;
             }
             
             // set both connections
-            schema.SetConnection(_firstTile, _frontDirIndex, ToSet, false);
-            schema.SetConnection(_secondTile, _backDirIndex, ToSet, false);
+            _schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
+            _schema.SetConnection(secondTile, backDirIndex, ToSet, false);
         }
     }
 }

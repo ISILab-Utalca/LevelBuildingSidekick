@@ -101,11 +101,14 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             {
                 foreach (BundleManagerWindow.BundleContainer item in _listRef.itemsSource)
                 {
-                    if (item.GetMainBundle().Equals(_bundleRef))
-                    {
-                        _listRef.itemsSource.Remove(item);
-                        break;
-                    }
+                    var bundle = item.GetMainBundle();
+                    var collection = item.GetMainCollection();
+                    
+                    if ((bundle == null || !bundle.Equals(_bundleRef)) &&
+                        (collection == null || !collection.Equals(_bundleCollectionRef))) continue;
+                    
+                    _listRef.itemsSource.Remove(item);
+                    break;
                 }
             }
             else

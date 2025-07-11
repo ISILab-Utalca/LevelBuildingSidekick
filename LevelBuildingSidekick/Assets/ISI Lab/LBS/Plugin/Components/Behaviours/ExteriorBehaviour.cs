@@ -104,12 +104,15 @@ namespace ISILab.LBS.Behaviours
 
         public void RemoveTile(LBSTile tile)
         {
+            RequestTileRemove(tile);
             OwnerLayer.GetModule<TileMapModule>().RemoveTile(tile);
             OwnerLayer.GetModule<ConnectedTileMapModule>().RemoveTile(tile);
         }
 
         public void AddTile(LBSTile tile)
         {
+            RequestTilePaint(tile);
+            
             OwnerLayer.GetModule<TileMapModule>()
                 .AddTile(tile);
 

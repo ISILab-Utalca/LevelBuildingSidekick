@@ -9,7 +9,7 @@ namespace ISILab.AI.Categorization
     {
         public Rect Rect { get; set; }
 
-        protected ChromosomeBase2D(Rect rect, int[] immutables = null) : base((int)(rect.width * rect.height), immutables)
+        protected ChromosomeBase2D(Rect rect, int[] immutables = null, int[] invalids = null) : base((int)(rect.width * rect.height), immutables, invalids)
         {
             Rect = rect;
         }
@@ -18,6 +18,7 @@ namespace ISILab.AI.Categorization
         {
             Rect = Rect.zero;
             immutableIndexes = new int[0];
+            invalidIndexes = new int[0];
         }
 
         /// <summary>
@@ -26,6 +27,8 @@ namespace ISILab.AI.Categorization
         /// <param name="pos">The 2D position to convert.</param>
         public int ToIndex(Vector2 pos)
         {
+            if (pos.x < 0 || pos.x >= Rect.width || pos.y < 0 || pos.y >= Rect.height)
+                return -1;
             return (int)(pos.y * Rect.width + pos.x);
         }
 

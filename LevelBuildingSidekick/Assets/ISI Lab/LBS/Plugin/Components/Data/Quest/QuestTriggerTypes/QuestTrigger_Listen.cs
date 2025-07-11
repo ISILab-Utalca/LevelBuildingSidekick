@@ -1,30 +1,33 @@
-using ISILab.LBS;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
-    [ISILab.LBS.QuestNodeActionTag(" listen ")]
+    [QuestNodeActionTag("listen")]
     public class QuestTriggerListen : QuestTrigger
     {
-        public QuestTriggerListen() : base()
+        public DataListen dataListen;
+        public GameObject objectToListen;
+
+        public override void Init()
         {
-                
-        }
-            
-        public override void SetData(QuestNode node)
-        {
-            base.SetData(node);
+            base.Init();
+            SetDataNode(dataListen);
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        public override void SetDataNode(BaseQuestNodeData baseData)
         {
-            if (other.CompareTag("Player"))
-            {
-                CheckComplete();
-            }
+            dataListen = (DataListen)baseData;
         }
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            if (!IsPlayer(other)) return;
             
+            // Use the "objectToListen" reference to start a dialogue
+            CheckComplete();
+        }
+        
     }
 
 }

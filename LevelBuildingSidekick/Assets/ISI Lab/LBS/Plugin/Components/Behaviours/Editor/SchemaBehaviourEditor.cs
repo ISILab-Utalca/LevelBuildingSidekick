@@ -1,17 +1,17 @@
-using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
+using ISILab.Macros;
 using LBS;
 using LBS.Bundles;
-using ISILab.LBS.Settings;
 using LBS.VisualElements;
 using System.Collections.Generic;
 using System.Linq;
 using System.Resources;
-using ISILab.Macros;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -88,12 +88,12 @@ namespace ISILab.LBS.Behaviours.Editor
             toolKit.ActivateTool(t3,behaviour.OwnerLayer, behaviour);
             toolKit.ActivateTool(t4,behaviour.OwnerLayer, behaviour);
             
-            addSchemaTile.OnManipulationLeftClickCTRL += AddZone;
+            addSchemaTile.OnManipulationLeftClickCtrl += AddZone;
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            behaviour = target as SchemaBehaviour;
+            behaviour = paramTarget as SchemaBehaviour;
             SetAreaPallete();
             SetConnectionPallete();
         }
@@ -194,6 +194,7 @@ namespace ISILab.LBS.Behaviours.Editor
                 if (!answer) return;
 
                 behaviour.RemoveZone(option as Zone);
+                DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer);
                 ToolKit.Instance.SetActive(typeof(AddSchemaTile));
                 areaPallete.Repaint();
             };
@@ -227,7 +228,7 @@ namespace ISILab.LBS.Behaviours.Editor
             connectionPallete.SetName("Connections");
             connectionPallete.SetIcon(icon, BHcolor);
             
-            var connections = behaviour.Connections;
+            var connections = SchemaBehaviour.Connections;
             var options = new object[connections.Count];
             for (int i = 0; i < connections.Count; i++)
             {

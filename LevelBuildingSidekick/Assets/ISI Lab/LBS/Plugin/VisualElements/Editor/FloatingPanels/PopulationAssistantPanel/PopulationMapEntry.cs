@@ -23,7 +23,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private VisualElement placeholderImage;
         private VisualElement colorFillBar;
 
-        private Label mapName;
+        private TextField mapName;
         private Foldout entryFoldout;
         private Button buttonRemove;
 
@@ -53,8 +53,8 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         public string Name
         {
-            get => mapName.text;
-            set => mapName.text = value;
+            get => mapName.value;
+            set => mapName.value = value;
         }
         public object Data
         {
@@ -73,6 +73,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region EVENTS
         public Action RemoveMapEntry;
         public Action ApplyMapEntry;
+        public Action<string> OnNameChanged;
         #endregion
 
         #region CONSTRUCTORS
@@ -96,7 +97,16 @@ namespace ISILab.LBS.VisualElements.Editor
             
             image = this.Q<VisualElement>("Image");
             placeholderImage = this.Q<VisualElement>("PlaceHolderImage");
-            mapName = this.Q<Label>("MapName");
+            // MapName
+            mapName = this.Q<TextField>("MapName");
+            mapName.RegisterCallback<ChangeEvent<string>>(e =>
+            {
+                Name = e.newValue;
+                EntryMap.Name = e.newValue;
+                
+            });
+            
+
             buttonRemove = this.Q<Button>("RemoveButton");
             buttonRemove.clicked += () =>  RemoveMapEntry?.Invoke();
    

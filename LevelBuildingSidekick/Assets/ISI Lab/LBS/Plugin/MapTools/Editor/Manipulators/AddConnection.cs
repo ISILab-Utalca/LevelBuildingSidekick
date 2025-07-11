@@ -12,82 +12,77 @@ namespace ISILab.LBS.Manipulators
     // TODO CHECK IF THIS CLASS CAN BE DELETED. SEEMS TO BE DEPRECATED
     public class AddConnection : LBSManipulator
     {
-        public LBSTag tagToSet;
-        public ConnectedTileMapModule module;
+        private readonly LBSTag _tagToSet;
+        private ConnectedTileMapModule _module;
 
-        private List<Vector2Int> dirs = new List<Vector2Int>() // FIX: Use general directions from LBS
-    {
-        Vector2Int.right,
-        Vector2Int.down,
-        Vector2Int.left,
-        Vector2Int.up
-    };
+        private static List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-        protected override string IconGuid { get => null; }
+        protected override string IconGuid => null;
 
-        private TileConnectionsPair first;
+        private TileConnectionsPair _first;
 
-        public AddConnection() : base()
+        public AddConnection(LBSTag tagToSet)
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = true;
+            _tagToSet = tagToSet;
+            Feedback = new ConnectedLine();
+            Feedback.fixToTeselation = true;
             
-            name = "Add Connection";
-            description = "Add a connection to the selected area.";
+            Name = "Add Connection";
+            Description = "Add a connection to the selected area.";
         }
 
-        public override void Init(LBSLayer layer, object owner)
+        public override void Init(LBSLayer layer, object provider = null)
         {
-            base.Init(layer, owner);
+            base.Init(layer, provider);
             
-            module = layer.GetModule<ConnectedTileMapModule>();
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _module = layer.GetModule<ConnectedTileMapModule>();
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseDown(VisualElement _target, Vector2Int position, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int position, MouseDownEvent e)
         {
-            var pos = module.OwnerLayer.ToFixedPosition(position);
-            var tile = module.Pairs.Find(t => t.Tile.Position == pos);
+            var pos = _module.OwnerLayer.ToFixedPosition(position);
+            var tile = _module.Pairs.Find(t => t.Tile.Position == pos);
 
             if (tile == null)
                 return;
 
-            first = tile;
+            _first = tile;
         }
 
-        protected override void OnMouseUp(VisualElement _target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
-            if (first == null)
+            if (_first == null)
                 return;
 
-            var pos = module.OwnerLayer.ToFixedPosition(position);
+            var pos = _module.OwnerLayer.ToFixedPosition(position);
 
-            var dx = first.Tile.Position.x - pos.x;
-            var dy = first.Tile.Position.y - pos.y;
-            var fDir = dirs.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            var dx = _first.Tile.Position.x - pos.x;
+            var dy = _first.Tile.Position.y - pos.y;
+            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
 
-            if (fDir < 0 || fDir >= dirs.Count)
+            if (fDir < 0 || fDir >= Directions.Count)
                 return;
 
-            var tile = module.Pairs.Find(t => t.Tile.Position == pos);
+            var tile = _module.Pairs.Find(t => t.Tile.Position == pos);
 
             if (tile == null)
             {
-                first.SetConnection(fDir, tagToSet.Label, false);
+                _first.SetConnection(fDir, _tagToSet.Label, false);
                 return;
             }
 
-            if (first == tile)
+            if (Equals(_first, tile))
                 return;
 
             if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
                 return;
 
-            var tDir = dirs.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            var tDir = Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-            first.SetConnection(fDir, tagToSet.Label, false);
-            tile.SetConnection(tDir, tagToSet.Label, false);
+            _first.SetConnection(fDir, _tagToSet.Label, false);
+            tile.SetConnection(tDir, _tagToSet.Label, false);
         }
     }
 }

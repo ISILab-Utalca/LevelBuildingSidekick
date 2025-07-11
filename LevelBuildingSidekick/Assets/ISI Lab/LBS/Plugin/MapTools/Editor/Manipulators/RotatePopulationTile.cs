@@ -1,16 +1,11 @@
-using ISILab.Commons;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections;
 using System.Collections.Generic;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
@@ -19,26 +14,21 @@ namespace ISILab.LBS.Manipulators
     {
         private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-        public TileBundleGroup Selected { get; set; }
-        PopulationBehaviour population;
-        private Vector2Int storedPosition;
-        protected override string IconGuid { get => "485afea6f40f10e41a28c3d016a9250b"; }
+        public TileBundleGroup Selected { get; private set; }
+        private PopulationBehaviour _population;
+        private Vector2Int _storedPosition;
+        protected override string IconGuid => "485afea6f40f10e41a28c3d016a9250b";
 
-        public RotatePopulationTile():base()
+        public RotatePopulationTile()
         {
-            //feedback = new ConnectedLine();
-           // feedback.fixToTeselation = true;
-           name = "Rotate Tile";
-           description = "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.";
+           Name = "Rotate Tile";
+           Description = "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.";
         }
 
-        public override void Init(LBSLayer layer, object provider)
+        public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
-            
-            population = provider as PopulationBehaviour; 
-           // feedback.TeselationSize = layer.TileSize;
-            //layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _population = provider as PopulationBehaviour; 
         }
 
         protected override void OnWheelEvent(WheelEvent evt)
@@ -49,35 +39,30 @@ namespace ISILab.LBS.Manipulators
                 return;
             }  
     
-            if (evt.delta.y > 0)
-            {
-                RotateLeft();
-            }
-            else if (evt.delta.y < 0)
-            {
-                RotateRight();
-            }
+            if (evt.delta.y > 0) RotateLeft();
+            else if (evt.delta.y < 0) RotateRight();
+
         }
 
-        protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+        protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
         {
-            var position = population.OwnerLayer.ToFixedPosition(movePosition);
-             var tilegroup = population.GetTileGroup(position);
-             if (tilegroup == null ||
-                 tilegroup.BundleData == null ||
-                 !tilegroup.BundleData.Bundle ||
-                !tilegroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
+            var position = _population.OwnerLayer.ToFixedPosition(movePosition);
+             var tileGroup = _population.GetTileGroup(position);
+             if (tileGroup == null ||
+                 tileGroup.BundleData == null ||
+                 !tileGroup.BundleData.Bundle ||
+                !tileGroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
              {
                  Selected = null;
              }
              
-             Selected = tilegroup;
-             if(Selected!=null) storedPosition = position;
+             Selected = tileGroup;
+             if(Selected!=null) _storedPosition = position;
              MainView.Instance.SetManipulatorZoom(Selected == null);
-            DrawManager.Instance.RedrawLayer(population.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
             if(Selected == null) 
             {
@@ -99,12 +84,12 @@ namespace ISILab.LBS.Manipulators
         {
             PreRotate();
             
-            var rotation = population.GetTileRotation(storedPosition);
+            var rotation = _population.GetTileRotation(_storedPosition);
             if(rotation == default) return;
             var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
             index--;
             if(index < 0) index = Directions.Count-1;
-            population.RotateTile(storedPosition, Directions[index]);
+            _population.RotateTile(_storedPosition, Directions[index]);
                         
             PostRotate();
         }
@@ -113,12 +98,12 @@ namespace ISILab.LBS.Manipulators
         {
             PreRotate();
             
-            var rotation = population.GetTileRotation(storedPosition);
+            var rotation = _population.GetTileRotation(_storedPosition);
             if(rotation == default) return;
             var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
             index++;
             if(index >= Directions.Count) index = 0;
-            population.RotateTile(storedPosition, Directions[index]);
+            _population.RotateTile(_storedPosition, Directions[index]);
             
             PostRotate();
         }
@@ -138,7 +123,7 @@ namespace ISILab.LBS.Manipulators
                 EditorUtility.SetDirty(level);
             }
             
-            DrawManager.Instance.RedrawLayer(population.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
         }
     }
 }

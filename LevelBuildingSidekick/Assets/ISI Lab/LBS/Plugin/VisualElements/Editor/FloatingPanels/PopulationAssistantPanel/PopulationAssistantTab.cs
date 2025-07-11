@@ -49,12 +49,9 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FIELDS
         //private List<SavedMap> savedMapList = new ();
         private List<PopulationMapEntry> mapEntries = new ();
-    
         #endregion
 
         #region PROPERTIES
-
-        
         protected LBSLayer TargetLayer
         {
             get => target.OwnerLayer;
@@ -118,6 +115,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
                 var mapEntry = SavedMapList[index];
                 mapEntryVE.SetData(mapEntry);
+
+                mapEntryVE.Name = mapEntry.Name;
 
                 mapEntryVE.RemoveMapEntry = null;
                 mapEntryVE.RemoveMapEntry += () =>
@@ -185,6 +184,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion(int index) => ApplySuggestion(SavedMapList[index]);
         private void ApplySuggestion(object obj)
         {
+            window.OnTileMapChanged?.Invoke();
             var savedMap = obj as SavedMap;
             var chrom = savedMap.Map;
             if (chrom == null) return;
@@ -205,7 +205,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     continue;
                 layerPopulation.AddTileGroup(pos, gene as BundleData);
             }
-            DrawManager.Instance.RedrawLayer(TargetLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(TargetLayer);
 
             if (EditorGUI.EndChangeCheck())
             {

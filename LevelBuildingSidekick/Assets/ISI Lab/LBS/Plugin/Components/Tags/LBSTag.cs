@@ -82,6 +82,17 @@ namespace ISILab.LBS.Components
             this.icon = icon;
         }
 
+        public override bool Equals(object other)
+        {
+            if(other == null) return false;
+            var obj = other as LBSTag;
+            if(obj == null) return false;
+
+            return label.Equals(obj.label);
+                //&& icon .Equals(obj.icon)
+                //&& color.Equals(obj.color);
+        }
+
         private void OnValidate()
         {
             label = name;

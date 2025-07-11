@@ -20,10 +20,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
 
-            var eval = target as Exploration;
+            var eval = paramTarget as Exploration;
             this.target = eval;
 
             if (eval == null)

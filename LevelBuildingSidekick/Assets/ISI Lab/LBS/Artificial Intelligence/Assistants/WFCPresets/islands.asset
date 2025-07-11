@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865611ae2b044eb4dab5e8f4d2bd9283, type: 3}
   m_Name: islands
   m_EditorClassIdentifier: 
-  presetName: New WFC preset
+  presetName: islands
   weights:
   - target: {fileID: 11400000, guid: 53d10687d94f051488fc977a8cf974f3, type: 2}
     weight: 0.5344828

@@ -1,105 +1,100 @@
-using ISILab.AI.Grammar;
-using ISILab.AI.Optimization.Populations;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
-using LBS.Components.Graph;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using ISILab.Macros;
-using LBS.Bundles;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ISILab.LBS.Manipulators
 {
     /// <summary>
-    /// Meant to find the bundle of a population object from any existing
-    /// population layer, and assign it to the current QuestNodeBehavior's
-    /// selected node if it's data type allows for a bundle. 
+    /// Allows selecting a population bundle from any layer and assigns it to the selected quest node if compatible.
     /// </summary>
     public class QuestPicker : LBSManipulator
     {
-        QuestNodeBehaviour behaviour;
+        // Private fields
+        private QuestNodeBehaviour _behaviour;
 
-        public BaseQuestNodeData activeData;
+        public bool PickTriggerPosition = false;
         
-        private Action<string,Vector2Int> _onBundlePicked;
+        // Public properties
+        public BaseQuestNodeData ActiveData { get; set; }
 
-        public Action<string,Vector2Int> OnBundlePicked
+        /// <summary>
+        /// Callback invoked when a bundle is picked. Only one function is allowed at a time.
+        ///- layer
+        /// - tilebundleGroup grid positions
+        /// - bundleGuid
+        /// - grid position
+        /// </summary>
+        public Action<LBSLayer, TileBundleGroup> OnBundlePicked { get; set; }
+        public Action<Vector2Int> OnPositionPicked { get; set; }
+        
+        /// <summary>
+        /// Icon used by this manipulator.
+        /// </summary>
+        protected override string IconGuid => "f53f51dae7956eb4b99123e868e99d67";
+
+        public QuestPicker()
         {
-            get => _onBundlePicked;
-            set
-            {
-                // only one function set at a time
-                _onBundlePicked = value; 
-            }
+            Name = "Pick population element";
+            Description = "Pick the foremost population element from any layer in the graph. " +
+                          "The picked bundle is assigned to the selected behaviour node.";
         }
-        
-        protected override string IconGuid { get => "f53f51dae7956eb4b99123e868e99d67"; }
-        
-        public QuestPicker() : base()
-        {
-            name = "Pick population element";
-            description = "Pick the foremost population element from any layer within the graph." +
-                          " The picked bundle is assigned to the selected behaviour node";
-        }
-        
-        public override void Init(LBSLayer layer, object owner)
+
+        public override void Init(LBSLayer layer, object owner = null)
         {
             base.Init(layer, owner);
-            behaviour = layer.GetBehaviour<QuestNodeBehaviour>();
+            _behaviour = layer.GetBehaviour<QuestNodeBehaviour>();
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var node = behaviour.SelectedQuestNode;
-            if (node == null) return;
-
-
-            if (activeData is not null)
+            var node = _behaviour.SelectedQuestNode;
+            if (node == null || ActiveData == null) return;
+                
+            Vector2Int location = LBSMainWindow._gridPosition;
+            
+            if (PickTriggerPosition)
             {
-                Vector2Int location = LBSMainWindow._gridPosition;
-                activeData._position = location;
-
-
-               var populationLayers = LBS.loadedLevel.data.Layers
-                        .Where(l => l.Behaviours.Any(bh => bh.GetType() == typeof(PopulationBehaviour)))
-                        .ToList();
-
-
-                    TileBundleGroup bundleTile = null;
-
-                // Here search for the bundle ref in the layer graph
-                if (populationLayers.Any())
-                {
-                    foreach (var layer in populationLayers)
-                    {
-                        var population = layer.GetBehaviour<PopulationBehaviour>();
-                        bundleTile = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(endPosition));
-                        if (bundleTile != null) break;
-                    }
-                }
-                
-                var bundleDataGui = string.Empty;
-                
-                if (bundleTile != null)
-                {
-                    var bundle = bundleTile.BundleData.Bundle;
-                    bundleDataGui = LBSAssetMacro.GetGuidFromAsset(bundle);
-                    OnBundlePicked?.Invoke(bundleDataGui,location);
-                }
-                
-                OnBundlePicked?.Invoke(bundleDataGui, location);
+                // Only sets position on the trigger
+                OnPositionPicked?.Invoke(location);
             }
+            else
+            {
+                #region Picking Bundle Graph Target
+                List<LBSLayer> populationLayers = LBS.loadedLevel.data.Layers
+                    .Where(l => l.Behaviours.Any(bh => bh is PopulationBehaviour))
+                    .ToList();
 
-            behaviour.DataChanged(node);
-            OnManipulationEnd.Invoke();
+                var match = populationLayers
+                    .Select(layer => new
+                    {
+                        Layer = layer,
+                        Population = layer.GetBehaviour<PopulationBehaviour>(),
+                    })
+                    .Select(entry => new
+                    {
+                        entry.Layer,
+                        BundleTile = entry.Population.GetTileGroup(entry.Population.OwnerLayer.ToFixedPosition(endPosition))
+                    })
+                    .FirstOrDefault(x => x.BundleTile != null);
+
+                if (match != null && match.Layer != null && match.BundleTile != null)
+                {
+                    OnBundlePicked?.Invoke(match.Layer, match.BundleTile);
+                    // If a new bundle is added try to resize (only implement if using bundleGraph field)
+                    ActiveData.Resize();
+                }
+                #endregion
+            }
+            
+            _behaviour.DataChanged(node);
+            OnManipulationEnd?.Invoke();
         }
-        
     }
 }

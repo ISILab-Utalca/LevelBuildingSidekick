@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -11,16 +9,16 @@ namespace ISILab.LBS.Components
 
     public enum NodeType
     {
-        start, middle, goal
+        Start, Middle, Goal
     }
 
     public enum QuestState
     {
-        blocked, active, completed, failed
+        Blocked, Active, Completed, Failed
     }
     
 
-[System.Serializable]
+[Serializable]
     public class QuestNode : ICloneable
     {
 
@@ -51,7 +49,7 @@ namespace ISILab.LBS.Components
         private NodeType nodeType;
         
         [SerializeField, JsonRequired]
-        private QuestState questState = Components.QuestState.blocked;
+        private QuestState questState = QuestState.Blocked;
         
         [SerializeField, JsonRequired]
         private bool valid;
@@ -82,7 +80,7 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public Vector2Int Position
         {
-            get => new Vector2Int(x, y);
+            get => new(x, y);
 
             set
             {
@@ -95,10 +93,7 @@ namespace ISILab.LBS.Components
         public string ID
         {
             get => id;
-            set
-            {
-                id = value;
-            }
+            set => id = value;
         }
 
 
@@ -106,10 +101,7 @@ namespace ISILab.LBS.Components
         public string QuestAction
         {
             get => questAction;
-            set
-            {
-                questAction = value;
-            }
+            set => questAction = value;
         }
 
         [JsonIgnore]
@@ -151,7 +143,8 @@ namespace ISILab.LBS.Components
 
         [JsonIgnore]
         public QuestState QuestState { get; set; }
-
+        
+        public Rect NodeViewPosition { get; set; }
 
         #endregion
 
@@ -165,18 +158,16 @@ namespace ISILab.LBS.Components
             y = (int)position.y;
             questAction = action;
             
-            InstanceDataByAction(action);
             this.graph = graph;
             this.grammarCheck = grammarCheck;
             target = new QuestTarget();
             
-            LoadNodeFromJson();
+            InstanceDataByAction(action);
         }
 
         private void InstanceDataByAction(string action)
         {
             nodeData = QuestNodeDataFactory.CreateByTag(action, this);
-            SaveNodeAsJson();
         }
 
         #endregion
@@ -193,31 +184,12 @@ namespace ISILab.LBS.Components
                 target = target.Clone() as QuestTarget
             };
             if(NodeData is not null )node.NodeData.Clone(NodeData);
+            node.NodeViewPosition = NodeViewPosition;
             return node;
-        }
-        
-        /// <summary>
-        /// Saves the changes from the dataJson whenever the SetGoal is called (whenever it is changed)
-        /// </summary>
-        public void SaveNodeAsJson()
-        {
-            return;
-            nodeDataJson =  JsonUtility.ToJson(nodeData);
-        }
-
-        /// <summary>
-        /// Load from json as it is easier to load polyformism
-        /// </summary>
-        public void LoadNodeFromJson()
-        {
-            return;
-            if (string.IsNullOrEmpty(nodeDataJson)) return;
-            nodeData = JsonUtility.FromJson<BaseQuestNodeData>(nodeDataJson);
-   
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class QuestTarget : ICloneable
     {
         [SerializeField, JsonRequired, SerializeReference]
@@ -235,16 +207,13 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public List<LBSTag> Tags => tags;
 
-        public QuestTarget()
-        {
-    
-        }
-
         public object Clone()
         {
-            var target = new QuestTarget();
-            target.tags = new List<LBSTag>(tags);
-            target.rect = rect;
+            var target = new QuestTarget
+            {
+                tags = new List<LBSTag>(tags),
+                rect = rect
+            };
             return target;
         }
         

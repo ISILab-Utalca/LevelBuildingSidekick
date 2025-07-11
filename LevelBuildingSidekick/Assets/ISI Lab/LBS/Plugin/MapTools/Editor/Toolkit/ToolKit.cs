@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using ISILab.LBS.Settings;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor;
@@ -110,7 +111,7 @@ namespace LBS.VisualElements
         
         public void InitGeneralTools(LBSLayer layer)
         { 
-            LBSTool selectTool = new LBSTool(new Select());
+            LBSTool selectTool = new LBSTool(new SelectManipulator());
             ActivateTool(selectTool,layer);
             selectTool.Init(layer, this);
             selectTool.OnSelect += LBSInspectorPanel.ActivateDataTab;
@@ -123,7 +124,12 @@ namespace LBS.VisualElements
         
         public LBSManipulator GetActiveManipulatorInstance()
         {
-            return current.Item1.Manipulator;
+            if(current.Item1 == null || current.Item2 == null) 
+            {
+                SetActive(typeof(SelectManipulator)); // should only happen on reloading issues
+            }
+
+            return current.Item1?.Manipulator;
         }
         
         private KeyValuePair<Type, (LBSTool, ToolButton)> GetTool(Type manipulatorType)
@@ -171,7 +177,7 @@ namespace LBS.VisualElements
                 LBSMainWindow.MessageManipulator(manipulator.Description);
             };
             manipulator.OnManipulationNotification?.Invoke();
-        }
+            }
         
         private void ClearSeparators()
         {

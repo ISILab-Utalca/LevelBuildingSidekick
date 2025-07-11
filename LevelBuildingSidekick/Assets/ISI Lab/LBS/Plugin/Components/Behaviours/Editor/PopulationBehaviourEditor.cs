@@ -27,10 +27,11 @@ namespace ISILab.LBS.VisualElements
         private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new();
         private BundleCollection _collection; 
         private DropdownField type;
-        
-        AddPopulationTile addPopulationTile;
-        RemovePopulationTile removePopulationTile;
-        RotatePopulationTile rotatePopulationTile;
+
+        private AddPopulationTile addPopulationTile;
+        private RemovePopulationTile removePopulationTile;
+        private RotatePopulationTile rotatePopulationTile;
+        private MovePopulationTile movePopulationTile;
         
         #region VIEW FIELDS
         private readonly Color BHcolor = LBSSettings.Instance.view.behavioursColor;
@@ -45,6 +46,7 @@ namespace ISILab.LBS.VisualElements
         public PopulationBehaviourEditor(object target) : base(target)
         {
             behaviour = target as PopulationBehaviour;
+            if (behaviour is null) return;
             //_collection = load default collection
             
             List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
@@ -64,14 +66,14 @@ namespace ISILab.LBS.VisualElements
             };
             
             _collection = behaviour.BundleCollection;
-            behaviour.SelectedFilter = behaviour.allFilter; 
+            behaviour.SelectedFilter = behaviour.allFilter;
             displayChoices.Add(behaviour.allFilter, allList);
-            displayChoices.Add(Bundle.PopulationTypeE.Character.ToString(), characterList);
-            displayChoices.Add(Bundle.PopulationTypeE.Item.ToString(), itemList);
-            displayChoices.Add(Bundle.PopulationTypeE.Interactable.ToString(), interactableList);
-            displayChoices.Add(Bundle.PopulationTypeE.Area.ToString(), areaList);
-            displayChoices.Add(Bundle.PopulationTypeE.Prop.ToString(), propList);
-            displayChoices.Add(Bundle.PopulationTypeE.Misc.ToString(), miscList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Character), characterList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Item), itemList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Interactable), interactableList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Area), areaList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Prop), propList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Misc), miscList);
 
             SetInfo(behaviour);
             CreateVisualElement();
@@ -79,9 +81,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
         
         #region METHODS
-        public sealed override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            behaviour = target as PopulationBehaviour;
+            behaviour = paramTarget as PopulationBehaviour;
             if(behaviour == null) return;
             _collection = behaviour.BundleCollection;
         }
@@ -92,24 +94,26 @@ namespace ISILab.LBS.VisualElements
             addPopulationTile = new AddPopulationTile();
             var t1 = new LBSTool(addPopulationTile);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t1.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
             removePopulationTile = new RemovePopulationTile();
             var t2 = new LBSTool(removePopulationTile);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t2.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
             
-            // Rotate element
             rotatePopulationTile = new RotatePopulationTile();
             var t3 = new LBSTool(rotatePopulationTile);
             t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            t3.OnEnd += (l) => DrawManager.Instance.RedrawLayer(behaviour.OwnerLayer, MainView.Instance);
+            
+            movePopulationTile = new MovePopulationTile();
+            var t4 = new LBSTool(movePopulationTile);
+            t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
             addPopulationTile.SetRemover(removePopulationTile);
             
             toolkit.ActivateTool(t1,behaviour.OwnerLayer, behaviour);
             toolkit.ActivateTool(t2,behaviour.OwnerLayer, behaviour);
+            toolkit.ActivateTool(t4,behaviour.OwnerLayer, behaviour);
             toolkit.ActivateTool(t3,behaviour.OwnerLayer, behaviour);
+
         }
 
         protected sealed override VisualElement CreateVisualElement()
@@ -182,7 +186,9 @@ namespace ISILab.LBS.VisualElements
                 var tooltip = "Tags:";
                 if (b.Characteristics.Count > 0)
                 {
-                    b.Characteristics.ForEach(c => tooltip += "\n- " + c?.GetType());
+                    var tags = b.Characteristics.Select(t => t as Characteristics.LBSTagsCharacteristic).ToList();
+                    tags.ForEach(t => tooltip += "\n- " + t?.Value.Label);
+                    //b.Characteristics.ForEach(c => tooltip += "\n- " + c?.ToString());//.GetType());
                 }
                 else
                 {

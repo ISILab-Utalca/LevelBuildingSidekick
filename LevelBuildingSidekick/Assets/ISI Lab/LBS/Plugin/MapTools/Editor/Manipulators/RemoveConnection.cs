@@ -27,7 +27,7 @@ namespace ISILab.LBS.Manipulators
         {
             lineFeedback.fixToTeselation = true;
             areaFeedback.fixToTeselation = true;
-            feedback = lineFeedback;
+            Feedback = lineFeedback;
         }
 
         protected override string IconGuid => "ce08b36a396edbf4394f7a4e641f253d";
@@ -46,12 +46,12 @@ namespace ISILab.LBS.Manipulators
             };
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
             first = exterior.OwnerLayer.ToFixedPosition(startPosition);
         }
 
-        protected override void OnMouseMove(VisualElement target, Vector2Int movePosition, MouseMoveEvent e)
+        protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
         {
             lineFeedback.LeftSide = e.shiftKey;
 
@@ -65,7 +65,7 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();

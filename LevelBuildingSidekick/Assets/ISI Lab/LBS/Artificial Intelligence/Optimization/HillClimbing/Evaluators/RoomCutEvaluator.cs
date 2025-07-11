@@ -20,6 +20,8 @@ namespace ISILab.AI.Optimization
 
         Vector2 delta;
 
+        public string Tooltip => "Room Cut Evaluator";
+
         public RoomCutEvaluator(LBSLayer layer)
         {
             this.original = layer;

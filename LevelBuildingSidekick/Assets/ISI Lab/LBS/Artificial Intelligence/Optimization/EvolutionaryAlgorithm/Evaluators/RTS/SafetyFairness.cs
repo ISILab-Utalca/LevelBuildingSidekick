@@ -19,6 +19,8 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Safety Fairness Evaluator";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
 
@@ -110,6 +112,8 @@ namespace ISILab.AI.Categorization
                 foreach (var dir in Directions.Bidimencional.Edges)
                 {
                     var pos = chrom.ToMatrixPosition(parent) + dir;
+                    if (pos.x >= chrom.Rect.width)
+                        ; // No se valida?
                     var index = chrom.ToIndex(pos);
 
                     if (index < 0 || index >= chrom.Length)

@@ -24,6 +24,10 @@ using ISILab.AI.Categorization;
 using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
+using UnityEditor.Graphs;
+using LBS.Components;
+using System.Xml.Serialization;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -36,9 +40,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region Utilities
         private Dictionary<String, MAPElitesPreset> presetDictionary;
-        [SerializeField]
-        private PopulationAssistantEditor editor;
-        [SerializeField]
+        private MAPElitesPreset mapEliteBundle;
+
+        private BundleTileMap originalTileMap;
         private AssistantMapElite assistant;
 
         //Default text for unchosen elements
@@ -51,17 +55,13 @@ namespace ISILab.LBS.VisualElements.Editor
         private ClassDropDown param1Field;
         private ClassDropDown param2Field;
         private ClassDropDown optimizerField;
-        private Button optimizerButton;
-
-        //Optimizer Editor
-        private LBSCustomEditor optimizerEditor;
 
         //Parameter Information
         private Label xParamText;
         private Label yParamText;
         private Label zParamText;
-        private Slider xSlider;
-        private Slider ySlider;
+        private ProgressBar xProgressBar;
+        private ProgressBar yProgressBar;
         private ProgressBar zProgressBar;
 
         // their foldout functionalities are set in the constructor
@@ -72,9 +72,12 @@ namespace ISILab.LBS.VisualElements.Editor
         //Visualization Information
         private SliderInt rows;
         private SliderInt columns;
-        
+        private PopulationAssistantButtonResult selectedMap;
+
+        //Functionality buttons
         private Button recalculate;
         private Button applySuggestion;
+        private Button resetButton;
         private Button closeWindow;
         
         //Scriptable Object Manipulation
@@ -84,13 +87,22 @@ namespace ISILab.LBS.VisualElements.Editor
         
         //Parameters' graphic
         private VisualElement graphOfHell;
+        private PopulationAssistantGraph hellGraph;
 
+        //Layer Context
+        private ListView layerList;
+        private Button addLayerButton;
+        private VisualElement lockedContextEntryContainer;
+
+        //Context Evaluator (the hardest part lol)
         #endregion
 
         #region FIELDS
-        private MAPElitesPreset mapEliteBundle;
-        private PopulationAssistantButtonResult selectedMap;
-
+        MAPElitesPreset MapEliteBundle
+        {
+            get => mapEliteBundle;
+            set => mapEliteBundle = value;
+        }
         protected IRangedEvaluator currentXField
         {
             get => mapEliteBundle?.XEvaluator;
@@ -117,26 +129,28 @@ namespace ISILab.LBS.VisualElements.Editor
                 mapEliteBundle.Optimizer = value;
             }
         }
-
+        protected PopulationAssistantGraph CurrentGraph
+        {
+            get => hellGraph;
+            set => hellGraph = value;
+        }
         protected PopulationBehaviour LayerPopulation
         {
             get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+        }
+        protected LBSLevelData Data
+        {
+            get => LayerPopulation.OwnerLayer.Parent;
         }
         #endregion
 
         #region EVENTS
         // public Action OnExecute;
         public Action<string> OnPresetChanged;
+        public Action OnTileMapChanged;
+        public Action OnTileMapReset;
         public Action UpdatePins;
-        #endregion
-
-        #region PROPERTIES
-
-        MAPElitesPreset MapEliteBundle
-        {
-            get => mapEliteBundle;
-            set => mapEliteBundle = value;
-        }
+        public Action<IOptimizable> OnValuesUpdated;
         #endregion
 
         public void CreateGUI()
@@ -156,8 +170,15 @@ namespace ISILab.LBS.VisualElements.Editor
             xParamText = rootVisualElement.Q<Label>("XParamText");
             yParamText = rootVisualElement.Q<Label>("YParamText");
             zParamText = rootVisualElement.Q<Label>("ZParamText");
+            xProgressBar = rootVisualElement.Q<ProgressBar>("XProgressBar");
+            yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
+            zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
+
+            //var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
+            //interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
+            //I set everything false so they can't be manipulated if there's no preset present.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
             param1Field.Type = typeof(IRangedEvaluator);
             param1Field.value = defaultSelectText;
@@ -170,12 +191,19 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
-                if(xChoice != null) currentXField.InitializeDefault();
+                InitializeEvaluator(xChoice);
+                //if (xChoice != null)
+                //{
+                //    var contextualChoice = xChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentXField.InitializeDefault(); 
+                //}
                 xParamText.text = param1Field.Value;
-                
+
             });
             param1Field.SetEnabled(false);
-
 
             //Param 2
             param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
@@ -190,34 +218,46 @@ namespace ISILab.LBS.VisualElements.Editor
                 //Choice change
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
-                if (yChoice != null) currentYField.InitializeDefault();
+                InitializeEvaluator(yChoice);
+                //if (yChoice != null) 
+                //{
+                //    var contextualChoice = yChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentYField.InitializeDefault();
+                //} 
                 yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
 
             //Optimizer
 
-            //This button doesn't work anymore lol. Next time!!!
             optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
-            optimizerField.Type = typeof(BaseOptimizer);
+            optimizerField.Type = typeof(IRangedEvaluator);
             optimizerField.value = defaultSelectText;
             optimizerField.RegisterValueChangedCallback(evt =>
             {
                 if (optimizerField.value == null) return;
-                if (optimizerField.value == currentOptimizer?.GetType().Name) return;
+                if (optimizerField.value == currentOptimizer?.Evaluator?.GetType().Name) return;
+                if (currentOptimizer == null) return;
 
-                var optimizerChoice = optimizerField.GetChoiceInstance() as BaseOptimizer;
-                currentOptimizer = optimizerChoice;
-                if(optimizerChoice != null) currentOptimizer.InitializeDefault();
+                var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
+                currentOptimizer.Evaluator = optimizerChoice;
+                InitializeEvaluator(optimizerChoice);
+                //if (optimizerChoice != null) 
+                //{
+                //    var contextualChoice = optimizerChoice as IContextualEvaluator;
+                //    if (contextualChoice != null)
+                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                //    else
+                //        currentOptimizer.Evaluator.InitializeDefault();
+                //}
+                zParamText.text = new string("Fitness ("+optimizerField.Value+")");
+
             });
-            optimizerButton = rootVisualElement.Q<Button>("OpenOptimizerButton");
-            optimizerButton.SetEnabled(false);
-            optimizerButton.visible = false;
-            //optimizerButton.clicked += OpenOptimizer;
-
-            //I set everything false so they can't be manipulated if there's no preset present.
             optimizerField.SetEnabled(false);
-
+  
             //PRESET SETTINGS
             presetSettingsContainer = rootVisualElement.Q<VisualElement>("PresetSettingsContainer");
 
@@ -239,77 +279,88 @@ namespace ISILab.LBS.VisualElements.Editor
             //Visualization option buttons
             visualizationOptionsContent = rootVisualElement.Q<VisualElement>("VisualizationOptionsContent");
 
+            //Grid
             rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
             rows.RegisterValueChangedCallback(evt => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
             columns.RegisterValueChangedCallback(evt => UpdateGrid());
 
+            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
+            UpdateGrid();
+
             //Recalculate button
             recalculate = rootVisualElement.Q<Button>("ButtonRecalculate");
             recalculate.clicked += RunAlgorithm;
 
+            //Suggestion button
             applySuggestion = rootVisualElement.Q<Button>("ButtonApplySuggestion");
-            applySuggestion.clicked += () =>
-            {
-                // Save history version to revert
-                var level = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(level, "Select Suggestion");
-                EditorGUI.BeginChangeCheck();
-                
-                
-                ApplySuggestion();
-                
-                
-                // Mark as dirty
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(level);
-                }
+            applySuggestion.clicked += () => ApplySuggestion();
 
+            //Reset button
+            originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
+            resetButton = rootVisualElement.Q<Button>("ButtonReset");
+            resetButton.clicked += ResetSuggestion;
+            resetButton.SetEnabled(false);
+
+            OnTileMapChanged += () => {
+                originalTileMap = LayerPopulation.BundleTilemap.Clone() as BundleTileMap;
+                resetButton.SetEnabled((originalTileMap!=null));
+            };
+            OnTileMapReset += () => 
+            {
+                originalTileMap = null;
+                resetButton.SetEnabled(false);
             };
 
+            //Close button...?
             closeWindow = rootVisualElement.Q<Button>("ButtonClose");
             closeWindow.clicked += Close;
 
-            gridContent = rootVisualElement.Q<VisualElement>("GridContent");
-            UpdateGrid();
-
             //PARAMETER'S GRAPH
-            //Find container
             graphOfHell = rootVisualElement.Q<VisualElement>("GraphOfHell");
             
             //Create and add VisualElement: PopulationAssistantGraph to the container
-            PopulationAssistantGraph graph = new(new[] { 0, 0.2f, 0.4f, 0.6f, 0.8f, 1 }, 2);
-            graphOfHell.Add(graph);
-            
-            //Modify graph's colors (not necessary, it comes with default colors)
-            graph.MainColor = Color.green;
-            graph.SecondaryColor = Color.cyan;
-            
-            //Change axes color
-            graph.SetAxisColor(Color.magenta, 0);
-            graph.SetAxisColor(Color.yellow, 1);
-            graph.SetAxisColor(Color.white, 2);
-            if (graph.SetAxisColor(Color.white, 6))
+            hellGraph = new(new[] { 0f, 0f, 0f }, 2);
+            SetGraph();
+            graphOfHell.Add(hellGraph);
+
+            //LAYER CONTEXT
+            lockedContextEntryContainer = rootVisualElement.Q<VisualElement>("LockedLayerContainer");
+            AddLockedLayer();
+
+            layerList = rootVisualElement.Q<ListView>("LayerList");
+
+            layerList.reorderable = false;
+            layerList.makeItem += () => new LayerContextEntry();
+            layerList.bindItem = (element, index) =>
             {
-                Debug.LogError("Can't SetAxisValue: Index out of range");
-            }
-            
-            //Change axes value
-            graph.SetAxisValue(0.5f,0);
-            if (graph.SetAxisValue(1, 6))
-            {
-                Debug.LogError("Can't SetAxisValue: Index out of range");
-            }
-            graph.RecalculateCorners(); //Important after changing axes' values
-            
-            ySlider = rootVisualElement.Q<Slider>("YSlider");
-            xSlider = rootVisualElement.Q<Slider>("XSlider");
-            zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
+                var layerContextVE = element as LayerContextEntry;
+                if (layerContextVE == null) return;
+
+                layerContextVE.UpdateData(Data.ContextLayers[index]);
+                layerContextVE.EvaluateOverlap(Data.ContextLayers);
+                layerContextVE.OnRemoveButtonClicked = null;
+                layerContextVE.OnRemoveButtonClicked += () =>
+                {
+                    Data.ContextLayers.RemoveAt(index);
+                    layerList.Remove(element);
+                    layerList.Rebuild();
+                };
+            };
+
+            layerList.itemsSource = Data.ContextLayers;
+
+            addLayerButton = rootVisualElement.Q<Button>("AddLayerButton");
+            addLayerButton.clicked += AddLayerMenu;
+        }
+
+        private void OnDestroy()
+        {
+            assistant.RequestOptimizerStop();
         }
 
         #region MAIN METHODS
-        
+
         //Add all presets in the preset directory to the preset dropdown
         private void SetPresets()
         {
@@ -351,27 +402,76 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 param1Field.SetEnabled(false);
                 param2Field.SetEnabled(false);
-                //optimizerField.SetEnabled(false);
+                optimizerField.SetEnabled(false);
                 return;
             }
             
             //Set the map elite accordingly.
             mapEliteBundle = presetDictionary[value];
             presetFieldRef.value = mapEliteBundle;
+            rows.value = mapEliteBundle.SampleCount.x;
+            columns.value = mapEliteBundle.SampleCount.y;
 
             //Enable params set the preset things to the new choice.
             param1Field.SetEnabled(true);
             param2Field.SetEnabled(true);
-            //optimizerField.SetEnabled(true);
+            optimizerField.SetEnabled(true);
 
             param1Field.Value = currentXField != null ? currentXField.GetType().Name : defaultSelectText;
             param2Field.Value = currentYField != null ? currentYField.GetType().Name : defaultSelectText;
-            optimizerField.value = currentOptimizer != null ? currentOptimizer.GetType().Name : defaultSelectText;
+            optimizerField.value = currentOptimizer?.Evaluator != null ? currentOptimizer.Evaluator.GetType().Name : defaultSelectText;
             
             yParamText.text = param2Field.Value;
             xParamText.text = param1Field.Value;
+            zParamText.text = new string("Fitness (" + optimizerField.Value + ")");
+
+            //param1Field.tooltip = currentXField.Tooltip;
+            //param2Field.tooltip = currentYField.Tooltip;
+            //optimizerField.tooltip = currentOptimizer?.Evaluator.Tooltip;
+
+            InitializeAllCurrentEvaluators();
         }
-        
+
+        private void UpdateTooltips()
+        {
+            param1Field.tooltip = currentXField?.Tooltip;
+            param2Field.tooltip = currentYField?.Tooltip;
+            optimizerField.tooltip = currentOptimizer?.Evaluator?.Tooltip;
+        }
+
+        private void InitializeAllCurrentEvaluators()
+        {
+            var evalList = new List<IEvaluator>();
+            if (currentXField != null) { evalList.Add(currentXField); }
+            if (currentYField != null) { evalList.Add(currentYField); }
+            if (currentOptimizer?.Evaluator != null) { evalList.Add(currentOptimizer.Evaluator); }
+            if (evalList.Count == 0) return;
+
+            InitializeEvaluator(evalList.ToArray());
+        }
+
+        private void InitializeEvaluator(params IEvaluator[] evaluators)
+        {
+            foreach (var evaluator in evaluators)
+            {
+                InitializeEvaluator(evaluator);
+            }
+        }
+
+        private void InitializeEvaluator(IEvaluator evaluator)
+        {
+            if(evaluator != null)
+            {
+                var contextualChoice = evaluator as IContextualEvaluator;
+                if (contextualChoice != null)
+                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                else
+                    evaluator.InitializeDefault();
+            }
+
+            UpdateTooltips();
+        }
+
         //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
@@ -379,17 +479,29 @@ namespace ISILab.LBS.VisualElements.Editor
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
-            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not.
+
+            //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
             
+
             //Check if there's a place to optimize
             if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
             {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
             }
+
+            //var interiorLayers = new HashSet<LBSLayer>();
+            //(currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //(currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //(currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
+            //interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+            Data.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
+
+            InitializeAllCurrentEvaluators();
+
             //SetBackgroundTexture(square, assistant.RawToolRect);
-            assistant.SetAdam(assistant.RawToolRect);
+            assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
             assistant.Execute();
 
             //TODO: Hay que pasarle el Optimizer a los Map Elites
@@ -403,11 +515,18 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
         {
+            //This MUST go first since it'll save the original tilemap
+            OnTileMapChanged?.Invoke();
+
             var chrom = obj as BundleTilemapChromosome;
             if (chrom == null)
             {
                 if (selectedMap.Data == null) throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
             }
+
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
             var rect = chrom.Rect;
 
@@ -420,7 +539,12 @@ namespace ISILab.LBS.VisualElements.Editor
                     continue;
                 LayerPopulation.AddTileGroup(pos, gene as BundleData);
             }
-            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer, MainView.Instance);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(level);
+            }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
         }
 
@@ -469,63 +593,46 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSMainWindow.MessageNotify("Suggestion pinned.");
             UpdatePins?.Invoke();
 
-            //Backup file setup
-            /*var settings = LBSSettings.Instance;
-            var savedMapPath = settings.paths.savedMapsPresetPath;
-            string savedMapName = "Saved Map";
+        }
 
-            //Directory making
-            if (!Directory.Exists(savedMapPath))
+        //Reset the suggestion to its original form
+        private void ResetSuggestion()
+        {
+            if (originalTileMap == null) return;
+            if (LayerPopulation.Tilemap == null)
             {
-                Directory.CreateDirectory(savedMapPath);
+                LBSMainWindow.MessageNotify("Layer tile map not found."); return;
             }
-            else
+            var level = LBSController.CurrentLevel;
+            EditorGUI.BeginChangeCheck();
+            Undo.RegisterCompleteObjectUndo(level, "Add Element population");
+
+            LayerPopulation.ReplaceTileMap(originalTileMap);
+            DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
+            LBSMainWindow.MessageNotify("Layer reset.");
+
+            if (EditorGUI.EndChangeCheck())
             {
-                var info = new DirectoryInfo(savedMapPath);
-                var fileInfo = info.GetFiles();
-
-                //Check if newTileMap is equal to any of the saved maps.
-                if (fileInfo.Length > 0)
-                {
-                    int count = 0;
-                    foreach (var file in fileInfo)
-                    {
-                        var mapToCompare = AssetDatabase.LoadAssetAtPath<SavedMap>(savedMapPath + "\\" + file.Name);
-                        if (mapToCompare != null)
-                        {
-                            if (mapToCompare.Map.Equals(newTileMap))
-                            {
-                                //Maps are the same, so return
-                                LBSMainWindow.MessageNotify("An equal suggestion has already been pinned.", LogType.Warning);
-                                return;
-                            }
-                            count++;
-                        }
-                    }
-                    //Then name it after the count in file info
-                    savedMapName = "Saved Map " + count;
-                }
+                EditorUtility.SetDirty(level);
             }
-            //Finally, save!
-            SavedMap newSavedMap = ScriptableObject.CreateInstance<SavedMap>();
-            newSavedMap.Map = newTileMap;
-            newSavedMap.Name = savedMapName;
-            newSavedMap.Score = (float)suggestionData.Fitness;
-            AssetDatabase.CreateAsset(newSavedMap, savedMapPath + "\\" + savedMapName + ".asset");
-
-            //LayerPopulation.SaveMap(newTileMap, (float)suggestionData.Fitness);
-            Debug.Log("saved map: "+newSavedMap.Name);*/
+            OnTileMapReset?.Invoke();
         }
         #endregion
 
         #region GRID-RELATED METHODS
-        //
+        
         private void RepaintContent()
         {
-            UpdateContent();
-            if (assistant.Finished)
+            try
             {
-                LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                UpdateContent();
+            }
+            finally
+            {
+                if (assistant.Finished || !assistant.Running) // La segunda condicion evita los logs de error de Map Elites, pero obviamente no es una solucion, y no he probado si afecta a los resultados renderizados
+                {
+                    LBSMainWindow.OnWindowRepaint -= RepaintContent;
+                }
             }
         }
         
@@ -561,11 +668,12 @@ namespace ISILab.LBS.VisualElements.Editor
         //Redraws the grid
         private void UpdateGrid()
         {
-            assistant.SampleWidth = rows.value;
-            assistant.SampleHeight = columns.value;
+            if(mapEliteBundle!=null)
+            {
+                mapEliteBundle.SampleCount = new Vector2Int(rows.value, columns.value);
+            }
+            // TODO change the population sample size
 
-           // TODO change the population sample size
-            
             gridContent.Clear();
             gridContent.style.flexDirection = FlexDirection.ColumnReverse;
             List<VisualElement> rowsVE = new();
@@ -656,9 +764,12 @@ namespace ISILab.LBS.VisualElements.Editor
             //Shows data if non null
             if (mapData == null) return;
 
+            xProgressBar.value = (float)mapData.xFitness;
+            yProgressBar.value = (float)mapData.yFitness;
             zProgressBar.value = (float)mapData.Fitness;
-            xSlider.value = (float)mapData.xFitness;
-            ySlider.value = (float)mapData.yFitness;
+            xProgressBar.title = (Mathf.FloorToInt((float)mapData.xFitness * 100)).ToString() + "%";
+            yProgressBar.title = (Mathf.FloorToInt((float)mapData.yFitness * 100)).ToString() + "%";
+            zProgressBar.title = (Mathf.FloorToInt((float)mapData.Fitness * 100)).ToString() + "%";
 
             //Takes border off selected map previously selected map
             if (selectedMap != null)
@@ -667,8 +778,68 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             selectedMap = buttonResult;
             buttonResult.OnButtonSelected?.Invoke();
+            OnValuesUpdated?.Invoke(mapData);
         }
 
+        void SetGraph()
+        {
+            //Modify graph's colors (not necessary, it comes with default colors)
+            CurrentGraph.MainColor = Color.green;
+            CurrentGraph.SecondaryColor = Color.cyan;
+
+            CurrentGraph.SetAxisColor(Color.blue, 0);
+            CurrentGraph.SetAxisColor(Color.red, 1);
+            CurrentGraph.SetAxisColor(Color.green, 2);
+
+            OnValuesUpdated = null;
+            OnValuesUpdated += (optimizable) => {
+                var opt = optimizable as IOptimizable;
+                CurrentGraph.SetAxisValue((float)opt.Fitness, 0);
+                CurrentGraph.SetAxisValue((float)opt.xFitness, 1);
+                CurrentGraph.SetAxisValue((float)opt.yFitness, 2);
+                CurrentGraph.RecalculateCorners();
+                CurrentGraph.MarkDirtyRepaint();
+            };
+        }
+        #endregion
+
+        #region LAYER CONTEXT METHODS
+        public void AddLockedLayer()
+        {
+            //Add the layer to Layer context
+            var lockedLayer = new LayerContextEntry();
+            lockedLayer.UpdateData(assistant.OwnerLayer);
+            lockedLayer.SetEnabled(false);
+            lockedContextEntryContainer.Add(lockedLayer);
+        }
+
+        public void AddLayerMenu()
+        {
+            GenericMenu menu = new GenericMenu();
+            foreach(LBSLayer layer in Data.Layers)
+            {
+                //The layer the assistant is working on can't be used as context, since its content is overwritten.
+                if (!assistant.OwnerLayer.Equals(layer))
+                { 
+                    menu.AddItem(new GUIContent(layer.Name), Data.ContextLayers.Contains(layer), ToggleLayerContext, layer); 
+                }
+            }
+            menu.ShowAsContext();
+        }
+
+        private void ToggleLayerContext(object layer)
+        {
+            LBSLayer objectLayer = layer as LBSLayer;
+            if (objectLayer == null) return;
+            switch(Data.ContextLayers.Contains(layer))
+            {
+                case true: Data.ContextLayers.Remove(objectLayer); break;
+                case false: Data.ContextLayers.Add(objectLayer); break;
+            }
+            layerList.Rebuild();
+
+            InitializeAllCurrentEvaluators();
+        }
         #endregion
 
         #region OTHER METHODS

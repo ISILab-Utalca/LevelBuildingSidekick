@@ -19,10 +19,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var mut = target as ExhaustiveMoveGene;
+            this.target = paramTarget;
+            var mut = paramTarget as ExhaustiveMoveGene;
 
             range.value = mut.Range;
             range.RegisterValueChangedCallback(e =>

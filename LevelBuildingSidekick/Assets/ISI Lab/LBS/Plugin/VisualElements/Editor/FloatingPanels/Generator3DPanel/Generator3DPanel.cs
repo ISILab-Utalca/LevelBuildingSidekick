@@ -6,7 +6,6 @@ using LBS.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using UnityEditor;
 using ISILab.Commons.Utility.Editor;
@@ -24,30 +23,27 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region VIEW ELEMENTS
-        private ClassDropDown dropDownField;
+        private readonly ClassDropDown _dropDownField;
         
-        private Vector3Field positionField;
-        private Vector2Field scaleField;
-        private Vector2Field resizeField;
+        private readonly Vector3Field _positionField;
+        private readonly Vector2Field _scaleField;
+        private readonly Vector2Field _resizeField;
         
-        private TextField nameField;
+        private readonly TextField _nameField;
         
-        private Button generateCurrLayer;
-        private Button generateAllLayers;
-        
-        private Toggle genCeilling;
-        private Toggle buildLightProbes;
-        private Toggle bakeLights;
-        private Toggle autoGen;
-        private Toggle replacePrev;
-        private Toggle ignoreBundleTileSize;
-        private Toggle reflection;
+        private readonly Button _generateCurrLayer;
+        private readonly Button _generateAllLayers;
+
+        private readonly Toggle _buildLightProbes;
+        private readonly Toggle _bakeLights;
+        private readonly Toggle _replacePrev;
+        private readonly Toggle _ignoreBundleTileSize;
+        private readonly Toggle _reflection;
         #endregion
 
         #region FIELDS
-        private Generator3D generator;
-        private Generator3D.Settings settings;
-        private LBSLayer layer;
+        private Generator3D.Settings _settings;
+        private LBSLayer _layer;
         #endregion
 
         #region EVENTS
@@ -55,11 +51,9 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region PROPERTIES
-        public Generator3D Generator
-        {
-            get => generator;
-            set => generator = value;
-        }
+
+        private Generator3D Generator { get; set; }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -69,41 +63,47 @@ namespace ISILab.LBS.VisualElements.Editor
             visualTree.CloneTree(this);
 
             // room's name
-            nameField = this.Q<TextField>(name: "ObjName");
+            _nameField = this.Q<TextField>(name: "ObjName");
             
             // missing in design prototype
-            resizeField = this.Q<Vector2Field>(name: "Resize");
-            resizeField.value = Vector2.one;
+            _resizeField = this.Q<Vector2Field>(name: "Resize");
+            _resizeField.value = Vector2.one;
              
-            positionField = this.Q<Vector3Field>(name: "Position");
+            _positionField = this.Q<Vector3Field>(name: "Position");
                
-            scaleField = this.Q<Vector2Field>(name: "TileSize");
-            scaleField.value = new Vector2(2, 2);
+            _scaleField = this.Q<Vector2Field>(name: "TileSize");
+            _scaleField.value = new Vector2(2, 2);
             
-            genCeilling = this.Q<Toggle>(name: "ToggleGenCeilling");
-            buildLightProbes = this.Q<Toggle>(name: "ToggleLightProbes");
-            bakeLights = this.Q<Toggle>(name: "ToggleBakeLights");
+            this.Q<Toggle>(name: "ToggleGenCeilling");
+            _buildLightProbes = this.Q<Toggle>(name: "ToggleLightProbes");
+            _bakeLights = this.Q<Toggle>(name: "ToggleBakeLights");
             
-            // dropDown's visibilty hidden in UMXL
-            dropDownField = this.Q<ClassDropDown>(name: "Generator");
-            dropDownField.label = "Gennerator";
-            dropDownField.Type = typeof(Generator3D);
+            // dropDown's visibility hidden in UMXL
+            _dropDownField = this.Q<ClassDropDown>(name: "Generator");
+            _dropDownField.label = "Gennerator";
+            _dropDownField.Type = typeof(Generator3D);
             
-            autoGen = this.Q<Toggle>(name: "ToggleAutoGen");
-            replacePrev = this.Q<Toggle>(name: "ToggleReplace");
-            ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
-            reflection = this.Q<Toggle>(name: "ToggleReflection");
+            this.Q<Toggle>(name: "ToggleAutoGen");
+            _replacePrev = this.Q<Toggle>(name: "ToggleReplace");
+            _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
+            _reflection = this.Q<Toggle>(name: "ToggleReflection");
             
-            generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
-            generateCurrLayer.clicked += OnExecute;
-            generateCurrLayer.clicked += GenerateCurrentLayer;
+            _generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
+            _generateCurrLayer.clicked += OnExecute;
+            _generateCurrLayer.clicked += GenerateCurrentLayer;
             
-            generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
-            generateAllLayers.clicked += OnExecute;
-            generateAllLayers.clicked += GenerateAllLayers;
+            _generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
+            _generateAllLayers.clicked += OnExecute;
+            _generateAllLayers.clicked += GenerateAllLayers;
             
-            if(generator == null) generator = new Generator3D();
+            Generator ??= new Generator3D();
         }
+
+        public Generator3DPanel(Toggle bakeLights)
+        {
+            _bakeLights = bakeLights;
+        }
+
         #endregion
 
         public void Init(LBSLayer layer)
@@ -114,44 +114,66 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
             }
 
-            this.layer = layer;
-            generator = new Generator3D();
-
-            generator.settings = settings;
-            settings = layer.Settings;
-
-
-            if (generator != null)
+            _layer = layer;
+            Generator = new Generator3D
             {
-                dropDownField.Value = generator.GetType().Name;
-                scaleField.value = settings.scale;
-                positionField.value = settings.position;
-                nameField.value = layer.Name;
-                resizeField.value = settings.resize;
-            }
+                settings = _settings
+            };
+
+            _settings = layer.Settings;
+
+
+            if (Generator == null) return;
+            _dropDownField.Value = Generator.GetType().Name;
+            _scaleField.value = _settings.scale;
+            _positionField.value = _settings.position;
+            _nameField.value = layer.Name;
+            _resizeField.value = _settings.resize;
         }
 
-        public void GenerateAllLayers()
+        private void GenerateAllLayers()
         {
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
             if(mw == null) return;
             var layers = mw.GetLayers();
             
-            foreach (var _layer in layers)
+            foreach (var layer in layers)
             {
-                this.layer = _layer;
+                _layer = layer;
                 GenerateSingleLayer();
             }
+            OnFinishGenerate();
+        }
+        
+        
+        private void GenerateLayerByName(string layerName)
+        {
+            LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
+            if(mw == null) return;
+            var layers = mw.GetLayers();
+
+            LBSLayer tempLayer = null;
+            if (_layer is not null) tempLayer = _layer;
+            
+            var foundLayer = layers.Find(l => l.Name == layerName);
+            if (foundLayer != null)
+            {
+                _layer = foundLayer;
+                GenerateSingleLayer();
+            }
+
+            if (tempLayer is not null) _layer = tempLayer;
+            
             OnFinishGenerate();
         }
 
         private void OnFinishGenerate()
         {
-            if (bakeLights.value)
+            if (_bakeLights.value)
             {
                 // Retrieve the LightingSettings asset by its path
-                string BakePath = AssetDatabase.GUIDToAssetPath("e64852b0a0c259543bc34a95930684dd");
-                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>(BakePath);
+                string bakePath = AssetDatabase.GUIDToAssetPath("e64852b0a0c259543bc34a95930684dd");
+                LightingSettings lightingSettings = AssetDatabase.LoadAssetAtPath<LightingSettings>(bakePath);
                 if (lightingSettings)
                 {
                     Lightmapping.lightingSettings = lightingSettings;
@@ -169,28 +191,28 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private void GenerateCurrentLayer()
         {
-            GenerateSingleLayer();
-            OnFinishGenerate();
+            var valid = GenerateSingleLayer();
+            if(valid) OnFinishGenerate();
         }
 
-        private void GenerateSingleLayer()
+        private bool GenerateSingleLayer()
         {
             string ifReplace = "";
             
-            if (layer == null)
+            if (_layer == null)
             {
                 LBSMainWindow.MessageNotify("There is no reference for any layer to generate.", LogType.Error, 2);
-                return;
+                return false;
             }
 
-            if (replacePrev.value)
+            if (_replacePrev.value)
             {
                 GameObject[] allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
                 List<GameObject> previousObjects = new List<GameObject>();
 
                 foreach (var generic in allObjects)
                 {
-                    if (generic.name == layer.Name)  previousObjects.Add(generic);
+                    if (generic.name == _layer.Name)  previousObjects.Add(generic);
                 }
                 foreach (var prev in previousObjects)
                 {
@@ -200,53 +222,64 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
-            generator ??= dropDownField.GetChoiceInstance() as Generator3D;
+            Generator ??= _dropDownField.GetChoiceInstance() as Generator3D;
 
-            settings = new Generator3D.Settings
+            _settings = new Generator3D.Settings
             {
-                name = layer.Name,
-                position = positionField.value,
-                resize = resizeField.value,
-                scale = scaleField.value,
-                useBundleSize = !ignoreBundleTileSize.value,
-                reflectionProbe = reflection.value,
-                lightVolume = buildLightProbes.value
+                name = _layer.Name,
+                position = _positionField.value,
+                resize = _resizeField.value,
+                scale = _scaleField.value,
+                useBundleSize = !_ignoreBundleTileSize.value,
+                reflectionProbe = _reflection.value,
+                lightVolume = _buildLightProbes.value
             };
 
-            if (generator == null) return;
+            if (Generator == null) return false;
+
+            var questGen = Generator.GetRule<QuestRuleGenerator>(_layer.GeneratorRules);
+            if (questGen is not null) questGen.OnLayerRequired += GenerateLayerByName;
             
             // Generation Call
-            var generated = generator.Generate(layer, layer.GeneratorRules, settings);
+            var generated = Generator.Generate(_layer, _layer.GeneratorRules, _settings);
             
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||
                 !generated.Item1.GetComponentsInChildren<Transform>().Any() || generated.Item2.Any())
             {
-                LBSMainWindow.MessageNotify("Layer " + layer.Name + " could not be created.", LogType.Error);
+                var errormessage = "Layer " + _layer.Name + " could not be created correctly.";
+                LBSMainWindow.MessageNotify(errormessage, LogType.Error);
+                Debug.LogError(errormessage);
+                
                 foreach (var message in generated.Item2)
                 {
                     LBSMainWindow.MessageNotify("   " + message, LogType.Error, 6);
                 }
-                return;
+
+                if (generated.Item1 is not null) Object.DestroyImmediate(generated.Item1.gameObject);
+                return false;
             }
             
             Undo.RegisterCreatedObjectUndo(generated.Item1, "Create my GameObject");
             
             LBSMainWindow.MessageNotify("Layer " + generated.Item1.gameObject.name + " created. " + ifReplace);
-            if (bakeLights.value)
+            if (_bakeLights.value)
             {
                 StaticObjs(generated.Item1);
                 BakeReflections();
             }
 
-            if (buildLightProbes.value)
+            if (_buildLightProbes.value)
             {
                 LightProbeCubeGenerator[] allLightProbes = 
                     Object.FindObjectsByType<LightProbeCubeGenerator>(FindObjectsSortMode.None);
                 foreach (var lpcg in allLightProbes) lpcg.Execute();
             }
 
+            return true;
+
         }
+
 
         private void BakeReflections()
         {
@@ -272,5 +305,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 StaticObjs(child.gameObject);
             }
         }
+        
     }
 }

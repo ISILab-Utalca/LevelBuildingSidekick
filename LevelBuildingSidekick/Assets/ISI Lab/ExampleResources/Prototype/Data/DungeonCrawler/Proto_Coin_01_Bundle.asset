@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Proto_Coin_01_Bundle
+  m_EditorClassIdentifier: 
+  layerContentFlags: 4
+  type: 2
+  anchorPosition: 0
+  color: {r: 1, g: 0.53792745, b: 0, a: 1}
+  icon: {fileID: 7388822144124034973, guid: 798ad47d60d0d7d4a969019506758bf0, type: 3}
+  assets:
+  - obj: {fileID: 8934824335407941667, guid: 6b1dbc860f839c4449116d402b365026, type: 3}
+    probability: 0.5
+  characteristics:
+  - rid: 1134171596635245916
+  - rid: 1134171596635245917
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 4
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+  guid: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 1134171596635245916
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 08dd0ea3801e02447b5d7dd01339fa26, type: 2}
+    - rid: 1134171596635245917
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: 7ee45b380fbc713488634d817baaaeb2, type: 2}

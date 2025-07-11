@@ -12,13 +12,14 @@ namespace ISILab.LBS.VisualElements
     public class ToolButton : VisualElement, IGrupable
     {
         #region FIELDS
-        public Color color = LBSSettings.Instance.view.toolkitNormal;
-        private Color selected = LBSSettings.Instance.view.newToolkitSelected;
+
+        private Color _color = LBSSettings.Instance.view.toolkitNormal;
+        private Color _selected = LBSSettings.Instance.view.newToolkitSelected;
         #endregion
 
         #region FIELDS VIEW
-        private Button button;
-        private VisualElement icon;
+        private readonly Button _button;
+
         #endregion
 
         #region EVENTS
@@ -32,9 +33,9 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolButton");
             visualTree.CloneTree(this);
             
-            button = this.Q<Button>("Button");
+            _button = this.Q<Button>("Button");
             
-            icon = this.Q<VisualElement>("Icon");
+            var icon = this.Q<VisualElement>("Icon");
             if (tool.Icon == null) return;
             icon.style.backgroundImage = new StyleBackground(tool.Icon); 
             
@@ -45,30 +46,30 @@ namespace ISILab.LBS.VisualElements
         #region IGRUPABLE
         public void AddGroupEvent(Action action)
         {
-            button.clicked += action;
+            _button.clicked += action;
         }
 
         public void OnBlur()
         {
-            button.style.backgroundColor = color;
+            _button.style.backgroundColor = _color;
             OnBlurEvent?.Invoke();
         }
 
         public void OnFocus()
         {
-            button.style.backgroundColor = selected;
+            _button.style.backgroundColor = _selected;
             OnFocusEvent?.Invoke();
         }
 
         public void OnFocusWithoutNotify()
         {
-            button.style.backgroundColor = selected;
+            _button.style.backgroundColor = _selected;
         }
 
         public void SetColorGroup(Color color, Color selected)
         {
-            this.color = color;
-            this.selected = selected;
+            _color = color;
+            _selected = selected;
         }
 
         public string GetLabel()

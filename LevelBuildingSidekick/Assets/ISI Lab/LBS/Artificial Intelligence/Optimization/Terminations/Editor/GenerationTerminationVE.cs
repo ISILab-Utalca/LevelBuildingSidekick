@@ -18,10 +18,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var term = target as GenerationNumberTermination;
+            this.target = paramTarget;
+            var term = paramTarget as GenerationNumberTermination;
             generations.value = term.ExpectedGenerationNumber;
             generations.RegisterValueChangedCallback(evt => term.ExpectedGenerationNumber = evt.newValue);
         }

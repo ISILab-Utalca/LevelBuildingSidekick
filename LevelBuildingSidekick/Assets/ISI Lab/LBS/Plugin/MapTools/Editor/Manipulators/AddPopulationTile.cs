@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
@@ -9,35 +8,31 @@ using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
 
 namespace ISILab.LBS.Manipulators
 {
     public class AddPopulationTile : LBSManipulator
     {
-        PopulationBehaviour population;
+        private PopulationBehaviour _population;
 
-        Feedback previewFeedback;
-        private TileBundleGroup selectedTile;
-        protected override string IconGuid { get => "ce4ce3091e6cf864cbbdc1494feb6529"; }
-        
-        public Bundle ToSet
-        {
-            get => population.selectedToSet;
-        }
+        private readonly Feedback _previewFeedback;
+        private TileBundleGroup _selectedTile;
+        protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
-        public AddPopulationTile() : base()
+        private Bundle ToSet => _population.selectedToSet;
+
+        public AddPopulationTile()
         {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
+            Feedback = new AreaFeedback();
+            Feedback.fixToTeselation = true;
             
-            previewFeedback = new DottedAreaFeedback();
-            previewFeedback.preview = true;
-            previewFeedback.fixToTeselation = true;
+            _previewFeedback = new DottedAreaFeedback();
+            _previewFeedback.preview = true;
+            _previewFeedback.fixToTeselation = true;
 
-            name = "Paint Tile with Item";
-            description =
+            Name = "Paint Tile with Item";
+            Description =
                 "Select an item in Behaviour panel and Click on the graph to add a population tile. Hold CTRL to drag it.";
         }
         
@@ -52,39 +47,39 @@ namespace ISILab.LBS.Manipulators
             LBSMainWindow.WarningManipulator();
         }
 
-        public override void Init(LBSLayer layer, object owner)
+        public override void Init(LBSLayer layer, object provider = null)
         {
-            base.Init(layer, owner);
+            base.Init(layer, provider);
             
-            population = owner as PopulationBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _population = provider as PopulationBehaviour;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseLeave(VisualElement _target, MouseLeaveEvent e)
+        protected override void OnMouseLeave(VisualElement element, MouseLeaveEvent e)
         {
-            MainView.Instance.RemoveElement(previewFeedback);
+            MainView.Instance.RemoveElement(_previewFeedback);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var endPos = population.OwnerLayer.ToFixedPosition(endPosition);
+            var endPos = _population.OwnerLayer.ToFixedPosition(endPosition);
 
             // Dragging selected tile
             if (e.ctrlKey)
             {
-                if (selectedTile == null) return;
+                if (_selectedTile == null) return;
 
                 // Check if the move is valid
-                if (!population.BundleTilemap.ValidMoveGroup(endPos, selectedTile, Vector2.right))
+                if (!_population.BundleTilemap.ValidMoveGroup(endPos, _selectedTile, Vector2.right))
                     return;
 
                 // Calculate the difference between the new position and the original top-left position of the group
-                Vector2Int originalTopLeft = selectedTile.TileGroup[0].Position;
+                Vector2Int originalTopLeft = _selectedTile.TileGroup[0].Position;
                 Vector2Int offset = endPos - originalTopLeft;
 
                 // Move each tile relative to the offset
-                foreach (var lbsTile in selectedTile.TileGroup)
+                foreach (var lbsTile in _selectedTile.TileGroup)
                 {
                     lbsTile.Position += offset;
                 }
@@ -102,13 +97,13 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
-            var corners = population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
+            var corners = _population.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    population.AddTileGroup(new Vector2Int(i, j), ToSet);
+                    _population.AddTileGroup(new Vector2Int(i, j), ToSet);
                 }
             }
 
@@ -118,28 +113,27 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
             // get tile to drag
             if (!e.ctrlKey) return;
-            var tile = population.GetTile(population.OwnerLayer.ToFixedPosition(startPosition));
+            var tile = _population.GetTile(_population.OwnerLayer.ToFixedPosition(startPosition));
             if (tile == null) return;
-            selectedTile = population.GetTileGroup(tile.Position);
-            if (selectedTile == null) return;
-            Debug.Log(selectedTile.BundleData.BundleName);
+            _selectedTile = _population.GetTileGroup(tile.Position);
+
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
-        protected override void OnMouseMove(VisualElement target, Vector2Int endPosition, MouseMoveEvent e)
+        protected override void OnMouseMove(VisualElement element, Vector2Int endPosition, MouseMoveEvent e)
         {
-            MainView.Instance.RemoveElement(previewFeedback);
+            MainView.Instance.RemoveElement(_previewFeedback);
             if (!ToSet) return;
            
             // when dragging by using CTRL, do not display the feedback area
-            feedback.SetDisplay(!e.ctrlKey);
+            Feedback.SetDisplay(!e.ctrlKey);
 
 
-            var topLeftCorner = -population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
+            var topLeftCorner = -_population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;
 
             // Set corner by tile size
@@ -152,8 +146,8 @@ namespace ISILab.LBS.Manipulators
             }
 
             // grid to local position
-            var firstPos = population.OwnerLayer.FixedToPosition(topLeftCorner);
-            var lastPos = population.OwnerLayer.FixedToPosition(bottomRightCorner);
+            var firstPos = _population.OwnerLayer.FixedToPosition(topLeftCorner);
+            var lastPos = _population.OwnerLayer.FixedToPosition(bottomRightCorner);
 
             // weird correction on coordinates, hate it but it works
             if(endPosition.y < 0)
@@ -169,23 +163,23 @@ namespace ISILab.LBS.Manipulators
             firstPos.x *= -1;
             lastPos.x *= -1;
             
-            previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
-            MainView.Instance.AddElement(previewFeedback);
+            _previewFeedback.ActualizePositions(firstPos.ToInt(), lastPos.ToInt());
+            MainView.Instance.AddElement(_previewFeedback);
 
             bool valid;
             // dragging feedback
-            if (e.ctrlKey && selectedTile != null)
+            if (e.ctrlKey && _selectedTile != null)
             {
                 // undo the negative of topLeftCorner
-                valid = population.ValidMoveGroup(-topLeftCorner, selectedTile); 
+                valid = _population.ValidMoveGroup(-topLeftCorner, _selectedTile); 
             }
             // adding feedback
             else
             {
                 // undo the negative of topLeftCorner
-                valid = population.ValidNewGroup(-topLeftCorner, ToSet); 
+                valid = _population.ValidNewGroup(-topLeftCorner, ToSet); 
             }
-            previewFeedback.ValidForInput(valid);
+            _previewFeedback.ValidForInput(valid);
             
         }
     }

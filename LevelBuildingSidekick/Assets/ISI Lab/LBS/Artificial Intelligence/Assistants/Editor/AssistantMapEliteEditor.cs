@@ -58,7 +58,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 assitant.LoadPresset(config.GetPresset());
                 if (assitant.RawToolRect.width == 0 || assitant.RawToolRect.height == 0)
                 {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or with < 0");
+                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
                 }
 
@@ -89,9 +89,9 @@ namespace ISILab.LBS.AI.Assistants.Editor
             assistant.Continue();
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            assistant = target as AssistantMapElite;
+            assistant = paramTarget as AssistantMapElite;
         }
 
         protected override VisualElement CreateVisualElement()

@@ -24,10 +24,10 @@ namespace ISILab.LBS.Editor
             SetInfo(target);
         }
 
-        public sealed override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            this.target = target as GrammarAssistant;
-            m_GrammarAssistant = LBSLayerHelper.GetObjectFromLayerChild<GrammarAssistant>(target);
+            this.target = paramTarget as GrammarAssistant;
+            m_GrammarAssistant = LBSLayerHelper.GetObjectFromLayerChild<GrammarAssistant>(paramTarget);
         }
 
         public void SetTools(ToolKit toolkit)

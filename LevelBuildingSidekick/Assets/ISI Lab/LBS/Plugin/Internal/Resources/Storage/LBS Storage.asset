@@ -16,7 +16,6 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.VolumeProfile
     items:
     - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
     - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
     - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
   - type: LBS.Bundles.Bundle
@@ -143,6 +142,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
     - {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
     - {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
+    - {fileID: 11400000, guid: 28377c55743b4574bb1b44a0c9730e89, type: 2}
+    - {fileID: 11400000, guid: 7920f465be2dd8c42b1fc7bcf75d6874, type: 2}
+    - {fileID: 11400000, guid: 8046d189afa0d034e964643ea01aedee, type: 2}
+    - {fileID: 11400000, guid: 8cfc10becb33d84458e3b608c94de678, type: 2}
+    - {fileID: 11400000, guid: 879094a16f9b723479d819bf30f6d5ec, type: 2}
+    - {fileID: 11400000, guid: c29b41cfbce257c40b40b9e3cdbe7c8e, type: 2}
+    - {fileID: 11400000, guid: 8496942e57574694b854cea8b3e2fa18, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -560,7 +566,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 4c35b6589692bbd4d82666ceb336f866, type: 2}
     - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
     - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
-    - {fileID: 11400000, guid: 40eaef60ade8a02489f47a70bb2845c3, type: 2}
+    - {fileID: 11400000, guid: 084592a572c010d4cad07d57c841a705, type: 2}
   - type: UnityEngine.UIElements.StyleSheet
     items:
     - {fileID: 7433441132597879392, guid: ac773345d0f3bcc4392c29c0837c7f7e, type: 3}
@@ -696,7 +702,6 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: e1a4e0aa330ca2f43b4625b248a0539e, type: 3}
     - {fileID: 11400000, guid: 86af34a821ab1e64aa04298dc9cafb4e, type: 3}
     - {fileID: 7433441132597879392, guid: 00d735264dc3c1849bf2ee8dec95ec39, type: 3}
-    - {fileID: 11400000, guid: 736551d82e9cda54b8f6f606ebc6de27, type: 3}
     - {fileID: 7433441132597879392, guid: 5029dcd30f82c1144a88484f32a2f79c, type: 3}
     - {fileID: 7433441132597879392, guid: cc32bf8b702832a4dbf1930552549db8, type: 3}
     - {fileID: 7433441132597879392, guid: eded20d65a4c8a7489e4df3772953e51, type: 3}
@@ -826,3 +831,20 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
     - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+  - type: UnityEngine.UIElements.PanelTextSettings
+    items:
+    - {fileID: 11400000, guid: 801e04d90bdf27f4aa3ab49ad460fe43, type: 2}
+  - type: TMPro.TMP_FontAsset
+    items:
+    - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - {fileID: 11400000, guid: 0497d686e20864f4c9dd8e713386f3ee, type: 2}
+  - type: TMPro.TMP_StyleSheet
+    items:
+    - {fileID: 11400000, guid: f952c082cb03451daed3ee968ac6c63e, type: 2}
+  - type: TMPro.TMP_SpriteAsset
+    items:
+    - {fileID: 11400000, guid: c41005c129ba4d66911b75229fd70b45, type: 2}
+  - type: TMPro.TMP_Settings
+    items:
+    - {fileID: 11400000, guid: 3f5b5dff67a942289a9defa416b206f3, type: 2}

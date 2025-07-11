@@ -84,6 +84,7 @@ namespace ISILab.AI.Optimization
             }
             set
             {
+                //UnityEngine.Debug.Log("STATE CHANGED: " + state.ToString().ToUpper() + " -> " + value.ToString().ToUpper());
                 var shouldStop = OnStopped != null && state != value && value == Op_State.Stopped;
 
                 state = value;

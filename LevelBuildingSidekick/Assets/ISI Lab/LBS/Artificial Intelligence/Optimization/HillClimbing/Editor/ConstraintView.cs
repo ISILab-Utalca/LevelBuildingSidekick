@@ -51,9 +51,9 @@ namespace ISILab.LBS.VisualElements
             heightMax.value = pair.Constraint.maxHeight;
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            var t = target as Constraint;
+            var t = paramTarget as Constraint;
             constraint = t;
 
             widthMin.value = t.minWidth;
