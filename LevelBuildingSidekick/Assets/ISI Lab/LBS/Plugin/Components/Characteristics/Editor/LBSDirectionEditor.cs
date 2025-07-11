@@ -9,13 +9,15 @@ using UnityEditor.Playables;
 using ISILab.Commons.Utility.Editor;
 using UnityEditor.UIElements;
 using ISILab.LBS.Components;
+using LBS.Bundles;
 
 namespace ISILab.LBS.VisualElements
 {
-    [LBSCustomEditor("Weigths", typeof(LBSDirection))]
+    [LBSCustomEditor("Weights", typeof(LBSDirection))]
     public class LBSDirectionEditor : LBSCustomEditor
     {
         ObjectField[] fields;
+        VisualElement renderView;
 
         public LBSDirectionEditor()
         {
@@ -28,10 +30,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object paramTarget)
+        public override void SetInfo(object _paramTarget)
         {
-            this.target = paramTarget;
-            var target = paramTarget as LBSDirection;
+            this.target = _paramTarget;
+            LBSDirection  target = _paramTarget as LBSDirection;
 
             if (target == null)
                 return;
@@ -63,13 +65,24 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
 
             fields = new ObjectField[4];
+            renderView = this.Q("Render");
 
             fields[0] = this.Q<ObjectField>(name: "Right");
             fields[1] = this.Q<ObjectField>(name: "Up");
             fields[2] = this.Q<ObjectField>(name: "Left");
             fields[3] = this.Q<ObjectField>(name: "Down");
-
+    
             return this;
         }
+
+
+        public void SetModelRenderThumbnail()
+        {
+            
+            if (renderView == null) return;
+            
+            
+        }
+        
     }
 }
