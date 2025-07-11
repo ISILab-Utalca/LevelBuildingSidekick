@@ -47,38 +47,45 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Connection between tile");
 
-            var t1 = _schema.GetTile(_first);
-            if (t1 == null)
-                return;
-
             var pos = _schema.OwnerLayer.ToFixedPosition(position);
 
-            var dx = t1.Position.x - pos.x;
-            var dy = t1.Position.y - pos.y;
-
-            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-            if (fDir < 0 || fDir >= _schema.Directions.Count)
-                return;
-
-            var t2 = _schema.GetTile(pos);
-
-            if (t2 == null)
-            {
-                _schema.SetConnection(t1, fDir, "", true);
-                return;
-            }
-
-            if (t1.Equals(t2))
-                return;
+            var dx = _first.x - pos.x;
+            var dy = _first.y - pos.y;
 
             if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
                 return;
 
-            var tDir = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
 
-            _schema.SetConnection(t1, fDir, "", true);
-            _schema.SetConnection(t2, tDir, "", true);
+            if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
+                return;
+
+            var t1 = _schema.GetTile(_first);
+            var t2 = _schema.GetTile(pos);
+
+            bool t1Exists = t1 != null;
+            bool t2Exists = t2 != null;
+
+            if (!(t1Exists || t2Exists))
+                return;
+
+            //if (!t1Exists)
+            //{
+            //    _schema.SetConnection(t2, dir2, "", true);
+            //    return;
+            //}
+            //if (!t2Exists)
+            //{
+            //    _schema.SetConnection(t1, dir1, "", true);
+            //    return;
+            //}
+
+            if (Equals(t1, t2))
+                return;
+
+            if (t1Exists) _schema.SetConnection(t1, dir1, "", true);
+            if (t2Exists) _schema.SetConnection(t2, dir2, "", true);
             _schema.RecalculateWalls();
 
             if (EditorGUI.EndChangeCheck())
