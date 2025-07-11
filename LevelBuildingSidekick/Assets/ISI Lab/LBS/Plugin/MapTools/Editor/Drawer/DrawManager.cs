@@ -127,11 +127,18 @@ namespace ISILab.LBS
             DrawLayer(layer);
         }
 
-        public void RedrawLevel(LBSLevelData level)
+        public void RedrawLevel(LBSLevelData level, bool deepClean = false)
         {
             foreach (var layer in level.Layers)
             {
-                _view.ClearLayerContainer(layer);
+                bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
+                //if(deepClean)
+
+                GetLayerDrawers(layer)
+                .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
+
+                if (!layer.IsVisible) continue;
+                _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
             }
             DrawLevel(level);
         }

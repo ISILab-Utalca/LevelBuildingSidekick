@@ -76,7 +76,7 @@ namespace ISILab.LBS.CustomComponents
             m_Icon = new VisualElement();
             
             //styles
-            m_Icon.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
+            //m_Icon.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
             m_Icon.style.width = IconSize;
             m_Icon.style.height = IconSize;
             

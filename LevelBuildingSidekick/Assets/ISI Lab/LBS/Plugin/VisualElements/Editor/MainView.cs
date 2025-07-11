@@ -421,6 +421,7 @@ namespace ISILab.LBS.VisualElements.Editor
         /// </summary>
         public List<GraphElement> GetElementsFromLayerContainer(LBSLayer layer, object key)
         {
+            //return _layers.TryGetValue(layer, out LayerContainer container) ? container.GetElement(key) : null;
             if (_layers == null)
             {
                 Debug.LogError("_layers dictionary is null, there are no containers.");
@@ -436,7 +437,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var result = container.GetElement(key);
             if (result == null)
             {
-                Debug.LogError($"container.GetElement({key}) does not contain any values.");
+                //Debug.LogError($"container.GetElement({key}) does not contain any values.");
             }
             
             return result;
