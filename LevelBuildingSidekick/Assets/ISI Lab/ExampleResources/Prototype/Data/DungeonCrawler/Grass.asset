@@ -34,7 +34,7 @@ MonoBehaviour:
       negativeZ: 1
       positiveZ: 1
     mesh: {fileID: -4550125092169740112, guid: ad3119cbd6dce024e8460ef32dec49df, type: 3}
-    material: {fileID: -876546973899608171, guid: 955c9020cc8b33848a00e25652c1f984, type: 3}
+    material: {fileID: 2100000, guid: 71f6ec5b0386a624dbfa7de2aff67696, type: 2}
   guid: 
   references:
     version: 2
