@@ -31,12 +31,14 @@ namespace ISILab.LBS.VisualElements
         private readonly BaseQuestNodeData _data;
         private readonly Color _currentColor;
 
+        private bool _isCenter;
         private bool _isDragging;
         private Vector2 _dragStartMouse;
         private Vector2 _dragStartPosition;
 
         public TriggerElementArea(BaseQuestNodeData data, Rect area, bool centerTarget = true)
         {
+            _isCenter = centerTarget;
             _data = data;
 
             VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TriggerElementArea");
@@ -75,8 +77,8 @@ namespace ISILab.LBS.VisualElements
             var cornerTargetIcon = this.Q<VisualElement>("CornerTargetIcon");
             cornerTargetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
             
-            targetIcon.style.display = centerTarget ? DisplayStyle.Flex : DisplayStyle.None;
-            cornerTargetIcon.style.display = centerTarget ? DisplayStyle.None : DisplayStyle.Flex;
+            targetIcon.style.display = _isCenter ? DisplayStyle.Flex : DisplayStyle.None;
+            cornerTargetIcon.style.display = _isCenter ? DisplayStyle.None : DisplayStyle.Flex;
             
             #region Resizing
             
@@ -104,6 +106,7 @@ namespace ISILab.LBS.VisualElements
         /// <param name="mgc"></param>
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
+            if(!_isCenter) return;
             var painter = mgc.painter2D;
             var lbsLayer = _data.Owner.Graph.OwnerLayer;
             
