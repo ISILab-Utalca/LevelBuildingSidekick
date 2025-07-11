@@ -47,7 +47,7 @@ namespace ISILab.LBS.Drawers.Editor
            view.ClearLayerContainer(behaviour.OwnerLayer, true);
            
             // Trigger Position
-            var triggerBase = new TriggerElement(nodeData,nodeData.Area, statusColor);
+            var triggerBase = new TriggerElementArea(nodeData,nodeData.Area);
             
             // Stores using the behavior as key
             view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, triggerBase);
@@ -63,7 +63,7 @@ namespace ISILab.LBS.Drawers.Editor
                     {
                         if (bundle is null || !bundle.Valid()) continue;
                         
-                        var visual = new TriggerElement(nodeData, bundle.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, bundle.Area, false);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -74,7 +74,7 @@ namespace ISILab.LBS.Drawers.Editor
                     {
                         if (bundle is null || !bundle.Valid()) continue;
                         
-                        var visual = new TriggerElement(nodeData, bundle.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, bundle.Area, false);
                             
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
@@ -83,7 +83,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataTake dataTake:
                     if (dataTake.bundleToTake.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataTake.bundleToTake.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataTake.bundleToTake.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -91,7 +91,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataRead dataRead:
                     if (dataRead.bundleToRead.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataRead.bundleToRead.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataRead.bundleToRead.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -99,7 +99,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataGive dataGive:
                     if (dataGive.bundleGiveTo.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataGive.bundleGiveTo.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataGive.bundleGiveTo.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -107,7 +107,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataReport dataReport:
                     if (dataReport.bundleReportTo.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataReport.bundleReportTo.Area ,nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataReport.bundleReportTo.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -115,7 +115,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataSpy dataSpy:
                     if (dataSpy.bundleToSpy.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataSpy.bundleToSpy.Area ,nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataSpy.bundleToSpy.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -123,7 +123,7 @@ namespace ISILab.LBS.Drawers.Editor
                 case DataListen dataListen:
                     if (dataListen.bundleListenTo.Valid())
                     {
-                        var visual = new TriggerElement(nodeData, dataListen.bundleListenTo.Area, nodeData.Color);
+                        var visual = new TriggerElementArea(nodeData, dataListen.bundleListenTo.Area);
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;

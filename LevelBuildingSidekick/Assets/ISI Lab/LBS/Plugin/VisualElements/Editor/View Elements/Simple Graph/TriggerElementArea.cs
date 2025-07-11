@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
     /// 
     /// Also handles custom visual generation through <see cref="MeshGenerationContext"/> to draw lines between this element and its node origin.
     /// </summary>
-    public class TriggerElement : GraphElement
+    public class TriggerElementArea : GraphElement
     {
         private readonly BaseQuestNodeData _data;
         private readonly Color _currentColor;
@@ -35,7 +35,7 @@ namespace ISILab.LBS.VisualElements
         private Vector2 _dragStartMouse;
         private Vector2 _dragStartPosition;
 
-        public TriggerElement(BaseQuestNodeData data, Rect area, Color color)
+        public TriggerElementArea(BaseQuestNodeData data, Rect area, bool centerTarget = true)
         {
             _data = data;
 
@@ -68,14 +68,40 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
 
-            // Handle for resizing (optional)
-            VisualElement handle = this.Q<VisualElement>("ScaleHandle");
-            handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
-
+            
+            var targetIcon = this.Q<VisualElement>("TargetIcon");
+            targetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
+            
+            var cornerTargetIcon = this.Q<VisualElement>("CornerTargetIcon");
+            cornerTargetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
+            
+            targetIcon.style.display = centerTarget ? DisplayStyle.Flex : DisplayStyle.None;
+            cornerTargetIcon.style.display = centerTarget ? DisplayStyle.None : DisplayStyle.Flex;
+            
+            #region Resizing
+            
+            VisualElement handleBottomLeft = this.Q<VisualElement>("Handle_bl");
+            handleBottomLeft.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+            
+            VisualElement handleBottomRight = this.Q<VisualElement>("Handle_br");
+            handleBottomRight.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+            
+            VisualElement handleTopLeft = this.Q<VisualElement>("Handle_tl");
+            handleTopLeft.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+            
+            VisualElement handleTopRight = this.Q<VisualElement>("Handle_tr");
+            handleTopRight.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+            
+            
+            #endregion
             generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 
+        /// <summary>
+        /// Draws a dotted line from the NodeView to the Tirgger center
+        /// </summary>
+        /// <param name="mgc"></param>
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;

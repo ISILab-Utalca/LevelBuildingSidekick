@@ -1195,6 +1195,7 @@ MonoBehaviour:
       width: 1
       height: 1
     color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+    iconGuid: 
     subdivisions: 4
     findRandomPosition: 0
   requiredExplored: 4
@@ -1229,6 +1230,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320919
@@ -1315,6 +1317,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320923
@@ -1567,6 +1570,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320935
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -1605,6 +1609,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320938
@@ -5806,6 +5811,7 @@ MonoBehaviour:
       width: 0
       height: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+    iconGuid: 
   references:
     version: 2
     RefIds:
@@ -11194,7 +11200,7 @@ MonoBehaviour:
   worldPosition: {x: 5, y: 1, z: -25}
   gizmoBounds:
     m_Center: {x: 5, y: 1, z: -25}
-    m_Extent: {x: 0.030537618, y: 0.111816585, z: 0.1118166}
+    m_Extent: {x: 0.061075237, y: 0.22363317, z: 0.2236332}
   canDrawPopup: 0
 --- !u!114 &333010381
 MonoBehaviour:
@@ -13203,6 +13209,7 @@ MonoBehaviour:
       width: 1
       height: 1
     color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+    iconGuid: 
     bundleGatherType:
       layer:
         rid: 6732893602743320959
@@ -13239,6 +13246,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320959
@@ -13328,6 +13336,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320959
@@ -13787,6 +13796,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320976
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -13825,6 +13835,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320978
@@ -20548,6 +20559,7 @@ MonoBehaviour:
       width: 1
       height: 1
     color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+    iconGuid: 
   references:
     version: 2
     RefIds:
@@ -20579,6 +20591,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320884
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -20663,6 +20676,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320888
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -20913,6 +20927,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320900
@@ -20953,6 +20968,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320903
@@ -31492,6 +31508,7 @@ MonoBehaviour:
       width: 0
       height: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+    iconGuid: 
   references:
     version: 2
     RefIds:
@@ -39215,7 +39232,7 @@ MonoBehaviour:
   worldPosition: {x: 13, y: 1, z: -25}
   gizmoBounds:
     m_Center: {x: 13, y: 1, z: -25}
-    m_Extent: {x: 0.030537618, y: 0.111816585, z: 0.1118166}
+    m_Extent: {x: 0.061075237, y: 0.22363317, z: 0.2236332}
   canDrawPopup: 0
 --- !u!114 &1209787927
 MonoBehaviour:
@@ -43767,6 +43784,7 @@ MonoBehaviour:
       width: 0
       height: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+    iconGuid: 
   references:
     version: 2
     RefIds:
@@ -46146,6 +46164,7 @@ MonoBehaviour:
       width: 0
       height: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+    iconGuid: 
   references:
     version: 2
     RefIds:
@@ -47093,7 +47112,7 @@ MonoBehaviour:
   worldPosition: {x: 21, y: 1, z: -25}
   gizmoBounds:
     m_Center: {x: 21, y: 1, z: -25}
-    m_Extent: {x: 0.030537618, y: 0.111816585, z: 0.1118166}
+    m_Extent: {x: 0.061075237, y: 0.22363317, z: 0.2236332}
   canDrawPopup: 0
 --- !u!114 &1494132476
 MonoBehaviour:
@@ -63796,6 +63815,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320846
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -63875,6 +63895,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320849
@@ -63915,6 +63936,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320868
@@ -63958,6 +63980,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
     - rid: 6732893602743320853
       type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -64208,6 +64231,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         subdivisions: 4
         findRandomPosition: 0
     - rid: 6732893602743320865
@@ -64248,6 +64272,7 @@ MonoBehaviour:
           width: 1
           height: 1
         color: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        iconGuid: 
         bundleGatherType:
           layer:
             rid: 6732893602743320868

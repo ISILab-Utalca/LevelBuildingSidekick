@@ -7,6 +7,7 @@ using ISILab.Macros;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Components
 {
@@ -158,6 +159,9 @@ namespace ISILab.LBS.Components
         
         [SerializeField, JsonRequired] 
         protected Color color =  LBSSettings.Instance.view.behavioursColor;
+
+        [SerializeField, JsonRequired] 
+        protected string iconGuid = "d96b94effa175424699a0813ffdd99ef"  ;
         
         #endregion
 
@@ -229,6 +233,11 @@ namespace ISILab.LBS.Components
 
 
         public abstract bool IsValid();
+
+        public VectorImage GetIcon()
+        {
+            return LBSAssetMacro.LoadAssetByGuid<VectorImage>(iconGuid);
+        }
     }
 
         /// <summary>
@@ -292,6 +301,7 @@ namespace ISILab.LBS.Components
 
             public DataKill(QuestNode owner, string tag) : base(owner, tag)
             {
+                iconGuid = "d0baea4f8bdb0c948887aed23edd4cad"  ;
                 color = LBSSettings.Instance.view.colorKill;
                 bundlesToKill = new List<BundleGraph>();
             }
@@ -329,6 +339,7 @@ namespace ISILab.LBS.Components
 
             public DataStealth(QuestNode owner, string tag) : base(owner, tag)
             {
+                iconGuid = "d96b94effa175424699a0813ffdd99ef";
                 color = LBSSettings.Instance.view.colorStealth;
                 bundlesObservers = new List<BundleGraph>();
             }
