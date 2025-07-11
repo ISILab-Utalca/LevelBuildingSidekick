@@ -86,33 +86,46 @@ namespace ISILab.LBS.Manipulators
                 
                 frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
                 backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+                if (frontDirIndex < 0 || frontDirIndex >= _schema.Directions.Count)
+                    return;
 
-                for(int i = 0; i <= selectedTiles.Count; i++)
+                for (int i = 1; i < selectedTiles.Count; i++)
                 {
                     //TODO - Allow Paint More Thant 1 Tile 
-                    LBSTile tile = selectedTiles[i];
+                    LBSTile tile1 = selectedTiles[i - 1];
+                    LBSTile tile2 = selectedTiles[i];
+                    //LBSTile tile = selectedTiles[i];
 
-                    if (tile != null)
-                    {
-                        List<string> connections = _schema.GetConnections(tile);
-                        
-                        foreach (var connection in connections)
-                        {
+                    //if (tile1 == null || tile2 == null)
+                    //    continue;
 
-                            if (frontDirIndex != -1 || frontDirIndex < _schema.Directions.Count)
-                            {
-                                
-                                Debug.Log(frontDirIndex + ", " + backDirIndex);
-                                //TrySetSingleConnection(tile, nextTile ,frontDirIndex, backDirIndex);
-                            }
-                            
-                            if (connection == "Wall" && ToSet == "Door")
-                            {
-                                Debug.Log("Place a Door");
-                                
-                            }
-                        }
-                    }
+                    TrySetSingleConnection(tile1, tile2, frontDirIndex, backDirIndex);
+
+                    //if (tile != null)
+                    //{
+                    //    List<string> connections = _schema.GetConnections(tile);
+                    //    
+                    //    foreach (var connection in connections)
+                    //    {
+                    //
+                    //        if (frontDirIndex != -1 || frontDirIndex < _schema.Directions.Count)
+                    //        {
+                    //            
+                    //            Debug.Log(frontDirIndex + ", " + backDirIndex);
+                    //            //TrySetSingleConnection(tile, nextTile ,frontDirIndex, backDirIndex);
+                    //        }
+                    //        
+                    //        if (connection == "Wall" && ToSet == "Door")
+                    //        {
+                    //            Debug.Log("Place a Door");
+                    //            
+                    //        }
+                    //    }
+                    //}
+                }
+                if (EditorGUI.EndChangeCheck())
+                {
+                    EditorUtility.SetDirty(level);
                 }
                 return;
                 
