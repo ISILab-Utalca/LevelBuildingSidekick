@@ -71,84 +71,53 @@ namespace ISILab.LBS.Manipulators
             int frontDirIndex;
             int backDirIndex;
             
-            float  dLenght =  Mathf.Sqrt(dx * dx  +  dy * dy);
-            
-            if (dLenght>= 2)
-            {
-                int totalConnections = (int)Math.Floor(dLenght);
-                List<LBSTile> selectedTiles = new List<LBSTile>();
-                
-                for (int i = 0; i <= totalConnections; i++)
-                {
-                    //Get the next tile 
-                    selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
-                }
-                
-                frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-                backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-                if (frontDirIndex < 0 || frontDirIndex >= _schema.Directions.Count)
-                    return;
+            float dLength = Mathf.Sqrt(dx * dx  +  dy * dy);
 
-                for (int i = 1; i < selectedTiles.Count; i++)
-                {
-                    //TODO - Allow Paint More Thant 1 Tile 
-                    LBSTile tile1 = selectedTiles[i - 1];
-                    LBSTile tile2 = selectedTiles[i];
-                    //LBSTile tile = selectedTiles[i];
-
-                    //if (tile1 == null || tile2 == null)
-                    //    continue;
-
-                    TrySetSingleConnection(tile1, tile2, frontDirIndex, backDirIndex);
-
-                    //if (tile != null)
-                    //{
-                    //    List<string> connections = _schema.GetConnections(tile);
-                    //    
-                    //    foreach (var connection in connections)
-                    //    {
-                    //
-                    //        if (frontDirIndex != -1 || frontDirIndex < _schema.Directions.Count)
-                    //        {
-                    //            
-                    //            Debug.Log(frontDirIndex + ", " + backDirIndex);
-                    //            //TrySetSingleConnection(tile, nextTile ,frontDirIndex, backDirIndex);
-                    //        }
-                    //        
-                    //        if (connection == "Wall" && ToSet == "Door")
-                    //        {
-                    //            Debug.Log("Place a Door");
-                    //            
-                    //        }
-                    //    }
-                    //}
-                }
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(level);
-                }
+            if (dLength < 1)
                 return;
-                
+
+            // Multi-connection mode
+            bool requiresWall = dLength > 1;
+
+            int totalConnections = (int)Math.Floor(dLength);
+            List<LBSTile> selectedTiles = new List<LBSTile>();
+
+            for (int i = 0; i <= totalConnections; i++)
+            {
+                //Get the next tile 
+                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
             }
-            
-            frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-            backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
-            
-            // Check if index is validate
+
+            frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
             if (frontDirIndex < 0 || frontDirIndex >= _schema.Directions.Count)
                 return;
-            
-            LBSTile t1 = _schema.GetTile(_first);
-            LBSTile t2 = _schema.GetTile(lastPos);
-            
-            TrySetSingleConnection(t1, t2 ,frontDirIndex, backDirIndex);
-            
+
+            for (int i = 1; i < selectedTiles.Count; i++)
+            {
+                LBSTile tile1 = selectedTiles[i - 1];
+                LBSTile tile2 = selectedTiles[i];
+
+                bool setDoorOrWindow = ToSet.Equals("Door") || ToSet.Equals("Window");
+                if (requiresWall && setDoorOrWindow)
+                {
+                    bool tile1Exists = tile1 != null;
+                    bool tile2Exists = tile2 != null;
+                    string conn1 = tile1Exists ? _schema.GetConnections(tile1)[frontDirIndex] : "Empty";
+                    string conn2 = tile2Exists ? _schema.GetConnections(tile2)[backDirIndex] : "Empty";
+                    bool firstHasWall = !conn1.Equals("Empty");
+                    bool secondHasWall = !conn2.Equals("Empty");
+                    if (!((firstHasWall || secondHasWall) && (tile1Exists || secondHasWall) && (tile2Exists || firstHasWall)))
+                        continue;
+                }
+
+                TrySetSingleConnection(tile1, tile2, frontDirIndex, backDirIndex);
+            }
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(level);
             }
-            
         }
 
         private void TrySetSingleConnection(

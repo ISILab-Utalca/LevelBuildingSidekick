@@ -35,7 +35,6 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSLayer> OnLayerVisibilityChange;
         public event Action<LBSLayer> OnLayerOrderChange;
 
-        private bool layerDragged = false;
         private List<int> dragAffected = new List<int>();
 
         public LayersPanel() { }
@@ -82,7 +81,6 @@ namespace ISILab.LBS.VisualElements.Editor
                         if(dragAffected.Count == 0)
                         {
                             OnLayerOrderChange?.Invoke(layer);
-                            ;
                         }
                     }
 
@@ -90,9 +88,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             };
             _list.itemIndexChanged += (_old, _new) => {
-                //UnityEngine.Assertions.Assert.IsFalse(layerDragged);
                 UnityEngine.Assertions.Assert.IsTrue(dragAffected.Count == 0);
-                //layerDragged = true;
                 int count = Mathf.Abs(_new - _old) + 1;
                 int step = (int)Mathf.Sign(_new - _old);
                 for(int i = 0; i < count; i++)
