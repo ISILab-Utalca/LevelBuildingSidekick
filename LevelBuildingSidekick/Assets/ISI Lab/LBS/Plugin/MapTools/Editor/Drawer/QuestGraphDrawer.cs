@@ -108,8 +108,6 @@ namespace ISILab.LBS.Drawers.Editor
                 view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
                 edgeView.layer = n1.layer - 1;
                 behaviour.Keys.Add(edge);
-                
-                Debug.Log($"EdgeView Layer: {edgeView.layer}, Node Layer: {n1.layer}");
 
             }
           

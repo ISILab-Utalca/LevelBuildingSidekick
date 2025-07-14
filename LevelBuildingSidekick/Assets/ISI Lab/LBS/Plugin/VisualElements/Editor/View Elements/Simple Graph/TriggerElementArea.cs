@@ -30,11 +30,22 @@ namespace ISILab.LBS.VisualElements
     {
         private readonly BaseQuestNodeData _data;
         private readonly Color _currentColor;
+        
+        private string _activeHandle;
+        private const string HandleBottomLeft = "bl";
+        private const string HandleBottomRight = "br";
+        private const string HandleTopLeft = "tl";
+        private const string HandleTopRight = "tr";
 
-        private bool _isCenter;
+        private const float GraphGridLength = 100;
+        
+        private bool _resizing;
+        private readonly bool _isCenter;
         private bool _isDragging;
+        
         private Vector2 _dragStartMouse;
         private Vector2 _dragStartPosition;
+        private Vector2 _resizeStartPosition;
 
         public TriggerElementArea(BaseQuestNodeData data, Rect area, bool centerTarget = true)
         {
@@ -49,7 +60,7 @@ namespace ISILab.LBS.VisualElements
             // Calculate initial visual position
             var position = LBSMainWindow.Instance._selectedLayer.FixedToPosition(
                 new Vector2Int((int)area.x, (int)area.y), true);
-            Rect drawArea = new Rect(position, new Vector2(area.width * 100, area.height * 100));
+            Rect drawArea = new Rect(position, new Vector2(area.width * GraphGridLength, area.height * GraphGridLength));
 
             SetPosition(drawArea);
 
@@ -65,41 +76,112 @@ namespace ISILab.LBS.VisualElements
             triggerElementGizmo.style.borderRightColor = _currentColor;
             triggerElementGizmo.style.borderLeftColor = _currentColor;
 
+
+            var targetIcon = this.Q<VisualElement>("TargetIcon");
+            targetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
+
+            var cornerTargetIcon = this.Q<VisualElement>("CornerTargetIcon");
+            cornerTargetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
+
+            targetIcon.style.display = _isCenter ? DisplayStyle.Flex : DisplayStyle.None;
+            cornerTargetIcon.style.display = _isCenter ? DisplayStyle.None : DisplayStyle.Flex;
+            
+            SetupResizeHandle("Handle_bl", HandleBottomLeft, _isCenter);
+            SetupResizeHandle("Handle_br", HandleBottomRight, _isCenter);
+            SetupResizeHandle("Handle_tl", HandleTopLeft, _isCenter);
+            SetupResizeHandle("Handle_tr", HandleTopRight, _isCenter);
+            
+            
             // Register mouse callbacks on the whole element
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
-
-            
-            var targetIcon = this.Q<VisualElement>("TargetIcon");
-            targetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
-            
-            var cornerTargetIcon = this.Q<VisualElement>("CornerTargetIcon");
-            cornerTargetIcon.style.backgroundImage = new StyleBackground(data.GetIcon());
-            
-            targetIcon.style.display = _isCenter ? DisplayStyle.Flex : DisplayStyle.None;
-            cornerTargetIcon.style.display = _isCenter ? DisplayStyle.None : DisplayStyle.Flex;
-            
-            #region Resizing
-            
-            VisualElement handleBottomLeft = this.Q<VisualElement>("Handle_bl");
-            handleBottomLeft.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
-            
-            VisualElement handleBottomRight = this.Q<VisualElement>("Handle_br");
-            handleBottomRight.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
-            
-            VisualElement handleTopLeft = this.Q<VisualElement>("Handle_tl");
-            handleTopLeft.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
-            
-            VisualElement handleTopRight = this.Q<VisualElement>("Handle_tr");
-            handleTopRight.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
             
             
-            #endregion
             generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 
+        
+        void SetupResizeHandle(string handleName, string handleCode, bool isCenter)
+        {
+            var handle = this.Q<VisualElement>(handleName);
+            handle.style.display = isCenter ? DisplayStyle.Flex : DisplayStyle.None;
+            var handleArea = handle.Q<VisualElement>("handleArea");
+            
+            
+            // can only resize the main trigger area of a quest action node
+            if (!isCenter) return;
+
+            handleArea.RegisterCallback<MouseDownEvent>(e =>
+            {
+                // only one resizer at a time
+                if (_resizing) return;
+                
+                _resizeStartPosition = GetPosition().position; 
+                _resizing = true;
+                _activeHandle = handleCode;
+                e.StopPropagation();
+            });
+
+            handle.RegisterCallback<MouseLeaveEvent>(e =>
+            {
+                _resizing = false;
+                _activeHandle = null;
+                handleArea.style.display = DisplayStyle.Flex;
+            });
+
+            handle.RegisterCallback<MouseUpEvent>(e =>
+            {
+                _resizing = false;
+                handleArea.style.display = DisplayStyle.Flex;
+
+                if (_data.Owner?.Graph?.OwnerLayer is null) return;
+
+                var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
+
+                Rect currentRect = GetPosition();
+
+                float deltaX = currentRect.x - _resizeStartPosition.x;
+                float deltaY = currentRect.y - _resizeStartPosition.y;
+
+       
+                // Round position and size by 100
+                float posX = Mathf.Round(_resizeStartPosition.x / GraphGridLength);
+                float posY = -Mathf.Round(_resizeStartPosition.y / GraphGridLength);
+                float width = Mathf.Round(currentRect.width / GraphGridLength);
+                float height = Mathf.Round(currentRect.height / GraphGridLength);
+
+                int deltaTileX = Mathf.RoundToInt(deltaX / GraphGridLength);
+                int deltaTileY = Mathf.RoundToInt(deltaY / GraphGridLength);
+
+                if (_activeHandle == HandleTopLeft)
+                {
+                    posX += deltaTileX;
+                    posY -= deltaTileY;
+                }
+                else if (_activeHandle == HandleTopRight)
+                {
+                    posX -= deltaTileX;
+                    posY -= deltaTileY;
+                }
+                else if (_activeHandle == HandleBottomLeft)
+                {
+                    posX += deltaTileX;
+                    posY += deltaTileY;
+                }
+                // BottomRight doesn’t change origin
+                
+                // Update the logical area in tile space
+                _data.Area = new Rect(posX, posY, width, height);
+                qnb?.DataChanged(_data.Owner);
+
+                _activeHandle = null;
+            });
+
+            handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
+        }
+        
         /// <summary>
         /// Draws a dotted line from the NodeView to the Tirgger center
         /// </summary>
@@ -126,16 +208,25 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseDown(MouseDownEvent e)
         {
+            // If resizing do NOT MOVE
+            if(_resizing) return;
+            
             if (e.button != 0) return;
             _isDragging = true;
             _dragStartMouse = e.mousePosition;
-            _dragStartPosition = GetPosition().position;
+            
+            
+            var tilePosition = new Vector2Int((int)_data.Area.x, (int)_data.Area.y);
+            _dragStartPosition = LBSMainWindow.Instance._selectedLayer.FixedToPosition(tilePosition, true);
 
             e.StopPropagation();
         }
 
         private void OnMouseMove(MouseMoveEvent e)
         {
+            // If resizing do NOT MOVE
+            if(_resizing) return;
+            
             if (!_isDragging || e.pressedButtons != 1) return;
             if (!MainView.Instance.HasManipulator<SelectManipulator>()) return;
 
@@ -150,6 +241,9 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseUp(MouseUpEvent e)
         {
+            // If resizing do NOT MOVE
+            if(_resizing) return;
+            
             if (!_isDragging) return;
             _isDragging = false;
 
@@ -158,25 +252,50 @@ namespace ISILab.LBS.VisualElements
             var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
 
             var finalRect = LBSMainWindow._gridPosition;
-            _data.Area = new Rect(finalRect.x, finalRect.y, _data.Area.width, _data.Area.height);
+            _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
             qnb?.DataChanged(_data.Owner);
         }
 
-        private void OnHandleRectMove(MouseMoveEvent e)
+        void OnHandleRectMove(MouseMoveEvent e)
         {
-            if (e.pressedButtons == 0 || e.button != 0) return;
+            if (!_resizing || string.IsNullOrEmpty(_activeHandle)) return;
+            if (e.pressedButtons != 1 || e.button != 0) return;
 
-            Vector2 delta = e.mouseDelta / MainView.Instance.viewTransform.scale;
-            delta = delta.normalized;
-
+            var scale = MainView.Instance.viewTransform.scale;
+            Vector2 delta = e.mouseDelta / scale;
             Rect currentRect = GetPosition();
-            Rect newRect = new Rect(
-                currentRect.x,
-                currentRect.y,
-                currentRect.width + delta.x,
-                currentRect.height + delta.y
-            );
-            SetPosition(newRect);
+
+            float newX = currentRect.x;
+            float newY = currentRect.y;
+            float newWidth = currentRect.width;
+            float newHeight = currentRect.height;
+
+            if (_activeHandle.Contains("l"))
+            {
+                newX += delta.x;
+                newWidth -= delta.x;
+            }
+            if (_activeHandle.Contains("r"))
+            {
+                newWidth += delta.x;
+            }
+            if (_activeHandle.Contains("t"))
+            {
+                newY += delta.y;
+                newHeight -= delta.y;
+            }
+            if (_activeHandle.Contains("b"))
+            {
+                newHeight += delta.y;
+            }
+
+            // Clamp minimum size
+            newWidth = Mathf.Max(newWidth, 20);
+            newHeight = Mathf.Max(newHeight, 20);
+
+            SetPosition(new Rect(newX, newY, newWidth, newHeight));
+            e.StopPropagation();
         }
+
     }
 }
