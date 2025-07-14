@@ -1,6 +1,8 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
+using LBS.Components.TileMap;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -52,40 +54,41 @@ namespace ISILab.LBS.Manipulators
             var dx = _first.x - pos.x;
             var dy = _first.y - pos.y;
 
-            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-                return;
+            float dLength = Mathf.Sqrt(dx * dx + dy * dy);
 
-            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+            int totalConnections = (int)Math.Floor(dLength);
+            List<LBSTile> selectedTiles = new List<LBSTile>();
+
+            for (int i = 0; i <= totalConnections; i++)
+            {
+                //Get the next tile 
+                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
+            }
+
+            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
 
             if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
                 return;
 
-            var t1 = _schema.GetTile(_first);
-            var t2 = _schema.GetTile(pos);
+            for (int i = 1; i < selectedTiles.Count; i++) 
+            {
+                LBSTile tile1 = selectedTiles[i - 1];
+                LBSTile tile2 = selectedTiles[i];
 
-            bool t1Exists = t1 != null;
-            bool t2Exists = t2 != null;
+                bool t1Exists = tile1 != null;
+                bool t2Exists = tile2 != null;
 
-            if (!(t1Exists || t2Exists))
-                return;
+                if (!(t1Exists || t2Exists))
+                    continue;
 
-            //if (!t1Exists)
-            //{
-            //    _schema.SetConnection(t2, dir2, "", true);
-            //    return;
-            //}
-            //if (!t2Exists)
-            //{
-            //    _schema.SetConnection(t1, dir1, "", true);
-            //    return;
-            //}
+                if (Equals(tile1, tile2))
+                    continue;
 
-            if (Equals(t1, t2))
-                return;
-
-            if (t1Exists) _schema.SetConnection(t1, dir1, "", true);
-            if (t2Exists) _schema.SetConnection(t2, dir2, "", true);
+                if (t1Exists) _schema.SetConnection(tile1, dir1, "", true);
+                if (t2Exists) _schema.SetConnection(tile2, dir2, "", true);
+            }
+            
             _schema.RecalculateWalls();
 
             if (EditorGUI.EndChangeCheck())
