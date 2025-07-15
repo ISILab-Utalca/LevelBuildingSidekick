@@ -1,4 +1,3 @@
-using ISILab.AI.Grammar;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
@@ -14,7 +13,7 @@ namespace ISILab.LBS.Manipulators
     {
         private QuestGraph _questGraph;
         private QuestBehaviour _behaviour;
-        private GrammarTerminal ActionToSet => _behaviour.ToSet;
+        private string ActionToSet => _behaviour.ActionToSet;
         protected override string IconGuid => "3d0b251f4a09bce4b9224787cfa08d49";
 
         private const string Prefix = "";
@@ -46,12 +45,12 @@ namespace ISILab.LBS.Manipulators
             var v = 0;
             do
             {
-                name = Prefix + ActionToSet.ID + " (" + v + ")";
+                name = Prefix + ActionToSet + " (" + v + ")";
                 loop = _questGraph.QuestNodes.Any(n => n.ID.Equals(name));
                 v++;
             } while (loop);
 
-            _questGraph.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, _questGraph));
+            _questGraph.AddNode(new QuestNode(name, EndPosition, ActionToSet, _questGraph));
             OnManipulationEnd.Invoke();
         }
     }

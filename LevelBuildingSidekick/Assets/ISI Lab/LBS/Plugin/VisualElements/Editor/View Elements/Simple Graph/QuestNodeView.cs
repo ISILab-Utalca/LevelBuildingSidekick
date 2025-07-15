@@ -89,7 +89,7 @@ namespace ISILab.LBS.VisualElements
         public void SetBorder(QuestNode node)
         {
             _root.SetBorder(UncheckedGrammar, 1f);
-            if (!node.GrammarCheck)
+            if (!node.ValidGrammar)
             {
                 _root.SetBorder(GrammarWrong, 1f);
                 return;
@@ -185,7 +185,7 @@ namespace ISILab.LBS.VisualElements
             color.a = 1f;
             if (isSelected)
             {
-                color = _node.GrammarCheck ? CorrectGrammar : GrammarWrong;
+                color = _node.ValidGrammar ? CorrectGrammar : GrammarWrong;
                 color.a = 0.33f;
                 _highligheted = this;
             }

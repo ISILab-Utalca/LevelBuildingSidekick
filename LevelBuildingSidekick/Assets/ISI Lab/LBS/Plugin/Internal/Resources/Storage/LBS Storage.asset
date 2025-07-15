@@ -426,7 +426,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: caaf0c1d6d60a3a42bfcd3aa63219380, type: 3}
     - {fileID: 9197481963319205126, guid: 59394b0a653bf014fa7b829f531e86e9, type: 3}
     - {fileID: 9197481963319205126, guid: abc671a6da0260f47a9b23967501ef6d, type: 3}
-    - {fileID: 9197481963319205126, guid: feff30036561ba643a74bb22fcc75832, type: 3}
     - {fileID: 9197481963319205126, guid: ed07ca61961d0854298f3fe9524360df, type: 3}
     - {fileID: 9197481963319205126, guid: ebfcaa1d6110af947a0ff04780850ef1, type: 3}
     - {fileID: 9197481963319205126, guid: cf186ae6d22e65f4f81c681da421da99, type: 3}
@@ -559,7 +558,6 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-    - {fileID: 11400000, guid: a09e5df974ffa574eb25d266e7b36d38, type: 2}
   - type: ISILab.LBS.Assistants.WFCPreset
     items:
     - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}

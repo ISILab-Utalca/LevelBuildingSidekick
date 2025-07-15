@@ -12,9 +12,7 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(QuestGraph))]
     public class QuestBehaviour : LBSBehaviour
     {
-        [JsonIgnore]
-        public GrammarTerminal ToSet { get; set; }
-        
+        public string ActionToSet { get; set; }
 
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
         
@@ -58,7 +56,7 @@ namespace ISILab.LBS.Behaviours
         
         public override object Clone()
         {
-            return new QuestBehaviour(this.Icon, this.Name, this.ColorTint);
+            return new QuestBehaviour(Icon, Name, ColorTint);
         }
 
         public override void OnAttachLayer(LBSLayer layer)

@@ -45,33 +45,30 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         private LBSGrammar _grammar;
         
-        [FormerlySerializedAs("LBSGrammarGui")] [SerializeField] private string lbsGrammarGui = "63ab688b53411154db5edd0ec7171c42"; // default value is DefaultGrammar
+        /// <summary>
+        /// // default value is DefaultGrammar
+        /// </summary>
+        [SerializeField] 
+        private string grammarGuid = "63ab688b53411154db5edd0ec7171c42"; 
         
         [JsonIgnore]
         public LBSGrammar Grammar
         {
-            get => GetQuestGrammar();
+            get => _grammar;
             set
             {
                 _grammar = value;
+                if(_grammar == null) return;
                 grammarName = value.name;
-                lbsGrammarGui = LBSAssetMacro.GetGuidFromAsset(value);
+                // Updating the GUID as this is how the object is loaded
+                grammarGuid = LBSAssetMacro.GetGuidFromAsset(value);
             }
         }
-
-        private LBSGrammar GetQuestGrammar()
-        {
-            return LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(lbsGrammarGui);
-        }
-
-        [JsonIgnore]
+        
+        
         public List<QuestNode> QuestNodes => questNodes;
-
-        [JsonIgnore]
         public List<QuestEdge> QuestEdges => questEdges;
 
-        [JsonIgnore]
-        public bool IsVisible { get; set; } = true;
 
         #region EVENTS
         [JsonIgnore]
@@ -87,7 +84,12 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         public Action<QuestEdge> OnRemoveEdge;
         #endregion
-
+        
+        public void LoadGrammar()
+        {
+            if (_grammar == null) _grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(grammarGuid);
+        }
+        
         public QuestNode GetQuestNode(Vector2 position)
         {
             var size = nodeSize * LBSSettings.Instance.general.TileSize;
@@ -102,9 +104,7 @@ namespace ISILab.LBS.Modules
         }
         public List<QuestEdge> GetRoots(QuestNode node)
         {
-            if (questEdges.Count == 0)
-                return new List<QuestEdge>();
-            return questEdges.Where(e => e.Second == node).ToList();
+            return questEdges.Count == 0 ? new List<QuestEdge>() : questEdges.Where(e => e.Second == node).ToList();
         }
         private QuestEdge GetEdge(Vector2 position, float delta)
         {
@@ -309,30 +309,8 @@ namespace ISILab.LBS.Modules
             }
 
             return false;
-            
-            /*
-            var list = new List<QuestNode>();
-            list.Add(edge.Second);
-            while (list.Count > 0)
-            {
-                if (list.Contains(edge.First))
-                    return true;
-
-                var candidates = new List<QuestNode>();
-                foreach (var node in list)
-                {
-                    var edges = GetBranches(node);
-                    if (edges.Count == 0)
-                        continue;
-                    candidates.AddRange(edges.Select(e => e.Second));
-                }
-
-                list = candidates;
-            }
-            
-            return false;
-            */
         }
+        
         public bool HasRequiredConnection(QuestNode questNode)
         {
             if (!questNodes.Any()) return false;
@@ -385,6 +363,7 @@ namespace ISILab.LBS.Modules
         {
             var clone = new QuestGraph();
 
+            clone.grammarGuid = grammarGuid;
             clone.questNodes.Clear();
 
             var nodes = questNodes.Select(CloneRefs.Get).Cast<QuestNode>();
@@ -491,6 +470,7 @@ namespace ISILab.LBS.Modules
             // Return array
             return o;
         }
+
     }
 
     [Serializable]

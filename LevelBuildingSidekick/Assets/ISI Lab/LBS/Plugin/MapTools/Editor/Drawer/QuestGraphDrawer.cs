@@ -3,7 +3,6 @@ using ISILab.LBS.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
@@ -48,12 +47,12 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
-        private void PaintNewTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
+        private void PaintNewTiles(QuestGraph quest, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
         {
             // Paint new Nodes
             foreach (var node in quest.RetrieveNewNodes())
             {
-                var nodeView = CreateNodeView(node, quest, behaviour);
+                var nodeView = CreateNodeView(node, quest);
                 
                 nodeViews.Add(node, nodeView);
                 // Stores using QuestNode as key
@@ -80,7 +79,7 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
                 {
-                    nodeView = CreateNodeView(node, quest, behaviour);
+                    nodeView = CreateNodeView(node, quest);
                     nodeViews[node] = nodeView;
                 }
                 
@@ -151,7 +150,7 @@ namespace ISILab.LBS.Drawers.Editor
             return new LBSQuestEdgeView(edge, n1, n2, 4, 4);
         }
         
-        private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest, QuestBehaviour behaviour)
+        private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest)
         {
             /*  Start Node is now assigned by the user. Right click on a node to make it root */
             if (node.NodeType == NodeType.Start) { }
@@ -161,20 +160,6 @@ namespace ISILab.LBS.Drawers.Editor
 
             nodeView.SetPosition(new Rect(node.Position, size));
             node.NodeViewPosition = nodeView.GetPosition();
-            
-            if (!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
-            {
-                var rectView = new DottedAreaFeedback(); // TODO make this a DottedAreaUnique for quest
-
-                var rectSize = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
-                var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
-                var end = new Vector2(node.Target.Rect.max.x, -node.Target.Rect.max.y) * rectSize;
-                rectView.SetPosition(Rect.zero);
-                rectView.ActualizePositions(start.ToInt(), end.ToInt());
-                rectView.SetColor(Color.blue);
-                    
-                nodeView.Add(rectView);
-            }
             
             return nodeView;
         }

@@ -13,10 +13,6 @@ namespace ISILab.LBS.Drawers.Editor
     [Drawer(typeof(QuestNodeBehaviour))]
     public class QuestNodeBehaviourDrawer : Drawer
     {
-        private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
-        private static readonly Color Correct = LBSSettings.Instance.view.successColor;
-        
-        
         /// <summary>
         /// Draws the information that corresponds to the quest node behavior selected node.
         /// </summary>
@@ -38,14 +34,13 @@ namespace ISILab.LBS.Drawers.Editor
             if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
             
             // Selected Node Trigger View 
-            var statusColor = behaviour.SelectedQuestNode.GrammarCheck ? Correct : GrammarWrong;
             nodeData.Resize();
             
             //TODO: Use the new drawing system... maybe?
             
            // var nt = behaviour.RetrieveNewTiles();
            // if (nt == null || !nt.Any()) return;
-           // temp fix just clreaing the whole layer, as this is called BEFORE the other drawer this one clears it once
+           // temp fix just clearing the whole layer, as this is called BEFORE the other drawer this one clears it once
 
            
             // Trigger Position
