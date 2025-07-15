@@ -1307,3 +1307,30 @@ Button.lbs-actionbutton {
     border-bottom-width: 1px;
     border-left-width: 1px;
 }
+
+.lbs-custom-progress-bar {
+    padding-top: 2px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.lbs-custom-progress-bar__progress {
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    border-top-left-radius: 0;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 0;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}

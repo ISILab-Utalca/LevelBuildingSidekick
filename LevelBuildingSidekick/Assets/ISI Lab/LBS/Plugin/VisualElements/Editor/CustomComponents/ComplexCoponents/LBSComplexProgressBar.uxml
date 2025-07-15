@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="Container" style="flex-grow: 1; border-left-color: rgba(32, 32, 32, 0); border-right-color: rgba(32, 32, 32, 0); border-top-color: rgba(32, 32, 32, 0); border-bottom-color: rgba(32, 32, 32, 0); background-color: rgb(43, 52, 68); max-width: none; max-height: 64px; flex-direction: column; margin-bottom: 4px;">
+        <ui:VisualElement name="Description" style="flex-grow: 1; flex-direction: row; justify-content: flex-start; align-self: stretch; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; min-height: auto; max-height: none; align-content: center; align-items: center; margin-top: 0; top: 5px;">
+            <ui:VisualElement name="Icon" style="flex-grow: 1; flex-shrink: 1; background-image: resource(&apos;Icons/Vectorial/Icon=Circle&apos;); min-width: 10px; max-width: 10px; min-height: 10px; max-height: 10px; width: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 8px; display: flex; -unity-background-image-tint-color: rgb(3, 163, 244); align-self: auto; justify-content: flex-start; scale: 1.1 1.1;" />
+            <ui:Label text="Param Name" name="Text" style="padding-left: 2px;" />
+        </ui:VisualElement>
+        <ui:ProgressBar value="0.5" title="50%" name="ProgressBar" high-value="1" class="lbs-progressBar-score-thick" style="flex-direction: column; align-items: stretch; align-self: auto; align-content: auto; justify-content: flex-start; flex-grow: 1; margin-top: 1px; margin-right: 1px; margin-bottom: 1px; margin-left: 1px; padding-right: 5px; padding-left: 5px; background-color: rgba(255, 18, 18, 0);" />
+    </ui:VisualElement>
+</ui:UXML>
