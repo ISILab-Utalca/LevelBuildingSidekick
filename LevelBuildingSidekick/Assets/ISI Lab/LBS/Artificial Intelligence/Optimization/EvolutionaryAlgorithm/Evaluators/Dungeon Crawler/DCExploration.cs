@@ -84,6 +84,12 @@ namespace ISILab.AI.Categorization
 
             int size = POIs.Count;
 
+            if (size <= 0)
+            {
+                Debug.LogWarning("No Points of Interest were found. Try adding a player and some more resource elements. Check the DC Exploration evaluator description for more info.");
+                return 0.0f;
+            }
+
             int[,] distances = new int[size, size];
             bool[,] toIgnore = new bool[size, size];
 
