@@ -646,7 +646,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 var v = assistant.toUpdate[i];
                 var index = (int)(v.y * assistant.SampleWidth + v.x);
 
-                SetBackgroundTexture(veChildren[index], assistant.RawToolRect);
+                //SetBackgroundTexture(veChildren[index], assistant.RawToolRect);
 
                 veChildren[index].Data = assistant.Samples[(int)v.y, (int)v.x];
                 veChildren[index].Score = ((decimal)assistant.Samples[(int)v.y, (int)v.x].Fitness).ToString("f4");

@@ -36,6 +36,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public Texture2D backgroundTexture;
         //Button to show highlights
         public VisualElement selectBorder;
+        public VisualElement inactiveBorder;
         public Button selectButton;
         public ToolbarMenu toolBar;
         #endregion
@@ -91,11 +92,14 @@ namespace ISILab.LBS.VisualElements.Editor
             selectBorder.style.opacity = 0.0f;
             selectButton = this.Q<Button>("SelectButton");
 
+            inactiveBorder = this.Q<VisualElement>("InactiveBorder");
+
             //Decoratives to check if the button is highlighted or not
             OnButtonDeselected += () =>
             {
                 selected = false;
                 selectBorder.visible = false;
+                inactiveBorder.visible = true;
                 selectBorder.style.opacity = 0.5f;
             };
 
@@ -103,6 +107,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 selected = true;
                 selectBorder.visible = true;
+                inactiveBorder.visible = false;
                 selectBorder.style.opacity = 1f;
             };
 
@@ -142,6 +147,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 selectBorder.style.opacity = 0.5f;
                 selectBorder.visible = true;
+                inactiveBorder.visible = false;
             }
         }
 
@@ -150,6 +156,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if(!selected)
             {
                 selectBorder.visible = false;
+                inactiveBorder.visible = true;
             }
         }
         #endregion
