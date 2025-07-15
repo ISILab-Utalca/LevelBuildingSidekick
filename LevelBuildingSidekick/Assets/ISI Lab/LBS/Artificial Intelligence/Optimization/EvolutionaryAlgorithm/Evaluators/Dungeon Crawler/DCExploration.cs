@@ -17,15 +17,19 @@ namespace ISILab.AI.Categorization
     [System.Serializable]
     public class DCExploration : IContextualEvaluator, IRangedEvaluator
     {
+        // Weird or inconsistent behaviour? Maybe you just added a new Property and forgot to assign it in the Initialization or Clone Methods, you silly cat!
+
         public float MaxValue => 1;
 
         public float MinValue => 0;
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public LBSLayer CombinedInteriorLayer { get; set; } = null;
+
         public string Tooltip => "DC Exploration Evaluator\n\n" +
             "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
-            "The currently supported context is either a single Interior Layer or no Context Layers.";
+            "This evaluator currently only supports Interior Layers as Context.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -48,7 +52,7 @@ namespace ISILab.AI.Categorization
                 return 0.0f;
             }
 
-            LBSLayer layer = ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
+            LBSLayer layer = CombinedInteriorLayer;// ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
             
             float fitness = 0;
 
@@ -169,39 +173,34 @@ namespace ISILab.AI.Categorization
                 while(remainingStep.Count > 0)
                 {
                     int current = remainingStep.Dequeue();
-                    Zone currentZone = tileMap.GetZone(chrom.ToMatrixPosition(current) + Vector2Int.RoundToInt(chrom.Rect.position));
+                    Vector2Int currentPos = chrom.ToMatrixPosition(current) + Vector2Int.RoundToInt(chrom.Rect.position);
+                    Zone currentZone = tileMap.GetZone(currentPos);
                     //distFromStart[current] = i;
                     remaining.Remove(current);
                     closed.Add(current);
 
-                    var dirs = Directions.Bidimencional.Edges;
-                    foreach (var dir in dirs)
+                    List<Vector2Int> dirs = Directions.Bidimencional.Edges;
+                    foreach (Vector2Int dir in dirs)
                     {
-                        var pos = chrom.ToMatrixPosition(current) + dir + Vector2Int.RoundToInt(chrom.Rect.position);
+                        LBSTile currentTile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == currentPos).Tile;
+                        string currentConnection = connectedTM.GetConnections(currentTile)[dirs.FindIndex(d => d.Equals(dir))];
+                        if (!(currentConnection.Equals("Door") || currentConnection.Equals("Empty")))
+                            continue;
 
-                        int index = chrom.ToIndex(pos - chrom.Rect.position);
+                        Vector2Int newPos = currentPos + dir;
+
+                        int index = chrom.ToIndex(newPos - chrom.Rect.position);
 
                         //if (tileMap.Contains(pos)) // Esto esta mal. Esto es todo el mapa, no solo la seccion seleccionada
                         if (index < 0 || nextStep.Contains(index) || closed.Contains(index) || chrom.IsInvalid(index))
                             continue;
 
-                        Zone otherZone = tileMap.GetZone(pos/* + Vector2Int.RoundToInt(chrom.Rect.position)*/);
-                        //if (currentZone == null)
-                        //    ;
-                        //if (!currentZone.Equals(otherZone))
-                        //{
-                        //    var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
-                        //    var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
-                        //    if (!connection.Equals("Door"))
-                        //        continue;
-                        //}
+                        Zone otherZone = tileMap.GetZone(newPos);
 
-
-                        var tile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == pos).Tile;
-                        var connection = connectedTM.GetConnections(tile)[dirs.FindIndex(d => d.Equals(-dir))];
+                        LBSTile newTile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == newPos).Tile;
+                        string connection = connectedTM.GetConnections(newTile)[dirs.FindIndex(d => d.Equals(-dir))];
                         if (!(connection.Equals("Door") || connection.Equals("Empty")))
                             continue;
-
 
                         for (int j = from; j < others.Count; j++)
                         {
@@ -239,9 +238,10 @@ namespace ISILab.AI.Categorization
             }
         }
 
-        public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)
+        public void InitializeDefaultWithContext(List<LBSLayer> contextLayers, Rect selection)
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
+            CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
             InitializeDefault();
         }
 
@@ -261,7 +261,10 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             var clone = new DCExploration();
+
             clone.ContextLayers = new List<LBSLayer>(ContextLayers);
+            clone.CombinedInteriorLayer = CombinedInteriorLayer;
+
             clone.playerCharacteristic = playerCharacteristic;
             clone.colliderCharacteristic = colliderCharacteristic;
             clone.pointsOfInterest = new List<LBSCharacteristic>(pointsOfInterest);

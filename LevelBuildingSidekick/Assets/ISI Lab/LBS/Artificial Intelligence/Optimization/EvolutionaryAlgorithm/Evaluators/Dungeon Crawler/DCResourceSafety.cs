@@ -16,15 +16,19 @@ namespace ISILab.AI.Categorization
 {
     public class DCResourceSafety : IContextualEvaluator, IRangedEvaluator
     {
+        // Weird or inconsistent behaviour? Maybe you just added a new Property and forgot to assign it in the Initialization or Clone Methods, you silly cat!
+
         public float MaxValue => 1;
 
         public float MinValue => 0;
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public LBSLayer CombinedInteriorLayer { get; set; } = null;
+
         public string Tooltip => "DC Resource Safety Evaluator\n\n" +
             "This evaluator aims to distribute chests, weapons and other resources in a way that most of them are in areas close to the players.\n\n" +
-            "The currently supported context is either a single Interior Layer or no Context Layers.";
+            "This evaluator currently only supports Interior Layers as Context.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -44,7 +48,7 @@ namespace ISILab.AI.Categorization
                 return 0.0f;
             }
 
-            LBSLayer layer = ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
+            LBSLayer layer = CombinedInteriorLayer;//ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
 
             float fitness = 0;
 
@@ -160,9 +164,10 @@ namespace ISILab.AI.Categorization
             //return (int)(2.00f * resources.Count);
         }
 
-        public void InitializeDefaultWithContext(List<LBSLayer> contextLayers)
+        public void InitializeDefaultWithContext(List<LBSLayer> contextLayers, Rect selection)
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
+            CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
             InitializeDefault();
         }
 
@@ -181,7 +186,10 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             var clone = new DCResourceSafety();
+
             clone.ContextLayers = new List<LBSLayer>(ContextLayers);
+            clone.CombinedInteriorLayer = CombinedInteriorLayer;
+
             clone.playerCharacteristic = playerCharacteristic;
             clone.resources = new List<LBSCharacteristic>(resources);
             return clone;

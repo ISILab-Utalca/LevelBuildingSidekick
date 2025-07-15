@@ -192,14 +192,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
                 InitializeEvaluator(xChoice);
-                //if (xChoice != null)
-                //{
-                //    var contextualChoice = xChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentXField.InitializeDefault(); 
-                //}
                 xParamText.text = param1Field.Value;
 
             });
@@ -219,14 +211,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
                 InitializeEvaluator(yChoice);
-                //if (yChoice != null) 
-                //{
-                //    var contextualChoice = yChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentYField.InitializeDefault();
-                //} 
                 yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
@@ -245,14 +229,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
                 currentOptimizer.Evaluator = optimizerChoice;
                 InitializeEvaluator(optimizerChoice);
-                //if (optimizerChoice != null) 
-                //{
-                //    var contextualChoice = optimizerChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentOptimizer.Evaluator.InitializeDefault();
-                //}
                 zParamText.text = new string("Fitness ("+optimizerField.Value+")");
 
             });
@@ -464,7 +440,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 var contextualChoice = evaluator as IContextualEvaluator;
                 if (contextualChoice != null)
-                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers, assistant.RawToolRect);
                 else
                     evaluator.InitializeDefault();
             }
@@ -490,13 +466,6 @@ namespace ISILab.LBS.VisualElements.Editor
                     Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
                     return;
             }
-
-            //var interiorLayers = new HashSet<LBSLayer>();
-            //(currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //(currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //(currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
-            Data.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
 
             InitializeAllCurrentEvaluators();
 
