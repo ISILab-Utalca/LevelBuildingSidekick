@@ -113,20 +113,20 @@ namespace ISILab.LBS.Components
     {
         private static readonly Dictionary<string, Type> TagDataTypes = new()
         {
-            { " go to ", typeof(DataGoto) },
-            { " explore ", typeof(DataExplore) },
-            { " kill ", typeof(DataKill) } ,
-            { " stealth ", typeof(DataStealth) },
-            { " take ",typeof(DataTake) },
-            { " read ", typeof(DataRead) },
-            { " exchange ",typeof(DataExchange) },
-            { " give ",typeof(DataGive) },
-            { " report ",typeof(DataReport) },
-            { " gather ", typeof(DataGather) },
-            { " spy ",  typeof(DataSpy) },
-            { " capture ", typeof(DataCapture) },
-            { " listen ", typeof(DataListen) },
-            { " empty ", null }
+            { "go to", typeof(DataGoto) },
+            { "explore", typeof(DataExplore) },
+            { "kill", typeof(DataKill) } ,
+            { "stealth", typeof(DataStealth) },
+            { "take",typeof(DataTake) },
+            { "read", typeof(DataRead) },
+            { "exchange",typeof(DataExchange) },
+            { "give",typeof(DataGive) },
+            { "report",typeof(DataReport) },
+            { "gather", typeof(DataGather) },
+            { "spy",  typeof(DataSpy) },
+            { "capture", typeof(DataCapture) },
+            { "listen", typeof(DataListen) },
+            { "empty", null }
         };
         
         public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)

@@ -82,7 +82,7 @@ namespace ISILab.LBS.Generators
              bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
 */
 
-             bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
+             bool allValid = assistant!.FastValidGrammar(quest.QuestNodes);
              if (!allValid)
              {
                  return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");

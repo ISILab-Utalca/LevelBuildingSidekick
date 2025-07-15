@@ -1,149 +1,148 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Speech.Recognition.SrgsGrammar;
-using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ISILab.AI.Grammar
 {
-    public class GrammarReader
+    /// <summary>
+    /// Utility class to parse SRGS grammar XML files into usable in-game rule structures.
+    /// </summary>
+    public static class LBSGrammarReader
     {
-        public GrammarReader()
+        private static readonly XNamespace Namespace = "http://www.w3.org/2001/06/grammar";
+
+        /// <summary>
+        /// Extracts terminal (literal) action strings from an SRGS grammar file.
+        /// Ignores references to other rules (rulerefs).
+        /// </summary>
+        /// <param name="path">File path to the SRGS XML file.</param>
+        /// <returns>A HashSet of terminal (literal) action strings.</returns>
+        public static HashSet<string> GetTerminalActions(string path)
         {
+            var doc = XDocument.Load(path);
+            var terminals = new HashSet<string>();
+
+            // Search all <item> nodes and extract terminal text content
+            foreach (var item in doc.Descendants(Namespace + "item"))
+            {
+                foreach (var token in ExtractTerminalsRecursive(item))
+                {
+                    var trimmed = token.Trim();
+                    if (!string.IsNullOrWhiteSpace(trimmed))
+                        terminals.Add(trimmed);
+                }
+            }
+
+            return terminals;
         }
 
-        public static GrammarTree ReadGrammar(string path)
+        /// <summary>
+        /// Recursively traverses an XML node tree to extract terminal text content.
+        /// Skips <ruleref> nodes, as they are references to other rules.
+        /// </summary>
+        /// <param name="element">The starting XElement node.</param>
+        /// <returns>A list of extracted terminal strings.</returns>
+        private static List<string> ExtractTerminalsRecursive(XElement element)
+        {
+            var result = new List<string>();
+
+            foreach (var node in element.Nodes())
+            {
+                switch (node)
+                {
+                    case XText textNode:
+                        // Split by period and trim whitespace
+                        result.AddRange(textNode.Value.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries));
+                        break;
+
+                    case XElement el when el.Name.LocalName == "item":
+                        result.AddRange(ExtractTerminalsRecursive(el));
+                        break;
+
+                    // Ignore <ruleref> elements
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Loads and parses an SRGS grammar file into a dictionary of rules and their expansions.
+        /// </summary>
+        /// <param name="path">Path to the SRGS XML file.</param>
+        /// <returns>A dictionary mapping rule IDs to sets of possible expansion phrases.</returns>
+        public static Dictionary<string, HashSet<string>> ReadGrammar(string path)
         {
             try
             {
-                SrgsDocument Grammar = new SrgsDocument(path);
-                var parsedGrammar = ParseGrammar(Grammar);
-                return parsedGrammar;
+                var srgsDoc = new SrgsDocument(path);
+                return ParseGrammar(srgsDoc);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Path does not lead to a SRGS Grammar: " + path);
+                Debug.LogError($"[LBSGrammarReader] Failed to parse SRGS grammar: {ex.Message}");
+                throw;
             }
         }
 
-        public static void WriteGrammar(string path, SrgsDocument document)
+        /// <summary>
+        /// Converts an SrgsDocument into a dictionary of rule expansions.
+        /// </summary>
+        /// <param name="doc">The parsed SRGS document.</param>
+        /// <returns>Dictionary of rule ID to a set of valid expansions.</returns>
+        private static Dictionary<string, HashSet<string>> ParseGrammar(SrgsDocument doc)
         {
-            string srgsDocumentFile = Path.Combine(path, "srgsDocumentFile.xml");
-            Debug.Log(srgsDocumentFile);
-            // Create an XmlWriter object and pass the file path.
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            XmlWriter writer = XmlWriter.Create(srgsDocumentFile, settings);
+            var grammar = new Dictionary<string, HashSet<string>>();
 
-            // Write the contents of the XmlWriter object to an SRGS-compatible XML file.  
-            document.WriteSrgs(writer);
-            writer.Close();
+            foreach (var rule in doc.Rules)
+            {
+                if (!grammar.ContainsKey(rule.Id))
+                    grammar[rule.Id] = new HashSet<string>();
+
+                foreach (var element in rule.Elements)
+                    ExtractPhrases(element, grammar[rule.Id]);
+            }
+
+            return grammar;
         }
 
-        public static GrammarTree ParseGrammar(SrgsDocument grammarDoc)
+        /// <summary>
+        /// Recursively extracts literal phrases from an SRGS element tree and stores them in the target set.
+        /// </summary>
+        /// <param name="element">The root SRGS element.</param>
+        /// <param name="target">The HashSet to store found phrases.</param>
+        private static void ExtractPhrases(SrgsElement element, HashSet<string> target)
         {
-            var gt = new GrammarTree();
-            gt.SRGS = grammarDoc;
-            ProcessSrgsRule(grammarDoc.Root, gt, grammarDoc);
-            gt.Root = gt.Productions.Find(g => g.ID == grammarDoc.Root.Id);
-            return gt;
-        }
-
-
-        private static GrammarElement ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc, string id)
-        {
-            if (element is SrgsText)
+            switch (element)
             {
-                return ProcessSrgsText(element as SrgsText, grammar);
+                case SrgsItem item:
+                    // Build phrase from literal text elements
+                    var phrase = string.Join(" ",
+                        item.Elements.OfType<SrgsText>()
+                                     .Select(t => t.Text.Trim())
+                                     .Where(t => !string.IsNullOrEmpty(t)));
+
+                    if (!string.IsNullOrEmpty(phrase))
+                        target.Add(phrase);
+
+                    // Recursively extract from all sub-elements
+                    foreach (var subElement in item.Elements)
+                        ExtractPhrases(subElement, target);
+                    break;
+
+                case SrgsOneOf oneOf:
+                    foreach (var itemAlt in oneOf.Items)
+                        ExtractPhrases(itemAlt, target);
+                    break;
+
+                case SrgsRuleRef ruleRef:
+                    // Keep rule references as "#RuleName"
+                    target.Add($"#{ruleRef.Uri.ToString().Trim('#')}");
+                    break;
             }
-            if (element is SrgsOneOf)
-            {
-                return ProcessSrgsOneOf(element as SrgsOneOf, grammar, doc, id);
-            }
-            if (element is SrgsItem)
-            {
-                return ProcessSrgsItem(element as SrgsItem, grammar, doc, id);
-            }
-            if (element is SrgsRuleRef)
-            {
-                return ProcessSrgsRuleRef(element as SrgsRuleRef, grammar, doc);
-            }
-            return new GrammarTerminal("");
-        }
-
-        private static GrammarTerminal ProcessSrgsText(SrgsText text, GrammarTree grammar)
-        {
-
-            if (!grammar.Terminals.Any(g => g.ID == text.Text))
-            {
-                grammar.Terminals.Add(new GrammarTerminal(text.Text));
-            }
-            return grammar.Terminals.Find(g => g.ID == text.Text);
-        }
-
-        private static GrammarNonTerminal ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc, string id)
-        {
-            if (!grammar.NonTerminals.Any(g => g.ID == id))
-            {
-                var node = new GrammarNonTerminal(id);
-                grammar.NonTerminals.Add(node);
-                for (int i = 0; i < oneOf.Items.Count; i++)
-                {
-                    node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + "." + i));
-                }
-            }
-
-            return grammar.NonTerminals.Find(g => g.ID == id);
-        }
-
-        private static GrammarElement ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
-        {
-            bool b = id.StartsWith(doc.Root.Id.Trim('#')); // don not erase this line
-
-            if (item.Elements.Count == 1 && b)
-            {
-                return ProcessSrgsElement(item.Elements[0], grammar, doc, id);
-            }
-
-
-            if (!grammar.Productions.Any(g => g.ID == id))
-            {
-                var pn = new GrammarProduction(id);
-                grammar.Productions.Add(pn);
-                for (int i = 0; i < item.Elements.Count; i++)
-                {
-                    pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + "." + i));
-                }
-            }
-
-            return grammar.Productions.Find(g => g.ID == id);
-        }
-
-        private static GrammarProduction ProcessSrgsRuleRef(SrgsRuleRef ruleRef, GrammarTree grammar, SrgsDocument doc)
-        {
-            doc.Rules.TryGetValue(ruleRef.Uri.ToString().Trim('#'), out SrgsRule r);
-
-            return ProcessSrgsRule(r, grammar, doc);
-        }
-
-        private static GrammarProduction ProcessSrgsRule(SrgsRule rule, GrammarTree grammar, SrgsDocument doc)
-        {
-            if (!grammar.Productions.Any(g => g.ID == rule.Id))
-            {
-                var r = new GrammarProduction(rule.Id);
-                grammar.Productions.Add(r);
-                for (int i = 0; i < rule.Elements.Count; i++)
-                {
-                    r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + "." + i));
-                }
-            }
-
-            return grammar.Productions.Find(g => g.ID == rule.Id);
         }
     }
 }
-

@@ -26,7 +26,7 @@ namespace ISILab.LBS.VisualElements
     /// 
     /// Also handles custom visual generation through <see cref="MeshGenerationContext"/> to draw lines between this element and its node origin.
     /// </summary>
-    public class TriggerElementArea : GraphElement
+    public sealed class TriggerElementArea : GraphElement
     {
         private readonly BaseQuestNodeData _data;
         private readonly Color _currentColor;
@@ -124,14 +124,14 @@ namespace ISILab.LBS.VisualElements
                 e.StopPropagation();
             });
 
-            handle.RegisterCallback<MouseLeaveEvent>(e =>
+            handle.RegisterCallback<MouseLeaveEvent>(_ =>
             {
                 _resizing = false;
                 _activeHandle = null;
                 handleArea.style.display = DisplayStyle.Flex;
             });
 
-            handle.RegisterCallback<MouseUpEvent>(e =>
+            handle.RegisterCallback<MouseUpEvent>(_ =>
             {
                 _resizing = false;
                 handleArea.style.display = DisplayStyle.Flex;
@@ -170,7 +170,7 @@ namespace ISILab.LBS.VisualElements
                     posX += deltaTileX;
                     posY += deltaTileY;
                 }
-                // BottomRight doesn’t change origin
+                // BottomRight does’t change origin
                 
                 // Update the logical area in tile space
                 _data.Area = new Rect(posX, posY, width, height);
@@ -183,7 +183,7 @@ namespace ISILab.LBS.VisualElements
         }
         
         /// <summary>
-        /// Draws a dotted line from the NodeView to the Tirgger center
+        /// Draws a dotted line from the NodeView to the Trigger center
         /// </summary>
         /// <param name="mgc"></param>
         void OnGenerateVisualContent(MeshGenerationContext mgc)
@@ -251,7 +251,6 @@ namespace ISILab.LBS.VisualElements
 
             var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
 
-            var finalRect = LBSMainWindow._gridPosition;
             _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
             qnb?.DataChanged(_data.Owner);
         }
