@@ -16,6 +16,7 @@ namespace ISILab.LBS.Drawers.Editor
         private static readonly Color GrammarWrong = LBSSettings.Instance.view.warningColor;
         private static readonly Color Correct = LBSSettings.Instance.view.successColor;
         
+        
         /// <summary>
         /// Draws the information that corresponds to the quest node behavior selected node.
         /// </summary>
@@ -26,7 +27,8 @@ namespace ISILab.LBS.Drawers.Editor
         {
             if (target is not QuestNodeBehaviour behaviour) return;
             if (behaviour.OwnerLayer is not { } layer) return;
-
+            view.ClearLayerContainer(behaviour.OwnerLayer, true);
+            
             layer.OnChange += () =>
             {
                 view.ClearLayerComponentView(layer, behaviour);
@@ -44,7 +46,7 @@ namespace ISILab.LBS.Drawers.Editor
            // var nt = behaviour.RetrieveNewTiles();
            // if (nt == null || !nt.Any()) return;
            // temp fix just clreaing the whole layer, as this is called BEFORE the other drawer this one clears it once
-           view.ClearLayerContainer(behaviour.OwnerLayer, true);
+
            
             // Trigger Position
             var triggerBase = new TriggerElementArea(nodeData,nodeData.Area);

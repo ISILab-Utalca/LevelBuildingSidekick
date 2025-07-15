@@ -185,12 +185,6 @@ namespace ISILab.LBS.VisualElements
             color.a = 1f;
             if (isSelected)
             {
-                // deactivate previous highlighted
-                if (this != _highligheted && _highligheted is not null)
-                {
-                    _highligheted.IsSelected(false);
-                }
-                
                 color = _node.GrammarCheck ? CorrectGrammar : GrammarWrong;
                 color.a = 0.33f;
                 _highligheted = this;
@@ -199,5 +193,10 @@ namespace ISILab.LBS.VisualElements
             _root.style.backgroundColor = new StyleColor(color);
         }
 
+
+        public static void Deselect()
+        {
+            _highligheted?.IsSelected(false);
+        }
     }
 }

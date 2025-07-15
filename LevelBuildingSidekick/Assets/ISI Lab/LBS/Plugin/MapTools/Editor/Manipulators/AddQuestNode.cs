@@ -53,8 +53,6 @@ namespace ISILab.LBS.Manipulators
 
             _questGraph.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, _questGraph));
             OnManipulationEnd.Invoke();
-       
-         //   OnInternalMouseUp(e);
         }
     }
 }

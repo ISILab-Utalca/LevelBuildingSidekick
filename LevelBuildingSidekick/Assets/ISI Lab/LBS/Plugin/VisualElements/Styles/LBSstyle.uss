@@ -10,18 +10,6 @@
     font-size: 12px;
 }
 
-.lbs-container-bg {
-    background-color: var(--unity-colors-default-background);
-    border-left-color: var(--unity-colors-default-border);
-    border-right-color: var(--unity-colors-default-border);
-    border-top-color: var(--unity-colors-default-border);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-bottom-color: var(--unity-colors-default-border);
-}
-
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
     width: 32px;
@@ -1267,4 +1255,55 @@ Button.lbs-actionbutton {
 
 .lbs-quest-action-icon {
     -unity-background-image-tint-color: var(--lbs-light-blue-color);
+}
+
+.lbs-vertical-divider {
+    height: 1px;
+    margin-bottom: 3px;
+    min-height: 1px;
+    max-height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-top: 3px;
+}
+
+.lbs-generic-panel {
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    background-color: var(--lbs-base-solid-gray-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(0, 0, 0, 0.3);
+}
+
+.lbs-container-bg {
+    background-color: var(--unity-colors-default-background);
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(0, 0, 0);
+}
+
+.lbs-custom-foldout {
+    background-color: rgb(43, 43, 43);
+    border-left-color: rgba(0, 0, 0, 0.55);
+    border-right-color: rgba(0, 0, 0, 0.55);
+    border-top-color: rgba(0, 0, 0, 0.55);
+    border-bottom-color: rgba(0, 0, 0, 0.55);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
 }

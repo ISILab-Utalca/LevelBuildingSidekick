@@ -161,8 +161,17 @@ namespace ISILab.LBS.Components
         protected Color color =  LBSSettings.Instance.view.behavioursColor;
 
         [SerializeField, JsonRequired] 
-        protected string iconGuid = "d96b94effa175424699a0813ffdd99ef"  ;
-        
+        protected string iconGuid = LocationIcon;
+
+        // The default trigger icon
+        protected static string LocationIcon = "efd5e48bd83c08d469fcc341c886b38b";
+        // Use to indicate friendly npc
+        protected static string StarIcon = "99b7816ce61fd85449ad2379f39bb8c2";
+        // Use to indicate foes
+        protected static string FoeIcon = "d0baea4f8bdb0c948887aed23edd4cad";
+        // Use to indicate objects or items
+        protected static string ObjectIcon = "699cc90614aad8047875eb0fae8b175f";
+            
         #endregion
 
         #region PROPERTIES
@@ -301,7 +310,7 @@ namespace ISILab.LBS.Components
 
             public DataKill(QuestNode owner, string tag) : base(owner, tag)
             {
-                iconGuid = "d0baea4f8bdb0c948887aed23edd4cad"  ;
+                iconGuid = FoeIcon;
                 color = LBSSettings.Instance.view.colorKill;
                 bundlesToKill = new List<BundleGraph>();
             }
@@ -339,7 +348,7 @@ namespace ISILab.LBS.Components
 
             public DataStealth(QuestNode owner, string tag) : base(owner, tag)
             {
-                iconGuid = "d96b94effa175424699a0813ffdd99ef";
+                iconGuid = FoeIcon;
                 color = LBSSettings.Instance.view.colorStealth;
                 bundlesObservers = new List<BundleGraph>();
             }
@@ -373,6 +382,7 @@ namespace ISILab.LBS.Components
            [SerializeField] public BundleGraph bundleToTake;
            public DataTake(QuestNode owner, string tag) : base(owner, tag)
            {
+               iconGuid = ObjectIcon;
                bundleToTake = new BundleGraph(this);
                color = LBSSettings.Instance.view.colorTake;
            }
@@ -408,6 +418,7 @@ namespace ISILab.LBS.Components
             {
                 bundleToRead = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorRead;
+                iconGuid = ObjectIcon;
             }
             
             public override void Clone(BaseQuestNodeData data)
@@ -473,6 +484,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleGiveTo;
             public DataGive(QuestNode owner, string tag) : base(owner, tag)
             {
+                iconGuid = StarIcon;
                 bundleGive = new BundleType();
                 bundleGiveTo = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorGive;
@@ -511,6 +523,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleReportTo;
            public DataReport(QuestNode owner, string tag) : base(owner, tag)
            {
+               iconGuid = StarIcon;
                bundleReportTo = new BundleGraph(this);
                color = LBSSettings.Instance.view.colorReport;
            }
@@ -571,6 +584,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public bool resetTimeOnExit = true;
           public DataSpy(QuestNode owner, string tag) : base(owner, tag)
           {
+              iconGuid = FoeIcon;
               bundleToSpy = new BundleGraph(this);
               color = LBSSettings.Instance.view.colorSpy;
           }
@@ -633,6 +647,7 @@ namespace ISILab.LBS.Components
 
             public DataListen(QuestNode owner, string tag) : base(owner, tag)
             {
+                iconGuid = StarIcon;
                 bundleListenTo = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorListen;
             }
