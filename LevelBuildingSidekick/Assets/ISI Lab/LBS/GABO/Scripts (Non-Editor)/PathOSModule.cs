@@ -176,7 +176,7 @@ namespace ISILab.LBS.Modules
 
         public List<object> GetSelected(Vector2Int position)
         {
-            var pos = Owner.ToFixedPosition(position);
+            var pos = OwnerLayer.ToFixedPosition(position);
             PathOSTile tile = GetTile(pos.x, pos.y);
             var r = new List<object>();
             if (tile != null) { r.Add(tile); }

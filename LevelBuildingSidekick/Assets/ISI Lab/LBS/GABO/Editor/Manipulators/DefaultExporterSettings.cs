@@ -1,4 +1,4 @@
-using AssetStoreTools.Previews.Generators;
+//using AssetStoreTools.Previews.Generators;
 
 namespace AssetStoreTools.Exporter
 {
@@ -6,6 +6,6 @@ namespace AssetStoreTools.Exporter
     {
         public string[] ExportPaths;
         public string[] Dependencies;
-        public IPreviewGenerator PreviewGenerator;
+        //public IPreviewGenerator PreviewGenerator;
     }
 }

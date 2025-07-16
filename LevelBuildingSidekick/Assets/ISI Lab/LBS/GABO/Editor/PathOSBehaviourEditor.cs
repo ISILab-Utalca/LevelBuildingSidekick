@@ -150,32 +150,32 @@ namespace ISILab.LBS.VisualElements
             // Add tiles
             Texture2D icon = Resources.Load<Texture2D>("Icons/AddTileBrush");
             addPathOSTile = new AddPathOSTile();
-            var tAdd = new LBSTool(icon, "Paint tiles", addPathOSTile);
+            var tAdd = new LBSTool(icon, "Paint tiles", "", addPathOSTile);
             tAdd.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            tAdd.Init(_target.Owner, _target);
+            tAdd.Init(_target.OwnerLayer, _target);
             toolkit.AddTool(tAdd);
 
             // Remove tiles
             icon = Resources.Load<Texture2D>("Icons/RemoveTileBrush");
             removePathOSTile = new RemovePathOSTile();
-            var tRemove = new LBSTool(icon, "Remove tiles", removePathOSTile);
-            tRemove.Init(_target.Owner, _target);
+            var tRemove = new LBSTool(icon, "Remove tiles", "", removePathOSTile);
+            tRemove.Init(_target.OwnerLayer, _target);
             toolkit.AddTool(tRemove);
 
             // Add closed obstacle
             icon = Resources.Load<Texture2D>("Icons/AddClosedObstacle");
             addClosedObstacle = new AddClosedObstacle();
-            var tClosed = new LBSTool(icon, "Add closed obstacle", addClosedObstacle);
+            var tClosed = new LBSTool(icon, "Add closed obstacle", "", addClosedObstacle);
             tClosed.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
-            tClosed.Init(_target.Owner, _target);
+            tClosed.Init(_target.OwnerLayer, _target);
             toolkit.AddTool(tClosed);
 
             // Add open obstacle
             icon = Resources.Load<Texture2D>("Icons/AddOpenedObstacle");
             addOpenedObstacle = new AddOpenedObstacle();
-            var tOpen = new LBSTool(icon, "Add opened obstacle", addOpenedObstacle);
+            var tOpen = new LBSTool(icon, "Add opened obstacle", "", addOpenedObstacle);
             tOpen.OnSelect += () => LBSInspectorPanel.ShowInspector("Current data");
-            tOpen.Init(_target.Owner, _target);
+            tOpen.Init(_target.OwnerLayer, _target);
             toolkit.AddTool(tOpen);
         }
     }

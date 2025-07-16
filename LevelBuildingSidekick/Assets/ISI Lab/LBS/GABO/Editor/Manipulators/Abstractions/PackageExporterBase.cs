@@ -1,4 +1,4 @@
-﻿using AssetStoreTools.Utility;
+﻿//using AssetStoreTools.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -76,8 +76,8 @@ namespace AssetStoreTools.Exporter
 
         protected string GetAssetGuid(string assetPath, bool generateIfPlugin, bool scrapeFromMeta)
         {
-            if (!FileUtility.ShouldHaveMeta(assetPath))
-                return string.Empty;
+            //if (!FileUtility.ShouldHaveMeta(assetPath))
+            //    return string.Empty;
 
             // Skip ProjectVersion.txt file specifically as it may introduce
             // project compatibility issues when imported

@@ -38,13 +38,13 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
         {
-            var pos = behaviour.Owner.ToFixedPosition(startPosition);
+            var pos = behaviour.OwnerLayer.ToFixedPosition(startPosition);
             triggerTile = behaviour.GetTile(pos.x, pos.y);
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
         {
-            var pos = behaviour.Owner.ToFixedPosition(endPosition);
+            var pos = behaviour.OwnerLayer.ToFixedPosition(endPosition);
             obstacleTile = behaviour.GetTile(pos.x, pos.y);
 
             // GABO TODO: Arreglar undo, tal y como en AddPathOSTile!!!!

@@ -54,7 +54,7 @@ namespace ISILab.LBS.Manipulators
             Undo.RegisterCompleteObjectUndo(x, "Add PathOS Tile");
 
             // Agregar PathOSTiles mediante PathOSBehaviour
-            var corners = behaviour.Owner.ToFixedPosition(StartPosition, EndPosition);
+            var corners = behaviour.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)

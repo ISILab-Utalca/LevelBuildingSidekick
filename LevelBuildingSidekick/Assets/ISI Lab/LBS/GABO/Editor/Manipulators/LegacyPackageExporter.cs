@@ -1,4 +1,4 @@
-﻿using AssetStoreTools.Utility;
+﻿//using AssetStoreTools.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +35,7 @@ namespace AssetStoreTools.Exporter
 
         private async new Task<PackageExporterResult> Export()
         {
-            ASDebug.Log("Using native package exporter");
+            //ASDebug.Log("Using native package exporter");
 
             try
             {
@@ -57,7 +57,7 @@ namespace AssetStoreTools.Exporter
                 var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public,
                     null, new Type[] { typeof(string[]), typeof(string) }, null);
 
-                ASDebug.Log("Invoking native export method");
+                //ASDebug.Log("Invoking native export method");
 
                 method?.Invoke(null, new object[] { guids, _legacyExportSettings.OutputFilename });
 
@@ -69,7 +69,7 @@ namespace AssetStoreTools.Exporter
                         Thread.Sleep(100);
                 });
 
-                ASDebug.Log($"Package file has been created at {_legacyExportSettings.OutputFilename}");
+                //ASDebug.Log($"Package file has been created at {_legacyExportSettings.OutputFilename}");
                 return new PackageExporterResult() { Success = true, ExportedPath = _legacyExportSettings.OutputFilename };
             }
             catch (Exception e)

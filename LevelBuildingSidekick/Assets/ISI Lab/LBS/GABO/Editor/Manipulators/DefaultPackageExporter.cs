@@ -1,5 +1,5 @@
-﻿using AssetStoreTools.Previews.Data;
-using AssetStoreTools.Utility;
+﻿//using AssetStoreTools.Previews.Data;
+//using AssetStoreTools.Utility;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using CacheConstants = AssetStoreTools.Constants.Cache;
+//using CacheConstants = AssetStoreTools.Constants.Cache;
 
 namespace AssetStoreTools.Exporter
 {
@@ -39,119 +39,119 @@ namespace AssetStoreTools.Exporter
 
         private new async Task<PackageExporterResult> Export()
         {
-            ASDebug.Log("Using custom package exporter");
+            //ASDebug.Log("Using custom package exporter");
 
             // Save assets before exporting
             EditorUtility.DisplayProgressBar(ProgressBarTitle, ProgressBarStepSavingAssets, 0.1f);
             AssetDatabase.SaveAssets();
-
-            try
-            {
-                // Create a temporary export path
-                PostExportCleanup();
-                var temporaryExportPath = GetTemporaryExportPath();
-                if (!Directory.Exists(temporaryExportPath))
-                    Directory.CreateDirectory(temporaryExportPath);
-
-                // Construct an unzipped package structure
-                CreateTempPackageStructure(temporaryExportPath);
-
-                var previewGenerationResult = await GeneratePreviews();
-                InjectPreviews(previewGenerationResult, temporaryExportPath);
-
-                // Build a .unitypackage file from the temporary folder
-                CreateUnityPackage(temporaryExportPath, _defaultExportSettings.OutputFilename);
-
-                EditorUtility.RevealInFinder(_defaultExportSettings.OutputFilename);
-
-                ASDebug.Log($"Package file has been created at {_defaultExportSettings.OutputFilename}");
-                return new PackageExporterResult() { Success = true, ExportedPath = _defaultExportSettings.OutputFilename, PreviewGenerationResult = previewGenerationResult };
-            }
-            catch (Exception e)
-            {
-                return new PackageExporterResult() { Success = false, Exception = e };
-            }
-            finally
-            {
-                PostExportCleanup();
-            }
+            return new PackageExporterResult() { Success = false };
+            //try
+            //{
+            //    // Create a temporary export path
+            //    PostExportCleanup();
+            //    var temporaryExportPath = GetTemporaryExportPath();
+            //    if (!Directory.Exists(temporaryExportPath))
+            //        Directory.CreateDirectory(temporaryExportPath);
+            //
+            //    // Construct an unzipped package structure
+            //    //CreateTempPackageStructure(temporaryExportPath);
+            //
+            //    var previewGenerationResult = await GeneratePreviews();
+            //    InjectPreviews(previewGenerationResult, temporaryExportPath);
+            //
+            //    // Build a .unitypackage file from the temporary folder
+            //    CreateUnityPackage(temporaryExportPath, _defaultExportSettings.OutputFilename);
+            //
+            //    EditorUtility.RevealInFinder(_defaultExportSettings.OutputFilename);
+            //
+            //    //ASDebug.Log($"Package file has been created at {_defaultExportSettings.OutputFilename}");
+            //    return new PackageExporterResult() { Success = true, ExportedPath = _defaultExportSettings.OutputFilename, PreviewGenerationResult = previewGenerationResult };
+            //}
+            //catch (Exception e)
+            //{
+            //    return new PackageExporterResult() { Success = false, Exception = e };
+            //}
+            //finally
+            //{
+            //    PostExportCleanup();
+            //}
         }
 
         private string GetTemporaryExportPath()
         {
-            return $"{CacheConstants.TempCachePath}/{TemporaryExportPathName}";
+            return $"";// {CacheConstants.TempCachePath}/{TemporaryExportPathName}";
         }
 
-        private void CreateTempPackageStructure(string tempOutputPath)
-        {
-            EditorUtility.DisplayProgressBar(ProgressBarTitle, ProgressBarStepGatheringFiles, 0.4f);
-            var pathGuidPairs = GetPathGuidPairs(_defaultExportSettings.ExportPaths);
-
-            foreach (var pair in pathGuidPairs)
-            {
-                var originalAssetPath = pair.Key;
-                var outputAssetPath = $"{tempOutputPath}/{pair.Value}";
-
-                if (Directory.Exists(outputAssetPath))
-                {
-                    var path1 = File.ReadAllText($"{outputAssetPath}/pathname");
-                    var path2 = originalAssetPath;
-                    throw new InvalidOperationException($"Multiple assets with guid {pair.Value} have been detected " +
-                        $"when exporting the package. Please resolve the guid conflicts and try again:\n{path1}\n{path2}");
-                }
-
-                Directory.CreateDirectory(outputAssetPath);
-
-                // Every exported asset has a pathname file
-                using (StreamWriter writer = new StreamWriter($"{outputAssetPath}/pathname"))
-                    writer.Write(originalAssetPath);
-
-                // Only files (not folders) have an asset file
-                if (File.Exists(originalAssetPath))
-                    File.Copy(originalAssetPath, $"{outputAssetPath}/asset");
-
-                // Most files and folders have an asset.meta file (but ProjectSettings folder assets do not)
-                if (File.Exists($"{originalAssetPath}.meta"))
-                    File.Copy($"{originalAssetPath}.meta", $"{outputAssetPath}/asset.meta");
-
-                // To-do: handle previews in hidden folders as they are not part of the AssetDatabase
-                var previewObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(originalAssetPath);
-                if (previewObject == null)
-                    continue;
-            }
-
-            if (_defaultExportSettings.Dependencies == null || _defaultExportSettings.Dependencies.Length == 0)
-                return;
-
-            var exportDependenciesDict = new JObject();
-            var allRegistryPackages = PackageUtility.GetAllRegistryPackages();
-
-            foreach (var exportDependency in _defaultExportSettings.Dependencies)
-            {
-                var registryPackage = allRegistryPackages.FirstOrDefault(x => x.name == exportDependency);
-                if (registryPackage == null)
-                {
-                    // Package is either not from a registry source or does not exist in the project
-                    UnityEngine.Debug.LogWarning($"Found an unsupported Package Manager dependency: {exportDependency}.\n" +
-                                             "This dependency is not supported in the project's manifest.json and will be skipped.");
-                    continue;
-                }
-
-                exportDependenciesDict[registryPackage.name] = registryPackage.version;
-            }
-
-            if (exportDependenciesDict.Count == 0)
-                return;
-
-            var exportManifestJson = new JObject();
-            exportManifestJson["dependencies"] = exportDependenciesDict;
-
-            var tempManifestDirectoryPath = $"{tempOutputPath}/packagemanagermanifest";
-            Directory.CreateDirectory(tempManifestDirectoryPath);
-            var tempManifestFilePath = $"{tempManifestDirectoryPath}/asset";
-
-            File.WriteAllText(tempManifestFilePath, exportManifestJson.ToString());
-        }
+        //private void CreateTempPackageStructure(string tempOutputPath)
+        //{
+        //    EditorUtility.DisplayProgressBar(ProgressBarTitle, ProgressBarStepGatheringFiles, 0.4f);
+        //    var pathGuidPairs = GetPathGuidPairs(_defaultExportSettings.ExportPaths);
+        //
+        //    foreach (var pair in pathGuidPairs)
+        //    {
+        //        var originalAssetPath = pair.Key;
+        //        var outputAssetPath = $"{tempOutputPath}/{pair.Value}";
+        //
+        //        if (Directory.Exists(outputAssetPath))
+        //        {
+        //            var path1 = File.ReadAllText($"{outputAssetPath}/pathname");
+        //            var path2 = originalAssetPath;
+        //            throw new InvalidOperationException($"Multiple assets with guid {pair.Value} have been detected " +
+        //                $"when exporting the package. Please resolve the guid conflicts and try again:\n{path1}\n{path2}");
+        //        }
+        //
+        //        Directory.CreateDirectory(outputAssetPath);
+        //
+        //        // Every exported asset has a pathname file
+        //        using (StreamWriter writer = new StreamWriter($"{outputAssetPath}/pathname"))
+        //            writer.Write(originalAssetPath);
+        //
+        //        // Only files (not folders) have an asset file
+        //        if (File.Exists(originalAssetPath))
+        //            File.Copy(originalAssetPath, $"{outputAssetPath}/asset");
+        //
+        //        // Most files and folders have an asset.meta file (but ProjectSettings folder assets do not)
+        //        if (File.Exists($"{originalAssetPath}.meta"))
+        //            File.Copy($"{originalAssetPath}.meta", $"{outputAssetPath}/asset.meta");
+        //
+        //        // To-do: handle previews in hidden folders as they are not part of the AssetDatabase
+        //        var previewObject = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(originalAssetPath);
+        //        if (previewObject == null)
+        //            continue;
+        //    }
+        //
+        //    if (_defaultExportSettings.Dependencies == null || _defaultExportSettings.Dependencies.Length == 0)
+        //        return;
+        //
+        //    var exportDependenciesDict = new JObject();
+        //    var allRegistryPackages = PackageUtility.GetAllRegistryPackages();
+        //
+        //    foreach (var exportDependency in _defaultExportSettings.Dependencies)
+        //    {
+        //        var registryPackage = allRegistryPackages.FirstOrDefault(x => x.name == exportDependency);
+        //        if (registryPackage == null)
+        //        {
+        //            // Package is either not from a registry source or does not exist in the project
+        //            UnityEngine.Debug.LogWarning($"Found an unsupported Package Manager dependency: {exportDependency}.\n" +
+        //                                     "This dependency is not supported in the project's manifest.json and will be skipped.");
+        //            continue;
+        //        }
+        //
+        //        exportDependenciesDict[registryPackage.name] = registryPackage.version;
+        //    }
+        //
+        //    if (exportDependenciesDict.Count == 0)
+        //        return;
+        //
+        //    var exportManifestJson = new JObject();
+        //    exportManifestJson["dependencies"] = exportDependenciesDict;
+        //
+        //    var tempManifestDirectoryPath = $"{tempOutputPath}/packagemanagermanifest";
+        //    Directory.CreateDirectory(tempManifestDirectoryPath);
+        //    var tempManifestFilePath = $"{tempManifestDirectoryPath}/asset";
+        //
+        //    File.WriteAllText(tempManifestFilePath, exportManifestJson.ToString());
+        //}
 
         private Dictionary<string, string> GetPathGuidPairs(string[] exportPaths)
         {
@@ -174,37 +174,37 @@ namespace AssetStoreTools.Exporter
             return pathGuidPairs;
         }
 
-        private async Task<PreviewGenerationResult> GeneratePreviews()
-        {
-            if (_defaultExportSettings.PreviewGenerator == null)
-                return null;
+        //private async Task<PreviewGenerationResult> GeneratePreviews()
+        //{
+        //    if (_defaultExportSettings.PreviewGenerator == null)
+        //        return null;
+        //
+        //    void ReportProgress(float progress)
+        //    {
+        //        EditorUtility.DisplayProgressBar(ProgressBarTitle, ProgressBarStepGeneratingPreviews, progress);
+        //    }
+        //
+        //    _defaultExportSettings.PreviewGenerator.OnProgressChanged += ReportProgress;
+        //    var result = await _defaultExportSettings.PreviewGenerator.Generate();
+        //    _defaultExportSettings.PreviewGenerator.OnProgressChanged -= ReportProgress;
+        //    EditorUtility.ClearProgressBar();
+        //
+        //    if (!result.Success)
+        //    {
+        //        UnityEngine.Debug.LogWarning($"An error was encountered while generating previews. Exported package may be missing previews.\n{result.Exception}");
+        //    }
+        //
+        //    return result;
+        //}
 
-            void ReportProgress(float progress)
-            {
-                EditorUtility.DisplayProgressBar(ProgressBarTitle, ProgressBarStepGeneratingPreviews, progress);
-            }
-
-            _defaultExportSettings.PreviewGenerator.OnProgressChanged += ReportProgress;
-            var result = await _defaultExportSettings.PreviewGenerator.Generate();
-            _defaultExportSettings.PreviewGenerator.OnProgressChanged -= ReportProgress;
-            EditorUtility.ClearProgressBar();
-
-            if (!result.Success)
-            {
-                UnityEngine.Debug.LogWarning($"An error was encountered while generating previews. Exported package may be missing previews.\n{result.Exception}");
-            }
-
-            return result;
-        }
-
-        private void InjectPreviews(PreviewGenerationResult result, string temporaryExportPath)
-        {
-            if (result == null || !result.Success)
-                return;
-
-            var injector = new PreviewInjector(result);
-            injector.Inject(temporaryExportPath);
-        }
+        //private void InjectPreviews(PreviewGenerationResult result, string temporaryExportPath)
+        //{
+        //    if (result == null || !result.Success)
+        //        return;
+        //
+        //    var injector = new PreviewInjector(result);
+        //    injector.Inject(temporaryExportPath);
+        //}
 
         private void CreateUnityPackage(string pathToArchive, string outputPath)
         {

@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -46,7 +47,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSBehaviour(Texture2D icon, string name) : base(icon, name) { }
+        public PathOSBehaviour(VectorImage icon, string name) : base(icon, name, Color.black) { }
         #endregion
 
         #region METHODS
@@ -103,13 +104,18 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnAttachLayer(LBSLayer layer)
         {
-            Owner = layer;
-            module = Owner.GetModule<PathOSModule>();
+            OwnerLayer = layer;
+            module = OwnerLayer.GetModule<PathOSModule>();
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             throw new System.NotImplementedException();
+        }
+
+        public override void OnGUI()
+        {
+            throw new NotImplementedException();
         }
 
         //public override bool Equals(object obj)

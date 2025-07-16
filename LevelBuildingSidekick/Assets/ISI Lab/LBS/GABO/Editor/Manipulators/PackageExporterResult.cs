@@ -1,4 +1,4 @@
-﻿using AssetStoreTools.Previews.Data;
+﻿//using AssetStoreTools.Previews.Data;
 using System;
 
 namespace AssetStoreTools.Exporter
@@ -7,7 +7,7 @@ namespace AssetStoreTools.Exporter
     {
         public bool Success;
         public string ExportedPath;
-        public PreviewGenerationResult PreviewGenerationResult;
+        //public PreviewGenerationResult PreviewGenerationResult;
         public Exception Exception;
     }
 }
