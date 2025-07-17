@@ -71,13 +71,11 @@ namespace ISILab.LBS.VisualElements
             {
                 try
                 {
-                    var dict = LBSGrammarReader.ReadGrammar(_path);
-                    var actions = LBSGrammarReader.GetTerminalActions(_path);
-                    grammar.SetTerminalActions(actions);
-                    grammar.SetRules(dict);
+                    var structure = LBSGrammarReader.ReadGrammar(_path);
+                    grammar.SetGrammarStructure(structure);
                     EditorUtility.SetDirty(grammar);
                     _ruleFoldouts.Clear(); // reset foldouts for new rules
-                    Debug.Log($"Grammar imported with {dict.Count} rules and {actions.Count} terminal actions.");
+                    Debug.Log($"Grammar imported with {structure.Rules.Count} rules and {structure.Terminals.Count} terminal actions.");
                 }
                 catch (Exception ex)
                 {
