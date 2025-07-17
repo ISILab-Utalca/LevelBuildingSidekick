@@ -131,7 +131,7 @@ namespace ISILab.LBS.Assistants
             if (grammar != null && grammar.RuleDict.TryGetValue(currentAction, out var nextSet))
                 return nextSet.ToList();
 
-            return grammar?.TerminalActions.ToList() ?? new List<string>();
+            return new List<string>();
         }
 
         public List<string> GetAllValidPrevActions(string getSelectedNode)
@@ -172,8 +172,8 @@ namespace ISILab.LBS.Assistants
         /// </summary>
         private List<List<QuestNode>> BuildAllPathsThroughEdge(QuestEdge edge)
         {
-            var roots = ExpandToRoots(edge.First);
-            var branches = ExpandToBranches(edge.Second);
+            var roots = ExpandToRoots(edge.From);
+            var branches = ExpandToBranches(edge.To);
             var paths = new List<List<QuestNode>>();
 
             foreach (var root in roots)
@@ -207,7 +207,7 @@ namespace ISILab.LBS.Assistants
                     var roots = Quest.GetRoots(line[0]);
                     foreach (var edge in roots)
                     {
-                        var prev = edge.First;
+                        var prev = edge.From;
                         if (prev != null && !line.Contains(prev))
                         {
                             var newLine = new List<QuestNode>(line);
@@ -242,7 +242,7 @@ namespace ISILab.LBS.Assistants
                     var branches = Quest.GetBranches(line[^1]);
                     foreach (var edge in branches)
                     {
-                        var next = edge.Second;
+                        var next = edge.To;
                         if (next != null && !line.Contains(next))
                         {
                             var newLine = new List<QuestNode>(line);

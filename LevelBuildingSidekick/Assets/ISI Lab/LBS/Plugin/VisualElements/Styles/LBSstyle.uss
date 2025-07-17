@@ -1082,7 +1082,7 @@ Button.lbs-actionbutton {
     padding-left: 5px;
 }
 
-.lbs-actionbutton:hover {
+.lbs-actionbutton:hover > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1113,7 +1113,7 @@ Button.lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton:selected {
+.lbs-actionbutton:selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1144,35 +1144,35 @@ Button.lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton_selected {
+.lbs-actionbutton_selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
     align-items: center;
     margin-top: 0;
     margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
     scale: 1 1;
     -unity-font-style: normal;
     -unity-background-image-tint-color: rgba(255, 255, 255, 0);
     background-image: none;
-    border-left-color: rgba(0, 0, 0, 0.4);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-top-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
+    border-left-color: rgba(255, 255, 255, 0.4);
+    border-right-color: rgba(255, 255, 255, 0.4);
+    border-top-color: rgba(255, 255, 255, 0.4);
+    border-bottom-color: rgba(255, 255, 255, 0.4);
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
     margin-right: 0;
     margin-left: 0;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 12px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 #AssistantButton:selected {

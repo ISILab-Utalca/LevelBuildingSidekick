@@ -29,7 +29,7 @@ namespace ISILab.LBS.VisualElements
     public sealed class TriggerElementArea : GraphElement
     {
         private readonly BaseQuestNodeData _data;
-        private readonly Color _currentColor;
+        private Color _currentColor;
         
         private string _activeHandle;
         private const string HandleBottomLeft = "bl";
@@ -112,33 +112,32 @@ namespace ISILab.LBS.VisualElements
             
             // can only resize the main trigger area of a quest action node
             if (!isCenter) return;
-
-            handleArea.RegisterCallback<MouseDownEvent>(e =>
+            
+            handle.RegisterCallback<MouseLeaveEvent>(_ =>
+            {
+                _resizing = false;
+                _activeHandle = null;
+                handleArea.style.display = DisplayStyle.None;
+            });
+            
+            handle.RegisterCallback<MouseEnterEvent>(_ =>
             {
                 // only one resizer at a time
                 if (_resizing) return;
                 
                 _resizeStartPosition = GetPosition().position; 
+                
                 _resizing = true;
                 _activeHandle = handleCode;
-                e.StopPropagation();
-            });
-
-            handle.RegisterCallback<MouseLeaveEvent>(_ =>
-            {
-                _resizing = false;
-                _activeHandle = null;
                 handleArea.style.display = DisplayStyle.Flex;
             });
 
             handle.RegisterCallback<MouseUpEvent>(_ =>
             {
                 _resizing = false;
-                handleArea.style.display = DisplayStyle.Flex;
+                handleArea.style.display = DisplayStyle.None;
 
-                if (_data.Owner?.Graph?.OwnerLayer is null) return;
-
-                var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
+                if (_data.Layer is null) return;
 
                 Rect currentRect = GetPosition();
 
@@ -174,11 +173,13 @@ namespace ISILab.LBS.VisualElements
                 
                 // Update the logical area in tile space
                 _data.Area = new Rect(posX, posY, width, height);
-                qnb?.DataChanged(_data.Owner);
+                _data.Graph?.DataChanged(_data.OwnerNode);
 
                 _activeHandle = null;
             });
 
+            // Hide the areas by default(show when click on handle, hide on mouse up)
+            handleArea.style.display = DisplayStyle.None;
             handle.RegisterCallback<MouseMoveEvent>(OnHandleRectMove);
         }
         
@@ -190,9 +191,9 @@ namespace ISILab.LBS.VisualElements
         {
             if(!_isCenter) return;
             var painter = mgc.painter2D;
-            var lbsLayer = _data.Owner.Graph.OwnerLayer;
+            var lbsLayer = _data.Layer;
             
-            var nodeElements = MainView.Instance.GetElementsFromLayerContainer(lbsLayer, _data.Owner.ID);
+            var nodeElements = MainView.Instance.GetElementsFromLayerContainer(lbsLayer, _data.ID);
 
             var node = nodeElements?.FirstOrDefault();
             if (node == null) return;
@@ -201,7 +202,8 @@ namespace ISILab.LBS.VisualElements
             Rect nodeRect = node.worldBound;
             Vector2 nodeWorldCenter = nodeRect.position + nodeRect.size / 2f;
             Vector2 to = this.WorldToLocal(nodeWorldCenter); // convert world to local space
-            
+
+            if (_isDragging) _currentColor = new Color(0, 0, 0, 0); // transparent if moving
             painter.DrawDottedLine(center, to, _currentColor, 4f, 10f);
         }
 
@@ -247,12 +249,8 @@ namespace ISILab.LBS.VisualElements
             if (!_isDragging) return;
             _isDragging = false;
 
-            if (_data.Owner?.Graph?.OwnerLayer is null) return;
-
-            var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
-
             _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
-            qnb?.DataChanged(_data.Owner);
+            _data.Graph?.DataChanged(_data.OwnerNode);
         }
 
         void OnHandleRectMove(MouseMoveEvent e)

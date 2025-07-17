@@ -31,7 +31,7 @@ namespace ISILab.LBS.Drawers.Editor
             };
             
             if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
-            if (behaviour.SelectedQuestNode?.NodeData is not { } nodeData) return;
+            if (behaviour.Graph.SelectedQuestNode?.NodeData is not { } nodeData) return;
             
             // Selected Node Trigger View 
             nodeData.Resize();

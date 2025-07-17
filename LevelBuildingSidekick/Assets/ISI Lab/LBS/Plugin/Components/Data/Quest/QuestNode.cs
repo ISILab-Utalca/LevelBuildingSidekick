@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -143,6 +144,18 @@ namespace ISILab.LBS.Components
             if(NodeData is not null )node.NodeData.Clone(NodeData);
             node.NodeViewPosition = NodeViewPosition;
             return node;
+        }
+        
+        public bool IsValidFrom(QuestGraph graphOwner)
+        {
+            var found = graph.QuestEdges.FirstOrDefault(e => e.From.Equals(this));
+            return found == null;
+        }
+        
+        public bool IsValidTo(QuestGraph graphOwner)
+        {
+            var found = graph.QuestEdges.FirstOrDefault(e => e.To.Equals(this));
+            return found == null;
         }
     }
     

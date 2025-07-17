@@ -4,23 +4,33 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
+    /// <summary>
+    /// Button to apply an effect to a Quest Action
+    /// </summary>
     public class SuggestionActionButton : VisualElement
     {
-        public readonly Label Label;
+        private readonly Label _label;
         private readonly Button _button;
-
+        
         private SuggestionActionButton()
         {
-            var visualtree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SuggestionActionButton");
-            visualtree.CloneTree(this);
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SuggestionActionButton");
+            visualTree.CloneTree(this);
 
-            Label = this.Q<Label>(name: "Action");
+            _label = this.Q<Label>(name: "Action");
             _button = this.Q<Button>(name: "Button");
         }
 
-        public SuggestionActionButton(string text, Action action) : this()
+        public SuggestionActionButton(string text = "", Action action = null) : this()
         {
-            Label.text = char.ToUpper(text[0]) + text.Substring(1);
+          SetAction(text,action);
+          AddToClassList("lbs-actionbutton");
+        }
+
+        public void SetAction(string text, Action action)
+        {
+            if(text == string.Empty || action is null) return;
+            _label.text = char.ToUpper(text[0]) + text.Substring(1);
             _button.clicked += action;
         }
     }
