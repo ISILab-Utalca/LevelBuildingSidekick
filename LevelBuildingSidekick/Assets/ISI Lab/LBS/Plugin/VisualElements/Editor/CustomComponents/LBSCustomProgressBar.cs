@@ -67,6 +67,9 @@ namespace ISILab.LBS.CustomComponents
             VisualElement container = this.Query<VisualElement>(className: containerUssClassName);
             container.AddToClassList(STYLE_CLASS_NAME + "__container");
             topPanel.PlaceBehind(container);
+
+            VisualElement progressbarBackground = this.Query<VisualElement>(classes: backgroundUssClassName);
+            progressbarBackground.AddToClassList(STYLE_CLASS_NAME + "__background");
             
             icon = new VisualElement();
             icon.AddToClassList(STYLE_CLASS_NAME + "__icon");
