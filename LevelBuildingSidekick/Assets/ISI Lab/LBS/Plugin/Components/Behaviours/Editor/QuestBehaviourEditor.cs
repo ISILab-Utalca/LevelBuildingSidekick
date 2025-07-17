@@ -118,7 +118,7 @@ namespace ISILab.LBS.VisualElements
         
         protected sealed override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestBehaviourEditor");
             visualTree.CloneTree(this);
 
             _grammarReference = this.Q<ObjectField>(name: "Grammar");
