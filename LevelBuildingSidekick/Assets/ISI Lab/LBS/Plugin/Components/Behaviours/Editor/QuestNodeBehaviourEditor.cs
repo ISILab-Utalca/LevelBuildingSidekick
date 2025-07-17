@@ -6,7 +6,6 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
-using ISILab.LBS.VisualElements.Editor;
 using LBS;
 using LBS.VisualElements;
 using UnityEngine;
@@ -71,7 +70,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            OnSelectNode(null);
+            OnSelectNode(_behaviour.Graph.SelectedQuestNode);
         }
         #endregion
         
@@ -79,7 +78,8 @@ namespace ISILab.LBS.VisualElements
         public sealed override void SetInfo(object paramTarget)
         {
             _behaviour = paramTarget as QuestNodeBehaviour;
-            _behaviour!.OnQuestNodeSelected += OnSelectNode;
+            if (_behaviour == null) return;
+            _behaviour.Graph!.OnQuestNodeSelected += OnSelectNode;
             DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
         }
         protected sealed override VisualElement CreateVisualElement()
@@ -112,13 +112,13 @@ namespace ISILab.LBS.VisualElements
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
 
                 pickerManipulator.PickTriggerPosition = true;
-                pickerManipulator.ActiveData = _behaviour.SelectedQuestNode.NodeData;
+                pickerManipulator.ActiveData = _behaviour.Graph.SelectedQuestNode.NodeData;
                 
                 if(pickerManipulator.ActiveData == null) return;
                 
                 pickerManipulator.OnPositionPicked = (pos) =>
                 {
-                    var nodeData = _behaviour.SelectedQuestNode.NodeData;
+                    var nodeData = _behaviour.Graph.SelectedQuestNode.NodeData;
                     nodeData.Area = new Rect(pos.x,pos.y, nodeData.Area.width,nodeData.Area.height);
                     
                     // Refresh UI
@@ -139,7 +139,7 @@ namespace ISILab.LBS.VisualElements
         
         private void SetNodeDataArea(Rect newValue)
         {
-            BaseQuestNodeData nodeData = GetSelectedNode().NodeData;
+            BaseQuestNodeData nodeData = _behaviour.Graph.SelectedQuestNode.NodeData;
             if (nodeData is null) return;
             
             newValue.x = Mathf.Round(newValue.x);
@@ -213,11 +213,7 @@ namespace ISILab.LBS.VisualElements
             _area.value = data.Area;
             
         }
-
-        private QuestNode GetSelectedNode()
-        {
-            return _behaviour.SelectedQuestNode;
-        }
+        
 
         #endregion
         

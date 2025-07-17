@@ -16,8 +16,6 @@ namespace ISILab.LBS.Manipulators
         private string ActionToSet => _behaviour.ActionToSet;
         protected override string IconGuid => "3d0b251f4a09bce4b9224787cfa08d49";
 
-        private const string Prefix = "";
-
         public AddQuestNode()
         {
             Name = "Add Quest Node";
@@ -40,17 +38,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            string name;
-            bool loop;
-            var v = 0;
-            do
-            {
-                name = Prefix + ActionToSet + " (" + v + ")";
-                loop = _questGraph.QuestNodes.Any(n => n.ID.Equals(name));
-                v++;
-            } while (loop);
-
-            _questGraph.AddNode(new QuestNode(name, EndPosition, ActionToSet, _questGraph));
+            _questGraph.CreateAddNode(ActionToSet, endPosition);
             OnManipulationEnd.Invoke();
         }
     }

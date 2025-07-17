@@ -118,7 +118,7 @@ namespace ISILab.LBS.VisualElements
         
         protected sealed override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestBehaviourEditor");
             visualTree.CloneTree(this);
 
             _grammarReference = this.Q<ObjectField>(name: "Grammar");
@@ -152,20 +152,6 @@ namespace ISILab.LBS.VisualElements
                 actionButtons.Add(actionButton);
                 _actionPallete.Add(actionButton);
             }
-
-            foreach (var actionButton in actionButtons)
-            {
-                if (_behaviour.ActionToSet == actionButton.Label.text)
-                {
-                    actionButton.Children().First().AddToClassList("lbs-actionbutton_selected");
-                    actionButton.Children().First().RemoveFromClassList("lbs-actionbutton");
-                }
-                else
-                {
-                    actionButton.Children().First().RemoveFromClassList("lbs-actionbutton_selected");
-                    actionButton.Children().First().AddToClassList("lbs-actionbutton");
-                }
-            }
            
         }
 
@@ -175,23 +161,16 @@ namespace ISILab.LBS.VisualElements
             {
                 LBSMainWindow.MessageNotify("LBS Quest: Must assign a valid grammar in the Quest Behaviour Editor",LogType.Error,5);
                 _grammarReference.value = null;
-                UpdateContent();
             }
+            else
+            {
+                var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
+                if (quest == null)  throw new Exception("No Module");
             
-            if (target is not QuestBehaviour behaviour) throw new Exception("No Behavior");
-
-            var assistant = behaviour.OwnerLayer.GetAssistant<GrammarAssistant>();
-            if (assistant == null) throw new Exception("No Behavior");
-            
-            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null)  throw new Exception("No Module");
-            
-            quest.Grammar = grammar;
-            // check if the new grammar applies on the graph
-            if(quest.QuestEdges.Any()) assistant.ValidateEdgeGrammar(quest.QuestEdges.First());
-          
-            LBSMainWindow.MessageNotify("LBS Quest: Valid Grammar Assigned!",LogType.Log,5);
-            
+                // Check if the new grammar is different at all
+                if(quest.Grammar != grammar) quest.Grammar = grammar;
+            }
+           
             UpdateContent();
             
         }

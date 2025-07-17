@@ -148,17 +148,14 @@ namespace ISILab.LBS.VisualElements
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();
             }
-            // Assign selected quest node behavior only if the node belongs to the active layer
+            // Assign selected quest node in graph only if the node belongs to the active layer
             else if (evt.button == 0)
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator)) return;
-                
-                QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
-                if(qnb is null) return;
                 LBSInspectorPanel.ActivateBehaviourTab();
                 
-                if (!qnb.Graph.QuestNodes.Contains(_node)) return;
-                qnb.SelectedQuestNode = _node;
+                if (!_node.Graph.QuestNodes.Contains(_node)) return;
+                _node.Graph.SelectedQuestNode = _node;
 
             }
         }

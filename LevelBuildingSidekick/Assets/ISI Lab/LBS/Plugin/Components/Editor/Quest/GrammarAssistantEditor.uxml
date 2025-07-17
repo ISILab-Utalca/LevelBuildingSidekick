@@ -1,9 +1,62 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement style="flex-grow: 1; background-color: rgb(48, 48, 48); min-height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 8px; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;">
-        <uie:ObjectField label="Grammar Asset" name="Grammar" type="ISILab.AI.Grammar.LBSGrammar, LBS" />
-        <ui:ScrollView style="margin-left: 4px;">
-            <ui:VisualElement name="Content" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0);" />
-        </ui:ScrollView>
+        <uie:ObjectField label="Grammar Asset" name="Grammar" type="ISILab.AI.Grammar.LBSGrammar, LBS" style="margin-bottom: 12px; margin-top: 6px;" />
+        <ui:VisualElement name="Action" style="flex-grow: 1; min-height: 24px; max-height: 24px; height: 24px; flex-direction: row; align-self: stretch; background-color: rgba(255, 0, 0, 0);">
+            <ui:VisualElement name="ActionColor" style="flex-grow: 1; flex-direction: row; align-self: stretch; align-content: stretch; justify-content: center; background-color: rgb(60, 60, 60); border-left-color: rgb(113, 113, 113); border-right-color: rgb(113, 113, 113); border-top-color: rgb(113, 113, 113); border-bottom-color: rgb(113, 113, 113); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 3px; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 3px; -unity-background-image-tint-color: rgb(138, 138, 138);">
+                <ui:VisualElement name="ActionIcon" style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=AddQuestPapyrus&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(255, 255, 255); background-size: contain; width: 32px; min-width: 16px; max-width: 16px; min-height: 16px; max-height: 16px; align-self: center; align-content: stretch; justify-content: center; align-items: center; background-color: rgba(255, 255, 255, 0);" />
+                <ui:Label text="Selected Action:" name="ActionLabel" style="align-self: center; align-items: center; justify-content: center; align-content: stretch; color: rgba(255, 255, 255, 0.47);" />
+                <ui:Label text="Label" name="ParamAction" style="align-self: center; align-items: center; justify-content: center; align-content: stretch; color: rgba(255, 255, 255, 0.47);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ID" style="flex-grow: 1; min-height: 24px; max-height: 24px; height: 24px; flex-direction: row; align-self: stretch; background-color: rgba(255, 0, 0, 0); margin-bottom: 6px;">
+            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-self: stretch; align-content: stretch; justify-content: center; background-color: rgb(60, 60, 60); border-left-color: rgb(113, 113, 113); border-right-color: rgb(113, 113, 113); border-top-color: rgb(113, 113, 113); border-bottom-color: rgb(113, 113, 113); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; -unity-background-image-tint-color: rgb(255, 255, 255);">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; background-image: resource(&apos;Icons/Vectorial/Icon=ActionQuest&apos;); -unity-background-scale-mode: scale-to-fit; -unity-background-image-tint-color: rgb(255, 255, 255); background-size: contain; width: 32px; min-width: 16px; max-width: 16px; min-height: 16px; max-height: 16px; align-self: center; align-content: stretch; justify-content: center; align-items: center;" />
+                <ui:Label text="Node ID:" style="align-self: center; align-items: center; justify-content: center; align-content: stretch; color: rgba(210, 210, 210, 0.47);" />
+                <ui:Label text="Label" name="ParamID" style="align-self: center; align-items: center; justify-content: center; align-content: stretch; color: rgba(210, 210, 210, 0.47);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
+        <ui:VisualElement name="NextSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 0; padding-bottom: 6px; padding-left: 0;">
+            <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:Label text="Next Suggested Grammar" style="padding-left: 12px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Content" style="flex-grow: 1; border-top-width: 1px; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(255, 255, 255, 0.25); border-right-color: rgba(255, 255, 255, 0.25); border-top-color: rgba(255, 255, 255, 0.25); border-bottom-color: rgba(255, 255, 255, 0.25);">
+                <ui:ListView name="NextSuggested" show-border="true" fixed-item-height="24" style="margin-top: 6px; margin-bottom: 6px;" />
+                <ui:VisualElement name="NextInvalidPanel" style="flex-grow: 1; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(255, 255, 255, 0.25); border-right-color: rgba(255, 255, 255, 0.25); border-top-color: rgba(255, 255, 255, 0.25); border-bottom-color: rgba(255, 255, 255, 0.25); background-color: rgb(51, 51, 51); flex-direction: row; align-items: center; align-self: stretch; justify-content: center; margin-top: 6px; margin-bottom: 6px;">
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; min-width: 24px; min-height: 24px; max-width: 24px; max-height: 24px; background-image: resource(&apos;Icons/Vectorial/Icon=ActionQuest&apos;); padding-right: 0; margin-right: 6px;" />
+                    <ui:Label text="No Suggestions Available for this grammar" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
+        <ui:VisualElement name="PrevSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
+            <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:Label text="Prev Suggested Grammar" style="padding-left: 12px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Content" style="flex-grow: 1;">
+                <ui:ListView name="PrevSuggested" show-border="true" style="margin-bottom: 6px; margin-top: 6px;" />
+                <ui:VisualElement name="PrevInvalidPanel" style="flex-grow: 1; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(255, 255, 255, 0.25); border-right-color: rgba(255, 255, 255, 0.25); border-top-color: rgba(255, 255, 255, 0.25); border-bottom-color: rgba(255, 255, 255, 0.25); background-color: rgb(51, 51, 51); flex-direction: row; align-items: center; align-self: stretch; justify-content: center; margin-bottom: 6px; margin-top: 6px;">
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; min-width: 24px; min-height: 24px; max-width: 24px; max-height: 24px; background-image: resource(&apos;Icons/Vectorial/Icon=ActionQuest&apos;); padding-right: 0; margin-right: 6px;" />
+                    <ui:Label text="No Suggestions Available for this grammar" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
+        <ui:VisualElement name="ExpandSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
+            <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:Label text="Expand Suggested Grammar" style="padding-left: 12px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Content" style="flex-grow: 1;">
+                <ui:ListView name="ExpandSuggested" show-border="true" style="margin-top: 6px; margin-bottom: 6px;" />
+                <ui:VisualElement name="ExpandInvalidPanel" style="flex-grow: 1; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-left-color: rgba(255, 255, 255, 0.25); border-right-color: rgba(255, 255, 255, 0.25); border-top-color: rgba(255, 255, 255, 0.25); border-bottom-color: rgba(255, 255, 255, 0.25); background-color: rgb(51, 51, 51); flex-direction: row; align-items: center; align-self: stretch; justify-content: center; margin-top: 6px; margin-bottom: 6px;">
+                    <ui:VisualElement name="VisualElement" style="flex-grow: 1; min-width: 24px; min-height: 24px; max-width: 24px; max-height: 24px; background-image: resource(&apos;Icons/Vectorial/Icon=ActionQuest&apos;); padding-right: 0; margin-right: 6px;" />
+                    <ui:Label text="No Suggestions Available for this grammar" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

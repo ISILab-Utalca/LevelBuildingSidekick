@@ -27,117 +27,172 @@ namespace ISILab.LBS.Assistants
         }
 
         /// <summary>
-        /// Validates a node by constructing all full paths through it and checking if each path is valid.
+        /// Validates grammar paths through a given node using full paths from roots and branches.
         /// </summary>
         public void ValidateNodeGrammar(QuestNode node)
         {
             var grammar = Quest.Grammar;
             if (grammar == null || grammar.Rules.Count == 0) return;
 
-            var roots = RootLines(node);
-            var branches = BranchLines(node);
-            var questLines = new List<List<QuestNode>>();
+            var paths = BuildAllPathsThroughNode(node);
 
-            foreach (var r in roots)
-            {
-                foreach (var b in branches)
-                {
-                    var line = new List<QuestNode>();
-                    line.AddRange(r);
-                    line.RemoveAt(line.Count - 1); // Avoid duplication
-                    line.AddRange(b);
-                    questLines.Add(line);
-                }
-            }
-
-            foreach (var n in roots.SelectMany(r => r).Concat(branches.SelectMany(b => b)))
-            {
+            // Mark all as invalid initially
+            foreach (var n in paths.SelectMany(p => p))
                 n.ValidGrammar = false;
-            }
 
-            foreach (var line in questLines)
+            // Mark nodes part of valid paths
+            foreach (var path in paths)
             {
-                if (IsValidSequence(line.Select(n => n.QuestAction).ToList(), grammar))
+                if (IsValidSequence(path.Select(n => n.QuestAction).ToList(), grammar))
                 {
-                    foreach (var n in line)
+                    foreach (var n in path)
                         n.ValidGrammar = true;
                 }
             }
         }
 
         /// <summary>
-        /// Validates an edge by testing all paths that flow through it.
+        /// Validates grammar paths through a given edge.
         /// </summary>
         public void ValidateEdgeGrammar(QuestEdge edge)
         {
             if (edge == null) return;
+
             var grammar = Quest.Grammar;
             if (grammar == null || grammar.Rules.Count == 0) return;
 
-            var roots = RootLines(edge.First);
-            var branches = BranchLines(edge.Second);
-            var questLines = new List<List<QuestNode>>();
+            var paths = BuildAllPathsThroughEdge(edge);
 
-            foreach (var r in roots)
-            {
-                foreach (var b in branches)
-                {
-                    var line = new List<QuestNode>();
-                    line.AddRange(r);
-                    line.AddRange(b);
-                    questLines.Add(line);
-                }
-            }
-
-            foreach (var n in roots.SelectMany(r => r).Concat(branches.SelectMany(b => b)))
-            {
+            foreach (var n in paths.SelectMany(p => p))
                 n.ValidGrammar = false;
-            }
 
-            foreach (var line in questLines)
+            foreach (var path in paths)
             {
-                if (IsValidSequence(line.Select(n => n.QuestAction).ToList(), grammar))
+                if (IsValidSequence(path.Select(n => n.QuestAction).ToList(), grammar))
                 {
-                    foreach (var n in line)
+                    foreach (var n in path)
                         n.ValidGrammar = true;
                 }
             }
         }
 
         /// <summary>
-        /// Efficient validator that checks action sequences linearly using the dictionary rules.
+        /// Checks a sequence of actions for grammar correctness.
         /// </summary>
         private bool IsValidSequence(List<string> actions, LBSGrammar grammar)
         {
             for (int i = 0; i < actions.Count - 1; i++)
             {
-                var currentAction = actions[i];
-                var nextSet = actions[i + 1];
+                var current = actions[i];
+                var next = actions[i + 1];
 
-                if (!grammar.RuleDict.TryGetValue(currentAction, out var expansions))
+                if (!grammar.RuleDict.TryGetValue(current, out var validNext))
                     return false;
 
-                if (!nextSet.Contains(nextSet))
+                if (!validNext.Contains(next))
                     return false;
             }
+
             return true;
         }
 
+        /// <summary>
+        /// Returns true if all nodes in a list are marked as valid.
+        /// </summary>
         public bool FastValidGrammar(List<QuestNode> nodes)
         {
             return nodes.All(n => n.ValidGrammar);
         }
 
+        /// <summary>
+        /// Returns all valid next actions from the given node.
+        /// </summary>
         public List<string> GetSuggestions(QuestNode node)
         {
             var grammar = Quest.Grammar;
-            if (grammar == null || !grammar.RuleDict.TryGetValue(node.QuestAction, out var nextSet))
+
+            if (grammar == null)
                 return new List<string>();
 
-            return nextSet.ToList();
+            if (grammar.RuleDict.TryGetValue(node.QuestAction, out var nextSet))
+                return nextSet.ToList();
+
+            // If not in ruleDict, return all terminals (i.e., valid root nodes)
+            return grammar.TerminalActions.ToList();
         }
 
-        private List<List<QuestNode>> RootLines(QuestNode node)
+        /// <summary>
+        /// Returns all valid actions from a given terminal action.
+        /// </summary>
+        public List<string> GetAllValidNextActions(string currentAction)
+        {
+            var grammar = Quest.Grammar;
+
+            if (grammar != null && grammar.RuleDict.TryGetValue(currentAction, out var nextSet))
+                return nextSet.ToList();
+
+            return new List<string>();
+        }
+
+        public List<string> GetAllValidPrevActions(string getSelectedNode)
+        {
+            return new List<string>() ;
+        }
+
+        public List<List<string>> GetAllExpansions(string getSelectedNode)
+        {
+            return new List<List<string>>() ;
+        }
+        
+        /// <summary>
+        /// Builds all path lines that go through a node.
+        /// </summary>
+        private List<List<QuestNode>> BuildAllPathsThroughNode(QuestNode node)
+        {
+            var roots = ExpandToRoots(node);
+            var branches = ExpandToBranches(node);
+            var paths = new List<List<QuestNode>>();
+
+            foreach (var root in roots)
+            {
+                foreach (var branch in branches)
+                {
+                    var path = new List<QuestNode>(root);
+                    path.RemoveAt(path.Count - 1); // Avoid node duplication
+                    path.AddRange(branch);
+                    paths.Add(path);
+                }
+            }
+
+            return paths;
+        }
+
+        /// <summary>
+        /// Builds all path lines that go through an edge.
+        /// </summary>
+        private List<List<QuestNode>> BuildAllPathsThroughEdge(QuestEdge edge)
+        {
+            var roots = ExpandToRoots(edge.From);
+            var branches = ExpandToBranches(edge.To);
+            var paths = new List<List<QuestNode>>();
+
+            foreach (var root in roots)
+            {
+                foreach (var branch in branches)
+                {
+                    var path = new List<QuestNode>(root);
+                    path.AddRange(branch);
+                    paths.Add(path);
+                }
+            }
+
+            return paths;
+        }
+
+        /// <summary>
+        /// Traverses upward from a node to find all root paths.
+        /// </summary>
+        private List<List<QuestNode>> ExpandToRoots(QuestNode node)
         {
             var rootLines = new List<List<QuestNode>> { new() { node } };
             var expanding = true;
@@ -152,7 +207,7 @@ namespace ISILab.LBS.Assistants
                     var roots = Quest.GetRoots(line[0]);
                     foreach (var edge in roots)
                     {
-                        var prev = edge.First;
+                        var prev = edge.From;
                         if (prev != null && !line.Contains(prev))
                         {
                             var newLine = new List<QuestNode>(line);
@@ -169,7 +224,10 @@ namespace ISILab.LBS.Assistants
             return rootLines;
         }
 
-        private List<List<QuestNode>> BranchLines(QuestNode node)
+        /// <summary>
+        /// Traverses downward from a node to find all branch paths.
+        /// </summary>
+        private List<List<QuestNode>> ExpandToBranches(QuestNode node)
         {
             var branchLines = new List<List<QuestNode>> { new() { node } };
             var expanding = true;
@@ -184,7 +242,7 @@ namespace ISILab.LBS.Assistants
                     var branches = Quest.GetBranches(line[^1]);
                     foreach (var edge in branches)
                     {
-                        var next = edge.Second;
+                        var next = edge.To;
                         if (next != null && !line.Contains(next))
                         {
                             var newLine = new List<QuestNode>(line);
@@ -211,5 +269,6 @@ namespace ISILab.LBS.Assistants
         }
 
         public override void OnGUI() { }
+        
     }
 }
