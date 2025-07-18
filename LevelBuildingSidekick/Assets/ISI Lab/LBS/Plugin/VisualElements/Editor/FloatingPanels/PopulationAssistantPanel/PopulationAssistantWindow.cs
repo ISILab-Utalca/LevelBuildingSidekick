@@ -680,7 +680,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;
-
+            
             var textures = new List<Texture2D>();
 
             foreach (var b in behaviours)
@@ -696,13 +696,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
             }
 
+            
             var texture = new Texture2D((int)(rect.width * size), (int)(rect.height * size));
 
             for (int j = 0; j < texture.height; j++)
             {
-                for (int i = 0; i < texture.height; i++)
+                for (int i = 0; i < texture.width; i++)
                 {
-                    texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
+                    texture.SetPixel(i, j, new UnityEngine.Color(0.25f, 0.25f, 0.25f, 1));
                 }
             }
 
