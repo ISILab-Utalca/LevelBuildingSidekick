@@ -155,6 +155,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if(!selected)
             {
+                selectBorder.style.opacity = 0.0f;
                 selectBorder.visible = false;
                 inactiveBorder.visible = true;
             }
