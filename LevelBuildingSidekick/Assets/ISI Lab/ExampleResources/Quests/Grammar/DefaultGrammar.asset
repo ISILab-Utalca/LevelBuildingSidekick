@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terminalActions:
   - explore
-  - go
-  - to
+  - go to
   - listen
   - read
   - give

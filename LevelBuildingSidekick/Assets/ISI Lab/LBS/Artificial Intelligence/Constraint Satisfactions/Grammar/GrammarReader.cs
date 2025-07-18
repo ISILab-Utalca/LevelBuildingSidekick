@@ -66,11 +66,15 @@ namespace ISILab.AI.Grammar
                         switch (subElement)
                         {
                             case SrgsText text:
-                                var tokens = text.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                var tokens = text.Text.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
                                 foreach (var token in tokens)
                                 {
-                                    sequence.Add(token);
-                                    terminals.Add(token);
+                                    // remove white spaces at the start and end
+                                    var terminal = token.TrimEnd();
+                                    terminal = terminal.TrimStart();
+                                    
+                                    sequence.Add(terminal);
+                                    terminals.Add(terminal);
                                 }
                                 break;
 
