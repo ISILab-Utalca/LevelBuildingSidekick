@@ -7,7 +7,8 @@
         "LBS",
         "Commons",
         "Commons.Editor",
-        "LBS.Editor"
+        "LBS.Editor",
+        "Unity.AI.Navigation"
     ],
     "includePlatforms": [
         "Editor"
