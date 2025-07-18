@@ -1,7 +1,7 @@
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
-//using Unity.AI.Navigation;
+using Unity.AI.Navigation;
 using PathOS;
 using System;
 using System.Collections.Generic;
@@ -123,10 +123,10 @@ namespace ISILab.LBS.Generators
                     // de manera de calcular correctamente el NavMesh)
                     currInstance.transform.localScale = new Vector3(scale.x, scale.x, scale.y);
                     // Agrega y setea modificador de NavMesh
-                    //NavMeshModifier modifier = currInstance.AddComponent<NavMeshModifier>();
-                    //modifier.ignoreFromBuild = false;
-                    //modifier.overrideArea = true;
-                    //modifier.area = NavMesh.GetAreaFromName("Not Walkable");
+                    NavMeshModifier modifier = currInstance.AddComponent<NavMeshModifier>();
+                    modifier.ignoreFromBuild = false;
+                    modifier.overrideArea = true;
+                    modifier.area = NavMesh.GetAreaFromName("Not Walkable");
                     // Guarda referencias para su uso durante el Baking
                     lastGenerationWalls.Add((tile, currInstance)); 
                 }
@@ -244,9 +244,9 @@ namespace ISILab.LBS.Generators
             // NavMeshSurface: Agrega componente de superficie y limita su efecto a los hijos de tempParent.
             // NOTA***: Producto de la potencial existencia de meshes sin acceso de lectura, usamos, en vez, los colliders.
             // Asi se evitan excepciones al realizar "re-Bakes" en Play Mode (ej.: Con obstaculos dinamicos)
-            //var surface = tempParent.AddComponent<NavMeshSurface>();
-            //surface.collectObjects = CollectObjects.Children;
-            //surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
+            var surface = tempParent.AddComponent<NavMeshSurface>();
+            surface.collectObjects = CollectObjects.Children;
+            surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
 
             // Arreglos donde guardar padres viejos para la posterior reinsertacion
             GameObject[] interiorOldParents = new GameObject[interiorLayerGameObjects.Count];
@@ -297,7 +297,7 @@ namespace ISILab.LBS.Generators
             }
 
             // Genera NavMesh (Bake)
-            //surface.BuildNavMesh();
+            surface.BuildNavMesh();
 
             // Remover colliders temporales
             int meshCount = doNotHaveColliderList.Count;

@@ -3,7 +3,7 @@ using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
-//using LBS.Settings;
+using ISILab.LBS.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
@@ -25,7 +25,7 @@ namespace ISILab.LBS.Drawers
             foreach (var tile in behaviour.Tiles)
             {
                 var v = new PathOSTileView(tile);
-                var size = behaviour.OwnerLayer.TileSize;// * LBSSettings.Instance.general.TileSize;
+                var size = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
                 var p = new Vector2(tile.X, -tile.Y);
                 v.SetPosition(new Rect(p * size, size));
                 view.AddElement(v);

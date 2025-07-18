@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PathOS;
-//using Unity.AI.Navigation;
+using Unity.AI.Navigation;
 
 /*
 PathOSAgentMemory.cs 
@@ -453,32 +453,32 @@ public class PathOSAgentMemory : MonoBehaviour
 
     // [GABO DEBUG]
     // Set all memories as reachable, activate test obstacle if new object is visited
-    //public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
-    //{
-    //    //
-    //    int unreachableCount = SetAllMemoriesAndPathsAsReachable();
-    //    //
-    //    GameObject testRock = GameObject.Find("TestDynamicObstacle");
-    //    if (testRock != null && unreachableCount > 0)
-    //    {
-    //        testRock.GetComponent<BoxCollider>().enabled = false;
-    //    }
-    //    else if (testRock == null)
-    //    {
-    //        Debug.LogWarning("Couldn't find TestDynamicObstacle!");
-    //    }
-    //    // Re-bake (if there were any previously unreachable objects)
-    //    if (unreachableCount > 0)
-    //    {
-    //        NavMeshSurface currNavMesh = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
-    //        // Save old set option
-    //        var oldGeometryCollector = currNavMesh.useGeometry;
-    //        // Use colliders to define navmesh, since Unity throws errors if we're baking with non-readable meshes
-    //        // at runtime.
-    //        currNavMesh.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
-    //        currNavMesh.BuildNavMesh();
-    //        // Put old option back
-    //        currNavMesh.useGeometry = oldGeometryCollector;
-    //    }
-    //}
+    public void DEBUGRefreshReachablesObstaclesAndNavMeshWhenVisitingNewEntity()
+    {
+        //
+        int unreachableCount = SetAllMemoriesAndPathsAsReachable();
+        //
+        GameObject testRock = GameObject.Find("TestDynamicObstacle");
+        if (testRock != null && unreachableCount > 0)
+        {
+            testRock.GetComponent<BoxCollider>().enabled = false;
+        }
+        else if (testRock == null)
+        {
+            Debug.LogWarning("Couldn't find TestDynamicObstacle!");
+        }
+        // Re-bake (if there were any previously unreachable objects)
+        if (unreachableCount > 0)
+        {
+            NavMeshSurface currNavMesh = GameObject.Find("NavMeshSurface").GetComponent<NavMeshSurface>();
+            // Save old set option
+            var oldGeometryCollector = currNavMesh.useGeometry;
+            // Use colliders to define navmesh, since Unity throws errors if we're baking with non-readable meshes
+            // at runtime.
+            currNavMesh.useGeometry = UnityEngine.AI.NavMeshCollectGeometry.PhysicsColliders;
+            currNavMesh.BuildNavMesh();
+            // Put old option back
+            currNavMesh.useGeometry = oldGeometryCollector;
+        }
+    }
 }
