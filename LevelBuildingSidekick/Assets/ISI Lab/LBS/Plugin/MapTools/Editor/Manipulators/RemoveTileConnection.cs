@@ -1,6 +1,8 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
+using LBS.Components.TileMap;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -47,38 +49,46 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Connection between tile");
 
-            var t1 = _schema.GetTile(_first);
-            if (t1 == null)
-                return;
-
             var pos = _schema.OwnerLayer.ToFixedPosition(position);
 
-            var dx = t1.Position.x - pos.x;
-            var dy = t1.Position.y - pos.y;
+            var dx = _first.x - pos.x;
+            var dy = _first.y - pos.y;
 
-            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            float dLength = Mathf.Sqrt(dx * dx + dy * dy);
 
-            if (fDir < 0 || fDir >= _schema.Directions.Count)
-                return;
+            int totalConnections = (int)Math.Floor(dLength);
+            List<LBSTile> selectedTiles = new List<LBSTile>();
 
-            var t2 = _schema.GetTile(pos);
-
-            if (t2 == null)
+            for (int i = 0; i <= totalConnections; i++)
             {
-                _schema.SetConnection(t1, fDir, "", true);
-                return;
+                //Get the next tile 
+                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
             }
 
-            if (t1.Equals(t2))
+            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+
+            if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
                 return;
 
-            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-                return;
+            for (int i = 1; i < selectedTiles.Count; i++) 
+            {
+                LBSTile tile1 = selectedTiles[i - 1];
+                LBSTile tile2 = selectedTiles[i];
 
-            var tDir = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+                bool t1Exists = tile1 != null;
+                bool t2Exists = tile2 != null;
 
-            _schema.SetConnection(t1, fDir, "", true);
-            _schema.SetConnection(t2, tDir, "", true);
+                if (!(t1Exists || t2Exists))
+                    continue;
+
+                if (Equals(tile1, tile2))
+                    continue;
+
+                if (t1Exists) _schema.SetConnection(tile1, dir1, "", true);
+                if (t2Exists) _schema.SetConnection(tile2, dir2, "", true);
+            }
+            
             _schema.RecalculateWalls();
 
             if (EditorGUI.EndChangeCheck())

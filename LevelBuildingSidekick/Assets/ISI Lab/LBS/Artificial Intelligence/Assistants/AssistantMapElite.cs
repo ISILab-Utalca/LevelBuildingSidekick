@@ -99,7 +99,7 @@ namespace ISILab.LBS.Assistants
                     toUpdate.Add(v);
                 }
             };
-            Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
+            //Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
             if (mapElites.Running)
             {
                 Debug.Log("Algorithm is already running; Restarting.");
@@ -162,9 +162,6 @@ namespace ISILab.LBS.Assistants
         public void SetAdam(Rect rect, List<LBSLayer> contextLayers = null)
         {
             var tm = OwnerLayer.GetModule<BundleTileMap>();
-            //var contextLayers = //new List<LBSLayer>();
-                //OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList(); // Only for testing. Change later to selected layers.
-            if(contextLayers == null) contextLayers = new List<LBSLayer>();
             var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect), CalcInvalids(rect, contextLayers));
             mapElites.Adam = chrom;
         }
@@ -247,37 +244,55 @@ namespace ISILab.LBS.Assistants
 
         private int[] CalcInvalids(Rect rect, List<LBSLayer> contextLayers)
         {
-            var invalids = new List<int>();
+            if(contextLayers == null || contextLayers.Count == 0)
+                return new int[0];
+
+            var invalids = new HashSet<int>();
+            var layerInvalids = new List<HashSet<int>>();
             var x = (int)rect.min.x;
             var y = (int)rect.min.y;
         
-            foreach(var layer in contextLayers)
+            for(int i = 0; i < contextLayers.Count; i++)
             {
-                switch(layer.ID)
+                layerInvalids.Add(new HashSet<int>());
+                switch (contextLayers[i].ID)
                 {
                     case "Interior":
-                        var TM = layer.GetModule<TileMapModule>();
+                        var TM = contextLayers[i].GetModule<TileMapModule>();
                         if (TM == null)
                             continue;
-                        for(int i = x; i < x + rect.width; i++)
+                        for(int j = x; j < x + rect.width; j++)
                         {
-                            for(int j = y; j < y + rect.height; j++)
+                            for(int k = y; k < y + rect.height; k++)
                             {
-                                var tile = TM.GetTile(new Vector2Int(i, j));
+                                var tile = TM.GetTile(new Vector2Int(j, k));
                                 if(tile == null)
                                 {
-                                    var pos = new Vector2(i, j) - rect.position;
+                                    var pos = new Vector2(j, k) - rect.position;
                                     var index = (int)(pos.y * rect.width + pos.x);
-                                    invalids.Add(index);
+                                    layerInvalids[i].Add(index);
                                 }
                             }
                         }
                         break;
                     default:
-                        Debug.LogError($"Invalid tiles calculation not implemented for layers of type: {layer.ID}");
+                        Debug.LogError($"Invalid tiles calculation not implemented for layers of type: {contextLayers[i].ID}");
                         break;
                 }
             }
+
+            List<HashSet<int>> existingLayerInvalids = layerInvalids.Where(li => li.Count > 0).ToList();
+
+            if (existingLayerInvalids.Count == 0)
+                return new int[0];
+
+            var intersection = new HashSet<int>(existingLayerInvalids[0]);
+            for(int i = 1; i < existingLayerInvalids.Count; i++)
+            {
+                intersection.IntersectWith(existingLayerInvalids[i]);
+            }
+
+            invalids = intersection;
 
             return invalids.ToArray();
         }

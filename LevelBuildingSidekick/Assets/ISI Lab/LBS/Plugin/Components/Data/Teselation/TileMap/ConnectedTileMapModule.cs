@@ -315,6 +315,18 @@ namespace ISILab.LBS.Modules
         {
             return LBSHashUtilities.CustomListHash(connections);
         }
+
+        public override string ToString()
+        {
+            string s = Tile + " {";
+            foreach(string conn in connections)
+            {
+                s += $"'{conn}', "; 
+            }
+            s.Remove(s.Length - 2);
+            s += "}";
+            return s;
+        }
         #endregion
     }
 }

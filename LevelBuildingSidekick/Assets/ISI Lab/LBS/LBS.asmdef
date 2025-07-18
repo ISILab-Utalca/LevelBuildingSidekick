@@ -2,7 +2,8 @@
     "name": "LBS",
     "rootNamespace": "",
     "references": [
-        "GUID:e60498a611515b34dad156cea5ecc4f6"
+        "GUID:e60498a611515b34dad156cea5ecc4f6",
+        "Unity.AI.Navigation"
         
     ],
     "includePlatforms": [

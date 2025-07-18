@@ -145,6 +145,7 @@ namespace ISILab.LBS
 
         private void DrawLevel(LBSLevelData level)
         {
+            _level = level;
             foreach (var layer in level.Layers)
             {
                 DrawLayer(layer);

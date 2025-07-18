@@ -260,6 +260,9 @@ namespace ISILab.LBS.Manipulators
 
                 Remover.OnInternalMouseDown(ne);
                 @event.StopImmediatePropagation();
+
+                _started = false;
+                
                 return;
             }
             
@@ -268,6 +271,7 @@ namespace ISILab.LBS.Manipulators
             StartFeedback();
 
             OnManipulationStart?.Invoke();
+            //Debug.Log("MOUSE DOWN");
             OnMouseDown(@event.target as VisualElement, _startClickPosition, @event);
         }
 
@@ -334,6 +338,13 @@ namespace ISILab.LBS.Manipulators
             _endClickPosition = MainView.Instance.FixPos(@event.localMousePosition).ToInt();
             EndFeedback();
 
+            if(!_started)
+            {
+                @event.StopImmediatePropagation();
+                DrawManager.Instance.RedrawLayer(LBSLayer);
+                return;
+            }
+
             // right click tries deleting 
             if (@event.button == 1 && Remover != null)
             {
@@ -360,7 +371,7 @@ namespace ISILab.LBS.Manipulators
                 OnMouseUp(@event.target as VisualElement, _endClickPosition, @event);
                 @event.StopImmediatePropagation();
             }
-
+            //UnityEngine.Assertions.Assert.IsTrue(_started && _ended);
             _ended = _started = false;
 
             // if it's a deleter called from an adder

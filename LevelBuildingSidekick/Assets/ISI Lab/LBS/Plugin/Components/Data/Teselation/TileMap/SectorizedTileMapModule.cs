@@ -268,22 +268,22 @@ namespace ISILab.LBS.Modules
             }
 
             // Find neighbours and set distances to 1
-            var zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<Zone, List<LBSTile>> zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
             for(int i = 0; i < size; i++)
             {
-                var tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
-                foreach(var t in tilesWithDoors)
+                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                foreach(LBSTile t in tilesWithDoors)
                 {
-                    foreach(var dir in Dirs)
+                    foreach(Vector2Int dir in Dirs)
                     {
                         if (!connectedTM.GetConnections(t)[Dirs.IndexOf(dir)].Equals("Door"))
                             continue;
 
-                        var neigh = tilemap.GetTileNeighbor(t, dir);
-                        if (neigh == null || !selection.Contains(neigh.Position))
+                        LBSTile neigh = tilemap.GetTileNeighbor(t, dir);
+                        if (neigh == null || !selection.Contains(neigh.Position) || !connectedTM.GetConnections(neigh)[Dirs.IndexOf(-dir)].Equals("Door"))
                             continue;
 
-                        var otherZone = GetZone(neigh);
+                        Zone otherZone = GetZone(neigh);
                         if(otherZone == null || otherZone.Equals(zonesToCalc[i]))
                             continue;
 

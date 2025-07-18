@@ -76,9 +76,7 @@ namespace LBS.Bundles.Tools
             get => margin;
         }
         #endregion
-/* -- COMMENTED TO COMPILE IN MY BRANCH (IGNORE THIS FROM MY BRANCH!)
- 
- 
+
  
         public Vector3 MicroPosVector(Transform objTransform, Vector2 scale, int rotation)
         {
@@ -175,9 +173,6 @@ namespace LBS.Bundles.Tools
             scatter.RunCommand();
             helper.StopAllCoroutines();
         }
-
-    }
-    
-    */
+        
     }
 }
