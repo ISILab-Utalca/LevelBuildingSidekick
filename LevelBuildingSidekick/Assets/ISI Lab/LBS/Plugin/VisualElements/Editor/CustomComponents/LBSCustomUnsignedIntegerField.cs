@@ -1,8 +1,6 @@
 using System;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 
 namespace ISILab.LBS.CustomComponents
 {
@@ -14,6 +12,9 @@ namespace ISILab.LBS.CustomComponents
         private VectorImage typeIcon;
         private VectorImage addIcon;
         private VectorImage minusIcon;
+        
+        private uint maxValue = 100;
+        private uint minValue = 0;
 
         private Button addButton;
         private Button minusButton;
@@ -25,7 +26,19 @@ namespace ISILab.LBS.CustomComponents
             get => typeIcon;
             set => typeIcon = value;
         }
+
+        [UxmlAttribute]
+        public uint MaxValue
+        {
+            get => maxValue; 
+            set => maxValue = value;
+        }
         
+        [UxmlAttribute]
+        public uint MinValue { 
+            get => minValue;
+            set => minValue = value; 
+        }
         
         
         public LBSCustomUnsignedIntegerField() : base()
@@ -42,13 +55,14 @@ namespace ISILab.LBS.CustomComponents
             
             addButton.RegisterCallback<ClickEvent>((evt) =>
             {
-                value += 1;
+                value = Math.Clamp(value + 1, minValue, maxValue);
+                
             });
             
             minusButton.RegisterCallback<ClickEvent>((evt) =>
             {
-                value -= 1;
-                value = Math.Clamp(value, 0, int.MaxValue);
+                value = Math.Clamp(value - 1, minValue, maxValue);
+                
             });
             
         }
