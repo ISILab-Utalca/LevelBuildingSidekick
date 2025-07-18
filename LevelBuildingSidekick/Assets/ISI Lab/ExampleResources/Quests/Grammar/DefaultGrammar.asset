@@ -12,14 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 413f9f532ddefee4cb50a01f79231155, type: 3}
   m_Name: DefaultGrammar
   m_EditorClassIdentifier: 
-  rules:
-  - Action: Quest
+  terminalActions:
+  - explore
+  - go
+  - to
+  - listen
+  - read
+  - give
+  - gather
+  - exchange
+  - stealth
+  - take
+  - kill
+  - capture
+  - spy
+  - report
+  ruleEntries:
+  - RuleName: Quest
     Expansions:
     - '#SubquestList'
-  - Action: SubquestList
+  - RuleName: SubquestList
     Expansions:
     - '#Subquest'
-  - Action: Subquest
+  - RuleName: Subquest
     Expansions:
     - '#Goto'
     - '#Learn'
@@ -28,57 +43,31 @@ MonoBehaviour:
     - '#Kill'
     - '#Capture'
     - '#Spy'
-  - Action: Goto
+  - RuleName: Goto
     Expansions:
     - explore
+    - '#Learn go to'
     - go to
-    - '#Learn'
-  - Action: Learn
+  - RuleName: Learn
     Expansions:
-    - listen
-    - '#Goto'
-    - '#SubquestList'
-    - read
-    - '#Get'
-    - give
-  - Action: Get
+    - '#Goto #SubquestList listen'
+    - '#Goto #Get read'
+    - '#Get #SubquestList give'
+  - RuleName: Get
     Expansions:
     - '#Steal'
-    - gather
-    - '#Goto'
-    - exchange
-    - '#Get'
-    - '#SubquestList'
-  - Action: Steal
+    - '#Goto gather'
+    - '#Goto #Get #Goto #SubquestList exchange'
+  - RuleName: Steal
     Expansions:
-    - steal
-    - '#Goto'
-    - take
-    - '#Kill'
-  - Action: Kill
+    - '#Goto stealth'
+    - '#Goto #Kill take'
+  - RuleName: Kill
     Expansions:
-    - kill
-    - '#Goto'
-  - Action: Capture
+    - '#Goto kill'
+  - RuleName: Capture
     Expansions:
-    - capture
-    - '#Get'
-    - '#Goto'
-  - Action: Spy
+    - '#Get #Goto capture'
+  - RuleName: Spy
     Expansions:
-    - spy report
-    - '#Goto'
-  terminalActions:
-  - explore
-  - go to
-  - listen
-  - read
-  - give
-  - gather
-  - exchange
-  - steal
-  - take
-  - kill
-  - capture
-  - spy
-  - report
+    - '#Goto spy #Goto report'

@@ -1,9 +1,5 @@
 using ISILab.Commons.Utility.Editor;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -22,10 +18,7 @@ namespace ISILab.LBS.VisualElements
 
             Label = this.Q<Label>(name: "Action");
             _button = this.Q<Button>(name: "Button");
-            _button.clicked += () =>
-            {
-                Highlight();
-            };
+            _button.clicked += Highlight;
         }
 
         public ActionButton(string text, Action action) : this()

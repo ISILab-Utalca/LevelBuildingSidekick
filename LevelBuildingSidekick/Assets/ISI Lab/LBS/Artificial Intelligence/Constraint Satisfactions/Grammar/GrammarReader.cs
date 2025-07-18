@@ -2,79 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Speech.Recognition.SrgsGrammar;
-using System.Xml.Linq;
 using UnityEngine;
 
 namespace ISILab.AI.Grammar
 {
-    /// <summary>
-    /// Utility class to parse SRGS grammar XML files into usable in-game rule structures.
-    /// </summary>
     public static class LBSGrammarReader
     {
-        private static readonly XNamespace Namespace = "http://www.w3.org/2001/06/grammar";
-
-        /// <summary>
-        /// Extracts terminal (literal) action strings from an SRGS grammar file.
-        /// Ignores references to other rules (rulerefs).
-        /// </summary>
-        /// <param name="path">File path to the SRGS XML file.</param>
-        /// <returns>A HashSet of terminal (literal) action strings.</returns>
-        public static HashSet<string> GetTerminalActions(string path)
+        public class RuleData
         {
-            var doc = XDocument.Load(path);
-            var terminals = new HashSet<string>();
-
-            // Search all <item> nodes and extract terminal text content
-            foreach (var item in doc.Descendants(Namespace + "item"))
-            {
-                foreach (var token in ExtractTerminalsRecursive(item))
-                {
-                    var trimmed = token.Trim();
-                    if (!string.IsNullOrWhiteSpace(trimmed))
-                        terminals.Add(trimmed);
-                }
-            }
-
-            return terminals;
+            public string RuleName;
+            public List<List<string>> Expansions = new(); // Each list is a sequence (can contain terminals and rule refs)
         }
 
-        /// <summary>
-        /// Recursively traverses an XML node tree to extract terminal text content.
-        /// Skips <ruleref> nodes, as they are references to other rules.
-        /// </summary>
-        /// <param name="element">The starting XElement node.</param>
-        /// <returns>A list of extracted terminal strings.</returns>
-        private static List<string> ExtractTerminalsRecursive(XElement element)
+        public class GrammarStructure
         {
-            var result = new List<string>();
-
-            foreach (var node in element.Nodes())
-            {
-                switch (node)
-                {
-                    case XText textNode:
-                        // Split by period and trim whitespace
-                        result.AddRange(textNode.Value.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries));
-                        break;
-
-                    case XElement el when el.Name.LocalName == "item":
-                        result.AddRange(ExtractTerminalsRecursive(el));
-                        break;
-
-                    // Ignore <ruleref> elements
-                }
-            }
-
-            return result;
+            public Dictionary<string, RuleData> Rules = new();
+            public HashSet<string> Terminals = new();
         }
 
-        /// <summary>
-        /// Loads and parses an SRGS grammar file into a dictionary of rules and their expansions.
-        /// </summary>
-        /// <param name="path">Path to the SRGS XML file.</param>
-        /// <returns>A dictionary mapping rule IDs to sets of possible expansion phrases.</returns>
-        public static Dictionary<string, HashSet<string>> ReadGrammar(string path)
+        public static GrammarStructure ReadGrammar(string path)
         {
             try
             {
@@ -88,59 +34,90 @@ namespace ISILab.AI.Grammar
             }
         }
 
-        /// <summary>
-        /// Converts an SrgsDocument into a dictionary of rule expansions.
-        /// </summary>
-        /// <param name="doc">The parsed SRGS document.</param>
-        /// <returns>Dictionary of rule ID to a set of valid expansions.</returns>
-        private static Dictionary<string, HashSet<string>> ParseGrammar(SrgsDocument doc)
+        private static GrammarStructure ParseGrammar(SrgsDocument doc)
         {
-            var grammar = new Dictionary<string, HashSet<string>>();
+            var grammar = new GrammarStructure();
 
             foreach (var rule in doc.Rules)
             {
-                if (!grammar.ContainsKey(rule.Id))
-                    grammar[rule.Id] = new HashSet<string>();
+                if (!grammar.Rules.ContainsKey(rule.Id))
+                {
+                    grammar.Rules[rule.Id] = new RuleData { RuleName = rule.Id };
+                }
 
                 foreach (var element in rule.Elements)
-                    ExtractPhrases(element, grammar[rule.Id]);
+                {
+                    ExtractExpansionSequences(element, grammar.Rules[rule.Id].Expansions, grammar.Terminals);
+                }
             }
 
             return grammar;
         }
 
-        /// <summary>
-        /// Recursively extracts literal phrases from an SRGS element tree and stores them in the target set.
-        /// </summary>
-        /// <param name="element">The root SRGS element.</param>
-        /// <param name="target">The HashSet to store found phrases.</param>
-        private static void ExtractPhrases(SrgsElement element, HashSet<string> target)
+        private static void ExtractExpansionSequences(SrgsElement element, List<List<string>> expansions, HashSet<string> terminals)
         {
             switch (element)
             {
                 case SrgsItem item:
-                    // Build phrase from literal text elements
-                    var phrase = string.Join(" ",
-                        item.Elements.OfType<SrgsText>()
-                                     .Select(t => t.Text.Trim())
-                                     .Where(t => !string.IsNullOrEmpty(t)));
+                    var sequence = new List<string>();
 
-                    if (!string.IsNullOrEmpty(phrase))
-                        target.Add(phrase);
-
-                    // Recursively extract from all sub-elements
                     foreach (var subElement in item.Elements)
-                        ExtractPhrases(subElement, target);
+                    {
+                        switch (subElement)
+                        {
+                            case SrgsText text:
+                                var tokens = text.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (var token in tokens)
+                                {
+                                    sequence.Add(token);
+                                    terminals.Add(token);
+                                }
+                                break;
+
+                            case SrgsRuleRef ruleRef:
+                                var refName = $"#{ruleRef.Uri.ToString().Trim('#')}";
+                                sequence.Add(refName);
+                                break;
+
+                            case SrgsItem subItem:
+                                // Handle nested item recursively as an additional expansion
+                                var nested = new List<List<string>>();
+                                ExtractExpansionSequences(subItem, nested, terminals);
+                                foreach (var nestedSeq in nested)
+                                    sequence.AddRange(nestedSeq);
+                                break;
+
+                            case SrgsOneOf innerOneOf:
+                                foreach (var alt in innerOneOf.Items)
+                                {
+                                    var altSeq = new List<List<string>>();
+                                    ExtractExpansionSequences(alt, altSeq, terminals);
+                                    foreach (var seq in altSeq)
+                                    {
+                                        var full = new List<string>(sequence);
+                                        full.AddRange(seq);
+                                        expansions.Add(full);
+                                    }
+                                }
+                                return; // Exit because alternatives already added
+
+                            default:
+                                Debug.LogWarning($"[LBSGrammarReader] Unhandled subElement type: {subElement.GetType()}");
+                                break;
+                        }
+                    }
+
+                    if (sequence.Count > 0)
+                        expansions.Add(sequence);
                     break;
 
                 case SrgsOneOf oneOf:
                     foreach (var itemAlt in oneOf.Items)
-                        ExtractPhrases(itemAlt, target);
+                        ExtractExpansionSequences(itemAlt, expansions, terminals);
                     break;
 
                 case SrgsRuleRef ruleRef:
-                    // Keep rule references as "#RuleName"
-                    target.Add($"#{ruleRef.Uri.ToString().Trim('#')}");
+                    expansions.Add(new List<string> { $"#{ruleRef.Uri.ToString().Trim('#')}" });
                     break;
             }
         }

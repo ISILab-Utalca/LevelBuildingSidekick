@@ -32,7 +32,7 @@ namespace ISILab.LBS.Assistants
         public void ValidateNodeGrammar(QuestNode node)
         {
             var grammar = Quest.Grammar;
-            if (grammar == null || grammar.Rules.Count == 0) return;
+            if (grammar == null || grammar.GetRules().Count == 0) return;
 
             var paths = BuildAllPathsThroughNode(node);
 
@@ -59,7 +59,7 @@ namespace ISILab.LBS.Assistants
             if (edge == null) return;
 
             var grammar = Quest.Grammar;
-            if (grammar == null || grammar.Rules.Count == 0) return;
+            if (grammar == null || grammar.GetRules().Count == 0) return;
 
             var paths = BuildAllPathsThroughEdge(edge);
 
@@ -86,7 +86,7 @@ namespace ISILab.LBS.Assistants
                 var current = actions[i];
                 var next = actions[i + 1];
 
-                if (!grammar.RuleDict.TryGetValue(current, out var validNext))
+                if (!grammar.GetRules().TryGetValue(current, out var validNext))
                     return false;
 
                 if (!validNext.Contains(next))
@@ -114,7 +114,7 @@ namespace ISILab.LBS.Assistants
             if (grammar == null)
                 return new List<string>();
 
-            if (grammar.RuleDict.TryGetValue(node.QuestAction, out var nextSet))
+            if (grammar.GetRules().TryGetValue(node.QuestAction, out var nextSet))
                 return nextSet.ToList();
 
             // If not in ruleDict, return all terminals (i.e., valid root nodes)
@@ -122,18 +122,72 @@ namespace ISILab.LBS.Assistants
         }
 
         /// <summary>
-        /// Returns all valid actions from a given terminal action.
+        /// Returns all valid next terminal actions that can follow the given terminal action,
+        /// resolving any non-terminal references recursively.
         /// </summary>
         public List<string> GetAllValidNextActions(string currentAction)
         {
             var grammar = Quest.Grammar;
+            var result = new HashSet<string>();
 
-            if (grammar != null && grammar.RuleDict.TryGetValue(currentAction, out var nextSet))
-                return nextSet.ToList();
+            if (grammar == null)
+                return result.ToList();
 
-            return new List<string>();
+            var rules = grammar.GetRules();
+
+            foreach (var rule in rules)
+            {
+                foreach (var expansion in rule.Value)
+                {
+                    var tokens = expansion.Split('.', StringSplitOptions.RemoveEmptyEntries);
+                    for (int i = 0; i < tokens.Length - 1; i++)
+                    {
+                        if (tokens[i] == currentAction)
+                        {
+                            string next = tokens[i + 1];
+
+                            if (next.StartsWith("#"))
+                            {
+                                var ruleName = next.Substring(1);
+                                CollectStartingTerminals(ruleName, rules, result);
+                            }
+                            else
+                            {
+                                result.Add(next);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return result.ToList();
         }
 
+        private void CollectStartingTerminals(string ruleName, Dictionary<string, List<string>> rules, HashSet<string> result)
+        {
+            if (!rules.TryGetValue(ruleName, out var expansions))
+                return;
+
+            foreach (var expansion in expansions)
+            {
+                var tokens = expansion.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                if (tokens.Length == 0) continue;
+
+                string first = tokens[0];
+
+                if (first.StartsWith("#"))
+                {
+                    var nestedRule = first.Substring(1);
+                    CollectStartingTerminals(nestedRule, rules, result); // recursive
+                }
+                else
+                {
+                    result.Add(first);
+                }
+            }
+        }
+
+        
         public List<string> GetAllValidPrevActions(string getSelectedNode)
         {
             return new List<string>() ;
