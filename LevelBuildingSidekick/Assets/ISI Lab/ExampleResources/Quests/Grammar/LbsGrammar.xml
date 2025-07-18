@@ -26,50 +26,50 @@
 
   <rule id="Goto">
     <one-of>
-      <item> explore </item>
-      <item> <ruleref uri="#Learn" /> go to </item>
-      <item> go to </item>
+      <item> Explore </item>
+      <item> <ruleref uri="#Learn" /> Go to </item>
+      <item> Go to </item>
     </one-of>
   </rule>
 
   <rule id="Learn">
     <one-of>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> listen </item>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> read </item>
-      <item> <ruleref uri="#Get" /> <ruleref uri="#SubquestList" /> give </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> Listen </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> Read </item>
+      <item> <ruleref uri="#Get" /> <ruleref uri="#SubquestList" /> Give </item>
     </one-of>
   </rule>
 
   <rule id="Get">
     <one-of>
       <item> <ruleref uri="#Steal" /> </item>
-      <item> <ruleref uri="#Goto" /> gather </item>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> exchange </item>
+      <item> <ruleref uri="#Goto" /> Gather </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> Exchange </item>
     </one-of>
   </rule>
 
   <rule id="Steal">
     <one-of>
-      <item> <ruleref uri="#Goto" /> stealth </item>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#Kill" /> take </item>
+      <item> <ruleref uri="#Goto" /> Stealth </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Kill" /> Take </item>
     </one-of>
   </rule>
 
   <rule id="Kill">
     <one-of>
-      <item> <ruleref uri="#Goto" /> kill </item>
+      <item> <ruleref uri="#Goto" /> Kill </item>
     </one-of>
   </rule>
 
   <rule id="Capture">
     <one-of>
-      <item> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> capture </item>
+      <item> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> Capture </item>
     </one-of>
   </rule>
 
   <rule id="Spy">
     <one-of>
-      <item> <ruleref uri="#Goto" /> spy <ruleref uri="#Goto" /> report </item>
+      <item> <ruleref uri="#Goto" /> Spy <ruleref uri="#Goto" /> Report </item>
     </one-of>
   </rule>
 </grammar>

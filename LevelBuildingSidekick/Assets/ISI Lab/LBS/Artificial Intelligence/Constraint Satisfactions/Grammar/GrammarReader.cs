@@ -8,16 +8,78 @@ namespace ISILab.AI.Grammar
 {
     public static class LBSGrammarReader
     {
+        public class Grammar
+        {
+            // the string that is used
+            public string name;
+
+            public bool IsNonTerminal()
+            {
+                return GetTrimmed()[0] == '#';
+            }
+            
+            public bool IsTerminal()
+            {
+                return GetTrimmed()[0] != '#';
+            }
+
+            public string GetTrimmed()
+            {
+                return name.Trim();
+            }
+        }
+
+        public class TerminalGrammar : Grammar
+        {
+            
+        }
+
+        // Non-terminals have expansions that can be Grammars
+        public class NonTerminal : Grammar
+        {
+            private List<Grammar> Expansions = new();
+
+            public List<string> GetTerminals()
+            {
+                List<string> terminals = new();
+                foreach (var expansion in Expansions)
+                {
+                    if (expansion is NonTerminal nonTerminal)
+                    {
+                        foreach (var terminal in nonTerminal.GetTerminals())
+                        {
+                            terminals.Add(terminal);
+                        }
+                    }
+                    else if (expansion is TerminalGrammar terminalGrammar)
+                    {
+                        terminals.Add(terminalGrammar.name);
+                    }
+                }
+                
+                return terminals;
+            }
+        }
+        
         public class RuleData
         {
             public string RuleName;
             public List<List<string>> Expansions = new(); // Each list is a sequence (can contain terminals and rule refs)
+            
+            public string GetFirstTerminal(Dictionary<string, RuleData> Rules, string ruleName)
+            {
+                if (Rules.TryGetValue(ruleName, out var rule))
+                    return rule.GetFirstTerminal(Rules,ruleName);
+                return null;
+            }
         }
 
         public class GrammarStructure
         {
             public Dictionary<string, RuleData> Rules = new();
             public HashSet<string> Terminals = new();
+            
+
         }
 
         public static GrammarStructure ReadGrammar(string path)
@@ -34,6 +96,13 @@ namespace ISILab.AI.Grammar
             }
         }
 
+        /// <summary>
+        ///  Parsing Grammar assumes that your grammar meets the following requirements
+        /// Rules: Start with #, followed by a Cap Character
+        /// Terminals: Start with Cap
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         private static GrammarStructure ParseGrammar(SrgsDocument doc)
         {
             var grammar = new GrammarStructure();
@@ -69,13 +138,31 @@ namespace ISILab.AI.Grammar
                                 var tokens = text.Text.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
                                 foreach (var token in tokens)
                                 {
-                                    // remove white spaces at the start and end
-                                    var terminal = token.TrimEnd();
-                                    terminal = terminal.TrimStart();
-                                    
-                                    sequence.Add(terminal);
-                                    terminals.Add(terminal);
+                                    // Further split each token by capital letter not preceded by #
+                                    int start = 0;
+                                    for (int i = 1; i < token.Length; i++)
+                                    {
+                                        if (char.IsUpper(token[i]) && token[i - 1] != '#')
+                                        {
+                                            string subToken = token.Substring(start, i - start).Trim();
+                                            if (!string.IsNullOrEmpty(subToken))
+                                            {
+                                                sequence.Add(subToken);
+                                                terminals.Add(subToken);
+                                            }
+                                            start = i;
+                                        }
+                                    }
+
+                                    // Add the last sub-token
+                                    string lastToken = token.Substring(start).Trim();
+                                    if (!string.IsNullOrEmpty(lastToken))
+                                    {
+                                        sequence.Add(lastToken);
+                                        terminals.Add(lastToken);
+                                    }
                                 }
+
                                 break;
 
                             case SrgsRuleRef ruleRef:

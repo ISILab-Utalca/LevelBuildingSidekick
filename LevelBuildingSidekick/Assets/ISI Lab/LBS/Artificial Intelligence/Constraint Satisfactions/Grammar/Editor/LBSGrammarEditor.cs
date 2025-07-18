@@ -33,7 +33,8 @@ namespace ISILab.LBS.VisualElements
                     {
                         foreach (var expansion in rule.Value)
                         {
-                            EditorGUILayout.LabelField("-" + expansion + "-");
+                            EditorGUILayout.LabelField("▪" + expansion);
+                            Debug.Log(expansion);
                         }
                     }
                 }
@@ -58,7 +59,7 @@ namespace ISILab.LBS.VisualElements
                 {
                     foreach (var action in terminals)
                     {
-                        EditorGUILayout.LabelField("-" + action + "-");
+                        EditorGUILayout.LabelField("▪" + action);
                     }
                 }
             }

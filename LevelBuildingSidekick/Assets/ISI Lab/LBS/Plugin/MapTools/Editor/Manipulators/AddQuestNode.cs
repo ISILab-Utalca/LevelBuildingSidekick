@@ -1,3 +1,4 @@
+using System;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
@@ -32,7 +33,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            if (ActionToSet == null)
+            if (string.IsNullOrEmpty(ActionToSet))
             {
                 LBSMainWindow.MessageNotify("Can't add node. Make sure to select a grammar and a word.", LogType.Error, 5);
                 return;
