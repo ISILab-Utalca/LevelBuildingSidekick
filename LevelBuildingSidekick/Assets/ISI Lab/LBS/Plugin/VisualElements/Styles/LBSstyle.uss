@@ -6,10 +6,6 @@
     padding-right: 21px;
 }
 
-.myTextSize PopupTextElement {
-    font-size: 12px;
-}
-
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
     width: 32px;
@@ -1171,6 +1167,9 @@ Button.lbs-actionbutton {
     background-color: var(--lbs-selection-dark-teal-color);
 }
 
+.lbs-simple-button {
+}
+
 #LayerDataButton:selected {
     background-color: var(--lbs-selection-dark-red-color);
 }
@@ -1268,7 +1267,7 @@ Button.lbs-actionbutton {
     margin-top: 3px;
 }
 
-.lbs-generic-panel {
+.lbs-panel {
     padding-left: 2px;
     padding-top: 2px;
     padding-right: 2px;
@@ -1343,4 +1342,8 @@ Button.lbs-actionbutton {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
+}
+
+.lbs-menu-button{
+    
 }

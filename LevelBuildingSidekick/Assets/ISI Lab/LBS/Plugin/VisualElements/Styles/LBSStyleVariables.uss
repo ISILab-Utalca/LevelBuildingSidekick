@@ -1,23 +1,35 @@
 :root {
     --lbs-light-red-color: rgb(254, 118, 105);
+    --lbs-selection-dark-red-color: rgb(200, 92, 82);
+    
     --lbs-light-green-color: rgb(194, 246, 100);
+    --lbs-selection-dark-green-color: rgb(118, 151, 67);
+    
     --lbs-light-yellow-color: rgb(247, 196, 64);
+    
     --lbs-light-blue-color: rgb(135, 215, 246);
+    --lbs-selection-dark-teal-color: rgb(98, 139, 200);
+    
     --lbs-light-purple-color: rgb(163, 160, 251);
     
+    --lbs-default-icon-color: rgb(210,210,210);
     --lbs-base-solid-gray-color: rgb(60, 60, 60);
-    --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
+    --lbs-field-solid-bg-gray-color: rgb(40,40,40);
     --lbs-darker-solid-gray-color: rgb(33, 33, 33);
+    --lbs-unity-6-black-color: rgb(20,20,20);
+    
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
+    --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
+    
+    --lbs-selectable-gray-color: rgb(72,72,72);
+    --lbs-selectable-hover-color: rgb(88,88,88);
     
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-focus-blue-color: rgb(44,93,135);
     --lbs-selection-dark-blue-color: rgb(24, 55, 110);
     
-    --lbs-selection-dark-green-color: rgb(118, 151, 67);
-    --lbs-selection-dark-red-color: rgb(200, 92, 82);
-    --lbs-selection-dark-teal-color: rgb(98, 139, 200);
     
     --lbs-quest-teal-color: rgb(0,255,174);
     --lbs-quest-rose-color: rgb(207,32,80);
     --lbs-quest-purple-color: rgb(151,71,255);
-}|
+}

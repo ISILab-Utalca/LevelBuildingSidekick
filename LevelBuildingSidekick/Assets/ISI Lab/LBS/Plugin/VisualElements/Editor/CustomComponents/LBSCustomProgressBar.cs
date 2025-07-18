@@ -80,6 +80,7 @@ namespace ISILab.LBS.CustomComponents
             
             progressLabel = new Label("Progress Label");
             progressLabel.AddToClassList(STYLE_CLASS_NAME + "__progress-label");
+            progressLabel.AddToClassList("unity-base-field__label");
             topPanel.Add(progressLabel);
             
             barVisualElement = this.Query<VisualElement>(className: progressUssClassName);
