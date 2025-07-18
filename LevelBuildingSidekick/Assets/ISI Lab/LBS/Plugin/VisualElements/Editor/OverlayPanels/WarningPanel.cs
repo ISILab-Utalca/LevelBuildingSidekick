@@ -11,8 +11,8 @@ namespace ISILab.LBS.VisualElements
     public partial class WarningPanel : VisualElement
     {
         #region FACTORY
-        //public new class UxmlFactory : UxmlFactory<WarningPanel, UxmlTraits> { }
 
+        
         UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription
         {
             name = "Text",
@@ -46,13 +46,18 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region PROPERTIES
+        
+        [UxmlAttribute]
         public string Text
         {
             get => text;
             set
             {
                 text = value;
-                label.text = value;
+                if (label != null)
+                {
+                    label.text = value;
+                }
             }
         }
         #endregion
@@ -60,10 +65,11 @@ namespace ISILab.LBS.VisualElements
         #region CONSTRUCTORS
         public WarningPanel()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("WarningPanel");
+            var visualTree = Macros.LBSAssetMacro.LoadAssetByGuid<VisualTreeAsset>("65ad21365d671594a85cf837da5d8c84"); //Warning Panel
             visualTree.CloneTree(this);
 
             this.label = this.Q<Label>("Text");
+            label.text = this.Text;
         }
         #endregion
     }

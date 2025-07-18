@@ -10,5 +10,6 @@
         <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Custom Foldout" name="LBSCustomFoldout">
             <ui:Button text="Button" />
         </ISILab.LBS.CustomComponents.LBSCustomFoldout>
+        <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." style="height: 83px;" />
     </ui:VisualElement>
 </ui:UXML>
