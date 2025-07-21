@@ -1,6 +1,7 @@
 using ISILab.AI.Grammar;
 using System;
 using System.Collections.Generic;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace ISILab.LBS.VisualElements
     [CustomEditor(typeof(LBSGrammar))]
     public class LBSGrammarEditor : UnityEditor.Editor
     {
-        private string _path = "";
+        private TextAsset _grammarAsset;
         private bool _foldout;
         private bool _terminalFoldout;
         private readonly Dictionary<string, bool> _ruleFoldouts = new();
@@ -32,7 +33,8 @@ namespace ISILab.LBS.VisualElements
                     {
                         foreach (var expansion in rule.Value)
                         {
-                            EditorGUILayout.LabelField("• " + expansion);
+                            EditorGUILayout.LabelField("▪" + expansion);
+                            Debug.Log(expansion);
                         }
                     }
                 }
@@ -57,21 +59,29 @@ namespace ISILab.LBS.VisualElements
                 {
                     foreach (var action in terminals)
                     {
-                        EditorGUILayout.LabelField("• " + action);
+                        EditorGUILayout.LabelField("▪" + action);
                     }
                 }
             }
 
-            // Import section
+            // In OnInspectorGUI():
             EditorGUILayout.Space(10);
             GUILayout.Label("Import SRGS Grammar", EditorStyles.boldLabel);
-            _path = EditorGUILayout.TextField("Grammar Path", _path);
 
-            if (GUILayout.Button("Import"))
+// Drag-and-drop TextAsset field
+            _grammarAsset = (TextAsset)EditorGUILayout.ObjectField("Grammar File", _grammarAsset, typeof(TextAsset), false);
+
+            if (_grammarAsset is not null && GUILayout.Button("Read Grammar File"))
             {
                 try
                 {
-                    var structure = LBSGrammarReader.ReadGrammar(_path);
+                    // Get the asset path in the project (e.g., "Assets/Grammars/example.txt")
+                    string assetPath = AssetDatabase.GetAssetPath(_grammarAsset);
+
+                    // Convert it to an absolute path (needed for SrgsDocument)
+                   // string fullPath = System.IO.Path.Combine(Application.dataPath.Substring(0, Application.dataPath.Length - "Assets".Length), assetPath);
+
+                    var structure = LBSGrammarReader.ReadGrammar(assetPath);
                     grammar.SetGrammarStructure(structure);
                     EditorUtility.SetDirty(grammar);
                     _ruleFoldouts.Clear(); // reset foldouts for new rules

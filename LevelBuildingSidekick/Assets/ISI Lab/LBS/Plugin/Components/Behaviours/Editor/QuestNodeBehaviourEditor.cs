@@ -60,8 +60,7 @@ namespace ISILab.LBS.VisualElements
         
         private PickerVector2Int _targetPosition;
         private RectField _area;
-    
-
+        private VisualElement _selectedNodePanel;
 
         #endregion
         
@@ -92,6 +91,7 @@ namespace ISILab.LBS.VisualElements
             _nodePanel = this.Q<VisualElement>("ID");
             _actionPanel = this.Q<VisualElement>("Action");
             _noNodeSelectedPanel = this.Q<VisualElement>("NoNodeSelectedPanel");
+            _selectedNodePanel = this.Q<VisualElement>("NodeSelectedPanel");
             
             _instancedContent = this.Q<VisualElement>("InstancedContent");
             
@@ -172,7 +172,7 @@ namespace ISILab.LBS.VisualElements
             _nodePanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             _actionPanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             _targetPosition.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
-            _area.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
+            _selectedNodePanel.style.display = validNode ? DisplayStyle.Flex : DisplayStyle.None;
             
             _instancedContent.Clear();
             

@@ -13,20 +13,19 @@ MonoBehaviour:
   m_Name: DefaultGrammar
   m_EditorClassIdentifier: 
   terminalActions:
-  - explore
-  - go
-  - to
-  - listen
-  - read
-  - give
-  - gather
-  - exchange
-  - stealth
-  - take
-  - kill
-  - capture
-  - spy
-  - report
+  - Explore
+  - Go to
+  - Listen
+  - Read
+  - Give
+  - Gather
+  - Exchange
+  - Stealth
+  - Take
+  - Kill
+  - Capture
+  - Spy
+  - Report
   ruleEntries:
   - RuleName: Quest
     Expansions:
@@ -45,29 +44,29 @@ MonoBehaviour:
     - '#Spy'
   - RuleName: Goto
     Expansions:
-    - explore
-    - '#Learn go to'
-    - go to
+    - Explore
+    - '#Learn Go to'
+    - Go to
   - RuleName: Learn
     Expansions:
-    - '#Goto #SubquestList listen'
-    - '#Goto #Get read'
-    - '#Get #SubquestList give'
+    - '#Goto #SubquestList Listen'
+    - '#Goto #Get Read'
+    - '#Get #SubquestList Give'
   - RuleName: Get
     Expansions:
     - '#Steal'
-    - '#Goto gather'
-    - '#Goto #Get #Goto #SubquestList exchange'
+    - '#Goto Gather'
+    - '#Goto #Get #Goto #SubquestList Exchange'
   - RuleName: Steal
     Expansions:
-    - '#Goto stealth'
-    - '#Goto #Kill take'
+    - '#Goto Stealth'
+    - '#Goto #Kill Take'
   - RuleName: Kill
     Expansions:
-    - '#Goto kill'
+    - '#Goto Kill'
   - RuleName: Capture
     Expansions:
-    - '#Get #Goto capture'
+    - '#Get #Goto Capture'
   - RuleName: Spy
     Expansions:
-    - '#Goto spy #Goto report'
+    - '#Goto Spy #Goto Report'

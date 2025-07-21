@@ -17,7 +17,7 @@ namespace ISILab.LBS.VisualElements
     {
         private readonly ObjectField _objectFieldBundle;
         private readonly Button _buttonPickerTarget;
-        private readonly Label _labelLayer;
+        private readonly TextField _labelLayer;
         private readonly VisualElement _warning;
         private readonly VisualElement _layerDisplay;
         private readonly Vector2IntField _position;
@@ -70,7 +70,7 @@ namespace ISILab.LBS.VisualElements
             _warning.tooltip = "Data Information Missing. Correct nulls and non-assigned values";
             
             
-            _labelLayer = this.Q<Label>("Layer");
+            _labelLayer = this.Q<TextField>("Layer");
             _layerDisplay = this.Q<VisualElement>("LayerDisplay");
             _position = this.Q<Vector2IntField>("Position");
             
@@ -143,12 +143,12 @@ namespace ISILab.LBS.VisualElements
             if(layer != null)
             {
                 _layerDisplay.style.display = DisplayStyle.Flex;
-                _labelLayer.text = layer.Name;
+                _labelLayer.value = layer.Name;
                 _position.value = bg.Position;
                 
                 layer.OnChangeName += () =>
                 {
-                    _labelLayer.text = layer.Name;
+                    _labelLayer.value = layer.Name;
                     _position.value = bg.Position;
                 };
                 
@@ -160,7 +160,7 @@ namespace ISILab.LBS.VisualElements
         private void DefaultValues()
         {
             _objectFieldBundle.value = null;
-            _labelLayer.text = "No Layer";
+            _labelLayer.value = "No Layer";
         }
 
 

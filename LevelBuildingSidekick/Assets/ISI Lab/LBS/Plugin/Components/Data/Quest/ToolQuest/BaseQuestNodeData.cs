@@ -111,7 +111,8 @@ namespace ISILab.LBS.Components
     /// </summary>
     public static class QuestNodeDataFactory
     {
-        private static readonly Dictionary<string, Type> TagDataTypes = new()
+        // Make sure your Data type has the exact string as your terminals
+        private static readonly Dictionary<string, Type> TagDataTypesPerTerminal = new()
         {
             { "go to", typeof(DataGoto) },
             { "explore", typeof(DataExplore) },
@@ -131,7 +132,7 @@ namespace ISILab.LBS.Components
         
         public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
         {
-            if (!TagDataTypes.TryGetValue(tag, out var dataClass))
+            if (!TagDataTypesPerTerminal.TryGetValue(tag, out var dataClass))
             {
                 return null;
             }
