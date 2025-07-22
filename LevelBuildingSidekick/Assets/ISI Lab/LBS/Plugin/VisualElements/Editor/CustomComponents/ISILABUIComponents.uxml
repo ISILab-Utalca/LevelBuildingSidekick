@@ -5,12 +5,12 @@
         <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add.svg?fileID=7388822144124034973&amp;guid=ad8d08a3d465b3a438016713ae2f99c5&amp;type=3#Icon=Add" icon-color="#FFFFFFFF" style="height: 16px;" />
         <ui:Instance template="LBSHorizontalDivider" />
         <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="0" progress-theme-color="#272784FF" title="80" value="60.6" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/Components/Data/Quest/QuestIcons/Icon=Star.svg?fileID=7388822144124034973&amp;guid=8d6364597c916884488b4054a8a747aa&amp;type=3#Icon=Star" style="height: 38px;" />
-        <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="20" progress-theme-color="#388C23FF" />
+        <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="20" progress-theme-color="#00FFADFF" />
         <ISILab.LBS.CustomComponents.LBSCustomToggleField enabled="true" value="false" style="height: 17px;" />
         <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Custom Foldout" name="LBSCustomFoldout">
             <ui:Button text="Button" />
             <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField value="0" label="Int Field" />
         </ISILab.LBS.CustomComponents.LBSCustomFoldout>
-        <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." style="height: 83px;" />
+        <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." current-warning-type="Success" style="height: 83px;" />
     </ui:VisualElement>
 </ui:UXML>
