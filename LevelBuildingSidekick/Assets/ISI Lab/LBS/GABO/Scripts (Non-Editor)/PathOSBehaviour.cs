@@ -115,7 +115,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnGUI()
         {
-            throw new NotImplementedException();
+            
         }
 
         //public override bool Equals(object obj)
