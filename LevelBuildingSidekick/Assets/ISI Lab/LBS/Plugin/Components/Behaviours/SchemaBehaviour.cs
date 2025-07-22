@@ -1,14 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
 using LBS.Bundles;
 using LBS.Components;
-using LBS.Components.Graph;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -31,8 +28,8 @@ namespace ISILab.LBS.Behaviours
         {
             "Empty", // for clearing a wall
             "Wall", // default wall connection 
-                "Door", // within wall connection
-                "Window" // within wall connection
+            "Door", // within wall connection
+            "Window" // within wall connection
         };
         
         #endregion
@@ -49,6 +46,7 @@ namespace ISILab.LBS.Behaviours
         private string pressetInsideStyle = "Castle_Wooden";
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
+        
         #endregion
 
         #region META-FIELDS
@@ -79,15 +77,18 @@ namespace ISILab.LBS.Behaviours
         }
 
         [JsonIgnore]
+        public bool ValidArea => OwnerLayer.GetModule<SectorizedTileMapModule>() is null;
+        
+        [JsonIgnore]
         public List<Zone> Zones => areas.Zones;
 
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => areas.ZonesWithTiles;
-
+        
         [JsonIgnore]
         public List<LBSTile> Tiles => tileMap.Tiles;
 
-        public List<string> Connections => connections;
+        public static List<string> Connections => connections;
 
         [JsonIgnore]
         public List<Vector2Int> Directions => ISILab.Commons.Directions.Bidimencional.Edges;
@@ -116,16 +117,23 @@ namespace ISILab.LBS.Behaviours
 
         public LBSTile AddTile(Vector2Int position, Zone zone)
         {
+            if (tileMap.Contains(position)) return null;
+                
             var tile = new LBSTile(position);//, "Tile: " + position.ToString());
+            
             tileMap.AddTile(tile);
             areas.AddTile(tile, zone);
+            
+            RequestTilePaint(tile);
+            
             return tile;
         }
 
         public Zone AddZone()
         {
-            string prefix = "Zone\n";
+            string prefix = "Zone: ";
             int counter = 0;
+            string suffix = " (" + OwnerLayer.Name + ")";
             string name = prefix + counter;
             IEnumerable<string> names = areas.Zones.Select(z => z.ID);
             while (names.Contains(name))
@@ -138,13 +146,6 @@ namespace ISILab.LBS.Behaviours
                
             }
 
-            /*
-            int r = (int)((Random.value * (256 - 32)) / 16);
-            int g = (int)((Random.value * (256 - 32)) / 16);
-            int b = (int)((Random.value * (256 - 32)) / 16);
-
-            var c = new Color(r * 16 / 256f, g * 16 / 256f, b * 16 / 256f);
-            */
             var c = new Color().RandomColorHSV();
             var zone = new Zone(name, c);
 
@@ -155,17 +156,30 @@ namespace ISILab.LBS.Behaviours
         public void RemoveZone(Zone zone)
         {
             var tiles = areas.GetTiles(zone);
+            foreach (var tile in tiles)
+            {
+                RequestTileRemove(tile);
+            }
+            
             tileMap.RemoveTiles(tiles);
-
             areas.RemoveZone(zone);
         }
 
         public void RemoveTile(Vector2Int position)
         {
             var tile = tileMap.GetTile(position);
+            
+            RequestTileRemove(tile);
+            
             tileMap.RemoveTile(tile);
             tileConnections.RemoveTile(tile);
             areas.RemovePair(tile);
+        }
+
+        public void RequestFullRepaint(List<LBSTile> olds, List<LBSTile> news)
+        {
+            olds.ForEach(t => RequestTileRemove(t));
+            news.ForEach(t => RequestTilePaint(t));
         }
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
@@ -248,7 +262,7 @@ namespace ISILab.LBS.Behaviours
                     }
 
                     var otherZone = GetZone(neigs[i]);
-                    if (otherZone == currZone)
+                    if (otherZone.Equals(currZone))
                     {
 
 
@@ -285,6 +299,7 @@ namespace ISILab.LBS.Behaviours
         {
             return base.GetHashCode();
         }
+        
         #endregion
     }
 }

@@ -4,15 +4,16 @@ using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
+using LBS.Bundles.Tools;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace LBS.Bundles
 {
-
     [System.Flags]
     public enum BundleFlags
     {
@@ -49,11 +50,10 @@ namespace LBS.Bundles
         }
     }
 
-    [CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/LBS/Bundle")]
+    //[CreateAssetMenu(fileName = "New Bundle", menuName = "ISILab/LBS/Bundle")] <- Replaced with BundleMenuItem
     [System.Serializable]
     public class Bundle : ScriptableObject, ICloneable
     {
-
         public Bundle()
         {
             layerContentFlags = BundleFlags.None;
@@ -63,8 +63,12 @@ namespace LBS.Bundles
         [FormerlySerializedAs("flags")] [SerializeField]
         private BundleFlags layerContentFlags;
 
-        public BundleFlags LayerContentFlags => layerContentFlags;
-        
+        public BundleFlags LayerContentFlags
+        {
+            set => layerContentFlags = value;
+            get => layerContentFlags;
+        }
+
         public enum TagType
         {
             Aesthetic, // (Style)Ej: Castle, Spaceship,
@@ -94,7 +98,7 @@ namespace LBS.Bundles
         private Color color;
 
         [SerializeField]
-        private Texture2D icon;
+        private VectorImage icon;
         
         [SerializeField]
         private List<Asset> assets = new List<Asset>();
@@ -113,16 +117,19 @@ namespace LBS.Bundles
         // hides in inspector and uses the custom GUI to assign only children with containing flags
         [SerializeField, HideInInspector]
         private List<Bundle> childsBundles = new List<Bundle>();
+        
+        [SerializeField]
+        private MicroGenTool microGenTool = new MicroGenTool();
+
+        [SerializeField, HideInInspector]
+        private string guid;
 
         #endregion
 
         #region PROPERTIES
-        public Texture2D Icon
+        public VectorImage Icon
         {
-            get
-            {
-                return (icon == null) ? null : icon;
-            }
+            get => !icon ? null : icon;
             set => icon = value;
         }
         public Color Color => color;
@@ -150,6 +157,12 @@ namespace LBS.Bundles
         {
             get => type;
             set => type = value;
+        }
+
+        public string GUID
+        {
+            get => guid;
+            set => guid = value;
         }
 
         #endregion
@@ -255,6 +268,18 @@ namespace LBS.Bundles
             if (childsBundles.Remove(child))
             {
                 OnRemoveChild?.Invoke(child);
+            }
+        }
+        
+        public void RemoveNullChildren()
+        {
+            for (int i = 0; i < childsBundles.Count; i++)
+            {
+                if (childsBundles[i] == null)
+                {
+                    childsBundles.RemoveAt(i);
+                    i--;
+                }
             }
         }
 
@@ -386,6 +411,27 @@ namespace LBS.Bundles
 
             return other;
         }
+        
+        public bool GetHasTagCharacteristic(string label)
+        {
+            bool exists = Characteristics
+                .OfType<LBSTagsCharacteristic>()
+                .Any(c => c.Value != null && c.Value.Label == label);
+
+            //if (!exists)  Debug.Log($"Tag characteristic with label '{label}' was not found.");
+            return exists;
+        }
+
+        public MicroGenTool GetMicroGenTool()
+        {
+            return microGenTool;
+        }
+
+        public void ClearEvents()
+        {
+            OnAddChild = null;
+            OnRemoveChild = null;
+        }
         #endregion
 
         #region STATIC FUNCTIONS
@@ -407,6 +453,8 @@ namespace LBS.Bundles
         }
 
         #endregion
+
+   
     }
 
     public static class BundleExtensions
@@ -427,6 +475,14 @@ namespace LBS.Bundles
                 .Find(b => b.ChildsBundles.Contains(bundle));
 
             return parent;
+        }
+        
+        public static List<Bundle> Parents(this Bundle bundle)
+        {
+            var parents = LBSAssetsStorage.Instance.Get<Bundle>()
+                .FindAll(b => b.ChildsBundles.Contains(bundle));
+
+            return parents;
         }
     }
     

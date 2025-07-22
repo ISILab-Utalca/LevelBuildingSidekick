@@ -3,6 +3,7 @@ using LBS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Settings;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,13 +12,14 @@ namespace ISILab.LBS.VisualElements
     public class ToolButton : VisualElement, IGrupable
     {
         #region FIELDS
-        public Color color = new Color(72f / 255f, 72f / 255f, 72f / 255f);
-        public Color selected = new Color(161f / 255f, 81f / 255f, 21f / 255f);
+
+        private Color _color = LBSSettings.Instance.view.toolkitNormal;
+        private Color _selected = LBSSettings.Instance.view.newToolkitSelected;
         #endregion
 
         #region FIELDS VIEW
-        private Button button;
-        private VisualElement icon;
+        private readonly Button _button;
+
         #endregion
 
         #region EVENTS
@@ -30,14 +32,13 @@ namespace ISILab.LBS.VisualElements
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolButton");
             visualTree.CloneTree(this);
-
-            // Button
-            button = this.Q<Button>("Button");
-
-            // Icon
-            icon = this.Q<VisualElement>("Icon");
-            icon.style.backgroundImage = tool.Icon;
-
+            
+            _button = this.Q<Button>("Button");
+            
+            var icon = this.Q<VisualElement>("Icon");
+            if (tool.Icon == null) return;
+            icon.style.backgroundImage = new StyleBackground(tool.Icon); 
+            
             tooltip = tool.Name;
         }
         #endregion
@@ -45,30 +46,30 @@ namespace ISILab.LBS.VisualElements
         #region IGRUPABLE
         public void AddGroupEvent(Action action)
         {
-            button.clicked += action;
+            _button.clicked += action;
         }
 
         public void OnBlur()
         {
-            button.style.backgroundColor = color;
+            _button.style.backgroundColor = _color;
             OnBlurEvent?.Invoke();
         }
 
         public void OnFocus()
         {
-            button.style.backgroundColor = selected;
+            _button.style.backgroundColor = _selected;
             OnFocusEvent?.Invoke();
         }
 
         public void OnFocusWithoutNotify()
         {
-            button.style.backgroundColor = selected;
+            _button.style.backgroundColor = _selected;
         }
 
         public void SetColorGroup(Color color, Color selected)
         {
-            this.color = color;
-            this.selected = selected;
+            _color = color;
+            _selected = selected;
         }
 
         public string GetLabel()

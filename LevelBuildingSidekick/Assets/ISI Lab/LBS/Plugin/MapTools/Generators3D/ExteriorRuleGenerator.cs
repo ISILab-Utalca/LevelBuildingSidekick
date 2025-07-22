@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Characteristics;
@@ -47,8 +47,9 @@ namespace ISILab.LBS.Generators
             {
                 return Tuple.Create<GameObject,string>(null,"No behaviours found");
             }
-            var e = layer.Behaviours[0] as ExteriorBehaviour; // (!) parche
-            var bundle = bundles.Find(b => b.name == e.TargetBundleRef.name);
+            
+            var exteriorBehaviour = layer.Behaviours.Find(b => b is ExteriorBehaviour) as ExteriorBehaviour;
+            var bundle = exteriorBehaviour?.Bundle; 
             if (bundle == null)
             {
                 return Tuple.Create<GameObject, string>(null, "Bundle not found");
@@ -77,6 +78,7 @@ namespace ISILab.LBS.Generators
 
                 if(pref == null)
                 {
+ 
                     Debug.LogWarning("[ISILab]: Element generation has failed, " +
                         "make sure you have properly configured and assigned " +
                         "the Bundles you want to generate with.");
@@ -99,6 +101,12 @@ namespace ISILab.LBS.Generators
                     go.transform.rotation = Quaternion.Euler(0, 90 * (pair.Item2 - 2) % 360, 0);
                 
                 tiles.Add(go);
+
+                var current = pair.Item1.Owner;
+                // Add ref component
+                LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
+                generatedComponent.BundleRef = current;
+                
             }
 
             if (tiles.Count == 0)

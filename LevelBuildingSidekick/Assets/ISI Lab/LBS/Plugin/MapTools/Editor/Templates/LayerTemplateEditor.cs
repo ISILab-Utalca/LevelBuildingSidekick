@@ -135,7 +135,7 @@ namespace ISILab.LBS.Template.Editor
             var layer = template.layer;
             layer.ID = "Interior";
             layer.Name = "Layer Interior";
-            layer.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png";
+            layer.iconGuid = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png";
             template.layer = layer;
 
             // Behavior
@@ -177,7 +177,7 @@ namespace ISILab.LBS.Template.Editor
             var layer = template.layer;
             layer.ID = "Exterior";
             layer.Name = "Layer Exterior";
-            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
+            layer.iconGuid = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png";
             template.layer = layer;
             
             // Behaviours
@@ -220,7 +220,7 @@ namespace ISILab.LBS.Template.Editor
             var layer = template.layer;
             layer.ID = "Population";
             layer.Name = "Layer Population";
-            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
+            layer.iconGuid = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png";
             template.layer = layer;
 
             layer.Settings = new Generator3D.Settings()
@@ -260,7 +260,7 @@ namespace ISILab.LBS.Template.Editor
             var layer = template.layer;
             layer.ID = "Quest";
             layer.Name = "Layer Quest";
-            layer.iconPath = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png";
+            layer.iconGuid = "Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png";
             template.layer = layer;
 
             layer.Settings = new Generator3D.Settings()

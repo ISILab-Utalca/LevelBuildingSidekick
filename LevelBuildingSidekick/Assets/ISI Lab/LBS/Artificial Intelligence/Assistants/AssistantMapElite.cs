@@ -13,8 +13,6 @@ using ISILab.LBS.Modules;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
-using UnityEditor;
-using UnityEditor.Presets;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,11 +27,6 @@ namespace ISILab.LBS.Assistants
         private MapElites mapElites = new MapElites();
         [JsonIgnore]
         public List<Vector2> toUpdate = new List<Vector2>();
-        /*
-        public enum mapElitePresetType { RTS, Shooter };
-        [JsonIgnore]
-        public Dictionary<MapElites, mapElitePresetType> defaultMapElites = new Dictionary<MapElites, mapElitePresetType>();
-        */
         #endregion
 
         #region PROPERTIES
@@ -102,11 +95,26 @@ namespace ISILab.LBS.Assistants
             mapElites.OnSampleUpdated += (v) => {
                 if (!toUpdate.Contains(v))
                 {
+                    //Debug.Log("adding vector " + v);
                     toUpdate.Add(v);
                 }
             };
-            mapElites.Run();
+            //Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
+            if (mapElites.Running)
+            {
+                Debug.Log("Algorithm is already running; Restarting.");
+                mapElites.Restart();
+            }
+            else 
+            {
+                mapElites.Run();
+            }
+                
+            
+            
         }
+
+        public void RequestOptimizerStop() => mapElites.Optimizer.RequestStop();
 
         public void Continue()
         {
@@ -143,15 +151,18 @@ namespace ISILab.LBS.Assistants
             {
                 throw new Exception("[ISI Lab]: Map Elite Presset not selected or null");
             }
+
+            mapElites?.Optimizer.RequestStop();
+
             mapElites = presset.MapElites;
             maskType = presset.MaskType;
             blacklist = presset.blackList;
         }
 
-        public void SetAdam(Rect rect)
+        public void SetAdam(Rect rect, List<LBSLayer> contextLayers = null)
         {
             var tm = OwnerLayer.GetModule<BundleTileMap>();
-            var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect));
+            var chrom = new BundleTilemapChromosome(tm, rect, CalcImmutables(rect), CalcInvalids(rect, contextLayers));
             mapElites.Adam = chrom;
         }
 
@@ -168,6 +179,7 @@ namespace ISILab.LBS.Assistants
                 var layers = OwnerLayer.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
                 foreach (var l in layers)
                 {
+                    break;
                     var m = l.GetModule<TileMapModule>();
 
                     if (m == null)
@@ -188,7 +200,6 @@ namespace ISILab.LBS.Assistants
                             im.Add(index);
                         }
                     }
-
                 }
             }
 
@@ -231,6 +242,61 @@ namespace ISILab.LBS.Assistants
             return immutables;
         }
 
+        private int[] CalcInvalids(Rect rect, List<LBSLayer> contextLayers)
+        {
+            if(contextLayers == null || contextLayers.Count == 0)
+                return new int[0];
+
+            var invalids = new HashSet<int>();
+            var layerInvalids = new List<HashSet<int>>();
+            var x = (int)rect.min.x;
+            var y = (int)rect.min.y;
+        
+            for(int i = 0; i < contextLayers.Count; i++)
+            {
+                layerInvalids.Add(new HashSet<int>());
+                switch (contextLayers[i].ID)
+                {
+                    case "Interior":
+                        var TM = contextLayers[i].GetModule<TileMapModule>();
+                        if (TM == null)
+                            continue;
+                        for(int j = x; j < x + rect.width; j++)
+                        {
+                            for(int k = y; k < y + rect.height; k++)
+                            {
+                                var tile = TM.GetTile(new Vector2Int(j, k));
+                                if(tile == null)
+                                {
+                                    var pos = new Vector2(j, k) - rect.position;
+                                    var index = (int)(pos.y * rect.width + pos.x);
+                                    layerInvalids[i].Add(index);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        Debug.LogError($"Invalid tiles calculation not implemented for layers of type: {contextLayers[i].ID}");
+                        break;
+                }
+            }
+
+            List<HashSet<int>> existingLayerInvalids = layerInvalids.Where(li => li.Count > 0).ToList();
+
+            if (existingLayerInvalids.Count == 0)
+                return new int[0];
+
+            var intersection = new HashSet<int>(existingLayerInvalids[0]);
+            for(int i = 1; i < existingLayerInvalids.Count; i++)
+            {
+                intersection.IntersectWith(existingLayerInvalids[i]);
+            }
+
+            invalids = intersection;
+
+            return invalids.ToArray();
+        }
+        
         public Texture2D GetBackgroundTexture(Rect rect)
         {
             var text = new Texture2D((int)rect.width, (int)rect.height);
@@ -241,7 +307,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantMapElite(this.Icon, this.Name, this.ColorTint);
+            return new AssistantMapElite(Icon, Name, ColorTint);
         }
 
         public override bool Equals(object obj)

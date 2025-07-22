@@ -21,10 +21,10 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            this.target = target;
-            var eval = target as ResourcesSafetyFairness;
+            this.target = paramTarget;
+            var eval = paramTarget as ResourcesSafetyFairness;
             if (eval.playerCharacteristc != null)
             {
                 playerCharacteristic.SetInfo(eval.playerCharacteristc);

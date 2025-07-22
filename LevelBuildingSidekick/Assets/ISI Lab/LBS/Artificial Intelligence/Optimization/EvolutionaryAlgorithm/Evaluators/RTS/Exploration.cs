@@ -5,6 +5,9 @@ using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
+using ISILab.LBS.Components;
+using ISILab.LBS.Internal;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -17,6 +20,8 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Exploration Evaluator";
+
         [SerializeField, SerializeReference]
         public LBSCharacteristic colliderCharacteristic;
 
@@ -27,6 +32,10 @@ namespace ISILab.AI.Categorization
             if (chrom == null)
             {
                 throw new Exception("Wrong Chromosome Type");
+            }
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
             }
 
             float fitness = 0;
@@ -48,6 +57,11 @@ namespace ISILab.AI.Categorization
             fitness /= (float)genes.Count;
 
             return fitness;
+        }
+
+        public void InitializeDefault()
+        {
+            colliderCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Collider"));
         }
 
         public object Clone()

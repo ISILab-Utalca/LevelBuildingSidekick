@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 2
   anchorPosition: 2
   color: {r: 0.8679245, g: 0.5896903, b: 0, a: 1}
-  icon: {fileID: 2800000, guid: cc2d50182f99ff543a27b164aae5bda9, type: 3}
+  icon: {fileID: 7388822144124034973, guid: 574a9d6a54b9849419ced42230d25259, type: 3}
   assets:
   - obj: {fileID: 842695113314774871, guid: 2b62c78679e501f45bfd776678e7eca2, type: 3}
     probability: 1
@@ -25,6 +25,13 @@ MonoBehaviour:
   populationType: 0
   tileSize: {x: 2, y: 2}
   childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:

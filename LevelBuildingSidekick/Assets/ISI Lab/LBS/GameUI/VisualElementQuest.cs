@@ -17,11 +17,11 @@ namespace ISILab.LBS
         [UxmlElementAttribute]
         public new class UxmlFactory { }
         
-        private Label questLabel;
-        private VisualElement outerQuestState; // color
-        private VisualElement innerQuestState; // toggle 
+        private Label _questLabel;
+        private VisualElement _outerQuestState; // color
+        private VisualElement _innerQuestState; // toggle 
         
-        private QuestNode questNode;
+        private QuestNode _questNode;
         
         public VisualElementQuest()
         {
@@ -33,36 +33,35 @@ namespace ISILab.LBS
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElementQuest");
             visualTree.CloneTree(this);
             
-            questLabel = this.Q<Label>("Action");
-            outerQuestState = this.Q<VisualElement>("Outer");
-            innerQuestState = this.Q<VisualElement>("Inner");
+            _questLabel = this.Q<Label>("Action");
+            _outerQuestState = this.Q<VisualElement>("Outer");
+            _innerQuestState = this.Q<VisualElement>("Inner");
             return this;
         }
 
         /// <summary>
         ///  Assigns the quest and updates the element's display to represent the quest's state
         /// </summary>
-        /// <param name="quest"></param>
-        public void SetQuest(QuestNode quest)
+        /// <param name="questNode"></param>
+        public void SetQuest(QuestNode questNode)
         {
-            questNode = quest;
+            _questNode = questNode;
 
             var color = Color.gray;
             bool closed = false;
-            bool display = true;
-            switch (quest.QuestState)
+            switch (questNode.QuestState)
             {
-                case QuestState.blocked: 
+                case QuestState.Blocked: 
                     // hide: display = false;
                     break;
-                case QuestState.active:
+                case QuestState.Active:
                     color = Color.white;
                     break;
-                case QuestState.completed:
+                case QuestState.Completed:
                     color = LBSSettings.Instance.view.successColor;
                     closed = true;
                     break;
-                case QuestState.failed:
+                case QuestState.Failed:
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
                     break;
@@ -70,21 +69,21 @@ namespace ISILab.LBS
                     throw new ArgumentOutOfRangeException();
             }
             
-            this.style.display = display ? DisplayStyle.Flex : DisplayStyle.None;
+            style.display = DisplayStyle.Flex;
             
-            outerQuestState.style.borderBottomColor = color;
-            outerQuestState.style.borderTopColor = color;
-            outerQuestState.style.borderLeftColor = color;
-            outerQuestState.style.borderRightColor = color;
+            _outerQuestState.style.borderBottomColor = color;
+            _outerQuestState.style.borderTopColor = color;
+            _outerQuestState.style.borderLeftColor = color;
+            _outerQuestState.style.borderRightColor = color;
             
-            innerQuestState.style.backgroundColor = color;
+            _innerQuestState.style.backgroundColor = color;
             
-            questLabel.style.color = new StyleColor(color);
+            _questLabel.style.color = new StyleColor(color);
             
-            innerQuestState.style.display = closed ? DisplayStyle.Flex : DisplayStyle.None;
+            _innerQuestState.style.display = closed ? DisplayStyle.Flex : DisplayStyle.None;
   
-            if (closed) questLabel.text = "<s>" + quest.QuestAction + "</s>"; // strikethrough 
-            else questLabel.text = quest.QuestAction;
+            if (closed) _questLabel.text = "<s>" + questNode.QuestAction + "</s>"; // strikethrough 
+            else _questLabel.text = questNode.QuestAction;
         }
     }
 }

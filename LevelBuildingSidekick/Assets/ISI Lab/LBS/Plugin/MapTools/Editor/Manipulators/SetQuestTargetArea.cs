@@ -14,12 +14,14 @@ namespace ISILab.LBS.Manipulators
         QuestNode node;
         QuestGraph questGraph;
 
+        protected override string IconGuid { get => "8636ef426c1415343a9f2f806cb42b28"; }
+
         public override void Init(LBSLayer layer, object provider)
         {
             base.Init(layer, provider);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             var corners = questGraph.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 

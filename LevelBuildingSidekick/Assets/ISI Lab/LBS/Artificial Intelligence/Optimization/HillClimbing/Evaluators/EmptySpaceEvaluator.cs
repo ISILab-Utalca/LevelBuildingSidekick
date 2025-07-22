@@ -20,6 +20,8 @@ namespace ISILab.AI.Optimization
             this.original = layer;
         }
 
+        public string Tooltip => "Empty Space Evaluator";
+
         public object Clone()
         {
             throw new System.NotImplementedException(); // TODO: Implement this
@@ -45,6 +47,11 @@ namespace ISILab.AI.Optimization
                 return tiles.Count / (float)(rect.width * rect.height);
             });
             return avg;
+        }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

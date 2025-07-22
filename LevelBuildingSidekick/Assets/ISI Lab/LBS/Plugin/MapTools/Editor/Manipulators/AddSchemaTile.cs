@@ -4,7 +4,9 @@ using ISILab.LBS.VisualElements;
 using LBS.Components;
 
 using System.Collections.Generic;
+using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor.Windows;
+using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,89 +15,88 @@ namespace ISILab.LBS.Manipulators
 {
     public class AddSchemaTile : LBSManipulator
     {
-        private SchemaBehaviour schema;
+        private SchemaBehaviour _schema;
+        protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
-        public Zone ToSet
+        private Zone ToSet
         {
-            get => schema.RoomToSet;
-            set => schema.RoomToSet = value;
+            get => _schema.RoomToSet;
+            set => _schema.RoomToSet = value;
         }
 
-        public AddSchemaTile() : base()
+        public AddSchemaTile()
         {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
-        }
-
-        public override void Init(LBSLayer layer, object owner)
-        {
-            base.Init(layer, owner);
+            Name = "Paint Zone";
+            Description = "Add a new zone in the inspector and then paint in the graph. Hold CTRL and select an area to auto-generate a new zone.";
             
-            schema = owner as SchemaBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            Feedback = new AreaFeedback();
+            Feedback.fixToTeselation = true;
+        }
+
+        public override void Init(LBSLayer layer, object provider = null)
+        {
+            base.Init(layer, provider);
+            
+            _schema = provider as SchemaBehaviour;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
-            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
-            else  OnManipulationNotification?.Invoke();
-        }
-
-        protected override void OnKeyUp(KeyUpEvent e)
-        {
-            base.OnKeyUp(e);
-            if (e.ctrlKey) LBSMainWindow.MessageManipulator("CTRL-Add new zone activated!");
-            else  OnManipulationNotification?.Invoke();
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding New Zone");
         }
         
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnKeyUp(KeyUpEvent e)
         {
-            var x = LBSController.CurrentLevel;
-            Undo.RegisterCompleteObjectUndo(x, "Add Zone");
+            LBSMainWindow.WarningManipulator();
+        }
+        
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
+        {
+            var level = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(level, "Add Zone");
             EditorGUI.BeginChangeCheck();
 
             if (e.ctrlKey)
             {
-                var newZone = schema.AddZone();
-                newZone.InsideStyles = new List<string>() { schema.PressetInsideStyle.Name };
-                newZone.OutsideStyles = new List<string>() { schema.PressetOutsideStyle.Name };
-
-                ToSet = newZone;
+                OnManipulationLeftClickCtrl.Invoke();
             }
             
-            if(!schema.Zones.Contains(ToSet)) { ToSet = null; }
+            if(!_schema.Zones.Contains(ToSet)) { ToSet = null; }
 
             if (ToSet == null)
             {
                 LBSMainWindow.MessageNotify("You don't have any selected area to place. Create a new Zone in the panel or press 'CTRL' when left clicking.", LogType.Error, 8);
                 return;
             }
-
-
-            var corners = schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
+            
+            var corners = _schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    var tile = schema.AddTile(new Vector2Int(i, j), ToSet);
-                    schema.AddConnections(
+                    var tile = _schema.AddTile(new Vector2Int(i, j), ToSet);
+                    if(tile == null) continue;
+                    _schema.AddConnections(
                         tile,
                         new List<string>() { "", "", "", "" },
                         new List<bool> { true, true, true, true }
                         );
                 }
             }
+            _schema.RecalculateWalls();
 
-            LBSInspectorPanel.Instance.SetTarget(schema.OwnerLayer);
-
-            schema.RecalculateWalls();
+            
+            // Try to calculate constraints
+            var assistant = LBSLayerHelper.GetObjectFromLayer<HillClimbingAssistant>(_schema.OwnerLayer);
+            assistant?.RecalculateConstraint();
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
             }
         }
     }

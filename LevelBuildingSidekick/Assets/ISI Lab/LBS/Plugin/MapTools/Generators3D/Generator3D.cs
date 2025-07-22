@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.Extensions;
 using ISILab.JsonNet.Coverters;
 using LBS;
@@ -122,6 +123,15 @@ namespace ISILab.LBS.Generators
             rule.generator3D = this;
         }
 
+        public T GetRule<T>() where T : LBSGeneratorRule
+        {
+            return rules.OfType<T>().FirstOrDefault();
+        }
+
+        public T GetRule<T>( List<LBSGeneratorRule> otherRules) where T : LBSGeneratorRule
+        {
+            return otherRules.OfType<T>().FirstOrDefault();
+        }
         public void RemoveRule(LBSGeneratorRule rule)
         {
             if (rules.Remove(rule))
@@ -160,11 +170,13 @@ namespace ISILab.LBS.Generators
             var name = settings.name;
             var parent = new GameObject(name);
             this.rules = rules;
-
+            
+            parent.transform.position = settings.position;
+            
             if (this.rules.Count <= 0)
             {
                 messages.Add("[ISILab]: Generator contain 0 rules to generate map");
-                return Tuple.Create<GameObject, List<string>>(parent, messages);
+                return Tuple.Create(parent, messages);
             }
             
             for (int i = 0; i < this.rules.Count; i++)
@@ -177,7 +189,7 @@ namespace ISILab.LBS.Generators
                 }
                 ruleParent.Item1.SetParent(parent);
             }
-            return Tuple.Create<GameObject, List<string>>(parent, messages);
+            return Tuple.Create(parent, messages);
         }
         #endregion
 

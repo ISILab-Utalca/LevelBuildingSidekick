@@ -20,10 +20,23 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 8615386448594486086, guid: 858a51a7b619014469cac4a3c3b7fd2a, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 4507583782262669680
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4507583782262669680
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        value: {fileID: 11400000, guid: dd9524b2f4de22c40ae2e90107719374, type: 2}

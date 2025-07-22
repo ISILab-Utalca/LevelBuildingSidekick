@@ -37,6 +37,11 @@ namespace ISILab.LBS.Bundles.Editor
             InspectorElement.FillDefaultInspector(root, this.serializedObject, this);
             var bundle = target as Bundle;
 
+            //Erase empty children
+            if (bundle != null)
+            {
+                bundle.RemoveNullChildren();
+            }
                     
             // Element option
             if (bundle != null && bundle.Type == Bundle.TagType.Element)
@@ -133,8 +138,7 @@ namespace ISILab.LBS.Bundles.Editor
                 if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
                 Undo.undoRedoPerformed += UNDO;
             };
-
-     
+            
             childBundles.itemsRemoved += (view) =>
             {
                 if(bundle.ChildsBundles.Count == 0) return;
@@ -199,39 +203,38 @@ namespace ISILab.LBS.Bundles.Editor
             root.Add(buttonContainer);
             
             #endregion
-    
-
             
             return root;
         }
         
         private void ShowRemoveChildBundle(Bundle bundle)
         {
-
             var allBundles = bundle.ChildsBundles;
-
+            
             GenericMenu menu = new GenericMenu();
             
             // Add existing child bundles to the menu
             foreach (var potentialChild in allBundles)
             {
-                menu.AddItem(new GUIContent(potentialChild.name), false, () =>
+                if (potentialChild != null)
                 {
-                    // Add selected bundle to the child bundles list
-                    if (MakeChildBundleItem() is ObjectField cb)
+                    menu.AddItem(new GUIContent(potentialChild.name), false, () =>
                     {
-                        EditorGUI.BeginChangeCheck(); 
-                        Undo.RegisterCompleteObjectUndo(bundle, "Remove child bundle");
-                      //  cb.SetValueWithoutNotify(potentialChild);
-                        bundle.RemoveChild(potentialChild);
+                        // Add selected bundle to the child bundles list
+                        if (MakeChildBundleItem() is ObjectField cb)
+                        {
+                            EditorGUI.BeginChangeCheck(); 
+                            Undo.RegisterCompleteObjectUndo(bundle, "Remove child bundle");
+                            //  cb.SetValueWithoutNotify(potentialChild);
+                            bundle.RemoveChild(potentialChild);
                         
-                        if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
-                        Undo.undoRedoPerformed += UNDO;
-                    }
+                            if (EditorGUI.EndChangeCheck()) EditorUtility.SetDirty(target);
+                            Undo.undoRedoPerformed += UNDO;
+                        }
                   
-                });
+                    });
+                }
             }
-
             menu.ShowAsContext();
         }
         

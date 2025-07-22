@@ -6,54 +6,59 @@ using System;
 using System.Collections.Generic;
 using ISILab.LBS.Editor.Windows;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace LBS
 {
-    public class LBSTool
+    public sealed class LBSTool
     {
-        #region FIELDS
-        private Texture2D icon;
-        private string name;
-        private string description;
-        private LBSManipulator manipulator;
-        #endregion
-
         #region PROPERTIES
-        public Texture2D Icon => icon;
-        public string Name => name;
-        public string Description => description;
-        public LBSManipulator Manipulator => manipulator;
-        
+        public VectorImage Icon { get; }
+
+        public string Name { get; }
+
+        public string Description { get; }
+
+        public LBSManipulator Manipulator { get; }
+
         #endregion
 
         #region EVENTS
         public event Action OnSelect;
         public event Action OnDeselect;
-
         public event Action<LBSLayer> OnStart;
         public event Action<LBSLayer> OnPressed;
         public event Action<LBSLayer> OnEnd;
         #endregion
 
         #region CONSTRUCTORS
-        public LBSTool(Texture2D icon, string name, string description, LBSManipulator manipulator)
+        public LBSTool(LBSManipulator manipulator)
         {
-            this.icon = icon;
-            this.name = name;
-            this.manipulator = manipulator;
-            this.description = description;
+            this.Manipulator = manipulator;
+            Name = manipulator.Name;
+            Description = manipulator.Description;
+            Icon =  manipulator.Icon;
         }
         #endregion
 
         #region METHODS
-        public virtual void Init(LBSLayer layer, object behaviour)
+        public void Init(LBSLayer layer, object behaviour)
         {
-            manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
-            manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
-            manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
+            // Layer was assigned already - unsubscribe old methods
+            if(Manipulator.Layer != null)
+            {
+                Manipulator.OnManipulationStart -= () => { OnStart?.Invoke(Manipulator.Layer); };
+                Manipulator.OnManipulationUpdate -= () => { OnPressed?.Invoke(Manipulator.Layer); };
+                Manipulator.OnManipulationEnd -= () => { OnEnd?.Invoke(Manipulator.Layer); };
+            }
+            
+            Manipulator.OnManipulationStart += () => { OnStart?.Invoke(layer); };
+            Manipulator.OnManipulationUpdate += () => { OnPressed?.Invoke(layer); };
+            Manipulator.OnManipulationEnd += () => { OnEnd?.Invoke(layer); };
 
-            manipulator.Init(layer, behaviour);
+            Manipulator.Init(layer, behaviour);
         }
+        
 
         public void BindButton(ToolButton button)
         {
@@ -61,13 +66,13 @@ namespace LBS
             
             button.OnFocusEvent += () =>
             {
-                canvas.AddManipulator(this.manipulator);
+                canvas.AddManipulator(this.Manipulator);
                 OnSelect?.Invoke();
 
             };
             button.OnBlurEvent += () =>
             {
-                canvas.RemoveManipulator(this.manipulator);
+                canvas.RemoveManipulator(this.Manipulator);
                 OnDeselect?.Invoke();
                 LBSMainWindow.MessageManipulator("-");
             };

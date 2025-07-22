@@ -1,13 +1,11 @@
-using ISILab.Commons;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections;
 using System.Collections.Generic;
+using ISILab.LBS.Modules;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
@@ -16,79 +14,116 @@ namespace ISILab.LBS.Manipulators
     {
         private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-        PopulationBehaviour population;
-        private Vector2Int first;
+        public TileBundleGroup Selected { get; private set; }
+        private PopulationBehaviour _population;
+        private Vector2Int _storedPosition;
+        protected override string IconGuid => "485afea6f40f10e41a28c3d016a9250b";
 
         public RotatePopulationTile()
         {
-            //feedback = new ConnectedLine();
-           // feedback.fixToTeselation = true;
+           Name = "Rotate Tile";
+           Description = "Left Click to rotate counter-clockwise, Right Click to clockwise. May use Mouse Wheel as well.";
         }
 
-        public override void Init(LBSLayer layer, object provider)
+        public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
-            
-            population = provider as PopulationBehaviour; 
-           // feedback.TeselationSize = layer.TileSize;
-            //layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
-
+            _population = provider as PopulationBehaviour; 
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)
+        protected override void OnWheelEvent(WheelEvent evt)
         {
-            first = population.OwnerLayer.ToFixedPosition(startPosition);
-        }
-
-        protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
-        {
-            var x = LBSController.CurrentLevel;
-            
-            if(population.GetTileGroup(first) == null) {
-                LBSMainWindow.MessageNotify("No tile available to rotate.");
+            if(Selected == null)
+            {
+                LBSMainWindow.MessageNotify("No tile available to rotate. Click on a tile first, then use the Wheel");
                 return;
+            }  
+    
+            if (evt.delta.y > 0) RotateLeft();
+            else if (evt.delta.y < 0) RotateRight();
+
+        }
+
+        protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
+        {
+            var position = _population.OwnerLayer.ToFixedPosition(movePosition);
+             var tileGroup = _population.GetTileGroup(position);
+             if (tileGroup == null ||
+                 tileGroup.BundleData == null ||
+                 !tileGroup.BundleData.Bundle ||
+                !tileGroup.BundleData.Bundle.GetHasTagCharacteristic("NonRotate"))
+             {
+                 Selected = null;
+             }
+             
+             Selected = tileGroup;
+             if(Selected!=null) _storedPosition = position;
+             MainView.Instance.SetManipulatorZoom(Selected == null);
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
+        }
+
+        protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
+        {
+            if(Selected == null) 
+            {
+                LBSMainWindow.MessageNotify("No tile available to rotate at position.");
             } 
-            EditorGUI.BeginChangeCheck();
             
-            Undo.RegisterCompleteObjectUndo(x, "Rotate");
-            /*
-               var pos = population.Owner.ToFixedPosition(endPosition);
-
-               var dx = first.x - pos.x;
-               var dy = first.y - pos.y;
-
-               var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
-
-               if (fDir < 0 || fDir >= Directions.Count)
-                   return;
-                   
-                population.RotateTile(first, Directions[fDir]);
-            */
-            // rotate counter-clockwise
-
             if (e.button == 0)
             {
-                var rotation = population.GetTileRotation(first);
-                var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
-                index++;
-                if(index >= Directions.Count) index = 0;
-                population.RotateTile(first, Directions[index]);
+                RotateRight();
             }
             // rotate clockwise
             else if (e.button == 1)
             {
-                var rotation = population.GetTileRotation(first);
-                var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
-                index--;
-                if(index < 0) index = Directions.Count-1;
-                population.RotateTile(first, Directions[index]);
+                RotateLeft();
             }
-            
+        }
 
+        private void RotateRight()
+        {
+            PreRotate();
+            
+            var rotation = _population.GetTileRotation(_storedPosition);
+            if(rotation == default) return;
+            var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
+            index--;
+            if(index < 0) index = Directions.Count-1;
+            _population.RotateTile(_storedPosition, Directions[index]);
+                        
+            PostRotate();
+        }
+
+        private void RotateLeft()
+        {
+            PreRotate();
+            
+            var rotation = _population.GetTileRotation(_storedPosition);
+            if(rotation == default) return;
+            var index = Directions.FindIndex(dir => dir == new Vector2Int((int)rotation.x, (int)rotation.y));
+            index++;
+            if(index >= Directions.Count) index = 0;
+            _population.RotateTile(_storedPosition, Directions[index]);
+            
+            PostRotate();
+        }
+
+        private void PreRotate()
+        {
+            EditorGUI.BeginChangeCheck();
+            var level = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(level, "Rotate");
+        }
+
+        private void PostRotate()
+        {
+            var level = LBSController.CurrentLevel;
             if (EditorGUI.EndChangeCheck())
             {
-                EditorUtility.SetDirty(x);
+                EditorUtility.SetDirty(level);
             }
+            
+            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
         }
     }
 }

@@ -1,12 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using ISILab.LBS.AI.Categorization;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Settings;
 using ISILab.Macros;
-using LBS;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -14,7 +15,7 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS
 {
-    [System.Serializable]
+    [Serializable]
     public class LBSLevelData
     {
         #region FIELDS
@@ -23,6 +24,12 @@ namespace ISILab.LBS
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSLayer> quests = new List<LBSLayer>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        public List<SavedMapList> savedLayerMaps = new List<SavedMapList>();
+
+        [SerializeField, JsonRequired, SerializeReference]
+        public List<LBSLayer> contextLayers = new List<LBSLayer>();
         #endregion
 
         #region PROPERTIES
@@ -33,6 +40,12 @@ namespace ISILab.LBS
         public List<LBSLayer> Quests => quests;
 
         [JsonIgnore]
+        public List<SavedMapList> SavedLayerMaps => savedLayerMaps;
+
+        [JsonIgnore]
+        public List<LBSLayer> ContextLayers => contextLayers;
+
+        [JsonIgnore]
         public int LayerCount => layers.Count;
         #endregion
 
@@ -41,6 +54,7 @@ namespace ISILab.LBS
 
         [JsonIgnore]
         public Action OnReload;
+
         #endregion
 
         #region METHODS
@@ -49,20 +63,25 @@ namespace ISILab.LBS
             foreach (var layer in layers)
             {
                 layer.Reload();
-                layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+                layer.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
                 layer.Parent = this;
             }
 
             foreach (var q in quests)
             {
                 q.Reload();
-                q.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+                q.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
                 q.Parent = this;
+            }
+
+            foreach(var m in savedLayerMaps)
+            {
+                m.Key = (layers.Find(l => l.Equals(m.Key)));
             }
 
             OnReload?.Invoke();
         }
-
+        
         public LBSLayer GetLayer(int index)
         {
             return layers[index];
@@ -100,9 +119,9 @@ namespace ISILab.LBS
                 return;
 
             layers.Insert(0, layer);
-            layer.OnAddModule += (layer, module) => this.OnChanged?.Invoke(this);
+            layer.OnAddModule += (layer, module) => OnChanged?.Invoke(this);
             layer.Parent = this;
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>
@@ -113,8 +132,9 @@ namespace ISILab.LBS
         public void RemoveLayer(LBSLayer layer)
         {
             layers.Remove(layer);
-            layer.OnAddModule -= (layer, module) => this.OnChanged(this);
-            this.OnChanged?.Invoke(this);
+            layer.OnAddModule -= (layer, module) => OnChanged(this);
+            OnChanged?.Invoke(this);
+            
         }
 
         /// <summary>
@@ -127,7 +147,7 @@ namespace ISILab.LBS
             var index = layers.IndexOf(oldLayer);
             RemoveLayer(oldLayer);
             layers.Insert(index, newLayer);
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
         }
 
         /// <summary>
@@ -139,30 +159,29 @@ namespace ISILab.LBS
         {
             var layer = layers[index];
             layers.RemoveAt(index);
-            layer.OnAddModule -= (layer, module) => this.OnChanged(this);
-            this.OnChanged?.Invoke(this);
+            layer.OnAddModule -= (layer, module) => OnChanged(this);
+            OnChanged?.Invoke(this);
             return layer;
         }
-
         public LBSLayer AddQuest(string name)
         {
             var quest = new LBSLayer();
 
             quest.ID = name;
             quest.Name = name;
-            quest.iconPath = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
+            quest.iconGuid = "Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Quest_Icon/IconQuestTitle2.png";
             quest.TileSize = new Vector2Int(2, 2);
             quest.AddGeneratorRule(new QuestRuleGenerator());
 
             string questBehaviorGuidIcon = "49b9448c876b36c4ba26740d7deae035";
             var grammarIcon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(questBehaviorGuidIcon);
-            var behaviour = new QuestBehaviour(grammarIcon, "Quest", Settings.LBSSettings.Instance.view.behavioursColor);
-            var assistant = new GrammarAssistant(grammarIcon, "Grammar", Settings.LBSSettings.Instance.view.assistantColor);
+            var behaviour = new QuestBehaviour(grammarIcon, "Quest", LBSSettings.Instance.view.behavioursColor);
+            var assistant = new GrammarAssistant(grammarIcon, "Grammar", LBSSettings.Instance.view.assistantColor);
             quest.AddAssistant(assistant);
             quest.AddBehaviour(behaviour);
             quests.Add(quest);
 
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
             return quest;
         }
 
@@ -173,10 +192,47 @@ namespace ISILab.LBS
 
             var qg = q.GetModule<QuestGraph>();
 
-            this.OnChanged?.Invoke(this);
+            OnChanged?.Invoke(this);
             return qg;
         }
 
+        //To add saved maps
+        //public void SaveMapInLayer(BundleTileMap map, float score, LBSLayer layer) => SaveMapInLayer(new SavedMap(map, "", score), layer);
+        public void SaveMapInLayer(SavedMap newSavedMap, LBSLayer layer)
+        {
+            //Check if the layer has saved maps
+            if (GetSavedMaps(layer)==null)
+            {
+                savedLayerMaps.Add(new SavedMapList(layer));
+            }
+            var list = GetSavedMaps(layer);
+            //Add default name
+            if (list.Count == 0)
+            {
+                newSavedMap.Name = "New Map";
+            } else
+            {
+                int counter;
+                counter = list.Count + 1;
+                foreach(SavedMap map in list.Maps)
+                {
+                    if(map.Name == "New Map " + counter) counter++;
+                }
+                newSavedMap.Name = "New Map " + counter;
+            }
+            //Save
+            Debug.Log("saving " + newSavedMap.Name);
+            list.Maps.Add(newSavedMap);
+        }
+        public SavedMapList GetSavedMaps(LBSLayer layer)
+        {
+            //return SavedLayerMaps.ContainsKey(layer) ? SavedLayerMaps[layer] : null;
+            foreach(SavedMapList list in SavedLayerMaps)
+            {
+                if (list.Key == layer) return list;
+            }
+            return null;
+        }
 
         public override bool Equals(object obj)
         {
@@ -190,12 +246,12 @@ namespace ISILab.LBS
             var lCount = other.layers.Count;
 
             // check if amount of layers are EQUALS
-            if (this.layers.Count != lCount) return false;
+            if (layers.Count != lCount) return false;
 
             // check if contain EQUALS layers
             for (int i = 0; i < lCount; i++)
             {
-                var l1 = this.layers[i];
+                var l1 = layers[i];
                 var l2 = other.layers[i];
 
                 if (!l1.Equals(l2)) return false;
@@ -214,5 +270,37 @@ namespace ISILab.LBS
             return base.ToString();
         }
         #endregion
+    }
+
+    [System.Serializable]
+    public class SavedMapList
+    {
+        [SerializeField, JsonRequired]
+        protected LBSLayer key;
+        [SerializeField, JsonRequired]
+        protected List<SavedMap> maps;
+
+        public LBSLayer Key
+        {
+            get => key;
+            set => key = value;
+        }
+        public List<SavedMap> Maps
+        {
+            get => maps;
+            set => maps = value;
+        }
+        public int Count => maps.Count;
+
+        public SavedMapList(LBSLayer key)
+        {
+            this.key = key;
+            maps = new List<SavedMap>();
+        }
+        public SavedMapList(LBSLayer key, List<SavedMap> mapList)
+        {
+            this.key = key;
+            this.maps = mapList;
+        }
     }
 }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -11,20 +9,27 @@ namespace ISILab.LBS.Components
 
     public enum NodeType
     {
-        start, middle, goal
+        Start, Middle, Goal
     }
 
     public enum QuestState
     {
-        blocked, active, completed, failed
+        Blocked, Active, Completed, Failed
     }
     
 
-[System.Serializable]
+[Serializable]
     public class QuestNode : ICloneable
     {
 
         #region FIELD
+
+        [SerializeField] 
+        private string nodeDataJson;
+        
+        [SerializeField, SerializeReference][JsonRequired]
+        private BaseQuestNodeData nodeData;
+        
         [SerializeField, HideInInspector, JsonRequired]
         private int x, y;
 
@@ -44,7 +49,7 @@ namespace ISILab.LBS.Components
         private NodeType nodeType;
         
         [SerializeField, JsonRequired]
-        private QuestState questState = Components.QuestState.blocked;
+        private QuestState questState = QuestState.Blocked;
         
         [SerializeField, JsonRequired]
         private bool valid;
@@ -59,6 +64,13 @@ namespace ISILab.LBS.Components
         
         #region PROPERTIES
         [JsonIgnore]
+        public BaseQuestNodeData NodeData
+        {
+            get => nodeData;
+            set => nodeData = value;
+        }
+        
+        [JsonIgnore]
         public QuestGraph Graph
         {
             get => graph;
@@ -68,7 +80,7 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public Vector2Int Position
         {
-            get => new Vector2Int(x, y);
+            get => new(x, y);
 
             set
             {
@@ -81,10 +93,7 @@ namespace ISILab.LBS.Components
         public string ID
         {
             get => id;
-            set
-            {
-                id = value;
-            }
+            set => id = value;
         }
 
 
@@ -92,10 +101,7 @@ namespace ISILab.LBS.Components
         public string QuestAction
         {
             get => questAction;
-            set
-            {
-                questAction = value;
-            }
+            set => questAction = value;
         }
 
         [JsonIgnore]
@@ -137,22 +143,33 @@ namespace ISILab.LBS.Components
 
         [JsonIgnore]
         public QuestState QuestState { get; set; }
-
+        
+        public Rect NodeViewPosition { get; set; }
 
         #endregion
 
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool grammarCheck = false)
         {
             this.id = id;
             x = (int)position.x;
             y = (int)position.y;
-            this.questAction = action;
+            questAction = action;
+            
             this.graph = graph;
+            this.grammarCheck = grammarCheck;
             target = new QuestTarget();
+            
+            InstanceDataByAction(action);
         }
+
+        private void InstanceDataByAction(string action)
+        {
+            nodeData = QuestNodeDataFactory.CreateByTag(action, this);
+        }
+
         #endregion
 
         public bool HasEdges()
@@ -162,22 +179,24 @@ namespace ISILab.LBS.Components
         
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph);
-
-            node.target = target.Clone() as QuestTarget;
-
+            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
+            {
+                target = target.Clone() as QuestTarget
+            };
+            if(NodeData is not null )node.NodeData.Clone(NodeData);
+            node.NodeViewPosition = NodeViewPosition;
             return node;
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class QuestTarget : ICloneable
     {
         [SerializeField, JsonRequired, SerializeReference]
         private Rect rect;
         [SerializeField, JsonRequired, SerializeReference]
         private List<LBSTag> tags = new();
-
+        
         [JsonIgnore]
         public Rect Rect
         {
@@ -188,14 +207,16 @@ namespace ISILab.LBS.Components
         [JsonIgnore]
         public List<LBSTag> Tags => tags;
 
-        public QuestTarget() { }
-
         public object Clone()
         {
-            var target = new QuestTarget();
-            target.tags = new List<LBSTag>(tags);
-            target.rect = rect;
+            var target = new QuestTarget
+            {
+                tags = new List<LBSTag>(tags),
+                rect = rect
+            };
             return target;
         }
+        
+        
     }
 }

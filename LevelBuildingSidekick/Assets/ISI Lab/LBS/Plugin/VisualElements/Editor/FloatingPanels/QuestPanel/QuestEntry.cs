@@ -81,7 +81,6 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public void SetData(QuestNode node)
         {
-            MarkDirtyRepaint();
             if (node == null && quest == null)
             {
                 //Debug.LogError("empty quest node");
@@ -95,16 +94,16 @@ namespace ISILab.LBS.VisualElements.Editor
             BackgroundSize  iconSize = new BackgroundSize(12, 12);
             switch (node.NodeType)
             {
-                case NodeType.start:
+                case NodeType.Start:
                     iconPath = "Icons/Vectorial/Icon=Start";
                     backgroundColor = LBSSettings.Instance.view.successColor;
                     break;
-                case NodeType.middle:
+                case NodeType.Middle:
                     iconPath = "Icons/Vectorial/Icon=MidNode";
                     backgroundColor = Color.white;
                     iconSize = new BackgroundSize(28, 28);
                     break;
-                case NodeType.goal:
+                case NodeType.Goal:
                     iconPath = "Icons/Vectorial/Icon=Goal";
                     backgroundColor = LBSSettings.Instance.view.errorColor;
                     break;
@@ -116,6 +115,8 @@ namespace ISILab.LBS.VisualElements.Editor
             nodeTypeImage.style.backgroundImage = new StyleBackground(Resources.Load<VectorImage>(iconPath));
             nodeTypeImage.style.unityBackgroundImageTintColor = backgroundColor;
             nodeName.text = node.ID;
+            
+            MarkDirtyRepaint();
         }
         
         #endregion

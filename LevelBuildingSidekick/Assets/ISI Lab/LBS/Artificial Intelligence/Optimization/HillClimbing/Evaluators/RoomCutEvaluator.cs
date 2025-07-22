@@ -20,6 +20,8 @@ namespace ISILab.AI.Optimization
 
         Vector2 delta;
 
+        public string Tooltip => "Room Cut Evaluator";
+
         public RoomCutEvaluator(LBSLayer layer)
         {
             this.original = layer;
@@ -85,6 +87,11 @@ namespace ISILab.AI.Optimization
         public object Clone()
         {
             throw new System.NotImplementedException(); // TODO: Implement Clone method 
+        }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

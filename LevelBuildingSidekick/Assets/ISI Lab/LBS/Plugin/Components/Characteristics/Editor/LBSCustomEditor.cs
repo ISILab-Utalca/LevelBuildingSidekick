@@ -28,7 +28,7 @@ namespace ISILab.LBS.Editor
         public virtual void Repaint() { }
 
 
-        public abstract void SetInfo(object target);
+        public abstract void SetInfo(object paramTarget);
 
         protected abstract VisualElement CreateVisualElement();
 

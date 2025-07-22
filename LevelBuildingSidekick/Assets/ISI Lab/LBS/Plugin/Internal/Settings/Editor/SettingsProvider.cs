@@ -142,12 +142,25 @@ namespace ISILab.LBS.Settings
 
                     // Bundles folder
                     EditorGUILayout.BeginHorizontal();
-                    settings.paths.bundleFolderPath = EditorGUILayout.TextField("Bundles folder", settings.paths.bundleFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    settings.paths.bundleFolderPath = EditorGUILayout.TextField("Bundles folder",
+                        settings.paths.bundleFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     EditorGUILayout.EndHorizontal();
 
                     // Tag folder
                     EditorGUILayout.BeginHorizontal();
-                    settings.paths.tagFolderPath = EditorGUILayout.TextField("Tags folder", settings.paths.tagFolderPath, EditorStyles.textField, GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    settings.paths.tagFolderPath = EditorGUILayout.TextField("Tags folder",
+                        settings.paths.tagFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
+                    EditorGUILayout.EndHorizontal();
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    settings.paths.meshFolderPath = EditorGUILayout.TextField("Generated Mesh Folder",
+                        settings.paths.meshFolderPath,
+                        EditorStyles.textField,
+                        GUILayout.Height(EditorGUIUtility.singleLineHeight));
                     EditorGUILayout.EndHorizontal();
 
                     // Set Default button
@@ -230,7 +243,7 @@ namespace ISILab.LBS.Settings
 
                     // Toolkit Color
                     EditorGUILayout.BeginHorizontal();
-                    settings.view.toolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.view.toolkitSelected);
+                    settings.view.newToolkitSelected = EditorGUILayout.ColorField("Toolkit selected", settings.view.newToolkitSelected);
                     EditorGUILayout.EndHorizontal();
 
                     // Header Inspectors
@@ -276,7 +289,7 @@ namespace ISILab.LBS.Settings
                     {
                         var newSettings = new LBSSettings();
 
-                        settings.view.toolkitSelected = newSettings.view.toolkitSelected;
+                        settings.view.newToolkitSelected = newSettings.view.newToolkitSelected;
 
                         settings.view.bundlesColor = newSettings.view.bundlesColor;
                         settings.view.tagsColor = newSettings.view.tagsColor;

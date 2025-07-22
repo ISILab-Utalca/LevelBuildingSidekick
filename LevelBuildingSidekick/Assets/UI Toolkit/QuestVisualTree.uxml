@@ -3,6 +3,6 @@
         <engine:VisualElement name="header" style="flex-grow: 1; width: auto; height: 12px; min-height: 36px; max-height: 36px; margin-right: 16px; margin-left: 8px;">
             <engine:Label text="Quests" style="align-self: stretch; align-content: stretch; justify-content: space-evenly; align-items: stretch; color: rgb(255, 255, 255); -unity-text-align: upper-left; padding-left: 2px; border-bottom-width: 2px; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255);" />
         </engine:VisualElement>
-        <engine:ListView allow-remove="false" allow-add="false" show-border="false" name="QuestList" fixed-item-height="24" style="max-height: none; flex-grow: 1;" />
+        <engine:ListView allow-remove="false" allow-add="false" show-border="false" name="QuestList" fixed-item-height="24" selection-type="None" style="max-height: none; flex-grow: 1;" />
     </engine:VisualElement>
 </engine:UXML>

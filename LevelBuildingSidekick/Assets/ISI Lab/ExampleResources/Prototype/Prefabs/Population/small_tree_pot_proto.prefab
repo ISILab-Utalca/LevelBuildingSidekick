@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 7.033019
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.61664724
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -12.859376
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f9fc3527f1299648b7e5427c10bd3de, type: 2}
     - target: {fileID: 919132149155446097, guid: 994ac84197bdb8d4a9d909d16de7bc48, type: 3}
       propertyPath: m_Name
       value: small_tree_pot_proto

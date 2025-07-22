@@ -15,7 +15,7 @@ namespace LBS.Components.TileMap
         [SerializeField, JsonRequired]
         public int x, y;
 
-        //NOTA: El tag estaba causando problemas con la serializaci�n. Puede que cause problemas a futuro.
+        //NOTA: El tag estaba causando problemas con la serializacion. Puede que cause problemas a futuro.
         //Si se necesita reimplementar, deber�a reimplementarse en ExteriorDrawer (el script que lo utiliza) y no en LBSTile.
 
         //public LBSTag tag;
@@ -54,12 +54,17 @@ namespace LBS.Components.TileMap
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return HashCode.Combine(x.GetHashCode(), y.GetHashCode());
         }
 
         public virtual object Clone()
         {
             return new LBSTile(Position);
+        }
+
+        public override string ToString()
+        {
+            return "LBSTile " + Position;
         }
         #endregion
     }

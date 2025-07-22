@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="Border" picking-mode="Ignore" style="flex-direction: row; align-self: center; justify-content: flex-start; align-items: stretch; flex-grow: 0; background-color: rgb(56, 56, 56); flex-shrink: 0; max-width: 500px; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px; margin-left: 2px; margin-right: 2px; margin-top: 2px; margin-bottom: 2px; max-height: 50px; min-height: 50px; height: 50px; min-width: 150px; border-left-color: rgb(95, 95, 95); border-right-color: rgb(95, 95, 95); border-top-color: rgb(95, 95, 95); border-bottom-color: rgb(95, 95, 95); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; -unity-text-align: middle-left; position: absolute;">
+        <ui:EnumField label="Structure Type" type="ISILab.LBS.VisualElements.StructureTags, LBS" name="TypeField" style="align-self: auto; justify-content: flex-end; -unity-text-align: middle-left; flex-direction: column; align-items: flex-start; align-content: flex-start; width: 96px;" />
+        <uie:ObjectField label="Object Field" type="LBS.Bundles.Bundle, LBS" name="BundleField" style="-unity-text-align: middle-left; flex-direction: column; max-width: 325px;" />
+        <ui:Button display-tooltip-when-elided="true" name="ResetButton" class="lbs_ToolButton" style="justify-content: flex-end;">
+            <ui:VisualElement style="background-image: resource(&apos;Icons/Vectorial/Icon=Reset&apos;);" />
+        </ui:Button>
+        <ui:Button display-tooltip-when-elided="true" name="ShuffleButton" class="lbs_ToolButton" style="justify-content: flex-end; right: 4px;">
+            <ui:VisualElement style="background-image: resource(&apos;Icons/Vectorial/Icon=Shuffle&apos;); left: -2px;" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

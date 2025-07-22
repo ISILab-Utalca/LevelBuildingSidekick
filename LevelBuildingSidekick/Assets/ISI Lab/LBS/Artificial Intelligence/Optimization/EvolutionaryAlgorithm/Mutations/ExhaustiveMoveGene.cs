@@ -38,6 +38,7 @@ namespace ISILab.AI.Categorization
 
         protected override void PerformMutate(ChromosomeBase chromosome, float probability)
         {
+            //Debug.Log("Performing MOVE GENE Mutation");
             var r = RandomizationProvider.Current;
 
             var chr = chromosome as BundleTilemapChromosome;
@@ -47,9 +48,16 @@ namespace ISILab.AI.Categorization
                 throw new Exception("Chromosome must inherit from ChromosomeBase2D");
             }
 
+            //int initCount = 0, endCount = 0;
+            //for(int i = 0; i < chr.Length; i++)
+            //{
+            //    if (chr.GetGene(i) != default)
+            //        initCount++;
+            //}
+
             for (int i = 0; i < chr.Length; i++)
             {
-                if (chromosome.IsImmutable(i))
+                if (chr.IsImmutable(i) || chr.IsInvalid(i))
                     continue;
                 if (chr.GetGene(i) != default)
                 {
@@ -60,7 +68,10 @@ namespace ISILab.AI.Categorization
                         var j = i + chr.ToIndex(pos);
                         if (j < chr.Length && j >= 0)
                         {
-                            if (chromosome.IsImmutable(j))
+                            if (chr.IsImmutable(j) || chr.IsInvalid(j))
+                                continue;
+
+                            if (chr.GetGene(j) != default) // Also filters when j == i
                                 continue;
 
                             chr.ReplaceGene(j, chr.GetGene(i));
@@ -69,6 +80,18 @@ namespace ISILab.AI.Categorization
                     }
                 }
             }
+
+            //for (int i = 0; i < chr.Length; i++)
+            //{
+            //    if (chr.GetGene(i) != default)
+            //        endCount++;
+            //}
+            //
+            //int diff = endCount - initCount;
+            //if(diff != 0)
+            //{
+            //    Debug.LogError($"Number of elements changed after Exhaustive Move Gene Mutation. Changed by: ({diff})");
+            //}
         }
     }
 }

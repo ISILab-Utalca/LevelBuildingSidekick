@@ -8,6 +8,7 @@ using ISILab.LBS.Editor.Windows;
 using LBS;
 using LBS.Components;
 using ISILab.LBS.Settings;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 
 using UnityEditor;
@@ -36,7 +37,7 @@ namespace ISILab.LBS.VisualElements
 
         // Manipulators
         private SetZoneConnection setZoneConnection;
-        private RemoveAreaConnection removeAreaConnection;
+        private RemoveZoneConnection removeZoneConnection;
 
         public HillClimbingAssistantEditor(object target) : base(target)
         {
@@ -61,33 +62,25 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public override void SetInfo(object target)
+        public override void SetInfo(object paramTarget)
         {
-            hillClimbing = target as HillClimbingAssistant;
+            hillClimbing = paramTarget as HillClimbingAssistant;
         }
 
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
-            toolKit.AddSeparator();
-
-            // Add Zone connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Node_connection");
             setZoneConnection = new SetZoneConnection();
-            var t1 = new LBSTool(icon, "Add zone connection","Add a zone connection activated!", setZoneConnection);
-            t1.OnSelect += () => LBSInspectorPanel.ShowInspector("Assistants");
+            var t1 = new LBSTool(setZoneConnection);
+            t1.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
             t1.Init(hillClimbing.OwnerLayer, hillClimbing);
-            toolKit.AddTool(t1);
-
-            // Remove zone connections
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_node_connection");
-            removeAreaConnection = new RemoveAreaConnection();
-            var t2 = new LBSTool(icon, "Remove zone connection", "Remove zone connection activated!", removeAreaConnection);
-            t2.Init(hillClimbing.OwnerLayer, hillClimbing);
-            toolKit.AddTool(t2);
+            toolKit.ActivateTool(t1,hillClimbing.OwnerLayer, hillClimbing);
             
-            setZoneConnection.SetRemover(removeAreaConnection);
+            removeZoneConnection = new RemoveZoneConnection();
+            var t2 = new LBSTool(removeZoneConnection);
+            t2.OnSelect += LBSInspectorPanel.ActivateAssistantTab;
+            toolKit.ActivateTool(t2,hillClimbing.OwnerLayer, hillClimbing);
+            
+            setZoneConnection.SetRemover(removeZoneConnection);
         }
 
         protected override VisualElement CreateVisualElement()
@@ -132,29 +125,31 @@ namespace ISILab.LBS.VisualElements
 
             recalculate = new Button();
             recalculate.text = "Recalculate Constraints";
-            recalculate.clicked += () =>
-            {
-                // Save history version to revert if necessary
-                var x = LBSController.CurrentLevel;
-                Undo.RegisterCompleteObjectUndo(x, "Recalculate Constraints");
-                EditorGUI.BeginChangeCheck();
-
-                // Recalculate constraints
-                hillClimbing.RecalculateConstraint();
-
-                // Mark as dirty
-                if (EditorGUI.EndChangeCheck())
-                {
-                    EditorUtility.SetDirty(x);
-                }
-
-                DrawManager.ReDraw();
-                Paint();
-            };
+            recalculate.clicked += () => { ClickedRecalculate(); };
 
             Add(recalculate);
 
             return this;
+        }
+
+        private void ClickedRecalculate()
+        {
+            // Save history version to revert if necessary
+            var x = LBSController.CurrentLevel;
+            Undo.RegisterCompleteObjectUndo(x, "Recalculate Constraints");
+            EditorGUI.BeginChangeCheck();
+
+            // Recalculate constraints
+            hillClimbing.RecalculateConstraint();
+
+            // Mark as dirty
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(x);
+            }
+
+            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+            Paint();
         }
 
         private void Paint()

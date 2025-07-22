@@ -110,6 +110,51 @@ namespace ISILab.LBS.Modules
             return true;
         }
         
+        public bool ValidMoveGroup(Vector2Int newPosition, TileBundleGroup currentGroup, Vector2 rotation)
+        {
+            if (currentGroup is null) return false;
+            // Create a temporary group at the new position to get the tile layout
+            TileBundleGroup tempGroup = new TileBundleGroup(new List<LBSTile>(), currentGroup.BundleData, rotation);
+            Vector2Int groupSize = tempGroup.GetBundleSize();
+    
+            // Collect the new positions for the current group
+            HashSet<Vector2Int> newPositions = new HashSet<Vector2Int>();
+
+            foreach (var tile in currentGroup.TileGroup)
+            {
+                newPositions.Add(tile.Position);
+            }
+
+            // Iterate through all existing groups
+            foreach (var tbg in groups)
+            {
+                // Skip the current group since we are moving it
+                if (tbg == currentGroup) 
+                    continue;
+
+                // Check for overlap
+                foreach (var lbsTile in tbg.TileGroup)
+                {
+                    for (int i = 0; i < groupSize.x; i++)
+                    {
+                        for (int j = 0; j < groupSize.y; j++)
+                        {
+                            var checkPosition = new Vector2Int(newPosition.x + i, newPosition.y - j);
+
+                            // If the position is occupied and not part of the current moving group
+                            if (checkPosition == lbsTile.Position && !newPositions.Contains(checkPosition))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        
         //Adds a group to the group list and replaces anything in the way
         public void AddGroup(TileBundleGroup group)
         {
@@ -307,6 +352,26 @@ namespace ISILab.LBS.Modules
             set => tileGroup = value;
         }
 
+        public Rect AreaRect
+        {
+            get
+            {
+                if (tileGroup == null || tileGroup.Count == 0) return new Rect();
+            
+                float minX = tileGroup.Min(t => t.Position.x);
+                float minY = tileGroup.Min(t => t.Position.y);
+                float maxX = tileGroup.Max(t => t.Position.x);
+                float maxY = tileGroup.Max(t => t.Position.y);
+
+                float width = maxX - minX + 1;
+                float height = maxY - minY + 1;
+
+                // "maxY" because graph is inverted
+                return new Rect(minX, maxY, Mathf.Abs(width), Mathf.Abs(height));
+            }
+          
+        }
+
         [JsonIgnore]
         public BundleData BundleData
         {
@@ -326,8 +391,29 @@ namespace ISILab.LBS.Modules
             this.bData = bData;
             this.rotation = rotation;
         }
+        public TileBundleGroup(Vector2 position, Vector2 size, BundleData bData, Vector2 rotation)
+        {
+            this.tileGroup = new List<LBSTile>();
+            for(int i=0; i<size.x;i++)
+            {
+                for (int j = 0; j < size.y; j++)
+                {
+                    var newPosition = new Vector2(position.x + i, position.y + j);
+                    tileGroup.Add(new LBSTile(newPosition));
+                }
+            }
+            
+            this.bData = bData;
+            this.rotation = rotation;
+        }
         #endregion
 
+        #region EVENTS
+        
+        public event Action OnRemoved;
+        
+        #endregion
+        
         #region METHODS
         //Returns bundle size
         public Vector2Int GetBundleSize()
@@ -410,7 +496,18 @@ namespace ISILab.LBS.Modules
         {
             return base.GetHashCode();
         }
+        
+        /// <summary>
+        /// Meant to notify any Quest Node Data that references this tilemap, in order for it to be
+        /// Garbage Collected Correctly
+        /// </summary>
+        public void Removed()
+        {
+            OnRemoved?.Invoke();
+        }
         #endregion
+
+    
     }
 }
 

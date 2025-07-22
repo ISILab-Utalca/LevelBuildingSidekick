@@ -15,6 +15,8 @@ namespace ISILab.AI.Optimization
     {
         private LBSLayer _original;
 
+        public string Tooltip => "Areas Evaluator";
+
         public AreasEvaluator(LBSLayer layer)
         {
             this._original = layer;
@@ -80,6 +82,11 @@ namespace ISILab.AI.Optimization
         public object Clone()
         {
             throw new System.NotImplementedException(); // TODO: Implement clone method
+        }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,204 +1,154 @@
-using ISILab.LBS.Drawers;
-using ISILab.LBS.Modules;
-using ISILab.LBS.Template;
-using ISILab.LBS.VisualElements.Editor;
-using LBS.Components;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using ISILab.LBS.Drawers;
+using ISILab.LBS.VisualElements.Editor;
+using LBS.Components;
 
 namespace ISILab.LBS
 {
     public class DrawManager
     {
-        private MainView view;
-        private List<LayerTemplate> templates;
+        private readonly MainView _view = MainView.Instance;
+        private LBSLevelData _level;
 
-        private LBSLevelData level;
+        public static DrawManager Instance { get; private set; }
 
-        private static DrawManager instance;
-        public static DrawManager Instance
+        private readonly Dictionary<(Type, LBSLayer), Drawer> _drawerCache = new();
+        private readonly Dictionary<LBSLayer, bool> _preVisibility = new();
+
+        public DrawManager()
         {
-            get { return instance; }
-        }
-
-        public DrawManager(ref MainView view, ref List<LayerTemplate> templates)
-        {
-            this.view = view;
-            this.templates = templates;
-
-            DrawManager.instance = this;
+            Instance = this;
         }
 
         public void AddContainer(LBSLayer layer)
         {
-            view.AddContainer(layer);
+            _view.AddContainer(layer);
         }
 
         public void RemoveContainer(LBSLayer layer)
         {
-            view.RemoveContainer(layer);
+            _view.RemoveContainer(layer);
         }
 
         public static void ReDraw()
         {
-            instance.RedrawLevel(instance.level, instance.view);
+            Instance.RedrawLevel(Instance._level);
         }
 
-        public void RefreshView(LBSLayer layer, List<LBSLayer> allLayers, string modeName)
+        private void DrawLayer(LBSLayer layer)
         {
-            if (layer == null)
-                return;
-
-            var template = templates.Find(t => t.layer.ID.Equals((string)layer.ID));
-
-            view.ClearLevelView();
-
-            var _allLayers = new List<LBSLayer>(allLayers);
-            for (int i = _allLayers.Count - 1; i >= 0; i--)
+            // Validation
+            if (layer == null) return;
+            if (!_preVisibility.ContainsKey(layer))
             {
-                var otherLayer = _allLayers[i];
-
-                if (!otherLayer.IsVisible)
-                    continue;
-
-                if (otherLayer != layer)
+                _preVisibility.Add(layer, layer.IsVisible);
+            }
+            
+            // Change visibility of layer
+            else
+            {
+                switch (layer.IsVisible)
                 {
-                    var oTemplate = templates.Find(t => t.layer.ID.Equals(otherLayer.ID));
-                    var _other = otherLayer;
+                    case true when !_preVisibility[layer]:
+                        ShowVisuals(layer.Assistants, layer);
+                        ShowVisuals(layer.Behaviours, layer);
+                        break;
+                    case false when _preVisibility[layer]:
+                        HideVisuals(layer.Assistants, layer);
+                        HideVisuals(layer.Behaviours, layer);
+                        break;
                 }
             }
+            _preVisibility[layer] = layer.IsVisible;
+            
+            // Draw behaviours and assistants (if both share same drawer system)
+            DrawVisibleComponents(layer.Behaviours, layer);
+            DrawVisibleComponents(layer.Assistants, layer);
         }
 
-        public void DrawLayer(LBSLayer layer, MainView mainView)
+        private void DrawVisibleComponents<T>(List<T> components, LBSLayer layer)
         {
-            var l = layer;
-            if (l == null)
-                return;
-
-            if (!l.IsVisible)
-                return;
-
-            var behaviours = l.Behaviours;
-            foreach (var b in behaviours)
+            foreach (var component in components)
             {
-                if (b == null)
-                    continue;
-
-                if (!b.visible)
-                    continue;
-
-                var drawerT = LBS_Editor.GetDrawer(b.GetType());
-
-                if (drawerT == null)
-                    continue;
-
-                var drawer = Activator.CreateInstance(drawerT) as Drawer;
-
-                drawer?.Draw(b, view, l.TileSize);
-            }
-
-            var assistants = l.Assistants;
-            foreach (var a in assistants)
-            {
-                if (a == null)
-                    continue;
-
-                if (!a.visible)
-                    continue;
-
-                var drawerT = LBS_Editor.GetDrawer(a.GetType());
-
-                if (drawerT == null)
-                    continue;
-
-                var drawer = Activator.CreateInstance(drawerT) as Drawer;
-
-                drawer?.Draw(a, view, l.TileSize);
+                if (component == null)continue;
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
+                if(drawer == null) continue;
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = false;
+                drawer.Draw(component, MainView.Instance,layer.TileSize);
+                //if (!layer.IsVisible) drawer.FullRedrawRequested = true;
+                //Debug.Log("drawing call");
             }
         }
 
-        private List<Type> GetDrawers(LBSLayer layer)
+        private void HideVisuals<T>(List<T> components, LBSLayer layer)
         {
-            var toR = new List<Type>();
-            foreach (var b in layer.Behaviours)
+            foreach (var component in components)
             {
-                if (b == null)
-                    continue;
-
-                if (!b.visible)
-                    continue;
-
-                var drawerT = LBS_Editor.GetDrawer(b.GetType());
-
-                if (drawerT == null)
-                    continue;
-
-                toR.Add(drawerT);
+                if (component == null)continue;
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
+                drawer?.HideVisuals(component, _view);
             }
-
-            foreach (var a in layer.Assistants)
+        }
+        private void ShowVisuals<T>(List<T> components, LBSLayer layer)
+        {
+            foreach (var component in components)
             {
-                if (a == null)
-                    continue;
-
-                if (!a.visible)
-                    continue;
-
-                var drawerT = LBS_Editor.GetDrawer(a.GetType());
-
-                if (drawerT == null)
-                    continue;
-
-                toR.Add(drawerT);
-            }
-
-            return toR;
-        }
-
-        public void RedrawLayer(LBSLayer layer, MainView view)
-        {
-            view.ClearLayerView(layer);
-            DrawLayer(layer, view);
-        }
-
-        public void RedrawLevel(LBSLevelData level, MainView view)
-        {
-            view.ClearLevelView();
-            DrawLevel(level, view);
-        }
-
-        private void DrawLevel(LBSLevelData level, MainView MainView)
-        {
-            this.level = level;
-            this.view = MainView;
-
-            var layers = level.Layers;
-            var quests = level.Quests;
-            DrawLayers(layers, MainView);
-            DrawLayers(quests, MainView);
-        }
-
-        private void DrawLayers(List<LBSLayer> layers, MainView mainView)
-        {
-            for (int i = layers.Count - 1; i >= 0; i--)
-            {
-                DrawLayer(layers[i], mainView);
+                if (component == null)continue;
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
+                drawer?.ShowVisuals(component, _view);
             }
         }
 
-        public void RedrawElement(LBSLayer layer, LBSModule module, object[] olds, object[] news)
+        private Drawer GetOrCreateDrawer(Type type, LBSLayer layer)
         {
-            var container = view.GetLayerContainer(layer);
+            var pairKey = (type, layer);
+            if (_drawerCache.TryGetValue(pairKey, out var drawer)) return drawer;
+            
+            var drawerType = LBS_Editor.GetDrawer(type);
+            if (drawerType == null)
+                return null;
 
-            // get drawers of layer
-            var drawersT = GetDrawers(layer);
-            foreach (var drawerT in drawersT)
+            drawer = Activator.CreateInstance(drawerType) as Drawer;
+            if (drawer != null)
+                _drawerCache[pairKey] = drawer;
+            return drawer;
+        }
+        
+        private List<Drawer> GetLayerDrawers(LBSLayer layer)
+        {
+            return _drawerCache.Where(kvp => kvp.Key.Item2.Equals(layer)).Select(kvp => kvp.Value).ToList();
+        }
+
+        public void RedrawLayer(LBSLayer layer)
+        {
+            _view.ClearLayerContainer(layer);
+            DrawLayer(layer);
+        }
+
+        public void RedrawLevel(LBSLevelData level, bool deepClean = false)
+        {
+            foreach (var layer in level.Layers)
             {
-                var drawer = Activator.CreateInstance(drawerT) as Drawer;
-                drawer.ReDraw(layer, olds, news, view, layer.TileSize);
+                bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
+                //if(deepClean)
+
+                GetLayerDrawers(layer)
+                .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
+
+                if (!layer.IsVisible) continue;
+                _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
+            }
+            DrawLevel(level);
+        }
+
+        private void DrawLevel(LBSLevelData level)
+        {
+            _level = level;
+            foreach (var layer in level.Layers)
+            {
+                DrawLayer(layer);
             }
         }
     }

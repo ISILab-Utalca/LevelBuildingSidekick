@@ -15,7 +15,7 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+    iconGUID: 02a644759487ae249bc3a20d019c8745
     id: Exterior
     name: Layer Exterior
     modules:
@@ -42,10 +42,10 @@ MonoBehaviour:
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: TileMapModule
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
           id: Exterior
           name: Layer Exterior
           modules:
@@ -70,10 +70,10 @@ MonoBehaviour:
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
         id: ConnectedTileMapModule
-        owner:
+        ownerLayer:
           visible: 1
           blocked: 0
-          iconPath: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
+          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/pine-tree.png
           id: Exterior
           name: Layer Exterior
           modules:
@@ -99,22 +99,57 @@ MonoBehaviour:
       type: {class: ExteriorBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
         visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Exterior Behaviour
-        targetBundleRef: {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
-        bundlePath: Assets/ISI Lab/ExampleResources/Prototype/Data/Exterior_Proto_4_Biomes.asset
+        targetBundleRef: {fileID: 11400000, guid: 9d3dac0f9a486fd47866f815b4fefc29, type: 2}
+        bundleRefGui: 9d3dac0f9a486fd47866f815b4fefc29
         identifierToSet: {fileID: 0}
     - rid: 6598277183820005786
       type: {class: AssistantWFC, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
         visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGUID: Icon/Default
+          id: LBSLayer
+          name: Layer name
+          modules: []
+          behaviours: []
+          assistants: []
+          generatorRules: []
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
         icon: {fileID: 7388822144124034973, guid: d6876dcafd31bb140957f5c74da450cb, type: 3}
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: Assistant WFC
         overrideValues: 0
         targetBundleRef: {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
-        bundlePath: Assets/ISI Lab/ExampleResources/Prototype/Data/Exterior_Proto_4_Biomes.asset
     - rid: 6598277183820005787
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:

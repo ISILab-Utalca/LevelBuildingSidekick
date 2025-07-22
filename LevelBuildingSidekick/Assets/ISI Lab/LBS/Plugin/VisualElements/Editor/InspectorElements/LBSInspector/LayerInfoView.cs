@@ -32,13 +32,13 @@ namespace LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerInfoView");
             visualTree.CloneTree(this);
 
-            this.foldout = this.Q<Foldout>();
+            foldout = this.Q<Foldout>();
             foldout.RegisterCallback<ChangeEvent<bool>>((evt) =>
             {
                 content.SetDisplay(evt.newValue);
             });
 
-            this.content = this.Q<VisualElement>("Content");
+            content = this.Q<VisualElement>("Content");
 
             textField = this.Q<TextField>();
             textField.SetEnabled(false);
@@ -52,8 +52,15 @@ namespace LBS.VisualElements
 
         public void SetInfo(LBSLayer layer)
         {
+            if (layer == null)
+            {
+                content.style.display = DisplayStyle.None;
+                return;
+            }
+            content.style.display = DisplayStyle.Flex;
+            
             textField.value = layer.Name;
-            objectField.value = AssetDatabase.LoadAssetAtPath<Texture2D>(layer.iconPath);
+            objectField.value = AssetDatabase.LoadAssetAtPath<Texture2D>(layer.iconGuid);
             sizeField.value = layer.TileSize;
         }
     }

@@ -18,13 +18,20 @@ MonoBehaviour:
   color: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 0}
   icon: {fileID: 0}
   assets:
-  - obj: {fileID: 919132149155446097, guid: 2e3191e056e85bb449c18aa39b59b47b, type: 3}
+  - obj: {fileID: 3258747906662124862, guid: 69ffd59fb725dfc45b6fa11c1a021a11, type: 3}
     probability: 1
   characteristics:
   - rid: 279245815319625874
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
   references:
     version: 2
     RefIds:

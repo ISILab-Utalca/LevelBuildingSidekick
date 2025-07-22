@@ -1,28 +1,56 @@
 using ISILab.LBS.Settings;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using ISILab.Extensions;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers
 {
     [Drawer(typeof(AssistantMapElite))]
     public class MapElitesDrawer : Drawer
     {
+        private DottedAreaFeedback _dotArea;
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
-            var assitant = target as AssistantMapElite;
-            var d = new DottedAreaFeedback();
-            var size = (assitant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
-            var start = new Vector2(assitant.RawToolRect.min.x, -assitant.RawToolRect.min.y + 1) * size;
-            var end = new Vector2(assitant.RawToolRect.max.x, -assitant.RawToolRect.max.y + 1) * size;
-            d.SetPosition(Rect.zero);
-            d.ActualizePositions(start.ToInt(), end.ToInt());
-            d.SetColor(Color.red);
-            view.AddElement(d);
+            var assistant = target as AssistantMapElite;
+            if(assistant == null) return;
+
+            if (!Loaded)
+            {
+                _dotArea = new DottedAreaFeedback();
+                view.AddElementToLayerContainer(assistant.OwnerLayer,this,_dotArea);
+                Loaded = true;
+            }
+
+            if (!assistant.visible) return;
+            
+            var size = (assistant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
+            var start = new Vector2(assistant.RawToolRect.min.x, -assistant.RawToolRect.min.y + 1) * size;
+            var end = new Vector2(assistant.RawToolRect.max.x, -assistant.RawToolRect.max.y + 1) * size;
+
+            view.ClearLayerComponentView(assistant.OwnerLayer, this);
+
+            _dotArea.SetPosition(Rect.zero);
+            _dotArea.ActualizePositions(start.ToInt(), end.ToInt());
+            _dotArea.SetColor(LBSSettings.Instance.view.errorColor);
+            _dotArea.layer = assistant.OwnerLayer.index;
+
+            view.AddElementToLayerContainer(assistant.OwnerLayer, this, _dotArea);
+        }
+
+        public override void HideVisuals(object target, MainView view)
+        {
+            if (!Loaded) return;
+            _dotArea.style.display = DisplayStyle.None;
+        }
+
+        public override void ShowVisuals(object target, MainView view)
+        {
+            if (!Loaded) return;
+            _dotArea.style.display = DisplayStyle.Flex;
         }
     }
 }

@@ -52,6 +52,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: m_DirtyAABB
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 0.25378785
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 0.2537879
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3887185075125053422, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[0]'
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0b918b010e362ac459b382ae120fc379, type: 3}
       propertyPath: m_Name
       value: Spikes_2m_Prefab

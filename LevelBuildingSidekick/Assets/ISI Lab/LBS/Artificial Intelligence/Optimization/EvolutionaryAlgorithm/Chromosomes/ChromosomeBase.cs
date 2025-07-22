@@ -18,6 +18,7 @@ namespace GeneticSharp.Domain.Chromosomes
         #region Fields
         protected object[] genes;
         protected int[] immutableIndexes;
+        protected int[] invalidIndexes;
         #endregion
 
         #region Constructors        
@@ -25,7 +26,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Initializes a new instance of the <see cref="ChromosomeBase"/> class.
         /// </summary>
         /// <param name="length">The length, in genes, of the chromosome.</param>
-        protected ChromosomeBase(int length, int[] immutables = null)
+        protected ChromosomeBase(int length, int[] immutables = null, int[] invalids = null)
         {
             ValidateLength(length);
             genes = new object[length];
@@ -33,13 +34,16 @@ namespace GeneticSharp.Domain.Chromosomes
             immutableIndexes = immutables;
             if (immutableIndexes == null)
                 immutableIndexes = new int[0];
-
+            invalidIndexes = invalids;
+            if(invalidIndexes == null)
+                invalidIndexes = new int[0];
         }
 
         protected ChromosomeBase()
         {
             genes = new object[0];
             immutableIndexes = new int[0];
+            invalidIndexes = new int[0];
         }
 
         #endregion
@@ -49,6 +53,9 @@ namespace GeneticSharp.Domain.Chromosomes
         /// Gets or sets the fitness of the chromosome in the current problem.
         /// </summary>
         public double Fitness { get; set; }
+
+        public double xFitness { get; set; }
+        public double yFitness { get; set; }
 
         /// <summary>
         /// Gets the length, in genes, of the chromosome.
@@ -411,6 +418,11 @@ namespace GeneticSharp.Domain.Chromosomes
         public bool IsImmutable(int index)
         {
             return immutableIndexes.Contains(index);
+        }
+
+        public bool IsInvalid(int index)
+        {
+            return invalidIndexes.Contains(index);
         }
 
         public abstract void SetDeafult(int index);

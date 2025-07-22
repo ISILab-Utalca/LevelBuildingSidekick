@@ -21,6 +21,8 @@ namespace ISILab.AI.Optimization
             this.connectedZones = layer.GetModule<ConnectedZonesModule>();
         }
 
+        public string Tooltip => "Adjacencies Evaluator";
+
         public object Clone()
         {
             throw new System.NotImplementedException();
@@ -69,6 +71,11 @@ namespace ISILab.AI.Optimization
             var tiles = layer.GetModule<TileMapModule>().Tiles;
 
             return distValue / edgeCount;
+        }
+
+        public void InitializeDefault()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,7 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
-using ISILab.LBS.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,26 +15,7 @@ namespace ISILab.LBS.VisualElements
     [UxmlElement]
     public partial class LBSLocalBehaviours : LBSInspector
     {
-        #region FACTORY
-     //   public new class UxmlFactory : UxmlFactory<LBSLocalBehaviours, UxmlTraits> { }
-        #endregion
-
-        #region FIELDS
-        private LBSLayer target;
-        #endregion
-
-        #region VIEW FIELDS
-        private VisualElement content;
-        private VisualElement noContentPanel;
-        private VisualElement contentBehaviour;
-
-        public List<LBSCustomEditor> CustomEditors = new List<LBSCustomEditor>();
-        #endregion
-
-        #region PROPERTIES
-        public Color color;//=> LBSSettings.Instance.view.behavioursColor;
-        private ToolKit toolkit => ToolKit.Instance;
-        #endregion
+        private LBSLayer _target;
 
         #region CONSTRUCTORS
         public LBSLocalBehaviours()
@@ -43,74 +23,74 @@ namespace ISILab.LBS.VisualElements
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSLocalBehaviours");
             visualTree.CloneTree(this);
 
-            content = this.Q<VisualElement>("Content");
             noContentPanel = this.Q<VisualElement>("NoContentPanel");
-            contentBehaviour = this.Q<VisualElement>("ContentBehaviour");
+            contentPanel = this.Q<VisualElement>("ContentBehaviour");
 
             this.Q<Button>("Add").SetEnabled(false);
+            this.Q<Button>("Add").SetDisplay(false);
         }
         #endregion
 
+
         #region METHODS
-        public void SetInfo(LBSLayer target)
+        public override void InitCustomEditors(ref List<LBSLayer> layers)
         {
-            contentBehaviour.Clear();
-
-            this.target = target;
-
-            if (target == null)
-                return;
-
-            if (target.Behaviours.Count <= 0)
+            foreach (LBSLayer reflayer in layers)
             {
-                noContentPanel.SetDisplay(true);
-                return;
-            }
-
-            noContentPanel.SetDisplay(false);
-
-            foreach (var behaviour in target.Behaviours)
-            {
-                var type = behaviour.GetType();
-                var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
-                    .Where(t => t.Item2.Any(v => v.type == type)).ToList();
-
-                if (!ves.Any())
+               // var layer = reflayer.Clone() as LBSLayer;
+                if (reflayer == null) continue;
+                foreach (var behaviour in reflayer.Behaviours)
                 {
-                    Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
-                    continue;
+                    Type type = behaviour.GetType();
+                    var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
+                        .Where(t => t.Item2.Any(v => v.type == type)).ToList();
+
+                    if (!ves.Any())
+                    {
+                        Debug.LogWarning("[ISI Lab] No class marked as LBSCustomEditor found for type: " + type);
+                        continue;
+                    }
+
+                    Type behaviourEditorType = ves.First().Item1;
+                    if (behaviourEditorType == null) continue;
+                    customEditor.Add(type, behaviourEditorType);
+
+                   
                 }
-
-                var ovg = ves.First().Item1;
-                if(ovg == null) continue;
-                var ve = Activator.CreateInstance(ovg, new object[] { behaviour });
-                if (!(ve is VisualElement))
-                {
-                    Debug.LogWarning("[ISI Lab] " + ve.GetType() + " is not a VisualElement ");
-                    continue;
-                }
-
-                CustomEditors.Add(ve as LBSCustomEditor);
-                
-                var content = new BehaviourContent(ve as LBSCustomEditor, behaviour.Name, behaviour.Icon, behaviour.ColorTint);
-                contentBehaviour.Add(content);
-
             }
         }
 
         public override void SetTarget(LBSLayer layer)
         {
-            SetInfo(layer);
+            noContentPanel.SetDisplay(layer is null);
+            contentPanel.Clear();
+            _target = layer;
+            
+            if (layer == null)
+                return;
+            
+            noContentPanel.SetDisplay(!_target.Behaviours.Any());
+            
+            // Add the tools into the toolkit and set the data of behaviour
+            foreach (var behaviour in _target.Behaviours)
+            {
+                Type editorType = customEditor.GetValueOrDefault(behaviour.GetType());
+                if(editorType == null) continue;
+                LBSCustomEditor instance = Activator.CreateInstance(editorType, behaviour) as LBSCustomEditor;
+                
+                instance?.SetInfo(behaviour);
+                ToolKit.Instance.SetTarget(instance);
+                
+                var content = new InspectorContentPanel(instance, behaviour.Name, behaviour.Icon, behaviour.ColorTint);
+                contentPanel.Add(content);
+  
+            }
         }
 
         public override void Repaint()
         {
-            foreach (var ve in CustomEditors)
-            {
-                ve?.Repaint();
-            }
-
-            SetInfo(target);
+            if(_target is not null)SetTarget(_target);
+            MarkDirtyRepaint();
         }
         #endregion
     }

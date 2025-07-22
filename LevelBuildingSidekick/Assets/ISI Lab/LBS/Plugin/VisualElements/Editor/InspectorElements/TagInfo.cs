@@ -50,7 +50,7 @@ namespace ISILab.LBS.VisualElements
 
             // IconField
             iconField = this.Q<ObjectField>("IconField");
-            iconField.RegisterCallback<ChangeEvent<Object>>(e => target.Icon = e.newValue as Texture2D);
+            iconField.RegisterCallback<ChangeEvent<Object>>(e => target.Icon = e.newValue as VectorImage);
         }
 
         public void SetInfo(LBSTag target)

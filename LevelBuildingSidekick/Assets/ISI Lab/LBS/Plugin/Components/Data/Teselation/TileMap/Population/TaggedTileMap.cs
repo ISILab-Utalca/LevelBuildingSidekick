@@ -55,7 +55,7 @@ namespace ISILab.LBS.Modules
         //This does nothing? But I'll change it for addGroup.
         public void AddGroup(List<LBSTile> tiles, Bundle bundle)
         {
-            var data = new BundleData(bundle.name, bundle.Characteristics);
+            var data = new BundleData(bundle.name, bundle.GUID, bundle.Characteristics);
             AddGroup(tiles, data);
         }
 

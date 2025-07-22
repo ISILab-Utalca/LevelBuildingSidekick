@@ -63,7 +63,7 @@ namespace ISILab.Commons.Utility.Editor
         public static List<T> GetScriptablesByType<T>() where T : ScriptableObject
         {
             List<T> toReturn = new List<T>();
-            var guids = AssetDatabase.FindAssets("t:" + typeof(T).ToString());
+            var guids = AssetDatabase.FindAssets("t:" + typeof(T));
             for (int i = 0; i < guids.Length; i++)
             {
                 string path = AssetDatabase.GUIDToAssetPath(guids[i]);

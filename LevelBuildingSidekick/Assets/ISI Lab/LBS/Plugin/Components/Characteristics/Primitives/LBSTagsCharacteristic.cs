@@ -14,7 +14,7 @@ namespace ISILab.LBS.Characteristics
         [JsonRequired]
         string tagName = "";
 
-        [SerializeField, JsonIgnore]
+        [SerializeField, JsonRequired/*, JsonIgnore*/]
         protected LBSTag value;
 
         [JsonIgnore]
@@ -57,19 +57,37 @@ namespace ISILab.LBS.Characteristics
             if (!(obj is LBSTagsCharacteristic))
                 return false;
             var ch = (LBSTagsCharacteristic)obj;
+            //if((ch.value == null && value != null) || (ch.value != null && value == null))
+            //    return false;
+            //if (ch.value == null && value == null)
+            //    return true;
+            //return ch.value.Equals(value);
+            return object.Equals(ch.value, value);
             //if (ch.value != this.value)
-              //  return false;
-            return true;
+            //    return false;
+            //return true;
         }
 
         public override string ToString()
         {
-            return base.ToString();
+            return tagName;
         }
 
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        
+        public override List<string> Validate()
+        {
+            List<string> warnings = new List<string>();
+
+            if (value == null)
+            {
+                warnings.Add("The tag in LBSTagsCharacteristic is null.");
+            }
+            
+            return warnings;
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Settings;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -65,8 +66,9 @@ namespace ISILab.LBS.VisualElements
         private List<IGrupable> group = new List<IGrupable>();
         private IGrupable current;
 
-        private Color baseColor = new Color(72f / 255f, 72f / 255f, 72f / 255f);
-        private Color selectedColor = new Color(215f / 255f, 127f / 255f, 45f / 255f);
+        private Color baseColor = LBSSettings.Instance.view.toolkitNormal;
+        private Color selectedColor = LBSSettings.Instance.view.newToolkitSelected;
+        
         private int index = -1;
         private string choices = "";
         private int choiceCount = 0;
@@ -169,17 +171,10 @@ namespace ISILab.LBS.VisualElements
             OnChangeTab?.Invoke(current.GetLabel());
         }
 
-
-        public void ChangeActive(int index)
-        {
-            var current = group[index];
-            ChangeActive(current);
-        }
-
         public void ChangeActive(string label)
         {
-            var current = group.Find(b => b.GetLabel() == label);
-            ChangeActive(current);
+            var activeCurrent = group.Find(b => b.GetLabel() == label);
+            ChangeActive(activeCurrent);
         }
 
         private void Active(IGrupable active)
@@ -189,19 +184,13 @@ namespace ISILab.LBS.VisualElements
                 ChangeActive(active);
                 return;
             }
-            else
+            if (current != active)
             {
-                if (current == active)
-                {
-                    current.OnBlur();
-                    current = null;
-                }
-                else
-                {
-                    ChangeActive(active);
-                    return;
-                }
+                ChangeActive(active);
+                return;
             }
+            current.OnBlur();
+            current = null;
         }
 
         public new void Remove(VisualElement element)

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
@@ -29,7 +27,7 @@ namespace ISILab.LBS.Assistants
 
             var roots = RootLines(node);
             var branches = BranchLines(node);
-
+            
             var questLines = new List<List<QuestNode>>();
 
             foreach (var r in roots)
@@ -83,7 +81,7 @@ namespace ISILab.LBS.Assistants
 
                 var actions = q.Select(n => n.QuestAction).ToList();
 
-                if (!Quest.Grammar.Validate(actions))
+                if (!Quest.Grammar.Validate(q).Item1)
                 {
                     continue;
                 }
@@ -136,19 +134,13 @@ namespace ISILab.LBS.Assistants
             {
                 first = list.First();
                 var root = Quest.Root;
-
-                Debug.LogError("Comparing nodes:");
-                Debug.Log($"   First: {first} - InstanceID: {first.GetHashCode()}, ID: {first.ID}");
-                Debug.Log($"   Root:  {root} - InstanceID: {root.GetHashCode()}, ID: {root.ID}");
-
+                
                 // Better comparison by ID or custom logic
                 if (first.ID == root.ID) // assuming QuestNode has an ID field
                 {
                     validRoots.Add(list);
                 }
             }
-
-  
 
             var questLines = new List<List<QuestNode>>();
             foreach (var r in validRoots.ToList())
@@ -169,14 +161,20 @@ namespace ISILab.LBS.Assistants
                     Debug.LogError($"Invalid quest line found. Null or empty.");
                     continue;
                 }
-
-                var actions = q.Select(n => n.QuestAction).ToList();
-                if (!Quest.Grammar.Validate(actions))
+                
+                Tuple<bool, List<QuestNode>> result = Quest.Grammar.Validate(q);
+                
+                foreach (var qn in result.Item2)
                 {
-                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", actions)}");
+                    qn.GrammarCheck = true;
+                }
+                
+                if (!result.Item1)
+                {
+                    Debug.LogWarning($"Invalid quest line: {string.Join(", ", q.Select(n => n.QuestAction).ToList())}");
                     continue;
                 }
-
+                
                 candidates.Add(q);
             }
 
@@ -184,10 +182,10 @@ namespace ISILab.LBS.Assistants
             {
                 foreach (var n in c)
                 {
-                    n.GrammarCheck = true;
+                   // n.GrammarCheck = true;
                 }
                 
-                Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
+              //  Debug.Log($"GrammarCheck set to TRUE for: {string.Join(", ", c.Select(n => n.QuestAction))}");
             }
         }
 
@@ -257,7 +255,7 @@ namespace ISILab.LBS.Assistants
 
                 var actions = q.Select(n => n.QuestAction).ToList();
 
-                if (!Quest.Grammar.Validate(actions))
+                if (!Quest.Grammar.Validate(q).Item1)
                 {
                     continue;
                 }

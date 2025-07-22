@@ -1,7 +1,8 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections;
+using LBS.Components.TileMap;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -11,71 +12,84 @@ namespace ISILab.LBS.Manipulators
 {
     public class RemoveTileConnection : LBSManipulator
     {
-        private List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
+        private static List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
-        private SchemaBehaviour schema;
-        private Vector2Int first;
+        private SchemaBehaviour _schema;
+        private Vector2Int _first;
 
-        public RemoveTileConnection() : base()
+        protected override string IconGuid => "0ce694377e9e05a478862c63a2ca952d";
+        
+        public RemoveTileConnection()
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = true;
+            Feedback = new ConnectedLine();
+            Feedback.fixToTeselation = true;
+            
+            Name = "Remove connection";
+            Description = "Click on a connection to remove it.";
         }
 
-        public override void Init(LBSLayer layer, object behaviour)
+        public override void Init(LBSLayer layer, object behaviour = null)
         {
             base.Init(layer, behaviour);
             
-            schema = behaviour as SchemaBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            _schema = behaviour as SchemaBehaviour;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
            
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int position, MouseDownEvent e)
         {
-            first = schema.OwnerLayer.ToFixedPosition(position);
+            _first = _schema.OwnerLayer.ToFixedPosition(position);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Connection between tile");
 
-            var t1 = schema.GetTile(first);
-            if (t1 == null)
-                return;
+            var pos = _schema.OwnerLayer.ToFixedPosition(position);
 
-            var pos = schema.OwnerLayer.ToFixedPosition(position);
+            var dx = _first.x - pos.x;
+            var dy = _first.y - pos.y;
 
-            var dx = t1.Position.x - pos.x;
-            var dy = t1.Position.y - pos.y;
+            float dLength = Mathf.Sqrt(dx * dx + dy * dy);
 
-            var fDir = Directions.FindIndex(d => d.Equals(-new Vector2Int(dx, dy)));
+            int totalConnections = (int)Math.Floor(dLength);
+            List<LBSTile> selectedTiles = new List<LBSTile>();
 
-            if (fDir < 0 || fDir >= schema.Directions.Count)
-                return;
-
-            var t2 = schema.GetTile(pos);
-
-            if (t2 == null)
+            for (int i = 0; i <= totalConnections; i++)
             {
-                schema.SetConnection(t1, fDir, "", true);
-                return;
+                //Get the next tile 
+                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
             }
 
-            if (t1.Equals(t2))
+            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+
+            if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
                 return;
 
-            if (Mathf.Abs(dx) + Mathf.Abs(dy) > 1f)
-                return;
+            for (int i = 1; i < selectedTiles.Count; i++) 
+            {
+                LBSTile tile1 = selectedTiles[i - 1];
+                LBSTile tile2 = selectedTiles[i];
 
-            var tDir = schema.Directions.FindIndex(d => d.Equals(new Vector2Int(dx, dy)));
+                bool t1Exists = tile1 != null;
+                bool t2Exists = tile2 != null;
 
-            schema.SetConnection(t1, fDir, "", true);
-            schema.SetConnection(t2, tDir, "", true);
-            schema.RecalculateWalls();
+                if (!(t1Exists || t2Exists))
+                    continue;
+
+                if (Equals(tile1, tile2))
+                    continue;
+
+                if (t1Exists) _schema.SetConnection(tile1, dir1, "", true);
+                if (t2Exists) _schema.SetConnection(tile2, dir2, "", true);
+            }
+            
+            _schema.RecalculateWalls();
 
             if (EditorGUI.EndChangeCheck())
             {

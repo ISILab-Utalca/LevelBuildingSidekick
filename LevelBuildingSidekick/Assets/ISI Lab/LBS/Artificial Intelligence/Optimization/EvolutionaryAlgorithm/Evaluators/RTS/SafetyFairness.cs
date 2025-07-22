@@ -6,6 +6,7 @@ using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.Commons;
 using ISILab.LBS.Characteristics;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace ISILab.AI.Categorization
         public float MaxValue => 1;
 
         public float MinValue => 0;
+
+        public string Tooltip => "Safety Fairness Evaluator";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -109,6 +112,8 @@ namespace ISILab.AI.Categorization
                 foreach (var dir in Directions.Bidimencional.Edges)
                 {
                     var pos = chrom.ToMatrixPosition(parent) + dir;
+                    if (pos.x >= chrom.Rect.width)
+                        ; // No se valida?
                     var index = chrom.ToIndex(pos);
 
                     if (index < 0 || index >= chrom.Length)
@@ -149,6 +154,12 @@ namespace ISILab.AI.Categorization
         public float FlatDistance(int first, int second, BundleTilemapChromosome chrom)
         {
             return (chrom.ToMatrixPosition(first) - chrom.ToMatrixPosition(second)).magnitude;
+        }
+
+        public void InitializeDefault()
+        {
+            playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
+            colliderCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Collider"));
         }
     }
 }

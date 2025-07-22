@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ISI_Lab.Commons.Utility;
 using ISILab.Extensions;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -97,6 +98,10 @@ namespace ISILab.LBS.Modules
             if (pairs.Count <= 0)
                 return null;
             return pairs.Find(t => t.Tile.Equals(tile));
+        }
+        public TileConnectionsPair GetPair(Vector2Int pos)
+        {
+            return pairs.Find(t => t.Tile.Position == pos);
         }
 
         public List<string> GetConnections(LBSTile tile)
@@ -279,8 +284,9 @@ namespace ISILab.LBS.Modules
             var other = obj as TileConnectionsPair;
 
             if (other == null) return false;
+            if (other.tile == null) return false;
 
-            if (!this.tile.Equals(other.tile)) return false;
+            if (!tile.Equals(other.tile)) return false;
 
             var cCount = other.connections.Count;
 
@@ -307,7 +313,19 @@ namespace ISILab.LBS.Modules
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return LBSHashUtilities.CustomListHash(connections);
+        }
+
+        public override string ToString()
+        {
+            string s = Tile + " {";
+            foreach(string conn in connections)
+            {
+                s += $"'{conn}', "; 
+            }
+            s.Remove(s.Length - 2);
+            s += "}";
+            return s;
         }
         #endregion
     }

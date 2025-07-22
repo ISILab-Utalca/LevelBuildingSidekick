@@ -12,12 +12,18 @@ namespace ISILab.Extensions
         public static void SetDisplay(this VisualElement element, bool value)
         {
             if (element == null) return;
-            element.style.display = DisplayStyle.None;
+            element.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+           // element.style.display = DisplayStyle.None;
             /* previous way to show the corresponding ortogonal part of the connection tile 
             in the SchemaTileView uxml
-            element.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+            
                 
             */
+        }
+        
+        public static bool GetDisplay(this VisualElement element)
+        {
+            return element.style.display == DisplayStyle.Flex;
         }
 
 

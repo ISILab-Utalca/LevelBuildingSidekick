@@ -18,8 +18,7 @@ MonoBehaviour:
   color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 0}
   icon: {fileID: 0}
   assets: []
-  characteristics:
-  - rid: -2
+  characteristics: []
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles:
@@ -28,8 +27,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a90b9e160779a6441ab7e2fa57c1b7d0, type: 2}
   - {fileID: 11400000, guid: cf2e905696bc95a4fbe169ed8597c912, type: 2}
   - {fileID: 11400000, guid: abecd8f2ae63b214c9e9e1eb1b0ca551, type: 2}
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+  guid: 
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []

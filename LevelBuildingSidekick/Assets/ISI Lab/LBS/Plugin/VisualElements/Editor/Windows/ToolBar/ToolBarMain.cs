@@ -1,6 +1,6 @@
 using ISILab.Commons.Utility.Editor;
 using System;
-
+using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -36,8 +36,14 @@ namespace ISILab.LBS.VisualElements.Editor
             //settingMenu.clicked += () => OpenConfiguration();
             settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
-            var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
-            keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
+            // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
+            // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
+            
+            ToolbarToggle keyMapToggle = this.Q<ToolbarToggle>("KeyMapToggle");
+            keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
+            
+            var bundManBtn = this.Q<ToolbarButton>("BundleManagerButton");
+            bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
 
             // file name label
             var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made

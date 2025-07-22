@@ -84,6 +84,7 @@ namespace ISILab.AI.Optimization
             }
             set
             {
+                //UnityEngine.Debug.Log("STATE CHANGED: " + state.ToString().ToUpper() + " -> " + value.ToString().ToUpper());
                 var shouldStop = OnStopped != null && state != value && value == Op_State.Stopped;
 
                 state = value;
@@ -250,6 +251,9 @@ namespace ISILab.AI.Optimization
         public abstract void RunOnce ();
 
         public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
+
+        //Made so it doesn't just reset all the time
+        public abstract void InitializeDefault();
 
         public void Run()
         {

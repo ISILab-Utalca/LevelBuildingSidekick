@@ -14,8 +14,8 @@ namespace ISILab.LBS.Manipulators
 
         public ManipulateTeselation() : base()
         {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
+            Feedback = new AreaFeedback();
+            Feedback.fixToTeselation = true;
         }
 
         public override void Init(LBSLayer layer, object owner)
@@ -23,8 +23,8 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, owner);
             
             module = layer.GetModule<TileMapModule>();
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
             
         }
     }

@@ -1,7 +1,4 @@
 using LBS.Components;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.LBS.Assistants;
@@ -13,35 +10,40 @@ namespace ISILab.LBS.Manipulators
 {
     public class SetZoneConnection : LBSManipulator
     {
-        private HillClimbingAssistant assistant;
-        private Vector2Int first;
+        private HillClimbingAssistant _assistant;
+        private Vector2Int _first;
 
-        public SetZoneConnection() : base()
+        protected override string IconGuid => "9205ce0b509ff9442963e8161b25d8a2";
+
+        public SetZoneConnection()
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = false;
+            Feedback = new ConnectedLine();
+            Feedback.fixToTeselation = false;
+
+            Name = "Add Assistant zone connection";
+            Description = "Select an start and end point between zones to create a connection.";
         }
 
-        public override void Init(LBSLayer layer, object provider)
+        public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
             
-            assistant = provider as HillClimbingAssistant;
+            _assistant = provider as HillClimbingAssistant;
 
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
-        protected override void OnMouseDown(VisualElement target, Vector2Int position, MouseDownEvent e)
+        protected override void OnMouseDown(VisualElement element, Vector2Int position, MouseDownEvent e)
         {
-            first = lbsLayer.ToFixedPosition(position);
+            _first = LBSLayer.ToFixedPosition(position);
         }
 
-        protected override void OnMouseUp(VisualElement target, Vector2Int position, MouseUpEvent e)
+        protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
-            var second = lbsLayer.ToFixedPosition(position);
+            LBSLayer.ToFixedPosition(position);
 
-            var z1 = assistant.GetZone(first);
+            var z1 = _assistant.GetZone(_first);
 
             if (z1 == null)
             {
@@ -49,8 +51,8 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            var pos = lbsLayer.ToFixedPosition(position);
-            var z2 = assistant.GetZone(pos);
+            var pos = LBSLayer.ToFixedPosition(position);
+            var z2 = _assistant.GetZone(pos);
             if (z2 == null)
             {
                 LBSMainWindow.MessageNotify("No destination selected!", LogType.Error, 2);
@@ -63,7 +65,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            if (assistant.CheckEdges(z1, z2))
+            if (_assistant.CheckEdges(z1, z2))
             {
                 LBSMainWindow.MessageNotify("This connection already exists.");
                 return;
@@ -72,7 +74,7 @@ namespace ISILab.LBS.Manipulators
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add Zone Connections");
-            assistant.ConnectZones(z1, z2);
+            _assistant.ConnectZones(z1, z2);
 
             if (EditorGUI.EndChangeCheck())
             {

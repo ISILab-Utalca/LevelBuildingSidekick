@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
+  m_Name: Water_Full
+  m_EditorClassIdentifier: 
+  layerContentFlags: 0
+  type: 0
+  anchorPosition: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  icon: {fileID: 0}
+  assets:
+  - obj: {fileID: 919132149155446097, guid: 01a0327e4fae40e4b8696c8f19775638, type: 3}
+    probability: 1
+  - obj: {fileID: 8935465766269110040, guid: 46a13501be5dc5049a19d54923bb045c, type: 3}
+    probability: 0.294
+  - obj: {fileID: 8935465766269110040, guid: 5316c700b4b309c4dbe52b1527025ccb, type: 3}
+    probability: 0.121
+  characteristics:
+  - rid: 5085006314459627539
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5085006314459627539
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - Water
+        - Water
+        - Water
+        - Water

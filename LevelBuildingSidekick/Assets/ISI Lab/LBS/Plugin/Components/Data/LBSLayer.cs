@@ -12,10 +12,11 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LBS.Components
 {
-    [System.Serializable]
+    [Serializable]
     public class LBSLayer : ICloneable
     {
         #region META-FIELDS
@@ -25,8 +26,8 @@ namespace LBS.Components
         [SerializeField, JsonRequired]
         private bool blocked = false;
 
-        [SerializeField, JsonRequired]
-        public string iconPath = "Icon/Default";
+        [FormerlySerializedAs("iconGUID")] [FormerlySerializedAs("iconPath")] [SerializeField, JsonRequired]
+        public string iconGuid = "Icon/Default";
         #endregion
 
         #region FIELDS
@@ -37,22 +38,26 @@ namespace LBS.Components
         private string name = "Layer name";
 
         [JsonIgnore]
-        private LBSLevelData parent;
+        private LBSLevelData _parent;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSModule> modules = new List<LBSModule>();
+        private List<LBSModule> modules = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSBehaviour> behaviours = new List<LBSBehaviour>();
+        private List<LBSBehaviour> behaviours = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSAssistant> assistants = new List<LBSAssistant>();
+        private List<LBSAssistant> assistants = new();
 
         [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSGeneratorRule> generatorRules = new List<LBSGeneratorRule>();
+        private List<LBSGeneratorRule> generatorRules = new();
 
         [SerializeField, JsonRequired]
-        private Generator3D.Settings settings = new Generator3D.Settings();
+        private Generator3D.Settings settings = new();
+       
+        [SerializeField, JsonRequired]
+        public int index;
+
         #endregion
 
         #region META-PROPERTIES
@@ -82,8 +87,8 @@ namespace LBS.Components
         [JsonIgnore]
         public LBSLevelData Parent
         {
-            get => parent;
-            set => parent = value;
+            get => _parent;
+            set => _parent = value;
         }
         
         [JsonIgnore]
@@ -101,28 +106,17 @@ namespace LBS.Components
         }
 
         [JsonIgnore]
-        public List<LBSModule> Modules
-        {
-            get => new List<LBSModule>(modules);
-        }
+        public List<LBSModule> Modules => new(modules);
 
         [JsonIgnore]
-        public List<LBSBehaviour> Behaviours
-        {
-            get => new List<LBSBehaviour>(behaviours);
-        }
+        public List<LBSBehaviour> Behaviours => new(behaviours);
 
         [JsonIgnore]
-        public List<LBSAssistant> Assistants
-        {
-            get => new List<LBSAssistant>(assistants);
-        }
+        public List<LBSAssistant> Assistants => new(assistants);
 
         [JsonIgnore]
-        public List<LBSGeneratorRule> GeneratorRules
-        {
-            get => new List<LBSGeneratorRule>(generatorRules);
-        }
+        public List<LBSGeneratorRule> GeneratorRules => new(generatorRules);
+
 
         [JsonIgnore]
         public Generator3D.Settings Settings
@@ -134,12 +128,9 @@ namespace LBS.Components
         [JsonIgnore]
         public Vector2Int TileSize
         {
-            get
-            {
-                return new Vector2Int(
-                    (int)settings.scale.x,
+            get =>
+                new((int)settings.scale.x,
                     (int)settings.scale.y);
-            }
             set
             {
                 settings.scale.x = value.x;
@@ -150,6 +141,9 @@ namespace LBS.Components
         #endregion
 
         #region EVENTS
+
+        public event Action OnChangeName;
+        public event Action OnChange; // call whenever needing to update a change on a single layer
         public event Action<Vector2Int> OnTileSizeChange;
         public event Action<LBSLayer, LBSModule> OnAddModule;
         public event Action<LBSLayer, LBSModule> OnReplaceModule;
@@ -170,7 +164,7 @@ namespace LBS.Components
             IEnumerable<LBSAssistant> assistant,
             IEnumerable<LBSGeneratorRule> rules,
             IEnumerable<LBSBehaviour> behaviours,
-            string ID, bool visible, string name, string iconPath, Vector2Int tileSize)
+            string ID, bool visible, string name, string iconGuid, Vector2Int tileSize)
         {
             foreach (var m in modules)
             {
@@ -195,8 +189,8 @@ namespace LBS.Components
             this.ID = ID;
             IsVisible = visible;
             this.name = name;
-            this.iconPath = iconPath;
-            this.TileSize = tileSize;
+            this.iconGuid = iconGuid;
+            TileSize = tileSize;
         }
         #endregion
 
@@ -234,21 +228,21 @@ namespace LBS.Components
 
         public void AddBehaviour(LBSBehaviour behaviour)
         {
-            if (this.behaviours.Contains(behaviour))
+            if (behaviours.Contains(behaviour))
             {
                 Debug.Log("[ISI Lab]: This layer already contains the behavior " + behaviour.GetType().Name + ".");
                 return;
             }
 
-            this.behaviours.Add(behaviour);
+            behaviours.Add(behaviour);
 
-            // check if the layer have necesarie 'Modules'
-            var reqModules = behaviour.GetRequieredModules();
+            // check if the layer have necessary 'Modules'
+            var reqModules = behaviour.GetRequiredModules();
             foreach (var type in reqModules)
             {
                 if (!modules.Any(e => e.GetType() == type))         
                 {
-                    this.AddModule(Activator.CreateInstance(type) as LBSModule);
+                    AddModule(Activator.CreateInstance(type) as LBSModule);
                 }
             }
 
@@ -257,36 +251,36 @@ namespace LBS.Components
 
         public void RemoveBehaviour(LBSBehaviour behaviour)
         {
-            this.behaviours.Remove(behaviour);
+            behaviours.Remove(behaviour);
             behaviour.OnDetachLayer(this);
         }
 
         public void AddGeneratorRule(LBSGeneratorRule rule)
         {
-            this.generatorRules.Add(rule);
+            generatorRules.Add(rule);
         }
 
         public bool RemoveGeneratorRule(LBSGeneratorRule rule)
         {
-            return this.generatorRules.Remove(rule);
+            return generatorRules.Remove(rule);
         }
 
         public void AddAssistant(LBSAssistant assistant)
         {
-            if (this.assistants.Find( a => assistant.GetType().Equals(a.GetType())) != null)
+            if (assistants.Find( a => assistant.GetType().Equals(a.GetType())) != null)
             {
                 Debug.Log("[ISI Lab]: This layer already contains the assistant " + assistant.GetType().Name + ".");
                 return;
             }
 
-            this.assistants.Add(assistant);
+            assistants.Add(assistant);
 
             var reqModules = assistant.GetRequieredModules();
             foreach (var type in reqModules)
             {
                 if (!modules.Any(e => e.GetType() == type))
                 {
-                    this.AddModule(Activator.CreateInstance(type) as LBSModule);
+                    AddModule(Activator.CreateInstance(type) as LBSModule);
                 }
             }
             assistant.OnAttachLayer(this);
@@ -295,7 +289,7 @@ namespace LBS.Components
 
         public void RemoveAssitant(LBSAssistant assistant)
         {
-            this.assistants.Remove(assistant);
+            assistants.Remove(assistant);
             assistant.OnDetachLayer(this);
         }
 
@@ -314,7 +308,7 @@ namespace LBS.Components
             modules.Add(module);
             module.OnAttach(this);
 
-            this.OnAddModule?.Invoke(this, module);
+            OnAddModule?.Invoke(this, module);
 
             return true;
         }
@@ -439,11 +433,11 @@ namespace LBS.Components
             return pos.ToInt();
         }
 
-        public Vector2 FixedToPosition(Vector2Int position) 
+        public Vector2 FixedToPosition(Vector2Int position, bool invertY = false) 
         {
             var tileSizeX = TileSize.x * LBSSettings.Instance.general.TileSize.x;
             var tileSizeY = TileSize.y * LBSSettings.Instance.general.TileSize.y;
-
+            if(invertY) tileSizeY = -tileSizeY;
             return new Vector2(position.x * tileSizeX, position.y * tileSizeY);
         }
         
@@ -468,10 +462,10 @@ namespace LBS.Components
         {
             var modules = this.modules.Clone(); // CloneRef
             var assistants = this.assistants.Select(a => a.Clone() as LBSAssistant);
-            var rules = this.generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
+            var rules = generatorRules.Select(r => r.Clone() as LBSGeneratorRule);
             var behaviours = this.behaviours.Select(b => b.Clone() as LBSBehaviour);
 
-            var layer = new LBSLayer(modules, assistants, rules, behaviours, this.id, this.visible, this.name, this.iconPath, this.TileSize);
+            var layer = new LBSLayer(modules, assistants, rules, behaviours, id, visible, name, iconGuid, TileSize);
             return layer;
         }
 
@@ -483,33 +477,33 @@ namespace LBS.Components
             if (other == null) return false;
 
             // check if have the same ID
-            if(other.id != this.id) return false;
+            if(other.id != id) return false;
 
             // check if have the same name
-            if (other.name != this.name) return false;
+            if (other.name != name) return false;
 
             // get amount of modules
             var mCount = other.modules.Count;
 
             // cheack amount of modules
-            if (this.modules.Count != mCount) return false;
+            if (modules.Count != mCount) return false;
 
             for (int i = 0; i < mCount; i++)
             {
                 var m1 = other.modules[i];
-                var m2 = this.modules[i];
+                var m2 = modules[i];
                 if (!m1.Equals(m2)) return false;
             }
 
             // get amount of modules
             var bCount = other.behaviours.Count;
             // cheack amount of behaviours
-            if (this.behaviours.Count != bCount) return false;
+            if (behaviours.Count != bCount) return false;
 
             for (int i = 0; i < bCount; i++)
             {
                 var b1 = other.behaviours[i];
-                var b2 = this.behaviours[i];
+                var b2 = behaviours[i];
 
                 if (!b1.Equals(b2)) return false;
             }
@@ -518,12 +512,12 @@ namespace LBS.Components
             var aCount = other.assistants.Count;
 
             // cheack amount of behaviours
-            if (this.assistants.Count != aCount) return false;
+            if (assistants.Count != aCount) return false;
 
             for (int i = 0; i < aCount; i++)
             {
                 var a1 = other.assistants[i];
-                var a2 = this.assistants[i];
+                var a2 = assistants[i];
 
                 if (!a1.Equals(a2)) return false;
             }
@@ -532,17 +526,17 @@ namespace LBS.Components
             var gCount = other.generatorRules.Count;
 
             // cheack amount of behaviours
-            if (this.generatorRules.Count != gCount) return false;
+            if (generatorRules.Count != gCount) return false;
 
             for (int i = 0; i < gCount; i++)
             {
                 var g1 = other.generatorRules[i];
-                var g2 = this.generatorRules[i];
+                var g2 = generatorRules[i];
 
                 if (!g1.Equals(g2)) return false;
             }
             // check if have EQUALS settings
-            if (!this.settings.Equals(other.settings)) return false;
+            if (!settings.Equals(other.settings)) return false;
 
             return true;
         }
@@ -552,9 +546,12 @@ namespace LBS.Components
             return base.GetHashCode();
         }
 
-        public override string ToString()
+        public void CleanGraphViews()
         {
-            return base.ToString();
+            foreach (var behaviour in behaviours)
+            {
+                
+            }
         }
 
 
@@ -584,7 +581,17 @@ namespace LBS.Components
             return module;
         }
         */
+        public void OnChangeUpdate()
+        {
+            OnChange?.Invoke();
+        }
         #endregion
+
+        public void InvokeNameChanged()
+        {
+            OnChangeName?.Invoke();
+        }
     }
+
 }
 

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 865611ae2b044eb4dab5e8f4d2bd9283, type: 3}
+  m_Name: dark and water
+  m_EditorClassIdentifier: 
+  presetName: dark and water
+  weights:
+  - target: {fileID: 11400000, guid: 53d10687d94f051488fc977a8cf974f3, type: 2}
+    weight: 0
+  - target: {fileID: 11400000, guid: c1c872b8016ce5b46bd533dcaf61578e, type: 2}
+    weight: 0.2983871
+  - target: {fileID: 11400000, guid: a9d7f4c336021254a963eb1653ae967a, type: 2}
+    weight: 0.06451613
+  - target: {fileID: 11400000, guid: 1dd25fa391a5eba40bdbc3a697431897, type: 2}
+    weight: 1
+  - target: {fileID: 11400000, guid: 0b263dd0b61883942a71f950834c7123, type: 2}
+    weight: 0.09677419
+  - target: {fileID: 11400000, guid: 1eaa05f650d6b324a8dec93daa60d0fd, type: 2}
+    weight: 0
+  - target: {fileID: 11400000, guid: d26b0e950a72ee644a95f2c7acd55bfb, type: 2}
+    weight: 0
+  - target: {fileID: 11400000, guid: ca9063f01a105a04ebc96f68cc208b3e, type: 2}
+    weight: 0
+  - target: {fileID: 11400000, guid: 28963c1265cc430458121b152dc16645, type: 2}
+    weight: 0.2983871
+  - target: {fileID: 11400000, guid: 02f8c1a3b60df6c46958b5cf9ef20a74, type: 2}
+    weight: 0.09677419
+  - target: {fileID: 11400000, guid: a4ac40998f3151747a948b16f26e472d, type: 2}
+    weight: 0.06451613

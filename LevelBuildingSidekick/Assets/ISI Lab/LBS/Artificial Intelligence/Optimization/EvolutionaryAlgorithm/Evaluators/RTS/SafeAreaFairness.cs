@@ -5,6 +5,7 @@ using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.LBS.Characteristics;
+using ISILab.Macros;
 using LBS.Components.TileMap;
 using UnityEngine;
 
@@ -16,13 +17,14 @@ namespace ISILab.AI.Categorization
 
         public float MinValue => 0;
 
+        public string Tooltip => "Safe Area Fairness Evaluator";
+
         [SerializeField, SerializeReference]
-        public LBSCharacteristic playerCharacteristc;
+        public LBSCharacteristic playerCharacteristic;
 
         public float Evaluate(IOptimizable evaluable)
         {
             var chrom = evaluable as BundleTilemapChromosome;
-
             if (chrom == null)
             {
                 throw new Exception("Wrong Chromosome Type");
@@ -30,9 +32,13 @@ namespace ISILab.AI.Categorization
 
             float fitness = 0;
 
-            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+            if (chrom.IsEmpty())
+            {
+                return 0.0f;
+            }
 
-            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g.Characteristics.Any(c => c.Equals(playerCharacteristc)));
+            var genes = chrom.GetGenes().Cast<BundleData>().ToList();
+            var players = genes.Select((g, i) => new { g, i }).Where(p => p.g != null && p.g.Characteristics.Any(c => c.Equals(playerCharacteristic)));
 
             if (players.Count() < 2)
             {
@@ -59,8 +65,14 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             var e = new SafeAreaFairness();
-            e.playerCharacteristc = playerCharacteristc;
+            e.playerCharacteristic = playerCharacteristic;
             return e;
+        }
+
+        public void InitializeDefault()
+        {
+            playerCharacteristic = new LBSTagsCharacteristic(LBSAssetMacro.GetLBSTag("Player"));
+            Debug.Log(playerCharacteristic);
         }
     }
 }

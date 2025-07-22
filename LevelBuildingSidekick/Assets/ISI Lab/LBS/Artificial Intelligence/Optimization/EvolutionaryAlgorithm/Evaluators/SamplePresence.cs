@@ -20,6 +20,8 @@ namespace ISILab.AI.Categorization
             set => sample = value;
         }
 
+        public string Tooltip => "Sample Presence";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SamplePresence"/> class
         /// </summary>
@@ -61,6 +63,11 @@ namespace ISILab.AI.Categorization
         public object Clone()
         {
             throw new NotImplementedException(); // TODO: Implement SamplePresence.Clone
+        }
+
+        public void InitializeDefault()
+        {
+            throw new NotImplementedException();
         }
     }
 }

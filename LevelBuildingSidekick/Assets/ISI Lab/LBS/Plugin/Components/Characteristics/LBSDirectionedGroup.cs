@@ -40,11 +40,14 @@ namespace ISILab.LBS.Characteristics
 
         public override void OnEnable()
         {
+            Owner.ClearEvents();
             Owner.OnAddChild += OnAddChildToOwner;
             Owner.OnRemoveChild += OnRemoveChildToOwner;
 
             _Update();
         }
+
+        
 
         public void _Update()
         {
@@ -87,8 +90,11 @@ namespace ISILab.LBS.Characteristics
 
         private void OnRemoveChildToOwner(Bundle child)
         {
+            //Remove this from child
+            var c = child.Characteristics.Find(c => c is LBSDirection);
+            child.RemoveCharacteristic(c);
+            
             var w = Weights.Find(w => w.target.Equals(child));
-
             Weights.Remove(w);
         }
 
@@ -121,6 +127,20 @@ namespace ISILab.LBS.Characteristics
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        
+        public override List<string> Validate()
+        {
+            List<string> warnings = new List<string>();
+         
+            if (Owner == null)
+                return warnings;
+
+            if (Owner.ChildsBundles == null || Owner.ChildsBundles.Count == 0)
+            {
+                warnings.Add("The bundle has no children bundles for LBSDirectionedGroup to work.");
+            }
+            return warnings;
         }
     }
 }

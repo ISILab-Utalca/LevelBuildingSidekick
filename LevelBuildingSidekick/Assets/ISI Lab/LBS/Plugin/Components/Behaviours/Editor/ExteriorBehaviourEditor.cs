@@ -16,6 +16,7 @@ using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
+using ISILab.Macros;
 using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
@@ -25,22 +26,22 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private ExteriorBehaviour exterior;
-        private Bundle targetBundle;
-
+   
         private List<LBSIdentifierBundle> Groups;
         private object[] options;
 
-        private AddEmptyTile addEmptyTile;
+        private AddExteriorTile addExteriorTile;
         private RemoveTileExterior removeTile;
         private SetExteriorTileConnection setConnection;
-        private RemoveConnection removeConection;
         private RemoveConnectionInArea removeConnectionInArea;
         #endregion
 
         #region VIEW FIELDS
+        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("e17eb0e02534666439fca8ea30b4d4e4");
         private SimplePallete connectionPallete;
         private ObjectField bundleField;
         private WarningPanel warningPanel;
+        private string tileIconGuid = "";
         #endregion
 
         #region PROPERTIES
@@ -52,68 +53,47 @@ namespace ISILab.LBS.VisualElements
         {
             // Set target Behaviour
             exterior = target as ExteriorBehaviour;
-
-            // Get Target bundle
-            var bundles = LBSAssetsStorage.Instance.Get<Bundle>();
-
-            targetBundle = exterior.Bundle;///bundles.Find(b => b.Name == exterior.BundlePath);
+            
+            //SetInfo(target);
+            
             CreateVisualElement();
         }
         #endregion
 
         #region METHODS
-        public override void SetInfo(object target)
+        public sealed override void SetInfo(object paramTarget)
         {
-            exterior = target as ExteriorBehaviour;
-            bundleField.value = exterior?.Bundle;
-            OnTargetBundle();
+            exterior = paramTarget as ExteriorBehaviour;
+            CheckTargetBundle();
         }
 
         public void SetTools(ToolKit toolKit)
         {
-            Texture2D icon;
-
-            // Set empty tile
-            icon = Resources.Load<Texture2D>("Icons/Tools/Brush_interior_tile");
-            addEmptyTile = new AddEmptyTile();
-            var t1 = new LBSTool(icon, "Add tile without connection", "Add non-connected exterior tile activated!", addEmptyTile);
-            t1.Init(exterior.OwnerLayer, exterior);
-         
-
-            // Remove tile
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_tile");
-            removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(icon, "Remove Tile", "Remove exterior tile activated!", removeTile);
-            t2.Init(exterior.OwnerLayer, exterior);
-     
-            toolKit.AddSeparator(10);
-
-            // Set connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Exterior_connection");
-            setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(icon, "Set connection", "Set tile connection activated!", setConnection);
-            t3.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            t3.Init(exterior.OwnerLayer, exterior);
-         
-            // Remove connection
-            icon = Resources.Load<Texture2D>("Icons/Tools/Delete_exterior_connection");
-            removeConection = new RemoveConnection();
-            var t4 = new LBSTool(icon, "Remove connection", "Remove tile connection activated!", removeConection);
-            t4.Init(exterior.OwnerLayer, exterior);
-
-            addEmptyTile.SetRemover(removeTile);
-            setConnection.SetRemover(removeConection);
+            addExteriorTile = new AddExteriorTile();
+            var t1 = new LBSTool(addExteriorTile);
+            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            toolKit.AddTool(t1);
-            toolKit.AddTool(t2);
-            toolKit.AddTool(t3);
-            toolKit.AddTool(t4);
-
+            removeTile = new RemoveTileExterior();
+            var t2 = new LBSTool(removeTile);
+            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            
+            setConnection = new SetExteriorTileConnection();
+            var t3 = new LBSTool(setConnection);
+            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+                        
+            addExteriorTile.SetRemover(removeTile);
+            
+            toolKit.ActivateTool(t1,exterior.OwnerLayer, exterior);
+            toolKit.ActivateTool(t2,exterior.OwnerLayer, exterior);
+            toolKit.ActivateTool(t3,exterior.OwnerLayer, exterior);
+            
+       
         }
 
-        private void OnTargetBundle() // FIX: set a better name
+        private void CheckTargetBundle() 
         {
-            if (targetBundle == null)
+            var exteriorBundle = exterior.Bundle;
+            if ( exteriorBundle == null)
             {
                 warningPanel.SetDisplay(true);
                 connectionPallete.SetDisplay(false);
@@ -122,12 +102,13 @@ namespace ISILab.LBS.VisualElements
             {
                 warningPanel.SetDisplay(false);
                 connectionPallete.SetDisplay(true);
-                SetConnectionPallete(targetBundle);
+                SetConnectionPallete(exterior.Bundle);
             }
         }
 
         protected sealed override VisualElement CreateVisualElement()
         {
+            
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ExteriorBehaviourEditor");
             visualTree.CloneTree(this);
 
@@ -136,34 +117,54 @@ namespace ISILab.LBS.VisualElements
 
             // BundleField
             bundleField = this.Q<ObjectField>("BundleField");
-            bundleField.value = targetBundle;
+            bundleField.label = "Exterior Tile Bundle";
+            bundleField.objectType = typeof(Bundle);
+            bundleField.value = exterior.Bundle;
             // only updates the first bundle value change - fix pending
             bundleField.RegisterValueChangedCallback(evt =>
             {
-                if (evt.newValue == null)
+                var bundle = evt.newValue as Bundle;
+
+                System.Action invalidBundleAction = () =>
                 {
-                    targetBundle = null;
-                    bundleField.value = null;
-                    exterior.Bundle = null;
-                    OnTargetBundle();
+                    bundleField.value = exterior.Bundle;
+                    LBSMainWindow.MessageNotify("Selected bundle was invalid.", LogType.Warning);
+                };
+
+                if(bundle)
+                {
+                    var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
+                    var idents = SePalleteConnectionView(bundle, identifierTags);
+
+                    if (idents.Any())
+                    {
+                        exterior.Bundle = bundle; // valid for exterior
+                        var owner = exterior.OwnerLayer;
+                        owner.OnChangeUpdate(); // updates the assistant and viceversa
+                    }
+                    else
+                    {
+                        invalidBundleAction(); // set default or current if new option not valid
+                    }
                 }
                 else
                 {
-                    targetBundle = evt.newValue as Bundle;
-                    bundleField.value = targetBundle;
-                    exterior.Bundle = targetBundle;
-                    exterior.BundlePath = AssetDatabase.GetAssetPath(targetBundle);
-                    OnTargetBundle();
-                    ToolKit.Instance.SetActive("Set connection");
+                    invalidBundleAction(); // set default or current if new option not valid
                 }
-                   
-  
+
+                CheckTargetBundle();
             });
 
             // Connection Pallete
             connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
-            OnTargetBundle();
+            CheckTargetBundle();
 
+            exterior.OwnerLayer.OnChange += () =>
+            {
+                bundleField.SetValueWithoutNotify(exterior.Bundle);
+                CheckTargetBundle();
+            };
+            
             return this;
         }
 
@@ -177,22 +178,53 @@ namespace ISILab.LBS.VisualElements
             connectionPallete.ShowGroups = true;
             connectionPallete.ShowAddButton = false;
             connectionPallete.ShowRemoveButton = false;
-
-            // Get pallete icon 
-            var icon = Resources.Load<Texture2D>("Icons/BrushIcon");
-
+            connectionPallete.ShowDropdown = false;
+            connectionPallete.ShowNoElement = false;
+            
             // Set basic value
-            connectionPallete.SetName("Connections");
+            connectionPallete.SetName("Tile Brushes");
             connectionPallete.SetIcon(icon, BHcolor);
+            
+            var identifierTags = LBSAssetsStorage.Instance.Get<LBSTag>();
+            var idents = SePalleteConnectionView(bundle, identifierTags);
 
-            // Get odentifiers
-            var indtifiers = LBSAssetsStorage.Instance.Get<LBSTag>();
+            exterior.identifierToSet = idents[0];
+            
+            // Selected option event
+            connectionPallete.OnSelectOption += (selected) =>
+            {
+                exterior.identifierToSet = selected as LBSTag;
+                // by default set the 
+                var activeManipulator = ToolKit.Instance.GetActiveManipulator().GetType();
+                if ( activeManipulator != typeof(AddExteriorTile) &&
+                     activeManipulator != typeof(SetExteriorTileConnection))
+                {
+                    ToolKit.Instance.SetActive(typeof(AddExteriorTile));
+                }
+            };
 
-            // Get current option
+            // Init options
+            connectionPallete.SetOptions(options, (optionView, option) =>
+            {
+                var identifier = option as LBSTag;
+                optionView.Label = identifier.Label;
+                optionView.Color = identifier.Color;
+                optionView.Icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(tileIconGuid);
+                // optionView.Icon = identifier.Icon;
+            });
+
+            connectionPallete.OnRepaint += () => { connectionPallete.Selected = exterior.identifierToSet; };
+
+            connectionPallete.Repaint();
+        }
+
+        private List<LBSTag> SePalleteConnectionView(Bundle bundle, List<LBSTag> identifierTags)
+        {
             var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
             var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-            var idents = tags.Select(s => indtifiers.Find(i => s == i.Label)).ToList().RemoveEmpties();
-
+            if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
+            var idents = tags.Select(s => identifierTags.Find(i => s == i.Label)).ToList().RemoveEmpties();
+            
             // Set Options
             options = new object[idents.Count];
             for (int i = 0; i < idents.Count; i++)
@@ -203,26 +235,9 @@ namespace ISILab.LBS.VisualElements
                 options[i] = idents[i];
             }
 
-            // Selected option event
-            connectionPallete.OnSelectOption += (selected) =>
-            {
-                exterior.identifierToSet = selected as LBSTag;
-                ToolKit.Instance.SetActive("Set connection");
-            };
-
-            // Init options
-            connectionPallete.SetOptions(options, (optionView, option) =>
-            {
-                var identifier = option as LBSTag;
-                optionView.Label = identifier.Label;
-                optionView.Color = identifier.Color;
-                optionView.Icon = identifier.Icon;
-            });
-
-            connectionPallete.OnRepaint += () => { connectionPallete.Selected = exterior.identifierToSet; };
-
-            connectionPallete.Repaint();
+            return idents;
         }
+
         #endregion
     }
 }
