@@ -2,18 +2,8 @@
 <grammar xml:lang="es-CL" root="Quest" version="1.0" xmlns="http://www.w3.org/2001/06/grammar">
 
   <rule id="Quest">
-    <ruleref uri="#SubquestList" />
-  </rule>
-
-  <!-- Recursive Subquest List -->
-  <rule id="SubquestList">
-    <item repeat="1-">
-      <ruleref uri="#Subquest" />
-    </item>
-  </rule>
-
-  <rule id="Subquest">
     <one-of>
+      <item> <ruleref uri="#Subquest" /> </item>
       <item> <ruleref uri="#Goto" /> </item>
       <item> <ruleref uri="#Learn" /> </item>
       <item> <ruleref uri="#Get" /> </item>
@@ -21,6 +11,13 @@
       <item> <ruleref uri="#Kill" /> </item>
       <item> <ruleref uri="#Capture" /> </item>
       <item> <ruleref uri="#Spy" /> </item>
+    </one-of>
+  </rule>
+
+  <rule id="Subquest">
+    <one-of>
+      <item> <ruleref uri="#Goto" /> </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Quest" /> go to </item>
     </one-of>
   </rule>
 
@@ -34,9 +31,9 @@
 
   <rule id="Learn">
     <one-of>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> listen </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Subquest" /> listen </item>
       <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> read </item>
-      <item> <ruleref uri="#Get" /> <ruleref uri="#SubquestList" /> give </item>
+      <item> <ruleref uri="#Get" /> <ruleref uri="#Subquest" />  <item> give </item> listen </item>
     </one-of>
   </rule>
 
@@ -44,13 +41,13 @@
     <one-of>
       <item> <ruleref uri="#Steal" /> </item>
       <item> <ruleref uri="#Goto" /> gather </item>
-      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> <ruleref uri="#SubquestList" /> exchange </item>
+      <item> <ruleref uri="#Goto" /> <ruleref uri="#Get" /> <ruleref uri="#Goto" /> <ruleref uri="#Subquest" /> exchange </item>
     </one-of>
   </rule>
 
   <rule id="Steal">
     <one-of>
-      <item> <ruleref uri="#Goto" /> steal </item>
+      <item> <ruleref uri="#Goto" /> <item> stealth </item> take </item>
       <item> <ruleref uri="#Goto" /> <ruleref uri="#Kill" /> take </item>
     </one-of>
   </rule>

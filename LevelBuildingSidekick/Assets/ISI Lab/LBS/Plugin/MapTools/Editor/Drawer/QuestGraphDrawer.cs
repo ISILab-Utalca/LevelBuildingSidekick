@@ -1,9 +1,9 @@
+using System;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
@@ -21,13 +21,17 @@ namespace ISILab.LBS.Drawers.Editor
         {
             if (target is not QuestBehaviour behaviour) return;
             if (behaviour.OwnerLayer is not { } layer) return;
-
-            layer.OnChange += QuestNodeView.Deselect;
- 
-            var quest = behaviour.Graph;
-            if (quest == null) return;
             
-  
+            var graph = behaviour.Graph;
+            if (graph == null) return;
+            
+            layer.OnChange += () =>
+            {
+                // Reset layer input when changing to another layer
+                graph.SelectedQuestNode = null;
+                behaviour.ActionToSet = String.Empty;
+                QuestNodeView.Deselect();
+            };
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
            //  view.ClearLayerContainer(behaviour.OwnerLayer, true);
@@ -36,24 +40,24 @@ namespace ISILab.LBS.Drawers.Editor
 
            // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour);
            // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour.Graph);
-            LoadAllTiles(quest, behaviour, nodeViews, view);
+            LoadAllTiles(graph, behaviour, nodeViews, view);
  
 
             // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
             
             if (!Loaded)
             {
-                LoadAllTiles(quest, behaviour, nodeViews, view);
+                LoadAllTiles(graph, behaviour, nodeViews, view);
                 Loaded = true;
             }
         }
 
-        private void PaintNewTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
+        private void PaintNewTiles(QuestGraph quest, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
         {
             // Paint new Nodes
             foreach (var node in quest.RetrieveNewNodes())
             {
-                var nodeView = CreateNodeView(node, quest, behaviour);
+                var nodeView = CreateNodeView(node, quest);
                 
                 nodeViews.Add(node, nodeView);
                 // Stores using QuestNode as key
@@ -63,8 +67,8 @@ namespace ISILab.LBS.Drawers.Editor
             // Paint new Edges
             foreach (var edge in quest.RetrieveNewEdges())
             {
-                if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
-                if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
+                if (!nodeViews.TryGetValue(edge.From, out var n1) || n1 == null) continue;
+                if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
                 
                 var edgeView = CreateEdgeView(edge, n1, n2);
                 // Stores using QuestEdge as key
@@ -80,16 +84,15 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
                 {
-                    nodeView = CreateNodeView(node, quest, behaviour);
+                    nodeView = CreateNodeView(node, quest);
                     nodeViews[node] = nodeView;
                 }
                 
                 if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
                 {
-                    QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(quest.OwnerLayer);
-                    if (qnb.SelectedQuestNode is not null)
+                    if (behaviour.Graph.SelectedQuestNode is not null)
                     {
-                        nodeViews[node].IsSelected(node == qnb.SelectedQuestNode);
+                        nodeViews[node].IsSelected(node == behaviour.Graph.SelectedQuestNode);
                     }
 
                 }
@@ -101,8 +104,8 @@ namespace ISILab.LBS.Drawers.Editor
 
             foreach (var edge in quest.QuestEdges)
             {
-                if (!nodeViews.TryGetValue(edge.First, out var n1) || n1 == null) continue;
-                if (!nodeViews.TryGetValue(edge.Second, out var n2) || n2 == null) continue;
+                if (!nodeViews.TryGetValue(edge.From, out var n1) || n1 == null) continue;
+                if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
 
                 var edgeView = CreateEdgeView(edge, n1, n2);
                 view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
@@ -145,13 +148,13 @@ namespace ISILab.LBS.Drawers.Editor
 
         private LBSQuestEdgeView CreateEdgeView(QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
         {
-            n1.SetBorder(edge.First);
-            n2.SetBorder(edge.Second);
+            n1.SetBorder(edge.From);
+            n2.SetBorder(edge.To);
             
             return new LBSQuestEdgeView(edge, n1, n2, 4, 4);
         }
         
-        private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest, QuestBehaviour behaviour)
+        private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest)
         {
             /*  Start Node is now assigned by the user. Right click on a node to make it root */
             if (node.NodeType == NodeType.Start) { }
@@ -161,20 +164,6 @@ namespace ISILab.LBS.Drawers.Editor
 
             nodeView.SetPosition(new Rect(node.Position, size));
             node.NodeViewPosition = nodeView.GetPosition();
-            
-            if (!(node.Target.Rect.width == 0 || node.Target.Rect.height == 0))
-            {
-                var rectView = new DottedAreaFeedback(); // TODO make this a DottedAreaUnique for quest
-
-                var rectSize = behaviour.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
-                var start = new Vector2(node.Target.Rect.min.x, -node.Target.Rect.min.y) * rectSize;
-                var end = new Vector2(node.Target.Rect.max.x, -node.Target.Rect.max.y) * rectSize;
-                rectView.SetPosition(Rect.zero);
-                rectView.ActualizePositions(start.ToInt(), end.ToInt());
-                rectView.SetColor(Color.blue);
-                    
-                nodeView.Add(rectView);
-            }
             
             return nodeView;
         }

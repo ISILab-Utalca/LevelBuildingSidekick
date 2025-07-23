@@ -79,9 +79,9 @@ namespace ISILab.LBS.VisualElements
         void OnGenerateVisualContent(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-            var lbsLayer = _data.Owner.Graph.OwnerLayer;
+            var lbsLayer = _data.Layer;
             
-            var nodeElements = MainView.Instance.GetElementsFromLayerContainer(lbsLayer, _data.Owner.ID);
+            var nodeElements = MainView.Instance.GetElementsFromLayerContainer(lbsLayer, _data.ID);
 
             var node = nodeElements?.FirstOrDefault();
             if (node == null) return;
@@ -124,13 +124,11 @@ namespace ISILab.LBS.VisualElements
             if (!_isDragging) return;
             _isDragging = false;
 
-            if (_data.Owner?.Graph?.OwnerLayer is null) return;
-
-            var qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_data.Owner.Graph.OwnerLayer);
+            if (_data.OwnerNode?.Graph?.OwnerLayer is null) return;
 
             var finalRect = LBSMainWindow._gridPosition;
             _data.Area = new Rect(finalRect.x, finalRect.y, _data.Area.width, _data.Area.height);
-            qnb?.DataChanged(_data.Owner);
+            _data.Graph.DataChanged(_data.OwnerNode);
         }
 
         private void OnHandleRectMove(MouseMoveEvent e)

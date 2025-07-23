@@ -111,27 +111,28 @@ namespace ISILab.LBS.Components
     /// </summary>
     public static class QuestNodeDataFactory
     {
-        private static readonly Dictionary<string, Type> TagDataTypes = new()
+        // Make sure your Data type has the exact string as your terminals
+        private static readonly Dictionary<string, Type> TagDataTypesPerTerminal = new()
         {
-            { " go to ", typeof(DataGoto) },
-            { " explore ", typeof(DataExplore) },
-            { " kill ", typeof(DataKill) } ,
-            { " stealth ", typeof(DataStealth) },
-            { " take ",typeof(DataTake) },
-            { " read ", typeof(DataRead) },
-            { " exchange ",typeof(DataExchange) },
-            { " give ",typeof(DataGive) },
-            { " report ",typeof(DataReport) },
-            { " gather ", typeof(DataGather) },
-            { " spy ",  typeof(DataSpy) },
-            { " capture ", typeof(DataCapture) },
-            { " listen ", typeof(DataListen) },
-            { " empty ", null }
+            { "go to", typeof(DataGoto) },
+            { "explore", typeof(DataExplore) },
+            { "kill", typeof(DataKill) } ,
+            { "stealth", typeof(DataStealth) },
+            { "take",typeof(DataTake) },
+            { "read", typeof(DataRead) },
+            { "exchange",typeof(DataExchange) },
+            { "give",typeof(DataGive) },
+            { "report",typeof(DataReport) },
+            { "gather", typeof(DataGather) },
+            { "spy",  typeof(DataSpy) },
+            { "capture", typeof(DataCapture) },
+            { "listen", typeof(DataListen) },
+            { "empty", null }
         };
         
         public static BaseQuestNodeData CreateByTag(string tag, QuestNode owner)
         {
-            if (!TagDataTypes.TryGetValue(tag, out var dataClass))
+            if (!TagDataTypesPerTerminal.TryGetValue(tag, out var dataClass))
             {
                 return null;
             }
@@ -149,7 +150,7 @@ namespace ISILab.LBS.Components
     {
         #region FIELDS
         [SerializeField, JsonRequired]
-        protected QuestNode owner;
+        protected QuestNode ownerNode;
         
         [SerializeField, JsonRequired]
         protected string tag;
@@ -175,7 +176,12 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region PROPERTIES
-        public QuestNode Owner => owner;
+        public QuestNode OwnerNode => ownerNode;
+        
+        public QuestGraph Graph => ownerNode.Graph;
+        
+        public LBSLayer Layer => Graph.OwnerLayer;
+        
         public string Tag => tag;
 
         public Rect Area
@@ -185,23 +191,25 @@ namespace ISILab.LBS.Components
         }
 
         public Color Color => color;
+        public string ID => OwnerNode.ID;
+
         #endregion
 
-        protected BaseQuestNodeData(QuestNode owner, string tag)
+        protected BaseQuestNodeData(QuestNode ownerNode, string tag)
         {
-            this.owner = owner;
+            this.ownerNode = ownerNode;
             this.tag = tag;
 
-            if (owner?.Graph?.OwnerLayer == null) return;
+            if (ownerNode?.Graph?.OwnerLayer == null) return;
   
-            var pos = owner.Graph.OwnerLayer.ToFixedPosition(owner.Position);
+            var pos = ownerNode.Graph.OwnerLayer.ToFixedPosition(ownerNode.Position);
             area = new Rect(pos.x, pos.y, 1, 1);
         }
 
 
         public virtual void Clone(BaseQuestNodeData data)
         {
-            owner = data.owner;
+            ownerNode = data.ownerNode;
             tag = data.tag;
             area = data.area;
         }
@@ -264,7 +272,7 @@ namespace ISILab.LBS.Components
         [Serializable]
         public class DataGoto : BaseQuestNodeData
         {
-            public DataGoto(QuestNode owner, string tag) : base(owner, tag)
+            public DataGoto(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
             }
 
@@ -283,7 +291,7 @@ namespace ISILab.LBS.Components
             // player must trigger
             [SerializeField] public bool findRandomPosition;
 
-            public DataExplore(QuestNode owner, string tag) : base(owner, tag)
+            public DataExplore(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
             }
             
@@ -308,7 +316,7 @@ namespace ISILab.LBS.Components
             /// </summary>
             [SerializeField] public List<BundleGraph> bundlesToKill;
 
-            public DataKill(QuestNode owner, string tag) : base(owner, tag)
+            public DataKill(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 iconGuid = FoeIcon;
                 color = LBSSettings.Instance.view.colorKill;
@@ -346,7 +354,7 @@ namespace ISILab.LBS.Components
             /// </summary>
             [SerializeField]public List<BundleGraph> bundlesObservers;
 
-            public DataStealth(QuestNode owner, string tag) : base(owner, tag)
+            public DataStealth(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 iconGuid = FoeIcon;
                 color = LBSSettings.Instance.view.colorStealth;
@@ -380,7 +388,7 @@ namespace ISILab.LBS.Components
         public class DataTake : BaseQuestNodeData
         {
            [SerializeField] public BundleGraph bundleToTake;
-           public DataTake(QuestNode owner, string tag) : base(owner, tag)
+           public DataTake(QuestNode ownerNode, string tag) : base(ownerNode, tag)
            {
                iconGuid = ObjectIcon;
                bundleToTake = new BundleGraph(this);
@@ -414,7 +422,7 @@ namespace ISILab.LBS.Components
         public class DataRead : BaseQuestNodeData
         {
             [SerializeField] public BundleGraph bundleToRead;
-            public DataRead(QuestNode owner, string tag) : base(owner, tag)
+            public DataRead(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 bundleToRead = new BundleGraph(this);
                 color = LBSSettings.Instance.view.colorRead;
@@ -454,7 +462,7 @@ namespace ISILab.LBS.Components
             /// </summary>a
             [SerializeField] public BundleType bundleReceiveType;
             [SerializeField] public int receiveAmount = 1;
-            public DataExchange(QuestNode owner, string tag) : base(owner, tag)
+            public DataExchange(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 color = LBSSettings.Instance.view.colorExchange;
             }
@@ -482,7 +490,7 @@ namespace ISILab.LBS.Components
             /// Character to give to 
             /// </summary>
             [SerializeField] public BundleGraph bundleGiveTo;
-            public DataGive(QuestNode owner, string tag) : base(owner, tag)
+            public DataGive(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 iconGuid = StarIcon;
                 bundleGive = new BundleType();
@@ -521,7 +529,7 @@ namespace ISILab.LBS.Components
             /// Character to report to
             /// </summary>
             [SerializeField] public BundleGraph bundleReportTo;
-           public DataReport(QuestNode owner, string tag) : base(owner, tag)
+           public DataReport(QuestNode ownerNode, string tag) : base(ownerNode, tag)
            {
                iconGuid = StarIcon;
                bundleReportTo = new BundleGraph(this);
@@ -559,7 +567,7 @@ namespace ISILab.LBS.Components
             /// </summary>
             [SerializeField] public BundleType bundleGatherType;
             [SerializeField, JsonRequired] public int gatherAmount;
-          public DataGather(QuestNode owner, string tag) : base(owner, tag)
+          public DataGather(QuestNode ownerNode, string tag) : base(ownerNode, tag)
           {
           }
           
@@ -582,7 +590,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public BundleGraph bundleToSpy;
             [SerializeField] public float spyTime = 5f;
             [SerializeField] public bool resetTimeOnExit = true;
-          public DataSpy(QuestNode owner, string tag) : base(owner, tag)
+          public DataSpy(QuestNode ownerNode, string tag) : base(ownerNode, tag)
           {
               iconGuid = FoeIcon;
               bundleToSpy = new BundleGraph(this);
@@ -620,7 +628,7 @@ namespace ISILab.LBS.Components
             [SerializeField] public float captureTime = 5f;
             [SerializeField] public bool resetTimeOnExit = true;
 
-            public DataCapture(QuestNode owner, string tag) : base(owner, tag)
+            public DataCapture(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
             }
             
@@ -645,7 +653,7 @@ namespace ISILab.LBS.Components
             /// </summary>
             [SerializeField] public BundleGraph bundleListenTo;
 
-            public DataListen(QuestNode owner, string tag) : base(owner, tag)
+            public DataListen(QuestNode ownerNode, string tag) : base(ownerNode, tag)
             {
                 iconGuid = StarIcon;
                 bundleListenTo = new BundleGraph(this);

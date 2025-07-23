@@ -1,149 +1,144 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Speech.Recognition.SrgsGrammar;
-using System.Xml;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace ISILab.AI.Grammar
 {
-    public class GrammarReader
+    public static class LBSGrammarReader
     {
-        public GrammarReader()
-        {
-        }
+       
 
-        public static GrammarTree ReadGrammar(string path)
+        public static GrammarStructure ReadGrammar(string path)
         {
             try
             {
-                SrgsDocument Grammar = new SrgsDocument(path);
-                var parsedGrammar = ParseGrammar(Grammar);
-                return parsedGrammar;
+                var srgsDoc = new SrgsDocument(path);
+                return ParseGrammar(srgsDoc);
             }
-            catch
+            catch (Exception ex)
             {
-                throw new Exception("Path does not lead to a SRGS Grammar: " + path);
+                Debug.LogError($"[LBSGrammarReader] Failed to parse SRGS grammar: {ex.Message}");
+                throw;
             }
         }
 
-        public static void WriteGrammar(string path, SrgsDocument document)
+        /// <summary>
+        ///  Parsing Grammar assumes that your grammar meets the following requirements
+        /// Rules: Start with #, followed by a Cap Character
+        /// Terminals: Start with Cap
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        private static GrammarStructure ParseGrammar(SrgsDocument doc)
         {
-            string srgsDocumentFile = Path.Combine(path, "srgsDocumentFile.xml");
-            Debug.Log(srgsDocumentFile);
-            // Create an XmlWriter object and pass the file path.
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            XmlWriter writer = XmlWriter.Create(srgsDocumentFile, settings);
+            var grammar = new GrammarStructure();
 
-            // Write the contents of the XmlWriter object to an SRGS-compatible XML file.  
-            document.WriteSrgs(writer);
-            writer.Close();
-        }
-
-        public static GrammarTree ParseGrammar(SrgsDocument grammarDoc)
-        {
-            var gt = new GrammarTree();
-            gt.SRGS = grammarDoc;
-            ProcessSrgsRule(grammarDoc.Root, gt, grammarDoc);
-            gt.Root = gt.Productions.Find(g => g.ID == grammarDoc.Root.Id);
-            return gt;
-        }
-
-
-        private static GrammarElement ProcessSrgsElement(SrgsElement element, GrammarTree grammar, SrgsDocument doc, string id)
-        {
-            if (element is SrgsText)
+            foreach (var rule in doc.Rules)
             {
-                return ProcessSrgsText(element as SrgsText, grammar);
-            }
-            if (element is SrgsOneOf)
-            {
-                return ProcessSrgsOneOf(element as SrgsOneOf, grammar, doc, id);
-            }
-            if (element is SrgsItem)
-            {
-                return ProcessSrgsItem(element as SrgsItem, grammar, doc, id);
-            }
-            if (element is SrgsRuleRef)
-            {
-                return ProcessSrgsRuleRef(element as SrgsRuleRef, grammar, doc);
-            }
-            return new GrammarTerminal("");
-        }
-
-        private static GrammarTerminal ProcessSrgsText(SrgsText text, GrammarTree grammar)
-        {
-
-            if (!grammar.Terminals.Any(g => g.ID == text.Text))
-            {
-                grammar.Terminals.Add(new GrammarTerminal(text.Text));
-            }
-            return grammar.Terminals.Find(g => g.ID == text.Text);
-        }
-
-        private static GrammarNonTerminal ProcessSrgsOneOf(SrgsOneOf oneOf, GrammarTree grammar, SrgsDocument doc, string id)
-        {
-            if (!grammar.NonTerminals.Any(g => g.ID == id))
-            {
-                var node = new GrammarNonTerminal(id);
-                grammar.NonTerminals.Add(node);
-                for (int i = 0; i < oneOf.Items.Count; i++)
+                if (!grammar.Rules.ContainsKey(rule.Id))
                 {
-                    node.AppendNode(ProcessSrgsItem(oneOf.Items[i], grammar, doc, id + "." + i));
+                    grammar.Rules[rule.Id] = new RuleData { RuleName = rule.Id };
+                }
+
+                foreach (var element in rule.Elements)
+                {
+                    ExtractExpansionSequences(element, grammar.Rules[rule.Id].Expansions, grammar.Terminals);
                 }
             }
 
-            return grammar.NonTerminals.Find(g => g.ID == id);
+            return grammar;
         }
 
-        private static GrammarElement ProcessSrgsItem(SrgsItem item, GrammarTree grammar, SrgsDocument doc, string id)
+        private static void ExtractExpansionSequences(SrgsElement element, List<List<string>> expansions, HashSet<string> terminals)
         {
-            bool b = id.StartsWith(doc.Root.Id.Trim('#')); // don not erase this line
-
-            if (item.Elements.Count == 1 && b)
+            switch (element)
             {
-                return ProcessSrgsElement(item.Elements[0], grammar, doc, id);
+                case SrgsItem item:
+                    var sequence = new List<string>();
+
+                    foreach (var subElement in item.Elements)
+                    {
+                        switch (subElement)
+                        {
+                            case SrgsText text:
+                                var tokens = text.Text.Split(new[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (var token in tokens)
+                                {
+                                    // Further split each token by capital letter not preceded by #
+                                    int start = 0;
+                                    for (int i = 1; i < token.Length; i++)
+                                    {
+                                        if (char.IsUpper(token[i]) && token[i - 1] != '#')
+                                        {
+                                            string subToken = token.Substring(start, i - start).Trim();
+                                            if (!string.IsNullOrEmpty(subToken))
+                                            {
+                                                sequence.Add(subToken);
+                                                terminals.Add(subToken);
+                                            }
+                                            start = i;
+                                        }
+                                    }
+
+                                    // Add the last sub-token
+                                    string lastToken = token.Substring(start).Trim();
+                                    if (!string.IsNullOrEmpty(lastToken))
+                                    {
+                                        sequence.Add(lastToken);
+                                        terminals.Add(lastToken);
+                                    }
+                                }
+
+                                break;
+
+                            case SrgsRuleRef ruleRef:
+                                var refName = $"#{ruleRef.Uri.ToString().Trim('#')}";
+                                sequence.Add(refName);
+                                break;
+
+                            case SrgsItem subItem:
+                                // Handle nested item recursively as an additional expansion
+                                var nested = new List<List<string>>();
+                                ExtractExpansionSequences(subItem, nested, terminals);
+                                foreach (var nestedSeq in nested)
+                                    sequence.AddRange(nestedSeq);
+                                break;
+
+                            case SrgsOneOf innerOneOf:
+                                foreach (var alt in innerOneOf.Items)
+                                {
+                                    var altSeq = new List<List<string>>();
+                                    ExtractExpansionSequences(alt, altSeq, terminals);
+                                    foreach (var seq in altSeq)
+                                    {
+                                        var full = new List<string>(sequence);
+                                        full.AddRange(seq);
+                                        expansions.Add(full);
+                                    }
+                                }
+                                return; // Exit because alternatives already added
+
+                            default:
+                                Debug.LogWarning($"[LBSGrammarReader] Unhandled subElement type: {subElement.GetType()}");
+                                break;
+                        }
+                    }
+
+                    if (sequence.Count > 0)
+                        expansions.Add(sequence);
+                    break;
+
+                case SrgsOneOf oneOf:
+                    foreach (var itemAlt in oneOf.Items)
+                        ExtractExpansionSequences(itemAlt, expansions, terminals);
+                    break;
+
+                case SrgsRuleRef ruleRef:
+                    expansions.Add(new List<string> { $"#{ruleRef.Uri.ToString().Trim('#')}" });
+                    break;
             }
-
-
-            if (!grammar.Productions.Any(g => g.ID == id))
-            {
-                var pn = new GrammarProduction(id);
-                grammar.Productions.Add(pn);
-                for (int i = 0; i < item.Elements.Count; i++)
-                {
-                    pn.AppendNode(ProcessSrgsElement(item.Elements[i], grammar, doc, id + "." + i));
-                }
-            }
-
-            return grammar.Productions.Find(g => g.ID == id);
-        }
-
-        private static GrammarProduction ProcessSrgsRuleRef(SrgsRuleRef ruleRef, GrammarTree grammar, SrgsDocument doc)
-        {
-            doc.Rules.TryGetValue(ruleRef.Uri.ToString().Trim('#'), out SrgsRule r);
-
-            return ProcessSrgsRule(r, grammar, doc);
-        }
-
-        private static GrammarProduction ProcessSrgsRule(SrgsRule rule, GrammarTree grammar, SrgsDocument doc)
-        {
-            if (!grammar.Productions.Any(g => g.ID == rule.Id))
-            {
-                var r = new GrammarProduction(rule.Id);
-                grammar.Productions.Add(r);
-                for (int i = 0; i < rule.Elements.Count; i++)
-                {
-                    r.AppendNode(ProcessSrgsElement(rule.Elements[i], grammar, doc, rule.Id + "." + i));
-                }
-            }
-
-            return grammar.Productions.Find(g => g.ID == rule.Id);
         }
     }
 }
-

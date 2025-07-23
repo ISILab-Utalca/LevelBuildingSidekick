@@ -18,7 +18,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region FIELDS
 
-        private readonly List<QuestEntry> _questEntries = new();
+        private readonly List<QuestHistoryEntry> _questEntries = new();
         private bool _isRefreshing;
         private bool _isSubscribed;
 
@@ -55,14 +55,14 @@ namespace ISILab.LBS.VisualElements.Editor
             _questList = this.Q<ListView>("QuestList");
             _questList.reorderable = true;
 
-            _questList.makeItem = () => new QuestEntry();
+            _questList.makeItem = () => new QuestHistoryEntry();
 
             _questList.bindItem = (element, index) =>
             {
                 if (index < 0 || index >= QuestGraphs.QuestNodes.Count)
                     return;
 
-                if (element is not QuestEntry questEntryVe)
+                if (element is not QuestHistoryEntry questEntryVe)
                     return;
 
                 var quest = QuestGraphs.QuestNodes[index];

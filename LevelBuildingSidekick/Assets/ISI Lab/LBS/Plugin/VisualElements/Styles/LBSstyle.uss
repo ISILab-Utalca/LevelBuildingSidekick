@@ -6,10 +6,6 @@
     padding-right: 21px;
 }
 
-.myTextSize PopupTextElement {
-    font-size: 12px;
-}
-
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
     width: 32px;
@@ -1070,7 +1066,7 @@ Button.lbs-actionbutton {
     padding-left: 5px;
 }
 
-.lbs-actionbutton:hover {
+.lbs-actionbutton:hover > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1101,7 +1097,7 @@ Button.lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton:selected {
+.lbs-actionbutton:selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1132,35 +1128,35 @@ Button.lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton_selected {
+.lbs-actionbutton_selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
     align-items: center;
     margin-top: 0;
     margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
     scale: 1 1;
     -unity-font-style: normal;
     -unity-background-image-tint-color: rgba(255, 255, 255, 0);
     background-image: none;
-    border-left-color: rgba(0, 0, 0, 0.4);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-top-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
+    border-left-color: rgba(255, 255, 255, 0.4);
+    border-right-color: rgba(255, 255, 255, 0.4);
+    border-top-color: rgba(255, 255, 255, 0.4);
+    border-bottom-color: rgba(255, 255, 255, 0.4);
     border-top-width: 2px;
     border-right-width: 2px;
     border-bottom-width: 2px;
     border-left-width: 2px;
     margin-right: 0;
     margin-left: 0;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 12px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }
 
 #AssistantButton:selected {
@@ -1169,6 +1165,9 @@ Button.lbs-actionbutton {
 
 #BehaviourButton:selected {
     background-color: var(--lbs-selection-dark-teal-color);
+}
+
+.lbs-simple-button {
 }
 
 #LayerDataButton:selected {
@@ -1257,6 +1256,29 @@ Button.lbs-actionbutton {
     -unity-background-image-tint-color: var(--lbs-light-blue-color);
 }
 
+.lbs-nodeDataPanel {
+    flex-grow: 0;
+    border-left-color: rgb(32, 32, 32);
+    border-right-color: rgb(32, 32, 32);
+    border-top-color: rgb(32, 32, 32);
+    border-bottom-color: rgb(32, 32, 32);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    margin-top: 1px;
+    margin-right: 1px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+}
+
+.lbs_node {
+}
+
 .lbs-vertical-divider {
     height: 1px;
     margin-bottom: 3px;
@@ -1268,7 +1290,7 @@ Button.lbs-actionbutton {
     margin-top: 3px;
 }
 
-.lbs-generic-panel {
+.lbs-panel {
     padding-left: 2px;
     padding-top: 2px;
     padding-right: 2px;
@@ -1306,4 +1328,45 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+}
+
+.lbs-custom-progress-bar {
+    padding-top: 2px;
+    padding-right: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.lbs-custom-progress-bar__progress {
+    border-left-color: rgba(255, 255, 255, 0.2);
+    border-right-color: rgba(255, 255, 255, 0.2);
+    border-top-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+
+.lbs-custom-progress-bar__container {
+}
+
+.lbs-custom-progress-bar__background {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.lbs-menu-button{
+    
 }

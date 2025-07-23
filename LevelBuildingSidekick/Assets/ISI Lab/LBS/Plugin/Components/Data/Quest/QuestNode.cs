@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -21,11 +22,7 @@ namespace ISILab.LBS.Components
 [Serializable]
     public class QuestNode : ICloneable
     {
-
         #region FIELD
-
-        [SerializeField] 
-        private string nodeDataJson;
         
         [SerializeField, SerializeReference][JsonRequired]
         private BaseQuestNodeData nodeData;
@@ -34,16 +31,13 @@ namespace ISILab.LBS.Components
         private int x, y;
 
         [SerializeField, JsonRequired]
-        private string id = ""; // "ID" or "name"
+        private string id = "";
 
         [SerializeField, JsonRequired]
         private string questAction = "";
 
         [SerializeField, JsonRequired]
-        private bool grammarCheck;
-
-        [SerializeField, JsonRequired]
-        private bool mapCheck;
+        private bool validValidGrammar;
         
         [SerializeField, JsonRequired]
         private NodeType nodeType;
@@ -51,13 +45,7 @@ namespace ISILab.LBS.Components
         [SerializeField, JsonRequired]
         private QuestState questState = QuestState.Blocked;
         
-        [SerializeField, JsonRequired]
-        private bool valid;
-        
         #endregion
-
-        [SerializeField, JsonRequired, SerializeReference]
-        private QuestTarget target;
 
         [SerializeField, JsonRequired, SerializeReference]
         private QuestGraph graph;
@@ -105,32 +93,10 @@ namespace ISILab.LBS.Components
         }
 
         [JsonIgnore]
-        public bool GrammarCheck
+        public bool ValidGrammar
         {
-            get => grammarCheck;
-            set => grammarCheck = value;
-        }
-
-        [JsonIgnore]
-        public bool MapCheck
-        {
-            get => mapCheck;
-            set => mapCheck = value;
-        }
-
-        [JsonIgnore]
-        public QuestTarget Target
-        {
-            get => target;
-            set => target = value;
-        }
-        
-        
-        [JsonIgnore]
-        public bool Valid
-        {
-            get => valid;
-            set => valid = value;
+            get => validValidGrammar;
+            set => validValidGrammar = value;
         }
         
         [JsonIgnore]
@@ -151,7 +117,7 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool grammarCheck = false)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool validValidGrammar = false)
         {
             this.id = id;
             x = (int)position.x;
@@ -159,64 +125,38 @@ namespace ISILab.LBS.Components
             questAction = action;
             
             this.graph = graph;
-            this.grammarCheck = grammarCheck;
-            target = new QuestTarget();
+            this.validValidGrammar = validValidGrammar;
             
             InstanceDataByAction(action);
         }
 
         private void InstanceDataByAction(string action)
         {
+            if (action == string.Empty) return;
             nodeData = QuestNodeDataFactory.CreateByTag(action, this);
         }
 
         #endregion
-
-        public bool HasEdges()
-        {
-            return graph != null && graph.HasRequiredConnection(this);
-        }
         
         public object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph, GrammarCheck)
-            {
-                target = target.Clone() as QuestTarget
-            };
+            var node = new QuestNode(ID, Position, QuestAction, graph, ValidGrammar);
             if(NodeData is not null )node.NodeData.Clone(NodeData);
             node.NodeViewPosition = NodeViewPosition;
             return node;
         }
-    }
-
-    [Serializable]
-    public class QuestTarget : ICloneable
-    {
-        [SerializeField, JsonRequired, SerializeReference]
-        private Rect rect;
-        [SerializeField, JsonRequired, SerializeReference]
-        private List<LBSTag> tags = new();
         
-        [JsonIgnore]
-        public Rect Rect
+        public bool IsValidFrom(QuestGraph graphOwner)
         {
-            get => rect;
-            set => rect = value;
-        }
-
-        [JsonIgnore]
-        public List<LBSTag> Tags => tags;
-
-        public object Clone()
-        {
-            var target = new QuestTarget
-            {
-                tags = new List<LBSTag>(tags),
-                rect = rect
-            };
-            return target;
+            var found = graph.QuestEdges.FirstOrDefault(e => e.From.Equals(this));
+            return found == null;
         }
         
-        
+        public bool IsValidTo(QuestGraph graphOwner)
+        {
+            var found = graph.QuestEdges.FirstOrDefault(e => e.To.Equals(this));
+            return found == null;
+        }
     }
+    
 }

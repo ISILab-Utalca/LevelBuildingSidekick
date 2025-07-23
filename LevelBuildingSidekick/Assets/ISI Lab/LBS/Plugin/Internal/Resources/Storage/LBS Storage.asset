@@ -446,7 +446,6 @@ MonoBehaviour:
     - {fileID: 9197481963319205126, guid: caaf0c1d6d60a3a42bfcd3aa63219380, type: 3}
     - {fileID: 9197481963319205126, guid: 59394b0a653bf014fa7b829f531e86e9, type: 3}
     - {fileID: 9197481963319205126, guid: abc671a6da0260f47a9b23967501ef6d, type: 3}
-    - {fileID: 9197481963319205126, guid: feff30036561ba643a74bb22fcc75832, type: 3}
     - {fileID: 9197481963319205126, guid: ed07ca61961d0854298f3fe9524360df, type: 3}
     - {fileID: 9197481963319205126, guid: ebfcaa1d6110af947a0ff04780850ef1, type: 3}
     - {fileID: 9197481963319205126, guid: cf186ae6d22e65f4f81c681da421da99, type: 3}
@@ -540,6 +539,9 @@ MonoBehaviour:
     - {fileID: 11400000, guid: ad9baf3ac3e35c948bf6a50e91e91473, type: 3}
     - {fileID: 11400000, guid: d02b5650e6e0b4c45ab18d5a1d1fce97, type: 3}
     - {fileID: 11400000, guid: 822efcfdd5f5a45e99513239c9c1859f, type: 3}
+    - {fileID: 9197481963319205126, guid: cd1eb3c3c695c494d855ea678fe7395b, type: 3}
+    - {fileID: 9197481963319205126, guid: aaa3e510761864dac9b71f85526490d6, type: 3}
+    - {fileID: 9197481963319205126, guid: d6de7697d63d64fabbfb31425d93541e, type: 3}
     - {fileID: 9197481963319205126, guid: d0b4821bb729cd24fbbe0af5feaa73ab, type: 3}
     - {fileID: 9197481963319205126, guid: 00387952e4f43ec45a9084e579a44e4e, type: 3}
     - {fileID: 9197481963319205126, guid: d8d5beb40e5c9f94f95d805868251329, type: 3}
@@ -576,7 +578,6 @@ MonoBehaviour:
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
-    - {fileID: 11400000, guid: a09e5df974ffa574eb25d266e7b36d38, type: 2}
   - type: ISILab.LBS.Assistants.WFCPreset
     items:
     - {fileID: 11400000, guid: 5a9535f30995450489987c7588309b81, type: 2}
@@ -628,6 +629,8 @@ MonoBehaviour:
     - {fileID: 7433441132597879392, guid: 7d4067dd1e595a64aa7286438069d37c, type: 3}
     - {fileID: 7433441132597879392, guid: edca8f45c1127f147b3fa62aad3ed9c1, type: 3}
     - {fileID: 7433441132597879392, guid: 2a208840b98c7aa46a99ed3517e86d98, type: 3}
+    - {fileID: 7433441132597879392, guid: 3eb99c80b411349188e1e5167887ac6c, type: 3}
+    - {fileID: 7433441132597879392, guid: 63cb84b97408b4d25a6925daccffcd22, type: 3}
     - {fileID: 7433441132597879392, guid: 095b74bd60b187c418dcc4cd47aa696d, type: 3}
     - {fileID: 7433441132597879392, guid: 1c04ee69303d45644bb3971a4e8ce952, type: 3}
     - {fileID: 7433441132597879392, guid: 38ae9e6ef965cae43902ba22967938ee, type: 3}

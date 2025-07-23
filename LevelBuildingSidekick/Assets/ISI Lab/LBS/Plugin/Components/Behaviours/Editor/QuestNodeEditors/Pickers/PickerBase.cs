@@ -20,7 +20,6 @@ namespace ISILab.LBS.VisualElements
             if(_activeButton is not null) 
             {
                 _activeButton.style.backgroundColor = _color; // deactivate previous
-                return;
             }
             _activeButton = button;
             _activeButton.style.backgroundColor = _selected; // activate newest
