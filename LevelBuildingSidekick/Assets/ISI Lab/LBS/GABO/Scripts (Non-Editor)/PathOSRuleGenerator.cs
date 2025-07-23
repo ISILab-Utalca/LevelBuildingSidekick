@@ -220,13 +220,19 @@ namespace ISILab.LBS.Generators
             //}
 
             // Interior Layers: GameObjects
-            List<GameObject> interiorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+            List<GameObject> interiorLayerGameObjects = 
+                //GameObject.FindObjectsOfType<GameObject>()
+                GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
+                .Where(
                 obj => obj.transform.childCount == 2 &&
                 obj.transform?.GetChild(0).name == "Schema" &&
                 obj.transform?.GetChild(1).name == "Schema outside").ToList();
 
             // Exterior Layers: GameObjects
-            List<GameObject> exteriorLayerGameObjects = GameObject.FindObjectsOfType<GameObject>().Where(
+            List<GameObject> exteriorLayerGameObjects =
+                //GameObject.FindObjectsOfType<GameObject>()
+                GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
+                .Where(
                 obj => obj.transform.childCount == 1 &&
                 obj.transform?.GetChild(0).name == "Exterior").ToList();
 

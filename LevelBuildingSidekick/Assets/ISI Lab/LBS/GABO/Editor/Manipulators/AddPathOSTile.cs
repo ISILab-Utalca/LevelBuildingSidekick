@@ -24,19 +24,23 @@ namespace ISILab.LBS.Manipulators
         {
             get => behaviour.selectedToSet;
         }
+
+        protected override string IconGuid => null;
         #endregion
 
         public AddPathOSTile() : base()
         {
-            feedback = new AreaFeedback();
-            feedback.fixToTeselation = true;
+            Feedback = new AreaFeedback();
+            Feedback.fixToTeselation = true;
         }
 
-        public override void Init(LBSLayer layer, object owner)
+        public override void Init(LBSLayer layer, object provider)
         {
-            behaviour = owner as PathOSBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            base.Init(layer, provider);
+
+            behaviour = provider as PathOSBehaviour;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
         protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)

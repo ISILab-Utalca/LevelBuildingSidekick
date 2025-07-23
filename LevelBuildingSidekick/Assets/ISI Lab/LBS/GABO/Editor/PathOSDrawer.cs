@@ -31,5 +31,29 @@ namespace ISILab.LBS.Drawers
                 view.AddElement(v);
             }
         }
+
+        public override void HideVisuals(object target, MainView view)
+        {
+            try
+            {
+                throw new System.NotImplementedException();
+            }
+            catch (System.NotImplementedException e)
+            {
+                Debug.LogError(e);
+            }
+        }
+
+        public override void ShowVisuals(object target, MainView view)
+        {
+            try
+            {
+                throw new System.NotImplementedException();
+            }
+            catch (System.NotImplementedException e)
+            {
+                Debug.LogError(e);
+            }
+        }
     }
 }

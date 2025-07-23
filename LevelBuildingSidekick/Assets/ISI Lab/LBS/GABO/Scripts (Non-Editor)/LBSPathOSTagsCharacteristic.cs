@@ -65,6 +65,12 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
+
+        public override List<string> Validate()
+        {
+            return new List<string>();
+            throw new System.NotImplementedException();
+        }
     }
 
 }

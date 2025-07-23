@@ -190,7 +190,7 @@
       }
     },
     "com.unity.formats.fbx": {
-      "version": "5.1.3",
+      "version": "5.1.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {

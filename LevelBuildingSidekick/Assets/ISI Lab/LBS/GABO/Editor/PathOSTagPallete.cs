@@ -12,10 +12,11 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class PathOSTagPallete : VisualElement
+    [UxmlElement]
+    public partial class PathOSTagPallete : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<PathOSTagPallete, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<PathOSTagPallete, UxmlTraits> { }
         #endregion
 
         private PathOSOptionView[] optionViews;

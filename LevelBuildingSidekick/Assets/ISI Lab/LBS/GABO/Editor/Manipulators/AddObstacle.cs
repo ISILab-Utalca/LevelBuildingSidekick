@@ -9,6 +9,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -20,20 +21,26 @@ namespace ISILab.LBS.Manipulators
         protected PathOSTile obstacleTile;
         #endregion
 
+        #region PROPERTIES
+        protected override string IconGuid => null;
+        #endregion
+
         #region CONSTRUCTORS
         public AddObstacle() : base()
         {
-            feedback = new ConnectedLine();
-            feedback.fixToTeselation = true;
+            Feedback = new ConnectedLine();
+            Feedback.fixToTeselation = true;
         }
         #endregion
 
         #region METHODS
         public override void Init(LBSLayer layer, object provider)
         {
+            base.Init(layer, provider);
+
             behaviour = provider as PathOSBehaviour;
-            feedback.TeselationSize = layer.TileSize;
-            layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+            Feedback.TeselationSize = layer.TileSize;
+            layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
         }
 
         protected override void OnMouseDown(VisualElement target, Vector2Int startPosition, MouseDownEvent e)

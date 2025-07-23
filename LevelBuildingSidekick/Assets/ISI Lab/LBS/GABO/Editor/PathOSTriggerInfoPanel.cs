@@ -9,10 +9,11 @@ using UnityEngine.UIElements;
 //GABO TODO: Terminar
 namespace ISILab.LBS.VisualElements
 {
-    public class PathOSTriggerInfoPanel : VisualElement
+    [UxmlElement]
+    public partial class PathOSTriggerInfoPanel : VisualElement
     {
         #region FACTORY
-        public new class UxmlFactory : UxmlFactory<PathOSTriggerInfoPanel, UxmlTraits> { }
+        //public new class UxmlFactory : UxmlFactory<PathOSTriggerInfoPanel, UxmlTraits> { }
         #endregion
 
         #region FIELDS

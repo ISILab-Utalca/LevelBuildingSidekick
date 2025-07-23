@@ -157,20 +157,20 @@ namespace ISILab.LBS.Modules
 
         public override void Clear()
         {
-            Debug.Log("Ejecutando PathOSModule.Clear()");
+            //Debug.Log("Ejecutando PathOSModule.Clear()");
             tiles.Clear();
         }
 
         public override object Clone()
         {
-            Debug.Log("Ejecutando PathOSModule.Clone()");
+            //Debug.Log("Ejecutando PathOSModule.Clone()");
             var clone = new PathOSModule();
             return clone;
         }
 
         public override bool IsEmpty()
         {
-            Debug.Log("Ejecutando PathOSModule.IsEmpty()");
+            //Debug.Log("Ejecutando PathOSModule.IsEmpty()");
             return (tiles.Count == 0);
         }
 

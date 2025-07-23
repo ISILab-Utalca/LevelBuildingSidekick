@@ -16,20 +16,26 @@ public class RemovePathOSTile : LBSManipulator
     PathOSBehaviour behaviour;
     #endregion
 
+    #region PROPERTIES
+    protected override string IconGuid => null;
+    #endregion
+
     #region CONSTRUCTORS
     public RemovePathOSTile() : base()
     {
-        feedback = new AreaFeedback();
-        feedback.fixToTeselation = true;
+        Feedback = new AreaFeedback();
+        Feedback.fixToTeselation = true;
     }
     #endregion
 
     #region METHODS
-    public override void Init(LBSLayer layer, object owner)
+    public override void Init(LBSLayer layer, object provider)
     {
-        behaviour = owner as PathOSBehaviour;
-        feedback.TeselationSize = layer.TileSize;
-        layer.OnTileSizeChange += (val) => feedback.TeselationSize = val;
+        base.Init(layer, provider);
+
+        behaviour = provider as PathOSBehaviour;
+        Feedback.TeselationSize = layer.TileSize;
+        layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
     }
 
     protected override void OnMouseUp(VisualElement target, Vector2Int endPosition, MouseUpEvent e)
