@@ -9,6 +9,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using ISILab.Extensions;
 
 namespace ISILab.LBS.Generators
 {
@@ -289,6 +290,7 @@ namespace ISILab.LBS.Generators
             var totalList = new List<GameObject>();
             totalList.AddRange(interiorLayerGameObjects);
             totalList.AddRange(exteriorLayerGameObjects);
+            //Debug.Log("TOTAL GAMEOBJECTS: " + totalList.Count);
             foreach (var obj in totalList)
             {
                 if (obj.GetComponentsInChildren<MeshRenderer>().Length > 0 && obj.GetComponentsInChildren<Collider>().Length == 0)
@@ -307,6 +309,7 @@ namespace ISILab.LBS.Generators
 
             // Remover colliders temporales
             int meshCount = doNotHaveColliderList.Count;
+            //Debug.Log("CREATED COLLIDERS: " +  meshCount);
             for (int i = 0; i < meshCount; i++)
             {
                 GameObject.DestroyImmediate(doNotHaveColliderList[i].GetComponent<BoxCollider>());
@@ -330,6 +333,8 @@ namespace ISILab.LBS.Generators
 
             // Padre temporal cambia de nombre (pasa a contener unicamente el navmesh)
             tempParent.name = "NavMeshSurface";
+
+            tempParent.SetParent(parent);
         }
 
         // [GABO DEBUG] Generador de prueba hecho originalmente para probar colocacion de elementos
