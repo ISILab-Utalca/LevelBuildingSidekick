@@ -135,9 +135,24 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
             if(mw == null) return;
-            var layers = mw.GetLayers();
+            //var layers = mw.GetLayers();
+            var layers = new List<LBSLayer>(mw.GetLayers());
+            layers.Sort((l1, l2) =>
+            {
+                const string testing = "Testing";
+                bool l1IsTesting = l1.ID.Equals(testing),
+                    l2IsTesting = l2.ID.Equals(testing);
+
+                if (l1IsTesting && !l2IsTesting) return 1;
+                if(!l1IsTesting && l2IsTesting) return -1;
+                return 0;
+            });
+            //string log = "";
+            //foreach (var l in layers)
+            //    log += l.ID + "\n";
+            //Debug.Log(log);
             
-            foreach (var layer in layers)
+            foreach (LBSLayer layer in layers)
             {
                 _layer = layer;
                 GenerateSingleLayer();
