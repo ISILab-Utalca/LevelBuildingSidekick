@@ -149,7 +149,7 @@ namespace ISILab.LBS.Components
     public abstract class BaseQuestNodeData
     {
         #region FIELDS
-        [SerializeField, JsonRequired]
+        [SerializeField, SerializeReference, JsonRequired]
         protected QuestNode ownerNode;
         
         [SerializeField, JsonRequired]
@@ -178,6 +178,7 @@ namespace ISILab.LBS.Components
         #region PROPERTIES
         public QuestNode OwnerNode => ownerNode;
         
+
         public QuestGraph Graph => ownerNode.Graph;
         
         public LBSLayer Layer => Graph.OwnerLayer;

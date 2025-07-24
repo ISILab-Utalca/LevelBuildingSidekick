@@ -1,83 +1,63 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ISILab.AI.Grammar
 {
     [Serializable]
-    public abstract class Grammar
+    public class ExpansionWrapper
     {
-        public string name;
-
-        public bool IsNonTerminal() => GetTrimmed().StartsWith("#");
-
-        public bool IsTerminal() => !IsNonTerminal();
-
-        public string GetTrimmed() => name.Trim();
-    }
-
-    [Serializable]
-    public class TerminalGrammar : Grammar
-    {
-    }
-
-    [Serializable]
-    public class NonTerminal : Grammar
-    {
-        [SerializeField] private List<List<Grammar>> _expansions = new();
-
-        public List<List<Grammar>> Expansions
-        {
-            get => _expansions;
-            set => _expansions = value;
-        }
-
-        public List<string> GetTerminals()
-        {
-            List<string> terminals = new();
-            foreach (var sequence in _expansions)
-            {
-                foreach (var grammar in sequence)
-                {
-                    if (grammar is NonTerminal nonTerminal)
-                    {
-                        terminals.AddRange(nonTerminal.GetTerminals());
-                    }
-                    else if (grammar is TerminalGrammar terminal)
-                    {
-                        terminals.Add(terminal.name);
-                    }
-                }
-            }
-            return terminals;
-        }
+        [SerializeField]
+        public List<string> symbols = new();
     }
 
     [Serializable]
     public class RuleEntry
     {
-        public string RuleName;
-        public List<List<Grammar>> Expansions = new();
+        [SerializeField]
+        public string ruleName;
+
+        [SerializeField]
+        public List<ExpansionWrapper> expansions = new();
     }
 
     [CreateAssetMenu(menuName = "ISILab/LBSGrammar")]
     public class LBSGrammar : ScriptableObject
     {
-        [SerializeField] private List<string> terminalActions = new();
-        [SerializeField] private List<RuleEntry> ruleEntries = new();
+        [SerializeField]
+        private List<string> terminalActions = new();
+
+        [SerializeField]
+        private List<RuleEntry> ruleEntries = new();
 
         public List<string> TerminalActions => terminalActions;
         public List<RuleEntry> RuleEntries => ruleEntries;
 
         /// <summary>
-        /// Gets rules as a dictionary for easy lookup.
+        /// Gets rules as a dictionary for easy lookup, converting ExpansionWrapper to List<string>.
         /// </summary>
-        public Dictionary<string, List<List<Grammar>>> GetRules()
+        public Dictionary<string, List<List<string>>> GetRules()
         {
-            var result = new Dictionary<string, List<List<Grammar>>>();
+            var result = new Dictionary<string, List<List<string>>>();
             foreach (var entry in ruleEntries)
             {
-                result[entry.RuleName] = entry.Expansions;
+                if (string.IsNullOrEmpty(entry.ruleName))
+                {
+                    Debug.LogWarning($"[LBSGrammar] Found RuleEntry with null or empty ruleName. Skipping.");
+                    continue;
+                }
+                if (entry.expansions == null)
+                {
+                    Debug.LogWarning($"[LBSGrammar] Rule '{entry.ruleName}' has null expansions. Initializing empty list.");
+                    entry.expansions = new List<ExpansionWrapper>();
+                }
+                var expansions = new List<List<string>>();
+                foreach (var wrapper in entry.expansions)
+                {
+                    expansions.Add(wrapper.symbols ?? new List<string>());
+                }
+                result[entry.ruleName] = expansions;
             }
             return result;
         }
@@ -87,32 +67,48 @@ namespace ISILab.AI.Grammar
         /// </summary>
         public void SetGrammarStructure(GrammarStructure structure)
         {
-            terminalActions = new List<string>(structure.Terminals);
-            ruleEntries.Clear();
-
-            foreach (var kvp in structure.Rules)
+            if (structure == null)
             {
+                Debug.LogError("[LBSGrammar] GrammarStructure is null.");
+                return;
+            }
+
+            Debug.Log($"[LBSGrammar] Setting grammar structure. Terminals: {structure.terminals?.Count ?? 0}, Rules: {structure.Rules?.Count ?? 0}");
+
+            terminalActions = structure.terminals != null ? new List<string>(structure.terminals) : new List<string>();
+            ruleEntries = new List<RuleEntry>();
+
+            foreach (var kvp in structure.Rules ?? new Dictionary<string, RuleData>())
+            {
+                if (kvp.Value == null || string.IsNullOrEmpty(kvp.Key))
+                {
+                    Debug.LogWarning($"[LBSGrammar] Skipping invalid rule: Key={kvp.Key}, Value={kvp.Value}");
+                    continue;
+                }
+
                 var entry = new RuleEntry
                 {
-                    RuleName = kvp.Key,
-                    Expansions = new List<List<Grammar>>()
+                    ruleName = kvp.Key,
+                    expansions = new List<ExpansionWrapper>()
                 };
 
-                foreach (var sequence in kvp.Value.Expansions)
+                foreach (var sequence in kvp.Value.Expansions ?? new List<List<string>>())
                 {
-                    var grammarSequence = new List<Grammar>();
-                    foreach (var symbol in sequence)
+                    var wrapper = new ExpansionWrapper
                     {
-                        Grammar g = symbol.StartsWith("#")
-                            ? new NonTerminal { name = symbol }
-                            : new TerminalGrammar { name = symbol };
-                        grammarSequence.Add(g);
-                    }
-                    entry.Expansions.Add(grammarSequence);
+                        symbols = sequence != null ? new List<string>(sequence) : new List<string>()
+                    };
+                    entry.expansions.Add(wrapper);
                 }
 
                 ruleEntries.Add(entry);
             }
+
+            Debug.Log($"[LBSGrammar] Populated {ruleEntries.Count} rule entries.");
+
+            #if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(this);
+            #endif
         }
 
         /// <summary>
@@ -120,8 +116,7 @@ namespace ISILab.AI.Grammar
         /// </summary>
         public List<string> GetAllValidNextActions(string currentAction)
         {
-            var result = new HashSet<string>();
-            var visited = new HashSet<string>();
+            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var rules = GetRules();
 
             foreach (var kvp in rules)
@@ -130,26 +125,25 @@ namespace ISILab.AI.Grammar
                 {
                     for (int i = 0; i < expansion.Count - 1; i++)
                     {
-                        if (expansion[i].name == currentAction)
+                        if (expansion[i].Equals(currentAction, StringComparison.OrdinalIgnoreCase))
                         {
                             var next = expansion[i + 1];
-                            if (next is TerminalGrammar terminal)
+                            if (!IsNonTerminal(next))
                             {
-                                result.Add(terminal.name);
+                                result.Add(next);
                             }
-                            else if (next is NonTerminal nonTerminal)
+                            else
                             {
-                                string ruleName = nonTerminal.name.TrimStart('#');
+                                string ruleName = next.TrimStart('#');
                                 var terminals = GetFirstTerminals(ruleName, new HashSet<string>());
-                                foreach (var t in terminals)
-                                    result.Add(t);
+                                result.UnionWith(terminals);
                             }
                         }
                     }
                 }
             }
 
-            return new List<string>(result);
+            return result.ToList();
         }
 
         /// <summary>
@@ -170,30 +164,75 @@ namespace ISILab.AI.Grammar
                 if (expansion.Count == 0) continue;
 
                 var first = expansion[0];
-                if (first is TerminalGrammar terminal)
+                if (!IsNonTerminal(first))
                 {
-                    result.Add(terminal.name);
+                    result.Add(first);
                 }
-                else if (first is NonTerminal nonTerminal)
+                else
                 {
-                    string nested = nonTerminal.name.TrimStart('#');
+                    string nested = first.TrimStart('#');
                     result.AddRange(GetFirstTerminals(nested, visited));
                 }
             }
 
             return result;
         }
+
+        /// <summary>
+        /// Checks if a symbol is a non-terminal (starts with #).
+        /// </summary>
+        private bool IsNonTerminal(string symbol) => !string.IsNullOrEmpty(symbol) && symbol.Trim().StartsWith("#");
+
+        /// <summary>
+        /// Debug method to inspect serialized data.
+        /// </summary>
+        [ContextMenu("Debug Grammar")]
+        private void DebugGrammar()
+        {
+            Debug.Log($"[LBSGrammar] Terminal Actions Count: {terminalActions?.Count ?? 0}");
+            foreach (var action in terminalActions ?? new List<string>())
+            {
+                Debug.Log($"[LBSGrammar] Terminal: {action}");
+            }
+
+            Debug.Log($"[LBSGrammar] Rule Entries Count: {ruleEntries?.Count ?? 0}");
+            foreach (var entry in ruleEntries ?? new List<RuleEntry>())
+            {
+                Debug.Log($"[LBSGrammar] Rule: {entry.ruleName}, Expansions: {entry.expansions?.Count ?? 0}");
+                foreach (var expansion in entry.expansions ?? new List<ExpansionWrapper>())
+                {
+                    Debug.Log($"[LBSGrammar]   Expansion: [{string.Join(", ", expansion.symbols ?? new List<string>())}]");
+                }
+            }
+        }
+
+        // Ensure initialization of serialized fields
+        private void OnEnable()
+        {
+            if (terminalActions == null)
+                terminalActions = new List<string>();
+            if (ruleEntries == null)
+                ruleEntries = new List<RuleEntry>();
+        }
     }
 
+    [Serializable]
     public class RuleData
     {
+        [SerializeField]
         public string RuleName;
-        public List<List<string>> Expansions = new(); // List of sequences
+
+        [SerializeField]
+        public List<List<string>> Expansions = new();
     }
 
+    [Serializable]
     public class GrammarStructure
     {
+        [SerializeField]
         public Dictionary<string, RuleData> Rules = new();
-        public HashSet<string> Terminals = new();
+
+        [SerializeField]
+        public List<string> terminals = new();
     }
 }

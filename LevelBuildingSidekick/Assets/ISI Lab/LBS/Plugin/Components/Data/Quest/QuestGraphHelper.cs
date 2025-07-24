@@ -42,7 +42,7 @@ namespace ISILab.LBS.Modules
                 return false;
             }
 
-            if (!from.IsValidFrom(graphContext))
+            if (!from.IsValidFrom())
             {
                 message = "The first node is already connected";
                 logType = LogType.Error;

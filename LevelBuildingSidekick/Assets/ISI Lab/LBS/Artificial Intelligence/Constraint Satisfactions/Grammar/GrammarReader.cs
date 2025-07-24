@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Speech.Recognition.SrgsGrammar;
 using UnityEngine;
 
@@ -44,14 +43,14 @@ namespace ISILab.AI.Grammar
 
                 foreach (var element in rule.Elements)
                 {
-                    ExtractExpansionSequences(element, grammar.Rules[rule.Id].Expansions, grammar.Terminals);
+                    ExtractExpansionSequences(element, grammar.Rules[rule.Id].Expansions, grammar.terminals);
                 }
             }
 
             return grammar;
         }
 
-        private static void ExtractExpansionSequences(SrgsElement element, List<List<string>> expansions, HashSet<string> terminals)
+        private static void ExtractExpansionSequences(SrgsElement element, List<List<string>> expansions, List<string> terminals)
         {
             switch (element)
             {
@@ -76,7 +75,7 @@ namespace ISILab.AI.Grammar
                                             if (!string.IsNullOrEmpty(subToken))
                                             {
                                                 sequence.Add(subToken);
-                                                terminals.Add(subToken);
+                                                if(!terminals.Contains(subToken)) terminals.Add(subToken);
                                             }
                                             start = i;
                                         }
@@ -87,7 +86,7 @@ namespace ISILab.AI.Grammar
                                     if (!string.IsNullOrEmpty(lastToken))
                                     {
                                         sequence.Add(lastToken);
-                                        terminals.Add(lastToken);
+                                        if(!terminals.Contains(lastToken)) terminals.Add(lastToken);
                                     }
                                 }
 

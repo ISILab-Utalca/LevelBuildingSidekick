@@ -27,12 +27,94 @@ MonoBehaviour:
   - spy
   - report
   ruleEntries:
-  - RuleName: Quest
-  - RuleName: Subquest
-  - RuleName: Goto
-  - RuleName: Learn
-  - RuleName: Get
-  - RuleName: Steal
-  - RuleName: Kill
-  - RuleName: Capture
-  - RuleName: Spy
+  - ruleName: Quest
+    expansions:
+    - symbols:
+      - '#Subquest'
+    - symbols:
+      - '#Goto'
+    - symbols:
+      - '#Learn'
+    - symbols:
+      - '#Get'
+    - symbols:
+      - '#Steal'
+    - symbols:
+      - '#Kill'
+    - symbols:
+      - '#Capture'
+    - symbols:
+      - '#Spy'
+  - ruleName: Subquest
+    expansions:
+    - symbols:
+      - '#Goto'
+    - symbols:
+      - '#Goto'
+      - '#Quest'
+      - go to
+  - ruleName: Goto
+    expansions:
+    - symbols:
+      - explore
+    - symbols:
+      - '#Learn'
+      - go to
+    - symbols:
+      - go to
+  - ruleName: Learn
+    expansions:
+    - symbols:
+      - '#Goto'
+      - '#Subquest'
+      - listen
+    - symbols:
+      - '#Goto'
+      - '#Get'
+      - read
+    - symbols:
+      - '#Get'
+      - '#Subquest'
+      - give
+      - listen
+  - ruleName: Get
+    expansions:
+    - symbols:
+      - '#Steal'
+    - symbols:
+      - '#Goto'
+      - gather
+    - symbols:
+      - '#Goto'
+      - '#Get'
+      - '#Goto'
+      - '#Subquest'
+      - exchange
+  - ruleName: Steal
+    expansions:
+    - symbols:
+      - '#Goto'
+      - stealth
+      - take
+    - symbols:
+      - '#Goto'
+      - '#Kill'
+      - take
+  - ruleName: Kill
+    expansions:
+    - symbols:
+      - '#Goto'
+      - kill
+  - ruleName: Capture
+    expansions:
+    - symbols:
+      - '#Get'
+      - '#Goto'
+      - capture
+  - ruleName: Spy
+    expansions:
+    - symbols:
+      - '#Goto'
+      - spy
+      - '#Goto'
+      - report
