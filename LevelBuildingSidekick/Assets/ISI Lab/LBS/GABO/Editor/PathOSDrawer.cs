@@ -5,6 +5,7 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -89,25 +90,31 @@ namespace ISILab.LBS.Drawers
 
         public override void HideVisuals(object target, MainView view)
         {
-            try
+            if (target is not PathOSBehaviour behaviour) return;
+            foreach(PathOSTile tile in behaviour.Keys)
             {
-                throw new System.NotImplementedException();
-            }
-            catch (System.NotImplementedException e)
-            {
-                Debug.LogError(e);
+                if (tile == null) continue;
+
+                List<GraphElement> elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile).Where(graphElement => graphElement != null).ToList();
+                foreach(GraphElement element in elements)
+                {
+                    element.style.display = DisplayStyle.None; 
+                }
             }
         }
 
         public override void ShowVisuals(object target, MainView view)
         {
-            try
+            if (target is not PathOSBehaviour behaviour) return;
+            foreach(PathOSTile tile in behaviour.Keys)
             {
-                throw new System.NotImplementedException();
-            }
-            catch (System.NotImplementedException e)
-            {
-                Debug.LogError(e);
+                if (tile == null) continue;
+
+                List<GraphElement> elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile);
+                foreach (GraphElement element in elements)
+                {
+                    element.style.display = DisplayStyle.Flex;
+                }
             }
         }
     }
