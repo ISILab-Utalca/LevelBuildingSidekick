@@ -22,7 +22,7 @@ namespace ISILab.LBS.Drawers
             if (behaviour == null) { return; }
 
             PaintNewTiles(behaviour, teselationSize, view);
-            //UpdateLoadedTiles(behaviour, teselationSize, view);
+            UpdateLoadedTiles(behaviour, teselationSize, view);
 
             if(!Loaded || FullRedrawRequested)
             {
@@ -82,6 +82,7 @@ namespace ISILab.LBS.Drawers
                 Vector2 pos = new Vector2(tile.X, -tile.Y);
                 Vector2 size = DefalutSize * teselationSize;
                 tView.SetPosition(new Rect(pos * size, size));
+                tView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
                 //view.AddElement(tView);
                 view.AddElementToLayerContainer(behaviour.OwnerLayer, tile, tView);
                 behaviour.Keys.Add(tile);

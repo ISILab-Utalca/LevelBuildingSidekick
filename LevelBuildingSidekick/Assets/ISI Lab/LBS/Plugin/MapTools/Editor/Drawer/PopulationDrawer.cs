@@ -133,7 +133,10 @@ namespace ISILab.LBS.Drawers
                 // Stores using TileBundleGroup as key
                 var tileView = CreatePopulationTileView(tileBundleGroup, population);
                 if (tileView != null)
+                {
+                    tileView.style.display = (DisplayStyle)(population.OwnerLayer.IsVisible ? 0 : 1);
                     view.AddElementToLayerContainer(population.OwnerLayer, tileBundleGroup, tileView);
+                }
                 population.Keys.Add(tileBundleGroup);
             }
         }
