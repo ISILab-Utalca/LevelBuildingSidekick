@@ -117,8 +117,8 @@ namespace ISILab.LBS
             else
             {
                 JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
+                LBSMainWindow.MessageNotify("The file has been saved.");
             }
-            LBSMainWindow.MessageNotify("The file has been saved.");
         }
 
         /// <summary>

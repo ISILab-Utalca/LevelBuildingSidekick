@@ -1,10 +1,8 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
-using JetBrains.Annotations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 // GABO TODO: FALTA VER COMO TRATAR ELEMENT TAGS Y EVENT TAGS.
@@ -172,13 +170,13 @@ namespace ISILab.LBS.Modules
         // GABO TODO: Arreglar metodo cuando se arregle la clase y devolver NULO similar a GetObstacle
         public (PathOSTile, PathOSTag)? GetDynamicTag(int x, int y)
         {
-            if (dynamicTagTiles == null) { return null; }
+            if (dynamicTagTiles.IsNull) { return null; }
             return dynamicTagTiles.GetDynamicTag(x, y);
         }
         // GABO TODO: Arreglar metodo cuando se arregle la clase y devolver NULO similar a GetObstacle
         public (PathOSTile, PathOSTag)? GetDynamicTag(PathOSTile tile)
         {
-            if (dynamicTagTiles == null) { return null; }
+            if (dynamicTagTiles.IsNull) { return null; }
             return dynamicTagTiles.GetDynamicTag(tile);
         }
 
@@ -263,6 +261,31 @@ namespace ISILab.LBS.Modules
 
             OnRemoveDynamicTag?.Invoke();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not PathOSTile other) return false;
+
+            if (!other.owner.Equals(owner)) return false;
+
+            if(!other.Position.Equals(Position)) return false;
+
+            if(!Equals(other.Tag, Tag)) return false;
+
+            // Not tested yet
+            //if(other.IsDynamicTagObject != IsDynamicTagObject) return false;
+            //if(other.isDynamicObstacleObject != IsDynamicObstacleObject) return false;
+            //if(other.IsDynamicTagTrigger != IsDynamicTagTrigger) return false;
+            //if(other.IsDynamicObstacleTrigger != IsDynamicObstacleTrigger) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
 
         #region NOT_IN_USE

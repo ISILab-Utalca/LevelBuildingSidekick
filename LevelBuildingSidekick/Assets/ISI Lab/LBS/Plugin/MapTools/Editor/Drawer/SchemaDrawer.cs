@@ -104,6 +104,7 @@ namespace ISILab.LBS.Drawers
                 TileConnectionsPair tc = connectionsMod.GetPair(tile);
                 
                 var tView = GetTileView(tile, tz.Zone, tc.Connections, teselationSize);
+                tView.style.display = (DisplayStyle)(schema.OwnerLayer.IsVisible ? 0 : 1);
                 // Stores using LBSTile as key
                 view.AddElementToLayerContainer(schema.OwnerLayer, tile, tView);
                 schema.Keys.Add(tile);
