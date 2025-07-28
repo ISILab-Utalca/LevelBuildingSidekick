@@ -31,6 +31,7 @@ namespace ISILab.LBS.Drawers.Editor
                 graph.SelectedQuestNode = null;
                 behaviour.ActionToSet = String.Empty;
                 QuestNodeView.Deselect();
+
             };
             
             var nodeViews = new Dictionary<QuestNode, QuestNodeView>();

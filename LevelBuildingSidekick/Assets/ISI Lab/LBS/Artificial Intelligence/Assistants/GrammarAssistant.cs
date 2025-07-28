@@ -18,7 +18,7 @@ namespace ISILab.LBS.Assistants
         [JsonIgnore]
         public QuestGraph Quest => OwnerLayer.GetModule<QuestGraph>();
 
-        public GrammarAssistant(VectorImage icon, string name, Color colorTint) 
+        public GrammarAssistant(VectorImage icon, string name, Color colorTint)
             : base(icon, name, colorTint) { }
 
         public override object Clone()
@@ -26,117 +26,31 @@ namespace ISILab.LBS.Assistants
             return new GrammarAssistant(Icon, this.Name, this.ColorTint);
         }
 
-        public void ValidateNodeGrammar(QuestNode node)
+        public bool ValidateQuestGraph()
         {
-            var grammar = Quest.Grammar;
-            if (grammar == null || grammar.GetRules().Count == 0) return;
-
-            var paths = BuildAllPathsThroughNode(node);
-            foreach (var n in paths.SelectMany(p => p))
-                n.ValidGrammar = false;
-
-            foreach (var path in paths)
+            foreach (var node in Quest.QuestNodes)
             {
-                if (IsValidSequence(path.Select(n => n.QuestAction).ToList(), grammar))
-                {
-                    foreach (var n in path)
-                        n.ValidGrammar = true;
-                }
-            }
-        }
-
-        public void ValidateEdgeGrammar(QuestEdge edge)
-        {
-            if (edge == null) return;
-
-            var grammar = Quest.Grammar;
-            if (grammar == null || grammar.GetRules().Count == 0) return;
-
-            var paths = BuildAllPathsThroughEdge(edge);
-            foreach (var n in paths.SelectMany(p => p))
-                n.ValidGrammar = false;
-
-            foreach (var path in paths)
-            {
-                if (IsValidSequence(path.Select(n => n.QuestAction).ToList(), grammar))
-                {
-                    foreach (var n in path)
-                        n.ValidGrammar = true;
-                }
-            }
-        }
-
-        private bool IsValidSequence(List<string> actions, LBSGrammar grammar)
-        {
-            if (actions.Count < 2) return true;
-
-            for (int i = 0; i < actions.Count - 1; i++)
-            {
-                var current = actions[i];
-                var next = actions[i + 1];
-
-                if (!grammar.GetRules().TryGetValue(current, out var expansions))
-                    return false;
-
-                bool valid = false;
-                foreach (var expansion in expansions)
-                {
-                    if (expansion.Count == 0) continue;
-
-                    var firstGrammar = expansion[0];
-                    if (firstGrammar.name.Equals(next, StringComparison.OrdinalIgnoreCase))
-                    {
-                        valid = true;
-                        break;
-                    }
-
-                    if (firstGrammar is NonTerminal nt)
-                    {
-                        var firsts = GetFirstTerminals(nt, grammar);
-                        if (firsts.Contains(next, StringComparer.OrdinalIgnoreCase))
-                        {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!valid) return false;
+                if (!node.ValidGrammar) return false;
             }
 
             return true;
         }
-
-        public bool FastValidGrammar(List<QuestNode> nodes)
+        
+        public bool ValidateEdgeGrammar(QuestEdge edge)
         {
-            return nodes.All(n => n.ValidGrammar);
-        }
+            if (edge?.From is null || edge.To is null) return false;
 
-        public List<string> GetSuggestions(QuestNode node)
-        {
-            var suggestions = new List<string>();
             var grammar = Quest.Grammar;
+            if (grammar == null || grammar.GetRules().Count == 0) return false;
 
-            if (grammar == null || !grammar.GetRules().TryGetValue(node.QuestAction, out var expansions))
-                return suggestions;
-
-            foreach (var expansion in expansions)
-            {
-                if (expansion.Count > 0)
-                {
-                    var first = expansion[0];
-                    if (first is TerminalGrammar terminal)
-                    {
-                        suggestions.Add(terminal.name);
-                    }
-                    else if (first is NonTerminal nonTerminal)
-                    {
-                        suggestions.AddRange(GetFirstTerminals(nonTerminal, grammar));
-                    }
-                }
-            }
-
-            return suggestions.Distinct().ToList();
+            List<string> validTerminals = GetAllValidNextActions(edge.From.QuestAction);
+            bool valid = validTerminals.Contains(edge.To.QuestAction);
+            // Update the nodes grammar State
+            edge.From.ValidGrammar = valid;
+            
+            // If the To is the goal and this one's grammar is valid so is the next one
+            if(valid && edge.To.NodeType == NodeType.Goal) edge.To.ValidGrammar = true;
+            return validTerminals.Contains(edge.To.QuestAction);
         }
 
         public List<string> GetAllValidNextActions(string currentAction)
@@ -158,15 +72,15 @@ namespace ISILab.LBS.Assistants
                         var current = expansion[i];
                         var next = expansion[i + 1];
 
-                        if (current.name.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+                        if (current.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (next is TerminalGrammar terminal)
+                            if (!IsNonTerminal(next))
                             {
-                                result.Add(terminal.name);
+                                result.Add(next);
                             }
-                            else if (next is NonTerminal nonTerminal)
+                            else
                             {
-                                result.UnionWith(GetFirstTerminals(nonTerminal, grammar));
+                                result.UnionWith(GetFirstTerminals(next.TrimStart('#'), grammar));
                             }
                         }
                     }
@@ -179,9 +93,9 @@ namespace ISILab.LBS.Assistants
             {
                 foreach (var expansion in kvp.Value)
                 {
-                    if (expansion.Count > 0 && 
-                        expansion[^1].name.Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
-                        expansion[^1] is TerminalGrammar)
+                    if (expansion.Count > 0 &&
+                        expansion[^1].Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
+                        !IsNonTerminal(expansion[^1]))
                     {
                         parentNonTerminals.Add(kvp.Key);
                     }
@@ -198,16 +112,16 @@ namespace ISILab.LBS.Assistants
                         var current = expansion[i];
                         var next = expansion[i + 1];
 
-                        if (current is NonTerminal nt && 
-                            parentNonTerminals.Contains(nt.name.TrimStart('#')))
+                        if (IsNonTerminal(current) &&
+                            parentNonTerminals.Contains(current.TrimStart('#')))
                         {
-                            if (next is TerminalGrammar terminal)
+                            if (!IsNonTerminal(next))
                             {
-                                result.Add(terminal.name);
+                                result.Add(next);
                             }
-                            else if (next is NonTerminal nonTerminal)
+                            else
                             {
-                                result.UnionWith(GetFirstTerminals(nonTerminal, grammar));
+                                result.UnionWith(GetFirstTerminals(next.TrimStart('#'), grammar));
                             }
                         }
                     }
@@ -233,12 +147,12 @@ namespace ISILab.LBS.Assistants
                 {
                     for (int i = 0; i < expansion.Count - 1; i++)
                     {
-                        if (expansion[i].name.Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
-                            expansion[i + 1].name.Equals(targetNonTerminal, StringComparison.OrdinalIgnoreCase))
+                        if (expansion[i].Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
+                            expansion[i + 1].Equals(targetNonTerminal, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (expansion[i + 1] is NonTerminal nt)
+                            if (IsNonTerminal(expansion[i + 1]))
                             {
-                                result.UnionWith(GetFirstTerminals(nt, grammar));
+                                result.UnionWith(GetFirstTerminals(targetNonTerminal.TrimStart('#'), grammar));
                             }
                         }
                     }
@@ -248,11 +162,10 @@ namespace ISILab.LBS.Assistants
             return result.ToList();
         }
 
-        private List<string> GetFirstTerminals(NonTerminal nonTerminal, LBSGrammar grammar)
+        private List<string> GetFirstTerminals(string ruleName, LBSGrammar grammar)
         {
             var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var rules = grammar.GetRules();
-            string ruleName = nonTerminal.name.TrimStart('#');
 
             if (!rules.TryGetValue(ruleName, out var expansions))
                 return result.ToList();
@@ -263,20 +176,20 @@ namespace ISILab.LBS.Assistants
             return result.ToList();
         }
 
-        private void CollectFirstTerminalsRecursive(List<List<Grammar>> expansions, Dictionary<string, List<List<Grammar>>> rules, HashSet<string> result, HashSet<string> visited)
+        private void CollectFirstTerminalsRecursive(List<List<string>> expansions, Dictionary<string, List<List<string>>> rules, HashSet<string> result, HashSet<string> visited)
         {
             foreach (var expansion in expansions)
             {
                 if (expansion.Count == 0) continue;
 
                 var first = expansion[0];
-                if (first is TerminalGrammar terminal)
+                if (!IsNonTerminal(first))
                 {
-                    result.Add(terminal.name);
+                    result.Add(first);
                 }
-                else if (first is NonTerminal nt)
+                else
                 {
-                    string ruleName = nt.name.TrimStart('#');
+                    string ruleName = first.TrimStart('#');
                     if (visited.Contains(ruleName)) continue;
 
                     visited.Add(ruleName);
@@ -306,15 +219,15 @@ namespace ISILab.LBS.Assistants
                         var current = expansion[i];
                         var prev = expansion[i - 1];
 
-                        if (current.name.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+                        if (current.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (prev is TerminalGrammar terminal)
+                            if (!IsNonTerminal(prev))
                             {
-                                result.Add(terminal.name);
+                                result.Add(prev);
                             }
-                            else if (prev is NonTerminal nonTerminal)
+                            else
                             {
-                                result.UnionWith(GetFirstTerminals(nonTerminal, grammar));
+                                result.UnionWith(GetFirstTerminals(prev.TrimStart('#'), grammar));
                             }
                         }
                     }
@@ -334,15 +247,15 @@ namespace ISILab.LBS.Assistants
             foreach (var expansion in expansions)
             {
                 var sequence = new List<string>();
-                foreach (var grammarItem in expansion)
+                foreach (var symbol in expansion)
                 {
-                    if (grammarItem is TerminalGrammar terminal)
+                    if (!IsNonTerminal(symbol))
                     {
-                        sequence.Add(terminal.name);
+                        sequence.Add(symbol);
                     }
-                    else if (grammarItem is NonTerminal nonTerminal)
+                    else
                     {
-                        sequence.AddRange(GetFirstTerminals(nonTerminal, grammar));
+                        sequence.AddRange(GetFirstTerminals(symbol.TrimStart('#'), grammar));
                     }
                 }
                 if (sequence.Count > 0)
@@ -351,119 +264,26 @@ namespace ISILab.LBS.Assistants
 
             return result;
         }
-
-        private List<List<QuestNode>> BuildAllPathsThroughNode(QuestNode node)
-        {
-            var roots = ExpandToRoots(node);
-            var branches = ExpandToBranches(node);
-            var paths = new List<List<QuestNode>>();
-
-            foreach (var root in roots)
-            {
-                foreach (var branch in branches)
-                {
-                    var path = new List<QuestNode>(root);
-                    path.RemoveAt(path.Count - 1);
-                    path.AddRange(branch);
-                    paths.Add(path);
-                }
-            }
-
-            return paths;
-        }
-
-        private List<List<QuestNode>> BuildAllPathsThroughEdge(QuestEdge edge)
-        {
-            var roots = ExpandToRoots(edge.From);
-            var branches = ExpandToBranches(edge.To);
-            var paths = new List<List<QuestNode>>();
-
-            foreach (var root in roots)
-            {
-                foreach (var branch in branches)
-                {
-                    var path = new List<QuestNode>(root);
-                    path.AddRange(branch);
-                    paths.Add(path);
-                }
-            }
-
-            return paths;
-        }
-
-        private List<List<QuestNode>> ExpandToRoots(QuestNode node)
-        {
-            var rootLines = new List<List<QuestNode>> { new() { node } };
-            var expanding = true;
-
-            while (expanding)
-            {
-                expanding = false;
-                var newLines = new List<List<QuestNode>>();
-
-                foreach (var line in rootLines.ToList())
-                {
-                    var roots = Quest.GetRoots(line[0]);
-                    foreach (var edge in roots)
-                    {
-                        var prev = edge.From;
-                        if (prev != null && !line.Contains(prev))
-                        {
-                            var newLine = new List<QuestNode>(line);
-                            newLine.Insert(0, prev);
-                            newLines.Add(newLine);
-                            expanding = true;
-                        }
-                    }
-                }
-
-                rootLines.AddRange(newLines);
-            }
-
-            return rootLines;
-        }
-
-        private List<List<QuestNode>> ExpandToBranches(QuestNode node)
-        {
-            var branchLines = new List<List<QuestNode>> { new() { node } };
-            var expanding = true;
-
-            while (expanding)
-            {
-                expanding = false;
-                var newLines = new List<List<QuestNode>>();
-
-                foreach (var line in branchLines.ToList())
-                {
-                    var branches = Quest.GetBranches(line[^1]);
-                    foreach (var edge in branches)
-                    {
-                        var next = edge.To;
-                        if (next != null && !line.Contains(next))
-                        {
-                            var newLine = new List<QuestNode>(line);
-                            newLine.Add(next);
-                            newLines.Add(newLine);
-                            expanding = true;
-                        }
-                    }
-                }
-
-                branchLines.AddRange(newLines);
-            }
-
-            return branchLines;
-        }
-
+        
         public override void OnAttachLayer(LBSLayer layer)
         {
             base.OnAttachLayer(layer);
-            Quest.OnAddNode += ValidateNodeGrammar;
-            Quest.OnAddEdge += ValidateEdgeGrammar;
-            Quest.OnRemoveNode += ValidateNodeGrammar;
-            Quest.OnRemoveEdge += ValidateEdgeGrammar;
+         
+            Quest.OnAddEdge += (edge)=>
+            {
+                ValidateEdgeGrammar(edge);
+            };
+            
+            // Removing an edge changes the nodes grammar to false
+            Quest.OnRemoveEdge += (edge)=>
+            {
+                if (edge.To is not null) edge.To.ValidGrammar = false;
+                if (edge.From is not null) edge.From.ValidGrammar = false;
+            };
         }
 
         public override void OnGUI() { }
+
+        private bool IsNonTerminal(string symbol) => symbol.Trim().StartsWith("#");
     }
 }

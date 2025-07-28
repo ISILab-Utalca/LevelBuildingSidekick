@@ -11,9 +11,6 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(QuestGraph))]
     public class QuestFlowBehaviour : LBSBehaviour
     {
-        [JsonIgnore]
-        public GrammarTerminal ToSet { get; set; }
-
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
         
         public QuestFlowBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)

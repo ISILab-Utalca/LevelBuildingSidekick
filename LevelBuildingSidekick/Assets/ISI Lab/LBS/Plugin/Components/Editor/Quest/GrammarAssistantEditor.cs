@@ -138,8 +138,10 @@ namespace ISILab.LBS.Editor
         _nextSuggested.bindItem = (e, i) =>
         {
             var button = e as SuggestionActionButton;
+            if (nextActions.Count <= i) return;
             string action = nextActions[i];
             button.SetAction(action, MakeNewNode(action));
+
         };
         _nextSuggested.Rebuild();
 
@@ -152,6 +154,7 @@ namespace ISILab.LBS.Editor
         _prevSuggested.bindItem = (e, i) =>
         {
             var button = e as SuggestionActionButton;
+            if (prevActions.Count <= i) return;
             string action = prevActions[i];
             button.SetAction(action, AddPreviousNode(action));
         };
