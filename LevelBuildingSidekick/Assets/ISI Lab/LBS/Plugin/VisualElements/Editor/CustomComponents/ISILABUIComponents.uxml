@@ -11,6 +11,7 @@
             <ui:Button text="Button" />
             <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField value="0" label="Int Field" />
         </ISILab.LBS.CustomComponents.LBSCustomFoldout>
-        <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." current-warning-type="Success" style="height: 83px;" />
+        <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." current-warning-type="Success" name="WarningPanel" />
+        <LBSStartedSign />
     </ui:VisualElement>
 </ui:UXML>
