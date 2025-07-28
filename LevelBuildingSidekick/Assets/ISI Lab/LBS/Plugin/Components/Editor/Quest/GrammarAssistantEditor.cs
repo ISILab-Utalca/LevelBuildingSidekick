@@ -75,6 +75,16 @@ namespace ISILab.LBS.Editor
                 {
                     UpdatePanel();
                 };
+
+                _questGraph.OnUpdateGraph += () =>
+                {
+                    // update the graph grammar
+                    foreach (var edge in _questGraph.QuestEdges)
+                    {
+                        _grammarAssistant.ValidateEdgeGrammar(edge);
+                    }
+                    
+                };
             }
             
             UpdatePanel();
@@ -140,7 +150,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (nextActions.Count <= i) return;
             string action = nextActions[i];
-            button.SetAction(action, MakeNewNode(action));
+            button?.SetAction(action, InsertNextAction(action, _questGraph.SelectedQuestNode));
 
         };
         _nextSuggested.Rebuild();
@@ -156,7 +166,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (prevActions.Count <= i) return;
             string action = prevActions[i];
-            button.SetAction(action, AddPreviousNode(action));
+            button?.SetAction(action, InsertPreviousAction(action, _questGraph.SelectedQuestNode));
         };
         _prevSuggested.Rebuild();
 
@@ -175,8 +185,12 @@ namespace ISILab.LBS.Editor
             foreach (var step in expandActions[i])
             {
                 var button = new SuggestionActionButton();
-                button.SetAction(step, MakeNewNode(step));
+                // must store the first inserted node 
+                
+                button.SetAction(step, InsertNextAction(step, _questGraph.SelectedQuestNode));
                 container.Add(button);
+                
+
             }
         };
         _expandSuggested.Rebuild();
@@ -188,20 +202,22 @@ namespace ISILab.LBS.Editor
         /// parameter action.
         /// </summary>
         /// <param name="action">Action(Grammar Terminal)</param>
+        /// <param name="referenceNode">the node from where we got the next action</param>
         /// <returns></returns>
-        private Action MakeNewNode(string action)
+        private Action InsertNextAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.CreateAddNode(action, Vector2.zero);
+            return () => _questGraph.InsertNodeAfter(action, Vector2.zero, referenceNode);
         }
         
         /// <summary>
         /// Calls as a delegate that replaces the previous node to the selected node
         /// </summary>
         /// <param name="action">Action(Grammar Terminal) that will be added as previous</param>
+        /// <param name="referenceNode">the node from where we got the previous action</param>
         /// <returns></returns>
-        private Action AddPreviousNode(string action)
+        private Action InsertPreviousAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.AddPreviousNode(action, Vector2.zero);
+            return () => _questGraph.InsertNodeBefore(action, Vector2.zero, referenceNode);
         }
         
         public void SetTools(ToolKit toolkit)

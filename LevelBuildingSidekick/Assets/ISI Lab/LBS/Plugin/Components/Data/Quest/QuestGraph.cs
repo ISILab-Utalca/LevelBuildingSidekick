@@ -36,7 +36,9 @@ namespace ISILab.LBS.Modules
         private HashSet<QuestEdge> _expiredEdges = new ();
         
         private QuestNode _selectedQuestNode;
-        
+
+        private float _viewNodeWidthOffset = 400f;
+        private float _viewNodeHeightOffset = 100f;
         #endregion
 
         #region PROPERTIES
@@ -112,6 +114,18 @@ namespace ISILab.LBS.Modules
 
             remove => _onQuestNodeSelected = null;
         }
+        
+        
+        [JsonIgnore]
+        private Action _onUpdateGraph;
+        public event Action OnUpdateGraph
+        {
+            add =>
+                // a single suscribed function at a time
+                _onUpdateGraph += value;
+
+            remove => _onUpdateGraph = null;
+        }
 
         #endregion
         
@@ -173,7 +187,6 @@ namespace ISILab.LBS.Modules
             return null;
         }
         
-        
         public void SetRoot(QuestNode node)
         {
             if (node == null)
@@ -206,33 +219,6 @@ namespace ISILab.LBS.Modules
         }
         
         /// <summary>
-        /// Adds a new node as the previous node of the current selected node.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="zero"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void AddPreviousNode(string action, Vector2 zero)
-        {
-            throw new NotImplementedException();
-        }
-        
-        /// <summary>
-        /// Makes a new node that will be added into the graph
-        /// </summary>
-        /// <param name="paramId"></param>
-        /// <param name="position"></param>
-        /// <param name="action"></param>
-        public void AddNode(string paramId, Vector2 position, string action)
-        {
-            var newNode = new QuestNode(paramId, position, action, this);
-            questNodes.Add(newNode);
-            _newNodes.Add(newNode);
-            
-            OnAddNode?.Invoke(newNode);
-   
-        }
-        
-        /// <summary>
         /// Adds the node to the graph
         /// </summary>
         /// <param name="node"></param>
@@ -246,6 +232,115 @@ namespace ISILab.LBS.Modules
             
             _selectedQuestNode = node;
             DataChanged(_selectedQuestNode);
+        }
+        
+        /// <summary>
+        /// Adds the node to the graph
+        /// </summary>
+        /// <param name="node"></param>
+        public void InternalInsertNode(QuestNode node, int index)
+        {
+            if(root == null) SetRoot(node);
+            questNodes.Insert(index, node);
+            _newNodes.Add(node);
+            
+            OnAddNode?.Invoke(node);
+            
+            _selectedQuestNode = node;
+            DataChanged(_selectedQuestNode);
+        }
+        
+        /// <summary>
+        /// Inserts a new node after a specified reference node
+        /// </summary>
+        /// <param name="action">The action type for the new node</param>
+        /// <param name="position">The position for the new node</param>
+        /// <param name="referenceNode">The node after which the new node will be inserted</param>
+        public void InsertNodeAfter(string action, Vector2 position, QuestNode referenceNode)
+        {
+            if (referenceNode == null || !questNodes.Contains(referenceNode))
+            {
+                Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
+                CreateAddNode(action, position);
+                return;
+            }
+
+            int suffix = 0;
+            string nodeID;
+            do
+            {
+                nodeID = $"{action} ({suffix++})";
+            } while (QuestNodes.Any(n => n.ID == nodeID));
+
+            position = referenceNode.Position;
+            position.x += _viewNodeWidthOffset;
+            var newNode = new QuestNode(nodeID, position, action, this);
+  
+            int index = questNodes.IndexOf(referenceNode);
+            index = Math.Clamp(index, 0, questNodes.Count - 1);
+            InternalInsertNode(newNode, index+1);
+
+            // Find existing edges from the reference node
+            var outgoingEdges = GetBranches(referenceNode).ToList();
+            foreach (var edge in outgoingEdges)
+            {
+                InternalRemoveEdge(edge);
+                AddEdge(newNode, edge.To);
+            }
+
+            // Add edge from reference node to new node
+            AddEdge(referenceNode, newNode);
+
+            UpdateQuestNodes();
+            UpdateFlow?.Invoke();
+        }
+
+        /// <summary>
+        /// Inserts a new node before a specified reference node
+        /// </summary>
+        /// <param name="action">The action type for the new node</param>
+        /// <param name="position">The position for the new node</param>
+        /// <param name="referenceNode">The node before which the new node will be inserted</param>
+        public void InsertNodeBefore(string action, Vector2 position, QuestNode referenceNode)
+        {
+            if (referenceNode == null || !questNodes.Contains(referenceNode))
+            {
+                Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
+                CreateAddNode(action, position);
+                return;
+            }
+
+            int suffix = 0;
+            string nodeID;
+            do
+            {
+                nodeID = $"{action} ({suffix++})";
+            } while (QuestNodes.Any(n => n.ID == nodeID));
+
+            position =  referenceNode.Position;
+            position.x -= _viewNodeWidthOffset;
+            var newNode = new QuestNode(nodeID, position, action, this);
+
+            int index = questNodes.IndexOf(referenceNode);
+            index = Math.Clamp(index, 0, questNodes.Count - 1);
+            InternalInsertNode(newNode, index);
+            
+            // to update the types
+            UpdateQuestNodes();
+            
+            // Find existing edges to the reference node
+            var incomingEdges = GetRoots(referenceNode).ToList();
+            foreach (var edge in incomingEdges)
+            {
+                InternalRemoveEdge(edge);
+            }
+            
+            // Add edge from new node to reference node
+            AddEdge(newNode, referenceNode);
+            
+            // to update the visuals
+            UpdateQuestNodes();
+            UpdateFlow?.Invoke();
         }
         
         public void RemoveQuestNode(QuestNode node)
@@ -367,6 +462,8 @@ namespace ISILab.LBS.Modules
             
             questNodes.Last().NodeType = NodeType.Goal;
             SetRoot(questNodes.First());
+   
+            _onUpdateGraph?.Invoke();
         }
         public void Reorder()
         {
