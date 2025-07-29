@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using LBS.Components;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,6 +7,10 @@ namespace ISILab.LBS.Assistants
 {
     public class TestingAssistant : LBSAssistant
     {
+        private PathOSWindow pathOSOriginalWindow;
+
+        public PathOSWindow PathOSOriginalWindow { get => pathOSOriginalWindow; set => pathOSOriginalWindow = value; }
+
         public TestingAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
         }
@@ -18,6 +23,12 @@ namespace ISILab.LBS.Assistants
         public override void OnGUI()
         {
             
+        }
+
+        public override void OnDetachLayer(LBSLayer layer)
+        {
+            base.OnDetachLayer(layer);
+            Object.DestroyImmediate(pathOSOriginalWindow);
         }
     }
 }

@@ -289,10 +289,14 @@ public class PathOSAgentBatchingWindow : EditorWindow
         {
             themeColor = Color.black;
         }
+
+        EditorApplication.update += UpdateBatching;
     }
 
     private void OnDisable()
     {
+        EditorApplication.update -= UpdateBatching;
+
         //Save settings to the editor.
         string prefsData = JsonUtility.ToJson(this, false);
         EditorPrefs.SetString(editorPrefsID, prefsData);
@@ -365,7 +369,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
 
         GUI.backgroundColor = bgDark3;
-        EditorGUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");//🔵
 
         headerEditor = headerEditor == null ? Editor.CreateEditor(this) : headerEditor;
         
@@ -376,9 +380,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         headerStyle.normal.textColor = themeColor;
 
         EditorGUILayout.LabelField("General", headerStyle);
-        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginHorizontal();//⚫
 
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical();//🔵
         timeScale = EditorGUILayout.Slider("Timescale: ", timeScale, 1.0f, 8.0f);
         // GABO: Allows the slider to set time scale if batching agents are in the scene.
         // Temp fix for timescale (and other things) resetting during PathOSWindow.OnDisable when entering Play Mode.
@@ -393,9 +397,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         // GABO TEMP FIX: Preventing agents from being more than single batch to stop error warnings (to be fixed). 
         numAgents = EditorGUILayout.IntSlider("Number of Agents: ", numAgents, 0, MAX_AGENTS_SIMULTANEOUS);
 
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
 
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.BeginVertical();//🔵
         if (GUILayout.Button("Light Mode"))
         {
             themeColor = Color.white;
@@ -404,9 +408,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         {
             themeColor = Color.black;
         }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
 
-        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.EndHorizontal();//⬛
 
         //        simultaneousProperty = EditorGUILayout.Toggle(
         //            "Simulate Simultaneously", simultaneousProperty);
@@ -418,31 +422,34 @@ public class PathOSAgentBatchingWindow : EditorWindow
         EditorGUILayout.Space(5);
 
         GUI.backgroundColor = btnColor;
-        EditorGUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");//🔵
 
         GUI.backgroundColor = bgColor;
 
         startLocation = EditorGUILayout.Vector3Field("Starting location: ", startLocation);
 
-            EditorGUILayout.LabelField("Prefab to use: ", shortPrefabFile);
-            GUI.backgroundColor = btnColorLight;
-            if (GUILayout.Button("Select Prefab..."))
+        EditorGUILayout.LabelField("Prefab to use: ", shortPrefabFile);
+        GUI.backgroundColor = btnColorLight;
+        if (GUILayout.Button("Select Prefab..."))
+        {
+            EditorApplication.delayCall += () =>
             {
                 loadPrefabFile = EditorUtility.OpenFilePanel("Select Prefab...", Application.dataPath, "prefab");
 
                 PathOS.UI.TruncateStringHead(loadPrefabFile, ref shortPrefabFile, pathDisplayLength);
 
                 CheckPrefabFile();
-            }
-            GUI.backgroundColor = bgColor;
+            };
+        }
+        GUI.backgroundColor = bgColor;
+        
+        if (!validPrefabFile)
+        {
+            EditorGUILayout.LabelField("Error! You must select a Unity prefab" +
+                " with the PathOSAgent component.", errorStyle);
+        }
 
-            if (!validPrefabFile)
-            {
-                EditorGUILayout.LabelField("Error! You must select a Unity prefab" +
-                    " with the PathOSAgent component.", errorStyle);
-            }
-
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
 
         EditorGUILayout.Space(5);
 
@@ -612,7 +619,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
             cleanupWait = true;
         }
         GUI.backgroundColor = bgColor;
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
     }
 
     public void UpdateBatching()
