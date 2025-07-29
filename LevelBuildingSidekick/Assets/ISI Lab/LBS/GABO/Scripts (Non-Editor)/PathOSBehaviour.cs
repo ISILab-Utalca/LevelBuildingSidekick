@@ -47,7 +47,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSBehaviour(VectorImage icon, string name) : base(icon, name, Color.black) { }
+        public PathOSBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
         #endregion
 
         #region METHODS
@@ -114,7 +114,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new PathOSBehaviour(this.Icon, this.Name);
+            return new PathOSBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override void OnAttachLayer(LBSLayer layer)
