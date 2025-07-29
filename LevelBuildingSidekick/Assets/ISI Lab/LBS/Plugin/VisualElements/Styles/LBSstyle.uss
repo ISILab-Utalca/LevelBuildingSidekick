@@ -1457,3 +1457,17 @@ Button.lbs-actionbutton {
     translate: 10px 0;
     background-color: var(--lbs-light-green-color);
 }
+
+.lbs-field {
+    flex-direction: row;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    justify-content: space-between;
+    align-items: center;
+}

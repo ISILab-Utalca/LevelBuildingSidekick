@@ -8,7 +8,8 @@ namespace ISILab.LBS.CustomComponents
     [UxmlElement]
     public partial class LBSCustomToggleField: BaseField<bool>
     {
-        public static readonly string lbsBaseClass = "lbs-slide-toggle";
+        public static readonly string LBSClassName = "lbs-field";
+        public static readonly string LBSToggleClass = "lbs-slide-toggle";
         public static readonly string inputUssClass = "lbs-slide-toggle__input";
         public static readonly string inputKnobUssClass = "lbs-slide-toggle__input-knob";
         public static readonly string inputPressedUssClass = "lbs-slide-toggle__input-checked";
@@ -23,7 +24,8 @@ namespace ISILab.LBS.CustomComponents
         public LBSCustomToggleField(string _label) : base(_label, null)
         {
             RemoveFromClassList(ussClassName);
-            AddToClassList(lbsBaseClass);
+            AddToClassList(LBSToggleClass);
+            AddToClassList(LBSClassName);
             
             m_Input = this.Q(className: BaseField<bool>.inputUssClassName);
             m_Input.AddToClassList(inputUssClass);
