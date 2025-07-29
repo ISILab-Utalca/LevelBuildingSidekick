@@ -7,7 +7,7 @@ using UnityEngine.UIElements.Experimental;
 [UxmlElement]
 public partial class LBSStartedSign: VisualElement
 {
-    private const string URL = "https://isilab-utalca.github.io/isilab-website/documentation/tutorials/lbs/overview/"; 
+    private const string URL = "https://isilab-utalca.github.io/isilab-website/documentation/tutorials/lbs/getting_started"; 
     
     private VisualTreeAsset signPopup;
 
