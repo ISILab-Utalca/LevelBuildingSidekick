@@ -1,7 +1,9 @@
 using ISILab.Macros;
 using UnityEngine;
 using UnityEditor.UIElements;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Toggle = UnityEngine.UIElements.Toggle;
 
 namespace ISILab.LBS.CustomComponents
 {
@@ -23,7 +25,9 @@ namespace ISILab.LBS.CustomComponents
         
         private ToolbarMenu m_RightDropDown;
         private VisualElement m_LeftIcon;
-        
+        private VisualElement arrowVisualElement;
+        private VisualElement content;
+            
         [UxmlAttribute]
         public string LeftIcon;
         
@@ -42,8 +46,8 @@ namespace ISILab.LBS.CustomComponents
             m_LeftIcon.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
             
             Toggle mToggle = this.Q<Toggle>();
-            VisualElement content = this.Q<VisualElement>("unity-content");
-            VisualElement arrowVisualElement = this.Q<VisualElement>("unity-checkmark");
+            content = this.Q<VisualElement>("unity-content");
+            arrowVisualElement = this.Q<VisualElement>("unity-checkmark");
             
             Label contentLabel = this.Q<Label>(classes: textUssClassName);
             contentLabel.AddToClassList("unity-base-field__label");
@@ -58,7 +62,15 @@ namespace ISILab.LBS.CustomComponents
             
             if (arrowDownIcon != null)
             {
-                arrowVisualElement.style.backgroundImage = new StyleBackground(arrowDownIcon);
+                if (value)
+                {
+                    arrowVisualElement.style.backgroundImage = new StyleBackground(arrowDownIcon);
+                }
+                else
+                {
+                    arrowVisualElement.style.backgroundImage = new StyleBackground(arrowSideIcon);
+                }
+                
             }
             else
             {
@@ -76,8 +88,26 @@ namespace ISILab.LBS.CustomComponents
                 toolbarButtonIcon.style.backgroundImage = new StyleBackground(dotsIcon);
             }
             
+            RegisterCallback<ChangeEvent<bool>>(evt => OnChangeEvent(evt));
+            
+            
         }
-        
+
+
+        void OnChangeEvent(ChangeEvent<bool> _evt)
+        {
+            if (_evt.newValue)
+            {
+                arrowVisualElement.style.backgroundImage = new StyleBackground(arrowDownIcon);
+            }
+            else
+            {
+                arrowVisualElement.style.backgroundImage = new StyleBackground(arrowSideIcon);
+            }
+            
+            
+            _evt.StopPropagation();
+        }
     }
 }
 
