@@ -149,6 +149,26 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 879094a16f9b723479d819bf30f6d5ec, type: 2}
     - {fileID: 11400000, guid: c29b41cfbce257c40b40b9e3cdbe7c8e, type: 2}
     - {fileID: 11400000, guid: 8496942e57574694b854cea8b3e2fa18, type: 2}
+    - {fileID: 11400000, guid: c41f4f6cac705614d81a29e97c978c7f, type: 2}
+    - {fileID: 11400000, guid: 0f3b42e9acd7b0e458f80cc1196752f0, type: 2}
+    - {fileID: 11400000, guid: 33e08ed54604696458b83df4b209ce26, type: 2}
+    - {fileID: 11400000, guid: f5731e5ee1b9a7246ac14dc89454d115, type: 2}
+    - {fileID: 11400000, guid: 7b4fbdc4e9e2c1640b25950cad3601bb, type: 2}
+    - {fileID: 11400000, guid: d7c1bdd4b98540b4d83012c733b92a71, type: 2}
+    - {fileID: 11400000, guid: ed7fca3b81bd17e4fa56106c9142cf4e, type: 2}
+    - {fileID: 11400000, guid: b65cb0f4f5bb20b43b7e7fee92b6b172, type: 2}
+    - {fileID: 11400000, guid: fa2e4744ac692b142b16e6587e7dd614, type: 2}
+    - {fileID: 11400000, guid: ae32ba0640e1eda468dc0b49f8bef856, type: 2}
+    - {fileID: 11400000, guid: c0a34f1af27b0da4a9eb9727116a2745, type: 2}
+    - {fileID: 11400000, guid: 9c0ee36a08c751e48bbf44ee9f02fae0, type: 2}
+    - {fileID: 11400000, guid: e2fe25f577c8ede48ab66afd6c45617b, type: 2}
+    - {fileID: 11400000, guid: 22707a0f0edc831458a43e3e46b1d148, type: 2}
+    - {fileID: 11400000, guid: 634c337ea43b53b4a89c90c5913b805c, type: 2}
+    - {fileID: 11400000, guid: 930203bebcf5b884684958a553b75d2c, type: 2}
+    - {fileID: 11400000, guid: 850476f1d5157464abcd46ac05fb279b, type: 2}
+    - {fileID: 11400000, guid: 52bce2618e776224bad035d40c6d99e7, type: 2}
+    - {fileID: 11400000, guid: d28f1839643047e4fa224e0d902409a4, type: 2}
+    - {fileID: 11400000, guid: 46baa92181955b1409a078763c86296a, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -725,6 +745,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
     - {fileID: 11400000, guid: 8205ab67b3e47ed4aa4b97e13d9e6abb, type: 2}
     - {fileID: 11400000, guid: 430b61e3f6924f949ab48de4b84eba1f, type: 2}
+    - {fileID: 11400000, guid: 20d3010aaea0c8140b6f56990c9808af, type: 2}
   - type: UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset
     items:
     - {fileID: 11400000, guid: f6ea011cd1aeff9479cf79e6950b69a8, type: 2}
@@ -829,3 +850,45 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
     - {fileID: 11400000, guid: 350a709cf1218764c94f752764b6ab69, type: 2}
     - {fileID: 11400000, guid: e7b20d8e594294f4380ea14212e1b042, type: 2}
+  - type: UnityEngine.UIElements.PanelTextSettings
+    items:
+    - {fileID: 11400000, guid: 801e04d90bdf27f4aa3ab49ad460fe43, type: 2}
+  - type: TMPro.TMP_FontAsset
+    items:
+    - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - {fileID: 11400000, guid: 0497d686e20864f4c9dd8e713386f3ee, type: 2}
+  - type: TMPro.TMP_StyleSheet
+    items:
+    - {fileID: 11400000, guid: f952c082cb03451daed3ee968ac6c63e, type: 2}
+  - type: TMPro.TMP_SpriteAsset
+    items:
+    - {fileID: 11400000, guid: c41005c129ba4d66911b75229fd70b45, type: 2}
+  - type: TMPro.TMP_Settings
+    items:
+    - {fileID: 11400000, guid: 3f5b5dff67a942289a9defa416b206f3, type: 2}
+  - type: ISILab.LBS.Components.PathOSTag
+    items:
+    - {fileID: 11400000, guid: 423e76f5e610445438a405048e03eb0b, type: 2}
+    - {fileID: 11400000, guid: a88d6bd174b122d4792ed6c17013f73d, type: 2}
+    - {fileID: 11400000, guid: 5609647d620c448498f246aec340f3f5, type: 2}
+    - {fileID: 11400000, guid: cd5959e4e171f08459d4b948b63ba9f7, type: 2}
+    - {fileID: 11400000, guid: 2b4be8ead13c603429c6a9cd07f1b24d, type: 2}
+    - {fileID: 11400000, guid: e72c9a3a796de1445be3bcb6f7c274ae, type: 2}
+    - {fileID: 11400000, guid: ce7c5049506c23d49a31e17f2289ec18, type: 2}
+    - {fileID: 11400000, guid: c436426f34cec75408f9436ea0ea59b3, type: 2}
+    - {fileID: 11400000, guid: 5308f9ea5a0fde54bb58b2825a28a8ff, type: 2}
+    - {fileID: 11400000, guid: 7b7481ef4acee554187e32b1242ab3ed, type: 2}
+    - {fileID: 11400000, guid: 50b60534d850b9d40b86e359d740eaa1, type: 2}
+    - {fileID: 11400000, guid: d4456a8891589004d81c80d55d6d8710, type: 2}
+    - {fileID: 11400000, guid: 7166ce433eab62441b445f46739b355e, type: 2}
+    - {fileID: 11400000, guid: c73d27afa3bc44e459f2f27f7af10862, type: 2}
+    - {fileID: 11400000, guid: d59b8ee1c82ce4742a1d446d0e5a9cc3, type: 2}
+    - {fileID: 11400000, guid: 30736fef261cfd842b5ef46d78ae5dba, type: 2}
+    - {fileID: 11400000, guid: 9a9de0f1f34d6e84f868af05894a16ee, type: 2}
+    - {fileID: 11400000, guid: 827c58f7e08ffa8438a7012ce1f0244d, type: 2}
+    - {fileID: 11400000, guid: b7c4bb5a266e55544969e3dec4f5c57b, type: 2}
+    - {fileID: 11400000, guid: 1fb0c6b015371654c99a22cc54705f18, type: 2}
+  - type: ISILab.LBS.Modules.PathOSStorage
+    items:
+    - {fileID: 11400000, guid: 866387a6890e135458a3470e5c459a2d, type: 2}

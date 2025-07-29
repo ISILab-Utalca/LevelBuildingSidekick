@@ -97,7 +97,8 @@ namespace ISILab.LBS.Drawers.Editor
                     }
 
                 }
-               
+
+                nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
                 view.AddElementToLayerContainer(quest.OwnerLayer, node.ID, nodeView);
                 node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
@@ -124,7 +125,9 @@ namespace ISILab.LBS.Drawers.Editor
             
             foreach (object tile in behaviour.Keys)
             {
-                foreach (var graphElement in view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile).Where(graphElement => graphElement != null))
+                var elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile)?.Where(graphElement => graphElement != null);
+                if (elements == null) continue;
+                foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.Flex;
                 }
@@ -139,7 +142,8 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 if (tile == null) continue;
 
-                var elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile);
+                var elements = view.GetElementsFromLayerContainer(behaviour.OwnerLayer, tile)?.Where(graphElement => graphElement != null);
+                if(elements == null) continue;
                 foreach (var graphElement in elements)
                 {
                     graphElement.style.display = DisplayStyle.None;

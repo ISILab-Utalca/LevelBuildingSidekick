@@ -106,8 +106,10 @@ namespace ISILab.LBS.Settings
         {
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
+            
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);
             public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
+            
             public Color bundlesColor = new Color(0.5f, 0.69f, 0.98f);
             public Color tagsColor = new Color(0.93f, 0.81f, 0.42f);
 
@@ -115,6 +117,7 @@ namespace ISILab.LBS.Settings
             public Color errorColor = new Color(0.81f, 0.13f, 0.31f);
             public Color okColor = Color.white;
             public Color successColor = new Color(0f, 1f, 0.68f);
+            public Color calloutColor = new Color(151/255f, 71/255f, 1.0f);
             
             #region Quest Node Colors
             public Color colorTrigger = new Color(0f, 1f, 0.68f);

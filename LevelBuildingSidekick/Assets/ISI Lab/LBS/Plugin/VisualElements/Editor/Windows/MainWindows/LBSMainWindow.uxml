@@ -1,5 +1,4 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:Template name="NoLayerSign" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/StaticTemplateComponents/NoLayerSign.uxml?fileID=9197481963319205126&amp;guid=2019cc78f8952b649a6004d15c450b71&amp;type=3#NoLayerSign" />
     <ui:Template name="NotifierViewer" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/Notifier/NotifierViewer.uxml?fileID=9197481963319205126&amp;guid=d2ab2317fac497243851408d64671a8c&amp;type=3#NotifierViewer" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
@@ -11,7 +10,7 @@
     <ISILab.Commons.VisualElements.Editor.SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400" name="SplitView" style="justify-content: space-around; align-self: stretch; flex-direction: row-reverse; flex-wrap: wrap; align-items: flex-end;">
         <ui:VisualElement picking-mode="Ignore" name="Workspace" style="flex-grow: 1; display: flex; flex-shrink: 1; align-self: stretch; justify-content: space-around; align-items: stretch; flex-wrap: nowrap;">
             <LBS.VisualElements.LayerInspector name="LayerInspector" style="background-color: rgba(60, 60, 60, 0.39); max-height: 18px; min-height: 18px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.59); display: none; flex-direction: row;" />
-            <ui:Instance template="NoLayerSign" name="NoLayerSign" enabled="true" focusable="false" picking-mode="Ignore" style="top: auto; height: 100%; width: 100%; position: absolute; left: initial; bottom: 0; flex-grow: 1; right: auto; align-items: stretch; align-self: center; align-content: center; justify-content: center;" />
+            <LBSStartedSign name="NoLayerSign" style="position: absolute; right: 0; bottom: 0; top: 0; left: 0; align-items: center; justify-content: center;" />
             <ui:VisualElement picking-mode="Ignore" name="WorspaceOverlay" style="width: auto; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 1;">
                 <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-direction: row; width: 406px; align-items: flex-start; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
                     <LBS.VisualElements.ToolKit name="Toolkit" style="flex-grow: 0; min-width: auto;" />

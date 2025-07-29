@@ -85,21 +85,25 @@ namespace ISILab.LBS.Template.Editor
 
             if (GUILayout.Button("Set as Interior"))
             {
+                Debug.Log("INTERIOR CONSTRUCT");
                 InteriorConstruct(template);
             }
 
             if (GUILayout.Button("Set as Exterior"))
             {
+                Debug.Log("EXTERIOR CONSTRUCT");
                 ExteriorConstruct(template);
             }
 
             if (GUILayout.Button("Set as Population"))
             {
+                Debug.Log("POPULATION CONSTRUCT");
                 PopulationConstruct(template);
             }
             
             if (GUILayout.Button("Set as Quest"))
             {
+                Debug.Log("QUEST CONSTRUCT");
                 QuestConstruct(template);
             }
 
@@ -107,12 +111,20 @@ namespace ISILab.LBS.Template.Editor
             {
                 ApplyChanges();
             }
+            
+            if (GUILayout.Button("Set as Testing"))
+            {
+                //TODO: implement this!
+                Debug.Log("TESTING CONSTRUCT");
+                TestingConstruct(template);
+            }
         }
 
         private void ApplyChanges()
         {
             EditorUtility.SetDirty(target);
             AssetDatabase.SaveAssets();
+
         }
         
         /// <summary>
@@ -279,6 +291,44 @@ namespace ISILab.LBS.Template.Editor
             layer.AddGeneratorRule(new QuestRuleGenerator());
 
             Debug.Log("Set Quest Default");
+            ApplyChanges();
+        }
+        /// <summary>
+        /// This function adjust the icons, layout and labels of the PathOS Testing system.
+        /// Also calls the manipulators to make functional buttons in the layout (TO BE IMPLEMENTED).
+        /// </summary>
+        /// <param name="template"></param>
+        private void TestingConstruct(LayerTemplate template)
+        {
+            template.Clear();
+
+            // Basic data layer
+            var layer = template.layer;
+            layer.ID = "Testing";
+            layer.Name = "Layer Testing";
+            layer.iconGuid = "Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png";
+            template.layer = layer;
+
+            // Generator
+            layer.Settings = new Generator3D.Settings()
+            {
+                scale = new Vector2Int(2, 2),
+                resize = new Vector2(0, 0),
+                position = new Vector3(0, 0, 0),
+                name = "Testing",
+            };
+
+            // Behaviours
+            //var Icon = Resources.Load<Texture2D>("Icons/Select");
+            layer.AddBehaviour(new PathOSBehaviour(behaviourIcon, "PathOS Behaviour", Settings.LBSSettings.Instance.view.behavioursColor));
+
+            // Assistants
+            layer.AddAssistant(new TestingAssistant(assistantIcon, "Testing Assistant", Settings.LBSSettings.Instance.view.assistantColor));
+
+            // Rules
+            layer.AddGeneratorRule(new PathOSRuleGenerator());
+
+            Debug.Log("Set Testing Default");
             ApplyChanges();
         }
     }

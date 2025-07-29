@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
+  m_Name: Testing Layer
+  m_EditorClassIdentifier: 
+  layer:
+    visible: 1
+    blocked: 0
+    iconGuid: Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png
+    id: Testing
+    name: Layer Testing
+    modules:
+    - rid: 1134172181454913763
+    behaviours:
+    - rid: 1134172181454913764
+    assistants:
+    - rid: 1134172181454913765
+    generatorRules:
+    - rid: 1134172181454913766
+    settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
+      scale: {x: 2, y: 2}
+      resize: {x: 0, y: 0}
+      position: {x: 0, y: 0, z: 0}
+      name: Testing
+    index: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 1134172181454913763
+      type: {class: PathOSModule, ns: ISILab.LBS.Modules, asm: LBS}
+      data:
+        id: PathOSModule
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png
+          id: Testing
+          name: Layer Testing
+          modules:
+          - rid: 1134172181454913763
+          behaviours:
+          - rid: 1134172181454913764
+          assistants:
+          - rid: 1134172181454913765
+          generatorRules:
+          - rid: 1134172181454913766
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Testing
+          index: 0
+        tiles: []
+    - rid: 1134172181454913764
+      type: {class: PathOSBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
+      data:
+        visible: 1
+        ownerLayerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png
+          id: Testing
+          name: Layer Testing
+          modules:
+          - rid: 1134172181454913763
+          behaviours:
+          - rid: 1134172181454913764
+          assistants:
+          - rid: 1134172181454913765
+          generatorRules:
+          - rid: 1134172181454913766
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Testing
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
+        colorTint: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+        name: PathOS Behaviour
+        module:
+          rid: 1134172181454913763
+        selectedToSet: {fileID: 0}
+    - rid: 1134172181454913765
+      type: {class: TestingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
+      data:
+        visible: 1
+        ownerLayer:
+          visible: 1
+          blocked: 0
+          iconGuid: Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png
+          id: Testing
+          name: Layer Testing
+          modules:
+          - rid: 1134172181454913763
+          behaviours:
+          - rid: 1134172181454913764
+          assistants:
+          - rid: 1134172181454913765
+          generatorRules:
+          - rid: 1134172181454913766
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: Testing
+          index: 0
+        icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
+        colorTint: {r: 0.76, g: 0.96, b: 0.44, a: 1}
+        name: Testing Assistant
+    - rid: 1134172181454913766
+      type: {class: PathOSRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            name: DEFAULT
+          rules: []

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Packages/com.unity.asset-store-tools/Editor/Previews/Styles/ThemeDark.uss.meta
+guid: cf499416049da2e42b96702cd3fe23f8
+========
+guid: 1535933be34208d49b1de6c1b4f8b93a
+>>>>>>>> pr/97:LevelBuildingSidekick/Assets/ISI Lab/LBS/GABO/Editor/UXML+USS/PathOSObstacleView.uxml.meta
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}
