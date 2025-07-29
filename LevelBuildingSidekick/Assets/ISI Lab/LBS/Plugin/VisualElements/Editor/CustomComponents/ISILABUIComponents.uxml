@@ -10,7 +10,10 @@
         <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Custom Foldout" name="LBSCustomFoldout">
             <ui:Button text="Button" />
             <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField value="0" label="Int Field" />
-            <ISILab.LBS.CustomComponents.LBSCustomToggleField enabled="true" value="false" style="height: 27px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomFoldout>
+                <ISILab.LBS.CustomComponents.LBSCustomToggleField enabled="true" value="false" style="height: 27px;" />
+                <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=EnumField.svg?fileID=7388822144124034973&amp;guid=ea38db42f43233b4894243942b78f176&amp;type=3#Icon=EnumField" icon-color="#FFFFFFFF" style="height: 16px;" />
+            </ISILab.LBS.CustomComponents.LBSCustomFoldout>
         </ISILab.LBS.CustomComponents.LBSCustomFoldout>
         <ISILab.LBS.VisualElements.WarningPanel text="The selected layer does not contain any assigned assistants or was unable to visually load the assistants it does have." current-warning-type="Error" name="WarningPanel" />
     </ui:VisualElement>
