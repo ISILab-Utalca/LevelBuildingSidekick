@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
 using UnityEditor.UIElements;
@@ -175,29 +178,70 @@ namespace ISILab.LBS.Editor
         _expandSuggested.style.display = !expandActions.Any() ? DisplayStyle.None : DisplayStyle.Flex;
         
         _expandSuggested.itemsSource = expandActions;
-        _expandSuggested.makeItem = () => new VisualElement();
-        _expandSuggested.bindItem = (e, i) =>
+        _expandSuggested.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight; // Ensure dynamic height
+        _expandSuggested.makeItem = () => 
         {
-            var container = e as VisualElement;
-            container.Clear();
-            container.style.flexDirection = FlexDirection.Row;
-
-            foreach (var step in expandActions[i])
+            var foldout = new LBSCustomFoldout();
+            foldout.contentContainer.style.flexDirection = FlexDirection.Column;
+            foldout.style.flexGrow = 1;
+            foldout.style.flexShrink = 0;
+            
+            foldout.RegisterValueChangedCallback(evt =>
             {
-                var button = new SuggestionActionButton();
-                // must store the first inserted node 
-                
-                button.SetAction(step, InsertNextAction(step, _questGraph.SelectedQuestNode));
-                container.Add(button);
-                
-
-            }
+                foldout.contentContainer.style.flexShrink = evt.newValue ? 0 : 1;
+                _expandSuggested.RefreshItems();
+     
+            });
+            
+            return foldout;
         };
+        _expandSuggested.bindItem = (v, i) =>
+        {
+            var foldout = v as LBSCustomFoldout;
+            foldout.contentContainer.Clear();
+            
+            List<string> actionString = expandActions[i];
+
+            var button = new SuggestionActionButton
+            {
+                style =
+                {
+                    flexGrow = 1,
+                    flexShrink = 0
+                }
+            };
+            button.SetAction("Apply this expansion", ExpandAction(actionString, _questGraph.SelectedQuestNode));
+            foldout.contentContainer.Add(button);
+
+            foreach (var action in actionString)
+            {
+                NodeType type = NodeType.Middle;
+                if (action == actionString.First()) type = NodeType.Start;
+                else if (action == actionString.Last()) type = NodeType.Goal;
+
+                ActionExpandEntry entry = new ActionExpandEntry
+                {
+                    style =
+                    {
+                        flexGrow = 1,
+                        flexShrink = 0
+                    }
+                };
+                entry.SetEntryAction(action, type);
+                foldout.contentContainer.Add(entry);
+            }
+        };;
+        
         _expandSuggested.Rebuild();
     }
 
+    private Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
+    {
+        return () => _questGraph.ExpandNode(expandAction, referenceNode);
+    }
 
-        /// <summary>
+
+    /// <summary>
         /// Calls as a delegate the CreateAddNode function from the graph to make a new node based on the
         /// parameter action.
         /// </summary>
@@ -206,7 +250,7 @@ namespace ISILab.LBS.Editor
         /// <returns></returns>
         private Action InsertNextAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.InsertNodeAfter(action, Vector2.zero, referenceNode);
+            return () => _questGraph.InsertNodeAfter(action, referenceNode);
         }
         
         /// <summary>
@@ -217,7 +261,7 @@ namespace ISILab.LBS.Editor
         /// <returns></returns>
         private Action InsertPreviousAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.InsertNodeBefore(action, Vector2.zero, referenceNode);
+            return () => _questGraph.InsertNodeBefore(action, referenceNode);
         }
         
         public void SetTools(ToolKit toolkit)

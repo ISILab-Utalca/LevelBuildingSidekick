@@ -110,41 +110,7 @@ namespace ISILab.AI.Grammar
             UnityEditor.EditorUtility.SetDirty(this);
             #endif
         }
-
-        /// <summary>
-        /// Gets all valid next terminal actions that follow the given terminal.
-        /// </summary>
-        public List<string> GetAllValidNextActions(string currentAction)
-        {
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var rules = GetRules();
-
-            foreach (var kvp in rules)
-            {
-                foreach (var expansion in kvp.Value)
-                {
-                    for (int i = 0; i < expansion.Count - 1; i++)
-                    {
-                        if (expansion[i].Equals(currentAction, StringComparison.OrdinalIgnoreCase))
-                        {
-                            var next = expansion[i + 1];
-                            if (!IsNonTerminal(next))
-                            {
-                                result.Add(next);
-                            }
-                            else
-                            {
-                                string ruleName = next.TrimStart('#');
-                                var terminals = GetFirstTerminals(ruleName, new HashSet<string>());
-                                result.UnionWith(terminals);
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result.ToList();
-        }
+        
 
         /// <summary>
         /// Recursively collects first terminal(s) from a rule.

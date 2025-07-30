@@ -240,13 +240,26 @@ namespace ISILab.LBS.Assistants
         public List<List<string>> GetAllExpansions(string currentAction)
         {
             var grammar = Quest.Grammar;
-            if (grammar == null || !grammar.GetRules().TryGetValue(currentAction, out var expansions))
+            if (grammar == null)
                 return new List<List<string>>();
 
-            var result = new List<List<string>>();
+            var expansions = new List<List<string>>();
+            // get all the rules that contain the terminal
+            foreach (var rule in GetOwningRules(currentAction))
+            {
+                // fill the expansions list of list with each of the rule entries within the rule(as they already contain the terminal)
+                grammar.GetRules().TryGetValue(rule, out expansions);
+            }
+            
+            if (expansions is null or { Count: 0 }) return new List<List<string>>();
+            
+            List<List<string>> validSequences = new List<List<string>>();
+            
+            // get terminals from the quests
             foreach (var expansion in expansions)
             {
-                var sequence = new List<string>();
+                List<string> sequence = new List<string>();
+                
                 foreach (var symbol in expansion)
                 {
                     if (!IsNonTerminal(symbol))
@@ -255,14 +268,35 @@ namespace ISILab.LBS.Assistants
                     }
                     else
                     {
-                        sequence.AddRange(GetFirstTerminals(symbol.TrimStart('#'), grammar));
+                        sequence.Add(GetFirstTerminals(symbol.TrimStart('#'), grammar).First());
                     }
+                    
+                    // some sequences can be repeated do to grammar reading in multiple definition values such as #GoTo
+                    // that can be Go to -> Explore or Explore -> Go to
+                    if(sequence.Any() && !validSequences.Contains(sequence)) validSequences.Add(sequence);
                 }
-                if (sequence.Count > 0)
-                    result.Add(sequence);
+                   
             }
+          
+            return validSequences;
+        }
 
-            return result;
+        public List<string> GetOwningRules(string currentAction)
+        {
+            var grammar = Quest.Grammar;
+            if (grammar == null) return new List<string>();
+
+            HashSet<string> owners = new HashSet<string>();
+            
+            foreach (RuleEntry ruleEntry in Quest.Grammar.RuleEntries)
+            {
+                foreach (var terminals in ruleEntry.expansions)
+                {
+                    if(terminals.symbols.Contains(currentAction)) owners.Add(ruleEntry.ruleName);
+                }
+            }
+                
+            return owners.ToList();
         }
         
         public override void OnAttachLayer(LBSLayer layer)

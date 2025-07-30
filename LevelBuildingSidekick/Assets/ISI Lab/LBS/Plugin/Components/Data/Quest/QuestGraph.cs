@@ -254,10 +254,10 @@ namespace ISILab.LBS.Modules
         /// Inserts a new node after a specified reference node
         /// </summary>
         /// <param name="action">The action type for the new node</param>
-        /// <param name="position">The position for the new node</param>
         /// <param name="referenceNode">The node after which the new node will be inserted</param>
-        public void InsertNodeAfter(string action, Vector2 position, QuestNode referenceNode)
+        public void InsertNodeAfter(string action, QuestNode referenceNode)
         {
+            var position = Vector2.zero;
             if (referenceNode == null || !questNodes.Contains(referenceNode))
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
@@ -299,10 +299,10 @@ namespace ISILab.LBS.Modules
         /// Inserts a new node before a specified reference node
         /// </summary>
         /// <param name="action">The action type for the new node</param>
-        /// <param name="position">The position for the new node</param>
         /// <param name="referenceNode">The node before which the new node will be inserted</param>
-        public void InsertNodeBefore(string action, Vector2 position, QuestNode referenceNode)
+        public void InsertNodeBefore(string action, QuestNode referenceNode)
         {
+            var position = Vector2.zero;
             if (referenceNode == null || !questNodes.Contains(referenceNode))
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
@@ -341,6 +341,16 @@ namespace ISILab.LBS.Modules
             // to update the visuals
             UpdateQuestNodes();
             UpdateFlow?.Invoke();
+        }
+        
+        /// <summary>
+        /// Inserts all the nodes to replace the reference node
+        /// </summary>
+        /// <param name="expandActions">all the actions that correspond to a new node</param>
+        /// <param name="referenceNode">the node that will be expanded(replaced)</param>
+        public void ExpandNode(List<string> expandActions, object referenceNode)
+        {
+       
         }
         
         public void RemoveQuestNode(QuestNode node)
@@ -541,6 +551,8 @@ namespace ISILab.LBS.Modules
         }
 
         #endregion
+
+     
     }
 
 }
