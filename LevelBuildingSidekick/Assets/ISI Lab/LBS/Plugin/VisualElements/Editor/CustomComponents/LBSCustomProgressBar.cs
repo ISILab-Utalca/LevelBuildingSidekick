@@ -62,6 +62,7 @@ namespace ISILab.LBS.CustomComponents
         {
             this.RemoveFromClassList(ussClassName);
             this.AddToClassList(STYLE_CLASS_NAME);
+            this.AddToClassList(LBSClassName);
             
             VisualElement topPanel = new VisualElement();
             topPanel.AddToClassList("lbs-progress-bar-top-panel");
