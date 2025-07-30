@@ -992,7 +992,7 @@ public class PathOSEvaluationWindow : EditorWindow
         GUILayout.FlexibleSpace();
         Texture2D currentScreenshot = screenshot.GetScreenshot();
         float targetWidth = layout.width,
-            targetHeight = layout.width * currentScreenshot.height / currentScreenshot.width;
+            targetHeight = currentScreenshot != null ? layout.width * currentScreenshot.height / currentScreenshot.width : 0;
         GUILayout.Label(currentScreenshot, GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();

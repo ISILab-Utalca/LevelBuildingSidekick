@@ -33,5 +33,19 @@ namespace ISILab.LBS.Assistants
             OnDetach?.Invoke();
             Object.DestroyImmediate(pathOSOriginalWindow);
         }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is not TestingAssistant other) return false;
+
+            if(!Equals(Name, other.Name)) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

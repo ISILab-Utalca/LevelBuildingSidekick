@@ -125,7 +125,7 @@ namespace ISILab.LBS.Modules
         }
         public PathOSTile GetTile(PathOSTile tile)
         {
-            return tiles.Find(t => t == tile);
+            return tiles.Find(t => Equals(t, tile));
         }
 
         public List<PathOSTile> GetTiles()

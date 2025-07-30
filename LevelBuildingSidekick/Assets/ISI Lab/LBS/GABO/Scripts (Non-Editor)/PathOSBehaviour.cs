@@ -71,7 +71,8 @@ namespace ISILab.LBS.Behaviours
                     }
                 }
 
-                PathOSTile old = module.GetTile(tile);
+                PathOSTile old = module.GetTile(tile.X, tile.Y);
+                //PathOSTile old = module.GetTile(tile);
                 if (old != null) 
                 {
                     RequestTileRemove(old);
@@ -133,19 +134,21 @@ namespace ISILab.LBS.Behaviours
             
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    var other = obj as PathOSBehaviour;
+        public override bool Equals(object obj)
+        {
+            var other = obj as PathOSBehaviour;
 
-        //    if (other == null) return false;
+            if (other == null) return false;
 
-        //    return true;
-        //}
+            if(!Equals(Name, other.Name)) return false;
 
-        //public override int GetHashCode()
-        //{
-        //    return base.GetHashCode();
-        //}
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         #endregion
     }
 }
