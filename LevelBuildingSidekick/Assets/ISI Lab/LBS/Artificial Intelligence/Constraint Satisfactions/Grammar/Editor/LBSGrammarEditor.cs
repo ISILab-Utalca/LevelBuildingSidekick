@@ -32,7 +32,11 @@ namespace ISILab.LBS.VisualElements
                     {
                         foreach (var expansion in rule.Value)
                         {
-                            EditorGUILayout.LabelField("▪ " + expansion);
+                            foreach (var terminals in expansion)
+                            {
+                                EditorGUILayout.LabelField("▪ " + terminals);
+                            }
+                           
                         }
                     }
                 }
@@ -77,7 +81,7 @@ namespace ISILab.LBS.VisualElements
                     grammar.SetGrammarStructure(structure);
                     EditorUtility.SetDirty(grammar);
                     _ruleFoldouts.Clear();
-                    Debug.Log($"Grammar imported with {structure.Rules.Count} rules and {structure.Terminals.Count} terminal actions.");
+                    Debug.Log($"Grammar imported with {structure.Rules.Count} rules and {structure.terminals.Count} terminal actions.");
                 }
                 catch (Exception ex)
                 {

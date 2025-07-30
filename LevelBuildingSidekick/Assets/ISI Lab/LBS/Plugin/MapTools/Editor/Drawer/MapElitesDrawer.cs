@@ -38,6 +38,8 @@ namespace ISILab.LBS.Drawers
             _dotArea.SetColor(LBSSettings.Instance.view.errorColor);
             _dotArea.layer = assistant.OwnerLayer.index;
 
+            _dotArea.style.display = (DisplayStyle)(assistant.OwnerLayer.IsVisible ? 0 : 1);
+
             view.AddElementToLayerContainer(assistant.OwnerLayer, this, _dotArea);
         }
 

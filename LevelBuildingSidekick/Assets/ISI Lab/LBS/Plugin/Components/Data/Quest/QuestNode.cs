@@ -146,13 +146,13 @@ namespace ISILab.LBS.Components
             return node;
         }
         
-        public bool IsValidFrom(QuestGraph graphOwner)
+        public bool IsValidFrom()
         {
             var found = graph.QuestEdges.FirstOrDefault(e => e.From.Equals(this));
             return found == null;
         }
         
-        public bool IsValidTo(QuestGraph graphOwner)
+        public bool IsValidTo()
         {
             var found = graph.QuestEdges.FirstOrDefault(e => e.To.Equals(this));
             return found == null;

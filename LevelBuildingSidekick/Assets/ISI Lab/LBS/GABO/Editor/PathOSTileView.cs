@@ -51,8 +51,11 @@ namespace ISILab.LBS.VisualElements
             dynamicObstacleTrigger = this.Q<VisualElement>(name: "DynamicObstacleTrigger");
 
             // Set data
-            SetColor(tile.Tag.Color);
-            SetImage(tile.Tag.Icon);
+            if(tile.Tag != null)
+            {
+                SetColor(tile.Tag.Color);
+                SetImage(tile.Tag.Icon);
+            }
             SetEvents(tile);
         }
         #endregion

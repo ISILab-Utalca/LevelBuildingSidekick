@@ -42,10 +42,12 @@ namespace ISILab.LBS.Drawers.Editor
            // if (nt == null || !nt.Any()) return;
            // temp fix just clearing the whole layer, as this is called BEFORE the other drawer this one clears it once
 
+            DisplayStyle display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
            
             // Trigger Position
             var triggerBase = new TriggerElementArea(nodeData,nodeData.Area);
-            
+            triggerBase.style.display = display;
+
             // Stores using the behavior as key
             view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, triggerBase);
             
@@ -61,6 +63,7 @@ namespace ISILab.LBS.Drawers.Editor
                         if (bundle is null || !bundle.Valid()) continue;
                         
                         var visual = new TriggerElementArea(nodeData, bundle.Area, false);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -72,7 +75,8 @@ namespace ISILab.LBS.Drawers.Editor
                         if (bundle is null || !bundle.Valid()) continue;
                         
                         var visual = new TriggerElementArea(nodeData, bundle.Area, false);
-                            
+
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -81,6 +85,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataTake.bundleToTake.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataTake.bundleToTake.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -89,6 +94,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataRead.bundleToRead.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataRead.bundleToRead.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -97,6 +103,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataGive.bundleGiveTo.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataGive.bundleGiveTo.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -105,6 +112,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataReport.bundleReportTo.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataReport.bundleReportTo.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -113,6 +121,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataSpy.bundleToSpy.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataSpy.bundleToSpy.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;
@@ -121,6 +130,7 @@ namespace ISILab.LBS.Drawers.Editor
                     if (dataListen.bundleListenTo.Valid())
                     {
                         var visual = new TriggerElementArea(nodeData, dataListen.bundleListenTo.Area);
+                        visual.style.display = display;
                         view.AddElementToLayerContainer(behaviour.OwnerLayer, behaviour, visual);
                     }
                     break;

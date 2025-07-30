@@ -13,6 +13,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
@@ -96,7 +97,8 @@ namespace ISILab.LBS.Drawers
             {   
                 var connections = connectMod.GetConnections(tile);
                 var tView = GetTileView(tile, connections, teselationSize);
-                
+                tView.style.display = (DisplayStyle)(exterior.OwnerLayer.IsVisible ? 0 : 1);
+
                 // Stores using LBSTile as key
                 view.AddElementToLayerContainer(exterior.OwnerLayer, tile, tView);
                 exterior.Keys.Add(tile);

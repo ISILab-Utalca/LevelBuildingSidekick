@@ -57,22 +57,6 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.SetName("PathOS+ Tags");
             SetBundlePallete();
 
-            // Add the original PathOSWindow (IMGUI-based), create new if there's no instance.
-            PathOSWindow[] oldWindows = Resources.FindObjectsOfTypeAll<PathOSWindow>();
-            if (pathOSOriginalWindow == null)
-            {
-                if (oldWindows.Length == 0)
-                {
-                    pathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
-                }
-                else
-                {
-                    pathOSOriginalWindow = oldWindows[0];
-                }
-            }
-            IMGUIContainer container = new IMGUIContainer(pathOSOriginalWindow.OnGUI);
-            Add(container);
-
             return this;
         }
 
@@ -153,7 +137,7 @@ namespace ISILab.LBS.VisualElements
             //var tAdd = new LBSTool(icon, "Paint tiles", "", addPathOSTile);
             var tAdd = new LBSTool(addPathOSTile);
             //tAdd.OnSelect += () => LBSInspectorPanel.ShowInspector("Behaviours");
-            tAdd.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
+            tAdd.OnSelect += () => LBSInspectorPanel.ActivateBehaviourTab();
             //tAdd.Init(_target.OwnerLayer, _target);
             //toolkit.AddTool(tAdd);
             toolkit.ActivateTool(tAdd, _target.OwnerLayer, _target);
@@ -169,14 +153,14 @@ namespace ISILab.LBS.VisualElements
             icon = Resources.Load<Texture2D>("Icons/AddClosedObstacle");
             addClosedObstacle = new AddClosedObstacle();
             var tClosed = new LBSTool(addClosedObstacle);
-            tClosed.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
+            //tClosed.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
             toolkit.ActivateTool(tClosed, _target.OwnerLayer, _target);
 
             // Add open obstacle
             icon = Resources.Load<Texture2D>("Icons/AddOpenedObstacle");
             addOpenedObstacle = new AddOpenedObstacle();
             var tOpen = new LBSTool(addOpenedObstacle);
-            tOpen.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
+            //tOpen.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
             toolkit.ActivateTool(tOpen, _target.OwnerLayer, _target);
         }
     }

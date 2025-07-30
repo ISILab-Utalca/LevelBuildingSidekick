@@ -47,7 +47,7 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSBehaviour(VectorImage icon, string name) : base(icon, name, Color.black) { }
+        public PathOSBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint) { }
         #endregion
 
         #region METHODS
@@ -67,9 +67,17 @@ namespace ISILab.LBS.Behaviours
                     if (oldAgentTile != null)
                     {
                         module.RemoveTile(oldAgentTile);
+                        RequestTileRemove(oldAgentTile);
                     }
                 }
+
+                PathOSTile old = module.GetTile(tile);
+                if (old != null) 
+                {
+                    RequestTileRemove(old);
+                }
                 module.AddTile(tile);
+                RequestTilePaint(tile);
             }
             // Tags de eventos
             else if (tag.Category == PathOSTag.PathOSCategory.EventTag)
@@ -82,7 +90,13 @@ namespace ISILab.LBS.Behaviours
                     oldTile.Tag.Label == "Wall" &&
                     (tag.Label == "DynamicObstacleTrigger" || tag.Label == "DynamicTagTrigger")) { return; }
 
-                module.ApplyEventTile(tile);
+                if(module.ApplyEventTile(tile))
+                { 
+                    // I know this looks weird but it works like this
+                    RequestTileRemove(oldTile);
+                    RequestTilePaint(tile);
+                    RequestTilePaint(oldTile);
+                }
             }
         }
 
@@ -90,6 +104,7 @@ namespace ISILab.LBS.Behaviours
         {
             var t = module.GetTile(x, y);
             module.RemoveTile(t);
+            RequestTileRemove(t);
         }
 
         public PathOSTile GetTile(int x, int y)
@@ -99,7 +114,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new PathOSBehaviour(this.Icon, this.Name);
+            return new PathOSBehaviour(this.Icon, this.Name, this.ColorTint);
         }
 
         public override void OnAttachLayer(LBSLayer layer)
