@@ -7,6 +7,10 @@ namespace ISILab.LBS.CustomComponents
     [UxmlElement]
     public partial class LBSCustomProgressBar: ProgressBar
     {
+        
+        #region Constants
+        public static readonly string LBSClassName = "lbs-field";
+        #endregion
 
         #region Fields
 
