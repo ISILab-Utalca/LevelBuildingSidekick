@@ -54,6 +54,10 @@ public class PathOSWindow : EditorWindow
 
     private string editorPrefsID, sceneName;
 
+    private Rect layout;
+
+    public Rect Layout { get => layout; set => layout = value; }
+
 
     [MenuItem("Window/PathOS+")]
     public static void ShowWindow()
@@ -200,7 +204,7 @@ public class PathOSWindow : EditorWindow
                 OnResourcesOpen();
                 break;
             case (int)Tabs.Batching:
-                batchingWindow.OnWindowOpen();
+                batchingWindow.OnWindowOpen(Layout);
                 break;
             case (int)Tabs.Profiles:
                 profileWindow.OnWindowOpen();
@@ -213,7 +217,7 @@ public class PathOSWindow : EditorWindow
                 break;
             case (int)Tabs.ExpertEvaluation:
                 //PathOSEvaluationWindow.instance.OnWindowOpen();
-                evaluationWindow.OnWindowOpen();
+                evaluationWindow.OnWindowOpen(Layout);
                 break;
         }
         //GUILayout.EndScrollView();// ⬜

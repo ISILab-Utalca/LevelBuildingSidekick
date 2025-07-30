@@ -421,12 +421,13 @@ public class PathOSAgentWindow : EditorWindow
     {
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label(icon, GUILayout.Width(width), GUILayout.Height(height));
-        PathOS.EditorUI.FullMinMaxSlider(label,
+        EditorGUILayout.LabelField(label);
+        EditorGUILayout.EndHorizontal();
+        PathOS.EditorUI.FullMinMaxSlider("",
                ref range.min,
                ref range.max,
                0.0f,
                100.0f);
-        EditorGUILayout.EndHorizontal();
     }
     public void SetAgentReference(PathOSAgent reference)
     {
