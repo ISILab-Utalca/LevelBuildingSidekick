@@ -125,7 +125,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnDetachLayer(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            OwnerLayer = null;
         }
 
         public override void OnGUI()

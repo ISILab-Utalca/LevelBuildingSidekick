@@ -14,7 +14,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
     {
         #region FIELDS
 
-        private PathOSWindow pathOSOriginalWindow;
+        //private PathOSWindow pathOSOriginalWindow;
 
         private TestingAssistant assistant;
 
@@ -22,7 +22,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         #region PROPERTIES
 
-        public PathOSWindow PathOSOriginalWindow { get => pathOSOriginalWindow; set => pathOSOriginalWindow = value; }
+        public PathOSWindow PathOSOriginalWindow { get => assistant.PathOSOriginalWindow; set => assistant.PathOSOriginalWindow = value; }
 
         #endregion
 
@@ -52,21 +52,21 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
             // Add the original PathOSWindow (IMGUI-based), create new if there's no instance.
             PathOSWindow[] oldWindows = Resources.FindObjectsOfTypeAll<PathOSWindow>();
-            if (pathOSOriginalWindow == null)
+            if (PathOSOriginalWindow == null)
             {
                 if (oldWindows.Length == 0)
                 {
-                    pathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
+                    PathOSOriginalWindow = ScriptableObject.CreateInstance<PathOSWindow>();
                 }
                 else
                 {
-                    pathOSOriginalWindow = oldWindows[0];
+                    PathOSOriginalWindow = oldWindows[0];
                 }
             }
-            IMGUIContainer container = new IMGUIContainer(pathOSOriginalWindow.OnGUI);
+            IMGUIContainer container = new IMGUIContainer(PathOSOriginalWindow.OnGUI);
             parent.Add(container);
+            //container.RegisterCallback<DetachFromPanelEvent>(evt => OnDetach());
             //container.StretchToParentSize();
-
             return this;
         }
 
