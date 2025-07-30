@@ -9,6 +9,8 @@ namespace ISILab.LBS.Assistants
     {
         private PathOSWindow pathOSOriginalWindow;
 
+        public System.Action OnDetach;
+
         public PathOSWindow PathOSOriginalWindow { get => pathOSOriginalWindow; set => pathOSOriginalWindow = value; }
 
         public TestingAssistant(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
@@ -28,6 +30,7 @@ namespace ISILab.LBS.Assistants
         public override void OnDetachLayer(LBSLayer layer)
         {
             base.OnDetachLayer(layer);
+            OnDetach?.Invoke();
             Object.DestroyImmediate(pathOSOriginalWindow);
         }
     }

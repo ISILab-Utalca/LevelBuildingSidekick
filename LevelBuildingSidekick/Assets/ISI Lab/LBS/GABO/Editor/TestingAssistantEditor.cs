@@ -2,6 +2,7 @@
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.VisualElements;
 using LBS.VisualElements;
 using System.Collections;
 using UnityEngine;
@@ -13,8 +14,6 @@ namespace ISILab.LBS.AI.Assistants.Editor
     public class TestingAssistantEditor : LBSCustomEditor, IToolProvider
     {
         #region FIELDS
-
-        //private PathOSWindow pathOSOriginalWindow;
 
         private TestingAssistant assistant;
 
@@ -31,6 +30,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
         public TestingAssistantEditor(object target) : base(target) 
         {
             assistant = target as TestingAssistant;
+            assistant.OnDetach = () => LBSInspectorPanel.Instance.UnregisterCallback<GeometryChangedEvent>(SetLayoutCallback);
             CreateVisualElement();
         }
 
@@ -63,10 +63,14 @@ namespace ISILab.LBS.AI.Assistants.Editor
                     PathOSOriginalWindow = oldWindows[0];
                 }
             }
+            SetLayout();
+            var inspector = LBSInspectorPanel.Instance;
+            inspector.UnregisterCallback<GeometryChangedEvent>(SetLayoutCallback);
+            inspector.RegisterCallback<GeometryChangedEvent>(SetLayoutCallback);
+
             IMGUIContainer container = new IMGUIContainer(PathOSOriginalWindow.OnGUI);
             parent.Add(container);
-            //container.RegisterCallback<DetachFromPanelEvent>(evt => OnDetach());
-            //container.StretchToParentSize();
+
             return this;
         }
 
@@ -74,5 +78,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
         {
             
         }
+
+        private void SetLayout()
+        {
+            PathOSOriginalWindow.Layout = LBSInspectorPanel.Layout;
+        }
+
+        private void SetLayoutCallback(GeometryChangedEvent e) => SetLayout();
     }
 }

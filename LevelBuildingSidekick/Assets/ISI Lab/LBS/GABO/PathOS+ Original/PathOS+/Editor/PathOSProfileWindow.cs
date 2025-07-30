@@ -226,16 +226,22 @@ public class PathOSProfileWindow : EditorWindow
         {
             curProfile.name = EditorGUILayout.TextField("Profile Name:", curProfile.name);
 
-            PathOS.EditorUI.FullMinMaxSlider("Experience Scale",
+            EditorGUILayout.Space(2);
+            EditorGUILayout.LabelField("Experience Scale");
+            PathOS.EditorUI.FullMinMaxSlider("",
                 ref curProfile.expRange.min, ref curProfile.expRange.max);
 
             for (int i = 0; i < curProfile.heuristicRanges.Count; ++i)
             {
                 HeuristicRange hr = curProfile.heuristicRanges[i];
 
-                PathOS.EditorUI.FullMinMaxSlider(UI.heuristicLabels[hr.heuristic],
+                EditorGUILayout.Space(2);
+                EditorGUILayout.LabelField(UI.heuristicLabels[hr.heuristic]);
+                PathOS.EditorUI.FullMinMaxSlider("",
                     ref hr.range.min, ref hr.range.max);
             }
+
+            EditorGUILayout.Space(5);
 
             GUI.backgroundColor = btnColorLight;
             if (GUILayout.Button("Apply Changes"))

@@ -39,6 +39,8 @@ namespace ISILab.LBS.VisualElements
         public static string BehavioursTab = "Behaviours";
         public static string AssistantsTab = "Assistants";
 
+        public static Rect Layout { get => Instance.layout; }
+
         private static string recentTab;
         
         private Dictionary<string, LBSInspector> VEs = new();
