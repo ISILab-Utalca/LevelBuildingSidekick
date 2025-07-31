@@ -9,6 +9,14 @@ namespace ISILab.LBS.CustomComponents
     [UxmlElement]
     public partial class LBSCustomEnumField: EnumField
     {
+        
+        #region constants
+        
+        public readonly static new string LBSClassName = "lbs-field";
+        
+        #endregion
+        
+        
         #region Attributes
 
         [UxmlAttribute]
@@ -72,7 +80,7 @@ namespace ISILab.LBS.CustomComponents
         public LBSCustomEnumField(string _label) : base(_label)
         {
             style.alignItems = Align.Center;
-            
+            this.AddToClassList(LBSClassName);
             m_Icon = new VisualElement();
             
             //styles

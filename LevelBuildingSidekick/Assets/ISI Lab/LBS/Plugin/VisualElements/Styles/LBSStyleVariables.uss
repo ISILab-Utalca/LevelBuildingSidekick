@@ -6,6 +6,7 @@
     --lbs-selection-dark-green-color: rgb(118, 151, 67);
     
     --lbs-light-yellow-color: rgb(247, 196, 64);
+    --lbs-selection-yellow-color: rgb(173, 141, 55);
     
     --lbs-light-blue-color: rgb(135, 215, 246);
     --lbs-selection-dark-teal-color: rgb(98, 139, 200);
@@ -17,6 +18,12 @@
     --lbs-field-solid-bg-gray-color: rgb(40,40,40);
     --lbs-darker-solid-gray-color: rgb(33, 33, 33);
     --lbs-unity-6-black-color: rgb(20,20,20);
+    
+    --lbs-alt-icon-color: rgb(173,185,215);
+    --lbs-alt-base-solid-gray: rgb(40,44,52);
+    --lbs-alt-button-solid-bg-color: rgb(42,48,60);
+    --lbs-alt-button-solid-hover-bg-color: rgb(80,88,108);
+    --lbs-alt-field-solid-bg-color: rgb(22,26,30);
     
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
     --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);

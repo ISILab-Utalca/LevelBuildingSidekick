@@ -1,9 +1,20 @@
 @import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
 :root {
+    color: var(--lbs-default-icon-color);
 }
 
-.unity-base-field__label {
+Label {
+    font-size: 12px;
+}
+
+.lbs-field Label {
     padding-right: 21px;
+    color: aliceblue;
+}
+
+.lbs Label {
+    padding-right: 21px;
+    color: var(--lbs-default-icon-color);
 }
 
 .lbs-default-icon {
@@ -1041,11 +1052,7 @@ Toggle > .lbs-default-icon {
     border-top-color: var(--lbs-border-white-overlay-color);
 }
 
-.lbs-compact-panel {
-}
-
 Button.lbs-actionbutton {
-    all: unset;
     background-color: rgb(62, 62, 62);
     color: white;
     flex-direction: row;
@@ -1167,20 +1174,8 @@ Button.lbs-actionbutton {
     background-color: var(--lbs-selection-dark-teal-color);
 }
 
-.lbs-simple-button {
-}
-
 #LayerDataButton:selected {
     background-color: var(--lbs-selection-dark-red-color);
-}
-
-.lbs-tutorial-tab-button {
-}
-
-.lbs-toolbar-toggle {
-}
-
-.lbs-progressBar-score-thick {
 }
 
 .lbs-vector-2-picker-panel {
@@ -1330,6 +1325,51 @@ Button.lbs-actionbutton {
     border-left-width: 1px;
 }
 
+.lbs-foldout__toggle {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    padding-left: 2px;
+    justify-content: center;
+    align-items: center;
+    align-self: auto;
+    align-content: center;
+}
+
+.lbs-foldout-menu-button {
+    height: 16px;
+    width: 16px;
+    position: relative;
+    right: 0;
+    left: auto;
+    flex-direction: row;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.lbs-foldout-panel {
+    padding-left: 2px;
+    padding-top: 2px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    background-color: var(--lbs-base-solid-gray-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(0, 0, 0, 0.3);
+}
+
+.lbs-custom-foldout-checkmark {
+}
+
 .lbs-custom-progress-bar {
     padding-top: 2px;
     padding-right: 1px;
@@ -1358,6 +1398,7 @@ Button.lbs-actionbutton {
 }
 
 .lbs-custom-progress-bar__container {
+    flex-grow: 1;
 }
 
 .lbs-custom-progress-bar__background {
@@ -1365,9 +1406,6 @@ Button.lbs-actionbutton {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
     border-bottom-left-radius: 4px;
-}
-
-.lbs-menu-button {
 }
 
 .lbs-slide-toggle {
@@ -1415,7 +1453,7 @@ Button.lbs-actionbutton {
     border-bottom-right-radius: 3px;
     top: 0;
     transition-property: translate, background-color;
-    transition-duration: 0.5s, 0.5s;
+    transition-duration: 0.2s, 0.2s;
     translate: 0 0;
     border-left-width: 1px;
     border-right-width: 1px;
@@ -1430,4 +1468,21 @@ Button.lbs-actionbutton {
 .lbs-slide-toggle__input-checked > .lbs-slide-toggle__input-knob {
     translate: 10px 0;
     background-color: var(--lbs-light-green-color);
+}
+
+.lbs-field {
+    flex-direction: row;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lbs-item {
 }

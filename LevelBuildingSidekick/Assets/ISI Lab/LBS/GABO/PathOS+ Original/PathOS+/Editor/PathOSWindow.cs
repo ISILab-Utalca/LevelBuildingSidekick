@@ -54,6 +54,10 @@ public class PathOSWindow : EditorWindow
 
     private string editorPrefsID, sceneName;
 
+    private Rect layout;
+
+    public Rect Layout { get => layout; set => layout = value; }
+
 
     [MenuItem("Window/PathOS+")]
     public static void ShowWindow()
@@ -63,6 +67,8 @@ public class PathOSWindow : EditorWindow
 
     private void OnEnable()
     {
+        //Debug.Log("ON ENABLE");
+
         //Set the scene name
         sceneName = SceneManager.GetActiveScene().name;
 
@@ -123,6 +129,8 @@ public class PathOSWindow : EditorWindow
 
     private void OnDestroy()
     {
+        //Debug.Log("ON DESTROY");
+
         if (profileWindow) DestroyImmediate(profileWindow);
         if (batchingWindow) DestroyImmediate(batchingWindow);
         if (agentWindow) DestroyImmediate(agentWindow);
@@ -132,6 +140,8 @@ public class PathOSWindow : EditorWindow
 
     private void OnDisable()
     {
+        //Debug.Log("ON DISABLE");
+
         if (profileWindow) DestroyImmediate(profileWindow);
         if (batchingWindow) DestroyImmediate(batchingWindow);
         if (agentWindow) DestroyImmediate(agentWindow);
@@ -147,10 +157,10 @@ public class PathOSWindow : EditorWindow
         foldoutStyle.fontStyle = FontStyle.Bold;
 
         EditorGUILayout.Space();
-        scrollPos = GUILayout.BeginScrollView(scrollPos, true, true);
+        //scrollPos = GUILayout.BeginScrollView(scrollPos, true, true);//⚪
 
         GUI.backgroundColor = btnColorDark;
-        EditorGUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");//🔵
 
         //Establishes references
         GrabAgentReference();
@@ -170,15 +180,15 @@ public class PathOSWindow : EditorWindow
         {
             // The tabs to alternate between specific menus
             GUI.backgroundColor = btnColorDark;
-            GUILayout.BeginHorizontal();
-            tabSelection = GUILayout.SelectionGrid(tabSelection, tabLabels, 4);
+            GUILayout.BeginHorizontal();//⚫
+            tabSelection = GUILayout.SelectionGrid(tabSelection, tabLabels, 2);
             //PathOSEvaluationWindow.instance.SetCurrentlyOpen((tabSelection == (int)Tabs.ExpertEvaluation ? true : false));
              evaluationWindow.SetCurrentlyOpen((tabSelection==(int)Tabs.ExpertEvaluation ?  true : false));
-            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();//⬛
             GUI.backgroundColor = bgColor;
 
         }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
         EditorGUILayout.Space(5);
 
 
@@ -194,7 +204,7 @@ public class PathOSWindow : EditorWindow
                 OnResourcesOpen();
                 break;
             case (int)Tabs.Batching:
-                batchingWindow.OnWindowOpen();
+                batchingWindow.OnWindowOpen(Layout);
                 break;
             case (int)Tabs.Profiles:
                 profileWindow.OnWindowOpen();
@@ -207,16 +217,16 @@ public class PathOSWindow : EditorWindow
                 break;
             case (int)Tabs.ExpertEvaluation:
                 //PathOSEvaluationWindow.instance.OnWindowOpen();
-                evaluationWindow.OnWindowOpen();
+                evaluationWindow.OnWindowOpen(Layout);
                 break;
         }
-        GUILayout.EndScrollView();
+        //GUILayout.EndScrollView();// ⬜
     }
 
     private void Update()
     {
         //Temporary solution
-        batchingWindow.UpdateBatching();
+        //batchingWindow.UpdateBatching();
     }
 
     // GABO: Set references from outside the class
