@@ -15,7 +15,7 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconGuid: Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png
+    iconGuid: 13f64883312513a41adeb7dec75a3a5f
     id: Testing
     name: Layer Testing
     modules:
