@@ -206,7 +206,7 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action"></param>
         /// <param name="position"></param>
-        public void CreateAddNode(string action, Vector2 position)
+        public QuestNode CreateAddNode(string action, Vector2 position)
         {
             int suffix = 0;
             string nodeID;
@@ -215,7 +215,10 @@ namespace ISILab.LBS.Modules
                 nodeID = $"{action} ({suffix++})";
             } while (QuestNodes.Any(n => n.ID == nodeID));
 
-            InternalAddNode(new QuestNode(nodeID, position, action, this));
+            QuestNode newNode = new QuestNode(nodeID, position, action, this);
+            InternalAddNode(newNode);
+            
+            return newNode;
         }
         
         /// <summary>
@@ -255,14 +258,13 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action">The action type for the new node</param>
         /// <param name="referenceNode">The node after which the new node will be inserted</param>
-        public void InsertNodeAfter(string action, QuestNode referenceNode)
+        public QuestNode InsertNodeAfter(string action, QuestNode referenceNode)
         {
             var position = Vector2.zero;
             if (referenceNode == null || !questNodes.Contains(referenceNode))
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
-                CreateAddNode(action, position);
-                return;
+                return CreateAddNode(action, position);
             }
 
             int suffix = 0;
@@ -293,6 +295,8 @@ namespace ISILab.LBS.Modules
 
             UpdateQuestNodes();
             UpdateFlow?.Invoke();
+            
+            return newNode;
         }
 
         /// <summary>
@@ -348,9 +352,50 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="expandActions">all the actions that correspond to a new node</param>
         /// <param name="referenceNode">the node that will be expanded(replaced)</param>
-        public void ExpandNode(List<string> expandActions, object referenceNode)
+        public void ExpandNode(List<string> expandActions, QuestNode referenceNode)
         {
-       
+            if(!expandActions.Any()) return;
+            
+            List<QuestNode> newNodes = new List<QuestNode>();
+            QuestNode iterationNode = referenceNode;
+            
+            // add from the previous index position to add the new ones
+            foreach (var action in expandActions)
+            {
+                var newNode = InsertNodeAfter(action, iterationNode);
+                if (newNode is null) continue;
+                
+                iterationNode = newNode;
+                newNodes.Add(newNode);
+            }
+            
+            // no new nodes end
+            if(!newNodes.Any()) return;
+            
+            //if we are replacing the root, just delete
+            if (referenceNode == Root)
+            {
+                RemoveQuestNode(referenceNode);
+                return;
+            }
+                
+            // get the previous connection node to the one we are replacing
+            QuestNode prevNode = null;
+            foreach (var edge in questEdges)
+            {
+                if (edge.To == referenceNode)
+                {
+                    prevNode = edge.From;
+                }
+            }
+            
+            if (prevNode is not null)
+            {
+                RemoveQuestNode(referenceNode);
+                // remake pending connection 
+                AddEdge(prevNode, newNodes.First());
+            }
+            
         }
         
         public void RemoveQuestNode(QuestNode node)

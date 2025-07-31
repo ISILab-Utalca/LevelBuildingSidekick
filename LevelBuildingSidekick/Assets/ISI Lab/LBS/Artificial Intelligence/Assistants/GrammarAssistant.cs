@@ -164,16 +164,16 @@ namespace ISILab.LBS.Assistants
 
         private List<string> GetFirstTerminals(string ruleName, LBSGrammar grammar)
         {
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var terminals = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var rules = grammar.GetRules();
 
             if (!rules.TryGetValue(ruleName, out var expansions))
-                return result.ToList();
+                return terminals.ToList();
 
             var visited = new HashSet<string>();
-            CollectFirstTerminalsRecursive(expansions, rules, result, visited);
+            CollectFirstTerminalsRecursive(expansions, rules, terminals, visited);
 
-            return result.ToList();
+            return terminals.ToList();
         }
 
         private void CollectFirstTerminalsRecursive(List<List<string>> expansions, Dictionary<string, List<List<string>>> rules, HashSet<string> result, HashSet<string> visited)
@@ -183,7 +183,8 @@ namespace ISILab.LBS.Assistants
                 if (expansion.Count == 0) continue;
 
                 var first = expansion[0];
-                if (!IsNonTerminal(first))
+                // is terminal
+                if (IsTerminal(first))
                 {
                     result.Add(first);
                 }
@@ -319,5 +320,6 @@ namespace ISILab.LBS.Assistants
         public override void OnGUI() { }
 
         private bool IsNonTerminal(string symbol) => symbol.Trim().StartsWith("#");
+        private bool IsTerminal(string symbol) => !IsNonTerminal(symbol);
     }
 }
