@@ -7,17 +7,15 @@ Label {
     font-size: 12px;
 }
 
+.lbs-field Label {
+    padding-right: 21px;
+    color: aliceblue;
+}
+
+.lbs Label {
     padding-right: 21px;
     color: var(--lbs-default-icon-color);
 }
-
-.lbs Label{
-    padding-right: 21px;
-    /*color: var(--lbs-default-icon-color);*/
-    color: var(--lbs-default-icon-color) !important;
-}
-
-
 
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
@@ -1484,4 +1482,7 @@ Button.lbs-actionbutton {
     padding-left: 4px;
     justify-content: space-between;
     align-items: center;
+}
+
+.lbs-item {
 }
