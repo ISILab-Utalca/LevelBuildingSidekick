@@ -17,9 +17,9 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
-        <ui:VisualElement name="NextSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 0; padding-bottom: 6px; padding-left: 0;">
+        <ui:VisualElement name="NextSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
             <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
-                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/QuestNodes/nextSuggested&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
                 <ui:Label text="Next Suggested Grammar" style="padding-left: 12px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Content" style="flex-grow: 1; border-top-width: 1px; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(255, 255, 255, 0.25); border-right-color: rgba(255, 255, 255, 0.25); border-top-color: rgba(255, 255, 255, 0.25); border-bottom-color: rgba(255, 255, 255, 0.25);">
@@ -33,7 +33,7 @@
         <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
         <ui:VisualElement name="PrevSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
             <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
-                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/QuestNodes/prevSuggested&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
                 <ui:Label text="Prev Suggested Grammar" style="padding-left: 12px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Content" style="flex-grow: 1;">
@@ -47,7 +47,7 @@
         <ui:VisualElement name="Separator" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: 6px; max-height: 6px;" />
         <ui:VisualElement name="ExpandSuggestedGrammar" style="flex-grow: 1; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px;">
             <ui:VisualElement name="Header" style="flex-grow: 1; max-height: 32px; flex-direction: row; align-self: auto; justify-content: flex-start; align-items: center;">
-                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/Icon=QuestAction&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
+                <ui:VisualElement style="flex-grow: 0; background-image: resource(&apos;Icons/Vectorial/QuestNodes/expandSuggested&apos;); min-width: 24px; min-height: 24px; flex-shrink: 0;" />
                 <ui:Label text="Expand Suggested Grammar" style="padding-left: 12px;" />
             </ui:VisualElement>
             <ui:VisualElement name="Content" style="flex-grow: 1;">

@@ -197,6 +197,7 @@ namespace ISILab.LBS.Editor
         };
         _expandSuggested.bindItem = (v, i) =>
         {
+            if(i == expandActions.Count) return;
             var foldout = v as LBSCustomFoldout;
             foldout.contentContainer.Clear();
             
@@ -213,11 +214,11 @@ namespace ISILab.LBS.Editor
             button.SetAction("Apply this expansion", ExpandAction(actionString, _questGraph.SelectedQuestNode));
             foldout.contentContainer.Add(button);
 
-            foreach (var action in actionString)
+            for (int j = 0; j < actionString.Count; j++)
             {
                 NodeType type = NodeType.Middle;
-                if (action == actionString.First()) type = NodeType.Start;
-                else if (action == actionString.Last()) type = NodeType.Goal;
+                if (j == 0) type = NodeType.Start;
+                else if (j == expandActions.Count) type = NodeType.Goal;
 
                 ActionExpandEntry entry = new ActionExpandEntry
                 {
@@ -227,7 +228,7 @@ namespace ISILab.LBS.Editor
                         flexShrink = 0
                     }
                 };
-                entry.SetEntryAction(action, type);
+                entry.SetEntryAction(actionString[j], type);
                 foldout.contentContainer.Add(entry);
             }
         };;

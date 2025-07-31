@@ -50,7 +50,7 @@ namespace ISILab.LBS.VisualElements.Editor
             switch (nodeType)
             {
                 case NodeType.Start:
-                    iconPath = "Icons/Vectorial/Icon=Start";
+                    iconPath = "Icons/Vectorial/Quest/";
                     backgroundColor = LBSSettings.Instance.view.successColor;
                     break;
                 case NodeType.Middle:

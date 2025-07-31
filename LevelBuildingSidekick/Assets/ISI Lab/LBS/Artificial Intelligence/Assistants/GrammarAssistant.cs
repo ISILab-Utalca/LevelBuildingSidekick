@@ -41,7 +41,7 @@ namespace ISILab.LBS.Assistants
             if (edge?.From is null || edge.To is null) return false;
 
             var grammar = Quest.Grammar;
-            if (grammar == null || grammar.GetRules().Count == 0) return false;
+            if (grammar == null || !grammar.RuleEntries.Any()) return false;
 
             List<string> validTerminals = GetAllValidNextActions(edge.From.QuestAction);
             bool valid = validTerminals.Contains(edge.To.QuestAction);
@@ -56,230 +56,170 @@ namespace ISILab.LBS.Assistants
         public List<string> GetAllValidNextActions(string currentAction)
         {
             var grammar = Quest.Grammar;
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var nextValidTerminals = new HashSet<string>();
 
-            if (grammar == null) return result.ToList();
+            if (grammar == null) return nextValidTerminals.ToList();
 
-            var rules = grammar.GetRules();
-
+            List<string> owningRules = new List<string>();
+            foreach (var rule in GetOwningRules(currentAction))
+            {
+                owningRules.Add(rule);
+            }
+            
+            HashSet<RuleItem> itemsWithRule = new HashSet<RuleItem>();
+            
+            
             // Step 1: Check for direct next terminals in expansions
-            foreach (var kvp in rules)
+            foreach (var rule in grammar.RuleEntries)
             {
-                foreach (var expansion in kvp.Value)
+                foreach (RuleEntry ruleEntry in grammar.RuleEntries)
                 {
-                    for (int i = 0; i < expansion.Count - 1; i++)
+                    foreach (RuleItem wrapper in ruleEntry.expansions)
                     {
-                        var current = expansion[i];
-                        var next = expansion[i + 1];
-
-                        if (current.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+                        foreach (var owningRule in owningRules)
                         {
-                            if (!IsNonTerminal(next))
+                            if (wrapper.items.Contains(currentAction) ||
+                                wrapper.items.Contains(owningRule))
                             {
-                                result.Add(next);
-                            }
-                            else
-                            {
-                                result.UnionWith(GetFirstTerminals(next.TrimStart('#'), grammar));
+                                itemsWithRule.Add(wrapper);
                             }
                         }
                     }
                 }
             }
-
-            // Step 2: Check if currentAction is the last terminal in any non-terminal's expansion
-            var parentNonTerminals = new HashSet<string>();
-            foreach (var kvp in rules)
+            
+            // Get the next valid terminal
+            foreach (var rule in owningRules)
             {
-                foreach (var expansion in kvp.Value)
+                foreach (var ruleItem in itemsWithRule)
                 {
-                    if (expansion.Count > 0 &&
-                        expansion[^1].Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
-                        !IsNonTerminal(expansion[^1]))
+                    for (int i = 0; i < ruleItem.items.Count-1; i++)
                     {
-                        parentNonTerminals.Add(kvp.Key);
-                    }
-                }
-            }
-
-            // Step 3: Find where these non-terminals appear and collect following terminals
-            foreach (var kvp in rules)
-            {
-                foreach (var expansion in kvp.Value)
-                {
-                    for (int i = 0; i < expansion.Count - 1; i++)
-                    {
-                        var current = expansion[i];
-                        var next = expansion[i + 1];
-
-                        if (IsNonTerminal(current) &&
-                            parentNonTerminals.Contains(current.TrimStart('#')))
+                        var current = ruleItem.items[i];
+                        
+                        // if isrule ref get last if == to currentaction
+                        if (grammar.IsRuleRef(current) && current == rule)
                         {
-                            if (!IsNonTerminal(next))
+                            // if the rule is in the item, we must retrieve the last terminal
+                            // and compare it to the currentaction
+                            current = GetLastTerminals(current, grammar).First();
+                        }
+                        
+                            
+                        if(current.Equals(currentAction))
+                        {
+                            var next = ruleItem.items[i+1];
+                            if (grammar.IsRuleRef(next))
                             {
-                                result.Add(next);
+                                // if the first next a ruleRef get the first valid terminal
+                                next = GetFirstTerminals(next, grammar).First();
                             }
-                            else
-                            {
-                                result.UnionWith(GetFirstTerminals(next.TrimStart('#'), grammar));
-                            }
+                            
+                            // assign the current as a valid prev, because the next is the current
+                            nextValidTerminals.Add(next);
                         }
                     }
                 }
             }
+            
+            
 
-            return result.ToList();
-        }
-
-        public List<string> GetNextNonTerminalFirsts(string currentAction, string nonTerminal)
-        {
-            var grammar = Quest.Grammar;
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-            if (grammar == null) return result.ToList();
-
-            var targetNonTerminal = nonTerminal.StartsWith("#") ? nonTerminal : "#" + nonTerminal;
-            var rules = grammar.GetRules();
-
-            foreach (var kvp in rules)
-            {
-                foreach (var expansion in kvp.Value)
-                {
-                    for (int i = 0; i < expansion.Count - 1; i++)
-                    {
-                        if (expansion[i].Equals(currentAction, StringComparison.OrdinalIgnoreCase) &&
-                            expansion[i + 1].Equals(targetNonTerminal, StringComparison.OrdinalIgnoreCase))
-                        {
-                            if (IsNonTerminal(expansion[i + 1]))
-                            {
-                                result.UnionWith(GetFirstTerminals(targetNonTerminal.TrimStart('#'), grammar));
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result.ToList();
-        }
-
-        private List<string> GetFirstTerminals(string ruleName, LBSGrammar grammar)
-        {
-            var terminals = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            var rules = grammar.GetRules();
-
-            if (!rules.TryGetValue(ruleName, out var expansions))
-                return terminals.ToList();
-
-            var visited = new HashSet<string>();
-            CollectFirstTerminalsRecursive(expansions, rules, terminals, visited);
-
-            return terminals.ToList();
-        }
-
-        private void CollectFirstTerminalsRecursive(List<List<string>> expansions, Dictionary<string, List<List<string>>> rules, HashSet<string> result, HashSet<string> visited)
-        {
-            foreach (var expansion in expansions)
-            {
-                if (expansion.Count == 0) continue;
-
-                var first = expansion[0];
-                // is terminal
-                if (IsTerminal(first))
-                {
-                    result.Add(first);
-                }
-                else
-                {
-                    string ruleName = first.TrimStart('#');
-                    if (visited.Contains(ruleName)) continue;
-
-                    visited.Add(ruleName);
-                    if (rules.TryGetValue(ruleName, out var nestedExpansions))
-                    {
-                        CollectFirstTerminalsRecursive(nestedExpansions, rules, result, visited);
-                    }
-                }
-            }
+            return nextValidTerminals.ToList();
         }
 
         public List<string> GetAllValidPrevActions(string currentAction)
         {
             var grammar = Quest.Grammar;
-            var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var prevValidTerminals = new HashSet<string>();
 
-            if (grammar == null) return result.ToList();
+            if (grammar == null) return prevValidTerminals.ToList();
 
-            var rules = grammar.GetRules();
+            var rules = grammar.RuleEntries;
 
-            foreach (var kvp in rules)
+            // Step 1: Check for the next as current
+            foreach (var rule in rules)
             {
-                foreach (var expansion in kvp.Value)
+                foreach (RuleItem expansion in rule.expansions)
                 {
-                    for (int i = 1; i < expansion.Count; i++)
+                    for (int i = 0; i < expansion.items.Count - 1; i++)
                     {
-                        var current = expansion[i];
-                        var prev = expansion[i - 1];
-
-                        if (current.Equals(currentAction, StringComparison.OrdinalIgnoreCase))
+                        var next = expansion.items[i+1];
+                        if (grammar.IsRuleRef(next))
                         {
-                            if (!IsNonTerminal(prev))
+                            // if the next symbols a ruleRef get the first valid terminal
+                            next = GetFirstTerminals(next, grammar).First();
+                        }
+                        
+                    
+                        // if the next symbol is the action we are searching for
+                        if (next.Equals(currentAction))
+                        {
+                            var current = expansion.items[i];
+                            if (grammar.IsRuleRef(current))
                             {
-                                result.Add(prev);
+                                // if the first next a ruleRef get the first valid terminal
+                                current = GetFirstTerminals(current, grammar).First();
                             }
-                            else
-                            {
-                                result.UnionWith(GetFirstTerminals(prev.TrimStart('#'), grammar));
-                            }
+                            
+                            // assign the current as a valid prev, because the next is the current
+                            prevValidTerminals.Add(current);
                         }
                     }
                 }
             }
 
-            return result.ToList();
+            return prevValidTerminals.ToList();
         }
 
         public List<List<string>> GetAllExpansions(string currentAction)
         {
+            HashSet<List<string>> allExpansions = new HashSet<List<string>>();
             var grammar = Quest.Grammar;
-            if (grammar == null)
-                return new List<List<string>>();
+            if (grammar == null) return allExpansions.ToList();
 
             var expansions = new List<List<string>>();
-            // get all the rules that contain the terminal
+            // Get all the rules that contain the terminal
             foreach (var rule in GetOwningRules(currentAction))
             {
-                // fill the expansions list of list with each of the rule entries within the rule(as they already contain the terminal)
-                grammar.GetRules().TryGetValue(rule, out expansions);
+                foreach (var ruleEntry in grammar.RuleEntries)
+                {
+                    if (ruleEntry.ruleID.Equals(rule))
+                    {
+                        foreach (var wrapper in ruleEntry.expansions)
+                        {
+                            expansions.Add(wrapper.items);
+                        }
+                    }
+                   
+                }
             }
-            
-            if (expansions is null or { Count: 0 }) return new List<List<string>>();
-            
-            List<List<string>> validSequences = new List<List<string>>();
-            
-            // get terminals from the quests
+
+            if (expansions is null or { Count: 0 }) return allExpansions.ToList();
+
+            // Use a HashSet to track unique sequence content as strings
+            HashSet<string> seenSequences = new HashSet<string>();
+
+            // Get terminals from the quests
             foreach (var expansion in expansions)
             {
                 List<string> sequence = new List<string>();
-                
+
                 foreach (var symbol in expansion)
                 {
-                    if (!IsNonTerminal(symbol))
+                    if (grammar.IsTerminal(symbol))
                     {
                         sequence.Add(symbol);
                     }
                     else
                     {
-                        sequence.Add(GetFirstTerminals(symbol.TrimStart('#'), grammar).First());
+                        sequence.Add(GetFirstTerminals(symbol, grammar).First());
                     }
-                    
-                    // some sequences can be repeated do to grammar reading in multiple definition values such as #GoTo
-                    // that can be Go to -> Explore or Explore -> Go to
-                    if(sequence.Any() && !validSequences.Contains(sequence)) validSequences.Add(sequence);
                 }
-                   
+                
+                allExpansions.Add(sequence);
             }
-          
-            return validSequences;
+
+            return allExpansions.ToList();
         }
 
         public List<string> GetOwningRules(string currentAction)
@@ -293,11 +233,23 @@ namespace ISILab.LBS.Assistants
             {
                 foreach (var terminals in ruleEntry.expansions)
                 {
-                    if(terminals.symbols.Contains(currentAction)) owners.Add(ruleEntry.ruleName);
+                    if(terminals.items.Contains(currentAction)) owners.Add(ruleEntry.ruleID);
                 }
             }
                 
             return owners.ToList();
+        }
+        
+        private List<string> GetFirstTerminals(string ruleName, LBSGrammar grammar)
+        {
+            var firstTerminals = new HashSet<string>();
+            return grammar.GetFirstTerminals(ruleName, firstTerminals);
+        }
+        
+        private List<string> GetLastTerminals(string current, LBSGrammar grammar)
+        {
+            var lastTerminals = new HashSet<string>();
+            return grammar.GetLastTerminals(current, lastTerminals);
         }
         
         public override void OnAttachLayer(LBSLayer layer)
@@ -319,7 +271,6 @@ namespace ISILab.LBS.Assistants
 
         public override void OnGUI() { }
 
-        private bool IsNonTerminal(string symbol) => symbol.Trim().StartsWith("#");
-        private bool IsTerminal(string symbol) => !IsNonTerminal(symbol);
+
     }
 }
