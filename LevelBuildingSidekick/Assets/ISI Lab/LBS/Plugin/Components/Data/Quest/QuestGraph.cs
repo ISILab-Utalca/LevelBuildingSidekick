@@ -36,7 +36,9 @@ namespace ISILab.LBS.Modules
         private HashSet<QuestEdge> _expiredEdges = new ();
         
         private QuestNode _selectedQuestNode;
-        
+
+        private float _viewNodeWidthOffset = 400f;
+        private float _viewNodeHeightOffset = 100f;
         #endregion
 
         #region PROPERTIES
@@ -112,6 +114,18 @@ namespace ISILab.LBS.Modules
 
             remove => _onQuestNodeSelected = null;
         }
+        
+        
+        [JsonIgnore]
+        private Action _onUpdateGraph;
+        public event Action OnUpdateGraph
+        {
+            add =>
+                // a single suscribed function at a time
+                _onUpdateGraph += value;
+
+            remove => _onUpdateGraph = null;
+        }
 
         #endregion
         
@@ -173,7 +187,6 @@ namespace ISILab.LBS.Modules
             return null;
         }
         
-        
         public void SetRoot(QuestNode node)
         {
             if (node == null)
@@ -193,7 +206,7 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action"></param>
         /// <param name="position"></param>
-        public void CreateAddNode(string action, Vector2 position)
+        public QuestNode CreateAddNode(string action, Vector2 position)
         {
             int suffix = 0;
             string nodeID;
@@ -202,34 +215,10 @@ namespace ISILab.LBS.Modules
                 nodeID = $"{action} ({suffix++})";
             } while (QuestNodes.Any(n => n.ID == nodeID));
 
-            InternalAddNode(new QuestNode(nodeID, position, action, this));
-        }
-        
-        /// <summary>
-        /// Adds a new node as the previous node of the current selected node.
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="zero"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void AddPreviousNode(string action, Vector2 zero)
-        {
-            throw new NotImplementedException();
-        }
-        
-        /// <summary>
-        /// Makes a new node that will be added into the graph
-        /// </summary>
-        /// <param name="paramId"></param>
-        /// <param name="position"></param>
-        /// <param name="action"></param>
-        public void AddNode(string paramId, Vector2 position, string action)
-        {
-            var newNode = new QuestNode(paramId, position, action, this);
-            questNodes.Add(newNode);
-            _newNodes.Add(newNode);
+            QuestNode newNode = new QuestNode(nodeID, position, action, this);
+            InternalAddNode(newNode);
             
-            OnAddNode?.Invoke(newNode);
-   
+            return newNode;
         }
         
         /// <summary>
@@ -246,6 +235,167 @@ namespace ISILab.LBS.Modules
             
             _selectedQuestNode = node;
             DataChanged(_selectedQuestNode);
+        }
+        
+        /// <summary>
+        /// Adds the node to the graph
+        /// </summary>
+        /// <param name="node"></param>
+        public void InternalInsertNode(QuestNode node, int index)
+        {
+            if(root == null) SetRoot(node);
+            questNodes.Insert(index, node);
+            _newNodes.Add(node);
+            
+            OnAddNode?.Invoke(node);
+            
+            _selectedQuestNode = node;
+            DataChanged(_selectedQuestNode);
+        }
+        
+        /// <summary>
+        /// Inserts a new node after a specified reference node
+        /// </summary>
+        /// <param name="action">The action type for the new node</param>
+        /// <param name="referenceNode">The node after which the new node will be inserted</param>
+        public QuestNode InsertNodeAfter(string action, QuestNode referenceNode)
+        {
+            var position = Vector2.zero;
+            if (referenceNode == null || !questNodes.Contains(referenceNode))
+            {
+                Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
+                return CreateAddNode(action, position);
+            }
+
+            int suffix = 0;
+            string nodeID;
+            do
+            {
+                nodeID = $"{action} ({suffix++})";
+            } while (QuestNodes.Any(n => n.ID == nodeID));
+
+            position = referenceNode.Position;
+            position.x += _viewNodeWidthOffset;
+            var newNode = new QuestNode(nodeID, position, action, this);
+  
+            int index = questNodes.IndexOf(referenceNode);
+            index = Math.Clamp(index, 0, questNodes.Count - 1);
+            InternalInsertNode(newNode, index+1);
+
+            // Find existing edges from the reference node
+            var outgoingEdges = GetBranches(referenceNode).ToList();
+            foreach (var edge in outgoingEdges)
+            {
+                InternalRemoveEdge(edge);
+                AddEdge(newNode, edge.To);
+            }
+
+            // Add edge from reference node to new node
+            AddEdge(referenceNode, newNode);
+
+            UpdateQuestNodes();
+            UpdateFlow?.Invoke();
+            
+            return newNode;
+        }
+
+        /// <summary>
+        /// Inserts a new node before a specified reference node
+        /// </summary>
+        /// <param name="action">The action type for the new node</param>
+        /// <param name="referenceNode">The node before which the new node will be inserted</param>
+        public void InsertNodeBefore(string action, QuestNode referenceNode)
+        {
+            var position = Vector2.zero;
+            if (referenceNode == null || !questNodes.Contains(referenceNode))
+            {
+                Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
+                CreateAddNode(action, position);
+                return;
+            }
+
+            int suffix = 0;
+            string nodeID;
+            do
+            {
+                nodeID = $"{action} ({suffix++})";
+            } while (QuestNodes.Any(n => n.ID == nodeID));
+
+            position =  referenceNode.Position;
+            position.x -= _viewNodeWidthOffset;
+            var newNode = new QuestNode(nodeID, position, action, this);
+
+            int index = questNodes.IndexOf(referenceNode);
+            index = Math.Clamp(index, 0, questNodes.Count - 1);
+            InternalInsertNode(newNode, index);
+            
+            // to update the types
+            UpdateQuestNodes();
+            
+            // Find existing edges to the reference node
+            var incomingEdges = GetRoots(referenceNode).ToList();
+            foreach (var edge in incomingEdges)
+            {
+                InternalRemoveEdge(edge);
+            }
+            
+            // Add edge from new node to reference node
+            AddEdge(newNode, referenceNode);
+            
+            // to update the visuals
+            UpdateQuestNodes();
+            UpdateFlow?.Invoke();
+        }
+        
+        /// <summary>
+        /// Inserts all the nodes to replace the reference node
+        /// </summary>
+        /// <param name="expandActions">all the actions that correspond to a new node</param>
+        /// <param name="referenceNode">the node that will be expanded(replaced)</param>
+        public void ExpandNode(List<string> expandActions, QuestNode referenceNode)
+        {
+            if(!expandActions.Any()) return;
+            
+            List<QuestNode> newNodes = new List<QuestNode>();
+            QuestNode iterationNode = referenceNode;
+            
+            // add from the previous index position to add the new ones
+            foreach (var action in expandActions)
+            {
+                var newNode = InsertNodeAfter(action, iterationNode);
+                if (newNode is null) continue;
+                
+                iterationNode = newNode;
+                newNodes.Add(newNode);
+            }
+            
+            // no new nodes end
+            if(!newNodes.Any()) return;
+            
+            //if we are replacing the root, just delete
+            if (referenceNode == Root)
+            {
+                RemoveQuestNode(referenceNode);
+                return;
+            }
+                
+            // get the previous connection node to the one we are replacing
+            QuestNode prevNode = null;
+            foreach (var edge in questEdges)
+            {
+                if (edge.To == referenceNode)
+                {
+                    prevNode = edge.From;
+                }
+            }
+            
+            if (prevNode is not null)
+            {
+                RemoveQuestNode(referenceNode);
+                // remake pending connection 
+                AddEdge(prevNode, newNodes.First());
+            }
+            
         }
         
         public void RemoveQuestNode(QuestNode node)
@@ -367,6 +517,8 @@ namespace ISILab.LBS.Modules
             
             questNodes.Last().NodeType = NodeType.Goal;
             SetRoot(questNodes.First());
+   
+            _onUpdateGraph?.Invoke();
         }
         public void Reorder()
         {
@@ -444,6 +596,8 @@ namespace ISILab.LBS.Modules
         }
 
         #endregion
+
+     
     }
 
 }

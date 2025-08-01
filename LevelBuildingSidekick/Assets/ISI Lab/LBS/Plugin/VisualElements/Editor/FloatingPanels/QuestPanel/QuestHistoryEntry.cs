@@ -64,7 +64,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region CONSTRUCTORS
         public QuestHistoryEntry()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestEntry");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestHistoryEntry");
             visualTree.CloneTree(this);
             
             _buttonGoTo = this.Q<Button>("GoToButton");

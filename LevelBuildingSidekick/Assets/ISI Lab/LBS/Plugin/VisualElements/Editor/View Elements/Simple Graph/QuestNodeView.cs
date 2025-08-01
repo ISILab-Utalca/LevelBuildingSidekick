@@ -31,6 +31,7 @@ namespace ISILab.LBS.VisualElements
     /// </summary>
     public class QuestNodeView : GraphElement
     {
+        
         private readonly QuestNode _node;
         private readonly VisualElement _root;
         private readonly VisualElement _startIcon;
@@ -79,6 +80,7 @@ namespace ISILab.LBS.VisualElements
             _node = node;
             _startIcon.style.display = DisplayStyle.None;
             _defaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
+            
         }
 
         private void OnMouseLeave(MouseLeaveEvent e)
