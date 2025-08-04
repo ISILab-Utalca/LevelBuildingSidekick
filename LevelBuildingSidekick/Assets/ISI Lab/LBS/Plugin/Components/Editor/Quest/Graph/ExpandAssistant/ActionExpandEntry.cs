@@ -46,21 +46,18 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             BackgroundSize  iconSize = new BackgroundSize(12, 12);
             string iconPath;
-            Color backgroundColor;
+            Color backgroundColor = Color.white;
+            iconSize = new BackgroundSize(28, 28);
             switch (nodeType)
             {
                 case NodeType.Start:
-                    iconPath = "Icons/Vectorial/Quest/";
-                    backgroundColor = LBSSettings.Instance.view.successColor;
+                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=StartNode";
                     break;
                 case NodeType.Middle:
-                    iconPath = "Icons/Vectorial/Icon=MidNode";
-                    backgroundColor = Color.white;
-                    iconSize = new BackgroundSize(28, 28);
+                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=MiddleNode";
                     break;
                 case NodeType.Goal:
-                    iconPath = "Icons/Vectorial/Icon=Goal";
-                    backgroundColor = LBSSettings.Instance.view.errorColor;
+                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=EndNode";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

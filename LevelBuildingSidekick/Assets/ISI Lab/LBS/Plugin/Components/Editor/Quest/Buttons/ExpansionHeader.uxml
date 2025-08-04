@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement name="ExpandPanel" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.33); border-right-color: rgba(0, 0, 0, 0.33); border-top-color: rgba(0, 0, 0, 0.33); border-bottom-color: rgba(0, 0, 0, 0.33); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px;">
+        <ui:Label text="Convert:" />
+        <ISILab.LBS.VisualElements.SuggestionActionButton name="ButtonConvert" />
+        <ui:Label text="To:&#10;" style="margin-top: 6px;" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.AI.Grammar;
+using ISILab.Extensions;
 using LBS.Components;
 
 namespace ISILab.LBS.Assistants
@@ -39,18 +40,57 @@ namespace ISILab.LBS.Assistants
         public bool ValidateEdgeGrammar(QuestEdge edge)
         {
             if (edge?.From is null || edge.To is null) return false;
-
+            
             var grammar = Quest.Grammar;
             if (grammar == null || !grammar.RuleEntries.Any()) return false;
 
-            List<string> validTerminals = GetAllValidNextActions(edge.From.QuestAction);
-            bool valid = validTerminals.Contains(edge.To.QuestAction);
-            // Update the nodes grammar State
-            edge.From.ValidGrammar = valid;
+            bool returnValid = false;
             
-            // If the To is the goal and this one's grammar is valid so is the next one
-            if(valid && edge.To.NodeType == NodeType.Goal) edge.To.ValidGrammar = true;
-            return validTerminals.Contains(edge.To.QuestAction);
+            // validate start 
+            if (edge.From.NodeType == NodeType.Start)
+            {
+                List<string> validNextTerminals = GetAllValidNextActions(edge.From.QuestAction);
+                bool validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                edge.From.ValidGrammar = validGrammar;
+                returnValid = validGrammar;
+            }
+            
+            // validate middle
+            if (edge.From.NodeType == NodeType.Middle)
+            {
+                bool validGrammar = false;
+                bool hasPreviousConnection = false;
+                
+                // check that the next terminal is valid
+                List<string> validNextTerminals = GetAllValidNextActions(edge.From.QuestAction);
+                validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                
+                // also check that this has a previous node connection
+                foreach (var fromEdge in Quest.QuestEdges)
+                {
+                    // the from node has a previous connection
+                    if (fromEdge.To == edge.From)
+                    {
+                        hasPreviousConnection = true;
+                        break;
+                    }
+                }
+                
+                edge.From.ValidGrammar = validGrammar && hasPreviousConnection;
+                returnValid = edge.From.ValidGrammar;
+            }
+            
+            // validate goal
+            if (edge.To.NodeType == NodeType.Goal)
+            {
+                // if the from is valid(so is the goal). Because the "From" gets validated first
+                // by checking that the "To" is a valid terminal
+                edge.To.ValidGrammar = edge.From.ValidGrammar;
+                returnValid = edge.To.ValidGrammar;
+            }
+                
+            return returnValid;
+            
         }
 
         public List<string> GetAllValidNextActions(string currentAction)
@@ -60,73 +100,68 @@ namespace ISILab.LBS.Assistants
 
             if (grammar == null) return nextValidTerminals.ToList();
 
-            List<string> owningRules = new List<string>();
-            foreach (var rule in GetOwningRules(currentAction))
+            // Step 1: Get rules that can produce currentAction
+            List<string> owningRules = GetOwningRules(currentAction);
+            foreach (var owningRule in owningRules.ToList())
             {
-                owningRules.Add(rule);
+                owningRules.AddRange(GetRulesWithRule(owningRule));
             }
-            
+            owningRules.RemoveDuplicates();
+
+            // Step 2: Collect all relevant expansions
             HashSet<RuleItem> itemsWithRule = new HashSet<RuleItem>();
-            
-            
-            // Step 1: Check for direct next terminals in expansions
-            foreach (var rule in grammar.RuleEntries)
+            foreach (RuleEntry ruleEntry in grammar.RuleEntries)
             {
-                foreach (RuleEntry ruleEntry in grammar.RuleEntries)
+                foreach (RuleItem wrapper in ruleEntry.expansions)
                 {
-                    foreach (RuleItem wrapper in ruleEntry.expansions)
+                    // Include expansions with currentAction or its owning rules
+                    if (wrapper.items.Contains(currentAction) || owningRules.Any(rule => wrapper.items.Contains(rule)))
                     {
-                        foreach (var owningRule in owningRules)
-                        {
-                            if (wrapper.items.Contains(currentAction) ||
-                                wrapper.items.Contains(owningRule))
-                            {
-                                itemsWithRule.Add(wrapper);
-                            }
-                        }
+                        itemsWithRule.Add(wrapper);
                     }
                 }
             }
-            
-            // Get the next valid terminal
-            foreach (var rule in owningRules)
+
+            // Step 3: Find next terminals
+            foreach (var ruleItem in itemsWithRule)
             {
-                foreach (var ruleItem in itemsWithRule)
+                for (int i = 0; i < ruleItem.items.Count - 1; i++)
                 {
-                    for (int i = 0; i < ruleItem.items.Count-1; i++)
+                    var current = ruleItem.items[i];
+                    bool isCurrentAction = false;
+
+                    // Check if current item matches currentAction or can produce it
+                    if (grammar.IsRuleRef(current))
                     {
-                        var current = ruleItem.items[i];
-                        
-                        // if isrule ref get last if == to currentaction
-                        if (grammar.IsRuleRef(current) && current == rule)
+                        if (GetFirstTerminals(current, grammar).Contains(currentAction))
                         {
-                            // if the rule is in the item, we must retrieve the last terminal
-                            // and compare it to the currentaction
-                            current = GetLastTerminals(current, grammar).First();
+                            isCurrentAction = true;
                         }
-                        
-                            
-                        if(current.Equals(currentAction))
+                    }
+                    else if (current.Equals(currentAction))
+                    {
+                        isCurrentAction = true;
+                    }
+
+                    if (isCurrentAction)
+                    {
+                        var next = ruleItem.items[i + 1];
+                        if (grammar.IsRuleRef(next))
                         {
-                            var next = ruleItem.items[i+1];
-                            if (grammar.IsRuleRef(next))
-                            {
-                                // if the first next a ruleRef get the first valid terminal
-                                next = GetFirstTerminals(next, grammar).First();
-                            }
-                            
-                            // assign the current as a valid prev, because the next is the current
+                            // Add all first terminals of the next rule
+                            nextValidTerminals.UnionWith(GetFirstTerminals(next, grammar));
+                        }
+                        else
+                        {
                             nextValidTerminals.Add(next);
                         }
                     }
                 }
             }
-            
-            
 
             return nextValidTerminals.ToList();
         }
-
+        
         public List<string> GetAllValidPrevActions(string currentAction)
         {
             var grammar = Quest.Grammar;
@@ -149,8 +184,6 @@ namespace ISILab.LBS.Assistants
                             // if the next symbols a ruleRef get the first valid terminal
                             next = GetFirstTerminals(next, grammar).First();
                         }
-                        
-                    
                         // if the next symbol is the action we are searching for
                         if (next.Equals(currentAction))
                         {
@@ -190,7 +223,6 @@ namespace ISILab.LBS.Assistants
                             expansions.Add(wrapper.items);
                         }
                     }
-                   
                 }
             }
 
@@ -216,12 +248,34 @@ namespace ISILab.LBS.Assistants
                     }
                 }
                 
+                // do not add sequences that return the same action only
+                if(sequence.Count == 1 && sequence[0] == currentAction) continue;
                 allExpansions.Add(sequence);
             }
 
             return allExpansions.ToList();
         }
 
+        private List<string> GetRulesWithRule(string rule)
+        {
+            var grammar = Quest.Grammar;
+            if (grammar == null) return new List<string>();
+            
+            HashSet<string> owningRules = new HashSet<string>();
+            foreach (RuleEntry ruleEntry in Quest.Grammar.RuleEntries)
+            {
+                foreach (RuleItem ruleItem in ruleEntry.expansions)
+                {
+                    // if the rule we are checking for is within the rule item
+                    if (ruleItem.items.Contains(rule))
+                    {
+                        owningRules.Add(ruleEntry.ruleID);
+                    }
+                }
+            }
+            return owningRules.ToList();
+        }
+        
         public List<string> GetOwningRules(string currentAction)
         {
             var grammar = Quest.Grammar;
@@ -231,12 +285,12 @@ namespace ISILab.LBS.Assistants
             
             foreach (RuleEntry ruleEntry in Quest.Grammar.RuleEntries)
             {
-                foreach (var terminals in ruleEntry.expansions)
+                foreach (RuleItem item in ruleEntry.expansions)
                 {
-                    if(terminals.items.Contains(currentAction)) owners.Add(ruleEntry.ruleID);
+                    if(item.items.Contains(currentAction)) owners.Add(ruleEntry.ruleID);
                 }
             }
-                
+            
             return owners.ToList();
         }
         
@@ -250,6 +304,12 @@ namespace ISILab.LBS.Assistants
         {
             var lastTerminals = new HashSet<string>();
             return grammar.GetLastTerminals(current, lastTerminals);
+        }
+        
+        private List<string> GetNextTerminal(string current, LBSGrammar grammar)
+        {
+            var nextTerminals = new HashSet<string>();
+            return grammar.GetNextTerminals(current, nextTerminals);
         }
         
         public override void OnAttachLayer(LBSLayer layer)
