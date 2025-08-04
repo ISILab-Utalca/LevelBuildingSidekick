@@ -88,6 +88,7 @@ namespace ISILab.Examples
                 targetRotation = inputDir;
             }
             playerModel.forward = Vector3.Slerp(playerModel.forward, targetRotation, rotationSpeed * Time.deltaTime);
+            modelAnimator.SetFloat("MoveBlend", movementDirectionSmooth.magnitude/movementSpeed);
 
             /*float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
             zoomDistance -= scrollWheel * zoomSpeed;
