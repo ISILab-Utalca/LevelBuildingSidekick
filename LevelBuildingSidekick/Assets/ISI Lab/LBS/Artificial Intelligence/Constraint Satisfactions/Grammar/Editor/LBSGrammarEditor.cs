@@ -22,17 +22,17 @@ namespace ISILab.LBS.VisualElements
             _foldout = EditorGUILayout.Foldout(_foldout, "Grammar Rules", true);
             if (_foldout)
             {
-                var rules = grammar.GetRules();
+                var rules = grammar.RuleEntries;
                 foreach (var rule in rules)
                 {
-                    _ruleFoldouts.TryAdd(rule.Key, false);
+                    _ruleFoldouts.TryAdd(rule.ruleID, false);
 
-                    _ruleFoldouts[rule.Key] = EditorGUILayout.Foldout(_ruleFoldouts[rule.Key], rule.Key);
-                    if (_ruleFoldouts[rule.Key])
+                    _ruleFoldouts[rule.ruleID] = EditorGUILayout.Foldout(_ruleFoldouts[rule.ruleID], rule.ruleID);
+                    if (_ruleFoldouts[rule.ruleID])
                     {
-                        foreach (var expansion in rule.Value)
+                        foreach (var expansion in rule.expansions)
                         {
-                            foreach (var terminals in expansion)
+                            foreach (var terminals in expansion.items)
                             {
                                 EditorGUILayout.LabelField("▪ " + terminals);
                             }

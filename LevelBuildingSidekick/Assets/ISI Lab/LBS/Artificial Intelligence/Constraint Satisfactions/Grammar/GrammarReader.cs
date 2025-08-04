@@ -33,17 +33,18 @@ namespace ISILab.AI.Grammar
         private static GrammarStructure ParseGrammar(SrgsDocument doc)
         {
             var grammar = new GrammarStructure();
-
+            grammar.Rules.Clear();
             foreach (var rule in doc.Rules)
             {
-                if (!grammar.Rules.ContainsKey(rule.Id))
+                string ruleID = rule.Id;
+                if (!grammar.Rules.ContainsKey(ruleID))
                 {
-                    grammar.Rules[rule.Id] = new RuleData { RuleName = rule.Id };
+                    grammar.Rules[ruleID] = new RuleData { ruleName = ruleID };
                 }
 
                 foreach (var element in rule.Elements)
                 {
-                    ExtractExpansionSequences(element, grammar.Rules[rule.Id].Expansions, grammar.terminals);
+                    ExtractExpansionSequences(element, grammar.Rules[ruleID].Expansions, grammar.terminals);
                 }
             }
 
@@ -93,7 +94,7 @@ namespace ISILab.AI.Grammar
                                 break;
 
                             case SrgsRuleRef ruleRef:
-                                var refName = $"#{ruleRef.Uri.ToString().Trim('#')}";
+                                var refName = $"{ruleRef.Uri.ToString().TrimStart('#')}";
                                 sequence.Add(refName);
                                 break;
 
