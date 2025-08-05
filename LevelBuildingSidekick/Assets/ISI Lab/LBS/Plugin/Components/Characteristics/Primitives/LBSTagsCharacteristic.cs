@@ -9,9 +9,9 @@ namespace ISILab.LBS.Characteristics
 {
     [System.Serializable]
     [LBSCharacteristic("Tags", "")]
-    public class LBSTagsCharacteristic : LBSCharacteristic
+    public class LBSTagsCharacteristic : LBSCharacteristic, ISerializationCallbackReceiver
     {
-        [JsonRequired]
+        [SerializeField, JsonRequired]
         string tagName = "";
 
         [SerializeField, JsonRequired/*, JsonIgnore*/]
@@ -88,6 +88,16 @@ namespace ISILab.LBS.Characteristics
             }
             
             return warnings;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            tagName = Value.label;
+        }
+
+        public void OnAfterDeserialize()
+        {
+            //throw new System.NotImplementedException();
         }
     }
 }

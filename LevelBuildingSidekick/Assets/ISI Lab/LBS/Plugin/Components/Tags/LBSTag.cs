@@ -105,13 +105,19 @@ namespace ISILab.LBS.Components
 
         public override bool Equals(object other)
         {
-            if(other == null) return false;
-            var obj = other as LBSTag;
-            if(obj == null) return false;
+            if (other is not LBSTag obj) return false;
+            //if(other == null) return false;
+            //var obj = other as LBSTag;
+            //if(obj == null) return false;
 
-            return label.Equals(obj.label);
+            return Equals(label, obj.Label);
                 //&& icon .Equals(obj.icon)
                 //&& color.Equals(obj.color);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         private void OnValidate()
