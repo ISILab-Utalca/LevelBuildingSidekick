@@ -29,92 +29,92 @@ MonoBehaviour:
   ruleEntries:
   - ruleName: Quest
     expansions:
-    - symbols:
-      - '#Subquest'
-    - symbols:
-      - '#Goto'
-    - symbols:
-      - '#Learn'
-    - symbols:
-      - '#Get'
-    - symbols:
-      - '#Steal'
-    - symbols:
-      - '#Kill'
-    - symbols:
-      - '#Capture'
-    - symbols:
-      - '#Spy'
+    - expansionDefinitions:
+      - Subquest
+    - expansionDefinitions:
+      - Goto
+    - expansionDefinitions:
+      - Learn
+    - expansionDefinitions:
+      - Get
+    - expansionDefinitions:
+      - Steal
+    - expansionDefinitions:
+      - Kill
+    - expansionDefinitions:
+      - Capture
+    - expansionDefinitions:
+      - Spy
   - ruleName: Subquest
     expansions:
-    - symbols:
-      - '#Goto'
-    - symbols:
-      - '#Goto'
-      - '#Quest'
+    - expansionDefinitions:
+      - Goto
+    - expansionDefinitions:
+      - Goto
+      - Quest
       - go to
   - ruleName: Goto
     expansions:
-    - symbols:
+    - expansionDefinitions:
       - explore
-    - symbols:
-      - '#Learn'
+    - expansionDefinitions:
+      - Learn
       - go to
-    - symbols:
+    - expansionDefinitions:
       - go to
   - ruleName: Learn
     expansions:
-    - symbols:
-      - '#Goto'
-      - '#Subquest'
+    - expansionDefinitions:
+      - Goto
+      - Subquest
       - listen
-    - symbols:
-      - '#Goto'
-      - '#Get'
+    - expansionDefinitions:
+      - Goto
+      - Get
       - read
-    - symbols:
-      - '#Get'
-      - '#Subquest'
+    - expansionDefinitions:
+      - Get
+      - Subquest
       - give
       - listen
   - ruleName: Get
     expansions:
-    - symbols:
-      - '#Steal'
-    - symbols:
-      - '#Goto'
+    - expansionDefinitions:
+      - Steal
+    - expansionDefinitions:
+      - Goto
       - gather
-    - symbols:
-      - '#Goto'
-      - '#Get'
-      - '#Goto'
-      - '#Subquest'
+    - expansionDefinitions:
+      - Goto
+      - Get
+      - Goto
+      - Subquest
       - exchange
   - ruleName: Steal
     expansions:
-    - symbols:
-      - '#Goto'
+    - expansionDefinitions:
+      - Goto
       - stealth
       - take
-    - symbols:
-      - '#Goto'
-      - '#Kill'
+    - expansionDefinitions:
+      - Goto
+      - Kill
       - take
   - ruleName: Kill
     expansions:
-    - symbols:
-      - '#Goto'
+    - expansionDefinitions:
+      - Goto
       - kill
   - ruleName: Capture
     expansions:
-    - symbols:
-      - '#Get'
-      - '#Goto'
+    - expansionDefinitions:
+      - Get
+      - Goto
       - capture
   - ruleName: Spy
     expansions:
-    - symbols:
-      - '#Goto'
+    - expansionDefinitions:
+      - Goto
       - spy
-      - '#Goto'
+      - Goto
       - report
