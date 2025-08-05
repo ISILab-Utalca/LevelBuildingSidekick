@@ -289,10 +289,14 @@ public class PathOSAgentBatchingWindow : EditorWindow
         {
             themeColor = Color.black;
         }
+
+        EditorApplication.update += UpdateBatching;
     }
 
     private void OnDisable()
     {
+        EditorApplication.update -= UpdateBatching;
+
         //Save settings to the editor.
         string prefsData = JsonUtility.ToJson(this, false);
         EditorPrefs.SetString(editorPrefsID, prefsData);
@@ -347,7 +351,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
     }
 
     //This used to be private void OnGUI()
-    public void OnWindowOpen()
+    public void OnWindowOpen(Rect layout)
     {
         //Reloading data based on scene we're in
         if (sceneName != SceneManager.GetActiveScene().name)
@@ -365,7 +369,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
 
         GUI.backgroundColor = bgDark3;
-        EditorGUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");//🔵
 
         headerEditor = headerEditor == null ? Editor.CreateEditor(this) : headerEditor;
         
@@ -375,27 +379,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
         headerStyle.normal.textColor = themeColor;
 
-        EditorGUILayout.LabelField("General", headerStyle);
-        EditorGUILayout.BeginHorizontal();
 
-        EditorGUILayout.BeginVertical();
-        timeScale = EditorGUILayout.Slider("Timescale: ", timeScale, 1.0f, 8.0f);
-        // GABO: Allows the slider to set time scale if batching agents are in the scene.
-        // Temp fix for timescale (and other things) resetting during PathOSWindow.OnDisable when entering Play Mode.
-        // "Time.timeScale will be set here during batching. Code in "PathOSAgent.OnDestroy()"
-        // should prevent them from affecting timeScale after batching ends.
-        if (FindObjectsOfType<PathOSAgent>().ToList().Exists(a => a.name.Contains("Temporary Batch Agent")))
-        {
-            Time.timeScale = timeScale;
-        }
-
-        //numAgents = EditorGUILayout.IntField("Number of agents: ", numAgents);
-        // GABO TEMP FIX: Preventing agents from being more than single batch to stop error warnings (to be fixed). 
-        numAgents = EditorGUILayout.IntSlider("Number of Agents: ", numAgents, 0, MAX_AGENTS_SIMULTANEOUS);
-
-        EditorGUILayout.EndVertical();
-
-        EditorGUILayout.BeginVertical();
+        EditorGUILayout.LabelField("Theme color", headerStyle);
+        EditorGUILayout.BeginHorizontal();//⚫
         if (GUILayout.Button("Light Mode"))
         {
             themeColor = Color.white;
@@ -404,9 +390,27 @@ public class PathOSAgentBatchingWindow : EditorWindow
         {
             themeColor = Color.black;
         }
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();//⬛
+        EditorGUILayout.Space(5);
 
-        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.LabelField("General", headerStyle);
+
+        EditorGUILayout.BeginVertical();//🔵
+        timeScale = EditorGUILayout.Slider("Timescale: ", timeScale, 1.0f, 8.0f);
+        // GABO: Allows the slider to set time scale if batching agents are in the scene.
+        // Temp fix for timescale (and other things) resetting during PathOSWindow.OnDisable when entering Play Mode.
+        // "Time.timeScale will be set here during batching. Code in "PathOSAgent.OnDestroy()"
+        // should prevent them from affecting timeScale after batching ends.
+        if (FindObjectsByType<PathOSAgent>(FindObjectsSortMode.None).ToList().Exists(a => a.name.Contains("Temporary Batch Agent")))
+        {
+            Time.timeScale = timeScale;
+        }
+
+        //numAgents = EditorGUILayout.IntField("Number of agents: ", numAgents);
+        // GABO TEMP FIX: Preventing agents from being more than single batch to stop error warnings (to be fixed). 
+        numAgents = EditorGUILayout.IntSlider("Number of Agents: ", numAgents, 0, MAX_AGENTS_SIMULTANEOUS);
+
+        EditorGUILayout.EndVertical();//🟦
 
         //        simultaneousProperty = EditorGUILayout.Toggle(
         //            "Simulate Simultaneously", simultaneousProperty);
@@ -418,31 +422,34 @@ public class PathOSAgentBatchingWindow : EditorWindow
         EditorGUILayout.Space(5);
 
         GUI.backgroundColor = btnColor;
-        EditorGUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");//🔵
 
         GUI.backgroundColor = bgColor;
 
         startLocation = EditorGUILayout.Vector3Field("Starting location: ", startLocation);
 
-            EditorGUILayout.LabelField("Prefab to use: ", shortPrefabFile);
-            GUI.backgroundColor = btnColorLight;
-            if (GUILayout.Button("Select Prefab..."))
+        EditorGUILayout.LabelField("Prefab to use: ", shortPrefabFile);
+        GUI.backgroundColor = btnColorLight;
+        if (GUILayout.Button("Select Prefab..."))
+        {
+            EditorApplication.delayCall += () =>
             {
                 loadPrefabFile = EditorUtility.OpenFilePanel("Select Prefab...", Application.dataPath, "prefab");
 
                 PathOS.UI.TruncateStringHead(loadPrefabFile, ref shortPrefabFile, pathDisplayLength);
 
                 CheckPrefabFile();
-            }
-            GUI.backgroundColor = bgColor;
+            };
+        }
+        GUI.backgroundColor = bgColor;
+        
+        if (!validPrefabFile)
+        {
+            EditorGUILayout.LabelField("Error! You must select a Unity prefab" +
+                " with the PathOSAgent component.", errorStyle);
+        }
 
-            if (!validPrefabFile)
-            {
-                EditorGUILayout.LabelField("Error! You must select a Unity prefab" +
-                    " with the PathOSAgent component.", errorStyle);
-            }
-
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
 
         EditorGUILayout.Space(5);
 
@@ -469,7 +476,9 @@ public class PathOSAgentBatchingWindow : EditorWindow
         EditorGUILayout.LabelField("Agent Motives", headerStyle);
 
         GUI.backgroundColor = btnColorLight;
-        heuristicMode = (HeuristicMode)GUILayout.SelectionGrid((int)heuristicMode, heuristicModeLabels, heuristicModeLabels.Length);
+        int targetButtonSize = 150;
+        int xCount = Mathf.Clamp((int)layout.width / targetButtonSize, 1, heuristicModeLabels.Length);
+        heuristicMode = (HeuristicMode)GUILayout.SelectionGrid((int)heuristicMode, heuristicModeLabels, xCount);
         GUI.backgroundColor = bgColor;
 
         //Motive configration panel.
@@ -513,13 +522,17 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
                 EditorGUI.BeginChangeCheck();
 
-                PathOS.EditorUI.FullMinMaxSlider("Experience Scale",
+                EditorGUILayout.Space(2);
+                EditorGUILayout.LabelField("Experience Scale");
+                PathOS.EditorUI.FullMinMaxSlider("",
                     ref rangeExp.min, ref rangeExp.max);
 
                 for (int i = 0; i < rangeHeuristics.Count; ++i)
                 {
+                    EditorGUILayout.Space(2);
+                    EditorGUILayout.LabelField(heuristicLabels[rangeHeuristics[i].heuristic]);
                     PathOS.EditorUI.FullMinMaxSlider(
-                        heuristicLabels[rangeHeuristics[i].heuristic],
+                        "",
                         ref rangeHeuristics[i].range.min,
                         ref rangeHeuristics[i].range.max);
                 }
@@ -558,6 +571,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
 
                 break;
         }
+        EditorGUILayout.Space(5);
 
         GUILayout.Label("Simulation Controls", headerStyle);
 
@@ -612,7 +626,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
             cleanupWait = true;
         }
         GUI.backgroundColor = bgColor;
-        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndVertical();//🟦
     }
 
     public void UpdateBatching()
@@ -961,7 +975,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
     {
         existingSceneAgents.Clear();
 
-        foreach(PathOSAgent agent in FindObjectsOfType<PathOSAgent>())
+        foreach(PathOSAgent agent in FindObjectsByType<PathOSAgent>(FindObjectsSortMode.None))
         {
             existingSceneAgents.Add(new RuntimeAgentReference(agent));
         }
@@ -1024,7 +1038,7 @@ public class PathOSAgentBatchingWindow : EditorWindow
         // refs are lost when initializing Play Mode,so the code above doesn't work.
         // Preventing PathOSWindow from creating a new PathOSAgentBatchingWindow
         // on its OnEnable call doesn't help.
-        PathOSAgent[] allAgents = FindObjectsOfType<PathOSAgent>();
+        PathOSAgent[] allAgents = FindObjectsByType<PathOSAgent>(FindObjectsSortMode.None);
         foreach (PathOSAgent agent in allAgents)
         {
             if (agent.name.Contains("Temporary Batch Agent"))

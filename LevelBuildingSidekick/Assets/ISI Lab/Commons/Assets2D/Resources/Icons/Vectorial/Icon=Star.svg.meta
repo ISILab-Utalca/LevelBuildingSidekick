@@ -15,7 +15,7 @@ ScriptedImporter:
   alignment: 0
   customPivot: {x: 0, y: 0}
   generatePhysicsShape: 0
-  viewportOptions: 0
+  viewportOptions: 1
   preserveViewport: 0
   advancedMode: 0
   predefinedResolutionIndex: 1
@@ -51,5 +51,5 @@ ScriptedImporter:
         y: 0
         width: 0
         height: 0
-      spriteID: 01020806a10842041ab00f263b25af84
+      spriteID: 20fbe45e856bdb54c90409f5c77c4454
     PhysicsOutlines: []

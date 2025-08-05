@@ -424,7 +424,7 @@ class ExpertEvaluation
 
     }
 
-    public void DrawComments()
+    public void DrawComments(Rect layout)
     {
         EditorGUILayout.Space();
 
@@ -483,7 +483,7 @@ class ExpertEvaluation
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.BeginHorizontal();
             EditorStyles.label.wordWrap = true;
-            userComments[i].description = EditorGUILayout.TextArea(userComments[i].description, GUILayout.Width(Screen.width * 0.6f));
+            userComments[i].description = EditorGUILayout.TextArea(userComments[i].description, GUILayout.Width(layout.width - 175));
 
             GUI.backgroundColor = categoryColors[((int)userComments[i].category)];
             userComments[i].category = (Category)EditorGUILayout.Popup((int)userComments[i].category, categoryNames);
@@ -497,7 +497,7 @@ class ExpertEvaluation
             EditorGUILayout.Space(2);
             EditorGUILayout.BeginHorizontal();
 
-            userComments[i].selection = EditorGUILayout.ObjectField("", userComments[i].selection, typeof(GameObject), true, GUILayout.Width(Screen.width * 0.6f))
+            userComments[i].selection = EditorGUILayout.ObjectField("", userComments[i].selection, typeof(GameObject), true)
                 as GameObject;
 
             if (userComments[i].selection == null) userComments[i].selectionName = "";
@@ -881,7 +881,7 @@ public class PathOSEvaluationWindow : EditorWindow
         comments.LoadData();
     }
 
-    public void OnWindowOpen()
+    public void OnWindowOpen(Rect layout)
     {
         //Reloading data based on scene we're in
         if (sceneName != SceneManager.GetActiveScene().name)
@@ -926,13 +926,15 @@ public class PathOSEvaluationWindow : EditorWindow
 
         EditorGUILayout.Space(15);
 
-        GUILayout.BeginHorizontal();
-
         GUI.backgroundColor = btnColor;
         headerStyle.fontSize = 20;
         headerStyle.normal.textColor = themeColor;
         
         EditorGUILayout.LabelField(expertEvaluation, headerStyle);
+
+        EditorGUILayout.Space(10);
+
+        GUILayout.BeginHorizontal();
 
         if (GUILayout.Button(deleteAll))
         {
@@ -962,7 +964,7 @@ public class PathOSEvaluationWindow : EditorWindow
 
         GUI.backgroundColor = bgColor;
         GUILayout.EndHorizontal();
-        comments.DrawComments();
+        comments.DrawComments(layout);
 
         EditorGUILayout.EndVertical();
 
@@ -988,7 +990,10 @@ public class PathOSEvaluationWindow : EditorWindow
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.FlexibleSpace();
-        GUILayout.Label(screenshot.GetScreenshot(), GUILayout.Width(Screen.width*0.8f), GUILayout.Height(Screen.width*0.4f));
+        Texture2D currentScreenshot = screenshot.GetScreenshot();
+        float targetWidth = layout.width,
+            targetHeight = currentScreenshot != null ? layout.width * currentScreenshot.height / currentScreenshot.width : 0;
+        GUILayout.Label(currentScreenshot, GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
         GUILayout.FlexibleSpace();
         EditorGUILayout.EndHorizontal();
 

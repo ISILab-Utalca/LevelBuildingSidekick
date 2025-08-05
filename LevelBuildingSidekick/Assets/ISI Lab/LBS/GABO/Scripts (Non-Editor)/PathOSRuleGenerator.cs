@@ -76,7 +76,7 @@ namespace ISILab.LBS.Generators
             // Se reinicia lista de muros antigua
             lastGenerationWalls = new();
             // Obtiene (o crea) instancia de PathOSWindow
-            window = EditorWindow.GetWindow(typeof(PathOSWindow), false, "PathOS+") as PathOSWindow;
+            window = EditorWindow.GetWindow(typeof(PathOSWindow), false, "PathOS+", false) as PathOSWindow;
             // Objeto contenedor padre
             parent = new GameObject("PathOS+");
             // Objeto hijo, contenedor de los objetos etiquetados

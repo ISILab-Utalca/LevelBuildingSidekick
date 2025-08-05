@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
+using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
 using UnityEditor.UIElements;
@@ -75,6 +78,16 @@ namespace ISILab.LBS.Editor
                 {
                     UpdatePanel();
                 };
+
+                _questGraph.OnUpdateGraph += () =>
+                {
+                    // update the graph grammar
+                    foreach (var edge in _questGraph.QuestEdges)
+                    {
+                        _grammarAssistant.ValidateEdgeGrammar(edge);
+                    }
+                    
+                };
             }
             
             UpdatePanel();
@@ -140,7 +153,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (nextActions.Count <= i) return;
             string action = nextActions[i];
-            button.SetAction(action, MakeNewNode(action));
+            button?.SetAction(action, InsertNextAction(action, _questGraph.SelectedQuestNode));
 
         };
         _nextSuggested.Rebuild();
@@ -156,7 +169,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (prevActions.Count <= i) return;
             string action = prevActions[i];
-            button.SetAction(action, AddPreviousNode(action));
+            button?.SetAction(action, InsertPreviousAction(action, _questGraph.SelectedQuestNode));
         };
         _prevSuggested.Rebuild();
 
@@ -165,43 +178,91 @@ namespace ISILab.LBS.Editor
         _expandSuggested.style.display = !expandActions.Any() ? DisplayStyle.None : DisplayStyle.Flex;
         
         _expandSuggested.itemsSource = expandActions;
-        _expandSuggested.makeItem = () => new VisualElement();
-        _expandSuggested.bindItem = (e, i) =>
+        _expandSuggested.virtualizationMethod = CollectionVirtualizationMethod.DynamicHeight; // Ensure dynamic height
+        _expandSuggested.makeItem = () => 
         {
-            var container = e as VisualElement;
-            container.Clear();
-            container.style.flexDirection = FlexDirection.Row;
-
-            foreach (var step in expandActions[i])
+            var foldout = new LBSCustomFoldout();
+            foldout.contentContainer.style.flexDirection = FlexDirection.Column;
+            foldout.style.flexGrow = 1;
+            foldout.style.flexShrink = 0;
+            
+            foldout.RegisterValueChangedCallback(evt =>
             {
-                var button = new SuggestionActionButton();
-                button.SetAction(step, MakeNewNode(step));
-                container.Add(button);
-            }
+                foldout.contentContainer.style.flexShrink = evt.newValue ? 0 : 1;
+                _expandSuggested.RefreshItems();
+     
+            });
+            
+            return foldout;
         };
+        _expandSuggested.bindItem = (v, i) =>
+        {
+            if(i == expandActions.Count) return;
+            var foldout = v as LBSCustomFoldout;
+            foldout.contentContainer.Clear();
+            
+            List<string> actionString = expandActions[i];
+
+            var button = new SuggestionActionButton
+            {
+                style =
+                {
+                    flexGrow = 1,
+                    flexShrink = 0
+                }
+            };
+            button.SetAction("Apply this expansion", ExpandAction(actionString, _questGraph.SelectedQuestNode));
+            foldout.contentContainer.Add(button);
+
+            for (int j = 0; j < actionString.Count; j++)
+            {
+                NodeType type = NodeType.Middle;
+                if (j == 0) type = NodeType.Start;
+                else if (j == expandActions.Count) type = NodeType.Goal;
+
+                ActionExpandEntry entry = new ActionExpandEntry
+                {
+                    style =
+                    {
+                        flexGrow = 1,
+                        flexShrink = 0
+                    }
+                };
+                entry.SetEntryAction(actionString[j], type);
+                foldout.contentContainer.Add(entry);
+            }
+        };;
+        
         _expandSuggested.Rebuild();
     }
 
+    private Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
+    {
+        return () => _questGraph.ExpandNode(expandAction, referenceNode);
+    }
 
-        /// <summary>
+
+    /// <summary>
         /// Calls as a delegate the CreateAddNode function from the graph to make a new node based on the
         /// parameter action.
         /// </summary>
         /// <param name="action">Action(Grammar Terminal)</param>
+        /// <param name="referenceNode">the node from where we got the next action</param>
         /// <returns></returns>
-        private Action MakeNewNode(string action)
+        private Action InsertNextAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.CreateAddNode(action, Vector2.zero);
+            return () => _questGraph.InsertNodeAfter(action, referenceNode);
         }
         
         /// <summary>
         /// Calls as a delegate that replaces the previous node to the selected node
         /// </summary>
         /// <param name="action">Action(Grammar Terminal) that will be added as previous</param>
+        /// <param name="referenceNode">the node from where we got the previous action</param>
         /// <returns></returns>
-        private Action AddPreviousNode(string action)
+        private Action InsertPreviousAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.AddPreviousNode(action, Vector2.zero);
+            return () => _questGraph.InsertNodeBefore(action, referenceNode);
         }
         
         public void SetTools(ToolKit toolkit)

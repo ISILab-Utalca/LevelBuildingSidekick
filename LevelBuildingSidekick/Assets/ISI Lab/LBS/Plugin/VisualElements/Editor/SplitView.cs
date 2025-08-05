@@ -14,7 +14,7 @@ namespace ISILab.Commons.VisualElements.Editor
        // public new class UxmlFactory : UxmlFactory<SplitView, UxmlElementAttribute> { }
         public SplitView()
         {
-            var content = this.Q<VisualElement>("unity-content-container");
+            VisualElement content = this.Q<VisualElement>("unity-content-container");
             content.pickingMode = PickingMode.Ignore;
 
             var dragLineAnchor = this.Q<VisualElement>("unity-dragline-anchor");

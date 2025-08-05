@@ -205,7 +205,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnDetachLayer(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            OwnerLayer = null;
         }
         
         private void ReplaceTile(TileBundleGroup tile)

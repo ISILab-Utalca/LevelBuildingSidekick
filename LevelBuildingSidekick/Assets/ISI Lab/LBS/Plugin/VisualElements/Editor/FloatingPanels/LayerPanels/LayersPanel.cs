@@ -180,6 +180,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if (!answer) return;
 
             var removedLayer = Data.RemoveAt(index);
+            removedLayer.RemoveAll();
 
             LBSLayer next = null;
             if (Data.LayerCount > 0)

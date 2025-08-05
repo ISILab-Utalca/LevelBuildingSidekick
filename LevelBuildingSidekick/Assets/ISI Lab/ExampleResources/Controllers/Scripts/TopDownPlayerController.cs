@@ -11,6 +11,7 @@ namespace ISILab.Examples
         //Player object fields
         private CharacterController characterController;
         public Transform playerModel;
+        public Animator modelAnimator;
 
         // Movement field
         public float movementSpeed = 5f;
@@ -47,6 +48,7 @@ namespace ISILab.Examples
         private void Start()
         {
             characterController = GetComponent<CharacterController>();
+
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
@@ -97,11 +99,14 @@ namespace ISILab.Examples
                 targetRotation = inputDir;
             }
             playerModel.forward = Vector3.Slerp(playerModel.forward, targetRotation, rotationSpeed * Time.deltaTime);
+            modelAnimator.SetFloat("MoveBlend", movementDirectionSmooth.magnitude/movementSpeed);
+
         }
         
         private void UpdateCamera()
         {
             //Zoom tech (not used for now)
+
             /*float scrollWheel = Input.GetAxis("Mouse ScrollWheel");
             zoomDistance -= scrollWheel * zoomSpeed;
             zoomDistance = Mathf.Clamp(zoomDistance, minZoomDistance, maxZoomDistance);

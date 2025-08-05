@@ -35,6 +35,7 @@ namespace ISILab.LBS.CustomComponents
         public LBSCustomFoldout() : base()
         {
             this.AddToClassList(FOLDOUT_USS);
+            this.AddToClassList("lbs");
             
             this.text = "LBS Custom Foldout";
             
