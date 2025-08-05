@@ -53,55 +53,90 @@ namespace ISILab.LBS.CustomComponents
                 
             });
 
-            _minField.RegisterCallback<FocusOutEvent>(OnMinFieldUnFocused);
-
-
-            void OnMinFieldUnFocused(FocusOutEvent _evt)
+            // Register unFocus command to validate min value setter.
+            _minField.RegisterCallback<FocusOutEvent>(_evt =>
             {
-                IntegerField target = _evt.target as IntegerField;
-                if (target == null) return;
-                
-                if (target.value > this.intValue.y)
+                if (_evt.target is IntegerField target)
                 {
-                    Debug.LogWarning("Min Range Value is greater than Max Value");
-                    _minField.value = intValue.y;
-                    _evt.StopPropagation();
-                    return;
-                }
-
-                if (target.value < lowLimit)
-                {
-                    this.IntValue = new Vector2Int((int)lowLimit, intValue.y);
-                }
-                else
-                {
-                    this.IntValue = new Vector2Int(target.value, intValue.y);
-                }
-                _evt.StopPropagation();
-            }
-            
-            
-            
-            _maxField.RegisterCallback<ChangeEvent<int>>(_evt =>
-            {
-                
-                if (_evt.newValue < this.value.x)
-                {
-                    Debug.LogWarning("Max Range Value is less than Min Value");
-                    return;
-                }
-
-                if (_evt.newValue > highLimit)
-                {
-                    this.IntValue = new Vector2Int(intValue.x, (int)highLimit);
-                }
-                else
-                {
-                    IntValue = new Vector2Int(intValue.x, _evt.newValue);
+                    OnMinFieldValidate(target);
                 }
                 _evt.StopPropagation();
             });
             
+            _minField.RegisterCallback<KeyUpEvent>(_evt =>
+            {
+                if (_evt.keyCode == KeyCode.Return)
+                {
+                    if (_evt.target is IntegerField target)
+                    {
+                        OnMinFieldValidate(target);
+                    }
+                }
+                _evt.StopPropagation();
+            });
+
+            _maxField.RegisterCallback<FocusOutEvent>(_evt =>
+            {
+                if (_evt.target is IntegerField target)
+                {
+                    OnMaxFieldValidate(target);
+                }
+                _evt.StopPropagation();
+            });
+            
+            _maxField.RegisterCallback<KeyUpEvent>(_evt =>
+            {
+                if (_evt.keyCode == KeyCode.Return)
+                {
+                    if (_evt.target is IntegerField target)
+                    {
+                        OnMaxFieldValidate(target);
+                    }
+                }
+                _evt.StopPropagation();
+            });
+            
+        }
+        
+        void OnMinFieldValidate(IntegerField _target)
+        {
+            if (_target.value > this.intValue.y)
+            {
+                //Debug.LogWarning("Min Range Value is greater than Max Value");
+                _minField.value = intValue.y;
+                IntValue = new Vector2Int(intValue.y, intValue.y);
+                return;
+            }
+
+            if (_target.value < lowLimit)
+            {
+                this.IntValue = new Vector2Int((int)lowLimit, intValue.y);
+            }
+            else
+            {
+                this.IntValue = new Vector2Int(_target.value, intValue.y);
+            }
+        }
+        
+        
+        void OnMaxFieldValidate(IntegerField _target)
+        {
+            if (_target.value < this.intValue.x)
+            {
+                //Debug.LogWarning("Max Range Value is less than Max Value");
+                _maxField.value = intValue.x;
+                IntValue = new Vector2Int(intValue.x, intValue.x);
+                return;
+            }
+
+            if (_target.value > highLimit)
+            {
+                this.IntValue = new Vector2Int(intValue.x, (int)highLimit);
+            }
+            else
+            {
+                this.IntValue = new Vector2Int(intValue.x, _target.value);
+            }
         }
         
     }
