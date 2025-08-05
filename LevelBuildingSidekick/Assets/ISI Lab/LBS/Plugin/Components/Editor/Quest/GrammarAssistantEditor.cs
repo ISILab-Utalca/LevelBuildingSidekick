@@ -10,6 +10,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
@@ -201,24 +202,19 @@ namespace ISILab.LBS.Editor
             var foldout = v as LBSCustomFoldout;
             foldout.contentContainer.Clear();
             
-            List<string> actionString = expandActions[i];
+            foldout.text = "Expansion " + (i+1);
+            
+            List<string> actions = expandActions[i];
+            
+            ExpansionHeader header =  new ExpansionHeader();
+            header.ButtonConvert.SetAction(_questGraph.SelectedQuestNode.QuestAction, ExpandAction(actions, _questGraph.SelectedQuestNode));
+            foldout.contentContainer.Add(header);
 
-            var button = new SuggestionActionButton
-            {
-                style =
-                {
-                    flexGrow = 1,
-                    flexShrink = 0
-                }
-            };
-            button.SetAction("Apply this expansion", ExpandAction(actionString, _questGraph.SelectedQuestNode));
-            foldout.contentContainer.Add(button);
-
-            for (int j = 0; j < actionString.Count; j++)
+            for (int j = 0; j < actions.Count; j++)
             {
                 NodeType type = NodeType.Middle;
                 if (j == 0) type = NodeType.Start;
-                else if (j == expandActions.Count) type = NodeType.Goal;
+                else if (j == actions.Count-1) type = NodeType.Goal;
 
                 ActionExpandEntry entry = new ActionExpandEntry
                 {
@@ -228,7 +224,7 @@ namespace ISILab.LBS.Editor
                         flexShrink = 0
                     }
                 };
-                entry.SetEntryAction(actionString[j], type);
+                entry.SetEntryAction(actions[j], type);
                 foldout.contentContainer.Add(entry);
             }
         };;

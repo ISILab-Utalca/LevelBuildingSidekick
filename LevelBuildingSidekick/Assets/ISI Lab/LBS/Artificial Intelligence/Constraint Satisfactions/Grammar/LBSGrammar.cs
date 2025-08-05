@@ -101,13 +101,16 @@ namespace ISILab.AI.Grammar
                 // found the rule we need
                 if (ruleEntry.ruleID.Equals(ruleName))
                 {
-                    var terminal = ruleEntry.expansions.First().items.First();
-                    if (IsRuleRef(terminal))
+                    foreach (var entryItem in ruleEntry.expansions)
                     {
-                        // pass termina as it is a rule ref. Called recursively until a terminal is obtained
-                        terminal = GetFirstTerminals(terminal, firstTerminals).First();
+                        var terminal = entryItem.items.FirstOrDefault();
+                        if (IsRuleRef(terminal))
+                        {
+                            // pass termina as it is a rule ref. Called recursively until a terminal is obtained
+                            terminal = GetLastTerminals(terminal, firstTerminals).First();
+                        }
+                        firstTerminals.Add(terminal);
                     }
-                    firstTerminals.Add(terminal);
                 }
             }
 
@@ -122,18 +125,47 @@ namespace ISILab.AI.Grammar
                 // found the rule we need
                 if (ruleEntry.ruleID.Equals(ruleName))
                 {
-                    var terminal = ruleEntry.expansions.First().items.Last();
-                    if (IsRuleRef(terminal))
+                    foreach (var entryItem in ruleEntry.expansions)
                     {
-                        // pass termina as it is a rule ref. Called recursively until a terminal is obtained
-                        terminal = GetLastTerminals(terminal, lastTerminals).Last();
+                        var terminal = entryItem.items.LastOrDefault();
+                        if (IsRuleRef(terminal))
+                        {
+                            // pass termina as it is a rule ref. Called recursively until a terminal is obtained
+                            terminal = GetLastTerminals(terminal, lastTerminals).Last();
+                        }
+                        lastTerminals.Add(terminal);
                     }
-                    lastTerminals.Add(terminal);
                 }
             }
 
             return lastTerminals.ToList();
         }
+        
+        public List<string> GetNextTerminals(string current, HashSet<string> nextTerminals)
+        {
+            // we need to find the first terminal of each of the rules entries
+            foreach (var ruleEntry in RuleEntries)
+            {
+                // found the rule we need
+                if (ruleEntry.ruleID.Equals(current))
+                {
+                    // we try to get the next value in the expansion
+                    var ruleItem = ruleEntry.expansions.ElementAt(0);
+                    if(ruleItem.items.Count < 2) continue;
+                    
+                    var terminal = ruleItem.items.ElementAt(1);
+                    if (IsRuleRef(terminal))
+                    {
+                        // pass termina as it is a rule ref. Called recursively until a terminal is obtained
+                        terminal = GetFirstTerminals(terminal, nextTerminals).First();
+                    }
+                    nextTerminals.Add(terminal);
+                }
+            }
+
+            return nextTerminals.ToList();
+        }
+        
         
         /// <summary>
         /// Checks if a symbol is a non-terminal (starts with #).
@@ -170,7 +202,8 @@ namespace ISILab.AI.Grammar
             terminalActions ??= new List<string>();
             ruleEntries ??= new List<RuleEntry>();
         }
-        
+
+    
     }
 
     [Serializable]
