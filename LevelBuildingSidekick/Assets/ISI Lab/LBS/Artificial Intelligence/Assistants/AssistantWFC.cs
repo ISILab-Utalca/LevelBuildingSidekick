@@ -80,6 +80,7 @@ namespace ISILab.LBS.Assistants
 
         public AssistantWFC(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
+            SafeMode = true;
             OnGUI(); 
         }
         
