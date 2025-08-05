@@ -63,7 +63,8 @@ namespace ISILab.LBS.Manipulators
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    behaviour.AddTile(ToSet.GetCharacteristics<LBSPathOSTagsCharacteristic>()[0].Value, i, j);
+                    behaviour.AddTile(ToSet.GetCharacteristics<LBSPathOSTagsCharacteristic>()[0].Value.ToLBSTag(), i, j);
+                    //behaviour.AddTile(ToSet.GetCharacteristics<LBSTagsCharacteristic>()[0].Value, i, j);
                 }
             }
 

@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using ISILab.Commons.Attributes;
 using ISILab.Macros;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using PathOS;
 
 namespace ISILab.LBS.Components
 {
@@ -19,6 +19,12 @@ namespace ISILab.LBS.Components
         protected VectorImage icon;
         [SerializeField]
         protected Color color;
+        [Header("Simulation")]
+        [Space]
+        [SerializeField]
+        protected EntityType defaultType = EntityType.ET_NONE;
+        [SerializeField]
+        protected List<EntityType> admissibleTypes = new List<EntityType>();
         #endregion
 
         #region PROPERTIES
@@ -65,6 +71,20 @@ namespace ISILab.LBS.Components
                 OnChangeColor?.Invoke(this);
             }
         }
+
+        public EntityType EntityType
+        {
+            get => defaultType;
+            set
+            {
+                if(defaultType == value) return;
+
+                defaultType = value;
+                OnChangeEntityType?.Invoke(this);
+            }
+        }
+
+        public List<EntityType> AdmissibleEntityTypes { get => admissibleTypes; }
         #endregion
 
         #region EVENTS
@@ -72,6 +92,7 @@ namespace ISILab.LBS.Components
         public TagEvent OnChangeText;
         public TagEvent OnChangeColor;
         public TagEvent OnChangeIcon;
+        public TagEvent OnChangeEntityType;
         #endregion
 
         #region METHODS

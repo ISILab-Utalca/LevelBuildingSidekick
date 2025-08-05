@@ -57,8 +57,8 @@ namespace ISILab.LBS.VisualElements
             // Obstacle object+trigger tile check
             if (!obstacleTile.IsDynamicObstacleObject) { Debug.LogWarning("PathOSObstacleView.SetFields(): Tile dada no es obstaculo!"); return; }
 
-            icon.style.backgroundImage = obstacleTile.Tag.Icon;
-            positionLabel.text = $"{obstacleTile.X} x {obstacleTile.Y}";
+            icon.style.backgroundImage = new StyleBackground(obstacleTile.Tag.Icon);
+            //positionLabel.text = $"{obstacleTile.X} x {obstacleTile.Y}";
             stateLabel.text = category.ToString();
             // Suscripciones a boton
             OnRemove -= () => triggerTile.RemoveObstacle(obstacleTile);

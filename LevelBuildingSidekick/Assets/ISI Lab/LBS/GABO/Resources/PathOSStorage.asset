@@ -16,3 +16,9 @@ MonoBehaviour:
   managerPrefab: {fileID: 5005646905853620061, guid: 31f1861d4df0ac1488cf45674399f745, type: 3}
   worldCameraPrefab: {fileID: 4802606248819095171, guid: 7fc2dc49844862141b01cdd554ae2476, type: 3}
   screenshotCameraPrefab: {fileID: 988990242519381641, guid: 90df82b60f8b4cc4c8c801a3076fb368, type: 3}
+  agentData:
+    image: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+  entityDataPool:
+    keys: 
+    values: []

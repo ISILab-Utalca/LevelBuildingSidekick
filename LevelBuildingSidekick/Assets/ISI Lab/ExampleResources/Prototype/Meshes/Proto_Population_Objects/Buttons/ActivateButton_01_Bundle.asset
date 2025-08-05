@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ActivateButton_01_Bundle
   m_EditorClassIdentifier: 
   layerContentFlags: 4
-  type: 0
+  type: 2
   anchorPosition: 0
   color: {r: 0.3764706, g: 0, b: 0, a: 1}
   icon: {fileID: 7388822144124034973, guid: 518ad283ddcdaa54586067d782f7ff22, type: 3}

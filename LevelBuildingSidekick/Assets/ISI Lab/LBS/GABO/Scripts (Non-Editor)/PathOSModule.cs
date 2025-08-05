@@ -55,16 +55,16 @@ namespace ISILab.LBS.Modules
             // Chequeo tag nulo
             if (eventTile.Tag == null) { Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile tiene tag nulo!"); return false; }
             // Chequeo Event Tile
-            if (eventTile.Tag.Category != PathOSTag.PathOSCategory.EventTag)
-            {
-                Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile dado no contiene un Event Tag!"); return false;
-            }
+            //if (eventTile.Tag.Category != PathOSTag.PathOSCategory.EventTag)
+            //{
+            //    Debug.LogWarning("PathOSModule.ApplyEventTile(): Tile dado no contiene un Event Tag!"); return false;
+            //}
 
             // Si existe Tile con Element Tag en la posicion, activa el booleano correspondiente al Event Tag.
             var t = GetTile(eventTile.X, eventTile.Y);
             if (t != null)
             {
-                PathOSTag eventTag = eventTile.Tag;
+                LBSTag eventTag = eventTile.Tag;
                 switch (eventTag.Label)
                 {
                     case "DynamicTagObject":

@@ -64,7 +64,7 @@ namespace ISILab.LBS.Manipulators
             // Chequeo nulo
             if (obstacleTile == null || triggerTile == null) { Debug.LogWarning("Alguno de los tiles dados es nulo!"); return; }
             // Chequeo de tile de agente
-            if (obstacleTile.Tag.Label == "PathOSAgent" || triggerTile.Tag.Label == "PathOSAgent") { Debug.LogWarning("Agente no puede dar ni recibir eventos!"); return; }
+            if (obstacleTile.Tag.Label == "Player" || triggerTile.Tag.Label == "Player") { Debug.LogWarning("Agente no puede dar ni recibir eventos!"); return; }
             // Chequeo de propiedad correcta
             if (!obstacleTile.IsDynamicObstacleObject || !triggerTile.IsDynamicObstacleTrigger) { Debug.LogWarning("Alguno de los tiles no es del tipo correcto!"); return; }
             // Chequeo de repeticion
