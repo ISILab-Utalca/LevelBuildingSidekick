@@ -59,13 +59,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381722117555790699}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 0.5, y: 8, z: -2}
+  m_LocalRotation: {x: 0.67559016, y: 0, z: 0, w: 0.7372774}
+  m_LocalPosition: {x: 0.5, y: 10, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8666753835159661881}
-  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 85, y: 0, z: 0}
 --- !u!20 &7689973465458904536
 Camera:
   m_ObjectHideFlags: 0
@@ -193,12 +193,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5533795135063442101}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.91, z: 0.684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7823080364279856784}
+  m_Father: {fileID: 7823080365787624991}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7823080364126675863
 GameObject:
@@ -323,7 +323,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7074146211552206362}
   - {fileID: 7823080365787624991}
   - {fileID: 8666753835159661881}
   m_Father: {fileID: 0}
@@ -341,21 +340,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerModel: {fileID: 7823080365787624991}
-  input: {x: 0, y: 0}
   movementSpeed: 5
   accelerationSpeed: 10
-  targetRotation: {x: 0, y: 0, z: 0}
   rotationSpeed: 10
   idleRotationSpeed: 5
-  rotationThreshold: 0.01
   cameraTransform: {fileID: 8666753835159661881}
   cameraFollowDistanceMoving: 5
   cameraFollowDistanceIdle: 0
-  cameraSmoothSpeed: 3
+  cameraSmoothSpeed: 1.5
   minZoomDistance: 2
   maxZoomDistance: 10
   zoomSpeed: 5
   zoomDistance: 5
+  isMoving: 0
 --- !u!114 &934908532787036918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -533,6 +530,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7823080364126675860}
+  - {fileID: 7074146211552206362}
   m_Father: {fileID: 7823080364279856784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7823080365787624986
