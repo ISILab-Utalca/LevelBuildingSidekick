@@ -18,13 +18,13 @@ namespace ISI_Lab.Commons.Utility
         // save the dictionary to lists
         public void OnBeforeSerialize()
         {
-            keys.Clear();
-            values.Clear();
-            foreach(KeyValuePair<TKey, TValue> pair in this)
-            {
-                keys.Add(pair.Key);
-                values.Add(pair.Value);
-            }
+            //keys.Clear();
+            //values.Clear();
+            //foreach(KeyValuePair<TKey, TValue> pair in this)
+            //{
+            //    keys.Add(pair.Key);
+            //    values.Add(pair.Value);
+            //}
         }
 	
         // load dictionary from lists

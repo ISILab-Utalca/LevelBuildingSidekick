@@ -17,7 +17,8 @@ namespace ISILab.LBS.Modules
         [SerializeField, JsonRequired]
         private int x, y;
         [SerializeField, JsonRequired]
-        private PathOSTag tag;
+        //private PathOSTag tag;
+        private LBSTag tag;
         // Booleanos para Event Tags
         [SerializeField, JsonRequired]
         private bool isDynamicTagObject = false;
@@ -30,7 +31,7 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region CONSTRUCTORS
-        public PathOSTile(PathOSBehaviour owner, int x, int y, PathOSTag tag = null)
+        public PathOSTile(PathOSBehaviour owner, int x, int y, LBSTag tag = null)
         {
             this.owner = owner;
             this.x = x;
@@ -61,7 +62,7 @@ namespace ISILab.LBS.Modules
         public int X { get { return x; } set { x = value; } }
         public int Y { get { return y; } set { y = value; } }
         public Vector2Int Position { get { return new Vector2Int(x, y); } }
-        public PathOSTag Tag { get { return tag; } set { tag = value; } }
+        public LBSTag Tag { get { return tag; } set { tag = value; } }
         public bool IsDynamicTagObject
         {
             get { return isDynamicTagObject; }

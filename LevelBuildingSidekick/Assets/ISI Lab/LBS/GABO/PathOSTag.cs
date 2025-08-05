@@ -104,6 +104,17 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region METHODS
+
+        public LBSTag ToLBSTag()
+        {
+            LBSTag tag = CreateInstance<LBSTag>();
+            tag.Label = Label;
+            //tag.Icon = Icon;
+            tag.Color = Color;
+            tag.EntityType = EntityType;
+
+            return tag;
+        }
         public void Init(string text, Color color, Texture2D icon)
         {
             this.label = text;

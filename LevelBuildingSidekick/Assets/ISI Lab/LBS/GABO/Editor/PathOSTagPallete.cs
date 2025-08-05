@@ -141,6 +141,7 @@ namespace ISILab.LBS.VisualElements
         public void SetName(string name)
         {
             this.nameLabel.text = name;
+            nameLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
         }
 
         public void Repaint()

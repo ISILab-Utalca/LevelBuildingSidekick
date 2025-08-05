@@ -1,17 +1,20 @@
+using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Internal;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
+using LBS;
+using LBS.Bundles;
+using LBS.Components;
+using LBS.VisualElements;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.LBS.Manipulators;
-using ISILab.LBS.Characteristics;
-using LBS.VisualElements;
-using ISILab.LBS.Internal;
-using LBS.Bundles;
-using System.Linq;
-using LBS;
-using UnityEditor;
-using System.Dynamic;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -30,10 +33,18 @@ namespace ISILab.LBS.VisualElements
         RemovePathOSTile removePathOSTile;
         AddClosedObstacle addClosedObstacle;
         AddOpenedObstacle addOpenedObstacle;
+
+        // Visual Element
+        VisualElement warning;
+        VisualElement mappingContent;
+
+        List<TileBundleGroup> populationGroups = new List<TileBundleGroup>();
         #endregion
 
         #region PROPERTIES
         public PathOSWindow PathOSOriginalWindow { get => pathOSOriginalWindow; set => pathOSOriginalWindow = value; }
+
+        LBSLevelData Data { get => _target.OwnerLayer.Parent; }
         #endregion
 
         #region METHODS
@@ -51,15 +62,32 @@ namespace ISILab.LBS.VisualElements
 
         protected override VisualElement CreateVisualElement()
         {
+
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TestingBehaviourEditor");
+            visualTree.CloneTree(this);
+            
+            warning = this.Q<VisualElement>("Warning");
+            mappingContent = this.Q<VisualElement>("TestingMappingContent");
+
+            var toggle = this.Q<Toggle>("AutoMap");
+            toggle.RegisterValueChangedCallback(evt => throw new System.NotImplementedException("This feature is currently not available."));
+
+            var mapPopulButton = this.Q<Button>("MapPopulation");
+            mapPopulButton.clicked += () => MapToPopulation();
+
+            var clearButton = this.Q<Button>("Clear");
+            clearButton.clicked += () => _target.ClearMapping();
+
             // Add and set Tag Pallete
+
             bundlePallete = new PathOSTagPallete();
             Add(bundlePallete);
-            bundlePallete.SetName("PathOS+ Tags");
+            bundlePallete.SetName("[LEGACY] PathOS+ Tags");
             SetBundlePallete();
 
             return this;
         }
-
+        
         private void SetBundlePallete()
         {
             bundlePallete.name = "Bundles";
@@ -163,6 +191,67 @@ namespace ISILab.LBS.VisualElements
             //tOpen.OnSelect += () => LBSInspectorPanel.ActivateAssistantTab();
             toolkit.ActivateTool(tOpen, _target.OwnerLayer, _target);
         }
+
+        public override void OnFocus()
+        {
+            base.OnFocus();
+
+            populationGroups.Clear();
+
+            if (Data.LayerCount <= 1)
+            {
+                ShowMappingContent(false);
+                return;
+            }
+
+            List<LBSLayer> populationLayers = Data.Layers.FindAll(l => l.ID.Equals("Population"));
+            if(populationLayers.Count == 0)
+            {
+                ShowMappingContent(false);
+                return;
+            }
+
+            GetPopulationGroups(populationLayers);
+
+            ShowMappingContent(true);
+        }
+
+        public void GetPopulationGroups(List<LBSLayer> layers)
+        {
+            var tileMaps = new List<BundleTileMap>();
+            foreach (LBSLayer layer in layers)
+            {
+                var tileMap = layer.GetModule<BundleTileMap>();
+                if (tileMap != null)
+                    tileMaps.Add(tileMap);
+            }
+
+            foreach(BundleTileMap tileMap in tileMaps)
+            {
+                populationGroups.AddRange(tileMap.Groups);
+            }
+        }
+
+        public void ShowMappingContent(bool show)
+        {
+            mappingContent  .style.display = (DisplayStyle)( show ? 0 : 1);
+            warning         .style.display = (DisplayStyle)(!show ? 0 : 1);
+        }
+
+        private void MapToPopulation()
+        {
+            LoadedLevel level = LBSController.CurrentLevel;
+
+            EditorGUI.BeginChangeCheck();
+
+            _target.MapToPopulation(populationGroups);
+
+            if (EditorGUI.EndChangeCheck())
+                EditorUtility.SetDirty(level);
+
+            DrawManager.Instance.RedrawLayer(_target.OwnerLayer);
+        }
+
+        #endregion
     }
-    #endregion
 }

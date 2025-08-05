@@ -15,3 +15,5 @@ MonoBehaviour:
   label: Food
   icon: {fileID: 0}
   color: {r: 0.83137256, g: 0.53877586, b: 0.19579923, a: 1}
+  defaultType: 300
+  admissibleTypes: 

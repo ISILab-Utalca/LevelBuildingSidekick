@@ -62,11 +62,12 @@ namespace ISILab.LBS.Generators
         public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
 #if UNITY_EDITOR
+            PathOSStorage storage = PathOSStorage.Instance;
             // Prefabs
-            agentPrefab = PathOSStorage.Instance.agentPrefab.gameObject;
-            managerPrefab = PathOSStorage.Instance.managerPrefab.gameObject;
-            worldCameraPrefab = PathOSStorage.Instance.worldCameraPrefab.gameObject;
-            screenshotCameraPrefab = PathOSStorage.Instance.screenshotCameraPrefab.gameObject;
+            agentPrefab = storage.agentPrefab.gameObject;
+            managerPrefab = storage.managerPrefab.gameObject;
+            worldCameraPrefab = storage.worldCameraPrefab.gameObject;
+            screenshotCameraPrefab = storage.screenshotCameraPrefab.gameObject;
             elementPrefab = Resources.Load<GameObject>("Prefabs/ElementPrefab");
             wallPrefab = Resources.Load<GameObject>("Prefabs/WallPrefab");
             // Variables
@@ -102,7 +103,7 @@ namespace ISILab.LBS.Generators
             {
                 // Si el tile es de agente, instanciar prefab.
                 GameObject currInstance;
-                if (tile.Tag.Label == "PathOSAgent")
+                if (tile.Tag.Label == "Player")//"PathOSAgent")
                 {
                     // Instanciar agente
                     agentGameObject = PrefabUtility.InstantiatePrefab(agentPrefab, parent.transform) as GameObject;
@@ -141,7 +142,7 @@ namespace ISILab.LBS.Generators
                 MeshRenderer currRenderer = currInstance.GetComponentInChildren<MeshRenderer>();
                 Material originalMaterial = currRenderer.sharedMaterial;
                 Material currMaterial = new Material(originalMaterial);
-                currMaterial.SetTexture("_MainTex", tile.Tag.Icon);
+                //currMaterial.SetTexture("_MainTex", tile.Tag.Icon);
                 currRenderer.material = currMaterial;
 
                 // Setear posicion
@@ -363,7 +364,7 @@ namespace ISILab.LBS.Generators
                 MeshRenderer currRenderer = currInstance.GetComponentInChildren<MeshRenderer>();
                 Material originalMaterial = currRenderer.sharedMaterial;
                 Material currMaterial = new Material(originalMaterial);
-                currMaterial.SetTexture("_MainTex", tile.Tag.Icon);
+                //currMaterial.SetTexture("_MainTex", tile.Tag.Icon);
                 currRenderer.material = currMaterial;
 
                 // Setear posicion
