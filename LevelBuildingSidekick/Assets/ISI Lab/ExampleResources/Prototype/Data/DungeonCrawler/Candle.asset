@@ -44,9 +44,13 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Chest
         value: {fileID: 11400000, guid: 12f735f164b320844b6d9de7d1335f01, type: 2}
+        tagGUID: 
     - rid: 5053258996866875681
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: NonRotate
         value: {fileID: 11400000, guid: 03e58311bc09e0249a119c303a11b4b2, type: 2}
+        tagGUID: 

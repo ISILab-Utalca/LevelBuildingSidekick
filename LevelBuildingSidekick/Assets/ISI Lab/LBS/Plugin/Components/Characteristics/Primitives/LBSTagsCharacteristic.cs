@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
+using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -17,13 +18,17 @@ namespace ISILab.LBS.Characteristics
         [SerializeField, JsonRequired/*, JsonIgnore*/]
         protected LBSTag value;
 
+        [SerializeField, JsonRequired]
+        protected string tagGUID = "";
+
         [JsonIgnore]
         public LBSTag Value
         {
             get
             {
                 if (value == null)
-                    value = LBSAssetsStorage.Instance.Get<LBSTag>().Find(i => i.Label == tagName);
+                    //value = LBSAssetsStorage.Instance.Get<LBSTag>().Find(i => i.Label == tagName);
+                    value = LBSAssetMacro.LoadAssetByGuid<LBSTag>(tagGUID);
                 return value;
             }
             set
@@ -33,8 +38,26 @@ namespace ISILab.LBS.Characteristics
             }
         }
 
+        [JsonIgnore]
+        public string TagGUID
+        {
+            get
+            {
+                string s = "";
+                if (string.IsNullOrEmpty(tagGUID))
+                {
+                    tagGUID = LBSAssetMacro.GetGuidFromAsset(value);
+                    s += $"Null or Empty Tag GUID -> Calling GetGuidFromAsset( {value} )\n";
+                }
+                s += $"Tag GUID = {tagGUID}";
+                Debug.Log(s);
+                return tagGUID;
+            }
+        }
+
         public LBSTagsCharacteristic(LBSTag value)
         {
+            //Debug.Log("CONSTRUCTOR 1 PARAMETRO INVOCADO [" + value + "]");
             this.value = value;
             if (value != null)
                 tagName = value.Label;
@@ -42,7 +65,12 @@ namespace ISILab.LBS.Characteristics
 
         public LBSTagsCharacteristic()
         {
-            this.value = null;
+            //Debug.Log("CONSTRUCTOR SIN PARAMETROS INVOCADO [Value: " + value + ", TagName: " + tagName + "]");
+
+            //Value = LBSAssetMacro.LoadAssetByGuid<LBSTag>(tagGUID);
+            if (value != null)
+                tagName = value.Label; ;
+            //this.value = null;
         }
 
         public override object Clone()
@@ -92,12 +120,15 @@ namespace ISILab.LBS.Characteristics
 
         public void OnBeforeSerialize()
         {
-            tagName = Value.label;
+            //Debug.Log("Before Deserialize");
+            var _ = TagGUID;
+            if(value != null)
+                tagName = value.label;
         }
 
         public void OnAfterDeserialize()
         {
-            //throw new System.NotImplementedException();
+            //Debug.Log("After Deserialize");
         }
     }
 }
