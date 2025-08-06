@@ -28,7 +28,7 @@
                     <ISILab.LBS.CustomComponents.LBSCustomToggleField enabled="true" value="false" />
                     <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=EnumField.svg?fileID=7388822144124034973&amp;guid=ea38db42f43233b4894243942b78f176&amp;type=3#Icon=EnumField" icon-color="#FFFFFFFF" />
                 </ISILab.LBS.CustomComponents.LBSCustomFoldout>
-                <ui:TabView>
+                <ui:TabView class="lbs-tab-view">
                     <ui:Tab label="Tab" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Area_Behavior.svg?fileID=7388822144124034973&amp;guid=5ab039ea1b079eb4dbe013d7a618c2aa&amp;type=3#Icon=Area_Behavior">
                         <ui:Button text="Button" />
                     </ui:Tab>
@@ -36,6 +36,7 @@
                         <ui:Button text="Button" />
                         <ui:Slider label="Slider" value="42" high-value="100" />
                     </ui:Tab>
+                    <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                 </ui:TabView>
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
         </ui:VisualElement>

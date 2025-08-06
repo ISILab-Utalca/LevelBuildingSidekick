@@ -256,7 +256,11 @@ MonoBehaviour:
   playerModel: {fileID: 6291190419248595133}
   modelAnimator: {fileID: 431998798100285291}
   movementSpeed: 5
-  accelerationSpeed: 10
+  accelerationSpeed: 20
+  dashingSpeed: 15
+  movementDirection: {x: 0, y: 0, z: 0}
+  movementDirectionSmooth: {x: 0, y: 0, z: 0}
+  facingDirection: {x: 0, y: 0, z: 0}
   rotationSpeed: 10
   idleRotationSpeed: 5
   cameraTransform: {fileID: 8666753835159661881}
@@ -407,7 +411,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -421,6 +425,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7823080364279856784}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c26849e922704824a84aa59bfb80ad9a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c26849e922704824a84aa59bfb80ad9a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c26849e922704824a84aa59bfb80ad9a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c26849e922704824a84aa59bfb80ad9a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
