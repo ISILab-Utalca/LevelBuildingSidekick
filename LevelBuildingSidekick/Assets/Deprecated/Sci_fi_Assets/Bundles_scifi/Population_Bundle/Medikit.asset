@@ -32,6 +32,9 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  guid: 
   references:
     version: 2
     RefIds:
@@ -39,4 +42,6 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Food
         value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
+        tagGUID: b354587b73f945f4188c7dc7026de4ef

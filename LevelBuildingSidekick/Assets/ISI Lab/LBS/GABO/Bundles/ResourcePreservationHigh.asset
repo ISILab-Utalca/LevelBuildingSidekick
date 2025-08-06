@@ -12,18 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: ResourcePreservationHigh
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 2800000, guid: 954d8a4d4b430be40a331f4a82450040, type: 3}
-  childsBundles: []
   assets: []
   characteristics:
   - rid: 3505131093380038662
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  guid: 
   references:
     version: 2
     RefIds:
     - rid: 3505131093380038662
       type: {class: LBSPathOSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: b7c4bb5a266e55544969e3dec4f5c57b, type: 2}

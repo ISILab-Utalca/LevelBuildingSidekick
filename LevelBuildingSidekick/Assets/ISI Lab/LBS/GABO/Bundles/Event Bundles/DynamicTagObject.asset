@@ -12,13 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: DynamicTagObject
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 2800000, guid: 9d4979e01257f3c429f90c418f2dbaf8, type: 3}
-  childsBundles: []
   assets: []
   characteristics: []
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  guid: 
   references:
     version: 2
     RefIds: []

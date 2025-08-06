@@ -44,3 +44,4 @@ MonoBehaviour:
         owner: {fileID: 11400000}
         tagName: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+        tagGUID: 975a57a1811d3f743838422b5c87c58a

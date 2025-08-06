@@ -47,7 +47,7 @@ namespace ISILab.LBS.Characteristics
                 if (string.IsNullOrEmpty(tagGUID))
                 {
                     tagGUID = LBSAssetMacro.GetGuidFromAsset(value);
-                    s += $"Null or Empty Tag GUID -> Calling GetGuidFromAsset( {value} )\n";
+                    s += $"Null or Empty Tag GUID -> Calling GetGuidFromAsset( {value} )\n"; // Por alguna razon hay veces en que 'value' se muestra como Material??? Pero no pasa con bundles de population
                 }
                 s += $"Tag GUID = {tagGUID}";
                 Debug.Log(s);

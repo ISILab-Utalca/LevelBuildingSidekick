@@ -43,4 +43,6 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Chest
         value: {fileID: 11400000, guid: 12f735f164b320844b6d9de7d1335f01, type: 2}
+        tagGUID: 12f735f164b320844b6d9de7d1335f01

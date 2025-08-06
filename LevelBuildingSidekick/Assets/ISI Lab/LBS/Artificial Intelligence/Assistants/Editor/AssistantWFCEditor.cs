@@ -137,6 +137,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var loadWeightsButton = this.Q<Button>("LoadWeights");
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
+            currentPreset.value = null;
             //currentPreset.RegisterValueChangedCallback(evt => UpdatePresetsList());
 
             // Safe Generation Mode
@@ -174,7 +175,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 currentPreset.value = loaded;
                 LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
             }
-            else LBSMainWindow.MessageNotify($"Failed to load: no preset selected.", LogType.Warning);
+            else LBSMainWindow.MessageNotify($"Failed to load: you must select a preset from the list or create a new one.", LogType.Warning, 5);
         }
 
         private void UpdatePresetsList()

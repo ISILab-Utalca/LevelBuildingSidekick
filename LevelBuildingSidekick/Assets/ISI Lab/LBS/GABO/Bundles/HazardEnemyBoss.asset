@@ -12,18 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: HazardEnemyBoss
   m_EditorClassIdentifier: 
+  layerContentFlags: 0
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 2800000, guid: c67251b4eae5c8941b533773e944b148, type: 3}
-  childsBundles: []
   assets: []
   characteristics:
   - rid: 3505131093380038662
+  populationType: 0
+  tileSize: {x: 1, y: 1}
+  childsBundles: []
+  microGenTool:
+    spread: 0
+    margin:
+      negativeX: 1
+      positiveX: 1
+      negativeZ: 1
+      positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  guid: 
   references:
     version: 2
     RefIds:
     - rid: 3505131093380038662
       type: {class: LBSPathOSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
+        owner: {fileID: 11400000}
         value: {fileID: 11400000, guid: d59b8ee1c82ce4742a1d446d0e5a9cc3, type: 2}

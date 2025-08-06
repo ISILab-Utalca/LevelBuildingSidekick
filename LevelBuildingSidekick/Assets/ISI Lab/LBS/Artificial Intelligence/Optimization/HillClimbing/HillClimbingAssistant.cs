@@ -74,6 +74,26 @@ namespace ISILab.LBS.Assistants
         {
         }
 
+        public bool TryExecute(out string failedLog)
+        {
+            failedLog = null;
+            var modules = (hillClimbing.Adam as OptimizableModules).Modules;
+            int edgeCount = modules.GetModule<ConnectedZonesModule>().Edges.Count;
+            int zoneCount = modules.GetModule<SectorizedTileMapModule>().ZonesWithTiles.Count;
+            if(zoneCount <= 0)
+            {
+                failedLog = "Map has no zones!";
+                return false;
+            }
+            if(edgeCount <= 0)
+            {
+                failedLog = "Cannot calculate the adjacency of a map if their nodes are not connected.";
+                return false;
+            }
+            Execute();
+            return true;
+        }
+
         public void Execute()
         {
             var clock = new Stopwatch();

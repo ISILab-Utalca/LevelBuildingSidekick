@@ -183,7 +183,11 @@ namespace ISILab.LBS.VisualElements
             EditorGUI.BeginChangeCheck();
 
             // Execute hill climbing
-            hillClimbing.Execute();
+            //hillClimbing.Execute();
+            if(!hillClimbing.TryExecute(out string failedLog))
+            {
+                LBSMainWindow.MessageNotify(failedLog, LogType.Warning, 5);
+            }
 
             // Mark as dirty
             if (EditorGUI.EndChangeCheck())

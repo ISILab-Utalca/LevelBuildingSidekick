@@ -45,11 +45,11 @@ MonoBehaviour:
         owner: {fileID: 11400000}
         tagName: Food
         value: {fileID: 11400000, guid: b354587b73f945f4188c7dc7026de4ef, type: 2}
-        tagGUID: 
+        tagGUID: b354587b73f945f4188c7dc7026de4ef
     - rid: 4305865204711817726
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
         tagName: Decorative
         value: {fileID: 11400000, guid: 7aa713c3187b559428c4b4b35324ad50, type: 2}
-        tagGUID: 
+        tagGUID: 7aa713c3187b559428c4b4b35324ad50
