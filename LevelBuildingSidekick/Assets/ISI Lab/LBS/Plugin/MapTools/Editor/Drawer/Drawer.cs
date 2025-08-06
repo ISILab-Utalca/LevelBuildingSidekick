@@ -50,7 +50,7 @@ namespace ISILab.LBS.Drawers
 
         public virtual Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
         {
-            LBSMainWindow.MessageNotify("Texture generation not implemented.", LogType.Warning);
+            LBSMainWindow.MessageNotify($"Texture generation not implemented for {(target as Behaviours.LBSBehaviour).OwnerLayer.ID} layer drawer.", LogType.Warning);
             return new Texture2D(16, 16);
         }
 

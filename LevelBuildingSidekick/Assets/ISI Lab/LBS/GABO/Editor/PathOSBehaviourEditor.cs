@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements
             mapPopulButton.clicked += () => MapToPopulation();
 
             var clearButton = this.Q<Button>("Clear");
-            clearButton.clicked += () => _target.ClearMapping();
+            clearButton.clicked += () => ClearMapping();
 
             // Add and set Tag Pallete
 
@@ -245,6 +245,20 @@ namespace ISILab.LBS.VisualElements
             EditorGUI.BeginChangeCheck();
 
             _target.MapToPopulation(populationGroups);
+
+            if (EditorGUI.EndChangeCheck())
+                EditorUtility.SetDirty(level);
+
+            DrawManager.Instance.RedrawLayer(_target.OwnerLayer);
+        }
+
+        private void ClearMapping()
+        {
+            LoadedLevel level = LBSController.CurrentLevel;
+
+            EditorGUI.BeginChangeCheck();
+
+            _target.ClearMapping();
 
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(level);

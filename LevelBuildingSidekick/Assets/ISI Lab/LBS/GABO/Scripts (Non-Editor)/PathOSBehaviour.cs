@@ -131,9 +131,27 @@ namespace ISILab.LBS.Behaviours
             RequestTileRemove(t);
         }
 
+        public void RemoveTile(PathOSTile t)
+        {
+            module.RemoveTile(t);
+            RequestTileRemove(t);
+        }
+
         public PathOSTile GetTile(int x, int y)
         {
             return module.GetTile(x, y);
+        }
+
+        public void ToggleAutoMap(bool value, List<LBSLayer> populLayers)
+        {
+            if(value)
+            {
+                foreach(LBSLayer layer in populLayers)
+                {
+                    // Obtener TileBundleGroups desde las layers o desde el editor?
+                    //layer.OnChange += MapToPopulation();
+                }
+            }
         }
 
         public void MapToPopulation(List<TileBundleGroup> groups)
@@ -144,6 +162,9 @@ namespace ISILab.LBS.Behaviours
             //    s += "Entity Type: " + pair.Key + " | Texture: " + (pair.Value.image ? pair.Value.image.name : null) + "\n";
             //}
             //Debug.Log(s);
+
+            ClearMapping();
+
             foreach(TileBundleGroup group in groups)
             {
                 BundleData bundle = group.BundleData;
@@ -196,7 +217,12 @@ namespace ISILab.LBS.Behaviours
 
         public void ClearMapping()
         {
-            throw new NotImplementedException("This feature is currently not available.");
+            //for(int i = 0; i < Tiles.Count; i++)
+            //foreach(PathOSTile tile in Tiles)
+            while(Tiles.Count > 0)
+            {
+                RemoveTile(Tiles[0]);
+            }
         }
 
         public override object Clone()

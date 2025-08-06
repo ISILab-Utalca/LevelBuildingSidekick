@@ -118,5 +118,11 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
+
+        public override Texture2D GetTexture(object target, Rect sourceRect, Vector2Int teselationSize)
+        {
+            //return new Texture2D((int)(sourceRect.width * teselationSize.x), (int)(sourceRect.height * teselationSize.y));
+            return null;
+        }
     }
 }
