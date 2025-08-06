@@ -31,12 +31,12 @@
                 <ui:TabView class="lbs-tab-view">
                     <ui:Tab label="Tab" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Area_Behavior.svg?fileID=7388822144124034973&amp;guid=5ab039ea1b079eb4dbe013d7a618c2aa&amp;type=3#Icon=Area_Behavior">
                         <ui:Button text="Button" />
-                        <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                     </ui:Tab>
                     <ui:Tab label="Tab 2" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Behavior.svg?fileID=7388822144124034973&amp;guid=e17eb0e02534666439fca8ea30b4d4e4&amp;type=3#Icon=Behavior">
                         <ui:Button text="Button" />
                         <ui:Slider label="Slider" value="42" high-value="100" />
                     </ui:Tab>
+                    <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                 </ui:TabView>
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
         </ui:VisualElement>
