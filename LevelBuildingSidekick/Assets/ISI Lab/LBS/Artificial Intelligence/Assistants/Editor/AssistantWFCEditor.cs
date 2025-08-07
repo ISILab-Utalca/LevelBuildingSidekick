@@ -142,7 +142,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
             // Safe Generation Mode
             var safeModeCheckbox = this.Q<Toggle>("SafeMode");
             safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
-            assistant.SafeMode = false;
+            safeModeCheckbox.SetValueWithoutNotify(assistant.SafeMode);
+            //assistant.SafeMode = false;
 
             presetsList = this.Q<ListView>("PresetsList");
             UpdatePresetsList();

@@ -174,51 +174,52 @@ namespace ISILab.LBS.Assistants
             var x = (int)rect.min.x;
             var y = (int)rect.min.y;
 
-            if (maskType != null)
-            {
-                var layers = OwnerLayer.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
-                foreach (var l in layers)
-                {
-                    break;
-                    var m = l.GetModule<TileMapModule>();
+            #region Deprecated?
+            //if (maskType != null)
+            //{
+            //    var layers = OwnerLayer.Parent.Layers.Where(l => l.Behaviours.Any(b => b.GetType().Equals(maskType)));
+            //    foreach (var l in layers)
+            //    {
+            //        var m = l.GetModule<TileMapModule>();
 
-                    if (m == null)
-                        continue;
+            //        if (m == null)
+            //            continue;
 
-                    for (int j = y; j < y + rect.height; j++)
-                    {
-                        for (int i = x; i < x + rect.width; i++)
-                        {
-                            var t = m.GetTile(new Vector2Int(i, j));
-                            if (t != null)
-                            {
-                                continue;
-                            }
+            //        for (int j = y; j < y + rect.height; j++)
+            //        {
+            //            for (int i = x; i < x + rect.width; i++)
+            //            {
+            //                var t = m.GetTile(new Vector2Int(i, j));
+            //                if (t != null)
+            //                {
+            //                    continue;
+            //                }
 
-                            var pos = new Vector2(i, j) - rect.position;
-                            var index = (int)(pos.y * rect.width + pos.x);
-                            im.Add(index);
-                        }
-                    }
-                }
-            }
+            //                var pos = new Vector2(i, j) - rect.position;
+            //                var index = (int)(pos.y * rect.width + pos.x);
+            //                im.Add(index);
+            //            }
+            //        }
+            //    }
+            //}
+            #endregion
 
             var tm = OwnerLayer.GetModule<BundleTileMap>();
-            foreach (var g in tm.Groups)
+            foreach (TileBundleGroup g in tm.Groups)
             {
-                foreach (var t in g.TileGroup)
+                foreach (LBSTile t in g.TileGroup)
                 {
                     if (rect.Contains(t.Position))
                     {
-                        var characteristics = g.BundleData.Characteristics.Where(c => c is LBSTagsCharacteristic);
+                        IEnumerable<LBSCharacteristic> characteristics = g.BundleData.Characteristics.Where(c => c is LBSTagsCharacteristic);
 
                         if (characteristics.Count() == 0)
                             continue;
 
-                        var tags = characteristics.Select(c => (c as LBSTagsCharacteristic).Value);
+                        IEnumerable<LBSTag> tags = characteristics.Select(c => (c as LBSTagsCharacteristic).Value);
 
                         bool flag = false;
-                        foreach (var tag in tags)
+                        foreach (LBSTag tag in tags)
                         {
                             if (blacklist.Contains(tag))
                             {
@@ -229,8 +230,8 @@ namespace ISILab.LBS.Assistants
 
                         if (flag)
                         {
-                            var pos = t.Position - rect.position;
-                            var i = (int)(pos.y * rect.width + pos.x);
+                            Vector2 pos = t.Position - rect.position;
+                            int i = (int)(pos.y * rect.width + pos.x);
                             im.Add(i);
                         }
                     }

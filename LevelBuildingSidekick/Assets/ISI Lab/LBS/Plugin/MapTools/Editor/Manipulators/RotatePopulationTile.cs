@@ -33,12 +33,8 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnWheelEvent(WheelEvent evt)
         {
-            if(Selected == null)
-            {
-                LBSMainWindow.MessageNotify("No tile available to rotate. Click on a tile first, then use the Wheel");
-                return;
-            }  
-    
+            if (Selected == null) return;
+            
             if (evt.delta.y > 0) RotateLeft();
             else if (evt.delta.y < 0) RotateRight();
 
@@ -59,15 +55,12 @@ namespace ISILab.LBS.Manipulators
              Selected = tileGroup;
              if(Selected!=null) _storedPosition = position;
              MainView.Instance.SetManipulatorZoom(Selected == null);
-            DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
+             DrawManager.Instance.RedrawLayer(_population.OwnerLayer);
         }
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            if(Selected == null) 
-            {
-                LBSMainWindow.MessageNotify("No tile available to rotate at position.");
-            } 
+            if (Selected == null) return;
             
             if (e.button == 0)
             {

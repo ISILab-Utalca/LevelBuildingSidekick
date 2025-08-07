@@ -35,6 +35,8 @@ MonoBehaviour:
       positiveX: 0.8
       negativeZ: 0.8
       positiveZ: 0.8
+    mesh: {fileID: 0}
+    material: {fileID: 0}
   guid: 
   references:
     version: 2

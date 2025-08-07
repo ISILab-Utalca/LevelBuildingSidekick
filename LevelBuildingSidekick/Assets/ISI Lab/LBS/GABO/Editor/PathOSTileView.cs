@@ -50,11 +50,17 @@ namespace ISILab.LBS.VisualElements
             dynamicObstacleObject = this.Q<VisualElement>(name: "DynamicObstacleObject");
             dynamicObstacleTrigger = this.Q<VisualElement>(name: "DynamicObstacleTrigger");
 
+            PathOSStorage storage = PathOSStorage.Instance;
             // Set data
             if(tile.Tag != null)
             {
-                SetColor(tile.Tag.Color);
-                SetImage(tile.Tag.Icon);
+                PathOSStorage.SimulationEntityData data = tile.Tag.Label.Equals("Player") ?
+                    storage.agentData :
+                    storage.entityDataPool[tile.Tag.EntityType];
+                //SetColor(tile.Tag.Color);
+                //SetImage(tile.Tag.Icon);
+                SetColor(data.color);
+                SetImage(data.image);
             }
             SetEvents(tile);
         }
@@ -64,6 +70,11 @@ namespace ISILab.LBS.VisualElements
         public void SetColor(Color color)
         {
             background.style.backgroundColor = color;
+        }
+
+        public void SetImage(VectorImage image)
+        {
+            elementTag.style.backgroundImage = new StyleBackground(image);
         }
 
         public void SetImage(Texture2D image)
@@ -81,7 +92,7 @@ namespace ISILab.LBS.VisualElements
             if (tile.Tag == null) { Debug.LogWarning("PathOSTileView.SetEvents(): Tile tiene tag nulo!"); }
 
             // Setear posicion
-            positionLabel.text = $"{tile.X} x {tile.Y}";
+            //positionLabel.text = $"{tile.X} x {tile.Y}";
 
             // Setear opacidad de event tags segun info del tile
             dynamicTagObject.style.opacity = tile.IsDynamicTagObject ? 1f : 0f;

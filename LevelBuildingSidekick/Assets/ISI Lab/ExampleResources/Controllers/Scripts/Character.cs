@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,19 @@ namespace ISILab.Examples
             {
                 Death();
             }
+            
+            StartCoroutine(DamageEffect(0.25f));
         }
 
         public void Death()
         {
             Destroy(this.gameObject);
+        }
+
+        IEnumerator DamageEffect(float time)
+        {
+            //The thing that changes the color should go here!
+            yield return new WaitForSeconds(time);
         }
     }
 }

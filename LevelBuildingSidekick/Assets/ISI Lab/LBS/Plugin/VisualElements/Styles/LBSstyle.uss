@@ -1486,3 +1486,6 @@ Button.lbs-actionbutton {
 
 .lbs-item {
 }
+
+.lbs-tab-view {
+}

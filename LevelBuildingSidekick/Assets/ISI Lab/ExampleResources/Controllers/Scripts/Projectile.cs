@@ -16,14 +16,19 @@ namespace ISILab.Examples
 
         private void OnCollisionEnter(Collision collision)
         {
-            Character character = collision.gameObject.GetComponent<Character>();
+            Destroy(gameObject);
+
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Character character = other.gameObject.GetComponent<Character>();
 
             if (character != null)
             {
                 character.GetDamage(damageAmount);
+                Destroy(gameObject);
             }
-
-            Destroy(gameObject);
         }
     }
 }

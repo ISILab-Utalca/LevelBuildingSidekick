@@ -1,4 +1,6 @@
+using ISI_Lab.Commons.Utility;
 using ISILab.LBS.Internal;
+using PathOS;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +17,28 @@ namespace ISILab.LBS.Modules
         public PathOSManager managerPrefab;
         public PathOSWorldCamera worldCameraPrefab;
         public ScreenshotManager screenshotCameraPrefab;
+
+        [System.Serializable]
+        public struct SimulationEntityData
+        {
+            //public EntityType entityType;
+            public Texture2D image;
+            public Color color;
+
+            public SimulationEntityData(/*EntityType type, */Texture2D img, Color col)
+            {
+                //entityType = type;
+                image = img;
+                color = col;
+            }
+        }
+
+        public SimulationEntityData agentData;
+
+        public LBSDictionary<EntityType, SimulationEntityData> entityDataPool = new LBSDictionary<EntityType, SimulationEntityData>();
+         
+        //public LBSDictionary<EntityType, Texture2D> entitySpritePool = new LBSDictionary<EntityType, Texture2D>();
+        
         #endregion
 
         //#region SINGLETON
@@ -35,6 +59,11 @@ namespace ISILab.LBS.Modules
         //#endregion
 
         #region METHODS
+
+
+        public Texture2D GetEntityImage(EntityType entity) => entityDataPool[entity].image;
+        public Color GetEntityColor(EntityType entity) => entityDataPool[entity].color;
+
         private void Awake()
         {
             //instance = this;
