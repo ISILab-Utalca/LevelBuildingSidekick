@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
@@ -7,6 +8,7 @@ using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Macros;
+using LBS.VisualElements;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -46,6 +48,10 @@ namespace ISILab.LBS.VisualElements
         private Vector2 _dragStartMouse;
         private Vector2 _dragStartPosition;
         private Vector2 _resizeStartPosition;
+        private Type _prevManipulatorType;
+
+        // stores the previous manipulator of mouse down
+  
 
         public TriggerElementArea(BaseQuestNodeData data, Rect area, bool centerTarget = true)
         {
@@ -96,13 +102,26 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseUpEvent>(OnMouseUp);
+            RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+            RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            
             
             
             generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 
-        
+        private void OnMouseEnter(MouseEnterEvent evt)
+        {
+            ShelfManipulator();
+        }
+
+        private void OnMouseLeave(MouseLeaveEvent evt)
+        {
+            RestoreManipulator();
+        }
+
+
         void SetupResizeHandle(string handleName, string handleCode, bool isCenter)
         {
             var handle = this.Q<VisualElement>(handleName);
@@ -118,6 +137,7 @@ namespace ISILab.LBS.VisualElements
                 _resizing = false;
                 _activeHandle = null;
                 handleArea.style.display = DisplayStyle.None;
+                RestoreManipulator();
             });
             
             handle.RegisterCallback<MouseEnterEvent>(_ =>
@@ -130,6 +150,7 @@ namespace ISILab.LBS.VisualElements
                 _resizing = true;
                 _activeHandle = handleCode;
                 handleArea.style.display = DisplayStyle.Flex;
+                ShelfManipulator();
             });
 
             handle.RegisterCallback<MouseUpEvent>(_ =>
@@ -176,6 +197,7 @@ namespace ISILab.LBS.VisualElements
                 _data.Graph?.DataChanged(_data.OwnerNode);
 
                 _activeHandle = null;
+                RestoreManipulator();
             });
 
             // Hide the areas by default(show when click on handle, hide on mouse up)
@@ -224,6 +246,21 @@ namespace ISILab.LBS.VisualElements
             e.StopPropagation();
         }
 
+        private void ShelfManipulator()
+        {
+            // only select manipulator if we are not using it
+            if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator))
+            {
+                if (_prevManipulatorType is null)
+                {
+                    _prevManipulatorType = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+                }
+                
+                ToolKit.Instance.SetActive(typeof(SelectManipulator));
+            }
+            
+        }
+
         private void OnMouseMove(MouseMoveEvent e)
         {
             // If resizing do NOT MOVE
@@ -251,6 +288,15 @@ namespace ISILab.LBS.VisualElements
 
             _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
             _data.Graph?.DataChanged(_data.OwnerNode);
+        }
+
+        private void RestoreManipulator()
+        {
+            if (_prevManipulatorType is not null)
+            {
+                ToolKit.Instance.SetActive(_prevManipulatorType);
+                _prevManipulatorType = null;
+            }
         }
 
         void OnHandleRectMove(MouseMoveEvent e)
