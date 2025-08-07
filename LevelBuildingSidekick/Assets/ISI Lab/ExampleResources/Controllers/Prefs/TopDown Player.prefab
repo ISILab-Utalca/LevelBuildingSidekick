@@ -194,7 +194,7 @@ Transform:
   m_GameObject: {fileID: 5533795135063442101}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0.73}
+  m_LocalPosition: {x: 0.688, y: 1, z: 1.209}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -256,8 +256,9 @@ MonoBehaviour:
   playerModel: {fileID: 6291190419248595133}
   modelAnimator: {fileID: 431998798100285291}
   movementSpeed: 5
-  accelerationSpeed: 20
   dashingSpeed: 15
+  shootingSpeed: 2.5
+  accelerationSpeed: 20
   movementDirection: {x: 0, y: 0, z: 0}
   movementDirectionSmooth: {x: 0, y: 0, z: 0}
   facingDirection: {x: 0, y: 0, z: 0}
@@ -299,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1981861264001897172, guid: d96730142a3a637468da40f357d7db5c, type: 3}
   firePoint: {fileID: 7074146211552206362}
-  bulletSpeed: 10
+  bulletSpeed: 18
 --- !u!114 &494122307571820715
 MonoBehaviour:
   m_ObjectHideFlags: 0

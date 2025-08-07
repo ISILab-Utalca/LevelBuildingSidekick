@@ -78,11 +78,15 @@ namespace ISILab.LBS.Modules
         /// Calls the assistant to update all the nodes by the new grammar, if the graph structure is valid
         /// </summary>
         /// <exception cref="Exception"></exception>
-        private void CheckGraphByGrammar()
+        public void CheckGraphByGrammar()
         {
             var assistant = OwnerLayer.GetAssistant<GrammarAssistant>();
             if (assistant == null) throw new Exception("No Behavior");
-            if(QuestEdges.Any()) assistant.ValidateEdgeGrammar(QuestEdges.First());
+            foreach (var edge in QuestEdges)
+            {
+                assistant.ValidateEdgeGrammar(edge);
+            }
+
         }
 
         public List<QuestNode> QuestNodes => questNodes;
@@ -304,14 +308,13 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action">The action type for the new node</param>
         /// <param name="referenceNode">The node before which the new node will be inserted</param>
-        public void InsertNodeBefore(string action, QuestNode referenceNode)
+        public QuestNode InsertNodeBefore(string action, QuestNode referenceNode)
         {
             var position = Vector2.zero;
             if (referenceNode == null || !questNodes.Contains(referenceNode))
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
-                CreateAddNode(action, position);
-                return;
+                return CreateAddNode(action, position);
             }
 
             int suffix = 0;
@@ -345,6 +348,8 @@ namespace ISILab.LBS.Modules
             // to update the visuals
             UpdateQuestNodes();
             UpdateFlow?.Invoke();
+
+            return newNode;
         }
         
         /// <summary>
@@ -359,6 +364,9 @@ namespace ISILab.LBS.Modules
             List<QuestNode> newNodes = new List<QuestNode>();
             QuestNode iterationNode = referenceNode;
             
+            // cant' redo connections with a root already in use
+            if(referenceNode == Root) SetRoot(null);
+            
             // add from the previous index position to add the new ones
             foreach (var action in expandActions)
             {
@@ -368,34 +376,12 @@ namespace ISILab.LBS.Modules
                 iterationNode = newNode;
                 newNodes.Add(newNode);
             }
+        
+            RemoveQuestNode(referenceNode);
             
-            // no new nodes end
-            if(!newNodes.Any()) return;
-            
-            //if we are replacing the root, just delete
-            if (referenceNode == Root)
-            {
-                RemoveQuestNode(referenceNode);
-                return;
-            }
-                
-            // get the previous connection node to the one we are replacing
-            QuestNode prevNode = null;
-            foreach (var edge in questEdges)
-            {
-                if (edge.To == referenceNode)
-                {
-                    prevNode = edge.From;
-                }
-            }
-            
-            if (prevNode is not null)
-            {
-                RemoveQuestNode(referenceNode);
-                // remake pending connection 
-                AddEdge(prevNode, newNodes.First());
-            }
-            
+            // to update the visuals
+            UpdateQuestNodes();
+            UpdateFlow?.Invoke();
         }
         
         public void RemoveQuestNode(QuestNode node)
@@ -426,6 +412,9 @@ namespace ISILab.LBS.Modules
             OnAddEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
 
+            UpdateQuestNodes();
+            CheckGraphByGrammar();
+            
             var connectionInfo = $"Connection: {from.QuestAction} → {to.QuestAction}";
             return Tuple.Create(connectionInfo, LogType.Log);
         }
@@ -508,18 +497,20 @@ namespace ISILab.LBS.Modules
         /// </summary>
         public void UpdateQuestNodes()
         {
-            if (!questNodes.Any()) return;
-            
-            foreach (var qn in questNodes)
+            if (!questNodes.Any() || !questEdges.Any()) return;
+     
+            foreach (var qn in questEdges)
             {
-                qn.NodeType = NodeType.Middle;
+                qn.To.NodeType = NodeType.Middle;
+                qn.From.NodeType = NodeType.Middle;
             }
             
-            questNodes.Last().NodeType = NodeType.Goal;
-            SetRoot(questNodes.First());
-   
+            SetRoot(questEdges.First().From);
+            questEdges.Last().To.NodeType = NodeType.Goal;
+                
             _onUpdateGraph?.Invoke();
         }
+        
         public void Reorder()
         {
             if (!questNodes.Any()) return;
@@ -553,26 +544,6 @@ namespace ISILab.LBS.Modules
             }
 
             //UpdateFlow?.Invoke(); // Optional: force redraw if needed
-        }
-        
-        public QuestNode[] RetrieveNewNodes() { return RetrieveSet(_newNodes); }
-        public QuestNode[] RetrieveExpiredNodes() { return RetrieveSet(_expiredNodes); }
-        public QuestEdge[] RetrieveNewEdges() { return RetrieveSet(_newEdges); }
-        public QuestEdge[] RetrieveExpiredEdges() { return RetrieveSet(_expiredEdges); }
-
-        private T[] RetrieveSet<T>(HashSet<T> set)
-        {
-            // If null create a new one
-            set ??= new HashSet<T>();
-            
-            // Turn into array
-            T[] o = set.ToArray();
-            
-            // Clear memory
-            set.Clear();
-            
-            // Return array
-            return o;
         }
 
         #endregion
