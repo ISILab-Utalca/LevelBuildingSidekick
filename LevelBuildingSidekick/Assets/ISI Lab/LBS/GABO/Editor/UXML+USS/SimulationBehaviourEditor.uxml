@@ -9,7 +9,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <engine:VisualElement name="TestingMappingContent" style="flex-grow: 1;">
+        <engine:VisualElement name="SimulationMappingContent" style="flex-grow: 1;">
             <engine:Toggle label="Auto-Map" name="AutoMap" />
             <engine:Button text="Remap to Population" name="MapPopulation" />
             <engine:Button text="Clear" name="Clear" />
