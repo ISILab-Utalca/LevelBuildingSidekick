@@ -27,10 +27,7 @@ namespace ISILab.Examples
 
         IEnumerator DamageEffect(float time)
         {
-            var characterRenderer = transform.GetComponent<Renderer>();
-            if (characterRenderer == null) yield return null;
-            Debug.Log(characterRenderer + " / " + characterRenderer.materials);
-            characterRenderer.material.SetColor("_BaseColor", Color.red);
+            //The thing that changes the color should go here!
             yield return new WaitForSeconds(time);
         }
     }
