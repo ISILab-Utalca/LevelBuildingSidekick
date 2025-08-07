@@ -8,19 +8,16 @@ namespace ISILab.Examples
     {
         public GameObject bulletPrefab;
         public Transform firePoint;
-        public float bulletSpeed = 10f;
+        public float bulletSpeed = 18f;
 
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                Shoot();
-            }
         }
 
-        private void Shoot()
+        public void Shoot()
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            bullet.GetComponent<Projectile>().damageAmount = 15;
             Rigidbody bulletRigidbody = bullet.GetComponent<Rigidbody>();
             bulletRigidbody.linearVelocity = firePoint.forward * bulletSpeed;
         }

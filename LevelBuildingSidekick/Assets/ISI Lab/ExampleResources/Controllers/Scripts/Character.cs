@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,22 @@ namespace ISILab.Examples
             {
                 Death();
             }
+            
+            StartCoroutine(DamageEffect(0.25f));
         }
 
         public void Death()
         {
             Destroy(this.gameObject);
+        }
+
+        IEnumerator DamageEffect(float time)
+        {
+            var characterRenderer = transform.GetComponent<Renderer>();
+            if (characterRenderer == null) yield return null;
+            Debug.Log(characterRenderer + " / " + characterRenderer.materials);
+            characterRenderer.material.SetColor("_BaseColor", Color.red);
+            yield return new WaitForSeconds(time);
         }
     }
 }
