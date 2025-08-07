@@ -212,6 +212,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 EditorUtility.SetDirty(level);
             }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
+
+            layerPopulation.OwnerLayer.OnChangeUpdate();
         }
         #endregion
 

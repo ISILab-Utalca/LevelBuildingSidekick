@@ -107,7 +107,7 @@ namespace ISILab.LBS.Behaviours
 
         public void RemoveTileGroup(Vector2Int position)
         {
-            var tile = tileMap.GetTile(position);   // Is this supposed to do something?
+            //var tile = tileMap.GetTile(position);   // Is this supposed to do something?
             var group = _bundleTileMap.GetGroup(position);
             
             //CHANGE FROM HERE

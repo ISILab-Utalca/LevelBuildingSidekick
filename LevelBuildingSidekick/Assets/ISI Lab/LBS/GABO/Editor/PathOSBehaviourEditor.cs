@@ -38,6 +38,9 @@ namespace ISILab.LBS.VisualElements
         VisualElement warning;
         VisualElement mappingContent;
 
+        Toggle autoMapToggle;
+
+        List<LBSLayer> populationLayers = new List<LBSLayer>();
         List<TileBundleGroup> populationGroups = new List<TileBundleGroup>();
         #endregion
 
@@ -51,6 +54,17 @@ namespace ISILab.LBS.VisualElements
         public PathOSBehaviourEditor(object target) : base(target)
         {
             _target = target as PathOSBehaviour;
+            Debug.Log("BEHAVIOUR CONSTRUCTED");
+            _target.AutoMapCallback = MapToCurrentPopulation;
+            _target.RemoveAutoMapCallbacks = () =>
+            {
+                GetPopulationLayers();
+                foreach(LBSLayer layer in populationLayers)
+                {
+                    layer.OnChange -= MapToCurrentPopulation;// _target.AutoMapCallback;
+                    Debug.Log($"Removed Auto Map Callback from layer {layer.Name}");
+                }
+            };
 
             CreateVisualElement();
         }
@@ -63,17 +77,26 @@ namespace ISILab.LBS.VisualElements
         protected override VisualElement CreateVisualElement()
         {
 
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("TestingBehaviourEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SimulationBehaviourEditor");
             visualTree.CloneTree(this);
             
             warning = this.Q<VisualElement>("Warning");
-            mappingContent = this.Q<VisualElement>("TestingMappingContent");
+            mappingContent = this.Q<VisualElement>("SimulationMappingContent");
 
-            var toggle = this.Q<Toggle>("AutoMap");
-            toggle.RegisterValueChangedCallback(evt => throw new System.NotImplementedException("This feature is currently not available."));
+            autoMapToggle = this.Q<Toggle>("AutoMap");
+            autoMapToggle.RegisterValueChangedCallback(evt => 
+            {
+                bool value = evt.newValue;
+                if (value)
+                    MapToCurrentPopulation();
+                else
+                    GetPopulationLayers();
+                _target.ToggleAutoMap(value, populationLayers);
+            });
+            autoMapToggle.SetValueWithoutNotify(_target.AutoMap);
 
             var mapPopulButton = this.Q<Button>("MapPopulation");
-            mapPopulButton.clicked += () => MapToPopulation();
+            mapPopulButton.clicked += () => MapToCurrentPopulation();
 
             var clearButton = this.Q<Button>("Clear");
             clearButton.clicked += () => ClearMapping();
@@ -195,31 +218,32 @@ namespace ISILab.LBS.VisualElements
         public override void OnFocus()
         {
             base.OnFocus();
-
-            populationGroups.Clear();
-
-            if (Data.LayerCount <= 1)
-            {
-                ShowMappingContent(false);
-                return;
-            }
-
-            List<LBSLayer> populationLayers = Data.Layers.FindAll(l => l.ID.Equals("Population"));
-            if(populationLayers.Count == 0)
-            {
-                ShowMappingContent(false);
-                return;
-            }
-
-            GetPopulationGroups(populationLayers);
-
-            ShowMappingContent(true);
+            UpdatePopulationGroups();
         }
 
-        public void GetPopulationGroups(List<LBSLayer> layers)
+        private void UpdatePopulationGroups()
+        {
+            populationGroups.Clear();
+            GetPopulationLayers();
+            bool layersExist = populationLayers.Count > 0;
+            ShowMappingContent(layersExist);
+            if (layersExist)
+                GetPopulationGroups();
+        }
+
+        private void GetPopulationLayers()
+        {
+            populationLayers.Clear();
+            if (Data.LayerCount <= 1)
+                return;
+
+            populationLayers = Data.Layers.FindAll(l => l.ID.Equals("Population"));
+        }
+
+        private void GetPopulationGroups()
         {
             var tileMaps = new List<BundleTileMap>();
-            foreach (LBSLayer layer in layers)
+            foreach (LBSLayer layer in populationLayers)
             {
                 var tileMap = layer.GetModule<BundleTileMap>();
                 if (tileMap != null)
@@ -232,10 +256,22 @@ namespace ISILab.LBS.VisualElements
             }
         }
 
-        public void ShowMappingContent(bool show)
+        private void ShowMappingContent(bool show)
         {
             mappingContent  .style.display = (DisplayStyle)( show ? 0 : 1);
             warning         .style.display = (DisplayStyle)(!show ? 0 : 1);
+        }
+
+        public List<TileBundleGroup> GetCurrentPopulationGroups()
+        {
+            UpdatePopulationGroups();
+            return populationGroups;
+        }
+
+        private void MapToCurrentPopulation()
+        {
+            UpdatePopulationGroups();
+            MapToPopulation();
         }
 
         private void MapToPopulation()
@@ -259,6 +295,8 @@ namespace ISILab.LBS.VisualElements
             EditorGUI.BeginChangeCheck();
 
             _target.ClearMapping();
+            autoMapToggle.value = false;
+
 
             if (EditorGUI.EndChangeCheck())
                 EditorUtility.SetDirty(level);

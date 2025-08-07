@@ -111,6 +111,8 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(level);
             }
+
+            _population.OwnerLayer.OnChangeUpdate();
         }
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)

@@ -123,6 +123,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 {
                     EditorUtility.SetDirty(level);
                 }
+                assistant.OwnerLayer.OnChangeUpdate();
             };
             
             ve.Add(content);

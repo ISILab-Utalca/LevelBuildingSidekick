@@ -44,6 +44,8 @@ namespace ISILab.LBS.Behaviours
                 return pathOSBundles;
             }
         }
+
+        public bool AutoMap { get; private set; }
         #endregion
 
         #region EVENTS
@@ -62,6 +64,9 @@ namespace ISILab.LBS.Behaviours
             add { module.OnRemoveTile += value; }
             remove { module.OnRemoveTile -= value; }
         }
+
+        public Action AutoMapCallback;
+        public Action RemoveAutoMapCallbacks;
         #endregion
 
         #region CONSTRUCTORS
@@ -144,13 +149,13 @@ namespace ISILab.LBS.Behaviours
 
         public void ToggleAutoMap(bool value, List<LBSLayer> populLayers)
         {
-            if(value)
+            Debug.Log($"Toggle Auto Map ({value})");
+            AutoMap = value;
+            foreach (LBSLayer layer in populLayers)
             {
-                foreach(LBSLayer layer in populLayers)
-                {
-                    // Obtener TileBundleGroups desde las layers o desde el editor?
-                    //layer.OnChange += MapToPopulation();
-                }
+                if (value)
+                    layer.OnChange += AutoMapCallback;
+                else layer.OnChange -= AutoMapCallback;
             }
         }
 
@@ -162,6 +167,8 @@ namespace ISILab.LBS.Behaviours
             //    s += "Entity Type: " + pair.Key + " | Texture: " + (pair.Value.image ? pair.Value.image.name : null) + "\n";
             //}
             //Debug.Log(s);
+
+            Debug.Log("Simulation Mapping performed.");
 
             ClearMapping();
 
@@ -217,8 +224,6 @@ namespace ISILab.LBS.Behaviours
 
         public void ClearMapping()
         {
-            //for(int i = 0; i < Tiles.Count; i++)
-            //foreach(PathOSTile tile in Tiles)
             while(Tiles.Count > 0)
             {
                 RemoveTile(Tiles[0]);
@@ -238,6 +243,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnDetachLayer(LBSLayer layer)
         {
+            RemoveAutoMapCallbacks?.Invoke();
             OwnerLayer = null;
         }
 

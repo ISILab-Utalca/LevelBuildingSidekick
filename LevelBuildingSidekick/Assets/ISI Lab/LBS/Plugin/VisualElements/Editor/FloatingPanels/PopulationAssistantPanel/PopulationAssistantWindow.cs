@@ -515,6 +515,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 EditorUtility.SetDirty(level);
             }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
+
+            LayerPopulation.OwnerLayer.OnChangeUpdate();
         }
 
         //Pin the suggestion into the assistant tab
@@ -584,6 +586,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 EditorUtility.SetDirty(level);
             }
+            LayerPopulation.OwnerLayer.OnChangeUpdate();
             OnTileMapReset?.Invoke();
         }
         #endregion
