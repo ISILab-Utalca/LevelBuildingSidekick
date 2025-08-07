@@ -106,17 +106,16 @@ namespace ISILab.LBS.Template.Editor
                 Debug.Log("QUEST CONSTRUCT");
                 QuestConstruct(template);
             }
+            
+            if (GUILayout.Button("Set as Simulation"))
+            {
+                Debug.Log("SIMULATION CONSTRUCT");
+                SimulationConstruct(template);
+            }
 
             if (GUILayout.Button("Apply Changes"))
             {
                 ApplyChanges();
-            }
-            
-            if (GUILayout.Button("Set as Testing"))
-            {
-                //TODO: implement this!
-                Debug.Log("TESTING CONSTRUCT");
-                TestingConstruct(template);
             }
         }
 
@@ -298,14 +297,14 @@ namespace ISILab.LBS.Template.Editor
         /// Also calls the manipulators to make functional buttons in the layout (TO BE IMPLEMENTED).
         /// </summary>
         /// <param name="template"></param>
-        private void TestingConstruct(LayerTemplate template)
+        private void SimulationConstruct(LayerTemplate template)
         {
             template.Clear();
 
             // Basic data layer
             var layer = template.layer;
-            layer.ID = "Testing";
-            layer.Name = "Layer Testing";
+            layer.ID = "Simulation";
+            layer.Name = "Layer Simulation";
             layer.iconGuid = "Assets/ISI Lab/LBS/GABO/Resources/Icons/TinyIconPathOSModule16x16.png";
             template.layer = layer;
 
@@ -315,15 +314,15 @@ namespace ISILab.LBS.Template.Editor
                 scale = new Vector2Int(2, 2),
                 resize = new Vector2(0, 0),
                 position = new Vector3(0, 0, 0),
-                name = "Testing",
+                name = "Simulation",
             };
 
             // Behaviours
             //var Icon = Resources.Load<Texture2D>("Icons/Select");
-            layer.AddBehaviour(new PathOSBehaviour(behaviourIcon, "PathOS Behaviour", Settings.LBSSettings.Instance.view.behavioursColor));
+            layer.AddBehaviour(new PathOSBehaviour(behaviourIcon, "Simulation Behaviour", Settings.LBSSettings.Instance.view.behavioursColor));
 
             // Assistants
-            layer.AddAssistant(new TestingAssistant(assistantIcon, "Testing Assistant", Settings.LBSSettings.Instance.view.assistantColor));
+            layer.AddAssistant(new TestingAssistant(assistantIcon, "Simulation Assistant", Settings.LBSSettings.Instance.view.assistantColor));
 
             // Rules
             layer.AddGeneratorRule(new PathOSRuleGenerator());

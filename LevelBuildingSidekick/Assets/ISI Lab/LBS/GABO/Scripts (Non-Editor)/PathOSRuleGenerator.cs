@@ -153,6 +153,7 @@ namespace ISILab.LBS.Generators
                 // Crear entidades de marcado de PathOS y guardarlas temporalmente para su posterior manipulacion
                 if (tile.Tag.Label != "Wall")
                 {
+                    //TODO: Cambiar currInstance por el elemento de Population que representa, cuando corresponda
                     entitiesTemporaryReference.Add((tile, manager.AddLevelEntity(currInstance, tile.Tag.EntityType)));
                 }
             }

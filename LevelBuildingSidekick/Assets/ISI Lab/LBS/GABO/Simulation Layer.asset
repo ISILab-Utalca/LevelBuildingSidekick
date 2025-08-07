@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
-  m_Name: Testing Layer
+  m_Name: Simulation Layer
   m_EditorClassIdentifier: 
   layer:
     visible: 1
     blocked: 0
     iconGuid: 13f64883312513a41adeb7dec75a3a5f
-    id: Testing
-    name: Layer Testing
+    id: Simulation
+    name: Layer Simulation
     modules:
     - rid: 1134172181454913763
     behaviours:
@@ -95,10 +95,11 @@ MonoBehaviour:
           index: 0
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
-        name: PathOS Behaviour
+        name: Simulation Behaviour
         module:
           rid: 1134172181454913763
         selectedToSet: {fileID: 0}
+        pathOSBundles: []
     - rid: 1134172181454913765
       type: {class: TestingAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -128,7 +129,7 @@ MonoBehaviour:
           index: 0
         icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
         colorTint: {r: 0.76, g: 0.96, b: 0.44, a: 1}
-        name: Testing Assistant
+        name: Simulation Assistant
     - rid: 1134172181454913766
       type: {class: PathOSRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
