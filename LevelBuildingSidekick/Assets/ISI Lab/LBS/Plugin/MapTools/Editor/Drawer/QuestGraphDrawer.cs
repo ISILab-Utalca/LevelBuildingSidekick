@@ -55,6 +55,7 @@ namespace ISILab.LBS.Drawers.Editor
 
         private void PaintNewTiles(QuestGraph quest, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
         {
+            /*
             // Paint new Nodes
             foreach (var node in quest.RetrieveNewNodes())
             {
@@ -74,7 +75,7 @@ namespace ISILab.LBS.Drawers.Editor
                 var edgeView = CreateEdgeView(edge, n1, n2);
                 // Stores using QuestEdge as key
                 view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
-            }
+            }*/
         }
 
         private void LoadAllTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
