@@ -412,6 +412,7 @@ namespace ISILab.LBS.Modules
             OnAddEdge?.Invoke(edge);
             UpdateFlow?.Invoke();
 
+            UpdateQuestNodes();
             CheckGraphByGrammar();
             
             var connectionInfo = $"Connection: {from.QuestAction} → {to.QuestAction}";
@@ -496,26 +497,20 @@ namespace ISILab.LBS.Modules
         /// </summary>
         public void UpdateQuestNodes()
         {
-            if (!questNodes.Any()) return;
-            
+            if (!questNodes.Any() || !questEdges.Any()) return;
+     
             foreach (var qn in questEdges)
             {
-                if (qn == questEdges.First())
-                {
-                    SetRoot(qn.From);
-                }
-                else  if (qn == questEdges.Last())
-                {
-                    qn.To.NodeType = NodeType.Goal;
-                }
-                else
-                {
-                    qn.To.NodeType = NodeType.Middle;
-                }
+                qn.To.NodeType = NodeType.Middle;
+                qn.From.NodeType = NodeType.Middle;
             }
-            _onUpdateGraph?.Invoke();
             
+            SetRoot(questEdges.First().From);
+            questEdges.Last().To.NodeType = NodeType.Goal;
+                
+            _onUpdateGraph?.Invoke();
         }
+        
         public void Reorder()
         {
             if (!questNodes.Any()) return;
@@ -549,26 +544,6 @@ namespace ISILab.LBS.Modules
             }
 
             //UpdateFlow?.Invoke(); // Optional: force redraw if needed
-        }
-        
-        public QuestNode[] RetrieveNewNodes() { return RetrieveSet(_newNodes); }
-        public QuestNode[] RetrieveExpiredNodes() { return RetrieveSet(_expiredNodes); }
-        public QuestEdge[] RetrieveNewEdges() { return RetrieveSet(_newEdges); }
-        public QuestEdge[] RetrieveExpiredEdges() { return RetrieveSet(_expiredEdges); }
-
-        private T[] RetrieveSet<T>(HashSet<T> set)
-        {
-            // If null create a new one
-            set ??= new HashSet<T>();
-            
-            // Turn into array
-            T[] o = set.ToArray();
-            
-            // Clear memory
-            set.Clear();
-            
-            // Return array
-            return o;
         }
 
         #endregion
