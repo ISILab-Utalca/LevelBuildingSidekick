@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
@@ -10,7 +9,6 @@ using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
-using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
@@ -151,6 +149,8 @@ namespace ISILab.LBS.Editor
         _nextSuggested.makeItem = () => new SuggestionActionButton();
         _nextSuggested.bindItem = (e, i) =>
         {
+            if(_questGraph.SelectedQuestNode is null) return;
+            
             var button = e as SuggestionActionButton;
             if (nextActions.Count <= i) return;
             string action = nextActions[i];
@@ -167,6 +167,8 @@ namespace ISILab.LBS.Editor
         _prevSuggested.makeItem = () => new SuggestionActionButton();
         _prevSuggested.bindItem = (e, i) =>
         {
+            if(_questGraph.SelectedQuestNode is null) return;
+            
             var button = e as SuggestionActionButton;
             if (prevActions.Count <= i) return;
             string action = prevActions[i];
@@ -198,7 +200,9 @@ namespace ISILab.LBS.Editor
         };
         _expandSuggested.bindItem = (v, i) =>
         {
-            if(i == expandActions.Count) return;
+            if(_questGraph.SelectedQuestNode is null) return;
+            
+            if(i > expandActions.Count-1) return;
             var foldout = v as LBSCustomFoldout;
             foldout.contentContainer.Clear();
             
@@ -234,7 +238,12 @@ namespace ISILab.LBS.Editor
 
     private Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
     {
-        return () => _questGraph.ExpandNode(expandAction, referenceNode);
+        return () =>
+        {
+            _questGraph.ExpandNode(expandAction, referenceNode);
+            _questGraph.Reorder();
+            _questGraph.CheckGraphByGrammar();
+        };
     }
 
 
@@ -247,7 +256,12 @@ namespace ISILab.LBS.Editor
         /// <returns></returns>
         private Action InsertNextAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.InsertNodeAfter(action, referenceNode);
+            return () =>
+            {
+                _questGraph.InsertNodeAfter(action, referenceNode);
+                _questGraph.Reorder();
+                _questGraph.CheckGraphByGrammar();
+            };
         }
         
         /// <summary>
@@ -258,7 +272,12 @@ namespace ISILab.LBS.Editor
         /// <returns></returns>
         private Action InsertPreviousAction(string action, QuestNode referenceNode)
         {
-            return () => _questGraph.InsertNodeBefore(action, referenceNode);
+            return () =>
+            {
+                _questGraph.InsertNodeBefore(action, referenceNode);
+                _questGraph.Reorder();
+                _questGraph.CheckGraphByGrammar();
+            };
         }
         
         public void SetTools(ToolKit toolkit)
