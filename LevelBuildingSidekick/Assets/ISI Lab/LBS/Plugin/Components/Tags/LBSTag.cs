@@ -75,7 +75,7 @@ namespace ISILab.LBS.Components
         public EntityType EntityType
         {
             get => defaultType;
-            set
+            internal set // Quiza no deberia haber un setter, pero se usa en PathOSTag.ToLBSTag. No se si sirva de mucho pero lo dejare como internal por ahora
             {
                 if(defaultType == value) return;
 
@@ -123,6 +123,9 @@ namespace ISILab.LBS.Components
         private void OnValidate()
         {
             label = name;
+
+            if(defaultType != EntityType.ET_NONE && !admissibleTypes.Contains(defaultType))
+                admissibleTypes.Insert(0, defaultType);
         }
         #endregion
     }
