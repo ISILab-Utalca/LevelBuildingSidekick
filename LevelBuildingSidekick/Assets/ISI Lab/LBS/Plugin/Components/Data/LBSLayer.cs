@@ -468,6 +468,16 @@ namespace LBS.Components
 
             return (min, max);
         }
+
+        public void ClearEvents()
+        {
+            OnChangeName = null;
+            OnChange = null;
+            OnTileSizeChange = null;
+            OnAddModule = null;
+            OnReplaceModule = null;
+            OnRemoveModule = null;
+        }
         
 
         public object Clone()
