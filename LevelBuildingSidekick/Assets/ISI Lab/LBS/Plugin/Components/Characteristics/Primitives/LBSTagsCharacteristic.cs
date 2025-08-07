@@ -50,7 +50,7 @@ namespace ISILab.LBS.Characteristics
                     s += $"Null or Empty Tag GUID -> Calling GetGuidFromAsset( {value} )\n";
                 }
                 s += $"Tag GUID = {tagGUID}";
-                Debug.Log(s);
+                //Debug.Log(s);
                 return tagGUID;
             }
         }

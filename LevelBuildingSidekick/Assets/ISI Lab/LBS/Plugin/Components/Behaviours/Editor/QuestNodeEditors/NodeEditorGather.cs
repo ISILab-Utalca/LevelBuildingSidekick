@@ -23,8 +23,17 @@ namespace ISILab.LBS.VisualElements
                 );
 
             _gatherAmount = this.Q<LBSCustomUnsignedIntegerField>("GatherAmount");
+            //_gatherAmount.RegisterValueChangedCallback(evt =>
+            //    _gatherAmount.SetValueWithoutNotify((uint)evt.newValue));
+
             _gatherAmount.RegisterValueChangedCallback(evt =>
-                _gatherAmount.SetValueWithoutNotify((uint)evt.newValue));
+            {
+                _gatherAmount.SetValueWithoutNotify((uint)evt.newValue);
+                if (NodeData != null)
+                {
+                    NodeData.gatherAmount = (int)evt.newValue;
+                }
+            });
         }
 
         protected override void OnDataAssigned()
