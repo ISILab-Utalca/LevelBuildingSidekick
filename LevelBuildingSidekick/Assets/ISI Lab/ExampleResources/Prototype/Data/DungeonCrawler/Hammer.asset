@@ -22,7 +22,7 @@ MonoBehaviour:
     probability: 1
   characteristics:
   - rid: 1134171596635245915
-  populationType: 0
+  populationType: 1
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
@@ -42,4 +42,6 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Hammer
         value: {fileID: 11400000, guid: 1b5f81de2f3a4ac40a031e0d2f7ddd0b, type: 2}
+        tagGUID: 1b5f81de2f3a4ac40a031e0d2f7ddd0b

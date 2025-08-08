@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -9,6 +10,9 @@ namespace ISILab.LBS.VisualElements
         private readonly PickerBundle _pickerBundleGive;
         private readonly PickerBundle _pickerBundleReceive;
 
+        private readonly LBSCustomUnsignedIntegerField _requiredAmount;
+        private readonly LBSCustomUnsignedIntegerField _receiveAmount;
+
         public NodeEditorExchange()
         {
             Clear();
@@ -17,15 +21,23 @@ namespace ISILab.LBS.VisualElements
 
             _pickerBundleGive = this.Q<PickerBundle>("ExchangeGiveTarget");
             _pickerBundleGive.SetInfo("Object to give", "The bundle type the player must give at the location.");
-
-            this.Q<IntegerField>("ExchangeGiveAmount")
-                .RegisterValueChangedCallback(evt => NodeData.requiredAmount = evt.newValue);
-
+            
             _pickerBundleReceive = this.Q<PickerBundle>("ExchangeReceiveTarget");
             _pickerBundleReceive.SetInfo("Object to receive", "The bundle type the player will receive.");
 
-            this.Q<IntegerField>("ExchangeReceiveAmount")
-                .RegisterValueChangedCallback(evt => NodeData.receiveAmount = evt.newValue);
+            _requiredAmount = this.Q<LBSCustomUnsignedIntegerField>("ExchangeGiveAmount");
+            _requiredAmount.RegisterValueChangedCallback(evt =>
+            {
+                _requiredAmount.SetValueWithoutNotify(evt.newValue);
+                if(NodeData is not null) NodeData.requiredAmount = (int)evt.newValue;
+            });
+            
+            _receiveAmount =  this.Q<LBSCustomUnsignedIntegerField>("ExchangeReceiveAmount");
+            _receiveAmount.RegisterValueChangedCallback(evt =>
+                {
+                    _receiveAmount.SetValueWithoutNotify(evt.newValue);
+                    if(NodeData is not null) NodeData.receiveAmount = (int)evt.newValue;
+                });
         }
 
         protected override void OnDataAssigned()
@@ -58,6 +70,9 @@ namespace ISILab.LBS.VisualElements
                 };
             };
             _pickerBundleReceive.SetEditorLayerTarget(NodeData.bundleReceiveType);
+            
+            _requiredAmount.SetValueWithoutNotify((uint)NodeData.requiredAmount);
+            _receiveAmount.SetValueWithoutNotify((uint)NodeData.receiveAmount);
         }
     }
 }
