@@ -96,7 +96,7 @@ namespace ISILab.LBS.VisualElements.Editor
             _quest = node;
             _validImage.style.display = node is { ValidGrammar: true } ? DisplayStyle.None : DisplayStyle.Flex;
 
-            BackgroundSize  iconSize = new BackgroundSize(12, 12);
+            BackgroundSize  iconSize = new BackgroundSize(24, 24);
             if (node != null)
             {
                 string iconPath;
@@ -110,7 +110,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     case NodeType.Middle:
                         iconPath = "Icons/Vectorial/Icon=MidNode";
                         backgroundColor = Color.white;
-                        iconSize = new BackgroundSize(28, 28);
+                        iconSize = new BackgroundSize(24, 24);
                         break;
                     case NodeType.Goal:
                         iconPath = "Icons/Vectorial/Icon=Goal";
@@ -123,6 +123,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 _nodeTypeImage.style.backgroundSize = new StyleBackgroundSize(iconSize);
                 _nodeTypeImage.style.backgroundImage = new StyleBackground(Resources.Load<VectorImage>(iconPath));
                 _nodeTypeImage.style.unityBackgroundImageTintColor = backgroundColor;
+                _nodeTypeImage.style.unityBackgroundScaleMode = ScaleMode.ScaleToFit;
                 _nodeName.text = char.ToUpper(node.ID[0]) + node.ID.Substring(1);
 
             }
