@@ -39,7 +39,7 @@
                     <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                 </ui:TabView>
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
-            <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" item-template="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuestPanel/QuestHistoryEntry.uxml?fileID=9197481963319205126&amp;guid=4ee1f909777f771499a771d92a96d881&amp;type=3#QuestHistoryEntry" show-foldout-header="false" horizontal-scrolling="false" reorderable="false" show-alternating-row-backgrounds="None" show-border="true" virtualization-method="DynamicHeight" />
+            <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
         </ui:VisualElement>
     </ISILab.Commons.VisualElements.Editor.SplitView>
 </ui:UXML>
