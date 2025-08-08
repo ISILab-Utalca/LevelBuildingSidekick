@@ -138,7 +138,13 @@ namespace ISILab.LBS
 
         public void CheckComplete()
         {
+            // only check for complete if the gameObject (quest node) is active
+            if (!isActiveAndEnabled) return;
+            
+            // check if the complete condition is met
             if (!CompleteCondition()) return;
+            
+            // complete and advance into the next quest node
             Completed();
 
         }

@@ -173,8 +173,9 @@ namespace ISILab.LBS.Generators
                         throw new ArgumentOutOfRangeException();
                 }
 
+                obj.Key.AddComponent<DestroyNotifier>();
+                
                 parent.transform.position = new Vector3 (x, y, z);
-  
                 
             }
 

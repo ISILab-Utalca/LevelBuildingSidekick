@@ -2,9 +2,9 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="Exchange" class="lbs-nodeDataPanel">
         <ISILab.LBS.VisualElements.PickerBundle name="ExchangeGiveTarget" />
-        <ui:IntegerField label="Give Amount" value="1" name="ExchangeGiveAmount" style="margin-bottom: 6px;" />
+        <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField label="Give Amount" name="ExchangeGiveAmount" />
         <ui:VisualElement style="flex-grow: 1; border-left-color: rgb(217, 217, 217); border-right-color: rgb(217, 217, 217); border-top-color: rgb(217, 217, 217); border-bottom-color: rgb(217, 217, 217); border-bottom-width: 1px; margin-top: 3px; margin-bottom: 3px;" />
         <ISILab.LBS.VisualElements.PickerBundle name="ExchangeReceiveTarget" />
-        <ui:IntegerField label="Receive Amount" value="1" name="ExhangeReceiveAmount" class="lbs-pickerPanel" style="margin-bottom: 6px;" />
+        <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField label="Receive Amount" name="ExchangeReceiveAmount" />
     </ui:VisualElement>
 </ui:UXML>
