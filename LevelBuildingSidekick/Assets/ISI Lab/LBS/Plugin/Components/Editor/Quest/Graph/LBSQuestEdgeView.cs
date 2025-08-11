@@ -1,4 +1,5 @@
-
+using System;
+using ISILab.Commons.Utility.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,105 +9,134 @@ using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
 {
-    // Class that draws the quest edges.
     public class LBSQuestEdgeView : GraphElement
     {
         private Vector2Int _pos1, _pos2;
-
         private const int PosOffset = 16;
+        private readonly float _lineWidth;
+        private readonly float _stroke;
 
-        private readonly QuestEdge _edge;
-
-        private readonly VisualElement connectionTypeView;
+        private Label _connectionTypeLabel;
         
-        public LBSQuestEdgeView(QuestEdge edge, QuestNodeView node1, QuestNodeView node2, int l, int stroke)
-        {
-            // Set Data
-            this._edge = edge;
+        private QuestEdge _edge;
 
-            var visualTree = Resources.Load<VisualTreeAsset>("EdgeConnectionView");
-            if (visualTree != null)
-            {
-                var rootFromUxml = visualTree.CloneTree();
-                Add(rootFromUxml);
-            }
+        
+        
+        private readonly VisualElement _connectionView;
+
+        public LBSQuestEdgeView(QuestEdge edge, QuestNodeView node1, QuestNodeView node2, float lineWidth = 5f, float stroke = 3f)
+        {
+            _edge = edge;
+            _lineWidth = lineWidth;
+            _stroke = stroke;
             
-            connectionTypeView = this.Q<VisualElement>("View");
-            if (connectionTypeView != null)
-            {
-                // Subscribe to draw arrow inside the "View"
-                connectionTypeView.generateVisualContent += DrawArrowInView;
-            }
             
-            // Set first node
+            // Load the UXML into this GraphElement
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestEdgeView");
+            visualTree.CloneTree(this);
+
+            // Grab the arrow view
+            _connectionView = this.Q<VisualElement>("View");
+
+            _connectionTypeLabel = this.Q<Label>("Label");
+            UpdateTypeVisuals();
+            
+            // Handle movement of first node
             node1.OnMoving += (rect) =>
             {
-                SetPosition(new Rect(_pos1, new Vector2(10, 10)));
                 ActualizePositions(rect.center.ToInt(), _pos2);
             };
 
-            // Set second node
+
+            // Handle movement of second node
             node2.OnMoving += (rect) =>
             {
                 ActualizePositions(_pos1, rect.center.ToInt());
             };
 
-            var sPos1 = new Vector2Int((int)node1.GetPosition().xMax - PosOffset, (int)node1.GetPosition().center.y);
-            var sPos2 = new Vector2Int((int)node2.GetPosition().xMin + PosOffset, (int)node2.GetPosition().center.y);
+            // Initial positions
+            var sPos1 = new Vector2Int((int)node1.GetPosition().xMax - PosOffset*4, (int)node1.GetPosition().center.y- PosOffset);
+            var sPos2 = new Vector2Int((int)node2.GetPosition().xMin, (int)node2.GetPosition().center.y- PosOffset);
             ActualizePositions(sPos1, sPos2);
 
-            SetPosition(new Rect(_pos1, new Vector2(10, 10)));
+            // Draw the dotted line on the root
+            generateVisualContent += DrawLine;
             
-            generateVisualContent -= OnGenerateVisualContent;
-            generateVisualContent += OnGenerateVisualContent;
-            
-            RegisterCallback<MouseUpEvent>(OnMouseUp);
+            // to change the edge type
+            RegisterCallback<MouseDownEvent>(OnMouseDown);
         }
+
+        private void OnMouseDown(MouseDownEvent evt)
+        {
+            // Only right-click
+            if (evt.button == (int)MouseButton.RightMouse)
+            {
+                var menu = new GenericMenu();
         
-        private void OnMouseUp(MouseUpEvent evt)
-        {
-            // only on Right-click
-            if (evt.button != 1) return; 
+                menu.AddItem(new GUIContent("Set Type/Single"), false, () => ChangeConnectionType(ConnectionType.Single));
+                menu.AddItem(new GUIContent("Set Type/OR"), false, () => ChangeConnectionType(ConnectionType.Or));
+                menu.AddItem(new GUIContent("Set Type/AND"), false, () => ChangeConnectionType(ConnectionType.And));
+                menu.AddSeparator("");
+                //menu.AddItem(new GUIContent("Delete Edge"), false, () => DeleteThisEdge());
 
-            var menu = new GenericMenu();
-            menu.AddItem(new GUIContent("Set to Single"), _edge.EdgeType == ConnectionType.Single, () =>
-            {
-                _edge.SetConnectionType(ConnectionType.Single);
-                MarkDirtyRepaint();
-            });
-            menu.AddItem(new GUIContent("Set to OR"), _edge.EdgeType == ConnectionType.Or, () =>
-            {
-                _edge.SetConnectionType(ConnectionType.Or);
-                MarkDirtyRepaint();
-            });
-            menu.AddItem(new GUIContent("Set to AND"), _edge.EdgeType == ConnectionType.And, () =>
-            {
-                _edge.SetConnectionType(ConnectionType.And);
-                MarkDirtyRepaint();
-            });
-            menu.ShowAsContext();
+                menu.ShowAsContext();
+
+                evt.StopPropagation(); // Prevent other handlers from firing
+            }
         }
 
-        void OnGenerateVisualContent(MeshGenerationContext mgc)
+        private void ChangeConnectionType(ConnectionType type)
         {
-            var painter = mgc.painter2D;
-            // line
-            painter.DrawDottedLine(Vector2.zero , _pos2 - _pos1, Color.white, 3f, 5f);
-            
-            // arrow
-            Vector2Int pos = _pos2 - _pos1;
-            Vector2 midpoint = (_pos2 - _pos1) / 2;
-            Vector2 direction = new Vector2(pos.x, pos.y).normalized;
-
-            painter.DrawEquilateralArrow(midpoint, direction, 15f, Color.white);
-            
+            _edge.SetConnectionType(type);
+            UpdateTypeVisuals();
         }
 
-        private void ActualizePositions(Vector2Int pos1, Vector2Int pos2)
+        private void UpdateTypeVisuals()
         {
-            this._pos1 = pos1;
-            this._pos2 = pos2;
+            switch (_edge.EdgeType)
+            {
+                case ConnectionType.Single:
+                    _connectionTypeLabel.text = "";
+                    break;
+                case ConnectionType.Or:
+                    _connectionTypeLabel.text = "OR";
+                    break;
+                case ConnectionType.And:
+                    _connectionTypeLabel.text = "AND";
+                    break;
+            }
+
             MarkDirtyRepaint();
         }
+
+
+        private void DrawLine(MeshGenerationContext mgc)
+        {
+            var painter = mgc.painter2D;
+            painter.DrawDottedLine(_pos1, _pos2, Color.white, _stroke, _lineWidth);
+        }
+        
+
+        private void ActualizePositions(Vector2Int newPos1, Vector2Int newPos2)
+        {
+            _pos1 = newPos1;
+            _pos2 = newPos2;
+
+            // Midpoint position
+            Vector2 midpoint = new Vector2(_pos1.x + _pos2.x - PosOffset*3f,  _pos1.y + _pos2.y - PosOffset*3f) / 2f;
+            _connectionView.transform.position = midpoint;
+
+            // Rotation: angle from right (1,0) to direction vector
+            Vector2 direction =  new Vector2(_pos2.x - _pos1.x, _pos2.y - _pos1.y).normalized;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            // Apply rotation to the arrow visual element
+            _connectionView.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // Repaint both
+            MarkDirtyRepaint();
+            _connectionView.MarkDirtyRepaint();
+        }
+
     }
 }
