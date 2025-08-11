@@ -513,7 +513,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 60
-  modelObject: {fileID: 7620144336036810116}
+  modelObjects:
+  - {fileID: 7378800345514827550}
+  - {fileID: 7620144336036810116}
+  - {fileID: 8176045393586772311}
+  - {fileID: 5579732600707671770}
 --- !u!114 &4231051858285580512
 MonoBehaviour:
   m_ObjectHideFlags: 0

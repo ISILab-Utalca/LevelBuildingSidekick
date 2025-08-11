@@ -303,6 +303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   life: 80
+  modelObjects:
+  - {fileID: 8272943599224061571}
+  - {fileID: 8272943599224061569}
 --- !u!1 &8272943599224061575
 GameObject:
   m_ObjectHideFlags: 0

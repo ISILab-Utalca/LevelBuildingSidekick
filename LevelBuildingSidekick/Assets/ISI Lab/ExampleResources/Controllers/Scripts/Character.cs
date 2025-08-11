@@ -11,7 +11,7 @@ namespace ISILab.Examples
     {
         public float life = 100;
         //To give it animations
-        public GameObject modelObject;
+        public List<GameObject> modelObjects;
 
         public void GetDamage(float damage)
         {
@@ -21,7 +21,7 @@ namespace ISILab.Examples
                 Death();
             }
             
-            StartCoroutine(DamageEffect(0.25f));
+            StartCoroutine(DamageEffect(0.1f));
         }
 
         public void Death()
@@ -31,19 +31,31 @@ namespace ISILab.Examples
 
         IEnumerator DamageEffect(float time)
         {
-            var renderer = modelObject.GetComponent<Renderer>();
-            List<Material> materials = new List<Material>(renderer.materials);
-
-            foreach (Material material in materials)
+            var materialList = new List<Material>();
+            foreach (GameObject modelObject in modelObjects)
             {
-                material.SetFloat("_BlinkFactor", 1f);
+                var renderer = modelObject.GetComponent<Renderer>();
+                List<Material> materials = new List<Material>(renderer.materials);
+
+                foreach (Material material in materials)
+                {
+                    materialList.Add(material);
+                    material.SetFloat("_BlinkFactor", 1f);
+                    material.SetFloat("_GrowFactor", 0.025f);
+                }
             }
+            yield return new WaitForSeconds(time);
+            foreach(Material material in materialList)
+            {
+                material.SetFloat("_BlinkFactor", 0f);
+                material.SetFloat("_GrowFactor", 0.01f);
+            }
+
             /*if (characterRenderer == null) yield return null;
             Debug.Log(characterRenderer + " / " + characterRenderer.materials);
             characterRenderer.material.SetFloat("_BlinkFactor", 1f);
             */
             //The thing that changes the color should go here!
-            yield return new WaitForSeconds(time);
         }
     }
 }
