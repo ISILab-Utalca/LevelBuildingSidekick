@@ -45,49 +45,53 @@ namespace ISILab.LBS.Assistants
             if (grammar == null || !grammar.RuleEntries.Any()) return false;
 
             bool returnValid = false;
-            
-            // validate start 
-            if (edge.From.NodeType == NodeType.Start)
+
+            foreach (var from in edge.From)
             {
-                List<string> validNextTerminals = GetAllValidNextActions(edge.From.QuestAction);
-                bool validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
-                edge.From.ValidGrammar = validGrammar;
-                returnValid = validGrammar;
-            }
-            
-            // validate middle
-            if (edge.From.NodeType == NodeType.Middle)
-            {
-                bool validGrammar = false;
-                bool hasPreviousConnection = false;
-                
-                // check that the next terminal is valid
-                List<string> validNextTerminals = GetAllValidNextActions(edge.From.QuestAction);
-                validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
-                
-                // also check that this has a previous node connection
-                foreach (var fromEdge in Quest.QuestEdges)
+                // validate start 
+                if (from.NodeType == NodeType.Start)
                 {
-                    // the from node has a previous connection
-                    if (fromEdge.To == edge.From)
-                    {
-                        hasPreviousConnection = true;
-                        break;
-                    }
+                    List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
+                    bool validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                    from.ValidGrammar = validGrammar;
+                    returnValid = validGrammar;
                 }
-                
-                edge.From.ValidGrammar = validGrammar && hasPreviousConnection;
-                returnValid = edge.From.ValidGrammar;
-            }
             
-            // validate goal
-            if (edge.To.NodeType == NodeType.Goal)
-            {
-                // if the from is valid(so is the goal). Because the "From" gets validated first
-                // by checking that the "To" is a valid terminal
-                edge.To.ValidGrammar = edge.From.ValidGrammar;
-                returnValid = edge.To.ValidGrammar;
+                // validate middle
+                if (from.NodeType == NodeType.Middle)
+                {
+                    bool validGrammar = false;
+                    bool hasPreviousConnection = false;
+                
+                    // check that the next terminal is valid
+                    List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
+                    validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                
+                    // also check that this has a previous node connection
+                    foreach (var fromEdge in Quest.QuestEdges)
+                    {
+                        // the from node has a previous connection
+                        if (fromEdge.To == from)
+                        {
+                            hasPreviousConnection = true;
+                            break;
+                        }
+                    }
+                
+                    from.ValidGrammar = validGrammar && hasPreviousConnection;
+                    returnValid = from.ValidGrammar;
+                }
+            
+                // validate goal
+                if (edge.To.NodeType == NodeType.Goal)
+                {
+                    // if the from is valid(so is the goal). Because the "From" gets validated first
+                    // by checking that the "To" is a valid terminal
+                    edge.To.ValidGrammar = from.ValidGrammar;
+                    returnValid = edge.To.ValidGrammar;
+                }
             }
+           
                 
             return returnValid;
             
@@ -325,7 +329,10 @@ namespace ISILab.LBS.Assistants
             Quest.OnRemoveEdge += (edge)=>
             {
                 if (edge.To is not null) edge.To.ValidGrammar = false;
-                if (edge.From is not null) edge.From.ValidGrammar = false;
+                foreach (var from in edge.From)
+                {
+                    from.ValidGrammar = false;
+                }
             };
         }
 

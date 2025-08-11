@@ -78,15 +78,19 @@ namespace ISILab.LBS
             // Activate the next node and trigger
             foreach (var edge in questGraph.QuestEdges)
             {
-                if (edge.From != currentNode) continue;
+                foreach (var from in edge.From)
+                {
+                    if (from != currentNode) continue;
 
-                var nextNode = edge.To;
-                nextNode.QuestState = QuestState.Active;
+                    var nextNode = edge.To;
+                    nextNode.QuestState = QuestState.Active;
 
-                if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
+                    if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
                 
-                nextTrigger.gameObject.SetActive(true);
-                nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
+                    nextTrigger.gameObject.SetActive(true);
+                    nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
+                    break;
+                }
             }
             
             OnQuestAdvance?.Invoke();

@@ -107,16 +107,17 @@ namespace ISILab.LBS.Drawers.Editor
 
             foreach (var edge in quest.QuestEdges)
             {
-                if (!nodeViews.TryGetValue(edge.From, out var n1) || n1 == null) continue;
                 if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
-
-                var edgeView = CreateEdgeView(edge, n1, n2);
-                view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
-                edgeView.layer = n1.layer - 1;
-                behaviour.Keys.Add(edge);
-
+                foreach (var from in edge.From)
+                {
+                    if (!nodeViews.TryGetValue(from, out var n1) || n1 == null) continue;
+                    
+                    var edgeView = CreateEdgeView(edge, n1, n2);
+                    view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
+                    edgeView.layer = n1.layer - 1;
+                    behaviour.Keys.Add(edge);
+                }
             }
-          
         }
 
         public override void ShowVisuals(object target, MainView view)
@@ -154,7 +155,11 @@ namespace ISILab.LBS.Drawers.Editor
 
         private LBSQuestEdgeView CreateEdgeView(QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
         {
-            n1.SetBorder(edge.From);
+            foreach (var from in edge.From)
+            {
+                n1.SetBorder(from);
+            }
+
             n2.SetBorder(edge.To);
             
             return new LBSQuestEdgeView(edge, n1, n2, 4, 4);

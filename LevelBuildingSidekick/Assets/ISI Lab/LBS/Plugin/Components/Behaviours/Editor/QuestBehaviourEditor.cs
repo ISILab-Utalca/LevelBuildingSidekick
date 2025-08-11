@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements
             var t4 = new LBSTool(_removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            _connectNodes.SetRemover(_removeConnection);
+            //_connectNodes.SetRemover(_removeConnection);
             
             toolkit.ActivateTool(t1,_behaviour?.OwnerLayer, target);
             toolkit.ActivateTool(t2,_behaviour?.OwnerLayer, target);

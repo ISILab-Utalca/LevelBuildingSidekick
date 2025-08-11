@@ -1,5 +1,13 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement style="flex-grow: 1; justify-content: space-between; align-items: stretch; align-self: auto; align-content: auto; flex-wrap: nowrap; max-height: 100px; border-left-color: rgb(48, 48, 48); border-right-color: rgb(48, 48, 48); border-top-color: rgb(48, 48, 48); border-bottom-color: rgb(48, 48, 48); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;">
+        <ui:Label text="Connection Type" style="align-self: center;" />
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:Button text="Single" name="ButtonSingle" class="lbs-actionbutton" />
+            <ui:Button text="OR" name="ButtonOr" class="lbs-actionbutton" />
+            <ui:Button text="AND" name="ButtonAnd" class="lbs-actionbutton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
     <ui:VisualElement style="flex-grow: 1; background-color: rgb(48, 48, 48); min-height: auto; padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 8px; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;">
         <uie:ObjectField label="Grammar Asset" name="Grammar" type="ISILab.AI.Grammar.LBSGrammar, LBS" />
         <ui:VisualElement name="Content" style="flex-grow: 1; border-left-color: rgba(0, 0, 0, 0.3); border-right-color: rgba(0, 0, 0, 0.3); border-top-color: rgba(0, 0, 0, 0.3); border-bottom-color: rgba(0, 0, 0, 0.3); border-top-width: 2px; border-right-width: 0; border-bottom-width: 2px; border-left-width: 0; background-color: rgb(56, 56, 56); min-height: auto; max-height: none;" />

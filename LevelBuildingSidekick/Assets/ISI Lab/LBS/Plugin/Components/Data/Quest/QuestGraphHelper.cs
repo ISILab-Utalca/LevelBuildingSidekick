@@ -110,8 +110,12 @@ namespace ISILab.LBS.Modules
 
                 foreach (var e in questEdges)
                 {
-                    if (e.From == current && e.To != null && !visited.Contains(e.To))
-                        queue.Enqueue(e.To);
+                    foreach (var from in e.From)
+                    {
+                        if (from == current && e.To != null && !visited.Contains(e.To))
+                            queue.Enqueue(e.To);
+                    }
+                   
                 }
             }
 
@@ -125,7 +129,7 @@ namespace ISILab.LBS.Modules
         {
             if (node == null) return false;
 
-            bool hasNext = questEdges.Any(e => e.From == node);
+            bool hasNext = questEdges.Any(e => e.From.Contains(node));
             bool hasPrev = questEdges.Any(e => e.To == node);
 
             return node.NodeType switch

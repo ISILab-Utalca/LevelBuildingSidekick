@@ -170,7 +170,17 @@ namespace ISILab.LBS.Modules
         {
             if (questEdges.Count == 0)
                 return new List<QuestEdge>();
-            return questEdges.Where(e => e.From.ID == node.ID).ToList();
+            
+            List<QuestEdge> edges = new List<QuestEdge>();
+            foreach (var edge in questEdges)
+            {
+                foreach (var from in edge.From)
+                {
+                    edges.AddRange(questEdges.Where(e => from.ID == node.ID).ToList());
+                }
+            }
+            
+            return edges;
         }
         public List<QuestEdge> GetRoots(QuestNode node)
         {
@@ -181,12 +191,16 @@ namespace ISILab.LBS.Modules
             var size = OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
             foreach (var e in questEdges)
             {
-                var c1 = new Rect(e.From.Position, size).center;
-                var c2 = new Rect(e.To.Position, size).center;
+                foreach (var from in e.From)
+                {
+                    var c1 = new Rect(from.Position, size).center;
+                    var c2 = new Rect(e.To.Position, size).center;
 
-                var dist = position.DistanceToLine(c1, c2);
-                if (dist < delta)
-                    return e;
+                    var dist = position.DistanceToLine(c1, c2);
+                    if (dist < delta)
+                        return e;
+                }
+                
             }
             return null;
         }
@@ -397,8 +411,15 @@ namespace ISILab.LBS.Modules
         }
         
 
-        public Tuple<string, LogType> AddEdge(QuestNode from, QuestNode to)
+        public Tuple<string, LogType> AddEdge(QuestNode from, QuestNode to, ConnectionType connectionType = ConnectionType.Single)
         {
+            // Root node restriction
+            if (to == root ||
+                from == root && connectionType != ConnectionType.Single)
+            {
+                return Tuple.Create("Root node can only have Single connection type.", LogType.Error);
+            }
+            
             if (!QuestGraphHelper.IsValidEdge(from, to, questEdges, root, this,
                     out string message, out LogType logType))
             {
@@ -499,13 +520,19 @@ namespace ISILab.LBS.Modules
         {
             if (!questNodes.Any() || !questEdges.Any()) return;
      
-            foreach (var qn in questEdges)
+            foreach (var qe in questEdges)
             {
-                qn.To.NodeType = NodeType.Middle;
-                qn.From.NodeType = NodeType.Middle;
+                qe.To.NodeType = NodeType.Middle;
+                foreach (var from in qe.From)
+                {
+                    from.NodeType = NodeType.Middle;
+                }
+              
             }
             
-            SetRoot(questEdges.First().From);
+            // the root must always have a single from(single node type)
+            SetRoot(questEdges.First().From.First());
+            
             questEdges.Last().To.NodeType = NodeType.Goal;
                 
             _onUpdateGraph?.Invoke();
