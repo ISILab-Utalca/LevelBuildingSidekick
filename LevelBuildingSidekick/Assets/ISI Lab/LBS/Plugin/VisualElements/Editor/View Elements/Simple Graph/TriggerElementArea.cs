@@ -194,7 +194,7 @@ namespace ISILab.LBS.VisualElements
                 
                 // Update the logical area in tile space
                 _data.Area = new Rect(posX, posY, width, height);
-                _data.Graph?.DataChanged(_data.OwnerNode);
+                _data.Graph?.NodeDataChanged(_data.OwnerNode);
 
                 _activeHandle = null;
                 RestoreManipulator();
@@ -287,7 +287,7 @@ namespace ISILab.LBS.VisualElements
             _isDragging = false;
 
             _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
-            _data.Graph?.DataChanged(_data.OwnerNode);
+            _data.Graph?.NodeDataChanged(_data.OwnerNode);
         }
 
         private void RestoreManipulator()

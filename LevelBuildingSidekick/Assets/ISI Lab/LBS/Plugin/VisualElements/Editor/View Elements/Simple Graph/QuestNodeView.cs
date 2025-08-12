@@ -88,7 +88,7 @@ namespace ISILab.LBS.VisualElements
             OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta ));
         }
         
-        public void SetBorder(QuestNode node)
+        public void SetBorder(GraphNode node)
         {
             _root.SetBorder(UncheckedGrammar, 1f);
             if (!node.ValidGrammar)
@@ -156,7 +156,7 @@ namespace ISILab.LBS.VisualElements
                 if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator)) return;
                 LBSInspectorPanel.ActivateBehaviourTab();
                 
-                if (!_node.Graph.QuestNodes.Contains(_node)) return;
+                if (!_node.Graph.GraphNodes.Contains(_node)) return;
                 _node.Graph.SelectedQuestNode = _node;
 
             }

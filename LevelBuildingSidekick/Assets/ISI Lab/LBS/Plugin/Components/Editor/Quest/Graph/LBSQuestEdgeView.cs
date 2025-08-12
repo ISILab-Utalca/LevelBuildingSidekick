@@ -4,6 +4,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using UnityEditor;
 
@@ -17,15 +18,16 @@ namespace ISILab.LBS.VisualElements
         private readonly float _stroke;
 
         private Label _connectionTypeLabel;
-        
+
         private QuestEdge _edge;
 
-        
-        
-        private readonly VisualElement _connectionView;
+        private QuestGraph _graph;
 
-        public LBSQuestEdgeView(QuestEdge edge, QuestNodeView node1, QuestNodeView node2, float lineWidth = 5f, float stroke = 3f)
+    private readonly VisualElement _connectionView;
+
+        public LBSQuestEdgeView(QuestGraph questGraph, QuestEdge edge, QuestNodeView node1, QuestNodeView node2, float lineWidth = 5f, float stroke = 3f)
         {
+            _graph = questGraph;
             _edge = edge;
             _lineWidth = lineWidth;
             _stroke = stroke;
@@ -37,9 +39,6 @@ namespace ISILab.LBS.VisualElements
 
             // Grab the arrow view
             _connectionView = this.Q<VisualElement>("View");
-
-            _connectionTypeLabel = this.Q<Label>("Label");
-            UpdateTypeVisuals();
             
             // Handle movement of first node
             node1.OnMoving += (rect) =>
@@ -73,9 +72,9 @@ namespace ISILab.LBS.VisualElements
             {
                 var menu = new GenericMenu();
         
-                menu.AddItem(new GUIContent("Set Type/Single"), false, () => ChangeConnectionType(ConnectionType.Single));
-                menu.AddItem(new GUIContent("Set Type/OR"), false, () => ChangeConnectionType(ConnectionType.Or));
-                menu.AddItem(new GUIContent("Set Type/AND"), false, () => ChangeConnectionType(ConnectionType.And));
+                menu.AddItem(new GUIContent("Set Type/Direct"), false, () => _graph.ChangeConnection(_edge, typeof(QuestNode)));
+                menu.AddItem(new GUIContent("Set Type/OR"), false, () => _graph.ChangeConnection(_edge, typeof(OrNode)));
+                menu.AddItem(new GUIContent("Set Type/AND"), false, () => _graph.ChangeConnection(_edge, typeof(AndNode)));
                 menu.AddSeparator("");
                 //menu.AddItem(new GUIContent("Delete Edge"), false, () => DeleteThisEdge());
 
@@ -84,31 +83,6 @@ namespace ISILab.LBS.VisualElements
                 evt.StopPropagation(); // Prevent other handlers from firing
             }
         }
-
-        private void ChangeConnectionType(ConnectionType type)
-        {
-            _edge.SetConnectionType(type);
-            UpdateTypeVisuals();
-        }
-
-        private void UpdateTypeVisuals()
-        {
-            switch (_edge.EdgeType)
-            {
-                case ConnectionType.Single:
-                    _connectionTypeLabel.text = "";
-                    break;
-                case ConnectionType.Or:
-                    _connectionTypeLabel.text = "OR";
-                    break;
-                case ConnectionType.And:
-                    _connectionTypeLabel.text = "AND";
-                    break;
-            }
-
-            MarkDirtyRepaint();
-        }
-
 
         private void DrawLine(MeshGenerationContext mgc)
         {

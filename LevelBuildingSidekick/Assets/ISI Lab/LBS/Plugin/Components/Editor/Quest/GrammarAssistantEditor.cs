@@ -216,9 +216,9 @@ namespace ISILab.LBS.Editor
 
             for (int j = 0; j < actions.Count; j++)
             {
-                NodeType type = NodeType.Middle;
-                if (j == 0) type = NodeType.Start;
-                else if (j == actions.Count-1) type = NodeType.Goal;
+                QuestNode.ENodeType type = QuestNode.ENodeType.Middle;
+                if (j == 0) type = QuestNode.ENodeType.Start;
+                else if (j == actions.Count-1) type = QuestNode.ENodeType.Goal;
 
                 ActionExpandEntry entry = new ActionExpandEntry
                 {
@@ -241,7 +241,6 @@ namespace ISILab.LBS.Editor
         return () =>
         {
             _questGraph.ExpandNode(expandAction, referenceNode);
-            _questGraph.Reorder();
             _questGraph.CheckGraphByGrammar();
         };
     }
@@ -258,8 +257,7 @@ namespace ISILab.LBS.Editor
         {
             return () =>
             {
-                _questGraph.InsertNodeAfter(action, referenceNode);
-                _questGraph.Reorder();
+                _questGraph.InsertQuestNodeAfter(action, referenceNode);
                 _questGraph.CheckGraphByGrammar();
             };
         }
@@ -275,7 +273,6 @@ namespace ISILab.LBS.Editor
             return () =>
             {
                 _questGraph.InsertNodeBefore(action, referenceNode);
-                _questGraph.Reorder();
                 _questGraph.CheckGraphByGrammar();
             };
         }

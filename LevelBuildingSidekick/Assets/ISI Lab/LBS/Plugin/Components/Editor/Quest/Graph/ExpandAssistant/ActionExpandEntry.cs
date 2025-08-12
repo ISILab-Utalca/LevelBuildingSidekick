@@ -5,6 +5,7 @@ using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
+using TreeEditor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -42,26 +43,17 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region METHODS
     
-        public void SetEntryAction(string action, NodeType nodeType)
+        public void SetEntryAction(string action, QuestNode.ENodeType nodeType)
         {
-            BackgroundSize  iconSize = new BackgroundSize(12, 12);
-            string iconPath;
             Color backgroundColor = Color.white;
-            iconSize = new BackgroundSize(28, 28);
-            switch (nodeType)
+            var iconSize = new BackgroundSize(28, 28);
+            var iconPath = nodeType switch
             {
-                case NodeType.Start:
-                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=StartNode";
-                    break;
-                case NodeType.Middle:
-                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=MiddleNode";
-                    break;
-                case NodeType.Goal:
-                    iconPath = "Icons/Vectorial/QuestIcons/QuestIcon=EndNode";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                QuestNode.ENodeType.Start => "Icons/Vectorial/QuestIcons/QuestIcon=StartNode",
+                QuestNode.ENodeType.Middle => "Icons/Vectorial/QuestIcons/QuestIcon=MiddleNode",
+                QuestNode.ENodeType.Goal => "Icons/Vectorial/QuestIcons/QuestIcon=EndNode",
+                _ => throw new ArgumentOutOfRangeException()
+            };
 
             _nodeTypeImage.style.backgroundSize = new StyleBackgroundSize(iconSize);
             _nodeTypeImage.style.backgroundImage = new StyleBackground(Resources.Load<VectorImage>(iconPath));

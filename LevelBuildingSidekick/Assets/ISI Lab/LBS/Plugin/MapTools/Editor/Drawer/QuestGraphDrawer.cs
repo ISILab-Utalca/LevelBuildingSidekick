@@ -9,7 +9,6 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
-using ISILab.Macros;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
@@ -34,7 +33,7 @@ namespace ISILab.LBS.Drawers.Editor
 
             };
             
-            var nodeViews = new Dictionary<QuestNode, QuestNodeView>();
+            var nodeViews = new Dictionary<GraphNode, QuestNodeView>();
            //  view.ClearLayerContainer(behaviour.OwnerLayer, true);
             // PaintNewTiles(quest, behaviour, nodeViews, view);
             
@@ -53,40 +52,15 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
-        private void PaintNewTiles(QuestGraph quest, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
-        {
-            /*
-            // Paint new Nodes
-            foreach (var node in quest.RetrieveNewNodes())
-            {
-                var nodeView = CreateNodeView(node, quest);
-                
-                nodeViews.Add(node, nodeView);
-                // Stores using QuestNode as key
-                view.AddElementToLayerContainer(quest.OwnerLayer, node, nodeView);
-            }
-            
-            // Paint new Edges
-            foreach (var edge in quest.RetrieveNewEdges())
-            {
-                if (!nodeViews.TryGetValue(edge.From, out var n1) || n1 == null) continue;
-                if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
-                
-                var edgeView = CreateEdgeView(edge, n1, n2);
-                // Stores using QuestEdge as key
-                view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
-            }*/
-        }
-
-        private void LoadAllTiles(QuestGraph quest, QuestBehaviour behaviour, Dictionary<QuestNode, QuestNodeView> nodeViews, MainView view)
+        private void LoadAllTiles(QuestGraph questGraph, QuestBehaviour behaviour, Dictionary<GraphNode, QuestNodeView> nodeViews, MainView view)
         {
             QuestNodeView.Deselect();
             
-            foreach (var node in quest.QuestNodes)
+            foreach (var node in questGraph.GetQuestNodes())
             {
                 if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
                 {
-                    nodeView = CreateNodeView(node, quest);
+                    nodeView = CreateNodeView(node, questGraph);
                     nodeViews[node] = nodeView;
                 }
                 
@@ -100,20 +74,20 @@ namespace ISILab.LBS.Drawers.Editor
                 }
 
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
-                view.AddElementToLayerContainer(quest.OwnerLayer, node.ID, nodeView);
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, node.ID, nodeView);
                 node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
             }
 
-            foreach (var edge in quest.QuestEdges)
+            foreach (var edge in questGraph.QuestEdges)
             {
                 if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
                 foreach (var from in edge.From)
                 {
                     if (!nodeViews.TryGetValue(from, out var n1) || n1 == null) continue;
                     
-                    var edgeView = CreateEdgeView(edge, n1, n2);
-                    view.AddElementToLayerContainer(quest.OwnerLayer, edge, edgeView);
+                    var edgeView = CreateEdgeView(questGraph, edge, n1, n2);
+                    view.AddElementToLayerContainer(questGraph.OwnerLayer, edge, edgeView);
                     edgeView.layer = n1.layer - 1;
                     behaviour.Keys.Add(edge);
                 }
@@ -153,7 +127,7 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
-        private LBSQuestEdgeView CreateEdgeView(QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
+        private LBSQuestEdgeView CreateEdgeView(QuestGraph graph, QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
         {
             foreach (var from in edge.From)
             {
@@ -162,13 +136,13 @@ namespace ISILab.LBS.Drawers.Editor
 
             n2.SetBorder(edge.To);
             
-            return new LBSQuestEdgeView(edge, n1, n2, 4, 4);
+            return new LBSQuestEdgeView(graph, edge, n1, n2, 4, 4);
         }
         
         private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest)
         {
             /*  Start Node is now assigned by the user. Right click on a node to make it root */
-            if (node.NodeType == NodeType.Start) { }
+            if (node.NodeType == QuestNode.ENodeType.Start) { }
                 
             var nodeView = new QuestNodeView(node);
             var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;

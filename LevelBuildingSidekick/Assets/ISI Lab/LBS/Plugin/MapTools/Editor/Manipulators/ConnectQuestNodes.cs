@@ -33,12 +33,12 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
-            _first = _quest.GetQuestNode(startPosition);
+            _first = _quest.GetNodeAtPosition<QuestNode>(startPosition);
         }
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var second = _quest.GetQuestNode(endPosition);
+            var second = _quest.GetNodeAtPosition<QuestNode>(endPosition);
             var result = _quest.AddEdge(_first, second);
             LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
            

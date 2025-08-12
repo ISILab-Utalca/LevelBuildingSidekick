@@ -82,13 +82,15 @@ namespace ISILab.LBS
                 {
                     if (from != currentNode) continue;
 
-                    var nextNode = edge.To;
-                    nextNode.QuestState = QuestState.Active;
+                    if (edge.To is QuestNode nextNode)
+                    {
+                        nextNode.QuestState = QuestState.Active;
 
-                    if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
-                
-                    nextTrigger.gameObject.SetActive(true);
-                    nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
+                        if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
+                        nextTrigger.gameObject.SetActive(true);
+                        nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
+                    }
+                    
                     break;
                 }
             }
@@ -137,7 +139,7 @@ namespace ISILab.LBS
                 child.Init();
                 if(child.Node is null)  continue;
                 
-                foreach (var questNode in questGraph.QuestNodes)
+                foreach (var questNode in questGraph.GetQuestNodes())
                 {
                     if (child.NodeID != questNode.ID) continue;
                     child.Node = questNode;

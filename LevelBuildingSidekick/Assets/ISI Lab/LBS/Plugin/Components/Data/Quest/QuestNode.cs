@@ -1,63 +1,34 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ISILab.LBS.Components
 {
-
-    public enum NodeType
-    {
-        Start, Middle, Goal
-    }
-
+    
     public enum QuestState
     {
         Blocked, Active, Completed, Failed
     }
-    
 
-[Serializable]
-    public class QuestNode : ICloneable
+    // parent class for actions(ors) and(ands)
+    public abstract class GraphNode : ICloneable
     {
-        #region FIELD
-        
-        [SerializeField, SerializeReference][JsonRequired]
-        private BaseQuestNodeData nodeData;
-        
+        #region FIELDS
+        [SerializeField, JsonRequired] 
+        protected internal bool validGrammar;
+
         [SerializeField, HideInInspector, JsonRequired]
-        private int x, y;
+        protected int x;
 
-        [SerializeField, JsonRequired]
-        private string id = "";
-
-        [SerializeField, JsonRequired]
-        private string questAction = "";
-
-        [SerializeField, JsonRequired]
-        private bool validValidGrammar;
-        
-        [SerializeField, JsonRequired]
-        private NodeType nodeType;
-        
-        [SerializeField, JsonRequired]
-        private QuestState questState = QuestState.Blocked;
-        
-        #endregion
+        [SerializeField, HideInInspector, JsonRequired]
+        protected int y;
 
         [SerializeField, JsonRequired, SerializeReference]
-        private QuestGraph graph;
+        protected QuestGraph graph;
+        #endregion
         
         #region PROPERTIES
-        [JsonIgnore]
-        public BaseQuestNodeData NodeData
-        {
-            get => nodeData;
-            set => nodeData = value;
-        }
-        
         [JsonIgnore]
         public QuestGraph Graph
         {
@@ -76,6 +47,109 @@ namespace ISILab.LBS.Components
                 y = value.y;
             }
         }
+        
+        [JsonIgnore]
+        public bool ValidGrammar
+        {
+            get => validGrammar;
+            set => validGrammar = value;
+        }
+        
+        public Rect NodeViewPosition { get; set; }
+        
+        #endregion
+        public object Clone()
+        {
+            return null!;
+        }
+
+        public abstract override string ToString();
+    }
+
+    [Serializable]
+    public class OrNode : GraphNode
+    {
+        public OrNode(Vector2 position, QuestGraph graph)
+        {
+            x = (int)position.x;
+            y = (int)position.y;
+            this.graph = graph;
+            validGrammar = false;
+        }
+        
+        public new object Clone()
+        {
+            var node = new OrNode(Position, graph)
+            {
+                validGrammar = validGrammar
+            };
+            return node;
+        }
+
+        public override string ToString()
+        {
+            return "Or";
+        }
+    }
+
+    [Serializable]
+    public class AndNode : GraphNode
+    {
+        public AndNode(Vector2 position, QuestGraph graph)
+        {
+            x = (int)position.x;
+            y = (int)position.y;
+            this.graph = graph;
+            validGrammar = false;
+        }
+        public new object Clone()
+        {
+            var node = new OrNode(Position, graph)
+            {
+                validGrammar = validGrammar
+            };
+            return node;
+        }
+
+        public override string ToString()
+        {
+            return "And";
+        }
+    }
+    [Serializable]
+    public class QuestNode : GraphNode
+    {
+        public enum ENodeType
+        {
+            Start, Middle, Goal
+        }
+        
+        #region FIELD
+        
+        [SerializeField, SerializeReference][JsonRequired]
+        private BaseQuestNodeData nodeData;
+        
+        [SerializeField, JsonRequired]
+        private string id = "";
+
+        [SerializeField, JsonRequired]
+        private string questAction = "";
+        
+        [SerializeField, JsonRequired]
+        private ENodeType nodeType;
+        
+        [SerializeField, JsonRequired]
+        private QuestState questState = QuestState.Blocked;
+        
+        #endregion;
+        
+        #region PROPERTIES
+        [JsonIgnore]
+        public BaseQuestNodeData NodeData
+        {
+            get => nodeData;
+            set => nodeData = value;
+        }
 
         [JsonIgnore]
         public string ID
@@ -91,16 +165,9 @@ namespace ISILab.LBS.Components
             get => questAction;
             set => questAction = value;
         }
-
-        [JsonIgnore]
-        public bool ValidGrammar
-        {
-            get => validValidGrammar;
-            set => validValidGrammar = value;
-        }
         
         [JsonIgnore]
-        public NodeType NodeType
+        public ENodeType NodeType
         {
             get => nodeType;
             set => nodeType = value;
@@ -109,15 +176,13 @@ namespace ISILab.LBS.Components
 
         [JsonIgnore]
         public QuestState QuestState { get; set; }
-        
-        public Rect NodeViewPosition { get; set; }
 
         #endregion
 
         #region CONSTRUCTOR
         QuestNode() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph, bool validValidGrammar = false)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph)
         {
             this.id = id;
             x = (int)position.x;
@@ -125,7 +190,7 @@ namespace ISILab.LBS.Components
             questAction = action;
             
             this.graph = graph;
-            this.validValidGrammar = validValidGrammar;
+            validGrammar = false;
             
             InstanceDataByAction(action);
         }
@@ -138,24 +203,18 @@ namespace ISILab.LBS.Components
 
         #endregion
         
-        public object Clone()
+        public new object Clone()
         {
-            var node = new QuestNode(ID, Position, QuestAction, graph, ValidGrammar);
+            var node = new QuestNode(ID, Position, QuestAction, graph);
             if(NodeData is not null )node.NodeData.Clone(NodeData);
             node.NodeViewPosition = NodeViewPosition;
+            node.validGrammar = validGrammar;
             return node;
         }
-        
-        public bool IsValidFrom()
+
+        public override string ToString()
         {
-            var found = graph.QuestEdges.FirstOrDefault(e => e.From.Equals(this));
-            return found == null;
-        }
-        
-        public bool IsValidTo()
-        {
-            var found = graph.QuestEdges.FirstOrDefault(e => e.To.Equals(this));
-            return found == null;
+            return QuestAction;
         }
     }
     

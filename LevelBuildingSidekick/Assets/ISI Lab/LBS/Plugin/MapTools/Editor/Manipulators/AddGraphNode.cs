@@ -10,17 +10,16 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class AddQuestNode : LBSManipulator
+    public class AddGraphNode : LBSManipulator
     {
         private QuestGraph _questGraph;
         private QuestBehaviour _behaviour;
-        private string ActionToSet => _behaviour.ActionToSet;
         protected override string IconGuid => "3d0b251f4a09bce4b9224787cfa08d49";
 
-        public AddQuestNode()
+        public AddGraphNode()
         {
-            Name = "Add Quest Node";
-            Description = "Pick a quest word from the inspector panel, then Click on the graph.";
+            Name = "Add Graph Node";
+            Description = "Pick an action or branch from the inspector panel, then Click on the graph.";
         }
 
         public override void Init(LBSLayer layer, object provider = null)
@@ -33,13 +32,18 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            if (string.IsNullOrEmpty(ActionToSet))
+            if (_behaviour.activeGraphNodeType == null)
+            {
+                LBSMainWindow.MessageNotify("Can't add node. Make sure a node is selected from the behaviour panel.", LogType.Error, 5);
+                return;
+            }
+            if (_behaviour.activeGraphNodeType == typeof(QuestNode) && _behaviour.ActionToSet == string.Empty)
             {
                 LBSMainWindow.MessageNotify("Can't add node. Make sure to select a grammar and a word.", LogType.Error, 5);
                 return;
             }
 
-            _questGraph.CreateAddNode(ActionToSet, endPosition);
+            _questGraph.AddNewNode(_behaviour,endPosition);
             OnManipulationEnd.Invoke();
         }
     }

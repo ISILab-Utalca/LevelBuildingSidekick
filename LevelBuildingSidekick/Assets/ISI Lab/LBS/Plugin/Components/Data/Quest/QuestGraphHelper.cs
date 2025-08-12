@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Components;
@@ -13,66 +14,59 @@ namespace ISILab.LBS.Modules
         /// Returns true if the edge is valid, false otherwise.
         /// </summary>
         public static bool IsValidEdge(
-            QuestNode from,
-            QuestNode to,
-            List<QuestEdge> existingEdges,
-            QuestNode root,
-            QuestGraph graphContext,
+            QuestEdge edge,
+            QuestGraph graph,
             out string message,
             out LogType logType)
         {
-            if (from == null || to == null)
+            if (!edge.From.Any() || edge.To == null)
             {
                 message = "Must select two nodes";
                 logType = LogType.Error;
                 return false;
             }
 
-            if (from == to)
+            if (edge.From.Contains(edge.To))
             {
                 message = "Cannot connect a node to itself";
                 logType = LogType.Error;
                 return false;
             }
 
-            if (to.Equals(root))
+            if (edge.To.Equals(graph.Root))
             {
                 message = "The start node cannot be the second element of a connection";
                 logType = LogType.Error;
                 return false;
             }
+            
 
-            if (!from.IsValidFrom())
+            foreach (var from in edge.From)
             {
-                message = "The first node is already connected";
-                logType = LogType.Error;
-                return false;
+                var reverseEdge = new QuestEdge(edge.To, from);
+                
+                if (graph.QuestEdges.Contains(edge))
+                {
+                    message = "The connection already exists";
+                    logType = LogType.Error;
+                    return false;
+                }
+
+                if (graph.QuestEdges.Contains(reverseEdge))
+                {
+                    message = "The reverse connection already exists";
+                    logType = LogType.Error;
+                    return false;
+                }
+
+                if (IsLooped(edge, graph.QuestEdges))
+                {
+                    message = "Invalid connection, loop detected";
+                    logType = LogType.Error;
+                    return false;
+                }
             }
-
-            var reverseEdge = new QuestEdge(to, from);
-            var edge = new QuestEdge(from, to);
-
-            if (existingEdges.Contains(edge))
-            {
-                message = "The connection already exists";
-                logType = LogType.Error;
-                return false;
-            }
-
-            if (existingEdges.Contains(reverseEdge))
-            {
-                message = "The reverse connection already exists";
-                logType = LogType.Error;
-                return false;
-            }
-
-            if (IsLooped(edge, existingEdges))
-            {
-                message = "Invalid connection, loop detected";
-                logType = LogType.Error;
-                return false;
-            }
-
+            
             message = string.Empty;
             logType = LogType.Log;
             return true;
@@ -86,8 +80,8 @@ namespace ISILab.LBS.Modules
             if (edge == null || edge.From == null || edge.To == null)
                 return false;
 
-            var visited = new HashSet<QuestNode>();
-            var queue = new Queue<QuestNode>();
+            var visited = new HashSet<GraphNode>();
+            var queue = new Queue<GraphNode>();
             queue.Enqueue(edge.To);
 
             int iteration = 0;
@@ -103,9 +97,12 @@ namespace ISILab.LBS.Modules
 
                 var current = queue.Dequeue();
 
-                if (ReferenceEquals(current, edge.From))
-                    return true;
-
+                foreach (var from in edge.From)
+                {
+                    if (ReferenceEquals(current, from))
+                        return true;
+                }
+                
                 if (!visited.Add(current)) continue;
 
                 foreach (var e in questEdges)
@@ -125,19 +122,24 @@ namespace ISILab.LBS.Modules
         /// <summary>
         /// Validates whether the given node has the correct connections based on its type.
         /// </summary>
-        public static bool HasRequiredConnection(QuestNode node, List<QuestEdge> questEdges, QuestNode root)
+        public static bool HasRequiredQuestConnections(QuestNode node, QuestGraph graph)
         {
             if (node == null) return false;
 
-            bool hasNext = questEdges.Any(e => e.From.Contains(node));
-            bool hasPrev = questEdges.Any(e => e.To == node);
+            bool hasNext = graph.GetRoots(node).Any();
+            bool hasPrev = graph.GetBranches(node).Any();
 
-            return node.NodeType switch
+            switch (node.NodeType)
             {
-                NodeType.Start => hasNext && !hasPrev,
-                NodeType.Goal => hasPrev && !hasNext,
-                _ => hasPrev && hasNext
-            };
+                case QuestNode.ENodeType.Start:
+                    return hasNext && !hasPrev;
+                case QuestNode.ENodeType.Middle:
+                    return hasPrev && hasNext;
+                case QuestNode.ENodeType.Goal:
+                    return hasPrev && !hasNext;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

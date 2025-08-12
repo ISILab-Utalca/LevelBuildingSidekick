@@ -15,7 +15,7 @@ MonoBehaviour:
   layer:
     visible: 1
     blocked: 0
-    iconGUID: 9fc8ac6f82a8b39458c73185d378ffbf
+    iconGuid: 9fc8ac6f82a8b39458c73185d378ffbf
     id: Quest
     name: Layer Quest
     modules:
@@ -23,7 +23,6 @@ MonoBehaviour:
     behaviours:
     - rid: 8325711621806097963
     - rid: 1248747549014622362
-    - rid: 6953538662824935526
     assistants:
     - rid: 1248747549014622363
     generatorRules:
@@ -36,6 +35,7 @@ MonoBehaviour:
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       name: Quest
+    index: 0
   references:
     version: 2
     RefIds:
@@ -48,7 +48,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          iconGuid: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
           id: Quest
           name: Layer Quest
           modules:
@@ -67,13 +67,12 @@ MonoBehaviour:
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Quest
+          index: 0
         nodeSize: {x: 3, y: 1}
-        grammarName: 
-        questNodes: []
         questEdges: []
         root:
           rid: 1248747549014622365
-        LBSGrammarGui: 63ab688b53411154db5edd0ec7171c42
+        grammarGuid: 63ab688b53411154db5edd0ec7171c42
     - rid: 1248747549014622362
       type: {class: QuestBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
@@ -81,7 +80,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -96,8 +95,9 @@ MonoBehaviour:
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
+          index: 0
         icon: {fileID: 7388822144124034973, guid: 49b9448c876b36c4ba26740d7deae035, type: 3}
-        colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
+        colorTint: {r: 0.49803922, g: 0.6862745, b: 0.9764706, a: 1}
         name: Quest Behaviour
     - rid: 1248747549014622363
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
@@ -106,7 +106,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -121,6 +121,7 @@ MonoBehaviour:
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
+          index: 0
         icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Grammar Assistant
@@ -140,32 +141,17 @@ MonoBehaviour:
     - rid: 1248747549014622365
       type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
       data:
-        nodeDataJson: 
-        nodeData:
-          rid: -2
+        validGrammar: 0
         x: 0
         y: 0
-        id: null
-        questAction: null
-        grammarCheck: 0
-        mapCheck: 0
-        nodeType: 0
-        questState: 0
-        valid: 0
-        target:
-          rid: 1248747549014622366
         graph:
           rid: -2
-    - rid: 1248747549014622366
-      type: {class: QuestTarget, ns: ISILab.LBS.Components, asm: LBS}
-      data:
-        rect:
-          serializedVersion: 2
-          x: 0
-          y: 0
-          width: 0
-          height: 0
-        tags: []
+        nodeData:
+          rid: -2
+        id: null
+        questAction: null
+        nodeType: 0
+        questState: 0
     - rid: 6953538662824935526
       type: {class: QuestFlowBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
       data:
@@ -173,7 +159,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -188,6 +174,7 @@ MonoBehaviour:
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: DEFAULT
+          index: 0
         icon: {fileID: 7388822144124034973, guid: a919b94406bb9f5469d29bf56201e3f1, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Flow
@@ -198,7 +185,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
+          iconGuid: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/Stamp_Icon.png
           id: Quest
           name: Layer Quest
           modules:
@@ -219,6 +206,7 @@ MonoBehaviour:
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
             name: Quest
+          index: 0
         icon: {fileID: 7388822144124034973, guid: 8a9f4ea328526464085e24168d212ac9, type: 3}
-        colorTint: {r: 0.3019608, g: 0.3019608, b: 0.3019608, a: 1}
+        colorTint: {r: 0.49803922, g: 0.6862745, b: 0.9764706, a: 1}
         name: Selected Action Config

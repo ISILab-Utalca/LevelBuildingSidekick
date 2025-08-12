@@ -96,7 +96,7 @@ namespace ISILab.LBS.Generators
 
         private void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer, GameObject pivot)
         {
-            foreach (var node in quest.QuestNodes)
+            foreach (var node in quest.GetQuestNodes())
             {
                 // Find if it has a reference to another layer
                 GenerateRequiredLayers(node);
@@ -118,7 +118,7 @@ namespace ISILab.LBS.Generators
         private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer,
             GameObject pivot)
         {
-            foreach (var node in quest.QuestNodes)
+            foreach (var node in quest.GetQuestNodes())
             {
                 Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);
 

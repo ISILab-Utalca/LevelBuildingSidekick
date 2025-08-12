@@ -9,6 +9,7 @@ using UnityEngine.UIElements;
 using ISILab.AI.Grammar;
 using ISILab.Extensions;
 using LBS.Components;
+using TreeEditor;
 
 namespace ISILab.LBS.Assistants
 {
@@ -29,7 +30,7 @@ namespace ISILab.LBS.Assistants
 
         public bool ValidateQuestGraph()
         {
-            foreach (var node in Quest.QuestNodes)
+            foreach (var node in Quest.GraphNodes)
             {
                 if (!node.ValidGrammar) return false;
             }
@@ -46,26 +47,28 @@ namespace ISILab.LBS.Assistants
 
             bool returnValid = false;
 
-            foreach (var from in edge.From)
+            foreach (var nodeFrom in edge.From)
             {
+                var from = nodeFrom as QuestNode;
+                
                 // validate start 
-                if (from.NodeType == NodeType.Start)
+                if (from.NodeType == QuestNode.ENodeType.Start)
                 {
                     List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
-                    bool validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                    bool validGrammar = validNextTerminals.Contains(edge.To.ToString());
                     from.ValidGrammar = validGrammar;
                     returnValid = validGrammar;
                 }
             
                 // validate middle
-                if (from.NodeType == NodeType.Middle)
+                if (from.NodeType == QuestNode.ENodeType.Middle)
                 {
                     bool validGrammar = false;
                     bool hasPreviousConnection = false;
                 
                     // check that the next terminal is valid
                     List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
-                    validGrammar = validNextTerminals.Contains(edge.To.QuestAction);
+                    validGrammar = validNextTerminals.Contains(edge.To.ToString());
                 
                     // also check that this has a previous node connection
                     foreach (var fromEdge in Quest.QuestEdges)
@@ -81,15 +84,21 @@ namespace ISILab.LBS.Assistants
                     from.ValidGrammar = validGrammar && hasPreviousConnection;
                     returnValid = from.ValidGrammar;
                 }
-            
-                // validate goal
-                if (edge.To.NodeType == NodeType.Goal)
+
+                if (edge.To is QuestNode toNode)
                 {
-                    // if the from is valid(so is the goal). Because the "From" gets validated first
-                    // by checking that the "To" is a valid terminal
-                    edge.To.ValidGrammar = from.ValidGrammar;
-                    returnValid = edge.To.ValidGrammar;
+                    // validate goal
+                    if (toNode.NodeType == QuestNode.ENodeType.Goal)
+                    {
+                        // if the from is valid(so is the goal). Because the "From" gets validated first
+                        // by checking that the "To" is a valid terminal
+                        edge.To.ValidGrammar = from.ValidGrammar;
+                        returnValid = edge.To.ValidGrammar;
+                    }
                 }
+                
+                
+             
             }
            
                 

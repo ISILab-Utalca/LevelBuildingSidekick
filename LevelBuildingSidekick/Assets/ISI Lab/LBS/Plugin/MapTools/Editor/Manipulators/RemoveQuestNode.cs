@@ -1,3 +1,4 @@
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var node = _questGraph.GetQuestNode(endPosition);
+            var node = _questGraph.GetNodeAtPosition<QuestNode>(endPosition);
             if (node == null) return;
             _questGraph.RemoveQuestNode(node);
             OnManipulationEnd?.Invoke();

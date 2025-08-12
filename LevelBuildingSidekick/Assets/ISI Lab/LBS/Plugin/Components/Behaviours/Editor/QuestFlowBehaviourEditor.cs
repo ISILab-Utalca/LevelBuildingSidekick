@@ -12,7 +12,7 @@ namespace ISILab.LBS.VisualElements
     public class QuestFlowBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         #region FIELDS
-        private AddQuestNode addNode;
+        private AddGraphNode addNode;
         private RemoveQuestNode removeNode;
         private ConnectQuestNodes connectNodes;
         private RemoveQuestConnection removeConnection;

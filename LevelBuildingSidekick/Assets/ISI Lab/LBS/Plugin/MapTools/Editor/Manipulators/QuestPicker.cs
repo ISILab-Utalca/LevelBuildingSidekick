@@ -93,7 +93,7 @@ namespace ISILab.LBS.Manipulators
                 #endregion
             }
             
-            _behaviour.Graph.DataChanged(node);
+            _behaviour.Graph.NodeDataChanged(node);
             OnManipulationEnd?.Invoke();
         }
     }

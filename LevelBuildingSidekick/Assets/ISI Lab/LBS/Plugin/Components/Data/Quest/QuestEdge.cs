@@ -6,42 +6,29 @@ using UnityEngine;
 
 namespace ISILab.LBS.Modules
 {
-    public enum ConnectionType
-    {
-        Single,  // default
-        Or,      // multiple possible incoming edges
-        And      // multiple required incoming edges
-    }
-
     [Serializable]
     public class QuestEdge : ICloneable
     {
         #region FIELDS
         
-        [SerializeField, JsonRequired]
-        private ConnectionType connectionType = ConnectionType.Single;
-        
         [SerializeField, SerializeReference, JsonRequired]
-        private List<QuestNode> from = new();
+        private List<GraphNode> from = new();
 
         [SerializeField, SerializeReference, JsonRequired]
-        private QuestNode to;
+        private GraphNode to;
         #endregion
         
         #region PROPERTIES
         
         [JsonIgnore]
-        public ConnectionType EdgeType => connectionType;
-
-        [JsonIgnore]
-        public List<QuestNode> From
+        public List<GraphNode> From
         {
             get => from;
             set => from = value;
         }
 
         [JsonIgnore]
-        public QuestNode To
+        public GraphNode To
         {
             get => to;
             set => to = value;
@@ -53,11 +40,10 @@ namespace ISILab.LBS.Modules
         {
         }
 
-        public QuestEdge(QuestNode from, QuestNode to, ConnectionType connectionType = ConnectionType.Single)
+        public QuestEdge(GraphNode from, GraphNode to)
         {
             this.from.Add(from);
             this.to = to;
-            this.connectionType = connectionType;
         }
 
         #endregion
@@ -66,28 +52,25 @@ namespace ISILab.LBS.Modules
         public object Clone()
         {
             return new QuestEdge(
-                CloneRefs.Get(from) as QuestNode,
-                CloneRefs.Get(to) as QuestNode
+                CloneRefs.Get(from) as GraphNode,
+                CloneRefs.Get(to) as GraphNode
             );
         }
 
 
-        public void AddFrom(QuestNode node)
+        public void AddFrom(GraphNode node)
         {
-            if(connectionType == ConnectionType.Single) return;
+            if(from.Contains(node)) return;
             from.Add(node);
         }
 
 
-        public void RemoveFrom(QuestNode node)
+        public void RemoveFrom(GraphNode node)
         {
-            if(from.Contains(node)) from.Remove(node);
+            if(!from.Contains(node)) return;
+            from.Remove(node);
         }
-
-        public void SetConnectionType(ConnectionType newConnectionType)
-        {
-            connectionType = newConnectionType;
-        }
+        
         #endregion
     }
 }
