@@ -348,7 +348,6 @@
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 2px;
-    color: rgb(196, 196, 196);
 }
 
 .unity-base-field__input {

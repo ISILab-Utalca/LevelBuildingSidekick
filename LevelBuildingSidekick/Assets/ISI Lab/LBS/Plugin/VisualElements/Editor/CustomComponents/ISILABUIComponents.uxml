@@ -1,6 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:Template name="LBSHorizontalDivider" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/StaticTemplateComponents/SimpleComponents/LBSHorizontalDivider.uxml?fileID=9197481963319205126&amp;guid=8e276661d37de8e41905231bb939b61a&amp;type=3#LBSHorizontalDivider" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <uie:Toolbar class="lbs-toolbar">
+        <uie:ToolbarButton text="Button" />
+        <uie:ToolbarToggle label="Toggle" />
+        <uie:ToolbarMenu />
+        <uie:ToolbarPopupSearchField />
+    </uie:Toolbar>
     <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320">
         <ui:VisualElement class="lbs-panel">
             <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add.svg?fileID=7388822144124034973&amp;guid=ad8d08a3d465b3a438016713ae2f99c5&amp;type=3#Icon=Add" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" />
@@ -39,7 +45,14 @@
                     <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                 </ui:TabView>
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
+            <ISILab.LBS.CustomComponents.LBSCustomButton text="Button" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" style="height: 31px;" />
             <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
         </ui:VisualElement>
     </ISILab.Commons.VisualElements.Editor.SplitView>
+    <uie:Toolbar>
+        <uie:ToolbarButton text="Button" />
+        <uie:ToolbarToggle label="Toggle" />
+        <uie:ToolbarMenu />
+        <uie:ToolbarPopupSearchField />
+    </uie:Toolbar>
 </ui:UXML>

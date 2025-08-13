@@ -234,7 +234,28 @@ Toggle > .lbs-default-icon {
     background-image: none;
 }
 
-.-lbs-default-button {
+.lbs-button {
+    background-color: var(--lbs-selectable-gray-color);
+    margin-top: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-left-color: rgba(0, 0, 0, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.3);
+}
+
+.lbs-button > TextElement {
+    color: var(--lbs-default-icon-color);
 }
 
 .lbs-tab-button {
@@ -1488,4 +1509,11 @@ Button.lbs-actionbutton {
 }
 
 .lbs-tab-view {
+}
+
+.lbs-toolbar {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
 }
