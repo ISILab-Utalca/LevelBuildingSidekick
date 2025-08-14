@@ -82,6 +82,9 @@ namespace ISILab.LBS.CustomComponents
             style.alignItems = Align.Center;
             this.AddToClassList(LBSClassName);
             m_Icon = new VisualElement();
+            labelElement.AddToClassList("lbs-label");
+            labelElement.RemoveFromClassList("unity-label");
+            
             
             //styles
             m_Icon.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
