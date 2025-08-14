@@ -83,6 +83,7 @@ namespace ISILab.LBS.VisualElements.Editor
             this.Q<Toggle>(name: "ToggleGenCeilling");
             _buildLightProbes = this.Q<Toggle>(name: "ToggleLightProbes");
             _bakeLights = this.Q<Toggle>(name: "ToggleBakeLights");
+            _bakeLights.RegisterValueChangedCallback<bool>(evt => { _bakeLights.value = ToggleBakeLighting(); });
             
             // dropDown's visibility hidden in UMXL
             _dropDownField = this.Q<ClassDropDown>(name: "Generator");
@@ -170,7 +171,19 @@ namespace ISILab.LBS.VisualElements.Editor
             OnFinishGenerate();
         }
         
-        
+        private bool ToggleBakeLighting()
+        {
+            if (_bakeLights.value == false) return false;
+            else
+            { 
+                const string storageKey = "";
+                var choice = EditorUtility.DisplayDialog("Enable Bake Lighting?", "Toggling this option will significantly lenghten the time needed for 3D generation. Proceed?", "OK", "Cancel", DialogOptOutDecisionType.ForThisSession, storageKey);
+                return choice;
+            }
+
+            
+        }
+
         private void GenerateLayerByName(string layerName)
         {
             LBSMainWindow mw = EditorWindow.GetWindow<LBSMainWindow>();
