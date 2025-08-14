@@ -53,7 +53,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region PROPERTIES
 
-        private Generator3D Generator { get; set; }
+  
         public Generator3D GeneratorSettings
         {
             get => LBSSettings.Instance.generator;
@@ -65,6 +65,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #region CONSTRUCTORS
         public Generator3DPanel()
         {
+            GeneratorSettings = LBSSettings.Instance.generator;
+            Debug.Log(GeneratorSettings.settings);
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("Generator3DPanel");
             visualTree.CloneTree(this);
 
@@ -92,7 +94,18 @@ namespace ISILab.LBS.VisualElements.Editor
             this.Q<Toggle>(name: "ToggleAutoGen");
 
             _replacePrev = this.Q<Toggle>("ToggleReplace");
-            _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+
+            if (GeneratorSettings.settings != null)
+            {
+                
+                _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+            }
+            else
+            {   //Set generation setting by default
+                _replacePrev.value = true;
+                GeneratorSettings = LBSSettings.Instance.generator;
+                GeneratorSettings.settings.replacePrevious = true;
+            }
             _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
 
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
@@ -106,7 +119,7 @@ namespace ISILab.LBS.VisualElements.Editor
             _generateAllLayers.clicked += OnExecute;
             _generateAllLayers.clicked += GenerateAllLayers;
 
-            Generator ??= new Generator3D();
+            GeneratorSettings ??= new Generator3D();
         }
 
         public Generator3DPanel(Toggle bakeLights)
@@ -126,15 +139,11 @@ namespace ISILab.LBS.VisualElements.Editor
             }
 
             _layer = layer;
-            Generator = new Generator3D
-            {
-                settings = _settings
-            };
+            GeneratorSettings ??= LBSSettings.Instance.generator;
+            _settings = GeneratorSettings.settings;
 
-            _settings = layer.Settings;
-
-            if (Generator == null) return;
-            _dropDownField.Value = Generator.GetType().Name;
+            if (GeneratorSettings == null) return;
+            _dropDownField.Value = GeneratorSettings.GetType().Name;
             _scaleField.value = _settings.scale;
             _positionField.value = _settings.position;
             _nameField.value = layer.Name;
@@ -247,26 +256,26 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
-            Generator ??= _dropDownField.GetChoiceInstance() as Generator3D;
+            GeneratorSettings ??= _dropDownField.GetChoiceInstance() as Generator3D;
 
-            _settings = new Generator3D.Settings
-            {
-                name = _layer.Name,
-                position = _positionField.value,
-                resize = _resizeField.value,
-                scale = _scaleField.value,
-                useBundleSize = !_ignoreBundleTileSize.value,
-                reflectionProbe = _reflection.value,
-                lightVolume = _buildLightProbes.value
-            };
+            if (GeneratorSettings != null) _settings = GeneratorSettings.settings;
+            // {
+            //     name = _layer.Name,
+            //     position = _positionField.value,
+            //     resize = _resizeField.value,
+            //     scale = _scaleField.value,
+            //     useBundleSize = !_ignoreBundleTileSize.value,
+            //     reflectionProbe = _reflection.value,
+            //     lightVolume = _buildLightProbes.value
+            // };
 
-            if (Generator == null) return false;
+            if (GeneratorSettings == null) return false;
 
-            var questGen = Generator.GetRule<QuestRuleGenerator>(_layer.GeneratorRules);
+            var questGen = GeneratorSettings.GetRule<QuestRuleGenerator>(_layer.GeneratorRules);
             if (questGen is not null) questGen.OnLayerRequired += GenerateLayerByName;
             
             // Generation Call
-            var generated = Generator.Generate(_layer, _layer.GeneratorRules, _settings);
+            var generated = GeneratorSettings.Generate(_layer, _layer.GeneratorRules, _settings);
             
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||

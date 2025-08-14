@@ -18,13 +18,14 @@ namespace ISILab.LBS.Settings
         /// Singleton instance of "LBSSettings".<br/>
         /// <b>[WARNING]:</b> The use of the <b>SET</b> method for this property is at your own risk.
         /// </summary>
-        public static LBSSettings Instance
+        public static LBSSettings Instance 
         {
             get
             {
                 // si es igual a null lo busco en carpeta
                 if (instance == null)
                     instance = Resources.Load<LBSSettings>("LBS Settings");
+                    
 
                 // si sigue siendo null lo creo
                 if (instance == null)
