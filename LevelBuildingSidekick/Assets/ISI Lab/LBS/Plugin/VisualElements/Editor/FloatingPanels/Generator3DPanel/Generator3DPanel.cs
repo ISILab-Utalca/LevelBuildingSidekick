@@ -91,7 +91,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             this.Q<Toggle>(name: "ToggleAutoGen");
 
-            _replacePrev = this.Q<Toggle>(name: "ToggleReplace");
+            _replacePrev = this.Q<Toggle>("ToggleReplace");
             _replacePrev.value = GeneratorSettings.settings.replacePrevious;
             _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
 

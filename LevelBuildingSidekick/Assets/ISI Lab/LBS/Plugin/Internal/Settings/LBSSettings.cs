@@ -106,6 +106,11 @@ namespace ISILab.LBS.Settings
         [System.Serializable]
         public class Interface
         {
+            public enum InterfaceTheme {Dark, Light, Alt}
+            
+            [SerializeField]
+            public InterfaceTheme LBSTheme = InterfaceTheme.Dark;
+            
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             

@@ -1,16 +1,20 @@
 @import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
 :root {
 }
+
 Label {
     font-size: 13px;
-    color: var(--lbs-default-text-color)
+    color: var(--lbs-default-text-color);
 }
+
 .lbs Label {
     padding-right: 21px;
     color: var(--lbs-default-text-color);
 }
-.lbs-label{
-    color: var(--lbs-default-text-color)
+
+.lbs-label {
+    color: var(--lbs-default-text-color);
+    -unity-text-align: middle-left;
 }
 
 .lbs-field {
@@ -32,10 +36,8 @@ Label {
     color: var(--lbs-default-text-color);
 }
 
-
-
-.lbs-text-element{
-    color: var(--lbs-default-text-color)
+.lbs-text-element {
+    color: var(--lbs-default-text-color);
 }
 
 .lbs-item {
@@ -56,7 +58,7 @@ Label {
     display: flex;
 }
 
-.lbs-icon{
+.lbs-icon {
     -unity-background-image-tint-color: var(--lbs-default-icon-color);
 }
 
@@ -1518,7 +1520,6 @@ Button.lbs-actionbutton {
     translate: 10px 0;
     background-color: var(--lbs-light-green-color);
 }
-
 
 .lbs-tab-view {
 }
