@@ -451,6 +451,21 @@ namespace ISILab.LBS.VisualElements.Editor
         //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
+            if(mapEliteBundle == null)
+            {
+                LBSMainWindow.MessageNotify("MAP Elite Preset not selected or null.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: MAP Elite Preset not selected or null.");
+                return;
+            }
+
+            //Check if there's a place to optimize
+            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
+            {
+                LBSMainWindow.MessageNotify("Use the Area Selector tool to select an area to optimize before starting MAP Elites.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
+                return;
+            }
+
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
@@ -459,13 +474,6 @@ namespace ISILab.LBS.VisualElements.Editor
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
             
-
-            //Check if there's a place to optimize
-            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
-            {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
-                    return;
-            }
 
             InitializeAllCurrentEvaluators();
 
@@ -478,8 +486,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Update button
             recalculate.text = "Recalculate";
+            
+            LBSMainWindow.MessageNotify("Calculating.");
         }
-        
+
         //Apply the suggestion in the world
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
