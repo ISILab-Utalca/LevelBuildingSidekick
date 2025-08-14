@@ -1,3 +1,4 @@
+using ISILab.LBS.Generators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace ISILab.LBS.Settings
         public General general = new General();
         public Interface view = new Interface();
         public Test test = new Test();
+        public Generator3D generator = new Generator3D();
 
         [System.Serializable]
         public class Test

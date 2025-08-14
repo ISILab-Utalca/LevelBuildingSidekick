@@ -43,6 +43,10 @@ namespace ISILab.LBS.Generators
             public Vector3 position = new Vector3(0, 0, 0);
 
             [SerializeField]
+            [JsonConverter(typeof(bool))]
+            public bool replacePrevious = true;
+
+            [SerializeField]
             public string name = "DEFAULT";
 
             public override bool Equals(object obj)

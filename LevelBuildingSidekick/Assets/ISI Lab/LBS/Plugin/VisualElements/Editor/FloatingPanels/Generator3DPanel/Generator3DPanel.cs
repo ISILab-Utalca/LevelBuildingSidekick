@@ -12,6 +12,7 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Generators;
 using LBS.Bundles;
 using Object = UnityEngine.Object;
+using ISILab.LBS.Settings;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -53,6 +54,11 @@ namespace ISILab.LBS.VisualElements.Editor
         #region PROPERTIES
 
         private Generator3D Generator { get; set; }
+        public Generator3D GeneratorSettings
+        {
+            get => LBSSettings.Instance.generator;
+            set => LBSSettings.Instance.generator = value;
+        }
 
         #endregion
 
@@ -84,7 +90,11 @@ namespace ISILab.LBS.VisualElements.Editor
             _dropDownField.Type = typeof(Generator3D);
             
             this.Q<Toggle>(name: "ToggleAutoGen");
+
             _replacePrev = this.Q<Toggle>(name: "ToggleReplace");
+            _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+            _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
+
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
             _reflection = this.Q<Toggle>(name: "ToggleReflection");
             
@@ -95,7 +105,7 @@ namespace ISILab.LBS.VisualElements.Editor
             _generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
             _generateAllLayers.clicked += OnExecute;
             _generateAllLayers.clicked += GenerateAllLayers;
-            
+
             Generator ??= new Generator3D();
         }
 
@@ -110,6 +120,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             if (layer == null)
             {
+                //TODO: WHY IS THIS RECOGNIZING THE LAYER ON THE INITIATOR?????????????
                 LBSMainWindow.MessageNotify("[ISI Lab] Warning: You don't have any layer selected.", LogType.Warning, 2);
                 return;
             }
@@ -121,7 +132,6 @@ namespace ISILab.LBS.VisualElements.Editor
             };
 
             _settings = layer.Settings;
-
 
             if (Generator == null) return;
             _dropDownField.Value = Generator.GetType().Name;
