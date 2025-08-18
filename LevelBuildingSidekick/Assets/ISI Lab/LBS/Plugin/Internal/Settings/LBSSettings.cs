@@ -18,13 +18,14 @@ namespace ISILab.LBS.Settings
         /// Singleton instance of "LBSSettings".<br/>
         /// <b>[WARNING]:</b> The use of the <b>SET</b> method for this property is at your own risk.
         /// </summary>
-        public static LBSSettings Instance
+        public static LBSSettings Instance 
         {
             get
             {
                 // si es igual a null lo busco en carpeta
                 if (instance == null)
                     instance = Resources.Load<LBSSettings>("LBS Settings");
+                    
 
                 // si sigue siendo null lo creo
                 if (instance == null)
@@ -106,6 +107,11 @@ namespace ISILab.LBS.Settings
         [System.Serializable]
         public class Interface
         {
+            public enum InterfaceTheme {Dark, Light, Alt}
+            
+            [SerializeField]
+            public InterfaceTheme LBSTheme = InterfaceTheme.Dark;
+            
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             

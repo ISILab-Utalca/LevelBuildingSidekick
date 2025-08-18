@@ -1,20 +1,46 @@
 @import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
 :root {
-    color: var(--lbs-default-icon-color);
 }
 
 Label {
-    font-size: 12px;
-}
-
-.lbs-field Label {
-    padding-right: 21px;
-    color: aliceblue;
+    font-size: 13px;
+    color: var(--lbs-default-text-color);
 }
 
 .lbs Label {
     padding-right: 21px;
-    color: var(--lbs-default-icon-color);
+    color: var(--lbs-default-text-color);
+}
+
+.lbs-label {
+    color: var(--lbs-default-text-color);
+    -unity-text-align: middle-left;
+}
+
+.lbs-field {
+    flex-direction: row;
+    margin-top: 2px;
+    margin-right: 0;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.lbs-field Label {
+    padding-right: 21px;
+    color: var(--lbs-default-text-color);
+}
+
+.lbs-text-element {
+    color: var(--lbs-default-text-color);
+}
+
+.lbs-item {
 }
 
 .lbs-default-icon {
@@ -30,6 +56,10 @@ Label {
     flex-direction: column;
     -unity-background-scale-mode: scale-to-fit;
     display: flex;
+}
+
+.lbs-icon {
+    -unity-background-image-tint-color: var(--lbs-default-icon-color);
 }
 
 .lbs-default-container-panel {
@@ -234,7 +264,28 @@ Toggle > .lbs-default-icon {
     background-image: none;
 }
 
-.-lbs-default-button {
+.lbs-button {
+    background-color: var(--lbs-selectable-gray-color);
+    margin-top: 3px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    margin-left: 3px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-left-color: rgba(0, 0, 0, 0.3);
+    border-right-color: rgba(0, 0, 0, 0.3);
+    border-top-color: rgba(0, 0, 0, 0.3);
+    border-bottom-color: rgba(0, 0, 0, 0.3);
+}
+
+.lbs-button > TextElement {
+    color: var(--lbs-default-icon-color);
 }
 
 .lbs-tab-button {
@@ -1470,22 +1521,12 @@ Button.lbs-actionbutton {
     background-color: var(--lbs-light-green-color);
 }
 
-.lbs-field {
-    flex-direction: row;
-    margin-top: 2px;
-    margin-right: 0;
-    margin-bottom: 2px;
-    margin-left: 0;
-    padding-top: 4px;
-    padding-right: 4px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.lbs-item {
-}
-
 .lbs-tab-view {
+}
+
+.lbs-toolbar {
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
 }
