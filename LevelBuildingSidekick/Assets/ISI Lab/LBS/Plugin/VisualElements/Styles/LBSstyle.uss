@@ -1529,4 +1529,5 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    background-color: var(--lbs-base-solid-gray-color);
 }

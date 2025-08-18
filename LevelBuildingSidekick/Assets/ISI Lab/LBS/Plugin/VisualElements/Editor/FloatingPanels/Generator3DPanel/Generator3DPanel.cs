@@ -1,32 +1,30 @@
-using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Components;
+using UnityEditor.UIElements;
+using UnityEditor;
+using Object = UnityEngine.Object;
 
+using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
-using UnityEditor;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Settings;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Generators;
+using ISILab.LBS.Editor.Windows;
+
 using LBS.Bundles;
-using Object = UnityEngine.Object;
-using ISILab.LBS.Settings;
-using UnityEditor.UIElements;
+using LBS.Components;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-    public class Generator3DPanel : VisualElement
+    [UxmlElement]
+    public partial class Generator3DPanel : VisualElement
     {
-        #region UXMLFACTORY
-        [UxmlElementAttribute]
-        public new class UxmlFactory { }
-        #endregion
-
         #region VIEW ELEMENTS
-        private readonly ClassDropDown _dropDownField;
+        //private readonly ClassDropDown _dropDownField;
         
         private readonly Vector3Field _positionField;
         private readonly Vector2Field _scaleField;
@@ -154,6 +152,11 @@ namespace ISILab.LBS.VisualElements.Editor
             _nameField.value = layer.Name;
             _resizeField.value = _settings.resize;
         }
+
+        void OnEnable()
+        {
+            Debug.Log("3D Panel - OnEnable");
+        }
         
 
         private void GenerateAllLayers()
@@ -261,8 +264,6 @@ namespace ISILab.LBS.VisualElements.Editor
                     Object.DestroyImmediate(prev);
                 }
             }
-
-            GeneratorSettings ??= _dropDownField.GetChoiceInstance() as Generator3D;
 
             if (GeneratorSettings != null) _settings = GeneratorSettings.settings;
             // {

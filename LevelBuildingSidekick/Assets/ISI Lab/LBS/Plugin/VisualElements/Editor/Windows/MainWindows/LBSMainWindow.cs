@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using ISILab.Commons.VisualElements.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -288,18 +289,20 @@ namespace ISILab.LBS.Editor.Windows{
 
             #region TOOLBAR
 
-        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-        toolbar.OnNewLevel += data =>
-        {
-            LBS.loadedLevel = data;
-            RefreshWindow();
-        };
-        toolbar.OnLoadLevel += data =>
-        {
-            LBS.loadedLevel = data;
-            RefreshWindow();
-            drawManager.RedrawLevel(levelData);
-        };
+            var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            toolbar.OnNewLevel += data =>
+            {
+                LBS.loadedLevel = data;
+                RefreshWindow();
+            };
+            toolbar.OnLoadLevel += data =>
+            {
+                LBS.loadedLevel = data;
+                RefreshWindow();
+                drawManager.RedrawLevel(levelData);
+            };
+            toolbar.OnThemeChanged += data => ChangeTheme(data);
+            
 
             #endregion
 
@@ -565,6 +568,31 @@ namespace ISILab.LBS.Editor.Windows{
             
             LBSInspectorPanel.ReDraw();
         }
+        
+        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
+        {
+            switch (_newTheme)
+            {
+                case  LBSSettings.Interface.InterfaceTheme.Light:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("light");
+                    break;
+                case  LBSSettings.Interface.InterfaceTheme.Dark:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("dark");
+                    break;
+                case LBSSettings.Interface.InterfaceTheme.Alt:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("alt");
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        
+        
+        
         #endregion
         
     }
