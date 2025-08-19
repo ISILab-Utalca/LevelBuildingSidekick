@@ -1596,3 +1596,30 @@ Button.lbs-actionbutton {
 .lbs-toolbar-menu:active {
     background-color: var(--lbs-selection-dark-blue-color);
 }
+
+.lbs-toolbar-button{
+    border-width: 1px 1px 1px 1px;
+    border-color: var(--lbs-dark-overlay-color);
+    background-color: var(--lbs-base-solid-gray-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    flex-direction: row;
+    padding-left: 4px;
+    padding-right: 4px;
+    align-content: center;
+    align-items: center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.lbs-toolbar-button:hover {
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-toolbar-button:active {
+    background-color: var(--lbs-selection-dark-blue-color);
+}

@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements.Editor
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            ToolbarButton settingMenu = this.Q<ToolbarButton>("OptionButton");
+            LBSToolbarButton settingMenu = this.Q<LBSToolbarButton>("OptionButton");
             //settingMenu.clicked += () => OpenConfiguration();
             settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
@@ -47,7 +47,7 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
             
-            var bundManBtn = this.Q<ToolbarButton>("BundleManagerButton");
+            LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
 
             // file name label
