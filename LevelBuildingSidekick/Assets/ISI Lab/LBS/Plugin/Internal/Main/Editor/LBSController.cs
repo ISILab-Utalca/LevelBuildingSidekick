@@ -116,8 +116,10 @@ namespace ISILab.LBS
             }
             else
             {
-                JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data);
-                LBSMainWindow.MessageNotify("The file has been saved.");
+                if (JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data))
+                {
+                    LBSMainWindow.MessageNotify("The file has been saved.");
+                }
             }
         }
 
@@ -156,9 +158,9 @@ namespace ISILab.LBS
                 Debug.Log("Save file on: '" + directory + filename + "'.");
                 JSONDataManager.SaveData(directory, filename, CurrentLevel.data);
                 LBS.loadedLevel.fullName = path;
+                LBSMainWindow.MessageNotify("The file has been saved.");
             }
-            
-            LBSMainWindow.MessageNotify("The file has been saved.");
+
         }
 
         /// <summary>

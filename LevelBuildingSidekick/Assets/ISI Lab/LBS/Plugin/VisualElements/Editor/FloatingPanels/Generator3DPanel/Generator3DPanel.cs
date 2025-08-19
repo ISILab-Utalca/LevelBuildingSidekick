@@ -195,7 +195,7 @@ namespace ISILab.LBS.VisualElements.Editor
             else
             { 
                 const string storageKey = "";
-                var choice = EditorUtility.DisplayDialog("Enable Bake Lighting?", "Toggling this option will significantly lenghten the time needed for 3D generation. Proceed?", "OK", "Cancel", DialogOptOutDecisionType.ForThisSession, storageKey);
+                var choice = EditorUtility.DisplayDialog("Enable Bake Lighting?", "This will make 3D layer generation significantly longer. Proceed?", "OK", "Cancel", DialogOptOutDecisionType.ForThisSession, storageKey);
                 return choice;
             }
 

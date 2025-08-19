@@ -192,8 +192,19 @@ namespace ISILab.LBS.Editor.Windows{
         public virtual void CreateGUI()
         {
             Init();
+
+            //KeyDownEvent
+            //rootVisualElement.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
+            rootVisualElement.focusable = true;
+            rootVisualElement.Focus();
+        }
+
+        private void OnKeyDown(KeyDownEvent evt)
+        {
             
         }
+        
+
         
         private void OnInspectorUpdate()
         {
@@ -289,20 +300,28 @@ namespace ISILab.LBS.Editor.Windows{
 
             #region TOOLBAR
 
-            var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-            toolbar.OnNewLevel += data =>
+        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+        toolbar.OnNewLevel += data =>
+        {
+            LBS.loadedLevel = data;
+            RefreshWindow();
+        };
+        toolbar.OnLoadLevel += data =>
+        {
+            LBS.loadedLevel = data;
+            RefreshWindow();
+            drawManager.RedrawLevel(levelData);
+        };
+        toolbar.OnThemeChanged += data => ChangeTheme(data);
+
+        rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
+        {
+            if (evt.ctrlKey && evt.keyCode == KeyCode.S)
             {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-            };
-            toolbar.OnLoadLevel += data =>
-            {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-                drawManager.RedrawLevel(levelData);
-            };
-            toolbar.OnThemeChanged += data => ChangeTheme(data);
-            
+                LBSController.SaveFile();
+                evt.StopPropagation();
+            }    
+        }, TrickleDown.TrickleDown);
 
             #endregion
 
