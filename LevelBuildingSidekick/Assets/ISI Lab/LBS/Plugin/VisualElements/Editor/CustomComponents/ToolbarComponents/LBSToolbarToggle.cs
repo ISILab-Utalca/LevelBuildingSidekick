@@ -1,4 +1,5 @@
 
+using System;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -35,13 +36,35 @@ namespace ISILab.LBS.CustomComponents
                 }
             }
         }
-        
+
+        [UxmlAttribute]
+        public Boolean HideToggle
+        {
+            get => hideToggle;
+            set
+            {
+                hideToggle = value;
+                if (inputVisualElement != null)
+                {
+                    if (hideToggle)
+                    {
+                        inputVisualElement.style.display = DisplayStyle.None;
+                    }
+                    else
+                    {
+                        inputVisualElement.style.display = DisplayStyle.Flex;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         private VisualElement _toggleIconElement;
+        private VisualElement inputVisualElement;
         
-        private VectorImage arrowIcon;
         private VectorImage toggleIcon;
+        private bool hideToggle = true;
 
         public LBSToolbarToggle() : base()
         {
@@ -49,10 +72,26 @@ namespace ISILab.LBS.CustomComponents
             AddToClassList(lbsClassName);
             
             _toggleIconElement = new VisualElement();
-            _toggleIconElement.style.display = DisplayStyle.Flex;
             _toggleIconElement.AddToClassList("lbs-icon");
-            this.Add(_toggleIconElement);
-            _toggleIconElement.PlaceBehind(labelElement);
+            Add(_toggleIconElement);
+            if (toggleIcon != null)
+            {
+                _toggleIconElement.style.backgroundImage = new StyleBackground(toggleIcon);
+                _toggleIconElement.style.display = DisplayStyle.Flex;
+            }
+            else
+            {
+                _toggleIconElement.style.backgroundImage = null;
+                _toggleIconElement.style.display = DisplayStyle.None;
+            }
+            
+            inputVisualElement = this.Q<VisualElement>(classes: inputUssClassName);
+
+            if (hideToggle)
+            {
+                inputVisualElement.style.display = DisplayStyle.None;
+            }
+            //_toggleIconElement.PlaceBehind(labelElement);
             
         }
         

@@ -1544,14 +1544,35 @@ Button.lbs-actionbutton {
 }
 
 .lbs-toolbar-toggle {
+    border-width: 1px 1px 1px 1px;
+    border-color: var(--lbs-dark-overlay-color);
     background-color: var(--lbs-base-solid-gray-color);
     border-bottom-color: var(--lbs-dark-overlay-color);
     border-top-color: var(--lbs-dark-overlay-color);
     border-left-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
+    align-items: center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 4px;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.lbs-toolbar-toggle:hover {
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-toolbar-toggle:selected {
+    background-color: var(--lbs-selection-dark-blue-color);
 }
 
 .lbs-toolbar-menu {
+    border-width: 1px 1px 1px 1px;
+    border-color: var(--lbs-dark-overlay-color);
     background-color: var(--lbs-base-solid-gray-color);
     border-bottom-color: var(--lbs-dark-overlay-color);
     border-top-color: var(--lbs-dark-overlay-color);
@@ -1562,4 +1583,16 @@ Button.lbs-actionbutton {
     padding-right: 4px;
     align-content: center;
     align-items: center;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.lbs-toolbar-menu:hover {
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-toolbar-menu:active {
+    background-color: var(--lbs-selection-dark-blue-color);
 }

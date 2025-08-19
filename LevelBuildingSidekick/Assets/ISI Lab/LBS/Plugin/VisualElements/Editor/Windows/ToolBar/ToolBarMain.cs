@@ -44,7 +44,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
             
-            ToolbarToggle keyMapToggle = this.Q<ToolbarToggle>("KeyMapToggle");
+            LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
             
             var bundManBtn = this.Q<ToolbarButton>("BundleManagerButton");

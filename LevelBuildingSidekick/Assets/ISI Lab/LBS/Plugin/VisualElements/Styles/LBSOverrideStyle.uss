@@ -5,6 +5,10 @@
     
 }
 
+.unity-text-element{
+    color: var(--lbs-default-text-color);
+}
+
 .unity-enum-field__text{
     color: var(--lbs-default-text-color);
 }
