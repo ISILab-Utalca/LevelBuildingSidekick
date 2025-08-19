@@ -278,9 +278,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
-            if (GeneratorSettings != null) _settings = GeneratorSettings.settings;
+            if (GeneratorSettings != null)
+            {
+                _settings = GeneratorSettings.settings;
+                _settings.name = _layer.Name;
+            }
+            
             // {
-            //     name = _layer.Name,
+            //     name = _layer.Name;
             //     position = _positionField.value,
             //     resize = _resizeField.value,
             //     scale = _scaleField.value,

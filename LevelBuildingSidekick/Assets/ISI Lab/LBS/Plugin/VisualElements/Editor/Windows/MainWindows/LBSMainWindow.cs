@@ -576,14 +576,17 @@ namespace ISILab.LBS.Editor.Windows{
                 case  LBSSettings.Interface.InterfaceTheme.Light:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("light");
+                    Repaint();
                     break;
                 case  LBSSettings.Interface.InterfaceTheme.Dark:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("dark");
+                    Repaint();
                     break;
                 case LBSSettings.Interface.InterfaceTheme.Alt:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("alt");
+                    Repaint();
                     break;
                 default:
                     break;
