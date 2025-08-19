@@ -12,7 +12,10 @@ namespace ISILab.LBS.Manipulators
     {
         private QuestGraph _quest;
 
-        private QuestNode _first;
+        /// <summary>
+        ///  from where we click to make a connection
+        /// </summary>
+        private GraphNode _first;
         protected override string IconGuid => "ec280cec81783e94cb5df0b0b40dec7e";
 
         public ConnectQuestNodes()
@@ -21,9 +24,7 @@ namespace ISILab.LBS.Manipulators
             Name = "Connect Quest Node";
             Description = "Click on a starting node, then release on the follow up node.";
         }
-
-
-
+        
         public override void Init(LBSLayer layer, object provider = null)
         {
             base.Init(layer, provider);
@@ -33,12 +34,12 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
-            _first = _quest.GetNodeAtPosition<QuestNode>(startPosition);
+            _first = _quest.GetNodeAtPosition<GraphNode>(startPosition);
         }
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            var second = _quest.GetNodeAtPosition<QuestNode>(endPosition);
+            var second = _quest.GetNodeAtPosition<GraphNode>(endPosition);
             var result = _quest.AddEdge(_first, second);
             LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);
            

@@ -12,6 +12,7 @@ namespace ISILab.LBS.Components
     }
 
     // parent class for actions(ors) and(ands)
+    [Serializable]
     public abstract class GraphNode : ICloneable
     {
         #region FIELDS
@@ -188,6 +189,8 @@ namespace ISILab.LBS.Components
             x = (int)position.x;
             y = (int)position.y;
             questAction = action;
+
+            nodeType = ENodeType.Middle;
             
             this.graph = graph;
             validGrammar = false;

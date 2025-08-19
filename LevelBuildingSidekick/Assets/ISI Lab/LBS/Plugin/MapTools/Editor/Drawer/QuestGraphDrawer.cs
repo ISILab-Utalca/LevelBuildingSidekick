@@ -9,6 +9,7 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
+using UnityEditor.Graphs;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
@@ -16,6 +17,9 @@ namespace ISILab.LBS.Drawers.Editor
     [Drawer(typeof(QuestBehaviour))]
     public class QuestGraphDrawer : Drawer
     {
+        // for actions, and ors,
+        private Dictionary<GraphNode, QuestGraphNodeView> _actionViews = new();
+        
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             if (target is not QuestBehaviour behaviour) return;
@@ -28,63 +32,83 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 // Reset layer input when changing to another layer
                 graph.SelectedQuestNode = null;
-                behaviour.ActionToSet = String.Empty;
-                QuestNodeView.Deselect();
+                behaviour.ActionToSet = string.Empty;
+                QuestActionView.Deselect();
 
             };
             
-            var nodeViews = new Dictionary<GraphNode, QuestNodeView>();
-           //  view.ClearLayerContainer(behaviour.OwnerLayer, true);
-            // PaintNewTiles(quest, behaviour, nodeViews, view);
+            _actionViews.Clear();
             
+            LoadAllTiles(graph, behaviour, view);
+            
+            /* Unused drawing system
+             
+             // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
+            
+            view.ClearLayerContainer(behaviour.OwnerLayer, true);
+            PaintNewTiles(quest, behaviour, nodeViews, view);
+            view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour);
+            view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour.Graph);
 
-           // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour);
-           // view.ClearLayerComponentView(behaviour.OwnerLayer, behaviour.Graph);
-            LoadAllTiles(graph, behaviour, nodeViews, view);
- 
-
-            // TODO: Does this drawer actually needs an update in its visualElements? I don't understand it enough to tell.
+         
+            */
             
             if (!Loaded)
             {
-                LoadAllTiles(graph, behaviour, nodeViews, view);
+                LoadAllTiles(graph, behaviour, view);
                 Loaded = true;
             }
         }
 
-        private void LoadAllTiles(QuestGraph questGraph, QuestBehaviour behaviour, Dictionary<GraphNode, QuestNodeView> nodeViews, MainView view)
+        private void LoadAllTiles(QuestGraph questGraph, QuestBehaviour behaviour, MainView view)
         {
-            QuestNodeView.Deselect();
+            QuestActionView.Deselect();
             
-            foreach (var node in questGraph.GetQuestNodes())
+            foreach (var node in questGraph.GraphNodes)
             {
-                if (!nodeViews.TryGetValue(node, out var nodeView) || nodeView == null)
+                if (!_actionViews.TryGetValue(node, out var nodeView) || nodeView == null)
                 {
-                    nodeView = CreateNodeView(node, questGraph);
-                    nodeViews[node] = nodeView;
+                    nodeView = node switch
+                    {
+                        // make a quest action visual element
+                        QuestNode qn => CreateActionView(qn, questGraph),
+                        // make a branch visual element
+                        OrNode or AndNode => CreateBranchView(node),
+                        _ => null
+                    };
+
+                    _actionViews[node] = nodeView;
                 }
                 
                 if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
                 {
                     if (behaviour.Graph.SelectedQuestNode is not null)
                     {
-                        nodeViews[node].IsSelected(node == behaviour.Graph.SelectedQuestNode);
+                        if (_actionViews[node] is QuestActionView questActionView)
+                        {
+                            // to find the highlighted element is within the active quest layer
+                            questActionView.IsSelected(node == behaviour.Graph.SelectedQuestNode);
+                        }
+                        
                     }
 
                 }
-
+                
+                // if not successfully created
+                if(nodeView is null) continue;
+                
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
-                view.AddElementToLayerContainer(questGraph.OwnerLayer, node.ID, nodeView);
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
                 node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
             }
 
             foreach (var edge in questGraph.QuestEdges)
             {
-                if (!nodeViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
+                if (!_actionViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
                 foreach (var from in edge.From)
                 {
-                    if (!nodeViews.TryGetValue(from, out var n1) || n1 == null) continue;
+                    if (!_actionViews.TryGetValue(from, out var n1) || n1 == null) continue;
                     
                     var edgeView = CreateEdgeView(questGraph, edge, n1, n2);
                     view.AddElementToLayerContainer(questGraph.OwnerLayer, edge, edgeView);
@@ -127,25 +151,36 @@ namespace ISILab.LBS.Drawers.Editor
             }
         }
 
-        private LBSQuestEdgeView CreateEdgeView(QuestGraph graph, QuestEdge edge, QuestNodeView n1, QuestNodeView n2)
+        private LBSQuestEdgeView CreateEdgeView(QuestGraph graph, QuestEdge edge, QuestGraphNodeView n1, QuestGraphNodeView n2)
         {
             foreach (var from in edge.From)
             {
-                n1.SetBorder(from);
+                n1.DisplayGrammarState(from);
             }
 
-            n2.SetBorder(edge.To);
+            n2.DisplayGrammarState(edge.To);
             
             return new LBSQuestEdgeView(graph, edge, n1, n2, 4, 4);
         }
         
-        private QuestNodeView CreateNodeView(QuestNode node, QuestGraph quest)
+        private QuestActionView CreateActionView(QuestNode node, QuestGraph quest)
         {
             /*  Start Node is now assigned by the user. Right click on a node to make it root */
             if (node.NodeType == QuestNode.ENodeType.Start) { }
                 
-            var nodeView = new QuestNodeView(node);
-            var size = LBSSettings.Instance.general.TileSize * quest.NodeSize;
+            var nodeView = new QuestActionView(node);
+            var size = LBSSettings.Instance.general.TileSize;
+
+            nodeView.SetPosition(new Rect(node.Position, size));
+            node.NodeViewPosition = nodeView.GetPosition();
+            
+            return nodeView;
+        }
+        
+        private QuestBranchView CreateBranchView(GraphNode node)
+        {
+            var nodeView = new QuestBranchView(node);
+            var size = LBSSettings.Instance.general.TileSize;
 
             nodeView.SetPosition(new Rect(node.Position, size));
             node.NodeViewPosition = nodeView.GetPosition();

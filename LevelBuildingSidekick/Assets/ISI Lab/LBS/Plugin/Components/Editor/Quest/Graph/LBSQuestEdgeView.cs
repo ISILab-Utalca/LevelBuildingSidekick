@@ -5,64 +5,81 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
+using ISILab.LBS.Settings;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
 {
     public class LBSQuestEdgeView : GraphElement
     {
-        private Vector2Int _pos1, _pos2;
-        private const int PosOffset = 16;
+        private Vector2 _pos1, _pos2; // Use Vector2 for precise positioning
         private readonly float _lineWidth;
         private readonly float _stroke;
+        private readonly QuestEdge _edge;
+        private readonly QuestGraph _graph;
+        private readonly VisualElement _connectionView;
+        private readonly QuestGraphNodeView _node1;
+        private readonly QuestGraphNodeView _node2;
 
-        private Label _connectionTypeLabel;
-
-        private QuestEdge _edge;
-
-        private QuestGraph _graph;
-
-    private readonly VisualElement _connectionView;
-
-        public LBSQuestEdgeView(QuestGraph questGraph, QuestEdge edge, QuestNodeView node1, QuestNodeView node2, float lineWidth = 5f, float stroke = 3f)
+        public LBSQuestEdgeView(QuestGraph questGraph, QuestEdge edge, QuestGraphNodeView node1, QuestGraphNodeView node2, float lineWidth = 5f, float stroke = 3f)
         {
-            _graph = questGraph;
-            _edge = edge;
+            _graph = questGraph ?? throw new ArgumentNullException(nameof(questGraph));
+            _edge = edge ?? throw new ArgumentNullException(nameof(edge));
+            _node1 = node1 ?? throw new ArgumentNullException(nameof(node1));
+            _node2 = node2 ?? throw new ArgumentNullException(nameof(node2));
             _lineWidth = lineWidth;
             _stroke = stroke;
-            
-            
-            // Load the UXML into this GraphElement
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestEdgeView");
-            visualTree.CloneTree(this);
 
             // Grab the arrow view
             _connectionView = this.Q<VisualElement>("View");
-            
-            // Handle movement of first node
-            node1.OnMoving += (rect) =>
-            {
-                ActualizePositions(rect.center.ToInt(), _pos2);
-            };
 
+            // Handle movement of first node
+            node1.OnMoving += UpdatePositionFromNode1;
 
             // Handle movement of second node
-            node2.OnMoving += (rect) =>
-            {
-                ActualizePositions(_pos1, rect.center.ToInt());
-            };
+            node2.OnMoving += UpdatePositionFromNode2;
 
-            // Initial positions
-            var sPos1 = new Vector2Int((int)node1.GetPosition().xMax - PosOffset*4, (int)node1.GetPosition().center.y- PosOffset);
-            var sPos2 = new Vector2Int((int)node2.GetPosition().xMin, (int)node2.GetPosition().center.y- PosOffset);
-            ActualizePositions(sPos1, sPos2);
+            // Initialize positions
+            UpdatePositions();
 
-            // Draw the dotted line on the root
+            // Draw the dotted line
             generateVisualContent += DrawLine;
-            
-            // to change the edge type
+
+            // Register right-click menu for edge type change
             RegisterCallback<MouseDownEvent>(OnMouseDown);
+        }
+
+        private void UpdatePositionFromNode1(Rect node1Rect)
+        {
+            UpdatePositions(node1Rect: node1Rect);
+        }
+
+        private void UpdatePositionFromNode2(Rect node2Rect)
+        {
+            UpdatePositions(node2Rect: node2Rect);
+        }
+
+        private void UpdatePositions(Rect? node1Rect = null, Rect? node2Rect = null)
+        {
+            // Use provided Rects or fetch current positions
+            var rect1 = node1Rect ?? _node1.GetPosition();
+            var rect2 = node2Rect ?? _node2.GetPosition();
+
+            // Calculate connection points
+            _pos1 = new Vector2(rect1.center.x, rect1.center.y); 
+            _pos2 = new Vector2(rect2.center.x, rect2.center.y); 
+            
+            // Repaint to update the line
+            MarkDirtyRepaint();
+        }
+
+        private void DrawLine(MeshGenerationContext mgc)
+        {
+            var painter = mgc.painter2D;
+            painter.DrawDottedLine(_pos1, _pos2, Color.white, _stroke, _lineWidth);
         }
 
         private void OnMouseDown(MouseDownEvent evt)
@@ -71,46 +88,14 @@ namespace ISILab.LBS.VisualElements
             if (evt.button == (int)MouseButton.RightMouse)
             {
                 var menu = new GenericMenu();
-        
                 menu.AddItem(new GUIContent("Set Type/Direct"), false, () => _graph.ChangeConnection(_edge, typeof(QuestNode)));
                 menu.AddItem(new GUIContent("Set Type/OR"), false, () => _graph.ChangeConnection(_edge, typeof(OrNode)));
                 menu.AddItem(new GUIContent("Set Type/AND"), false, () => _graph.ChangeConnection(_edge, typeof(AndNode)));
                 menu.AddSeparator("");
                 //menu.AddItem(new GUIContent("Delete Edge"), false, () => DeleteThisEdge());
-
                 menu.ShowAsContext();
-
-                evt.StopPropagation(); // Prevent other handlers from firing
+                evt.StopPropagation();
             }
         }
-
-        private void DrawLine(MeshGenerationContext mgc)
-        {
-            var painter = mgc.painter2D;
-            painter.DrawDottedLine(_pos1, _pos2, Color.white, _stroke, _lineWidth);
-        }
-        
-
-        private void ActualizePositions(Vector2Int newPos1, Vector2Int newPos2)
-        {
-            _pos1 = newPos1;
-            _pos2 = newPos2;
-
-            // Midpoint position
-            Vector2 midpoint = new Vector2(_pos1.x + _pos2.x - PosOffset*3f,  _pos1.y + _pos2.y - PosOffset*3f) / 2f;
-            _connectionView.transform.position = midpoint;
-
-            // Rotation: angle from right (1,0) to direction vector
-            Vector2 direction =  new Vector2(_pos2.x - _pos1.x, _pos2.y - _pos1.y).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            // Apply rotation to the arrow visual element
-            _connectionView.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-            // Repaint both
-            MarkDirtyRepaint();
-            _connectionView.MarkDirtyRepaint();
-        }
-
     }
 }

@@ -152,21 +152,21 @@ namespace ISILab.LBS.VisualElements
             }
             
             // conditional nodes
-            ActionButton OrButton = new ActionButton("Or", () =>
+            ActionButton orButton = new ActionButton("Or", () =>
             {
                 ToolKit.Instance.SetActive(typeof(AddGraphNode));
                 _behaviour.activeGraphNodeType = typeof(OrNode);
                 _behaviour.ActionToSet = string.Empty;
             });
-            _conditionalPallete.Add(OrButton);
+            _conditionalPallete.Add(orButton);
             
-            ActionButton AndButton = new ActionButton("And", () =>
+            ActionButton andButton = new ActionButton("And", () =>
             {
                 ToolKit.Instance.SetActive(typeof(AddGraphNode));
                 _behaviour.activeGraphNodeType = typeof(AndNode);
                 _behaviour.ActionToSet = string.Empty;
             });
-            _conditionalPallete.Add(AndButton);
+            _conditionalPallete.Add(andButton);
 
         }
 

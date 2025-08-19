@@ -421,7 +421,9 @@ namespace ISILab.LBS.Modules
             OnRemoveNode?.Invoke(node);
             
             // make sure to delete reference
+            if(node==root) root = null;
             if(node==_selectedQuestNode) _selectedQuestNode = null;
+            
             NodeDataChanged(_selectedQuestNode);
         }
 
@@ -433,23 +435,47 @@ namespace ISILab.LBS.Modules
 
         public Tuple<string, LogType> AddEdge(GraphNode from, GraphNode to)
         {
+            if (to is null || from is null)
+            {
+                return Tuple.Create("A connection requires two nodes.", LogType.Error);
+            }
+            
             // Root node restriction
-            if (to == root || from == root)
+            if (to == root && from == root)
             {
                 return Tuple.Create("Root node can only have Single connection type.", LogType.Error);
+            }
+            // Roots node restriction
+            foreach (var edges in GetRoots(to))
+            {
+                // the destination is a root already
+                if (edges.From.Contains(to))
+                {
+                    return Tuple.Create("The 'To' node is already a root" , LogType.Error);
+                }
+            }
+            // Roots node restriction
+            foreach (var edges in GetBranches(from))
+            {
+                // the destination is a root already
+                if (edges.To ==  from)
+                {
+                    return Tuple.Create("The 'From' node is already a destination" , LogType.Error);
+                }
             }
             
             var newEdge = new QuestEdge(from, to);
             
-            if (!QuestGraphHelper.IsValidEdge(newEdge, this,
-                    out string message, out LogType logType))
-            {
-                return Tuple.Create(message, logType);
-            }
-            
             questEdges.Add(newEdge);
             OnAddEdge?.Invoke(newEdge);
      
+            // see if its goal
+            if (to is QuestNode toQuestNode)
+            {
+                toQuestNode.NodeType = !GetBranches(toQuestNode).Any() ? QuestNode.ENodeType.Goal : QuestNode.ENodeType.Middle;
+            }
+       
+            
             var connectionInfo = $"Connection: {from} → {to}";
             return Tuple.Create(connectionInfo, LogType.Log);
         }
