@@ -191,8 +191,19 @@ namespace ISILab.LBS.Editor.Windows{
         public virtual void CreateGUI()
         {
             Init();
+
+            //KeyDownEvent
+            //rootVisualElement.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
+            rootVisualElement.focusable = true;
+            rootVisualElement.Focus();
+        }
+
+        private void OnKeyDown(KeyDownEvent evt)
+        {
             
         }
+        
+
         
         private void OnInspectorUpdate()
         {
@@ -300,6 +311,14 @@ namespace ISILab.LBS.Editor.Windows{
             RefreshWindow();
             drawManager.RedrawLevel(levelData);
         };
+        rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
+        {
+            if (evt.ctrlKey && evt.keyCode == KeyCode.S)
+            {
+                LBSController.SaveFile();
+                evt.StopPropagation();
+            }    
+        }, TrickleDown.TrickleDown);
 
             #endregion
 
