@@ -116,6 +116,12 @@ namespace ISILab.LBS.Assistants
 
         public void RequestOptimizerStop() => mapElites.Optimizer.RequestStop();
 
+        public void OnEndSetup(Action endAction)
+        {
+            mapElites.OnEnd = null;
+            mapElites.OnEnd = endAction;
+        }
+
         public void Continue()
         {
             throw new NotImplementedException(); // TODO: Implement Continue method for AssistantMapElite class

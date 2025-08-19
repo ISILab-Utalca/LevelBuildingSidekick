@@ -160,6 +160,12 @@ namespace ISILab.LBS.Editor.Windows{
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }
+
+        // Allows to send notifications from threads other than main. Seems to work, although I'm not completely sure it's safe.
+        public static void MessageNotifyDelayed(string message, LogType logType = LogType.Log, int duration = 3)
+        {
+            EditorApplication.delayCall += () => MessageNotify(message, logType, duration);
+        }
         
         public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
         {       

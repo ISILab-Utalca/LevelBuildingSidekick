@@ -236,6 +236,7 @@ namespace ISILab.LBS.VisualElements
                     .ToList();
             }
             bundlePallete.ShowGroups = false;
+            candidates.Sort((b1, b2) => b1.Name.CompareTo(b2.Name));
             var options = new object[candidates.Count];
             for (int i = 0; i < candidates.Count; i++)
             {

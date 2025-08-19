@@ -164,7 +164,11 @@ namespace ISILab.LBS.VisualElements.Editor
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
             presetField.value = "Select Preset";
-            presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+            presetField.RegisterValueChangedCallback(evt =>
+            {
+                UpdatePreset(evt.newValue);
+                LBSMainWindow.MessageNotify($"Selected MAP Elite preset: {evt.newValue}");
+            });
 
             //Progress Bar and Sliders
             xParamText = rootVisualElement.Q<Label>("XParamText");
@@ -471,11 +475,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
             UpdateGrid();
 
+            InitializeAllCurrentEvaluators();
+
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
-            
 
-            InitializeAllCurrentEvaluators();
+            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
@@ -813,7 +818,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ToggleLayerContext(object layer)
         {
             LBSLayer objectLayer = layer as LBSLayer;
-            if (objectLayer == null) return;
+            if (objectLayer == null)
+            {
+                Debug.LogError("Object Layer was null.");
+                return;
+            }
             switch(Data.ContextLayers.Contains(layer))
             {
                 case true: Data.ContextLayers.Remove(objectLayer); break;
