@@ -480,6 +480,8 @@ namespace ISILab.LBS.VisualElements.Editor
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
 
+            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
+
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
             assistant.Execute();
