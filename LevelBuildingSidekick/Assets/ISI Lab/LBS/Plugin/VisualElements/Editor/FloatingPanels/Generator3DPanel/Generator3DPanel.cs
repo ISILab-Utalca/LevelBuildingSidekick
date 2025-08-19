@@ -308,7 +308,10 @@ namespace ISILab.LBS.VisualElements.Editor
             var generated = GeneratorSettings.Generate(_layer, _layer.GeneratorRules, _settings);
             
             // Setting layer's parent, "root_Parent"
-            generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+            if (GameObject.Find("root_Parent"))
+            {
+                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+            }
 
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||
