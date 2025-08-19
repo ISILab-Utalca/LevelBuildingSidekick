@@ -181,6 +181,11 @@ namespace ISILab.LBS.VisualElements.Editor
             //    log += l.ID + "\n";
             //Debug.Log(log);
             
+            //eliminar previo "root_Parent"
+            Object.DestroyImmediate(GameObject.Find("root_Parent"));
+            //crear objeto empty fuera del foreach
+            GameObject rootParent = new GameObject("root_Parent");
+            
             foreach (LBSLayer layer in layers)
             {
                 _layer = layer;
@@ -302,6 +307,9 @@ namespace ISILab.LBS.VisualElements.Editor
             // Generation Call
             var generated = GeneratorSettings.Generate(_layer, _layer.GeneratorRules, _settings);
             
+            // Setting layer's parent, "root_Parent"
+            generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||
                 !generated.Item1.GetComponentsInChildren<Transform>().Any() || generated.Item2.Any())
