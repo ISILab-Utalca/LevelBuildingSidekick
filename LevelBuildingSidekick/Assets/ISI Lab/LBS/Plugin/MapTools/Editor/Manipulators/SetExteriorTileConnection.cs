@@ -66,6 +66,8 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
         {
+            if (ForceCancel) return;
+
             _lineFeedback.LeftSide = e.shiftKey;
 
             SetFeedback(!e.ctrlKey ? _lineFeedback : _areaFeedback);
@@ -73,6 +75,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
+            base.OnMouseUp(element, position, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             if (ToSet == null || ToSet.Label == "")
             {
                 Debug.LogWarning("You don't have any connection selected.");

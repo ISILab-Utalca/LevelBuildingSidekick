@@ -46,8 +46,18 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+            base.OnMouseUp(element, endPosition, e);
+
             LeftButtonPressed = false;
-            
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                MainView.Instance.RemoveElement(_previewFeedback);
+                ForceCancel = false;
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove element population");
@@ -91,7 +101,7 @@ namespace ISILab.LBS.Manipulators
         {
             CleanPreviews();
 
-            if (!LeftButtonPressed) return;
+            if (!LeftButtonPressed || ForceCancel) return;
             
             var corners = _population.OwnerLayer.ToFixedPosition(StartPosition, movePosition);
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)

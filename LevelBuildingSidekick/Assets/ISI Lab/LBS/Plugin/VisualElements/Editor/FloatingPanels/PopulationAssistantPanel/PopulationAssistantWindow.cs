@@ -258,7 +258,8 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 var rect = GetDefaultLayerArea();
 
-                if (Data.ContextLayers.Count > 0)
+                //Is any() better than count > 0? Yes. Thank me later.
+                if (Data.ContextLayers.Any())
                 {
                     var subRect = GetLayerContextArea();
 
@@ -269,6 +270,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
 
                 assistant.RawToolRect = rect;
+
+                DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
             };
 
             //Visualization option buttons
@@ -429,12 +432,19 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private Rect GetLayerContextArea()
         {
-            //Grabs the area of all combined context layers
-            var combinedRect = new Rect();
+            //Grabs an area that encloses all context layers
+            Rect combinedRect = new Rect();
 
             foreach (var layer in Data.ContextLayers)
             {
-                var rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+                if (layer.ID != "Interior")
+                {
+                    LBSMainWindow.MessageNotify("Context layers must be of type 'Interior'." +
+                        " Layer '" + layer.Name + "' ignored.", LogType.Warning, 5);
+                    continue;
+                }
+
+                Rect rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
 
                 combinedRect.xMin = Mathf.Min(rect.xMin, combinedRect.xMin);
                 combinedRect.xMax = Mathf.Max(rect.xMax, combinedRect.xMax);
