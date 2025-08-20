@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
 {
     public abstract class QuestGraphNodeView : GraphElement
     {
-        protected GraphNode Node;
+        public GraphNode Node;
         public Action<Rect> OnMoving;
         protected Color DefaultBackgroundColor;
 
@@ -38,8 +38,6 @@ namespace ISILab.LBS.VisualElements
             grabPosition *= MainView.Instance.viewport.transform.scale;
             Rect newPos = new Rect(grabPosition.x, grabPosition.y, resolvedStyle.width, resolvedStyle.height);
             SetPosition(newPos);
-            Node.Position = grabPosition.ToInt();
-            Node.NodeViewPosition = newPos;
         }
         
         protected virtual void OnMouseDown(MouseDownEvent evt)
@@ -49,39 +47,24 @@ namespace ISILab.LBS.VisualElements
             
             DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
         }
-        protected void CenterElement(Vector2 clickPosition)
-        {
-            if (clickPosition != default)
-            {
-                // Get the size of the element after layout
-                float width = layout.width;
-                float height = layout.height;
-
-                // Calculate the offset to center the element
-                float offsetX = width / 2f;
-                float offsetY = height / 2f;
-
-                // Adjust the position to center the element at the click position
-                style.left = clickPosition.x - offsetX;
-                style.top = clickPosition.y - offsetY;
-            }
-        }
-
     }
 
     public class QuestBranchView : QuestGraphNodeView
     {
-        private static VisualTreeAsset _view;
+        private static VisualTreeAsset _root;
+        private VisualElement _view;
 
         public QuestBranchView(GraphNode graphNode, Vector2 clickPosition = default)
         {
-            if (_view == null)
+            if (_root == null)
             {
-                _view = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestBranchView");
+                _root = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestBranchView");
             }
-            _view.CloneTree(this);
+            _root.CloneTree(this);
+            _view = this.Q<VisualElement>("View");
             var label = this.Q<Label>("Label");
 
+            Node = graphNode ?? throw new ArgumentNullException(nameof(graphNode));
             // Assign name
             label.text = graphNode switch
             {
@@ -89,15 +72,35 @@ namespace ISILab.LBS.VisualElements
                 AndNode an => an.ToString(),
                 _ => label.text
             };
-
+            SetPosition(new Rect(Node.NodeViewPosition.position, Vector2.one));
+            
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             
-            // Ensure the element is laid out before adjusting position
-            RegisterCallback<GeometryChangedEvent>(evt => CenterElement(clickPosition));
+            OnMoving += rect1 =>
+            {
+                Node.NodeViewPosition = rect1;
+            };
+
+            Update();
+        }
+        
+        private void OnGeometryChanged(GeometryChangedEvent evt)
+        {
+            Update();
+        }
+        
+        private void Update()
+        {
+            SetPosition(
+                new Rect(GetPosition().position, 
+                    new Vector2(_view.resolvedStyle.width, _view.resolvedStyle.height))
+            );
             
-            Node = graphNode;
+            // Notify movement for edge updates
+            OnMoving?.Invoke(GetPosition());
         }
         
         public override void DisplayGrammarState(GraphNode node)

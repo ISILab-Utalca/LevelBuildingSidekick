@@ -39,14 +39,14 @@ namespace ISILab.LBS.VisualElements
         
         protected QuestActionView() { }
 
-        public QuestActionView(QuestNode node, Vector2 clickPosition = default)
+        public QuestActionView(QuestNode graphNode, Vector2 clickPosition = default)
         {
             if (_view == null)
             {
                 _view = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestActionView");
             }
             _view.CloneTree(this);
-
+            
             // Initialize UI elements
             _label = this.Q<Label>("Title");
             _root = this.Q<VisualElement>("Root");
@@ -57,11 +57,12 @@ namespace ISILab.LBS.VisualElements
             _toolbar.style.display = DisplayStyle.None;
             
             // Set node data
-            Node = node ?? throw new ArgumentNullException(nameof(node));
-            SetText(node.ID);
-            DisplayGrammarState(node);
-
-            switch (node.NodeType)
+            Node = graphNode ?? throw new ArgumentNullException(nameof(graphNode));
+            SetText(graphNode.ID);
+            DisplayGrammarState(graphNode);
+            SetPosition(new Rect(Node.NodeViewPosition.position, Vector2.one));
+            
+            switch (graphNode.NodeType)
             {
                 case QuestNode.ENodeType.Start: 
                     _typeIcon.style.display = DisplayStyle.Flex;
@@ -77,25 +78,47 @@ namespace ISILab.LBS.VisualElements
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            OnMoving += rect1 =>
+            {
+                Node.NodeViewPosition = rect1;
+            };
+            
             
             // Register callbacks
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
-            RegisterCallback<GeometryChangedEvent>(evt => OnGeometryChanged(evt, clickPosition));
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
             
              // only display the error icon if grammar is not correct
-            _statusIcon.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
+            _statusIcon.style.display = graphNode.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
+
+            style.marginBottom = 0;
+            style.marginLeft = 0;
+            style.marginRight = 0;
+            style.marginTop = 0;
             
             DefaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
+
+            // update
+            Update();
         }
 
-        private void OnGeometryChanged(GeometryChangedEvent evt, Vector2 clickPosition)
+        private void OnGeometryChanged(GeometryChangedEvent evt)
         {
-            // Center the node at the click position
-            CenterElement(clickPosition);
-            // Update width based on text and icon
+            Update();
+        }
+
+        private void Update()
+        {
             UpdateWidth();
+            
+            SetPosition(
+                new Rect(GetPosition().position, 
+                    new Vector2(_root.resolvedStyle.width, _root.resolvedStyle.height))
+            );
+            
             // Notify movement for edge updates
             OnMoving?.Invoke(GetPosition());
         }
@@ -169,13 +192,6 @@ namespace ISILab.LBS.VisualElements
             _root.SetBorder(CorrectGrammar, 1f);
         }
 
-        public override void SetPosition(Rect newPos)
-        {
-            base.SetPosition(newPos);
-            OnMoving?.Invoke(newPos);
-            MarkDirtyRepaint();
-        }
-
         private void SetText(string text)
         {
             // Capitalize first letter and trim leading spaces
@@ -237,7 +253,8 @@ namespace ISILab.LBS.VisualElements
                 if (!Node.Graph.GraphNodes.Contains(Node)) return;
                 Node.Graph.SelectedQuestNode = Node as QuestNode;
             }
-            DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
+           // DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
         }
+        
     }
 }

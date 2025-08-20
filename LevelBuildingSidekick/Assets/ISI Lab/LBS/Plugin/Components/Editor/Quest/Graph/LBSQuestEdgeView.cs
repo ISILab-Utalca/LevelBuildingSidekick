@@ -46,6 +46,7 @@ namespace ISILab.LBS.VisualElements
             UpdatePositions();
 
             // Draw the dotted line
+            generateVisualContent -= DrawLine;
             generateVisualContent += DrawLine;
 
             // Register right-click menu for edge type change
@@ -69,8 +70,8 @@ namespace ISILab.LBS.VisualElements
             var rect2 = node2Rect ?? _node2.GetPosition();
 
             // Calculate connection points
-            _pos1 = new Vector2(rect1.center.x, rect1.center.y); 
-            _pos2 = new Vector2(rect2.center.x, rect2.center.y); 
+            _pos1 = new Vector2(rect1.xMin, rect1.center.y); 
+            _pos2 = new Vector2(rect2.xMin, rect2.center.y); 
             
             // Repaint to update the line
             MarkDirtyRepaint();

@@ -3,6 +3,7 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.LBS.Settings;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Extensions;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
@@ -18,7 +19,7 @@ namespace ISILab.LBS.Drawers.Editor
     public class QuestGraphDrawer : Drawer
     {
         // for actions, and ors,
-        private Dictionary<GraphNode, QuestGraphNodeView> _actionViews = new();
+        private readonly Dictionary<GraphNode, QuestGraphNodeView> _actionViews = new();
         
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
@@ -71,7 +72,7 @@ namespace ISILab.LBS.Drawers.Editor
                     nodeView = node switch
                     {
                         // make a quest action visual element
-                        QuestNode qn => CreateActionView(qn, questGraph),
+                        QuestNode qn => CreateActionView(qn),
                         // make a branch visual element
                         OrNode or AndNode => CreateBranchView(node),
                         _ => null
@@ -99,7 +100,6 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
                 view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
-                node.NodeViewPosition = nodeView.GetPosition();
                 behaviour.Keys.Add(node);
             }
 
@@ -163,28 +163,16 @@ namespace ISILab.LBS.Drawers.Editor
             return new LBSQuestEdgeView(graph, edge, n1, n2, 4, 4);
         }
         
-        private QuestActionView CreateActionView(QuestNode node, QuestGraph quest)
+        private QuestActionView CreateActionView(QuestNode node)
         {
-            /*  Start Node is now assigned by the user. Right click on a node to make it root */
-            if (node.NodeType == QuestNode.ENodeType.Start) { }
-                
             var nodeView = new QuestActionView(node);
-            var size = LBSSettings.Instance.general.TileSize;
-
-            nodeView.SetPosition(new Rect(node.Position, size));
-            node.NodeViewPosition = nodeView.GetPosition();
-            
             return nodeView;
         }
         
+
         private QuestBranchView CreateBranchView(GraphNode node)
         {
             var nodeView = new QuestBranchView(node);
-            var size = LBSSettings.Instance.general.TileSize;
-
-            nodeView.SetPosition(new Rect(node.Position, size));
-            node.NodeViewPosition = nodeView.GetPosition();
-            
             return nodeView;
         }
     }

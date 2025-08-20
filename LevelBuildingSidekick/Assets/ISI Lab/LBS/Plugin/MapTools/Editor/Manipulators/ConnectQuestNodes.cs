@@ -3,6 +3,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.VisualElements.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,6 +40,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+           
             var second = _quest.GetNodeAtPosition<GraphNode>(endPosition);
             var result = _quest.AddEdge(_first, second);
             LBSMainWindow.MessageNotify(result.Item1, result.Item2, 4);

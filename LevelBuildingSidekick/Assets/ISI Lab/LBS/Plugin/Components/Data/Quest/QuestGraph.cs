@@ -18,9 +18,6 @@ namespace ISILab.LBS.Modules
     public class QuestGraph : LBSModule, ICloneable, ISelectable
     {
         #region FIELDS
-        [SerializeField, JsonRequired]
-        private Vector2Int nodeSize = new(5, 1);
-
         [SerializeField, SerializeReference, JsonRequired]
         private List<GraphNode> graphNodes = new();
 
@@ -37,8 +34,6 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region PROPERTIES
-        [JsonIgnore]
-        public Vector2Int NodeSize => nodeSize;
 
         [JsonIgnore]
         public QuestNode Root => root;
@@ -155,12 +150,21 @@ namespace ISILab.LBS.Modules
         
         public T GetNodeAtPosition<T>(Vector2 position) where T : GraphNode
         {
-            var size = nodeSize * LBSSettings.Instance.general.TileSize;
+            foreach (var node in graphNodes)
+            {
+                if (node.NodeViewPosition.Contains(position))
+                {
+                    if (node is T typedNode)
+                        return typedNode;
 
-            var node = graphNodes.Find(x => new Rect(x.Position, size).Contains(position));
+                    Debug.LogWarning($"Node {node} found at {position}, but cast to {typeof(T).Name} failed");
+                }
+            }
 
-            return node as T; // Returns null if the cast fails
+            Debug.Log($"No node of type {typeof(T).Name} found at position {position}");
+            return null;
         }
+
 
         public List<QuestEdge> GetBranches(GraphNode node)
         {
@@ -283,7 +287,7 @@ namespace ISILab.LBS.Modules
         {
             graphNodes.Add(node);
             OnAddNode?.Invoke(node);
-
+            
             if (node is not QuestNode questNode) return;
             
             // if no root try to set the first node as if it is quest node
