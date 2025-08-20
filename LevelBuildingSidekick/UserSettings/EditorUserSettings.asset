@@ -44,6 +44,9 @@ EditorUserSettings:
     UIBuilder.EditorExtensionModeKey:
       value: 37434103
       flags: 0
+    UIBuilder.ProjectBlockedNotifications:
+      value: 01445d0a01501b161d1c09341926485d1b181c2f61262924242f1430e3f43d37ec
+      flags: 0
     UIToolkit.EnableEventDebugger:
       value: 37434103
       flags: 0

@@ -1529,4 +1529,14 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    background-color: var(--lbs-base-solid-gray-color);
+}
+
+.lbs-base-panel {
+    background-color: var(--lbs-base-solid-gray-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
 }

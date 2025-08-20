@@ -19,6 +19,7 @@ MonoBehaviour:
     backUpPath: Assets/ISI Lab/LBS/Plugin/Internal/Resources/BackUp/LBSBackUp.asset
     bundleFolderPath: Assets/ISI Lab/LBS/Data/Bundles
     tagFolderPath: Assets/ISI Lab/LBS/Data/Tags
+    meshFolderPath: Assets/ISI Lab/LBS/Data/Meshes
     iconPath: Assets/ISI Lab/LBS/Plugin/Internal/Icons
     layerPressetFolderPath: Assets/ISI Lab/LBS/Presets/Layers
     assistantPresetFolderPath: Assets/ISI Lab/LBS/Presets/Assistants
@@ -32,6 +33,7 @@ MonoBehaviour:
     tileSize: {x: 50, y: 50}
     baseLayerName: New Layer
   view:
+    LBSTheme: 2
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     newToolkitSelected: {r: 0.21, g: 0.48, b: 0.96, a: 1}
     behavioursColor: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
@@ -42,5 +44,30 @@ MonoBehaviour:
     errorColor: {r: 0.81, g: 0.13, b: 0.31, a: 1}
     okColor: {r: 1, g: 1, b: 1, a: 1}
     successColor: {r: 0, g: 1, b: 0.68, a: 1}
+    calloutColor: {r: 0.5921569, g: 0.2784314, b: 1, a: 1}
+    colorTrigger: {r: 0, g: 1, b: 0.68, a: 1}
+    colorKill: {r: 0.93, g: 0.33, b: 0.42, a: 1}
+    colorStealth: {r: 0.45, g: 0.07, b: 0.7, a: 1}
+    colorTake: {r: 0.16, g: 0.7, b: 0.57, a: 1}
+    colorRead: {r: 0.51, g: 1, b: 0.9, a: 1}
+    colorGive: {r: 1, g: 0.72, b: 0.92, a: 1}
+    colorExchange: {r: 1, g: 0.45, b: 0.91, a: 1}
+    colorReport: {r: 0.41, g: 0.63, b: 1, a: 1}
+    colorSpy: {r: 0.78, g: 0.79, b: 1, a: 1}
+    colorListen: {r: 0.52, g: 1, b: 0.05, a: 1}
   test:
     TestFolderPath: Assets/ISI Lab/LBS/Editor/Tests/Tests-JSON
+  generator:
+    settings:
+      useBundleSize: 0
+      lightVolume: 0
+      reflectionProbe: 0
+      scale: {x: 2, y: 2}
+      resize: {x: 0, y: 0}
+      position: {x: 0, y: 0, z: 0}
+      replacePrevious: 1
+      name: DEFAULT
+    rules: []
+  references:
+    version: 2
+    RefIds: []

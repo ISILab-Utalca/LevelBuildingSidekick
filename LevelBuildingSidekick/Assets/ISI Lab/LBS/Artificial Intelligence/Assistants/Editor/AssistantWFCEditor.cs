@@ -124,27 +124,31 @@ namespace ISILab.LBS.AI.Assistants.Editor
             assistant.Bundle = exterior.Bundle;
 
             // Copy weights from tilemap button
-            var copyWeightsButton = this.Q<Button>("CopyWeights");
-            copyWeightsButton.clicked += CopyWeights;
+            var captureWeightsButton = this.Q<Button>("CopyWeights");
+            captureWeightsButton.clicked += CaptureWeights;
 
             //Save weights in a preset button
             var saveWeightsButton = this.Q<Button>("SaveWeights");
             saveWeightsButton.clicked += SaveWeights;
             presetName = this.Q<TextField>("PresetName");
             presetsFolder = this.Q<TextField>("PresetsPath");
+            presetsFolder.focusable = false; // This field needs to be reworked. Meanwhile it'll remain disabled.
 
             // Load weights from a preset
             var loadWeightsButton = this.Q<Button>("LoadWeights");
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
             currentPreset.value = null;
-            //currentPreset.RegisterValueChangedCallback(evt => UpdatePresetsList());
 
             // Safe Generation Mode
             var safeModeCheckbox = this.Q<Toggle>("SafeMode");
-            safeModeCheckbox.RegisterValueChangedCallback(evt => { assistant.SafeMode = safeModeCheckbox.value; });
+            safeModeCheckbox.RegisterValueChangedCallback(evt => 
+            { 
+                assistant.SafeMode = safeModeCheckbox.value;
+                if (!safeModeCheckbox.value)
+                    LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 5);
+            });
             safeModeCheckbox.SetValueWithoutNotify(assistant.SafeMode);
-            //assistant.SafeMode = false;
 
             presetsList = this.Q<ListView>("PresetsList");
             UpdatePresetsList();
@@ -152,18 +156,24 @@ namespace ISILab.LBS.AI.Assistants.Editor
             return this;
         }
 
-        private void CopyWeights()
+        private void CaptureWeights()
         {
-            assistant.CopyWeights();
-            LBSMainWindow.MessageNotify("Weights copied.");
+            if(assistant.CaptureWeights(out string errMsg))
+                LBSMainWindow.MessageNotify("Current map weights captured.");
+            else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
         }
 
         private void SaveWeights()
         {
-            assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset);
-            UpdatePresetsList();
-            currentPreset.value = newPreset;
-            LBSMainWindow.MessageNotify($"Weights saved to preset: {endName}.");
+            bool saved = assistant.SaveWeights(presetName.value, presetsFolder.value, out string endName, out WFCPreset newPreset, out string errMsg);
+            if(saved)
+            {
+                UpdatePresetsList();
+                currentPreset.value = newPreset;
+                presetsList.SetSelection(presetsList.itemsSource.IndexOf(newPreset));
+                LBSMainWindow.MessageNotify($"Weights saved as preset: {endName}.");
+            }
+            else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
         }
 
         private void LoadWeights()
@@ -175,7 +185,7 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 currentPreset.value = loaded;
                 LBSMainWindow.MessageNotify($"Weights loaded from preset: {loaded.name}.");
             }
-            else LBSMainWindow.MessageNotify($"Failed to load: you must select a preset from the list or create a new one.", LogType.Warning, 5);
+            else LBSMainWindow.MessageNotify("Failed to load: you must select a non-null preset from the list or create a new one.", LogType.Warning, 5);
         }
 
         private void UpdatePresetsList()
@@ -185,16 +195,23 @@ namespace ISILab.LBS.AI.Assistants.Editor
             var a = WFCPresets.Select(guid => AssetDatabase.LoadAssetAtPath<Object>(AssetDatabase.GUIDToAssetPath(guid)));
             var b = a.Where(asset => asset != null && asset is WFCPreset)
                            .ToList();
-
+            
+            presetsList.itemsSource = b;
             presetsList.bindItem = (element, i) =>
             {
                 var obj = element.Q<ObjectField>("Element");
 
-                var asset = b[i];
-                obj.value = asset;
+                var asset = presetsList.itemsSource[i];
+                obj.value = asset as WFCPreset;
             };
-            presetsList.itemsSource = b;
             presetsList.Rebuild();
+        }
+
+        public override void OnFocus()
+        {
+            base.OnFocus();
+            UpdatePresetsList();
+            
         }
 
         private ExteriorBehaviour GetExteriorBehaviour()

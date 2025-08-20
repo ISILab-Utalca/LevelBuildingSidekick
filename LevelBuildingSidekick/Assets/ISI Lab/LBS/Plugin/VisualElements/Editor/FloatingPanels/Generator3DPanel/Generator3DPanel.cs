@@ -1,30 +1,30 @@
-using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
-using LBS.Components;
+using UnityEditor.UIElements;
+using UnityEditor;
+using Object = UnityEngine.Object;
 
+using System.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
-using UnityEditor;
 using ISILab.Commons.Utility.Editor;
-using ISILab.LBS.Generators;
-using LBS.Bundles;
-using Object = UnityEngine.Object;
 using ISILab.LBS.Settings;
+using ISILab.LBS.CustomComponents;
+using ISILab.LBS.Generators;
+using ISILab.LBS.Editor.Windows;
+
+using LBS.Bundles;
+using LBS.Components;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
-    public class Generator3DPanel : VisualElement
+    [UxmlElement]
+    public partial class Generator3DPanel : VisualElement
     {
-        #region UXMLFACTORY
-        [UxmlElementAttribute]
-        public new class UxmlFactory { }
-        #endregion
-
         #region VIEW ELEMENTS
-        private readonly ClassDropDown _dropDownField;
+        //private readonly ClassDropDown _dropDownField;
         
         private readonly Vector3Field _positionField;
         private readonly Vector2Field _scaleField;
@@ -37,7 +37,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private readonly Toggle _buildLightProbes;
         private readonly Toggle _bakeLights;
-        private readonly Toggle _replacePrev;
+        private readonly LBSCustomToggleField _replacePrev;
         private readonly Toggle _ignoreBundleTileSize;
         private readonly Toggle _reflection;
         #endregion
@@ -66,7 +66,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public Generator3DPanel()
         {
             GeneratorSettings = LBSSettings.Instance.generator;
-            Debug.Log(GeneratorSettings.settings);
+            //Debug.Log(GeneratorSettings.settings);
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("Generator3DPanel");
             visualTree.CloneTree(this);
 
@@ -87,14 +87,14 @@ namespace ISILab.LBS.VisualElements.Editor
             _bakeLights = this.Q<Toggle>(name: "ToggleBakeLights");
             _bakeLights.RegisterValueChangedCallback<bool>(evt => { _bakeLights.value = ToggleBakeLighting(); });
             
-            // dropDown's visibility hidden in UMXL
-            _dropDownField = this.Q<ClassDropDown>(name: "Generator");
-            _dropDownField.label = "Gennerator";
-            _dropDownField.Type = typeof(Generator3D);
+            // // dropDown's visibility hidden in UMXL
+            // _dropDownField = this.Q<ClassDropDown>(name: "Generator");
+            // _dropDownField.label = "Generator";
+            // _dropDownField.Type = typeof(Generator3D);
             
             this.Q<Toggle>(name: "ToggleAutoGen");
 
-            _replacePrev = this.Q<Toggle>("ToggleReplace");
+            _replacePrev = this.Q<LBSCustomToggleField>("Replace");
 
             if (GeneratorSettings.settings != null)
             {
@@ -108,7 +108,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 GeneratorSettings.settings.replacePrevious = true;
             }
             _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
-
+            
+            
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
             _reflection = this.Q<Toggle>(name: "ToggleReflection");
             
@@ -121,6 +122,9 @@ namespace ISILab.LBS.VisualElements.Editor
             _generateAllLayers.clicked += GenerateAllLayers;
 
             GeneratorSettings ??= new Generator3D();
+            
+            
+            
         }
 
         public Generator3DPanel(Toggle bakeLights)
@@ -144,12 +148,17 @@ namespace ISILab.LBS.VisualElements.Editor
             _settings = GeneratorSettings.settings;
 
             if (GeneratorSettings == null) return;
-            _dropDownField.Value = GeneratorSettings.GetType().Name;
             _scaleField.value = _settings.scale;
             _positionField.value = _settings.position;
             _nameField.value = layer.Name;
             _resizeField.value = _settings.resize;
         }
+
+        void OnEnable()
+        {
+            Debug.Log("3D Panel - OnEnable");
+        }
+        
 
         private void GenerateAllLayers()
         {
@@ -269,11 +278,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
 
-            GeneratorSettings ??= _dropDownField.GetChoiceInstance() as Generator3D;
-
-            if (GeneratorSettings != null) _settings = GeneratorSettings.settings;
+            if (GeneratorSettings != null)
+            {
+                _settings = GeneratorSettings.settings;
+                _settings.name = _layer.Name;
+            }
+            
             // {
-            //     name = _layer.Name,
+            //     name = _layer.Name;
             //     position = _positionField.value,
             //     resize = _resizeField.value,
             //     scale = _scaleField.value,

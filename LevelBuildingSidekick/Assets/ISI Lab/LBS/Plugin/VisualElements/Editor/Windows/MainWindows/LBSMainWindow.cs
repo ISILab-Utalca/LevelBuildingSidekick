@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 using ISILab.Commons.VisualElements.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Manipulators;
+using ISILab.LBS.Settings;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -311,6 +312,9 @@ namespace ISILab.LBS.Editor.Windows{
             RefreshWindow();
             drawManager.RedrawLevel(levelData);
         };
+        
+        toolbar.OnThemeChanged += data => ChangeTheme(data);
+        
         rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
         {
             if (evt.ctrlKey && evt.keyCode == KeyCode.S)
@@ -584,6 +588,34 @@ namespace ISILab.LBS.Editor.Windows{
             
             LBSInspectorPanel.ReDraw();
         }
+        
+        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
+        {
+            switch (_newTheme)
+            {
+                case  LBSSettings.Interface.InterfaceTheme.Light:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("light");
+                    Repaint();
+                    break;
+                case  LBSSettings.Interface.InterfaceTheme.Dark:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("dark");
+                    Repaint();
+                    break;
+                case LBSSettings.Interface.InterfaceTheme.Alt:
+                    rootVisualElement.ClearClassList();
+                    rootVisualElement.AddToClassList("alt");
+                    Repaint();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        
+        
+        
         #endregion
         
     }

@@ -1,10 +1,13 @@
 using ISILab.Commons.Utility.Editor;
 using System;
 using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
+using ISILab.LBS.CustomComponents;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Settings;
+using UnityEngine;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -12,13 +15,15 @@ namespace ISILab.LBS.VisualElements.Editor
     public partial class ToolBarMain : VisualElement
     {
         //public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
-
-        public LBSMainWindow window;
-
+        
+        public LBSMainWindow MainWindow;
+        
         public event Action<LoadedLevel> OnLoadLevel;
         public event Action<LoadedLevel> OnNewLevel;
-
-
+        
+        public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
+        
+        
         public ToolBarMain()
         {
             VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolBarMain");
@@ -47,6 +52,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
             // file name label
             var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made
+            
+            LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
+            ThemeSelector.RegisterValueChangedCallback(_evt =>
+            {
+                Debug.Log(_evt.currentTarget);
+                
+                OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
+            });
+            
         }
 
         public void NewLevel(DropdownMenuAction dma)
@@ -83,6 +97,31 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             // Open the Project Settings window
             SettingsService.OpenProjectSettings("LBS");
+        }
+
+
+        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
+        {
+            if (MainWindow == null) return;
+            
+            
+            switch (_newTheme)
+            {
+               case  LBSSettings.Interface.InterfaceTheme.Light:
+                   this.ClearClassList();
+                   this.AddToClassList("light");
+                   break;
+               case  LBSSettings.Interface.InterfaceTheme.Dark:
+                   this.ClearClassList();
+                   this.AddToClassList("dark");
+                   break;
+               case LBSSettings.Interface.InterfaceTheme.Alt:
+                   this.ClearClassList();
+                   this.AddToClassList("alt");
+                   break;
+               default:
+                   break;
+            }
         }
 
     }

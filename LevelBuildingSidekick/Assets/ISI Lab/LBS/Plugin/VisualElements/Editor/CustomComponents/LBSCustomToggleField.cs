@@ -17,6 +17,24 @@ namespace ISILab.LBS.CustomComponents
         private VisualElement m_Input;
         private VisualElement m_Knob;
         
+        private Color toggleColor = new Color(194/255f, 246/255f, 113/255f );
+        
+        #region Properties
+
+        public Color ToggleColor 
+        {
+            set
+            {
+                toggleColor = value;
+            }
+            get
+            {
+                return toggleColor;
+            }
+        }
+        
+        #endregion
+        
         
         public LBSCustomToggleField(): this("CustomToggleField"){}
         

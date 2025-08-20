@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:Template name="NotifierViewer" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/Notifier/NotifierViewer.uxml?fileID=9197481963319205126&amp;guid=d2ab2317fac497243851408d64671a8c&amp;type=3#NotifierViewer" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
+    <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
         <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" style="flex-grow: 1; width: auto; height: auto; visibility: visible; display: flex; -unity-text-align: upper-left;">
             <ui:VisualElement name="HelpOverlayAnchor" style="flex-grow: 1; position: absolute; height: 26px; width: 30px; top: 32px; left: 72px;" />
         </ISILab.LBS.VisualElements.Editor.MainView>
