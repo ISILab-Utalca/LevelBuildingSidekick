@@ -1,28 +1,24 @@
 @import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
-
-
-.unity-enum-field{
-    
+.unity-enum-field {
 }
 
-.unity-text-element{
+.unity-text-element {
     color: var(--lbs-default-text-color);
 }
 
-.unity-enum-field__text{
+.unity-enum-field__text {
     color: var(--lbs-default-text-color);
 }
 
-.unity-enum-field__label{
+.unity-enum-field__label {
     color: var(--lbs-default-text-color);
 }
 
-.unity-enum-field__input{
+.unity-enum-field__input {
     background-color: var(--lbs-field-solid-bg-gray-color);
 }
 
 .unity-base-field {
-
 }
 
 .unity-base-field__input {
@@ -31,12 +27,9 @@
     border-top-color: var(--lbs-dark-overlay-color);
     border-left-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
-    
 }
 
-
 .unity-base-popup-field {
-
 }
 
 .unity-base-popup-field__input {
@@ -49,4 +42,11 @@
     border-top-color: var(--lbs-dark-overlay-color);
     border-left-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
+}
+
+.unity-button__image {
+    -unity-background-image-tint-color: rgb(0, 0, 0);
+}
+
+.unity-image {
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace ISILab.LBS.CustomComponents
         {
             RemoveFromClassList(ussClassName);
             AddToClassList(lbsClassName);
+            
         }
     }
 }

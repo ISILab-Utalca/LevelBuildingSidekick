@@ -1616,6 +1616,7 @@ Button.lbs-actionbutton {
     margin-left: 0;
 }
 
+
 .lbs-toolbar-button:hover {
     background-color: var(--lbs-selectable-hover-color);
 }
