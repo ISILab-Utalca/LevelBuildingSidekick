@@ -19,21 +19,26 @@ namespace ISILab.LBS.VisualElements
         ObjectField[] fields;
         VisualElement renderView;
 
+        private Button openDirectionToolButton;
+        private BundleDirectionEditorWindow directionWindow;
+
         public LBSDirectionEditor()
         {
-
+            
         }
 
         public LBSDirectionEditor(object target) : base(target)
         {
             CreateVisualElement();
             SetInfo(target);
+
+            directionWindow = ScriptableObject.CreateInstance<BundleDirectionEditorWindow>();
         }
 
         public override void SetInfo(object _paramTarget)
         {
             this.target = _paramTarget;
-            LBSDirection  target = _paramTarget as LBSDirection;
+            LBSDirection target = _paramTarget as LBSDirection;
 
             if (target == null)
                 return;
@@ -42,7 +47,7 @@ namespace ISILab.LBS.VisualElements
             var connections = target.Connections;
 
             for (int i = 0; i < fields.Length; i++)
-            {  
+            {
                 fields[i].objectType = typeof(LBSTag);
 
                 var tag = DirectoryTools.GetAssetByName<LBSTag>(connections[i]);
@@ -56,7 +61,7 @@ namespace ISILab.LBS.VisualElements
                     target.SetConnection(evt.newValue as LBSTag, index);
                 });
             }
-            
+
         }
 
         protected override VisualElement CreateVisualElement()
@@ -71,18 +76,25 @@ namespace ISILab.LBS.VisualElements
             fields[1] = this.Q<ObjectField>(name: "Up");
             fields[2] = this.Q<ObjectField>(name: "Left");
             fields[3] = this.Q<ObjectField>(name: "Down");
-    
+
+            openDirectionToolButton = this.Q<Button>("OpenDirectionToolButton");
+            openDirectionToolButton.clicked += () => OpenDirectionTool();
+
             return this;
         }
 
 
         public void SetModelRenderThumbnail()
         {
-            
+
             if (renderView == null) return;
-            
-            
+
+
         }
-        
+
+        private void OpenDirectionTool()
+        {
+            directionWindow.Show();
+        }
     }
 }
