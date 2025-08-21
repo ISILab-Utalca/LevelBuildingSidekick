@@ -9,7 +9,6 @@ using UnityEngine.UIElements;
 using ISILab.AI.Grammar;
 using ISILab.Extensions;
 using LBS.Components;
-using TreeEditor;
 
 namespace ISILab.LBS.Assistants
 {

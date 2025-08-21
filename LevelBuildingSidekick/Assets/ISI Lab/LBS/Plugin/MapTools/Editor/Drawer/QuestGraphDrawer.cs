@@ -1,16 +1,12 @@
-using System;
 using ISILab.LBS.VisualElements.Editor;
-using ISILab.LBS.Settings;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.Extensions;
 using UnityEngine;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
-using UnityEditor.Graphs;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Drawers.Editor
@@ -99,7 +95,7 @@ namespace ISILab.LBS.Drawers.Editor
                 if(nodeView is null) continue;
                 
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
-                view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
+               // view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
                 behaviour.Keys.Add(node);
             }
 
@@ -112,9 +108,14 @@ namespace ISILab.LBS.Drawers.Editor
                     
                     var edgeView = CreateEdgeView(questGraph, edge, n1, n2);
                     view.AddElementToLayerContainer(questGraph.OwnerLayer, edge, edgeView);
-                    edgeView.layer = n1.layer - 1;
+                    edgeView.layer = n1.layer + 1;
                     behaviour.Keys.Add(edge);
                 }
+            }
+
+            foreach (var entry in _actionViews)
+            {
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, entry.Key, entry.Value);
             }
         }
 

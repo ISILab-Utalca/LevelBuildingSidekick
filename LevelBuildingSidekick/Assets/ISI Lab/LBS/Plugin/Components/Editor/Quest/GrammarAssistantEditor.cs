@@ -78,7 +78,7 @@ namespace ISILab.LBS.Editor
                     UpdatePanel();
                 };
 
-                _questGraph.OnUpdateGraph += () =>
+                _questGraph.RedrawGraph += () =>
                 {
                     // update the graph grammar
                     foreach (var edge in _questGraph.QuestEdges)

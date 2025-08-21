@@ -112,7 +112,7 @@ namespace ISILab.LBS.Modules
         
         [JsonIgnore]
         private Action _onUpdateGraph;
-        public event Action OnUpdateGraph
+        public event Action RedrawGraph
         {
             add =>
                 // a single suscribed function at a time
@@ -134,11 +134,46 @@ namespace ISILab.LBS.Modules
         public Action<QuestEdge> OnAddEdge;
         [JsonIgnore]
         public Action<QuestEdge> OnRemoveEdge;
-        
-        
-        
         #endregion
-        
+
+
+        public QuestGraph()
+        {
+            OnAddEdge += ValidateEdgesGrammar;
+            
+            OnRemoveEdge += ValidateEdgesGrammar;
+        }
+
+        private void ValidateEdgesGrammar(QuestEdge edge)
+        {
+            // validate connections
+            foreach (GraphNode node in edge.From)
+            {
+                bool hasRoots = GetRoots(node).Any();
+                // the root must no have roots
+                if (node == root) node.ValidConnections = !hasRoots;
+                // all other nodes MUST have roots
+                else node.ValidConnections = hasRoots;
+            } 
+            
+            // all other nodes MUST have roots
+            edge.To.ValidConnections = GetRoots(edge.To).Any();
+            
+            foreach (var inneredge in QuestEdges)
+            {
+                // see if its goal
+                if (inneredge.To is QuestNode toQuestNode)
+                {
+                    toQuestNode.NodeType = !GetBranches(toQuestNode).Any()
+                        ? QuestNode.ENodeType.Goal
+                        : QuestNode.ENodeType.Middle;
+                }
+            }
+                
+            // always check grammar when updating the edges
+            CheckGraphByGrammar();
+        }
+
         #region METHODS
         
         public void NodeDataChanged(QuestNode node) {_onQuestNodeSelected?.Invoke(node);}
@@ -207,15 +242,24 @@ namespace ISILab.LBS.Modules
         
         public void SetRoot(QuestNode node)
         {
-            if (node == null)
+            if (node == null) return;
+      
+            if (root is not null)
             {
-                root = null;
-                Debug.LogError("Root set: to NULL ");
-                return;
+                root.NodeType = QuestNode.ENodeType.Middle;
             }
             
             root = node;
             root.NodeType = QuestNode.ENodeType.Start;
+            
+            bool hasRoots = GetRoots(node).Any();
+            // the root must no have roots
+            node.ValidConnections = !hasRoots;
+            
+            // always check grammar when updating the root
+            CheckGraphByGrammar();
+            
+            _onUpdateGraph?.Invoke();
         }
 
         /// <summary>
@@ -415,7 +459,7 @@ namespace ISILab.LBS.Modules
         /// may deselect selected node
         /// </summary>
         /// <param name="node"></param>
-        public void RemoveQuestNode(QuestNode node)
+        public void RemoveQuestNode(GraphNode node)
         {
             // undo connections
             var edgesToRemove = GetEdgesWithNode(node);
@@ -431,7 +475,7 @@ namespace ISILab.LBS.Modules
             NodeDataChanged(_selectedQuestNode);
         }
 
-        private List<QuestEdge> GetEdgesWithNode(QuestNode node)
+        private List<QuestEdge> GetEdgesWithNode(GraphNode node)
         {
             return questEdges.Where(e => e.From.Contains(node) || e.To.Equals(node)).ToList();
         }
@@ -472,13 +516,6 @@ namespace ISILab.LBS.Modules
             
             questEdges.Add(newEdge);
             OnAddEdge?.Invoke(newEdge);
-     
-            // see if its goal
-            if (to is QuestNode toQuestNode)
-            {
-                toQuestNode.NodeType = !GetBranches(toQuestNode).Any() ? QuestNode.ENodeType.Goal : QuestNode.ENodeType.Middle;
-            }
-       
             
             var connectionInfo = $"Connection: {from} → {to}";
             return Tuple.Create(connectionInfo, LogType.Log);

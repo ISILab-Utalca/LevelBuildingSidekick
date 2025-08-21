@@ -55,25 +55,27 @@ namespace ISILab.LBS.VisualElements
 
         private void UpdatePositionFromNode1(Rect node1Rect)
         {
-            UpdatePositions(node1Rect: node1Rect);
+            UpdatePositions();
         }
 
         private void UpdatePositionFromNode2(Rect node2Rect)
         {
-            UpdatePositions(node2Rect: node2Rect);
+            UpdatePositions();
         }
 
-        private void UpdatePositions(Rect? node1Rect = null, Rect? node2Rect = null)
+        private void UpdatePositions()
         {
-            // Use provided Rects or fetch current positions
-            var rect1 = node1Rect ?? _node1.GetPosition();
-            var rect2 = node2Rect ?? _node2.GetPosition();
+            // Convert node local centers -> world space
+            var worldPos1 = _node1.worldBound.center;
+            var worldPos2 = _node2.worldBound.center;
 
-            // Calculate connection points
-            _pos1 = new Vector2(rect1.xMin, rect1.center.y); 
-            _pos2 = new Vector2(rect2.xMin, rect2.center.y); 
-            
-            // Repaint to update the line
+            // Convert world space -> edge's local space
+            var graphSpace1 = this.WorldToLocal(worldPos1);
+            var graphSpace2 = this.WorldToLocal(worldPos2);
+
+            _pos1 = graphSpace1;
+            _pos2 = graphSpace2;
+
             MarkDirtyRepaint();
         }
 

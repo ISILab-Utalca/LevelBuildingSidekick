@@ -44,13 +44,18 @@ namespace ISILab.LBS.VisualElements
             _behaviour = target as QuestBehaviour;
 
             if (_behaviour == null) return;
+            
             // this should only happen on object creation
-            var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
-            quest.LoadGrammar();
+            var questGraph = _behaviour.OwnerLayer.GetModule<QuestGraph>();
+            if (questGraph is null) return;
+            
+            questGraph.LoadGrammar();
             
             // Manually set both
-            _grammarReference.value = quest.Grammar;
-            ChangeGrammar(quest.Grammar);
+            _grammarReference.value = questGraph.Grammar;
+            ChangeGrammar(questGraph.Grammar);
+
+            questGraph.RedrawGraph += () => DrawManager.Instance.RedrawLayer(questGraph.OwnerLayer);
         }
 
         public void SetTools(ToolKit toolkit)

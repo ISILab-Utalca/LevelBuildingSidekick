@@ -17,8 +17,11 @@ namespace ISILab.LBS.Components
     {
         #region FIELDS
         [SerializeField, JsonRequired]
-        protected internal bool validGrammar;
+        protected bool validGrammar;
 
+        [SerializeField, JsonRequired]
+        protected bool validConnections;
+        
         [SerializeField, HideInInspector, JsonRequired]
         protected int x;
 
@@ -56,6 +59,13 @@ namespace ISILab.LBS.Components
         {
             get => validGrammar;
             set => validGrammar = value;
+        }
+        
+        [JsonIgnore]
+        public bool ValidConnections
+        {
+            get => validConnections;
+            set => validConnections = value;
         }
 
         [JsonIgnore]
