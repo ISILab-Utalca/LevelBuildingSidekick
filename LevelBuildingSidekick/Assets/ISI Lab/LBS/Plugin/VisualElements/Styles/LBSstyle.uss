@@ -1298,10 +1298,7 @@ Button.lbs-actionbutton {
     margin-right: 2px;
     margin-bottom: 2px;
     margin-left: 2px;
-    border-left-color: rgba(0, 0, 0, 0.33);
-    border-right-color: rgba(0, 0, 0, 0.33);
-    border-top-color: rgba(0, 0, 0, 0.33);
-    border-bottom-color: rgba(0, 0, 0, 0.33);
+    border-color: var(--lbs-dark-overlay-color);
     border-top-width: 1px;
     border-right-width: 1px;
     border-bottom-width: 1px;
@@ -1651,7 +1648,7 @@ Button.lbs-actionbutton {
 }
 
 .lbs-box-container {
-    background-color: var(--lbs-dark-overlay-color);
+    background-color: var(--lbs-field-solid-bg-gray-color);
     border-width: 1px;
     border-radius: 1.5px;
     border-color: var(--lbs-dark-overlay-color);
@@ -1660,10 +1657,28 @@ Button.lbs-actionbutton {
 }
 
 .lbs-field-box-container {
-    background-color: var(--lbs-dark-overlay-color);
+    background-color: var(--lbs-field-solid-bg-gray-color);
     border-width: 1px;
     border-radius: 1.5px;
     border-color: var(--lbs-dark-overlay-color);
     margin: 1px;
     padding: 3px;
+}
+
+.lbs-arrow {
+    background-image: resource('Icons/Arrows/Icon=ArrowDown');
+    flex-grow: 1;
+    -unity-background-scale-mode: scale-to-fit;
+    background-position-x: right 0;
+    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    height: 16px;
+    width: 16px;
+}
+
+.lbs-enum-field-input {
+    flex-grow: 1;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
