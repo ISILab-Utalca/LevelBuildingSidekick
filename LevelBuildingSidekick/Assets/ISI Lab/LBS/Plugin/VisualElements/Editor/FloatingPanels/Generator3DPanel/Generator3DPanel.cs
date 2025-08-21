@@ -312,6 +312,11 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
             }
+            else
+            {
+                GameObject rootParent = new GameObject("root_Parent");
+                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+            }
 
             // If it created a usable LBS game object 
             if (generated.Item1 == null || generated.Item1.gameObject == null ||

@@ -287,6 +287,11 @@ Toggle > .lbs-default-icon {
     border-right-color: rgba(0, 0, 0, 0.3);
     border-top-color: rgba(0, 0, 0, 0.3);
     border-bottom-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+    -unity-text-align: middle-center;
+    padding-right: 3px;
+    padding-left: 3px;
 }
 
 .lbs-button > TextElement {
@@ -1597,7 +1602,7 @@ Button.lbs-actionbutton {
     background-color: var(--lbs-selection-dark-blue-color);
 }
 
-.lbs-toolbar-button{
+.lbs-toolbar-button {
     border-width: 1px 1px 1px 1px;
     border-color: var(--lbs-dark-overlay-color);
     background-color: var(--lbs-base-solid-gray-color);
@@ -1616,11 +1621,49 @@ Button.lbs-actionbutton {
     margin-left: 0;
 }
 
-
 .lbs-toolbar-button:hover {
     background-color: var(--lbs-selectable-hover-color);
 }
 
 .lbs-toolbar-button:active {
     background-color: var(--lbs-selection-dark-blue-color);
+}
+
+.lbs-window {
+    flex-grow: 1;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    padding-top: 8px;
+    padding-bottom: 4px;
+    padding-right: 4px;
+    padding-left: 4px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-radius: 6px;
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+}
+
+.lbs-box-container {
+    background-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    border-radius: 1.5px;
+    border-color: var(--lbs-dark-overlay-color);
+    margin: 2px;
+    padding: 1px;
+}
+
+.lbs-field-box-container {
+    background-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    border-radius: 1.5px;
+    border-color: var(--lbs-dark-overlay-color);
+    margin: 1px;
+    padding: 3px;
 }
