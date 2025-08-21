@@ -1643,10 +1643,7 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
+    border-radius: 6px;
     border-left-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
     border-top-color: var(--lbs-dark-overlay-color);
@@ -1655,23 +1652,18 @@ Button.lbs-actionbutton {
 
 .lbs-box-container {
     background-color: var(--lbs-dark-overlay-color);
-    border-left-width: 1px;
-    border-right-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
-    border-top-left-radius: 1.5px;
-    border-bottom-left-radius: 1.5px;
-    border-top-right-radius: 1.5px;
-    border-bottom-right-radius: 1.5px;
-    border-left-color: rgba(0, 0, 0, 0.16);
-    border-right-color: rgba(0, 0, 0, 0.16);
-    border-top-color: rgba(0, 0, 0, 0.16);
-    border-bottom-color: rgba(0, 0, 0, 0.16);
-    margin-right: 0;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    padding-left: 1px;
-    padding-right: 1px;
-    padding-top: 1px;
-    padding-bottom: 1px;
+    border-width: 1px;
+    border-radius: 1.5px;
+    border-color: var(--lbs-dark-overlay-color);
+    margin: 2px;
+    padding: 1px;
+}
+
+.lbs-field-box-container {
+    background-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    border-radius: 1.5px;
+    border-color: var(--lbs-dark-overlay-color);
+    margin: 1px;
+    padding: 3px;
 }
