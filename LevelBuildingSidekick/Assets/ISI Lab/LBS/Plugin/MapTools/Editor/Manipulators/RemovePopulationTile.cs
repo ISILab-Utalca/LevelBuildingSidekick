@@ -71,6 +71,8 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+
+            _population.OwnerLayer.OnChangeUpdate();
             
             CleanPreviews();
         }

@@ -1,10 +1,13 @@
 using ISILab.Commons.Utility.Editor;
 using System;
 using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
+using ISILab.LBS.CustomComponents;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using ISILab.LBS.Editor.Windows;
+using ISILab.LBS.Settings;
+using UnityEngine;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -12,41 +15,53 @@ namespace ISILab.LBS.VisualElements.Editor
     public partial class ToolBarMain : VisualElement
     {
         //public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
-
-        public LBSMainWindow window;
-
+        
+        public LBSMainWindow MainWindow;
+        
         public event Action<LoadedLevel> OnLoadLevel;
         public event Action<LoadedLevel> OnNewLevel;
-
-
+        
+        public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
+        
+        
         public ToolBarMain()
         {
             VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ToolBarMain");
             visualTree.CloneTree(this);
 
             // File menu option
-            ToolbarMenu fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
+            LBSToolbarMenu fileMenu = this.Q<LBSToolbarMenu>("ToolBarMenu");
             fileMenu.menu.AppendAction("New", NewLevel);
             fileMenu.menu.AppendAction("Load", LoadLevel);
             fileMenu.menu.AppendAction("Save", SaveLevel);
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            ToolbarButton settingMenu = this.Q<ToolbarButton>("OptionButton");
+            LBSToolbarButton settingMenu = this.Q<LBSToolbarButton>("OptionButton");
             //settingMenu.clicked += () => OpenConfiguration();
             settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
             // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
             
-            ToolbarToggle keyMapToggle = this.Q<ToolbarToggle>("KeyMapToggle");
+            LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
             
-            var bundManBtn = this.Q<ToolbarButton>("BundleManagerButton");
+            LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
 
             // file name label
             var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made
+            
+            LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
+            ThemeSelector.RegisterValueChangedCallback(_evt =>
+            {
+                //Debug.Log(_evt.currentTarget);
+                
+                OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
+                
+            });
+            
         }
 
         public void NewLevel(DropdownMenuAction dma)
@@ -83,6 +98,31 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             // Open the Project Settings window
             SettingsService.OpenProjectSettings("LBS");
+        }
+
+
+        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
+        {
+            if (MainWindow == null) return;
+            
+            
+            switch (_newTheme)
+            {
+               case  LBSSettings.Interface.InterfaceTheme.Light:
+                   this.ClearClassList();
+                   this.AddToClassList("light");
+                   break;
+               case  LBSSettings.Interface.InterfaceTheme.Dark:
+                   this.ClearClassList();
+                   this.AddToClassList("dark");
+                   break;
+               case LBSSettings.Interface.InterfaceTheme.Alt:
+                   this.ClearClassList();
+                   this.AddToClassList("alt");
+                   break;
+               default:
+                   break;
+            }
         }
 
     }

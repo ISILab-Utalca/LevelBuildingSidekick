@@ -15,6 +15,8 @@ namespace ISILab.LBS.VisualElements
         protected Dictionary<Type, Type> customEditor = new();
         protected VisualElement noContentPanel;
         protected VisualElement contentPanel;
+
+        public Action OnFocus;
         
         /// <summary>
         /// Gets the classes of editors per component, no avoid using reflection on each instance creation

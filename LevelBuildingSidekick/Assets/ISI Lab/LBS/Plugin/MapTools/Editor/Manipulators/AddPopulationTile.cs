@@ -21,6 +21,8 @@ namespace ISILab.LBS.Manipulators
         protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
         private Bundle ToSet => _population.selectedToSet;
+        private bool forceCancel = false;
+        private bool mousePressed = false;
 
         public AddPopulationTile()
         {
@@ -35,11 +37,22 @@ namespace ISILab.LBS.Manipulators
             Description =
                 "Select an item in Behaviour panel and Click on the graph to add a population tile. Hold CTRL to drag it.";
         }
-        
+
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
             if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Dragging selected tile");
+
+            // Cancel placement with ESC. Originally i wanted to create another function
+            //that had both keys and mouse event. But instead i solved it by using a non-elegant way.
+            if (e.keyCode == KeyCode.Escape && mousePressed)
+            {
+                LBSMainWindow.MessageNotify("Population tile placement cancelled.");
+                Feedback.SetDisplay(false);
+
+                forceCancel = true;
+                mousePressed = false;
+            }
         }
         
         protected override void OnKeyUp(KeyUpEvent e)
@@ -63,6 +76,7 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+            mousePressed = false;
             var endPos = _population.OwnerLayer.ToFixedPosition(endPosition);
 
             // Dragging selected tile
@@ -93,6 +107,14 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
+            //If esc key was pressed, cancel the operation
+            if (forceCancel)
+            {
+                forceCancel = false;
+                MainView.Instance.RemoveElement(_previewFeedback);
+                return;
+            }
+
             var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(level, "Add Element population");
@@ -111,27 +133,29 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(level);
             }
+
+            _population.OwnerLayer.OnChangeUpdate();
         }
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
+            mousePressed = true;
+
             // get tile to drag
             if (!e.ctrlKey) return;
             var tile = _population.GetTile(_population.OwnerLayer.ToFixedPosition(startPosition));
             if (tile == null) return;
             _selectedTile = _population.GetTileGroup(tile.Position);
-
         }
 
         // TODO Currently it completely bugs out whenever x or y are 0 in the grid space. why? wish i fucking knew
         protected override void OnMouseMove(VisualElement element, Vector2Int endPosition, MouseMoveEvent e)
         {
             MainView.Instance.RemoveElement(_previewFeedback);
-            if (!ToSet) return;
+            if (!ToSet || forceCancel) return;
            
             // when dragging by using CTRL, do not display the feedback area
             Feedback.SetDisplay(!e.ctrlKey);
-
 
             var topLeftCorner = -_population.OwnerLayer.ToFixedPosition(endPosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;

@@ -64,6 +64,8 @@ namespace ISILab.LBS.Manipulators
             {
                 lbsTile.Position += offset;
             }
+
+            _population.OwnerLayer.OnChangeUpdate();
         }
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)

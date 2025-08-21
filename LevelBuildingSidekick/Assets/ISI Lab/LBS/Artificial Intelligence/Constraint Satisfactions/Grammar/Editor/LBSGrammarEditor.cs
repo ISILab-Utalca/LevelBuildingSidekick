@@ -1,77 +1,93 @@
-using ISILab.AI.Grammar;
-using ISILab.LBS.Components;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using ISILab.AI.Grammar;
+using System;
+using System.Collections.Generic;
 
 namespace ISILab.LBS.VisualElements
 {
     [CustomEditor(typeof(LBSGrammar))]
     public class LBSGrammarEditor : UnityEditor.Editor
     {
-        string path = "";
-        bool foldout;
-        List<bool> actionFoldouts = new List<bool>();
+        private TextAsset _grammarAsset;
+        private bool _foldout;
+        private bool _terminalFoldout;
+        private readonly Dictionary<string, bool> _ruleFoldouts = new();
 
         public override void OnInspectorGUI()
         {
             var grammar = (LBSGrammar)target;
-            foldout = EditorGUILayout.Foldout(foldout, "Actions");
-            if (foldout)
+
+            // Show grammar rules
+            _foldout = EditorGUILayout.Foldout(_foldout, "Grammar Rules", true);
+            if (_foldout)
             {
-                if (actionFoldouts.Count != grammar.ActionCount)
+                var rules = grammar.RuleEntries;
+                foreach (var rule in rules)
                 {
-                    for (int i = 0; i < grammar.ActionCount; i++)
+                    _ruleFoldouts.TryAdd(rule.ruleID, false);
+
+                    _ruleFoldouts[rule.ruleID] = EditorGUILayout.Foldout(_ruleFoldouts[rule.ruleID], rule.ruleID);
+                    if (_ruleFoldouts[rule.ruleID])
                     {
-                        actionFoldouts.Add(false);
+                        foreach (var expansion in rule.expansions)
+                        {
+                            foreach (var terminals in expansion.items)
+                            {
+                                EditorGUILayout.LabelField("▪ " + terminals);
+                            }
+                           
+                        }
                     }
                 }
-                for (int i = 0; i < grammar.ActionCount; i++)
+
+                if (rules.Count == 0)
                 {
-                    var action = grammar.GetAction(i);
-                    GUILayout.Label(action.GrammarElement.ID);
-                    //actionFoldouts[i] = EditorGUILayout.Foldout(actionFoldouts[i], action.GrammarElement.ID);
-                    /*if (actionFoldouts[i])
-                    {
-                        for (int j = 0; j < action.TargetCount; j++)
-                        {
-                            action.SetTarget(j, EditorGUILayout.TextField("Target " + j + ": ", action.GetTarget(j)));
-                        }
-                        var s = EditorGUILayout.TextField("New Target: ", "");
-                        if (s != "")
-                        {
-                            action.AddTarget(s);
-                        }
-                    }*/
+                    EditorGUILayout.LabelField("No rules loaded.");
                 }
             }
 
-            EditorGUILayout.Space();
-            GUILayout.Label("Import Grammar", new GUIStyle(GUI.skin.label) { fontStyle = FontStyle.Bold });
-            path = EditorGUILayout.TextField("Grammar path", path);
-
-            if (GUILayout.Button("Import"))
+            // Show terminal actions
+            EditorGUILayout.Space(10);
+            _terminalFoldout = EditorGUILayout.Foldout(_terminalFoldout, "Terminal Actions", true);
+            if (_terminalFoldout)
             {
-                var _grammar = GrammarReader.ReadGrammar(path);
-                if (_grammar == null)
+                var terminals = grammar.TerminalActions;
+                if (terminals.Count == 0)
                 {
-                    throw new Exception("Could not load Grammar File");
+                    EditorGUILayout.LabelField("No terminal actions found.");
                 }
-                grammar.GrammarTree = _grammar;
-                EditorUtility.SetDirty(target);
-
-                actionFoldouts = new List<bool>();
-                if (grammar.GrammarTree != null)
+                else
                 {
-                    for (int i = 0; i < grammar.ActionCount; i++)
+                    foreach (var action in terminals)
                     {
-                        actionFoldouts.Add(false);
+                        EditorGUILayout.LabelField("▪ " + action);
                     }
+                }
+            }
+
+            // Import Section
+            EditorGUILayout.Space(10);
+            GUILayout.Label("Import SRGS Grammar", EditorStyles.boldLabel);
+            _grammarAsset = (TextAsset)EditorGUILayout.ObjectField("Grammar File", _grammarAsset, typeof(TextAsset), false);
+
+            if (_grammarAsset != null && GUILayout.Button("Read Grammar File"))
+            {
+                try
+                {
+                    string assetPath = AssetDatabase.GetAssetPath(_grammarAsset);
+                    var structure = LBSGrammarReader.ReadGrammar(assetPath);
+
+                    grammar.SetGrammarStructure(structure);
+                    EditorUtility.SetDirty(grammar);
+                    _ruleFoldouts.Clear();
+                    Debug.Log($"Grammar imported with {structure.Rules.Count} rules and {structure.terminals.Count} terminal actions.");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("Import failed: " + ex.Message);
                 }
             }
         }
     }
 }
-

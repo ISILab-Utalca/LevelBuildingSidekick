@@ -94,7 +94,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnDetachLayer(LBSLayer layer)
         {
-            throw new NotImplementedException();
+            OwnerLayer = null;
         }
 
         public LBSTile GetTile(Vector2Int pos)

@@ -12,9 +12,11 @@ public interface IContextualEvaluator : IEvaluator
 {
     public List<LBSLayer> ContextLayers { get; set; }
 
-    public void InitializeDefaultWithContext(List<LBSLayer> contextLayers);
+    public LBSLayer CombinedInteriorLayer { get; set; }
 
-    public LBSLayer InteriorLayers()
+    public void InitializeDefaultWithContext(List<LBSLayer> contextLayers, Rect selection);
+
+    public LBSLayer InteriorLayers(Rect selection)
     {
         if (ContextLayers.Count == 0) return null;
 
@@ -25,6 +27,10 @@ public interface IContextualEvaluator : IEvaluator
         //Clone first
         var combinedLayer = interiorLayers.First().Clone() as LBSLayer;
 
+        // Get important modules
+        var combinedSectorizedTM = combinedLayer.GetModule<SectorizedTileMapModule>();
+        var combinedConnectedTM = combinedLayer.GetModule<ConnectedTileMapModule>();
+
         //Now we check everything
         foreach (LBSLayer interiorLayer in interiorLayers)
         {
@@ -34,7 +40,10 @@ public interface IContextualEvaluator : IEvaluator
             var tempBehavior = interiorLayer.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
             var combinedBehavior = combinedLayer.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
 
-            foreach(LBSTile tile in tempBehavior.Tiles) 
+            // Get current layer Connections
+            var currentConnectedTM = interiorLayer.GetModule<ConnectedTileMapModule>();
+
+            foreach (LBSTile tile in tempBehavior.Tiles) 
             {
                 //If there's already a tile here, return. We'll ignore everything that overlaps.
                 //The warning is there for a reason!
@@ -44,12 +53,16 @@ public interface IContextualEvaluator : IEvaluator
                 //If the zone isn't in the tilemap, add it
                 if(!combinedBehavior.Zones.Contains(zone))
                 {
-                    combinedBehavior.Zones.Add(zone);
+                    //combinedBehavior.Zones.Add(zone);
+                    combinedSectorizedTM.AddZone(zone);
                 }
                 //Then add the tile
                 combinedBehavior.AddTile(tile.Position, zone);
+                combinedConnectedTM.AddPair(tile, currentConnectedTM.GetConnections(tile), currentConnectedTM.GetPair(tile).EditedByIA);
             }
         }
+
+        combinedSectorizedTM.RecalculateZonesProximity(selection);
        
         return combinedLayer;
     }

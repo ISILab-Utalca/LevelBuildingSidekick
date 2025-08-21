@@ -30,11 +30,17 @@ namespace ISILab.LBS.Drawers
             var size = (assistant.OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize).ToInt();
             var start = new Vector2(assistant.RawToolRect.min.x, -assistant.RawToolRect.min.y + 1) * size;
             var end = new Vector2(assistant.RawToolRect.max.x, -assistant.RawToolRect.max.y + 1) * size;
-            
+
+            view.ClearLayerComponentView(assistant.OwnerLayer, this);
+
             _dotArea.SetPosition(Rect.zero);
             _dotArea.ActualizePositions(start.ToInt(), end.ToInt());
             _dotArea.SetColor(LBSSettings.Instance.view.errorColor);
             _dotArea.layer = assistant.OwnerLayer.index;
+
+            _dotArea.style.display = (DisplayStyle)(assistant.OwnerLayer.IsVisible ? 0 : 1);
+
+            view.AddElementToLayerContainer(assistant.OwnerLayer, this, _dotArea);
         }
 
         public override void HideVisuals(object target, MainView view)

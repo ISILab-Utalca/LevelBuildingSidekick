@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
+using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -9,13 +10,16 @@ namespace ISILab.LBS.Characteristics
 {
     [System.Serializable]
     [LBSCharacteristic("Tags", "")]
-    public class LBSTagsCharacteristic : LBSCharacteristic
+    public class LBSTagsCharacteristic : LBSCharacteristic, ISerializationCallbackReceiver
     {
-        [JsonRequired]
+        [SerializeField, JsonRequired]
         string tagName = "";
 
         [SerializeField, JsonRequired/*, JsonIgnore*/]
         protected LBSTag value;
+
+        [SerializeField, JsonRequired]
+        protected string tagGUID = "";
 
         [JsonIgnore]
         public LBSTag Value
@@ -23,7 +27,8 @@ namespace ISILab.LBS.Characteristics
             get
             {
                 if (value == null)
-                    value = LBSAssetsStorage.Instance.Get<LBSTag>().Find(i => i.Label == tagName);
+                    //value = LBSAssetsStorage.Instance.Get<LBSTag>().Find(i => i.Label == tagName);
+                    value = LBSAssetMacro.LoadAssetByGuid<LBSTag>(tagGUID);
                 return value;
             }
             set
@@ -33,8 +38,26 @@ namespace ISILab.LBS.Characteristics
             }
         }
 
+        [JsonIgnore]
+        public string TagGUID
+        {
+            get
+            {
+                string s = "";
+                if (string.IsNullOrEmpty(tagGUID))
+                {
+                    tagGUID = LBSAssetMacro.GetGuidFromAsset(value);
+                    s += $"Null or Empty Tag GUID -> Calling GetGuidFromAsset( {value} )\n"; // Por alguna razon hay veces en que 'value' se muestra como Material??? Pero no pasa con bundles de population
+                }
+                s += $"Tag GUID = {tagGUID}";
+                //Debug.Log(s);
+                return tagGUID;
+            }
+        }
+
         public LBSTagsCharacteristic(LBSTag value)
         {
+            //Debug.Log("CONSTRUCTOR 1 PARAMETRO INVOCADO [" + value + "]");
             this.value = value;
             if (value != null)
                 tagName = value.Label;
@@ -42,7 +65,12 @@ namespace ISILab.LBS.Characteristics
 
         public LBSTagsCharacteristic()
         {
-            this.value = null;
+            //Debug.Log("CONSTRUCTOR SIN PARAMETROS INVOCADO [Value: " + value + ", TagName: " + tagName + "]");
+
+            //Value = LBSAssetMacro.LoadAssetByGuid<LBSTag>(tagGUID);
+            if (value != null)
+                tagName = value.Label; ;
+            //this.value = null;
         }
 
         public override object Clone()
@@ -88,6 +116,19 @@ namespace ISILab.LBS.Characteristics
             }
             
             return warnings;
+        }
+
+        public void OnBeforeSerialize()
+        {
+            //Debug.Log("Before Deserialize");
+            var _ = TagGUID;
+            if(value != null)
+                tagName = value.label;
+        }
+
+        public void OnAfterDeserialize()
+        {
+            //Debug.Log("After Deserialize");
         }
     }
 }

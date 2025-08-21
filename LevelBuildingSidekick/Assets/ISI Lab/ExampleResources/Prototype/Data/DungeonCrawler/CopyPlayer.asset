@@ -32,6 +32,8 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
   guid: 8cfc10becb33d84458e3b608c94de678
   references:
     version: 2
@@ -40,4 +42,6 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
+        tagGUID: 975a57a1811d3f743838422b5c87c58a

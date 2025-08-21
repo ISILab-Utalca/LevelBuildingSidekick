@@ -36,7 +36,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
 
-        public int[,] ZonesProximity => zonesProximity;
+        public int[,] ZonesProximity { get => zonesProximity; set => zonesProximity = value; }
 
         public List<Zone> SelectedZones { get; set; } = new List<Zone>();
 
@@ -268,22 +268,22 @@ namespace ISILab.LBS.Modules
             }
 
             // Find neighbours and set distances to 1
-            var zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<Zone, List<LBSTile>> zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
             for(int i = 0; i < size; i++)
             {
-                var tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
-                foreach(var t in tilesWithDoors)
+                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                foreach(LBSTile t in tilesWithDoors)
                 {
-                    foreach(var dir in Dirs)
+                    foreach(Vector2Int dir in Dirs)
                     {
                         if (!connectedTM.GetConnections(t)[Dirs.IndexOf(dir)].Equals("Door"))
                             continue;
 
-                        var neigh = tilemap.GetTileNeighbor(t, dir);
-                        if (neigh == null || !selection.Contains(neigh.Position))
+                        LBSTile neigh = tilemap.GetTileNeighbor(t, dir);
+                        if (neigh == null || !selection.Contains(neigh.Position) || !connectedTM.GetConnections(neigh)[Dirs.IndexOf(-dir)].Equals("Door"))
                             continue;
 
-                        var otherZone = GetZone(neigh);
+                        Zone otherZone = GetZone(neigh);
                         if(otherZone == null || otherZone.Equals(zonesToCalc[i]))
                             continue;
 
@@ -331,7 +331,7 @@ namespace ISILab.LBS.Modules
                 }
                 log += "]\n";
             }
-            Debug.Log(log);
+            Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -675,6 +675,8 @@ namespace ISILab.LBS.Modules
             var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
 
             var clone = new SectorizedTileMapModule(zones, pairs, this.id);
+            clone.ZonesProximity = this.ZonesProximity;
+            clone.SelectedZones = this.SelectedZones;
             return clone;
         }
 

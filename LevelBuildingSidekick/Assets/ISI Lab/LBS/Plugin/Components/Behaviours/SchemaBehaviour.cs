@@ -112,7 +112,7 @@ namespace ISILab.LBS.Behaviours
 
         public override void OnDetachLayer(LBSLayer layer)
         {
-            throw new System.NotImplementedException();
+            OwnerLayer = null;
         }
 
         public LBSTile AddTile(Vector2Int position, Zone zone)

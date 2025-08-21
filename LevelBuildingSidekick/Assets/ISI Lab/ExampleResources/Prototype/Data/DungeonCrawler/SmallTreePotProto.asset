@@ -33,6 +33,8 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
   guid: 
   references:
     version: 2
@@ -41,9 +43,13 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Tree
         value: {fileID: 11400000, guid: 0147d0d479179b04a8c825d8159e70ce, type: 2}
+        tagGUID: 0147d0d479179b04a8c825d8159e70ce
     - rid: 1134171596635245922
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Collider
         value: {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
+        tagGUID: 261af09a46f50a647b4fb33a0e989c66

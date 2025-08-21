@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:LevelBuildingSidekick/Packages/com.unity.asset-store-tools/Editor/Previews/Styles/ThemeLight.uss.meta
+guid: c6c2d80261514074588d14cf77c4f838
+========
+guid: 8f8c80935ddf6494595dc45da3ee1c81
+>>>>>>>> pr/97:LevelBuildingSidekick/Assets/ISI Lab/LBS/GABO/Editor/UXML+USS/PathOSOptionView.uxml.meta
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 13804, guid: 0000000000000000e000000000000000, type: 0}

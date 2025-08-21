@@ -33,6 +33,9 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
+  guid: 
   references:
     version: 2
     RefIds:
@@ -40,9 +43,13 @@ MonoBehaviour:
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: Goblin
         value: {fileID: 11400000, guid: 560e713e6c53d0b4f9ae9a9a5d8d18bf, type: 2}
+        tagGUID: 560e713e6c53d0b4f9ae9a9a5d8d18bf
     - rid: 6953538112726761620
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
+        tagName: NoBake
         value: {fileID: 11400000, guid: 04212421bd21c0040972c027fe29563c, type: 2}
+        tagGUID: 04212421bd21c0040972c027fe29563c

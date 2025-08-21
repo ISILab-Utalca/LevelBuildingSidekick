@@ -141,6 +141,7 @@ namespace ISILab.LBS.VisualElements
 
             // Recalculate constraints
             hillClimbing.RecalculateConstraint();
+            LBSMainWindow.MessageNotify("Zones constraints recalculated.");
 
             // Mark as dirty
             if (EditorGUI.EndChangeCheck())
@@ -167,6 +168,7 @@ namespace ISILab.LBS.VisualElements
 
             // Execute hill climbing one step
             hillClimbing.ExecuteOneStep();
+            LBSMainWindow.MessageNotify("Hill Climbing One Step executed.");
 
             // Mark as dirty
             if (EditorGUI.EndChangeCheck())
@@ -183,7 +185,11 @@ namespace ISILab.LBS.VisualElements
             EditorGUI.BeginChangeCheck();
 
             // Execute hill climbing
-            hillClimbing.Execute();
+            //hillClimbing.Execute();
+            if(hillClimbing.TryExecute(out string failedLog))
+                LBSMainWindow.MessageNotify("Hill Climbing executed.");
+            else
+                LBSMainWindow.MessageNotify(failedLog, LogType.Warning, 5);
 
             // Mark as dirty
             if (EditorGUI.EndChangeCheck())

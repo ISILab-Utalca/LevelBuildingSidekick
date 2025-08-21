@@ -9,6 +9,8 @@ namespace ISILab.LBS
         public DataTake dataTake;
         public GameObject objectToTake;
 
+        private LBSInventory _playerInventory;
+        
         public override void Init()
         {
             base.Init();
@@ -25,10 +27,18 @@ namespace ISILab.LBS
         protected override void OnTriggerEnter(Collider other) 
         {
             if (!IsPlayer(other)) return;
-            // Use the "objectToTake" reference and add it to player controller
-            // CheckComplete();
+            _playerInventory = other.gameObject.GetComponent<LBSInventory>();
+            if (_playerInventory is not null)
+            {
+                _playerInventory.OnItemAdded += (itemGuid, quantity) =>
+                {
+                    if (dataTake.bundleToTake.GetGuid() == itemGuid)
+                    {
+                        // auto check to complete
+                        CheckComplete();
+                    }
+                };
+            }
         }
-        
     }
-
 }

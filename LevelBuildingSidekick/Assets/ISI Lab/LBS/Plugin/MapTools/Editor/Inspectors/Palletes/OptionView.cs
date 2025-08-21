@@ -72,11 +72,14 @@ namespace LBS.VisualElements
             };
             
             _toolbar = this.Q<ToolbarMenu>("ToolBar");
-            _toolbar.menu.AppendAction("Delete Zone", action =>
+            if(_toolbar != null)
             {
-                DeleteZone(action, onRemove); 
-            });
-            _toolbar.style.display = DisplayStyle.None;
+                _toolbar.menu.AppendAction("Delete Zone", action =>
+                {
+                    DeleteZone(action, onRemove);
+                });
+                _toolbar.style.display = DisplayStyle.None;
+            }
             
             // Init Fields
             this.target = target;
@@ -93,7 +96,7 @@ namespace LBS.VisualElements
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            if (evt.button == 1)
+            if (evt.button == 1 && _toolbar != null)
             {
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();

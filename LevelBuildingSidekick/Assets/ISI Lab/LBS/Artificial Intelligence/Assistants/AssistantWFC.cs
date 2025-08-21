@@ -80,6 +80,7 @@ namespace ISILab.LBS.Assistants
 
         public AssistantWFC(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
         {
+            SafeMode = true;
             OnGUI(); 
         }
         
@@ -590,10 +591,18 @@ namespace ISILab.LBS.Assistants
             }
         }
 
-        public void CopyWeights()
+        public bool CaptureWeights(out string errMsg)
         {
+            errMsg = null;
+
+            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().Pairs;
+            if(pairs.Count == 0)
+            {
+                errMsg = "Empty map! Could not capture its weights.";
+                return false;
+            }
+
             var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
-            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
 
             var currentBundles = new List<Bundle>();
             group.Weights.ForEach(ws => currentBundles.Add(ws.target));
@@ -602,17 +611,17 @@ namespace ISILab.LBS.Assistants
             int maxFreq = 0;
             currentBundles.ForEach(b => bundleFrequency.Add(b, 0));
 
-            for(int i = 0; i < connected.Pairs.Count; i++)
+            for(int i = 0; i < pairs.Count; i++)
             {
                 bool matchFound = false;
-                var tileConns = connected.Pairs[i].Connections;
+                List<string> tileConns = pairs[i].Connections;
                 for(int j = 0; j < currentBundles.Count; j++)
                 {
                     Bundle bundle = currentBundles[j];
-                    var bundleConns = bundle.GetCharacteristics<LBSDirection>()[0].Connections;
+                    List<string> bundleConns = bundle.GetCharacteristics<LBSDirection>()[0].Connections;
                     for (int k = 0; k < 4; k++)
                     {
-                        var rotatedBundleConns = bundleConns.Rotate(k);
+                        List<string> rotatedBundleConns = bundleConns.Rotate(k);
 
                         if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray()))
                         {
@@ -627,7 +636,7 @@ namespace ISILab.LBS.Assistants
                 }
 
                 if (!matchFound)
-                    Debug.LogWarning($"Tile {connected.Pairs[i].Tile.Position} has no matching bundle");
+                    Debug.LogWarning($"Tile {pairs[i].Tile.Position} has no matching bundle");
             }
             
             for (int i = 0; i < currentBundles.Count; i++) 
@@ -637,12 +646,22 @@ namespace ISILab.LBS.Assistants
             }
 
             Selection.activeObject = targetBundleRef;
+
+            return true;
         }
 
-        public void SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset)
+        public bool SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset, out string errMsg)
         {
-            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
-            newPreset = ScriptableObject.CreateInstance<WFCPreset>();
+            endName = null;
+            newPreset = null;
+            errMsg = null;
+
+            if(string.IsNullOrEmpty(folder))
+            {
+                errMsg = "Cannot save preset. You need to specify a Save Folder.";
+                return false;
+            }
+
             endName = presetName;
             if (endName.Length == 0)
             {
@@ -656,6 +675,17 @@ namespace ISILab.LBS.Assistants
                     endName += $" ({count})";
                 }
             }
+            string path = folder + "/" + endName + ".asset";
+            bool overwrite = AssetDatabase.FindAssets(endName, new[] { folder })
+                .Count(guid => AssetDatabase.GUIDToAssetPath(guid).Equals(path)) > 0;
+            if (overwrite)
+            {
+                bool confirmOverwrite = EditorUtility.DisplayDialog("Overwrite?", $"You are about to overwrite the WFC preset at {path}. Continue?", "Yes", "No");
+                if (!confirmOverwrite) return false;
+            }
+
+            var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+            newPreset = ScriptableObject.CreateInstance<WFCPreset>();
             newPreset.Name = endName;
             newPreset.SetWeights(group.Weights);
 
@@ -665,13 +695,13 @@ namespace ISILab.LBS.Assistants
             EditorUtility.FocusProjectWindow();
 
             Selection.activeObject = newPreset;
+
+            return true;
         }
 
         public void LoadWeights(WFCPreset preset)
         {
             var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
-            // Hacer match por bundle?
-            //foreach(var ws in group.Weights) 
             for (int i = 0; i < group.Weights.Count; i++)
             {
                 bool found = false;
@@ -689,7 +719,9 @@ namespace ISILab.LBS.Assistants
                     Debug.LogWarning($"Bundle '{group.Weights[i].target}' was not in preset '{preset.Name}'");
             }
 
-            Selection.activeObject = targetBundleRef;
+            // Refresh bundle on inspector. Works inconsistently.
+            Selection.activeObject = null;
+            EditorApplication.delayCall += () => Selection.activeObject = targetBundleRef;
         }
 
         public bool Compare(string[] a, string[] b)

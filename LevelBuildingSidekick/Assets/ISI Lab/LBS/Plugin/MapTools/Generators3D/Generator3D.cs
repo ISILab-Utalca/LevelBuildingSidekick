@@ -14,7 +14,7 @@ namespace ISILab.LBS.Generators
     [System.Serializable]
     public class Generator3D
     {
-       
+        
         [System.Serializable]
         public class Settings // TODO: Setting can be outside of the class to be used as general settings
         {
@@ -41,6 +41,10 @@ namespace ISILab.LBS.Generators
             [SerializeField]
             [JsonConverter(typeof(Vector3Converter))]
             public Vector3 position = new Vector3(0, 0, 0);
+
+            [SerializeField]
+            [JsonConverter(typeof(bool))]
+            public bool replacePrevious = true;
 
             [SerializeField]
             public string name = "DEFAULT";
@@ -82,7 +86,7 @@ namespace ISILab.LBS.Generators
 
         #region FIELDS
         [SerializeField]
-        public Settings settings;
+        public Settings settings = new Settings();
 
         [JsonRequired, SerializeReference]
         private List<LBSGeneratorRule> rules = new List<LBSGeneratorRule>();

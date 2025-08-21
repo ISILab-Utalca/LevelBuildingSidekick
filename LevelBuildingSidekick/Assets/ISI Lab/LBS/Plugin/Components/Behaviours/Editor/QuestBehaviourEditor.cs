@@ -11,8 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
-using ISILab.Macros;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -37,24 +37,23 @@ namespace ISILab.LBS.VisualElements
         
         public QuestBehaviourEditor(object target) : base(target)
         {
-            
             CreateVisualElement();
             SetInfo(target);     
         }
 
         public sealed override void SetInfo(object paramTarget)
         {
-            //Clear();
+            if (_behaviour != null) return;
             _behaviour = target as QuestBehaviour;
-            if (_behaviour == null)return;
-         
 
+            if (_behaviour == null) return;
+            // this should only happen on object creation
             var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
+            quest.LoadGrammar();
             
-            _grammarReference.value = quest.Grammar; // Loads grammar
-            
+            // Manually set both
+            _grammarReference.value = quest.Grammar;
             ChangeGrammar(quest.Grammar);
-            UpdateContent();
         }
 
         public void SetTools(ToolKit toolkit)
@@ -115,21 +114,17 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             _behaviour.Graph.UpdateFlow?.Invoke();
-         //   DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
-         //   var questBehaviour = target as QuestBehaviour;
-          //  DrawManager.Instance.RedrawLayer(questBehaviour?.OwnerLayer, MainView.Instance);
         }
         
         protected sealed override VisualElement CreateVisualElement()
         {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("GrammarAssistantEditor");
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestBehaviourEditor");
             visualTree.CloneTree(this);
 
             _grammarReference = this.Q<ObjectField>(name: "Grammar");
             _grammarReference.objectType = typeof(LBSGrammar);
             
             _actionPallete = this.Q<VisualElement>(name: "Content");
-            
             _grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
             return this;
         }
@@ -138,67 +133,46 @@ namespace ISILab.LBS.VisualElements
         {
             _actionPallete.Clear();
 
-           // var behaviour = target as QuestBehaviour;
-            if (_behaviour == null)
-                return;
+            var quest = _behaviour?.OwnerLayer.GetModule<QuestGraph>();
+            if (quest == null) return;
+            if (quest.Grammar == null || !quest.Grammar.TerminalActions.Any()) return;
+            
 
-            var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null || quest.OwnerLayer == null)
-                return;
-
-            if (quest.Grammar == null)
-                return;
-
-            List<ActionButton> abL = new();
-            foreach (var a in quest.Grammar.Actions)
+            List<ActionButton> actionButtons = new();
+            
+            foreach (string action in quest.Grammar.TerminalActions)
             {
-                ActionButton b;
-                b = new ActionButton(a.GrammarElement.Text, () =>
+                ActionButton actionButton = new ActionButton(action, () =>
                 {
                     ToolKit.Instance.SetActive(typeof(AddQuestNode));
-                    _behaviour.ToSet = a.GrammarElement;
+                    _behaviour.ActionToSet = action;
                     _behaviour.Graph.UpdateFlow?.Invoke();
-                    UpdateContent();
                 });
-                abL.Add(b);
-                _actionPallete.Add(b);
+                
+                actionButtons.Add(actionButton);
+                _actionPallete.Add(actionButton);
             }
-
-            foreach (var b in abL)
-            {
-                if (_behaviour.ToSet?.Text == b.text.text)
-                {
-                    b.Children().First().AddToClassList("lbs-actionbutton_selected");
-                    b.Children().First().RemoveFromClassList("lbs-actionbutton");
-                }
-                else
-                {
-                    b.Children().First().RemoveFromClassList("lbs-actionbutton_selected");
-                    b.Children().First().AddToClassList("lbs-actionbutton");
-                }
-            }
-            
-           // DrawManager.Instance.RedrawLayer(quest.OwnerLayer, MainView.Instance);
            
         }
 
         private void ChangeGrammar(LBSGrammar grammar)
         {
-            if (grammar == null) throw new Exception("No Grammar");
+            if (grammar == null)
+            {
+                LBSMainWindow.MessageNotify("LBS Quest: Must assign a valid grammar in the Quest Behaviour Editor",LogType.Error,5);
+                _grammarReference.value = null;
+            }
+            else
+            {
+                var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
+                if (quest == null)  throw new Exception("No Module");
             
-            if (target is not QuestBehaviour behaviour) throw new Exception("No Behavior");
-
-            var assistant = behaviour.OwnerLayer.GetAssistant<GrammarAssistant>();
-            if (assistant == null) throw new Exception("No Behavior");
-            
-            var quest = behaviour.OwnerLayer.GetModule<QuestGraph>();
-            if (quest == null)  throw new Exception("No Module");
-            
-            quest.Grammar = grammar;
-            // check if the new grammar applies on the graph
-            if(quest.QuestEdges.Any()) assistant.ValidateEdgeGrammar(quest.QuestEdges.First());
-          
+                // Check if the new grammar is different at all
+                if(quest.Grammar != grammar) quest.Grammar = grammar;
+            }
+           
             UpdateContent();
+            
         }
     }
 }

@@ -70,6 +70,8 @@ namespace ISILab.LBS.VisualElements
                 return;
             
             noContentPanel.SetDisplay(!target.Assistants.Any());
+
+            OnFocus = null;
             
             // Add the tools into the toolkit and set the data of behaviour
             foreach (var assistant in target.Assistants)
@@ -81,7 +83,8 @@ namespace ISILab.LBS.VisualElements
               
                 instance.SetInfo(assistant);
                 ToolKit.Instance.SetTarget(instance);
-    
+
+                OnFocus += instance.OnFocus;
                 
                 var content = new InspectorContentPanel(instance, assistant.Name, assistant.Icon, assistant.ColorTint);
                 contentPanel.Add(content);

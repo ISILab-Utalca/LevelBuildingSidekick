@@ -20,7 +20,8 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 6882180064717508072, guid: ac217b1f4e54f7b48a3432bd067cd910, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 2114098181321523704
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -31,7 +32,16 @@ MonoBehaviour:
       positiveX: 1
       negativeZ: 1
       positiveZ: 1
+    mesh: {fileID: 0}
+    material: {fileID: 0}
   guid: 879094a16f9b723479d819bf30f6d5ec
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2114098181321523704
+      type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        tagName: 
+        value: {fileID: 0}
+        tagGUID: 

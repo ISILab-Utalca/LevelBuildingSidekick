@@ -70,6 +70,7 @@ namespace ISILab.LBS.Modules
 
         public virtual void OnDetach(LBSLayer layer)
         {
+            layer.ClearEvents();
             OwnerLayer = null;
         }
 

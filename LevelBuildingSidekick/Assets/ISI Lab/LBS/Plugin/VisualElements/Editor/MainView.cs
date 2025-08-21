@@ -162,13 +162,12 @@ namespace ISILab.LBS.VisualElements.Editor
                 evt.menu.ClearItems(); 
                 
             }));
-
         }
-        
+
         #endregion
-        
+
         #region INTERNAL_METHODS
-        
+
         /// <summary>
         /// Initializes interior and exterior boundary boxes for canvas scrolling limits.
         /// </summary>

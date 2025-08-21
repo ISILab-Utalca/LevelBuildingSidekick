@@ -1,0 +1,18 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:VisualElement style="flex-grow: initial; flex-direction: column; justify-content: flex-start; flex-shrink: 1;">
+        <engine:Label text="Simulation Mapping" name="SimulationMapping" style="-unity-font-style: bold; font-size: 14px; padding-bottom: 4px; margin-bottom: 0; padding-top: 2px;" />
+        <ui:VisualElement xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" template="WarningPanel" name="Warning">
+            <ui:VisualElement name="ExternalBorder" class="lbs-notificator lbs-generic-panel" style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(255, 255, 255, 0.59); border-right-color: rgba(255, 255, 255, 0.59); border-top-color: rgba(255, 255, 255, 0.59); border-bottom-color: rgba(255, 255, 255, 0.59); flex-direction: column; align-items: stretch; padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 1px; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; height: auto;">
+                <ui:VisualElement name="InternalBorder" class="lbs-notificator" style="border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgba(255, 255, 255, 0.2); border-right-color: rgba(255, 255, 255, 0.2); border-top-color: rgba(255, 255, 255, 0.2); border-bottom-color: rgba(255, 255, 255, 0.2); flex-direction: row; align-items: center; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 1; -unity-text-align: upper-left; border-top-left-radius: 1.5px; border-top-right-radius: 1.5px; border-bottom-right-radius: 1.5px; border-bottom-left-radius: 1.5px; overflow: hidden; flex-shrink: 1;">
+                    <ui:VisualElement name="Icon" style="background-image: resource(&apos;Icons/Vectorial/Icon=Warning&apos;); width: 32px; height: 32px; flex-grow: 1; max-width: 32px; max-height: 32px; min-width: 32px; min-height: 32px; -unity-background-image-tint-color: rgb(255, 193, 7);" />
+                    <ui:Label tabindex="-1" text="There are currently no active Population Layers to perform mapping." display-tooltip-when-elided="true" name="Text" style="-unity-text-align: middle-left; flex-grow: 0; flex-wrap: wrap; white-space: normal; flex-shrink: 1; padding-left: 4px; height: 100%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <engine:VisualElement name="SimulationMappingContent" style="flex-grow: 1;">
+            <engine:Toggle label="Auto-Map" name="AutoMap" />
+            <engine:Button text="Remap to Population" name="MapPopulation" />
+            <engine:Button text="Clear" name="Clear" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

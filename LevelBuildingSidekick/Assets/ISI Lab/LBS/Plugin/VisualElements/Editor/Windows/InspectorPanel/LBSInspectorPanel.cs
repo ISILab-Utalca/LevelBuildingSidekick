@@ -39,6 +39,8 @@ namespace ISILab.LBS.VisualElements
         public static string BehavioursTab = "Behaviours";
         public static string AssistantsTab = "Assistants";
 
+        public static Rect Layout { get => Instance.layout; }
+
         private static string recentTab;
         
         private Dictionary<string, LBSInspector> VEs = new();
@@ -65,7 +67,7 @@ namespace ISILab.LBS.VisualElements
         /// <param name="layers"></param>
         public void InitTabs(ref List<LayerTemplate> layers)
         {
-            var layersList = layers.Select(t => t.layer).ToList();
+            List<LBSLayer> layersList = layers.Select(t => t.layer).ToList();
             
             data = new LBSLocalCurrent();
             data.InitCustomEditors(ref layersList);
@@ -104,10 +106,12 @@ namespace ISILab.LBS.VisualElements
 
             if (VEs == null) return;
             if (string.IsNullOrEmpty(name)) return;
-            if (!VEs.TryGetValue(name, out var ve))  return;
-            if (ve == null) return;
+            if (!VEs.TryGetValue(name, out var inspector))  return;
+            if (inspector == null) return;
+
+            inspector.OnFocus?.Invoke();
             
-            SetContent(ve);
+            SetContent(inspector);
         }
 
 
@@ -116,7 +120,7 @@ namespace ISILab.LBS.VisualElements
             content.Clear();
         }
 
-        private void SetContent(VisualElement inspector)
+        private void SetContent(LBSInspector inspector)
         {
             if (inspector == null) return;
             content?.Add(inspector);

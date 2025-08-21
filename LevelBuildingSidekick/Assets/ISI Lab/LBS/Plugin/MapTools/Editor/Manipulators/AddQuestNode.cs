@@ -1,4 +1,4 @@
-using ISILab.AI.Grammar;
+using System;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
@@ -14,10 +14,8 @@ namespace ISILab.LBS.Manipulators
     {
         private QuestGraph _questGraph;
         private QuestBehaviour _behaviour;
-        private GrammarTerminal ActionToSet => _behaviour.ToSet;
+        private string ActionToSet => _behaviour.ActionToSet;
         protected override string IconGuid => "3d0b251f4a09bce4b9224787cfa08d49";
-
-        private const string Prefix = "";
 
         public AddQuestNode()
         {
@@ -35,23 +33,13 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            if (ActionToSet == null)
+            if (string.IsNullOrEmpty(ActionToSet))
             {
                 LBSMainWindow.MessageNotify("Can't add node. Make sure to select a grammar and a word.", LogType.Error, 5);
                 return;
             }
 
-            string name;
-            bool loop;
-            var v = 0;
-            do
-            {
-                name = Prefix + ActionToSet.ID + " (" + v + ")";
-                loop = _questGraph.QuestNodes.Any(n => n.ID.Equals(name));
-                v++;
-            } while (loop);
-
-            _questGraph.AddNode(new QuestNode(name, EndPosition, ActionToSet.ID, _questGraph));
+            _questGraph.CreateAddNode(ActionToSet, endPosition);
             OnManipulationEnd.Invoke();
         }
     }

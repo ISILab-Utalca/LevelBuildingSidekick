@@ -31,6 +31,7 @@ namespace ISILab.LBS.VisualElements
     /// </summary>
     public class QuestNodeView : GraphElement
     {
+        
         private readonly QuestNode _node;
         private readonly VisualElement _root;
         private readonly VisualElement _startIcon;
@@ -79,6 +80,7 @@ namespace ISILab.LBS.VisualElements
             _node = node;
             _startIcon.style.display = DisplayStyle.None;
             _defaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
+            
         }
 
         private void OnMouseLeave(MouseLeaveEvent e)
@@ -89,7 +91,7 @@ namespace ISILab.LBS.VisualElements
         public void SetBorder(QuestNode node)
         {
             _root.SetBorder(UncheckedGrammar, 1f);
-            if (!node.GrammarCheck)
+            if (!node.ValidGrammar)
             {
                 _root.SetBorder(GrammarWrong, 1f);
                 return;
@@ -148,17 +150,14 @@ namespace ISILab.LBS.VisualElements
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();
             }
-            // Assign selected quest node behavior only if the node belongs to the active layer
+            // Assign selected quest node in graph only if the node belongs to the active layer
             else if (evt.button == 0)
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator)) return;
-                
-                QuestNodeBehaviour qnb = LBSLayerHelper.GetObjectFromLayer<QuestNodeBehaviour>(_node.Graph.OwnerLayer);
-                if(qnb is null) return;
                 LBSInspectorPanel.ActivateBehaviourTab();
                 
-                if (!qnb.Graph.QuestNodes.Contains(_node)) return;
-                qnb.SelectedQuestNode = _node;
+                if (!_node.Graph.QuestNodes.Contains(_node)) return;
+                _node.Graph.SelectedQuestNode = _node;
 
             }
         }
@@ -185,7 +184,7 @@ namespace ISILab.LBS.VisualElements
             color.a = 1f;
             if (isSelected)
             {
-                color = _node.GrammarCheck ? CorrectGrammar : GrammarWrong;
+                color = _node.ValidGrammar ? CorrectGrammar : GrammarWrong;
                 color.a = 0.33f;
                 _highligheted = this;
             }

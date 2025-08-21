@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 8272943599223628453}
   - component: {fileID: 8272943599214529815}
   - component: {fileID: 1490103190846180829}
+  - component: {fileID: 5320244795547031227}
   m_Layer: 0
   m_Name: deb_Goblin01
   m_TagString: Untagged
@@ -236,7 +237,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8272943599223628535}
@@ -289,6 +290,22 @@ CapsuleCollider:
   m_Height: 1.07
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &5320244795547031227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272943599224061573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe596443bd2d5194abf0d784cd37dc03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 80
+  modelObjects:
+  - {fileID: 8272943599224061571}
+  - {fileID: 8272943599224061569}
 --- !u!1 &8272943599224061575
 GameObject:
   m_ObjectHideFlags: 0

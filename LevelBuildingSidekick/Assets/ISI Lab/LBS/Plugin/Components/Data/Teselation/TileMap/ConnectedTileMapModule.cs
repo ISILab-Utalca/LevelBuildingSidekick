@@ -107,6 +107,7 @@ namespace ISILab.LBS.Modules
         public List<string> GetConnections(LBSTile tile)
         {
             var p = GetPair(tile);
+            //if (p == null) return null;
             return p.Connections;
         }
 
@@ -314,6 +315,18 @@ namespace ISILab.LBS.Modules
         public override int GetHashCode()
         {
             return LBSHashUtilities.CustomListHash(connections);
+        }
+
+        public override string ToString()
+        {
+            string s = Tile + " {";
+            foreach(string conn in connections)
+            {
+                s += $"'{conn}', "; 
+            }
+            s.Remove(s.Length - 2);
+            s += "}";
+            return s;
         }
         #endregion
     }

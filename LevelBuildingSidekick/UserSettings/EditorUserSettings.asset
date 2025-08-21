@@ -21,27 +21,36 @@ EditorUserSettings:
       value: 0257525e04500a035a080d7b41700f444615407e757d27692b7b4e6ab5e1313b
       flags: 0
     RecentlyUsedSceneGuid-4:
-      value: 535051565203510f555d552113765b44404e4b727d782269757f456bb1e5323b
-      flags: 0
-    RecentlyUsedSceneGuid-5:
       value: 520756555c030f5a0e590a7346725b44104f4979287b77357d794464b5e1666e
       flags: 0
-    RecentlyUsedSceneGuid-6:
+    RecentlyUsedSceneGuid-5:
       value: 555051515705500a5f565a74477b5d44174e1c787d7a7266747b1c30e1b03539
       flags: 0
-    RecentlyUsedSceneGuid-7:
+    RecentlyUsedSceneGuid-6:
       value: 55080d055054580d5e590826137b0d444f4f4b2e282d22347d2a4c60e3b7673c
       flags: 0
-    RecentlyUsedSceneGuid-8:
+    RecentlyUsedSceneGuid-7:
       value: 07045056010c0a0b590d5a7513270b4441161a7b282d76607e2d4e36e7b2366f
       flags: 0
-    RecentlyUsedSceneGuid-9:
+    RecentlyUsedSceneGuid-8:
       value: 01070c025d51515e0b595c2714205c44434e4b7a787125687a7c1f63b2b1626f
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 535051565203510f555d552113765b44404e4b727d782269757f456bb1e5323b
       flags: 0
     UIBuilder.DisableMouseWheelZooming:
       value: 2550581500
       flags: 0
     UIBuilder.EditorExtensionModeKey:
+      value: 37434103
+      flags: 0
+    UIBuilder.ProjectBlockedNotifications:
+      value: 01445d0a01501b161d1c09341926485d1b181c2f61262924242f1430e3f43d37ec
+      flags: 0
+    UIToolkit.EnableEventDebugger:
+      value: 37434103
+      flags: 0
+    UIToolkit.EnableLayoutDebugger:
       value: 37434103
       flags: 0
     UnityEditor.ShaderGraph.Blackboard:
@@ -51,7 +60,7 @@ EditorUserSettings:
       value: 181344140043005e1a220d3b1f364b524c0c5a27130c293326201334cee5322ca0bd22fbf23f737e343dcb3307350831f53e061bb4510c0a1d1df84253f22f2514d70ccc19c91333cd1f0fcbd95f8bb2819884a69ae6d8f0d1cda9e8fbfefaf9f9dea3fdb9ade882f0feaeffff8e85c9fef9bedec98493dcf8ca9389ec80829d899ac7cf9bdd8a8889c3f090bf8d
       flags: 0
     UnityEditor.ShaderGraph.InspectorWindow:
-      value: 18135939215a0a5004000b0e15254b524c1119263f2d6a722016393ce1eb3d36e5d339f9a5602b2e2c07a37e0901373ae01e0008f707250d171df81a53a5405d41895ac825e0100ec20313c0d91cddccd3d0c7efcca9bd88908fecb0f9cfddf1eff4e7a1b1eae482f0fca9e0e1928b86d888ed9194938797a7cf
+      value: 18135939215a0a5004000b0e15254b524c1119263f2d6a722016393ce1eb3d36e5d339f9a5602b2e2c07a37e0901373ae01e0008f707250d171df81a53a5405d41895ac825e0100ec20313c0d91cddccd3d0c7efcca9bd88908fecb0f9cfddf1eff4e7a1b1eae482f0faaae1e1928b86d888ed9194938797a7cf
       flags: 0
     lightmappingBakingProfile:
       value: 51

@@ -71,18 +71,7 @@ namespace ISILab.LBS.Generators
             }
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
-            assistant?.ValidateEdgeGrammar(quest.QuestEdges.First());
-            /*
-             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
-
-             foreach (var edge in quest.QuestEdges)
-             {
-                 assistant?.ValidateEdgeGrammarOLD(edge);
-             }   
-             bool allValid = quest.QuestNodes.All(q => q.GrammarCheck);
-*/
-
-             bool allValid = assistant!.fastValidGrammar(quest.QuestNodes);
+            bool allValid = assistant.ValidateQuestGraph();
              if (!allValid)
              {
                  return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
@@ -151,20 +140,20 @@ namespace ISILab.LBS.Generators
                 // Set up visual size
                 var size = node.NodeData.Area;
                 trigger.SetSize(new Vector3(
-                    size.x * settings.scale.x,
+                    size.width * settings.scale.x,
                     size.height * settings.scale.y,
-                    size.y * settings.scale.y));
+                    size.height * settings.scale.y));
 
                 // Position the trigger in the world
-                var x = node.NodeData.Area.x * settings.scale.x;
-                var z = node.NodeData.Area.y * settings.scale.y;
+                var x = (node.NodeData.Area.x + node.NodeData.Area.width/2 - 1) * settings.scale.x;
+                var z = (node.NodeData.Area.y - node.NodeData.Area.height/2) * settings.scale.y;
                 var y = pivot.transform.position.y;
 
                 var questPos = new Vector3(x, y, z);
                 var basePos = settings.position;
                 var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
 
-                go.transform.position = basePos + questPos - delta;
+                go.transform.position = basePos + questPos;// - delta;
 
                 // Set shared data
                 trigger.SetData(node);

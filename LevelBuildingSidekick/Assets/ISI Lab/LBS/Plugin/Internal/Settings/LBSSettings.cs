@@ -1,3 +1,4 @@
+using ISILab.LBS.Generators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,13 +18,14 @@ namespace ISILab.LBS.Settings
         /// Singleton instance of "LBSSettings".<br/>
         /// <b>[WARNING]:</b> The use of the <b>SET</b> method for this property is at your own risk.
         /// </summary>
-        public static LBSSettings Instance
+        public static LBSSettings Instance 
         {
             get
             {
                 // si es igual a null lo busco en carpeta
                 if (instance == null)
                     instance = Resources.Load<LBSSettings>("LBS Settings");
+                    
 
                 // si sigue siendo null lo creo
                 if (instance == null)
@@ -43,6 +45,7 @@ namespace ISILab.LBS.Settings
         public General general = new General();
         public Interface view = new Interface();
         public Test test = new Test();
+        public Generator3D generator = new Generator3D();
 
         [System.Serializable]
         public class Test
@@ -104,10 +107,17 @@ namespace ISILab.LBS.Settings
         [System.Serializable]
         public class Interface
         {
+            public enum InterfaceTheme {Dark, Light, Alt}
+            
+            [SerializeField]
+            public InterfaceTheme LBSTheme = InterfaceTheme.Dark;
+            
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
+            
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);
             public Color assistantColor = new Color(0.76f, 0.96f, 0.44f);
+            
             public Color bundlesColor = new Color(0.5f, 0.69f, 0.98f);
             public Color tagsColor = new Color(0.93f, 0.81f, 0.42f);
 
@@ -115,6 +125,7 @@ namespace ISILab.LBS.Settings
             public Color errorColor = new Color(0.81f, 0.13f, 0.31f);
             public Color okColor = Color.white;
             public Color successColor = new Color(0f, 1f, 0.68f);
+            public Color calloutColor = new Color(151/255f, 71/255f, 1.0f);
             
             #region Quest Node Colors
             public Color colorTrigger = new Color(0f, 1f, 0.68f);

@@ -15,3 +15,5 @@ MonoBehaviour:
   label: Grass
   icon: {fileID: 0}
   color: {r: 0.38305882, g: 0.8113208, b: 0.3023318, a: 1}
+  defaultType: 150
+  admissibleTypes: 

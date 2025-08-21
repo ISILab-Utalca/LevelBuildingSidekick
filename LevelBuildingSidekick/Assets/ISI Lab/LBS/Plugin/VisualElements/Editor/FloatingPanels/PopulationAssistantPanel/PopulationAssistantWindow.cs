@@ -84,6 +84,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private ObjectField presetFieldRef;
         private Button openPresetButton;
         private Button resetPresetButton;
+        private Button autoSelectButton;
         
         //Parameters' graphic
         private VisualElement graphOfHell;
@@ -164,7 +165,11 @@ namespace ISILab.LBS.VisualElements.Editor
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
             presetField.value = "Select Preset";
-            presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+            presetField.RegisterValueChangedCallback(evt =>
+            {
+                UpdatePreset(evt.newValue);
+                LBSMainWindow.MessageNotify($"Selected MAP Elite preset: {evt.newValue}");
+            });
 
             //Progress Bar and Sliders
             xParamText = rootVisualElement.Q<Label>("XParamText");
@@ -192,14 +197,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var xChoice = param1Field.GetChoiceInstance() as IRangedEvaluator;
                 currentXField = xChoice;
                 InitializeEvaluator(xChoice);
-                //if (xChoice != null)
-                //{
-                //    var contextualChoice = xChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentXField.InitializeDefault(); 
-                //}
                 xParamText.text = param1Field.Value;
 
             });
@@ -219,14 +216,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var yChoice = param2Field.GetChoiceInstance() as IRangedEvaluator;
                 currentYField = yChoice;
                 InitializeEvaluator(yChoice);
-                //if (yChoice != null) 
-                //{
-                //    var contextualChoice = yChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentYField.InitializeDefault();
-                //} 
                 yParamText.text = param2Field.Value;
             });
             param2Field.SetEnabled(false);
@@ -245,14 +234,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 var optimizerChoice = optimizerField.GetChoiceInstance() as IRangedEvaluator;
                 currentOptimizer.Evaluator = optimizerChoice;
                 InitializeEvaluator(optimizerChoice);
-                //if (optimizerChoice != null) 
-                //{
-                //    var contextualChoice = optimizerChoice as IContextualEvaluator;
-                //    if (contextualChoice != null)
-                //        contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
-                //    else
-                //        currentOptimizer.Evaluator.InitializeDefault();
-                //}
                 zParamText.text = new string("Fitness ("+optimizerField.Value+")");
 
             });
@@ -274,6 +255,24 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues();
                 UpdatePreset(mapEliteBundle.PresetName);
+            };
+
+            autoSelectButton = rootVisualElement.Q<Button>("AutoSelectButton");
+            autoSelectButton.clicked += () =>
+            {
+                var rect = GetDefaultLayerArea();
+
+                if (Data.ContextLayers.Count > 0)
+                {
+                    var subRect = GetLayerContextArea();
+
+                    rect.xMin = Mathf.Min(rect.xMin, subRect.xMin);
+                    rect.xMax = Mathf.Max(rect.xMax, subRect.xMax);
+                    rect.yMin = Mathf.Min(rect.yMin, subRect.yMin);
+                    rect.yMax = Mathf.Max(rect.yMax, subRect.yMax);
+                }
+
+                assistant.RawToolRect = rect;
             };
 
             //Visualization option buttons
@@ -432,6 +431,30 @@ namespace ISILab.LBS.VisualElements.Editor
             InitializeAllCurrentEvaluators();
         }
 
+        private Rect GetLayerContextArea()
+        {
+            //Grabs the area of all combined context layers
+            var combinedRect = new Rect();
+
+            foreach (var layer in Data.ContextLayers)
+            {
+                var rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+
+                combinedRect.xMin = Mathf.Min(rect.xMin, combinedRect.xMin);
+                combinedRect.xMax = Mathf.Max(rect.xMax, combinedRect.xMax);
+                combinedRect.yMin = Mathf.Min(rect.yMin, combinedRect.yMin);
+                combinedRect.yMax = Mathf.Max(rect.yMax, combinedRect.yMax);
+            }
+
+            return combinedRect;
+        }
+
+        private Rect GetDefaultLayerArea()
+        {
+            //Grabs the owner layer area
+            return assistant.OwnerLayer.GetModule<BundleTileMap>().GetBounds();
+        }
+
         private void UpdateTooltips()
         {
             param1Field.tooltip = currentXField?.Tooltip;
@@ -464,7 +487,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 var contextualChoice = evaluator as IContextualEvaluator;
                 if (contextualChoice != null)
-                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers);
+                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers, assistant.RawToolRect);
                 else
                     evaluator.InitializeDefault();
             }
@@ -475,30 +498,32 @@ namespace ISILab.LBS.VisualElements.Editor
         //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
+            if(mapEliteBundle == null)
+            {
+                LBSMainWindow.MessageNotify("MAP Elite Preset not selected or null.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: MAP Elite Preset not selected or null.");
+                return;
+            }
+
+            //Check if there's a place to optimize
+            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
+            {
+                LBSMainWindow.MessageNotify("Use the Area Selector tool to select an area to optimize before starting MAP Elites.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
+                return;
+            }
+
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
 
+            InitializeAllCurrentEvaluators();
+
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
-            
 
-            //Check if there's a place to optimize
-            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
-            {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
-                    return;
-            }
-
-            //var interiorLayers = new HashSet<LBSLayer>();
-            //(currentXField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //(currentYField as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //(currentOptimizer.Evaluator as IContextualEvaluator)?.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => interiorLayers.Add(l));
-            //interiorLayers.ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
-            Data.ContextLayers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList().ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity(assistant.RawToolRect));
-
-            InitializeAllCurrentEvaluators();
+            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
@@ -509,8 +534,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Update button
             recalculate.text = "Recalculate";
+            
+            LBSMainWindow.MessageNotify("Calculating.");
         }
-        
+
         //Apply the suggestion in the world
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
@@ -546,6 +573,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 EditorUtility.SetDirty(level);
             }
             LBSMainWindow.MessageNotify("Layer modified by Population Assistant");
+
+            LayerPopulation.OwnerLayer.OnChangeUpdate();
         }
 
         //Pin the suggestion into the assistant tab
@@ -615,6 +644,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 EditorUtility.SetDirty(level);
             }
+            LayerPopulation.OwnerLayer.OnChangeUpdate();
             OnTileMapReset?.Invoke();
         }
         #endregion
@@ -711,7 +741,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;
-
+            
             var textures = new List<Texture2D>();
 
             foreach (var b in behaviours)
@@ -727,13 +757,14 @@ namespace ISILab.LBS.VisualElements.Editor
                 textures.Add(drawer.GetTexture(b, rect, Vector2Int.one * size));
             }
 
+            
             var texture = new Texture2D((int)(rect.width * size), (int)(rect.height * size));
 
             for (int j = 0; j < texture.height; j++)
             {
-                for (int i = 0; i < texture.height; i++)
+                for (int i = 0; i < texture.width; i++)
                 {
-                    texture.SetPixel(i, j, new UnityEngine.Color(0.1f, 0.1f, 0.1f, 1));
+                    texture.SetPixel(i, j, new UnityEngine.Color(0.25f, 0.25f, 0.25f, 1));
                 }
             }
 
@@ -830,7 +861,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ToggleLayerContext(object layer)
         {
             LBSLayer objectLayer = layer as LBSLayer;
-            if (objectLayer == null) return;
+            if (objectLayer == null)
+            {
+                Debug.LogError("Object Layer was null.");
+                return;
+            }
             switch(Data.ContextLayers.Contains(layer))
             {
                 case true: Data.ContextLayers.Remove(objectLayer); break;

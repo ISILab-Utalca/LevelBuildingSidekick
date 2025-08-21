@@ -1,4 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="QuestHistoryEntry" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuestPanel/QuestHistoryEntry.uxml?fileID=9197481963319205126&amp;guid=4ee1f909777f771499a771d92a96d881&amp;type=3#QuestHistoryEntry" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="MapEliteContent" style="flex-grow: 1; -unity-background-image-tint-color: rgba(42, 42, 42, 0); background-color: rgb(42, 42, 42); border-right-width: 0; border-left-width: 0; border-left-color: rgb(20, 20, 20); border-right-color: rgb(20, 20, 20); border-top-color: rgb(20, 20, 20); border-bottom-color: rgb(20, 20, 20); border-top-width: 0; border-bottom-width: 0;">
         <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; align-self: stretch;">
@@ -9,4 +10,5 @@
             <ui:ListView name="QuestList" reorderable="true" show-foldout-header="false" show-add-remove-footer="false" allow-remove="false" allow-add="false" reorder-mode="Animated" show-border="true" horizontal-scrolling="false" show-bound-collection-size="true" fixed-item-height="32" virtualization-method="DynamicHeight" style="border-top-width: 1px;" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:Instance template="QuestHistoryEntry" />
 </ui:UXML>

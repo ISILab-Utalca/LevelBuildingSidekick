@@ -417,6 +417,18 @@ namespace LBS.Components
             modules[index].OwnerLayer = this;
         }
 
+        public void RemoveAll()
+        {
+            for (int i = 0; i < modules.Count; i++)
+                RemoveModule(modules[i--]);
+            for (int i = 0; i < behaviours.Count; i++)
+                RemoveBehaviour(behaviours[i--]);
+            for (int i = 0; i < assistants.Count; i++)
+                RemoveAssitant(assistants[i--]);
+            for (int i = 0; i < generatorRules.Count; i++)
+                RemoveGeneratorRule(generatorRules[i--]);
+        }
+
         // esto tiene que ir en una extension (?)
         public Vector2Int ToFixedPosition(Vector2 position) 
         {
@@ -455,6 +467,16 @@ namespace LBS.Components
                 (sPos.y > ePos.y) ? sPos.y : ePos.y);
 
             return (min, max);
+        }
+
+        public void ClearEvents()
+        {
+            OnChangeName = null;
+            OnChange = null;
+            OnTileSizeChange = null;
+            OnAddModule = null;
+            OnReplaceModule = null;
+            OnRemoveModule = null;
         }
         
 

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.AI.Categorization;
-using Palmmedia.ReportGenerator.Core.Parser.Analysis;
+//using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 using LBS.Components;
 using ISILab.LBS.Behaviours;
 using System.Numerics;

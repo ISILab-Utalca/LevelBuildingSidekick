@@ -37,13 +37,14 @@ namespace ISILab.AI.Optimization
             var edgeCount = connectedZones.Edges.Count;
             if (edgeCount <= 0)
             {
-                Debug.Log("Cannot calculate the adjacency of a map are nodes that are not connected.");
+                // LOGS MOVED TO HILL CLIMBING ASSISTANT EDITOR
+                //Debug.Log("Cannot calculate the adjacency of a map are nodes that are not connected.");
                 return 1;
             }
 
             if (zones.ZonesWithTiles.Count <= 0)
             {
-                Debug.Log("[ISI Lab]: the schema you are trying to evaluate does not have areas.");
+                //Debug.Log("[ISI Lab]: the schema you are trying to evaluate does not have areas.");
                 return 0;
             }
 

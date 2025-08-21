@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
 {
+    /** should rework this to bind an event to the enemies (Destroy) function call
+     * instead of using OnTriggerStay.
+     */
     [QuestNodeActionTag("kill")]
     public class QuestTriggerKill : QuestTrigger
     {
@@ -21,14 +26,25 @@ namespace ISILab.LBS
             dataKill = (DataKill)baseData;
         }
 
-        protected override void OnTriggerEnter(Collider other) 
+        public void Start()
         {
-            if (other.CompareTag("Player"))
+            foreach (var obj in objectsToKill)
             {
-                CheckComplete();
+                var destroyer = obj.GetComponent<DestroyNotifier>();
+                destroyer.OnDestroyed += (obj)=>
+                {
+                  
+                    objectsToKill.Remove(obj);
+                    CheckComplete();
+                };
             }
         }
-            
+
+        protected override bool CompleteCondition()
+        {
+            // if the list is empty all enemies were killed
+            return !objectsToKill.Any();
+        }
     }
 
 }
