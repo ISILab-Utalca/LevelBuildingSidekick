@@ -8,7 +8,7 @@
         <uie:ToolbarMenu />
         <uie:ToolbarPopupSearchField />
     </uie:Toolbar>
-    <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView" class="light">
+    <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView" class="alt">
         <ui:VisualElement class="lbs-panel">
             <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add.svg?fileID=7388822144124034973&amp;guid=ad8d08a3d465b3a438016713ae2f99c5&amp;type=3#Icon=Add" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" />
             <ui:DropdownField label="Dropdown" />

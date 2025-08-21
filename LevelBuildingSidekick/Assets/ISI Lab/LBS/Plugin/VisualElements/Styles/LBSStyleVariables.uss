@@ -13,25 +13,19 @@
     
     --lbs-light-purple-color: rgb(163, 160, 251);
     
-    --lbs-default-icon-color: rgb(210,210,210);
-    --lbs-default-text-color: rgb(220,220,220);
+    /*--lbs-default-icon-color: rgb(210,210,210);*/
+    /*--lbs-default-text-color: rgb(220,220,220);*/
     
-    --lbs-base-solid-gray-color: rgb(60, 60, 60);
-    --lbs-field-solid-bg-gray-color: rgb(40,40,40);
-    --lbs-darker-solid-gray-color: rgb(33, 33, 33);
-    --lbs-unity-6-black-color: rgb(20,20,20);
-    
-    --lbs-alt-icon-color: rgb(173,185,215);
-    --lbs-alt-base-solid-gray: rgb(40,44,52);
-    --lbs-alt-button-solid-bg-color: rgb(42,48,60);
-    --lbs-alt-button-solid-hover-bg-color: rgb(80,88,108);
-    --lbs-alt-field-solid-bg-color: rgb(22,26,30);
+    /*--lbs-base-solid-gray-color: rgb(60, 60, 60);*/
+    /*--lbs-field-solid-bg-gray-color: rgb(40,40,40);*/
+    /*--lbs-darker-solid-gray-color: rgb(33, 33, 33);*/
+    /*--lbs-unity-6-black-color: rgb(20,20,20);*/
     
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
     --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
     
-    --lbs-selectable-gray-color: rgb(72,72,72);
-    --lbs-selectable-hover-color: rgb(88,88,88);
+    /*--lbs-selectable-gray-color: rgb(72,72,72);*/
+    /*--lbs-selectable-hover-color: rgb(88,88,88);*/
     
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
     --lbs-selection-focus-blue-color: rgb(44,93,135);
@@ -54,6 +48,8 @@
 
     --lbs-selectable-gray-color: rgb(72,72,72);
     --lbs-selectable-hover-color: rgb(88,88,88);
+
+    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
 }
 
 .alt {
@@ -72,6 +68,7 @@
 .light {
     --lbs-default-icon-color: rgb(40,40,40);
     --lbs-default-text-color: rgb(20,20,20);
+    
     --lbs-base-solid-gray-color: rgb(217, 217, 217);
     --lbs-field-solid-bg-gray-color: rgb(174,174,174);
     --lbs-darker-solid-gray-color: rgb(230,230, 230);
@@ -79,4 +76,19 @@
 
     --lbs-selectable-gray-color: rgb(227,227,227);
     --lbs-selectable-hover-color: rgb(196,196,196);
+
+    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(54, 123, 245);
+}
+
+.horizontal{
+    --height: 24px;
+    --width: 100%;
+    flex-direction: row;
+}
+
+.vertical{
+    --height: 100%;
+    --width: 24px;
+    flex-direction: column;
 }

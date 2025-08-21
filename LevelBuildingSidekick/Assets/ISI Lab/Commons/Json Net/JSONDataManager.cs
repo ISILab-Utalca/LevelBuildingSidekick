@@ -59,7 +59,7 @@ namespace ISILab.JsonNet
         /// <param name="directoryName"></param>
         /// <param name="fileName"></param>
         /// <param name="data"></param>
-        public static void SaveData<T>(string directoryName, string fileName, T data)
+        public static bool SaveData<T>(string directoryName, string fileName, T data)
         {
             string directoryPath = directoryName;
             if (!Directory.Exists(directoryPath))
@@ -73,7 +73,7 @@ namespace ISILab.JsonNet
             }
 
             SaveData(dataPath, data);
-    
+            return File.Exists(dataPath);
         }
 
         /// <summary>

@@ -102,6 +102,7 @@ namespace ISILab.AI.Categorization
         private int ScoreResourceDistance(List<int> players, List<int> resources, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorTM)
         {
             var zones = sectorTM.SelectedZones;
+            //Debug.Log("Selected zones: " + zones.Count);
             var zonesIndex = zones.Select((z, i) => KeyValuePair.Create(z, i)).ToDictionary(x => x.Key, x => x.Value);
             var zonesDist = sectorTM.ZonesProximity;
 

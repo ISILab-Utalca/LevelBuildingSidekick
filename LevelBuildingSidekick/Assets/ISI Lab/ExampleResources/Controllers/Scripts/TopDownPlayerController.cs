@@ -52,7 +52,6 @@ namespace ISILab.Examples
         private float shootingTimer = 0f;
 
         // Bools
-        private bool canMove = true;
         private bool isMoving = false;
 
         public enum playerState { FreeRoam, Dashing, Shooting };

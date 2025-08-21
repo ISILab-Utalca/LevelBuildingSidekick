@@ -12,7 +12,7 @@ namespace ISILab.LBS.CustomComponents
         
         #region constants
         
-        public readonly static new string LBSClassName = "lbs-field";
+        public readonly static string LBSClassName = "lbs-field";
         
         #endregion
         

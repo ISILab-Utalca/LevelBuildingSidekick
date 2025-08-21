@@ -165,7 +165,11 @@ namespace ISILab.LBS.VisualElements.Editor
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
             presetField.value = "Select Preset";
-            presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+            presetField.RegisterValueChangedCallback(evt =>
+            {
+                UpdatePreset(evt.newValue);
+                LBSMainWindow.MessageNotify($"Selected MAP Elite preset: {evt.newValue}");
+            });
 
             //Progress Bar and Sliders
             xParamText = rootVisualElement.Q<Label>("XParamText");
@@ -504,23 +508,32 @@ namespace ISILab.LBS.VisualElements.Editor
         //Run the algorithm for suggestions
         private void RunAlgorithm()
         {
+            if(mapEliteBundle == null)
+            {
+                LBSMainWindow.MessageNotify("MAP Elite Preset not selected or null.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: MAP Elite Preset not selected or null.");
+                return;
+            }
+
+            //Check if there's a place to optimize
+            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
+            {
+                LBSMainWindow.MessageNotify("Use the Area Selector tool to select an area to optimize before starting MAP Elites.", LogType.Error, 5);
+                Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
+                return;
+            }
+
             //Check how many of these there are, and get the optimizer!
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
 
             UpdateGrid();
 
+            InitializeAllCurrentEvaluators();
+
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
-            
 
-            //Check if there's a place to optimize
-            if (assistant.RawToolRect.width == 0 || assistant.RawToolRect.height == 0)
-            {
-                    Debug.LogError("[ISI Lab]: Selected evolution area height or width < 0");
-                    return;
-            }
-
-            InitializeAllCurrentEvaluators();
+            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
@@ -531,8 +544,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Update button
             recalculate.text = "Recalculate";
+            
+            LBSMainWindow.MessageNotify("Calculating.");
         }
-        
+
         //Apply the suggestion in the world
         private void ApplySuggestion() => ApplySuggestion(selectedMap.Data);
         private void ApplySuggestion(object obj)
@@ -856,7 +871,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ToggleLayerContext(object layer)
         {
             LBSLayer objectLayer = layer as LBSLayer;
-            if (objectLayer == null) return;
+            if (objectLayer == null)
+            {
+                Debug.LogError("Object Layer was null.");
+                return;
+            }
             switch(Data.ContextLayers.Contains(layer))
             {
                 case true: Data.ContextLayers.Remove(objectLayer); break;

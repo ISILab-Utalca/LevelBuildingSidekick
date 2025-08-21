@@ -163,7 +163,7 @@ namespace ISILab.AI.Optimization
             if (Termination.HasReached(this))
             {
                 State = Op_State.TerminationReached;
-                OnTerminationReached?.Invoke();
+                //OnTerminationReached?.Invoke(); This is currently called from base class.
                 return true;
             }
 

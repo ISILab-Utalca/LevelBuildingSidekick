@@ -31,7 +31,7 @@ namespace ISILab.LBS.Manipulators
             _areaFeedback.fixToTeselation = true;
             Feedback = _lineFeedback;
 
-            Name = "Set connection";
+            Name = "Paint roads";
             Description = "Paint line across tiles to make connections. Hold CTRL to connect areas.";
         }
 
