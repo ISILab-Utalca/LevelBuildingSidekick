@@ -30,24 +30,24 @@ namespace ISILab.LBS.VisualElements.Editor
             visualTree.CloneTree(this);
 
             // File menu option
-            ToolbarMenu fileMenu = this.Q<ToolbarMenu>("ToolBarMenu");
+            LBSToolbarMenu fileMenu = this.Q<LBSToolbarMenu>("ToolBarMenu");
             fileMenu.menu.AppendAction("New", NewLevel);
             fileMenu.menu.AppendAction("Load", LoadLevel);
             fileMenu.menu.AppendAction("Save", SaveLevel);
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            ToolbarButton settingMenu = this.Q<ToolbarButton>("OptionButton");
+            LBSToolbarButton settingMenu = this.Q<LBSToolbarButton>("OptionButton");
             //settingMenu.clicked += () => OpenConfiguration();
             settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
 
             // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
             
-            ToolbarToggle keyMapToggle = this.Q<ToolbarToggle>("KeyMapToggle");
+            LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
             
-            var bundManBtn = this.Q<ToolbarButton>("BundleManagerButton");
+            LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
 
             // file name label
@@ -56,9 +56,10 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
             ThemeSelector.RegisterValueChangedCallback(_evt =>
             {
-                Debug.Log(_evt.currentTarget);
+                //Debug.Log(_evt.currentTarget);
                 
                 OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
+                
             });
             
         }

@@ -11,6 +11,8 @@ namespace ISILab.LBS.Manipulators
         private readonly Action<Rect> _onSelection;
         protected override string IconGuid => "132787114daf605489a3d20bafcf2844";
 
+
+
         public MapEliteAreaSelector(Action<Rect> action)
         {
             Feedback = new AreaFeedback();

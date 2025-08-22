@@ -36,7 +36,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore]
         public List<Zone> ZonesWithTiles => pairs.Select(t => t.Zone).Distinct().ToList();
 
-        public int[,] ZonesProximity => zonesProximity;
+        public int[,] ZonesProximity { get => zonesProximity; set => zonesProximity = value; }
 
         public List<Zone> SelectedZones { get; set; } = new List<Zone>();
 
@@ -331,7 +331,7 @@ namespace ISILab.LBS.Modules
                 }
                 log += "]\n";
             }
-            Debug.Log(log);
+            Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -675,6 +675,8 @@ namespace ISILab.LBS.Modules
             var pairs = this.pairs.Select(t => t.Clone()).Cast<TileZonePair>().ToList();
 
             var clone = new SectorizedTileMapModule(zones, pairs, this.id);
+            clone.ZonesProximity = this.ZonesProximity;
+            clone.SelectedZones = this.SelectedZones;
             return clone;
         }
 

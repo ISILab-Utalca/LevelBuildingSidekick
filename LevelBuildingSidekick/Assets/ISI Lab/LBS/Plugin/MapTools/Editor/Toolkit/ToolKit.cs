@@ -119,7 +119,8 @@ namespace LBS.VisualElements
         
         public object GetActiveManipulator()
         {
-            return content;
+            //return content; No idea why this was returning a Visual Element
+            return current.Item1?.Manipulator;
         }
         
         public LBSManipulator GetActiveManipulatorInstance()
@@ -144,6 +145,7 @@ namespace LBS.VisualElements
         
         public void SetActive(Type manipulatorType)
         {
+            Debug.Log("Manipulator changed to " +  manipulatorType);
             // Ensure manipulatorType is not null
             if (manipulatorType == null)
             {

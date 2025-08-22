@@ -160,6 +160,12 @@ namespace ISILab.LBS.Editor.Windows{
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }
+
+        // Allows to send notifications from threads other than main. Seems to work, although I'm not completely sure it's safe.
+        public static void MessageNotifyDelayed(string message, LogType logType = LogType.Log, int duration = 3)
+        {
+            EditorApplication.delayCall += () => MessageNotify(message, logType, duration);
+        }
         
         public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
         {       
@@ -300,29 +306,28 @@ namespace ISILab.LBS.Editor.Windows{
 
             #region TOOLBAR
 
-        var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-        toolbar.OnNewLevel += data =>
-        {
-            LBS.loadedLevel = data;
-            RefreshWindow();
-        };
-        toolbar.OnLoadLevel += data =>
-        {
-            LBS.loadedLevel = data;
-            RefreshWindow();
-            drawManager.RedrawLevel(levelData);
-        };
-        
-        toolbar.OnThemeChanged += data => ChangeTheme(data);
-        
-        rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
-        {
-            if (evt.ctrlKey && evt.keyCode == KeyCode.S)
+            var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            toolbar.OnNewLevel += data =>
             {
-                LBSController.SaveFile();
-                evt.StopPropagation();
-            }    
-        }, TrickleDown.TrickleDown);
+                LBS.loadedLevel = data;
+                RefreshWindow();
+            };
+            toolbar.OnLoadLevel += data =>
+            {
+                LBS.loadedLevel = data;
+                RefreshWindow();
+                drawManager.RedrawLevel(levelData);
+            };
+            toolbar.OnThemeChanged += data => ChangeTheme(data);
+
+            rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.ctrlKey && evt.keyCode == KeyCode.S)
+                {
+                    LBSController.SaveFile();
+                    evt.StopPropagation();
+                }    
+            }, TrickleDown.TrickleDown);
 
             #endregion
 
@@ -332,6 +337,7 @@ namespace ISILab.LBS.Editor.Windows{
             selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
             positionLabel = rootVisualElement.Q<Label>("PositionLabel");
 
+            
             #endregion
 
             #region PANELS - INSPECTOR, EXTRA, LAYERS, GENERATOR
@@ -457,6 +463,13 @@ namespace ISILab.LBS.Editor.Windows{
         inspectorManager.CreateContainers(levelData, mainView);
         drawManager.RedrawLevel(levelData);
 
+            #endregion
+            
+            
+            #region THEME SET
+            
+            ChangeTheme(LBSSettings.Instance.view.LBSTheme);
+            
             #endregion
         }
 
@@ -596,17 +609,17 @@ namespace ISILab.LBS.Editor.Windows{
                 case  LBSSettings.Interface.InterfaceTheme.Light:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("light");
-                    Repaint();
+                    //Repaint();
                     break;
                 case  LBSSettings.Interface.InterfaceTheme.Dark:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("dark");
-                    Repaint();
+                    //Repaint();
                     break;
                 case LBSSettings.Interface.InterfaceTheme.Alt:
                     rootVisualElement.ClearClassList();
                     rootVisualElement.AddToClassList("alt");
-                    Repaint();
+                    //Repaint();
                     break;
                 default:
                     break;

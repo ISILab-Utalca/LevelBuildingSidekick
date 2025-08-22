@@ -55,6 +55,7 @@
                     </ui:VisualElement>
                     <ui:Button text="Reset Preset" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Shuffle.svg?fileID=7388822144124034973&amp;guid=02d3b845a0e310f4aa0112eb76304c3c&amp;type=3#Icon=Shuffle" tooltip="Resets to the default RTS preset." name="ResetPresetButton" style="margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; max-height: 24px; min-height: 24px;" />
                     <ui:Button text="Open Preset Scriptable" tooltip="Opens the scriptable object in the inspector." icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=BundleIcon.svg?fileID=7388822144124034973&amp;guid=4dbbf92b8f6f98040af7407659ff37b0&amp;type=3#Icon=BundleIcon" name="OpenPresetButton" style="margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; min-height: 24px; max-height: 24px;" />
+                    <ui:Button text="Auto-select Area" name="AutoSelectButton" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AutoSelectArea.svg?fileID=7388822144124034973&amp;guid=39c6a9c18ff65f3428738d2ccda6a64c&amp;type=3#Icon=AutoSelectArea" style="height: auto; min-height: 24px; max-height: 24px; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="MapInfluence" class="lbs-Foldout">
                     <ui:Foldout name="Foldout" />

@@ -84,6 +84,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private ObjectField presetFieldRef;
         private Button openPresetButton;
         private Button resetPresetButton;
+        private Button autoSelectButton;
         
         //Parameters' graphic
         private VisualElement graphOfHell;
@@ -164,7 +165,11 @@ namespace ISILab.LBS.VisualElements.Editor
             presetField = rootVisualElement.Q<DropdownField>("Preset");
             SetPresets();
             presetField.value = "Select Preset";
-            presetField.RegisterValueChangedCallback(evt => UpdatePreset(evt.newValue));
+            presetField.RegisterValueChangedCallback(evt =>
+            {
+                UpdatePreset(evt.newValue);
+                LBSMainWindow.MessageNotify($"Selected MAP Elite preset: {evt.newValue}");
+            });
 
             //Progress Bar and Sliders
             xParamText = rootVisualElement.Q<Label>("XParamText");
@@ -250,6 +255,24 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 if (mapEliteBundle != null) mapEliteBundle = mapEliteBundle.ResetValues();
                 UpdatePreset(mapEliteBundle.PresetName);
+            };
+
+            autoSelectButton = rootVisualElement.Q<Button>("AutoSelectButton");
+            autoSelectButton.clicked += () =>
+            {
+                var rect = GetDefaultLayerArea();
+
+                if (Data.ContextLayers.Count > 0)
+                {
+                    var subRect = GetLayerContextArea();
+
+                    rect.xMin = Mathf.Min(rect.xMin, subRect.xMin);
+                    rect.xMax = Mathf.Max(rect.xMax, subRect.xMax);
+                    rect.yMin = Mathf.Min(rect.yMin, subRect.yMin);
+                    rect.yMax = Mathf.Max(rect.yMax, subRect.yMax);
+                }
+
+                assistant.RawToolRect = rect;
             };
 
             //Visualization option buttons
@@ -408,6 +431,30 @@ namespace ISILab.LBS.VisualElements.Editor
             InitializeAllCurrentEvaluators();
         }
 
+        private Rect GetLayerContextArea()
+        {
+            //Grabs the area of all combined context layers
+            var combinedRect = new Rect();
+
+            foreach (var layer in Data.ContextLayers)
+            {
+                var rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+
+                combinedRect.xMin = Mathf.Min(rect.xMin, combinedRect.xMin);
+                combinedRect.xMax = Mathf.Max(rect.xMax, combinedRect.xMax);
+                combinedRect.yMin = Mathf.Min(rect.yMin, combinedRect.yMin);
+                combinedRect.yMax = Mathf.Max(rect.yMax, combinedRect.yMax);
+            }
+
+            return combinedRect;
+        }
+
+        private Rect GetDefaultLayerArea()
+        {
+            //Grabs the owner layer area
+            return assistant.OwnerLayer.GetModule<BundleTileMap>().GetBounds();
+        }
+
         private void UpdateTooltips()
         {
             param1Field.tooltip = currentXField?.Tooltip;
@@ -471,11 +518,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
             UpdateGrid();
 
+            InitializeAllCurrentEvaluators();
+
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
-            
 
-            InitializeAllCurrentEvaluators();
+            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
@@ -813,7 +861,11 @@ namespace ISILab.LBS.VisualElements.Editor
         private void ToggleLayerContext(object layer)
         {
             LBSLayer objectLayer = layer as LBSLayer;
-            if (objectLayer == null) return;
+            if (objectLayer == null)
+            {
+                Debug.LogError("Object Layer was null.");
+                return;
+            }
             switch(Data.ContextLayers.Contains(layer))
             {
                 case true: Data.ContextLayers.Remove(objectLayer); break;
