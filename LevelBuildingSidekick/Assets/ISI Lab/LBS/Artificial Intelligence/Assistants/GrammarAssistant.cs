@@ -326,21 +326,6 @@ namespace ISILab.LBS.Assistants
         public override void OnAttachLayer(LBSLayer layer)
         {
             base.OnAttachLayer(layer);
-         
-            quest.OnAddEdge += (edge)=>
-            {
-                ValidateEdgeGrammar(edge);
-            };
-            
-            // Removing an edge changes the nodes grammar to false
-            quest.OnRemoveEdge += (edge)=>
-            {
-                if (edge.To is not null) edge.To.ValidGrammar = false;
-                foreach (var from in edge.From)
-                {
-                    from.ValidGrammar = false;
-                }
-            };
         }
 
         public override void OnGUI() { }

@@ -82,8 +82,33 @@ namespace ISILab.LBS.VisualElements
         private void DrawLine(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-            painter.DrawDottedLine(_pos1, _pos2, Color.white, _stroke, _lineWidth);
+
+            // Draw dotted line
+            painter.strokeColor = Color.white;
+            painter.lineWidth = _stroke;
+            painter.DrawDottedLine(_pos1, _pos2, painter.strokeColor, _lineWidth);
+
+            // Calculate arrow direction
+            Vector2 mid = (_pos1 + _pos2) * 0.5f;
+            Vector2 dir = (_pos2 - _pos1).normalized;
+            Vector2 perp = new Vector2(-dir.y, dir.x); // perpendicular vector
+
+            float arrowSize = 16f;
+
+            Vector2 tip = mid + dir * arrowSize;
+            Vector2 left = mid - dir * arrowSize * 0.5f + perp * arrowSize * 0.5f;
+            Vector2 right = mid - dir * arrowSize * 0.5f - perp * arrowSize * 0.5f;
+
+            // Draw arrowhead
+            painter.BeginPath();
+            painter.MoveTo(tip);
+            painter.LineTo(left);
+            painter.LineTo(right);
+            painter.ClosePath();
+            painter.fillColor = Color.white;
+            painter.Fill();
         }
+
 
         private void OnMouseDown(MouseDownEvent evt)
         {

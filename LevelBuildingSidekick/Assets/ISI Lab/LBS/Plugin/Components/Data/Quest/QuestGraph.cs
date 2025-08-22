@@ -9,7 +9,6 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
 using Newtonsoft.Json;
-using TreeEditor;
 using UnityEngine;
 
 namespace ISILab.LBS.Modules
@@ -31,197 +30,249 @@ namespace ISILab.LBS.Modules
 
         private float _viewNodeWidthOffset = 400f;
         private float _viewNodeHeightOffset = 100f;
+
+        [SerializeField]
+        private string grammarGuid = "63ab688b53411154db5edd0ec7171c42"; // Default grammar guid
+
+        [JsonIgnore] private LBSGrammar _grammar;
+        [JsonIgnore] private Action<QuestNode> _onQuestNodeSelected;
+        [JsonIgnore] private Action _onUpdateGraph;
         #endregion
 
         #region PROPERTIES
-
-        [JsonIgnore]
-        public QuestNode Root => root;
-
-        [JsonIgnore]
-        private LBSGrammar _grammar;
-        
-        /// <summary>
-        /// // default value is DefaultGrammar
-        /// </summary>
-        [SerializeField] 
-        private string grammarGuid = "63ab688b53411154db5edd0ec7171c42"; 
-        
-
-        [JsonIgnore]
-        public LBSGrammar Grammar
-        {
-            get => _grammar;
-            set
-            {
-                _grammar = value;
-                if(_grammar == null) return;
-                
-                // Updating the GUID as this is how the object is loaded
-                grammarGuid = LBSAssetMacro.GetGuidFromAsset(value);
-                // if changing grammar, must validate the existing graph with the new grammar
-                CheckGraphByGrammar();
-            }
-        }
-
-        /// <summary>
-        /// Calls the assistant to update all the nodes by the new grammar, if the graph structure is valid
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public void CheckGraphByGrammar()
-        {
-            var assistant = OwnerLayer.GetAssistant<GrammarAssistant>();
-            if (assistant == null) throw new Exception("No Behavior");
-            foreach (var edge in QuestEdges)
-            {
-                assistant.ValidateEdgeGrammar(edge);
-            }
-
-        }
-
-        public List<GraphNode> GraphNodes => graphNodes;
-        public List<QuestEdge> QuestEdges => questEdges;
+        [JsonIgnore] public QuestNode Root => root;
+        [JsonIgnore] public List<GraphNode> GraphNodes => graphNodes;
+        [JsonIgnore] public List<QuestEdge> QuestEdges => questEdges;
 
         public QuestNode SelectedQuestNode
         {
             get => _selectedQuestNode;
             set
             {
-                var previous = _selectedQuestNode;
+                var prev = _selectedQuestNode;
                 _selectedQuestNode = value;
                 _onQuestNodeSelected?.Invoke(_selectedQuestNode);
-                
-                // If the selection is new, new elements must be drawn
-                if (previous != _selectedQuestNode)
+
+                if (prev != _selectedQuestNode)
                 {
-                  //  ChangeVisuals();   
+                    // UI visuals may need refreshing
                 }
             }
         }
-        
-        private Action<QuestNode> _onQuestNodeSelected;
+
+        public LBSGrammar Grammar
+        {
+            get => _grammar;
+            set
+            {
+                _grammar = value;
+                if (_grammar == null) return;
+
+                grammarGuid = LBSAssetMacro.GetGuidFromAsset(value);
+                ValidateAllWithGrammar();
+            }
+        }
+
         public event Action<QuestNode> OnQuestNodeSelected
         {
-            add =>
-                // a single suscribed function at a time
-                _onQuestNodeSelected += value;
-
+            add => _onQuestNodeSelected += value;
             remove => _onQuestNodeSelected = null;
         }
-        
-        
-        [JsonIgnore]
-        private Action _onUpdateGraph;
+
         public event Action RedrawGraph
         {
-            add =>
-                // a single suscribed function at a time
-                _onUpdateGraph += value;
-
+            add => _onUpdateGraph += value;
             remove => _onUpdateGraph = null;
         }
-
         #endregion
-        
+
         #region EVENTS
-        [JsonIgnore]
-        public Action<GraphNode> GoToNode;
-        [JsonIgnore]
-        public Action<GraphNode> OnAddNode;
-        [JsonIgnore]
-        public Action<GraphNode> OnRemoveNode;
-        [JsonIgnore]
-        public Action<QuestEdge> OnAddEdge;
-        [JsonIgnore]
-        public Action<QuestEdge> OnRemoveEdge;
+        [JsonIgnore] public Action<GraphNode> GoToNode;
+        [JsonIgnore] public Action<GraphNode> OnAddNode;
+        [JsonIgnore] public Action<GraphNode> OnRemoveNode;
+        [JsonIgnore] public Action<QuestEdge> OnAddEdge;
+        [JsonIgnore] public Action<QuestEdge> OnRemoveEdge;
         #endregion
-
 
         public QuestGraph()
         {
-            OnAddEdge += ValidateEdgesGrammar;
-            
-            OnRemoveEdge += ValidateEdgesGrammar;
+            OnAddEdge += ValidateEdgeConnection;
+            OnRemoveEdge += ValidateEdgeConnection;
         }
 
-        private void ValidateEdgesGrammar(QuestEdge edge)
-        {
-            // validate connections
-            foreach (GraphNode node in edge.From)
-            {
-                bool hasRoots = GetRoots(node).Any();
-                // the root must no have roots
-                if (node == root) node.ValidConnections = !hasRoots;
-                // all other nodes MUST have roots
-                else node.ValidConnections = hasRoots;
-            } 
-            
-            // all other nodes MUST have roots
-            edge.To.ValidConnections = GetRoots(edge.To).Any();
-            
-            foreach (var inneredge in QuestEdges)
-            {
-                // see if its goal
-                if (inneredge.To is QuestNode toQuestNode)
-                {
-                    toQuestNode.NodeType = !GetBranches(toQuestNode).Any()
-                        ? QuestNode.ENodeType.Goal
-                        : QuestNode.ENodeType.Middle;
-                }
-            }
-                
-            // always check grammar when updating the edges
-            CheckGraphByGrammar();
-        }
-
-        #region METHODS
+    #region METHODS
         
-        public void NodeDataChanged(QuestNode node) {_onQuestNodeSelected?.Invoke(node);}
-        
+        #region Grammar
         public void LoadGrammar()
         {
-            if (_grammar == null) _grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(grammarGuid);
+            if (_grammar == null)
+                _grammar = LBSAssetMacro.LoadAssetByGuid<LBSGrammar>(grammarGuid);
+        }
+
+        public void ValidateAllWithGrammar()
+        {
+            var assistant = OwnerLayer.GetAssistant<GrammarAssistant>();
+            if (assistant == null) throw new Exception("No GrammarAssistant found");
+
+            foreach (var edge in QuestEdges)
+                assistant.ValidateEdgeGrammar(edge);
+            
+            _onUpdateGraph?.Invoke();
         }
         
-        public T GetNodeAtPosition<T>(Vector2 position) where T : GraphNode
+        private void ValidateEdgeConnection(QuestEdge newEdge)
+        {
+            //  Update quest node types (Goal or Middle) by their connections
+            foreach (var innerEdge in QuestEdges)
+            {
+                if (innerEdge.To is QuestNode qn)
+                {
+                    qn.NodeType = GetBranches(qn).Any()
+                        ? QuestNode.ENodeType.Middle
+                        : QuestNode.ENodeType.Goal;
+                }
+            }
+
+            // reset all connections validations
+            foreach (var node in GraphNodes)
+            {
+                node.ValidConnections = false;
+            }
+
+            // we must revalidate all edges connections
+            foreach (var edge in QuestEdges)
+            {
+                // destination node validation
+                var dest = edge.To;
+                dest.ValidConnections = GetRoots(dest).Any();
+
+                // source nodes validation
+                foreach (var node in edge.From)
+                {
+                    node.ValidConnections = GetRoots(node).Any();
+                }
+            
+                if (dest is QuestNode goalNode && goalNode.NodeType == QuestNode.ENodeType.Goal)
+                {
+                    // the goal must not have branches!
+                    goalNode.ValidConnections = !GetBranches(goalNode).Any();
+                }
+            }
+            
+            RootValidation();
+            
+            ValidateAllWithGrammar();
+        }
+
+        #endregion
+
+        #region Nodes
+        public void NodeDataChanged(QuestNode node) => _onQuestNodeSelected?.Invoke(node);
+
+        public T GetNodeAtPosition<T>(Vector2 pos) where T : GraphNode
         {
             foreach (var node in graphNodes)
             {
-                if (node.NodeViewPosition.Contains(position))
-                {
-                    if (node is T typedNode)
-                        return typedNode;
-
-                    Debug.LogWarning($"Node {node} found at {position}, but cast to {typeof(T).Name} failed");
-                }
+                if (node.NodeViewPosition.Contains(pos) && node is T casted)
+                    return casted;
             }
-
-            Debug.Log($"No node of type {typeof(T).Name} found at position {position}");
             return null;
         }
 
+        public List<QuestNode> GetQuestNodes() =>
+            graphNodes.OfType<QuestNode>().ToList();
 
-        public List<QuestEdge> GetBranches(GraphNode node)
+        public GraphNode AddNewNode(QuestBehaviour behaviour, Vector2 pos)
         {
-            if (questEdges.Count == 0)
-                return new List<QuestEdge>();
-            
-            List<QuestEdge> edges = new List<QuestEdge>();
-            foreach (var edge in questEdges)
+            if (behaviour.activeGraphNodeType == typeof(QuestNode))
+                return AddNewQuestNode(behaviour.ActionToSet, pos);
+
+            if (behaviour.activeGraphNodeType == typeof(OrNode))
             {
-                foreach (var from in edge.From)
-                {
-                    edges.AddRange(questEdges.Where(e => from == node).ToList());
-                }
+                var node = new OrNode(pos, this);
+                AddNodeToGraph(node);
+                return node;
             }
-            
-            return edges;
+
+            if (behaviour.activeGraphNodeType == typeof(AndNode))
+            {
+                var node = new AndNode(pos, this);
+                AddNodeToGraph(node);
+                return node;
+            }
+
+            return null;
         }
-        public List<QuestEdge> GetRoots(GraphNode node)
+
+        public QuestNode AddNewQuestNode(string action, Vector2 pos)
         {
-            return questEdges.Count == 0 ? new List<QuestEdge>() : questEdges.Where(e => e.To == node).ToList();
+            int suffix = 0;
+            string id;
+            do { id = $"{action} ({suffix++})"; }
+            while (GetQuestNodes().Any(n => n.ID == id));
+
+            var node = new QuestNode(id, pos, action, this);
+            AddNodeToGraph(node);
+            return node;
         }
-        private QuestEdge GetEdge(Vector2 position, float delta)
+
+        public void AddNodeToGraph(GraphNode node)
+        {
+            graphNodes.Add(node);
+            OnAddNode?.Invoke(node);
+
+            if (node is QuestNode qn)
+            {
+                if (root == null) SetRoot(qn);
+                _selectedQuestNode = qn;
+                NodeDataChanged(qn);
+            }
+        }
+
+        public void RemoveQuestNode(GraphNode node)
+        {
+            foreach (var e in GetEdgesWithNode(node))
+                RemoveEdge(e);
+
+            graphNodes.Remove(node);
+            OnRemoveNode?.Invoke(node);
+
+            if (node == root) root = null;
+            if (node == _selectedQuestNode) _selectedQuestNode = null;
+
+            NodeDataChanged(_selectedQuestNode);
+        }
+        #endregion
+
+        #region Edges
+        public Tuple<string, LogType> AddEdge(GraphNode from, GraphNode to)
+        {
+            if (to == null || from == null)
+                return Tuple.Create("A connection requires two nodes.", LogType.Error);
+
+            if (from == to)
+                return Tuple.Create("A node cannot connect to itself.", LogType.Error);
+
+            // prevent duplicates
+            if (questEdges.Any(e => e.From.Contains(from) && e.To == to))
+                return Tuple.Create("This edge already exists.", LogType.Warning);
+
+            var newEdge = new QuestEdge(from, to);
+            questEdges.Add(newEdge);
+            OnAddEdge?.Invoke(newEdge);
+
+            return Tuple.Create($"Connection: {from} → {to}", LogType.Log);
+        }
+
+
+        private void RemoveEdge(QuestEdge edge)
+        {
+            if (edge == null) return;
+            questEdges.Remove(edge);
+            OnRemoveEdge?.Invoke(edge);
+        }
+
+        private QuestEdge GetEdge(Vector2 pos, float delta)
         {
             var size = OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
             foreach (var e in questEdges)
@@ -230,121 +281,39 @@ namespace ISILab.LBS.Modules
                 {
                     var c1 = new Rect(from.Position, size).center;
                     var c2 = new Rect(e.To.Position, size).center;
-
-                    var dist = position.DistanceToLine(c1, c2);
-                    if (dist < delta)
+                    if (pos.DistanceToLine(c1, c2) < delta)
                         return e;
                 }
-                
             }
             return null;
         }
+
+        public void RemoveEdgeByPosition(Vector2Int pos, float delta)
+        {
+            var edge = GetEdge(pos, delta);
+            RemoveEdge(edge);
+        }
+
+        private List<QuestEdge> GetEdgesWithNode(GraphNode node) =>
+            questEdges.Where(e => e.From.Contains(node) || e.To.Equals(node)).ToList();
+
+        public List<QuestEdge> GetBranches(GraphNode node)
+        {
+            var list = new List<QuestEdge>();
+            foreach (var edge in questEdges)
+                if (edge.From.Contains(node))
+                    list.Add(edge);
+            return list;
+        }
+
+        public List<QuestEdge> GetRoots(GraphNode node) =>
+            questEdges.Where(e => e.To == node).ToList();
+        #endregion
+
         
-        public void SetRoot(QuestNode node)
-        {
-            if (node == null) return;
-      
-            if (root is not null)
-            {
-                root.NodeType = QuestNode.ENodeType.Middle;
-            }
-            
-            root = node;
-            root.NodeType = QuestNode.ENodeType.Start;
-            
-            bool hasRoots = GetRoots(node).Any();
-            // the root must no have roots
-            node.ValidConnections = !hasRoots;
-            
-            // always check grammar when updating the root
-            CheckGraphByGrammar();
-            
-            _onUpdateGraph?.Invoke();
-        }
-
-        /// <summary>
-        ///  Returns all the quest node types within the graph nodes
-        /// </summary>
-        /// <returns></returns>
-        public List<QuestNode> GetQuestNodes()
-        {
-            List<QuestNode> existingNodes = new List<QuestNode>();
-            foreach (GraphNode node in graphNodes)
-            {
-                if(node.GetType() == typeof(QuestNode)) existingNodes.Add(node as QuestNode);
-            }
-            return existingNodes;
-        }
-
-        /// <summary>
-        /// Creates a new node of a given action type. auto assigning its ID by the time the action has been repeated
-        /// </summary>
-        /// <param name="behaviour">behaviour that owns the graph</param>
-        /// <param name="position"></param>
-        public GraphNode AddNewNode(QuestBehaviour behaviour, Vector2 position)
-        {
-            switch (behaviour.activeGraphNodeType)
-            {
-                case { } t when t == typeof(QuestNode):
-                {
-                    return AddNewQuestNode(behaviour.ActionToSet, position);
-                }
-
-                case { } t when t == typeof(OrNode):
-                {
-                    var newNode = new OrNode(position, this);
-                    AddNodeToGraph(newNode);
-                    return newNode;
-                }
-
-                case { } t when t == typeof(AndNode):
-                {
-                    var newNode = new AndNode(position, this);
-                    AddNodeToGraph(newNode);
-                    return newNode;
-                }
-
-                default:
-                    return null; // failed generation
-            }
-        }
-
-        public QuestNode AddNewQuestNode(string action, Vector2 position)
-        {
-            int suffix = 0;
-            string nodeID;
-            do
-            {
-                nodeID = $"{action} ({suffix++})";
-            } while (GetQuestNodes().Any(questNode => questNode.ID == nodeID));
-
-            var newNode = new QuestNode(nodeID, position, action, this);
-            AddNodeToGraph(newNode);
-            return newNode;
-        }
+        #region AssistantCalls
         
-        /// <summary>
-        /// Adds the node to the graph
-        /// </summary>
-        /// <param name="node"></param>
-        public void AddNodeToGraph(GraphNode node)
-        {
-            graphNodes.Add(node);
-            OnAddNode?.Invoke(node);
-            
-            if (node is not QuestNode questNode) return;
-            
-            // if no root try to set the first node as if it is quest node
-            if(root == null) SetRoot(questNode);
-            // select when added
-            _selectedQuestNode = questNode;
-            // update UI
-            NodeDataChanged(_selectedQuestNode);
-        }
-        
-  
-        
-        /// <summary>
+         /// <summary>
         /// finds the edge of a referenced node. makes a new action that turns into the "To"
         /// of the connection and makes a new edge from the new action and the original "To"
         /// of the referenced node
@@ -353,42 +322,33 @@ namespace ISILab.LBS.Modules
         /// <param name="referenceNode">The node after which the new node will be inserted</param>
         public QuestNode InsertQuestNodeAfter(string action, QuestNode referenceNode)
         {
-            var position = Vector2.zero;
             if (referenceNode == null || !graphNodes.Contains(referenceNode))
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding as regular node.");
-                return AddNewQuestNode(action, position);
+                return AddNewQuestNode(action, Vector2.zero);
             }
-            
-            position = referenceNode.Position;
-            position.x += _viewNodeWidthOffset;
-            
-            // adds the action to the graph
-            var newNode = AddNewQuestNode(action, position);
-  
-            int index = graphNodes.IndexOf(referenceNode);
-            index = Math.Clamp(index, 0, graphNodes.Count - 1);
 
-            // FInd existing edges to the reference
-            var incomingEdges = GetRoots(referenceNode).ToList();
-            foreach (var edge in incomingEdges)
+            // Position new node next to reference
+            var position = referenceNode.NodeViewPosition.position;
+            position.x += (int)_viewNodeWidthOffset;
+
+            var newNode = AddNewQuestNode(action, position);
+
+            // Move all outgoing edges of reference so they start at new node
+            foreach (var edge in GetBranches(referenceNode).ToList())
             {
                 RemoveEdge(edge);
-            }
-            
-            // Add edge from reference node to new node
-            AddEdge(referenceNode, newNode);
-            
-            // Find existing edges from the reference node
-            var outgoingEdges = GetBranches(referenceNode).ToList();
-            foreach (var edge in outgoingEdges)
-            {
-                RemoveEdge(edge);
-                AddEdge(newNode, referenceNode);
                 AddEdge(newNode, edge.To);
             }
+            
+            // Add edge from reference → new node
+            AddEdge(referenceNode, newNode);
+            _onUpdateGraph?.Invoke();
+
             return newNode;
         }
+
+
 
         /// <summary>
         /// Inserts a new node before a specified reference node
@@ -402,6 +362,7 @@ namespace ISILab.LBS.Modules
             {
                 Debug.LogWarning("Reference node is null or not in the graph. Adding quest node without connections.");
                 return AddNewQuestNode(action, position);
+
             }
             
             position =  referenceNode.Position;
@@ -415,15 +376,20 @@ namespace ISILab.LBS.Modules
             foreach (var edge in incomingEdges)
             {
                 RemoveEdge(edge);
-                AddEdge(newNode, referenceNode);
                 foreach (GraphNode from in edge.From)
                 {
                     AddEdge(newNode, from);
+                    if(referenceNode == root)
+                    {
+                        SetRoot(newNode);
+                    }
                 }
             }
             
             // Add edge from new node to reference node
             AddEdge(newNode, referenceNode);
+            
+            _onUpdateGraph?.Invoke();
             return newNode;
         }
         
@@ -453,240 +419,75 @@ namespace ISILab.LBS.Modules
             RemoveQuestNode(referenceNode);
         }
         
-        /// <summary>
-        /// Removes a quest node and deletes any connections with it
-        ///
-        /// may deselect selected node
-        /// </summary>
-        /// <param name="node"></param>
-        public void RemoveQuestNode(GraphNode node)
+        #endregion
+        
+        
+        #region Root
+        public void SetRoot(QuestNode node)
         {
-            // undo connections
-            var edgesToRemove = GetEdgesWithNode(node);
-            foreach (var e in edgesToRemove) RemoveEdge(e);
-            
-            graphNodes.Remove(node);
-            OnRemoveNode?.Invoke(node);
-            
-            // make sure to delete reference
-            if(node==root) root = null;
-            if(node==_selectedQuestNode) _selectedQuestNode = null;
-            
-            NodeDataChanged(_selectedQuestNode);
-        }
-
-        private List<QuestEdge> GetEdgesWithNode(GraphNode node)
-        {
-            return questEdges.Where(e => e.From.Contains(node) || e.To.Equals(node)).ToList();
-        }
-
-
-        public Tuple<string, LogType> AddEdge(GraphNode from, GraphNode to)
-        {
-            if (to is null || from is null)
+            if (root != null)
             {
-                return Tuple.Create("A connection requires two nodes.", LogType.Error);
+                root.NodeType = QuestNode.ENodeType.Middle;
             }
             
-            // Root node restriction
-            if (to == root && from == root)
-            {
-                return Tuple.Create("Root node can only have Single connection type.", LogType.Error);
-            }
-            // Roots node restriction
-            foreach (var edges in GetRoots(to))
-            {
-                // the destination is a root already
-                if (edges.From.Contains(to))
-                {
-                    return Tuple.Create("The 'To' node is already a root" , LogType.Error);
-                }
-            }
-            // Roots node restriction
-            foreach (var edges in GetBranches(from))
-            {
-                // the destination is a root already
-                if (edges.To ==  from)
-                {
-                    return Tuple.Create("The 'From' node is already a destination" , LogType.Error);
-                }
-            }
+            root = node;
+            // set a null root
+            if (root == null) return;
             
-            var newEdge = new QuestEdge(from, to);
+            root.NodeType = QuestNode.ENodeType.Start;
             
-            questEdges.Add(newEdge);
-            OnAddEdge?.Invoke(newEdge);
+            RootValidation();
             
-            var connectionInfo = $"Connection: {from} → {to}";
-            return Tuple.Create(connectionInfo, LogType.Log);
+            ValidateAllWithGrammar();
         }
 
-        
-        /// <summary>
-        /// Removes the connection between two nodes by using the positions of the edge
-        /// </summary>
-        /// <param name="position">the position clicked in the graph</param>
-        /// <param name="delta">higher delta easier to catch the line</param>
-        public void RemoveEdgeByPosition(Vector2Int position, float delta)
+        private void RootValidation()
         {
-            var edge = GetEdge(position, delta);
-            RemoveEdge(edge);
+            root.ValidConnections = !GetRoots(root).Any() && GetBranches(root).Any();
         }
-        
-        /// <summary>
-        /// Removes the edge from the graph
-        /// </summary>
-        /// <param name="edge"></param>
-        private void RemoveEdge(QuestEdge edge)
-        {
-            if (edge == null) return;
-            questEdges.Remove(edge);
-            OnRemoveEdge?.Invoke(edge);
-        }
-        
-        public override bool IsEmpty()
-        {
-            return graphNodes.Count == 0;
-        }
-        
+
+        #endregion
+
+        #region Clone & Utils
+        public override bool IsEmpty() => graphNodes.Count == 0;
+
         public override object Clone()
         {
-            var clone = new QuestGraph
-            {
-                grammarGuid = grammarGuid
-            };
-
-            clone.graphNodes.Clear();
+            var clone = new QuestGraph { grammarGuid = grammarGuid };
 
             var nodes = graphNodes.Select(CloneRefs.Get).Cast<QuestNode>();
+            foreach (var n in nodes) clone.graphNodes.Add(n);
 
-            foreach (var node in nodes)
-            {
-                clone.graphNodes.Add(node);
-            }
-
-            var edgesClone = questEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
-            foreach (var edge in edgesClone)
-            {
-                clone.questEdges.Add(edge);
-            }
+            var edges = questEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
+            foreach (var e in edges) clone.questEdges.Add(e);
 
             clone.root = CloneRefs.Get(Root) as QuestNode;
-
             return clone;
         }
-        public List<object> GetSelected(Vector2Int position)
+
+        public List<object> GetSelected(Vector2Int pos)
         {
-            var selected = new List<object>();
-
-            var node = GetGraphNode(position);
-            if (node != null)
-                selected.Add(node);
-
-            return selected;
+            var list = new List<object>();
+            var node = GetGraphNode(pos);
+            if (node != null) list.Add(node);
+            return list;
         }
 
-        private GraphNode GetGraphNode(Vector2Int position)
-        {
-            foreach (var graphNode in graphNodes)
-            {
-                if(graphNode.Position == position) return graphNode;
-            }
-            return null;
-        }
+        private GraphNode GetGraphNode(Vector2Int pos) =>
+            graphNodes.FirstOrDefault(n => n.Position == pos);
+        #endregion
 
-        /* Unused - QuestFlow pertinent
-         
-         
-        /// <summary>
-        /// It updates the quest node types as well as removing all the connections
-        /// (edges) redoing them, as this function is called from the Quest History' list
-        /// reordering
-        /// </summary>
-        public void UpdateQuestNodes()
-        {
-            if (!graphNodes.Any() || !questEdges.Any()) return;
-     
-            foreach (var qe in questEdges)
-            {
-                qe.To.NodeType = TreeEditorHelper.NodeType.Middle;
-                foreach (var from in qe.From)
-                {
-                    from.NodeType = TreeEditorHelper.NodeType.Middle;
-                }
-              
-            }
-            
-            // the root must always have a single from(single node type)
-            SetRoot(questEdges.First().From.First());
-            
-            questEdges.Last().To.NodeType = TreeEditorHelper.NodeType.Goal;
-                
-            _onUpdateGraph?.Invoke();
-        }
-        
-        public void Reorder()
-        {
-            if (!graphNodes.Any()) return;
+        #region Unused
+        public void ChangeConnection(QuestEdge edge, Type graphNodeType) =>
+            throw new NotImplementedException();
 
-            // 1. Reset root and types before doing anything else
-            foreach (var qn in graphNodes)
-            {
-                qn.NodeType = TreeEditorHelper.NodeType.Middle;
-            }
-
-            var firstNode = graphNodes.First();
-            var lastNode = graphNodes.Last();
-
-            SetRoot(firstNode);
-            lastNode.NodeType = TreeEditorHelper.NodeType.Goal;
-
-            // 2. Clear old edges
-            questEdges.Clear();
-
-            // 3. Add new sequential edges
-            for (int i = 0; i < graphNodes.Count - 1; i++)
-            {
-                var node1 = graphNodes[i];
-                var node2 = graphNodes[i + 1];
-
-                var result = AddEdge(node1, node2);
-                if (result.Item2 == LogType.Error)
-                {
-                    Debug.LogWarning($"[QuestGraph::Reorder] Failed to add edge: {result.Item1}");
-                }
-            }
-
-            //UpdateFlow?.Invoke(); // Optional: force redraw if needed
-        }
-    */
-        
-        public void ChangeConnection(QuestEdge edge, Type graphNodeType)
-        {
-            throw new NotImplementedException(); 
-        }
+        public override void Print() => throw new NotImplementedException();
+        public override void Clear() => throw new NotImplementedException();
+        public override Rect GetBounds() => throw new NotImplementedException();
+        public override void Rewrite(LBSModule other) => throw new NotImplementedException();
+        #endregion
         
         #endregion
- 
         
-        #region MODULE FUNCTIONS: These are not used
-        public override void Print()
-        {
-            throw new NotImplementedException();
-        }
-        public override void Clear()
-        {
-            throw new NotImplementedException();
-        }
-        public override Rect GetBounds()
-        {
-            throw new NotImplementedException();
-        }        public override void Rewrite(LBSModule other)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
-
 }

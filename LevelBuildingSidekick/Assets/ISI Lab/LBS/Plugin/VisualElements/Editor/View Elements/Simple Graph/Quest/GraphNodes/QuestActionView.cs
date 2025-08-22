@@ -72,9 +72,11 @@ namespace ISILab.LBS.VisualElements
             {
                 case QuestNode.ENodeType.Start:
                     ShowIcon(_iconType, StartIconGuid);
+                    _iconType.tooltip = "Start Node";
                     break;
                 case QuestNode.ENodeType.Goal:
                     ShowIcon(_iconType, GoalIconGuid);
+                    _iconType.tooltip = "Goal Node";
                     break;
                 case QuestNode.ENodeType.Middle:
                     _iconType.style.display = DisplayStyle.None;

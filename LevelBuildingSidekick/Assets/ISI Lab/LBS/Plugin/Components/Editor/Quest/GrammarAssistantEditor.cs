@@ -241,7 +241,6 @@ namespace ISILab.LBS.Editor
         return () =>
         {
             _questGraph.ExpandNode(expandAction, referenceNode);
-            _questGraph.CheckGraphByGrammar();
         };
     }
 
@@ -258,7 +257,6 @@ namespace ISILab.LBS.Editor
             return () =>
             {
                 _questGraph.InsertQuestNodeAfter(action, referenceNode);
-                _questGraph.CheckGraphByGrammar();
             };
         }
         
@@ -273,7 +271,7 @@ namespace ISILab.LBS.Editor
             return () =>
             {
                 _questGraph.InsertNodeBefore(action, referenceNode);
-                _questGraph.CheckGraphByGrammar();
+                _questGraph.ValidateAllWithGrammar();
             };
         }
         
