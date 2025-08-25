@@ -67,6 +67,7 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       replacePrevious: 1
       name: DEFAULT
+      rootParentName: Root_Parent
     rules: []
   references:
     version: 2

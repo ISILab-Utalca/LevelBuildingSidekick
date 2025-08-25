@@ -41,10 +41,9 @@ namespace ISILab.LBS.Settings
             }
         }
 
-        public void SaveSettings()
+        public void MarkSettingsAsDirty()
         {
             EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
         }        
         #endregion
 

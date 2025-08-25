@@ -100,14 +100,20 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 
                 _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+                
             }
             else
             {   //Set generation setting by default
+                Debug.Log("Set replace from default value as true!");
                 _replacePrev.value = true;
                 GeneratorSettings = LBSSettings.Instance.generator;
-                GeneratorSettings.settings.replacePrevious = true;
+                GeneratorSettings.settings.replacePrevious = _replacePrev.value;
             }
-            _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
+            _replacePrev.RegisterValueChangedCallback<bool>(evt =>
+            {
+                //GeneratorSettings.settings.replacePrevious = evt.newValue;
+                LBSSettings.Instance.MarkSettingsAsDirty();
+            });
             
             
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
@@ -153,11 +159,7 @@ namespace ISILab.LBS.VisualElements.Editor
             _nameField.value = LBSSettings.Instance.generator.settings.rootParentName;
             _resizeField.value = _settings.resize;
         }
-
-        void OnEnable()
-        {
-            Debug.Log("3D Panel - OnEnable");
-        }
+        
         
 
         private void GenerateAllLayers()
