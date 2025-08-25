@@ -262,17 +262,17 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 var rect = GetDefaultLayerArea();
 
-                if (Data.ContextLayers.Count > 0)
+                //Is any() better than count > 0? Yes. Thank me later.
+                if (Data.ContextLayers.Any())
                 {
                     var subRect = GetLayerContextArea();
 
-                    rect.xMin = Mathf.Min(rect.xMin, subRect.xMin);
-                    rect.xMax = Mathf.Max(rect.xMax, subRect.xMax);
-                    rect.yMin = Mathf.Min(rect.yMin, subRect.yMin);
-                    rect.yMax = Mathf.Max(rect.yMax, subRect.yMax);
+                    rect.GetCombinedArea(subRect);
                 }
 
                 assistant.RawToolRect = rect;
+
+                DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
             };
 
             //Visualization option buttons
@@ -433,17 +433,30 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private Rect GetLayerContextArea()
         {
-            //Grabs the area of all combined context layers
-            var combinedRect = new Rect();
+            //Grabs an area that encloses all context layers
+            Rect combinedRect = new();
+            List<LBSLayer> filteredLayers = new List<LBSLayer>();
 
-            foreach (var layer in Data.ContextLayers)
+            foreach (LBSLayer layer in Data.ContextLayers)
             {
-                var rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+                if (layer.ID != "Interior")
+                {
+                    LBSMainWindow.MessageNotify("Context layers must be of type 'Interior'. " +
+                        "Layer '" + layer.Name + "' ignored.", LogType.Warning, 5);
+                    continue;
+                }
 
-                combinedRect.xMin = Mathf.Min(rect.xMin, combinedRect.xMin);
-                combinedRect.xMax = Mathf.Max(rect.xMax, combinedRect.xMax);
-                combinedRect.yMin = Mathf.Min(rect.yMin, combinedRect.yMin);
-                combinedRect.yMax = Mathf.Max(rect.yMax, combinedRect.yMax);
+                filteredLayers.Add(layer);
+            }
+
+            for (int i = 0; i < filteredLayers.Count; i++)
+            {
+                LBSLayer layer = filteredLayers[i];
+
+                if (i == 0) combinedRect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+
+                Rect rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+                combinedRect.GetCombinedArea(rect);
             }
 
             return combinedRect;
