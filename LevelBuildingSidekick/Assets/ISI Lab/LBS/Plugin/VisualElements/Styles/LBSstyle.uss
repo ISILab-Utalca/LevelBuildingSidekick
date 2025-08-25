@@ -294,13 +294,11 @@ Toggle > .lbs-default-icon {
     padding-left: 3px;
 }
 
-
 .lbs-button:hover {
-    background-color: var(--lbs-selectable-hover-color)
+    background-color: var(--lbs-selectable-hover-color);
 }
 
-
-.lbs-button:focus{
+.lbs-button:focus {
     border-color: var(--lbs-selection-focus-blue-color);
 }
 
@@ -1316,7 +1314,7 @@ Button.lbs-actionbutton {
     border-width: 1px;
 }
 
-.lbs-enum-field:focus{
+.lbs-enum-field:focus {
     border-color: var(--lbs-selection-focus-blue-color);
 }
 
@@ -1696,4 +1694,52 @@ Button.lbs-actionbutton {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.lbs-text-field {
+}
+
+.lbs-text-field > TextInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.lbs-vector2-field {
+}
+
+.lbs-vector2-field FloatInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+    min-width: 32px;
+    flex-shrink: 1;
+}
+
+.lbs-vector2-field > VisualElement {
+    flex-grow: 1;
+    align-self: stretch;
+    flex-shrink: 1;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.lbs-vector2-field .unity-composite-field__field-spacer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: stretch;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
 }

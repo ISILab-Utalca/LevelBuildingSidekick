@@ -21,11 +21,12 @@
     /*--lbs-darker-solid-gray-color: rgb(33, 33, 33);*/
     /*--lbs-unity-6-black-color: rgb(20,20,20);*/
     
+    /*--lbs-selectable-gray-color: rgb(72,72,72);*/
+    /*--lbs-selectable-hover-color: rgb(88,88,88);*/
+    
     --lbs-border-white-overlay-color: rgba(255, 255, 255, 0.2);
     --lbs-dark-overlay-color: rgba(0, 0, 0, 0.2);
     
-    /*--lbs-selectable-gray-color: rgb(72,72,72);*/
-    /*--lbs-selectable-hover-color: rgb(88,88,88);*/
     
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
     --lbs-selection-focus-blue-color: rgb(44,93,135);
@@ -50,6 +51,7 @@
     --lbs-selectable-hover-color: rgb(88,88,88);
 
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(54, 123, 245);
 }
 
 .alt {
@@ -63,6 +65,9 @@
 
     --lbs-selectable-gray-color: rgb(42,48,60);
     --lbs-selectable-hover-color: rgb(80,88,108);
+
+    --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(54, 123, 245);
 }
 
 .light {
