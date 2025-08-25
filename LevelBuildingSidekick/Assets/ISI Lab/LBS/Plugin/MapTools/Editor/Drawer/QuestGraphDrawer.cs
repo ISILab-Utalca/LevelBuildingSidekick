@@ -60,6 +60,7 @@ namespace ISILab.LBS.Drawers.Editor
         private void LoadAllTiles(QuestGraph questGraph, QuestBehaviour behaviour, MainView view)
         {
             QuestActionView.Deselect();
+            QuestGraphNodeView selectedGraphView = null;
             
             foreach (var node in questGraph.GraphNodes)
             {
@@ -94,6 +95,8 @@ namespace ISILab.LBS.Drawers.Editor
                 // if not successfully created
                 if(nodeView is null) continue;
                 
+                if(nodeView.IsSelectedView()) selectedGraphView = nodeView;
+                
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
                // view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
                 behaviour.Keys.Add(node);
@@ -112,10 +115,18 @@ namespace ISILab.LBS.Drawers.Editor
                     behaviour.Keys.Add(edge);
                 }
             }
-
+            
             foreach (var entry in _actionViews)
             {
+                if(entry.Value == selectedGraphView) continue;
                 view.AddElementToLayerContainer(questGraph.OwnerLayer, entry.Key, entry.Value);
+            }
+            
+            // the selected node is the last to be added so it can be moved around on top of other nodes
+            if (selectedGraphView is not null)
+            {
+                // key has to be the selected node
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, questGraph.SelectedQuestNode, selectedGraphView);
             }
         }
 

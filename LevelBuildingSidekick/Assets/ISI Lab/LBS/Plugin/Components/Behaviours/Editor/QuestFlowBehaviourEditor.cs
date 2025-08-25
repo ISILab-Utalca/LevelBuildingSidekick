@@ -13,7 +13,7 @@ namespace ISILab.LBS.VisualElements
     {
         #region FIELDS
         private AddGraphNode addNode;
-        private RemoveQuestNode removeNode;
+        private RemoveGraphNode removeNode;
         private ConnectQuestNodes connectNodes;
         private RemoveQuestConnection removeConnection;
 

@@ -248,12 +248,16 @@ namespace ISILab.LBS.VisualElements
 
         private void ShelfManipulator()
         {
-            // only select manipulator if we are not using it
-            if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator))
+            Type ActiveManipulator = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+            bool usingAddNode = ActiveManipulator == typeof(AddGraphNode);
+            bool usingRemoveNode = ActiveManipulator == typeof(RemoveGraphNode);
+            
+            // only set select if using addnode or remove node
+            if (usingAddNode || usingRemoveNode)
             {
                 if (_prevManipulatorType is null)
                 {
-                    _prevManipulatorType = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+                    _prevManipulatorType = ActiveManipulator;
                 }
                 
                 ToolKit.Instance.SetActive(typeof(SelectManipulator));

@@ -8,13 +8,13 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Manipulators
 {
-    public class RemoveQuestNode : LBSManipulator
+    public class RemoveGraphNode : LBSManipulator
     {
         private QuestGraph _questGraph;
 
         protected override string IconGuid => "ce08b36a396edbf4394f7a4e641f253d";
 
-        public RemoveQuestNode()
+        public RemoveGraphNode()
         {
             Name = "Remove Quest Node";
             Description = "Click on a quest node to remove it.";

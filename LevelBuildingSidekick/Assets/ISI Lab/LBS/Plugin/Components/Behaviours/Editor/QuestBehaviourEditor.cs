@@ -22,7 +22,7 @@ namespace ISILab.LBS.VisualElements
     public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     {
         private AddGraphNode _addNode;
-        private RemoveQuestNode _removeNode;
+        private RemoveGraphNode _removeNode;
         private ConnectQuestNodes _connectNodes;
         private RemoveQuestConnection _removeConnection;
         private ObjectField _grammarReference;
@@ -66,7 +66,7 @@ namespace ISILab.LBS.VisualElements
             var t1 = new LBSTool(_addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            _removeNode = new RemoveQuestNode();
+            _removeNode = new RemoveGraphNode();
             var t2 = new LBSTool(_removeNode);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             

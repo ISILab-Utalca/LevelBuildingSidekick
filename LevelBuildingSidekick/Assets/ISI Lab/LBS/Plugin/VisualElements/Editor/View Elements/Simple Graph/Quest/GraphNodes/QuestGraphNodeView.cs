@@ -22,6 +22,8 @@ namespace ISILab.LBS.VisualElements
         protected GraphNode Node;
         protected Color DefaultBackgroundColor;
         protected VisualElement InvalidConnectionIcon;
+
+        protected static QuestGraphNodeView SelectedGraph;
         #endregion
 
         #region Events
@@ -40,12 +42,15 @@ namespace ISILab.LBS.VisualElements
         {
             if (Node == null) return;
             if (!Equals(LBSMainWindow.Instance._selectedLayer, Node.Graph.OwnerLayer)) return;
-
+            
             DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
         }
 
         protected void OnMouseMove(MouseMoveEvent e)
         {
+            if(this != SelectedGraph) return;
+            
+            // only move the selected node
             if (Node == null) return;
             if (!Equals(LBSMainWindow.Instance._selectedLayer, Node.Graph.OwnerLayer)) return;
             if (e.pressedButtons != 1) return; // only while dragging
@@ -63,6 +68,36 @@ namespace ISILab.LBS.VisualElements
             if (Node == null) return;
             OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta));
         }
+        #endregion
+        
+        #region Selection
+        public void IsSelected(bool isSelected)
+        {
+            var color = DefaultBackgroundColor;
+            if (isSelected)
+            {
+                color = Node.ValidGrammar ? CorrectGrammar : GrammarWrong;
+                color.a = 0.33f;
+                
+                // Focus this as the highlighted
+                SelectedGraph = this;
+            }
+
+            VisualElement coloredVe = this.Q<VisualElement>("ColorBackground");
+            coloredVe.style.backgroundColor = new StyleColor(color);
+        }
+
+        public static void Deselect()
+        {
+            SelectedGraph?.IsSelected(false);
+            SelectedGraph = null;
+        }
+
+        public bool IsSelectedView()
+        {
+            return SelectedGraph == this;
+        } 
+        
         #endregion
     }
 }

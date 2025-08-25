@@ -18,7 +18,6 @@ namespace ISILab.LBS.VisualElements
         private const string GoalIconGuid  = "e219993bb5fe0f246b3797a8c2f3b126";
         
         private static VisualTreeAsset _asset;
-        private static QuestActionView _highlighted;
 
         #region VIEWS
         private readonly VisualElement _root;
@@ -137,21 +136,7 @@ namespace ISILab.LBS.VisualElements
         }
         #endregion
 
-        #region Selection
-        public void IsSelected(bool isSelected)
-        {
-            var color = DefaultBackgroundColor;
-            if (isSelected)
-            {
-                color = Node.ValidGrammar ? CorrectGrammar : GrammarWrong;
-                color.a = 0.33f;
-                _highlighted = this;
-            }
-            _root.style.backgroundColor = new StyleColor(color);
-        }
 
-        public static void Deselect() => _highlighted?.IsSelected(false);
-        #endregion
 
         #region Toolbar Actions
         private void MakeRoot(DropdownMenuAction _)
