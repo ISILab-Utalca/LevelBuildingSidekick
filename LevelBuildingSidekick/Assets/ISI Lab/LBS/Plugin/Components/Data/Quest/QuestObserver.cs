@@ -68,7 +68,7 @@ namespace ISILab.LBS
             if (currentNode == null) return false;
             
             // If the current node is the last one, the quest is complete
-            if (questGraph.QuestEdges.LastOrDefault()?.To == currentNode)
+            if (questGraph.GraphEdges.LastOrDefault()?.To == currentNode)
             {
                 OnQuestAdvance?.Invoke();
                 return true;
@@ -76,7 +76,7 @@ namespace ISILab.LBS
 
 
             // Activate the next node and trigger
-            foreach (var edge in questGraph.QuestEdges)
+            foreach (var edge in questGraph.GraphEdges)
             {
                 foreach (var from in edge.From)
                 {

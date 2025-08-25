@@ -7,6 +7,7 @@ using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements.Editor;
+using LBS.VisualElements;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -43,6 +44,13 @@ namespace ISILab.LBS.VisualElements
             if (Node == null) return;
             if (!Equals(LBSMainWindow.Instance._selectedLayer, Node.Graph.OwnerLayer)) return;
             
+            if (evt.button == 0 && ToolKit.Instance.GetActiveManipulatorInstance() is SelectManipulator)
+            {
+                LBSInspectorPanel.ActivateBehaviourTab();
+                if (Node.Graph.GraphNodes.Contains(Node))
+                    Node.Graph.SelectedQuestNode = Node;
+            }
+            
             DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
         }
 
@@ -76,7 +84,7 @@ namespace ISILab.LBS.VisualElements
             var color = DefaultBackgroundColor;
             if (isSelected)
             {
-                color = Node.ValidGrammar ? CorrectGrammar : GrammarWrong;
+                color = Node.isValid() ? CorrectGrammar : GrammarWrong;
                 color.a = 0.33f;
                 
                 // Focus this as the highlighted

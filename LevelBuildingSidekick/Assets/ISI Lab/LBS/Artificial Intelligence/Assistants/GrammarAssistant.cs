@@ -17,7 +17,7 @@ namespace ISILab.LBS.Assistants
     public class GrammarAssistant : LBSAssistant
     {
         [JsonIgnore]
-        public QuestGraph quest => OwnerLayer.GetModule<QuestGraph>();
+        public QuestGraph _questGraph => OwnerLayer.GetModule<QuestGraph>();
 
         public GrammarAssistant(VectorImage icon, string name, Color colorTint)
             : base(icon, name, colorTint) { }
@@ -29,7 +29,7 @@ namespace ISILab.LBS.Assistants
 
         public bool ValidateQuestGraph()
         {
-            foreach (var node in quest.GraphNodes)
+            foreach (var node in _questGraph.GraphNodes)
             {
                 if (!node.ValidGrammar) return false;
             }
@@ -41,7 +41,7 @@ namespace ISILab.LBS.Assistants
         {
             if (edge?.From is null || edge.To is null) return false;
             
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             if (grammar == null || !grammar.RuleEntries.Any()) return false;
 
             bool returnValid = false;
@@ -62,51 +62,68 @@ namespace ISILab.LBS.Assistants
                     // validate middle
                     if (from.NodeType == QuestNode.ENodeType.Middle)
                     {
-                        bool validGrammar = false;
-                        bool hasPreviousConnection = false;
-                    
                         // check that the next terminal is valid
-                        List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
-                        validGrammar = validNextTerminals.Contains(edge.To.ToString());
-                    
-                        // also check that this has a previous node connection
-                        foreach (var fromEdge in quest.QuestEdges)
+                        if (edge.To.GetType() == typeof(QuestNode))
                         {
-                            // the from node has a previous connection
-                            if (fromEdge.To == from)
-                            {
-                                hasPreviousConnection = true;
-                                break;
-                            }
+                            List<string> validNextTerminals = GetAllValidNextActions(from.QuestAction);
+                            var validGrammar = validNextTerminals.Contains(edge.To.ToString());
+                            from.ValidGrammar = validGrammar;
                         }
-                    
-                        from.ValidGrammar = validGrammar && hasPreviousConnection;
-                        returnValid = from.ValidGrammar;
+                        else
+                        {
+                            returnValid = from.ValidGrammar;
+                        }
+                        
                     }
-
-                    if (edge.To is QuestNode toNode)
-                    {
-                        // validate goal
-                        if (toNode.NodeType == QuestNode.ENodeType.Goal)
-                        {
-                            // if the from is valid(so is the goal). Because the "From" gets validated first
-                            // by checking that the "To" is a valid terminal
-                            edge.To.ValidGrammar = from.ValidGrammar;
-                            returnValid = edge.To.ValidGrammar;
-                        }
-                    }   
                 }
-             
-            }
-           
+                else
+                {
+                    // branchis are grammarly valid 
+                    nodeFrom.ValidGrammar = BranchNodeRootGrammar(nodeFrom);
+                }
                 
+                // goal is unique
+                if (edge.To is QuestNode { NodeType: QuestNode.ENodeType.Goal })
+                    // validate goal
+                {
+                    
+                    // if the from is valid(so is the goal). Because the "From" gets validated first
+                    // by checking that the "To" is a valid terminal
+                    edge.To.ValidGrammar = nodeFrom.ValidGrammar;
+                    returnValid = edge.To.ValidGrammar;
+                }   
+            }
+                
+         
             return returnValid;
             
         }
 
+        // Tries to retrieve from a branch Node the grammar of the immediate quest node root
+        private bool BranchNodeRootGrammar(GraphNode nodeFrom)
+        {
+            foreach (var rootEdge in _questGraph.GetRoots(nodeFrom))
+            {
+                foreach (var from in rootEdge.From)
+                {
+                    // a quest node was found as root, get its grammar value
+                    if (from.GetType() == typeof(QuestNode) & !from.isValid())
+                    {
+                        // atleast one of the roots is not of valid grammar
+                        return false;
+                    }
+                    // a branching node as root, keep searching within 
+                    return BranchNodeRootGrammar(from);
+                }
+            }
+            
+            //all quest node roots were valid
+            return true;
+        }
+
         public List<string> GetAllValidNextActions(string currentAction)
         {
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             var nextValidTerminals = new HashSet<string>();
 
             if (grammar == null) return nextValidTerminals.ToList();
@@ -175,7 +192,7 @@ namespace ISILab.LBS.Assistants
         
         public List<string> GetAllValidPrevActions(string currentAction)
         {
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             var prevValidTerminals = new HashSet<string>();
 
             if (grammar == null) return prevValidTerminals.ToList();
@@ -218,7 +235,7 @@ namespace ISILab.LBS.Assistants
         public List<List<string>> GetAllExpansions(string currentAction)
         {
             HashSet<List<string>> allExpansions = new HashSet<List<string>>();
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             if (grammar == null) return allExpansions.ToList();
 
             var expansions = new List<List<string>>();
@@ -269,11 +286,11 @@ namespace ISILab.LBS.Assistants
 
         private List<string> GetRulesWithRule(string rule)
         {
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             if (grammar == null) return new List<string>();
             
             HashSet<string> owningRules = new HashSet<string>();
-            foreach (RuleEntry ruleEntry in quest.Grammar.RuleEntries)
+            foreach (RuleEntry ruleEntry in _questGraph.Grammar.RuleEntries)
             {
                 foreach (RuleItem ruleItem in ruleEntry.expansions)
                 {
@@ -289,12 +306,12 @@ namespace ISILab.LBS.Assistants
         
         public List<string> GetOwningRules(string currentAction)
         {
-            var grammar = quest.Grammar;
+            var grammar = _questGraph.Grammar;
             if (grammar == null) return new List<string>();
 
             HashSet<string> owners = new HashSet<string>();
             
-            foreach (RuleEntry ruleEntry in quest.Grammar.RuleEntries)
+            foreach (RuleEntry ruleEntry in _questGraph.Grammar.RuleEntries)
             {
                 foreach (RuleItem item in ruleEntry.expansions)
                 {

@@ -65,7 +65,7 @@ namespace ISILab.LBS.Generators
             }
             CloneRefs.End();
 
-            if (!quest.QuestEdges.Any())
+            if (!quest.GraphEdges.Any())
             {
                 return Tuple.Create<GameObject, string>(null, "The quest graph only has one node, can't generate. Can't generate");
             }

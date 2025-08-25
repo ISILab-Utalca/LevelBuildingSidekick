@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
+using ISILab.LBS.Manipulators;
+using LBS.VisualElements;
+using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -57,6 +60,7 @@ namespace ISILab.LBS.VisualElements
         #region Update
         private void Update()
         {
+            DisplayGrammarState(Node);
             SetPosition(new Rect(GetPosition().position, new Vector2(_view.resolvedStyle.width, _view.resolvedStyle.height)));
             OnMoving?.Invoke(GetPosition());
         }
@@ -66,6 +70,47 @@ namespace ISILab.LBS.VisualElements
             base.DisplayGrammarState(node);
             _view.SetBorder(!node.ValidConnections ? GrammarWrong : CorrectGrammar, 1f);
         }
+        
+        protected override void OnMouseDown(MouseDownEvent evt)
+        {
+            base.OnMouseDown(evt);
+
+            if (evt.button == 1)
+            {
+                MakeMenu(evt);
+            }
+        }
+
+        private void MakeMenu(MouseDownEvent evt)
+        {
+            // Create the menu
+            var menu = new GenericMenu();
+
+            if (Node.GetType() == typeof(AndNode))
+            {
+                menu.AddItem(new GUIContent("Set as 'Or branch' "), false, () =>
+                {
+                    Debug.Log("Set as Or branch");
+                });
+            }
+    
+            if (Node.GetType() == typeof(OrNode))
+            {
+                menu.AddItem(new GUIContent("Set as 'And branch' "), false, () =>
+                {
+                    Debug.Log("Set as And branch");
+                });
+            }
+
+            menu.AddItem(new GUIContent("Delete node"), false, () =>
+            {
+                Debug.Log("Delete node");
+            });
+            
+            menu.ShowAsContext();
+            evt.StopPropagation();
+        }
+
         #endregion
     }
 }

@@ -45,21 +45,21 @@ namespace ISILab.LBS.Modules
             {
                 var reverseEdge = new QuestEdge(edge.To, from);
                 
-                if (graph.QuestEdges.Contains(edge))
+                if (graph.GraphEdges.Contains(edge))
                 {
                     message = "The connection already exists";
                     logType = LogType.Error;
                     return false;
                 }
 
-                if (graph.QuestEdges.Contains(reverseEdge))
+                if (graph.GraphEdges.Contains(reverseEdge))
                 {
                     message = "The reverse connection already exists";
                     logType = LogType.Error;
                     return false;
                 }
 
-                if (IsLooped(edge, graph.QuestEdges))
+                if (IsLooped(edge, graph.GraphEdges))
                 {
                     message = "Invalid connection, loop detected";
                     logType = LogType.Error;

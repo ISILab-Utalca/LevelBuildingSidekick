@@ -30,7 +30,7 @@ namespace ISILab.LBS.Drawers.Editor
                 // Reset layer input when changing to another layer
                 graph.SelectedQuestNode = null;
                 behaviour.ActionToSet = string.Empty;
-                QuestActionView.Deselect();
+                QuestGraphNodeView.Deselect();
 
             };
             
@@ -59,7 +59,7 @@ namespace ISILab.LBS.Drawers.Editor
 
         private void LoadAllTiles(QuestGraph questGraph, QuestBehaviour behaviour, MainView view)
         {
-            QuestActionView.Deselect();
+            QuestGraphNodeView.Deselect();
             QuestGraphNodeView selectedGraphView = null;
             
             foreach (var node in questGraph.GraphNodes)
@@ -82,12 +82,8 @@ namespace ISILab.LBS.Drawers.Editor
                 {
                     if (behaviour.Graph.SelectedQuestNode is not null)
                     {
-                        if (_actionViews[node] is QuestActionView questActionView)
-                        {
-                            // to find the highlighted element is within the active quest layer
-                            questActionView.IsSelected(node == behaviour.Graph.SelectedQuestNode);
-                        }
-                        
+                        // to find the highlighted element is within the active quest layer
+                        nodeView?.IsSelected(node == behaviour.Graph.SelectedQuestNode);
                     }
 
                 }
@@ -102,7 +98,7 @@ namespace ISILab.LBS.Drawers.Editor
                 behaviour.Keys.Add(node);
             }
 
-            foreach (var edge in questGraph.QuestEdges)
+            foreach (var edge in questGraph.GraphEdges)
             {
                 if (!_actionViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;
                 foreach (var from in edge.From)

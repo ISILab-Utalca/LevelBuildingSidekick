@@ -113,6 +113,8 @@ namespace ISILab.LBS.Components
         protected abstract GraphNode CreateCloneInstance();
 
         public abstract override string ToString();
+        
+        public abstract bool isValid();
         #endregion
     }
 
@@ -131,6 +133,11 @@ namespace ISILab.LBS.Components
         {
             return "Or";
         }
+
+        public override bool isValid()
+        {
+            return ValidConnections;
+        }
     }
 
     // Represents an AND logic node in a quest graph
@@ -147,6 +154,11 @@ namespace ISILab.LBS.Components
         public override string ToString()
         {
             return "And";
+        }
+        
+        public override bool isValid()
+        {
+            return ValidConnections;
         }
     }
 
@@ -241,6 +253,11 @@ namespace ISILab.LBS.Components
         public override string ToString()
         {
             return questAction;
+        }
+        
+        public override bool isValid()
+        {
+            return ValidConnections & ValidGrammar;
         }
         #endregion
     }

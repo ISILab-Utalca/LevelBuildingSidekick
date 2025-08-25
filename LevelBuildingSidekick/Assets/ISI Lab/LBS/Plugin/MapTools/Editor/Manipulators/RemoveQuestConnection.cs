@@ -25,7 +25,7 @@ namespace ISILab.LBS.Manipulators
         
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            _questGraph.RemoveEdgeByPosition(endPosition, 25);
+            _questGraph.RemoveEdgeByPosition(endPosition, 10);
             OnManipulationEnd.Invoke();
         }
     }

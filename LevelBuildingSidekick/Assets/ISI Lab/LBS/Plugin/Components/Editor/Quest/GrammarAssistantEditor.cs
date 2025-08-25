@@ -14,7 +14,6 @@ using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Editor
@@ -24,7 +23,6 @@ namespace ISILab.LBS.Editor
     {
         
         #region FIELDS
-        [SerializeField]
         private QuestGraph _questGraph;
         private GrammarAssistant _grammarAssistant;
         private QuestBehaviour _questBehaviour;
@@ -73,7 +71,7 @@ namespace ISILab.LBS.Editor
             if (_questBehaviour != null)
             {
                 _questGraph = _questBehaviour.Graph;
-                _questGraph.OnQuestNodeSelected += (node) =>
+                _questGraph.OnQuestNodeSelected += (_) =>
                 {
                     UpdatePanel();
                 };
@@ -81,7 +79,7 @@ namespace ISILab.LBS.Editor
                 _questGraph.RedrawGraph += () =>
                 {
                     // update the graph grammar
-                    foreach (var edge in _questGraph.QuestEdges)
+                    foreach (var edge in _questGraph.GraphEdges)
                     {
                         _grammarAssistant.ValidateEdgeGrammar(edge);
                     }
@@ -128,11 +126,11 @@ namespace ISILab.LBS.Editor
 
         if (string.IsNullOrEmpty(selectedAction)) return;
 
-        if (_questGraph.SelectedQuestNode is not null)
+        if (_questGraph.GetNodeAsQuest() is not null)
         {   
-            _paramActionLabel.text = _questGraph.SelectedQuestNode.QuestAction;
-            _nodeIDLabel.text = _questGraph.SelectedQuestNode.ID;
-            SetBaseDataValues(_questGraph.SelectedQuestNode.NodeData);
+            _paramActionLabel.text = _questGraph.GetNodeAsQuest().QuestAction;
+            _nodeIDLabel.text = _questGraph.GetNodeAsQuest().ID;
+            SetBaseDataValues(_questGraph.GetNodeData());
         }
     
 
@@ -154,7 +152,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (nextActions.Count <= i) return;
             string action = nextActions[i];
-            button?.SetAction(action, InsertNextAction(action, _questGraph.SelectedQuestNode));
+            button?.SetAction(action, InsertNextAction(action, _questGraph.GetNodeAsQuest()));
 
         };
         _nextSuggested.Rebuild();
@@ -172,7 +170,7 @@ namespace ISILab.LBS.Editor
             var button = e as SuggestionActionButton;
             if (prevActions.Count <= i) return;
             string action = prevActions[i];
-            button?.SetAction(action, InsertPreviousAction(action, _questGraph.SelectedQuestNode));
+            button?.SetAction(action, InsertPreviousAction(action, _questGraph.GetNodeAsQuest()));
         };
         _prevSuggested.Rebuild();
 
@@ -203,22 +201,24 @@ namespace ISILab.LBS.Editor
             if(_questGraph.SelectedQuestNode is null) return;
             
             if(i > expandActions.Count-1) return;
-            var foldout = v as LBSCustomFoldout;
+            if (v is not LBSCustomFoldout foldout) return;
+            
             foldout.contentContainer.Clear();
-            
-            foldout.text = "Expansion " + (i+1);
-            
+
+            foldout.text = "Expansion " + (i + 1);
+
             List<string> actions = expandActions[i];
-            
-            ExpansionHeader header =  new ExpansionHeader();
-            header.ButtonConvert.SetAction(_questGraph.SelectedQuestNode.QuestAction, ExpandAction(actions, _questGraph.SelectedQuestNode));
+
+            ExpansionHeader header = new ExpansionHeader();
+            header.ButtonConvert.SetAction(_questGraph.GetNodeAsQuest().QuestAction,
+                ExpandAction(actions, _questGraph.GetNodeAsQuest()));
             foldout.contentContainer.Add(header);
 
             for (int j = 0; j < actions.Count; j++)
             {
                 QuestNode.ENodeType type = QuestNode.ENodeType.Middle;
                 if (j == 0) type = QuestNode.ENodeType.Start;
-                else if (j == actions.Count-1) type = QuestNode.ENodeType.Goal;
+                else if (j == actions.Count - 1) type = QuestNode.ENodeType.Goal;
 
                 ActionExpandEntry entry = new ActionExpandEntry
                 {
@@ -231,7 +231,7 @@ namespace ISILab.LBS.Editor
                 entry.SetEntryAction(actions[j], type);
                 foldout.contentContainer.Add(entry);
             }
-        };;
+        };
         
         _expandSuggested.Rebuild();
     }
@@ -282,16 +282,7 @@ namespace ISILab.LBS.Editor
         
         private string GetActionToSet()
         {
-            return _questGraph.SelectedQuestNode?.QuestAction;
-        }
-
-        private void PrintValidActions()
-        {
-            List<string> actions = _grammarAssistant.GetAllValidNextActions(GetActionToSet());
-            foreach (var action in actions)
-            {
-                Debug.Log(action);
-            }
+            return _questGraph.GetNodeAsQuest()?.QuestAction;
         }
         
         private void SetBaseDataValues(BaseQuestNodeData data)

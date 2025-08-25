@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
 using ISILab.Macros;
-using LBS.VisualElements;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -132,11 +130,9 @@ namespace ISILab.LBS.VisualElements
         {
             base.DisplayGrammarState(node);
             _iconGrammarInvalid.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
-            _root.SetBorder(!node.ValidGrammar || !node.ValidConnections ? GrammarWrong : CorrectGrammar, 1f);
+            _root.SetBorder(node.isValid() ? CorrectGrammar : GrammarWrong, 1f);
         }
         #endregion
-
-
 
         #region Toolbar Actions
         private void MakeRoot(DropdownMenuAction _)
@@ -165,12 +161,6 @@ namespace ISILab.LBS.VisualElements
             {
                 _toolbar.style.display = DisplayStyle.Flex;
                 _toolbar.ShowMenu();
-            }
-            else if (evt.button == 0 && ToolKit.Instance.GetActiveManipulatorInstance() is SelectManipulator)
-            {
-                LBSInspectorPanel.ActivateBehaviourTab();
-                if (Node.Graph.GraphNodes.Contains(Node))
-                    Node.Graph.SelectedQuestNode = Node as QuestNode;
             }
         }
         #endregion

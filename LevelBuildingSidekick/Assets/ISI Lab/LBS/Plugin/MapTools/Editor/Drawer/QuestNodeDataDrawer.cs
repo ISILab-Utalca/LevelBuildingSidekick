@@ -4,7 +4,6 @@ using UnityEngine;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
 using UnityEngine.UIElements;
 
@@ -29,9 +28,12 @@ namespace ISILab.LBS.Drawers.Editor
             {
                 view.ClearLayerComponentView(layer, behaviour);
             };
+
+            if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return; 
             
-            if (!Equals(LBSMainWindow.Instance._selectedLayer, layer)) return;
-            if (behaviour.Graph.SelectedQuestNode?.NodeData is not { } nodeData) return;
+            BaseQuestNodeData nodeData = behaviour.Graph.GetNodeData();
+            if (nodeData is null) return;
+
             
             // Selected Node Trigger View 
             nodeData.Resize();
