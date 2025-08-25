@@ -2,6 +2,7 @@ using ISILab.LBS.Generators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -39,6 +40,11 @@ namespace ISILab.LBS.Settings
                 instance = value;
             }
         }
+
+        public void MarkSettingsAsDirty()
+        {
+            EditorUtility.SetDirty(this);
+        }        
         #endregion
 
         public Paths paths = new Paths();
@@ -143,9 +149,9 @@ namespace ISILab.LBS.Settings
             #endregion
         }
         
+        
+        
     }
-
-
 
 }
 

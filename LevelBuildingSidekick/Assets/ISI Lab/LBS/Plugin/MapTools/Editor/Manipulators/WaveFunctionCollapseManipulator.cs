@@ -39,6 +39,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
+            base.OnMouseUp(element, position, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "WFC");

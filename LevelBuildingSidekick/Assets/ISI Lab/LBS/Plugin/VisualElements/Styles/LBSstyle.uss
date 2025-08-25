@@ -294,6 +294,20 @@ Toggle > .lbs-default-icon {
     padding-left: 3px;
 }
 
+
+.lbs-button:hover {
+    background-color: var(--lbs-selectable-hover-color)
+}
+
+
+.lbs-button:focus{
+    border-color: var(--lbs-selection-focus-blue-color);
+}
+
+.lbs-button:active {
+    background-color: var(--lbs-selection-neutral-blue-color);
+}
+
 .lbs-button > TextElement {
     color: var(--lbs-default-icon-color);
 }
@@ -1299,10 +1313,11 @@ Button.lbs-actionbutton {
     margin-bottom: 2px;
     margin-left: 2px;
     border-color: var(--lbs-dark-overlay-color);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
+    border-width: 1px;
+}
+
+.lbs-enum-field:focus{
+    border-color: var(--lbs-selection-focus-blue-color);
 }
 
 .lbs-quest-action-icon {

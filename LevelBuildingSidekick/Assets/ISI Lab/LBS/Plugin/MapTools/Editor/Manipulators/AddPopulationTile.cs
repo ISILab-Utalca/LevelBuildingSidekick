@@ -21,8 +21,6 @@ namespace ISILab.LBS.Manipulators
         protected override string IconGuid => "ce4ce3091e6cf864cbbdc1494feb6529";
 
         private Bundle ToSet => _population.selectedToSet;
-        private bool forceCancel = false;
-        private bool mousePressed = false;
 
         public AddPopulationTile()
         {
@@ -42,17 +40,6 @@ namespace ISILab.LBS.Manipulators
         {
             base.OnKeyDown(e);
             if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Dragging selected tile");
-
-            // Cancel placement with ESC. Originally i wanted to create another function
-            //that had both keys and mouse event. But instead i solved it by using a non-elegant way.
-            if (e.keyCode == KeyCode.Escape && mousePressed)
-            {
-                LBSMainWindow.MessageNotify("Population tile placement cancelled.");
-                Feedback.SetDisplay(false);
-
-                forceCancel = true;
-                mousePressed = false;
-            }
         }
         
         protected override void OnKeyUp(KeyUpEvent e)
@@ -76,7 +63,8 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
-            mousePressed = false;
+            base.OnMouseUp(element, endPosition, e);
+
             var endPos = _population.OwnerLayer.ToFixedPosition(endPosition);
 
             // Dragging selected tile
@@ -108,10 +96,10 @@ namespace ISILab.LBS.Manipulators
             }
 
             //If esc key was pressed, cancel the operation
-            if (forceCancel)
+            if (ForceCancel)
             {
-                forceCancel = false;
                 MainView.Instance.RemoveElement(_previewFeedback);
+                ForceCancel = false;
                 return;
             }
 
@@ -139,8 +127,6 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e)
         {
-            mousePressed = true;
-
             // get tile to drag
             if (!e.ctrlKey) return;
             var tile = _population.GetTile(_population.OwnerLayer.ToFixedPosition(startPosition));
@@ -152,8 +138,10 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseMove(VisualElement element, Vector2Int endPosition, MouseMoveEvent e)
         {
             MainView.Instance.RemoveElement(_previewFeedback);
-            if (!ToSet || forceCancel) return;
-           
+            if (!ToSet || ForceCancel) return;
+
+            base.OnMouseMove(element, endPosition, e);
+
             // when dragging by using CTRL, do not display the feedback area
             Feedback.SetDisplay(!e.ctrlKey);
 

@@ -49,6 +49,16 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+            base.OnMouseUp(element, endPosition, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                MainView.Instance.RemoveElement(_previewFeedback);
+                ForceCancel = false;
+                return;
+            }
+
             var endPos = _population.OwnerLayer.ToFixedPosition(endPosition);
 
             // Check if the move is valid
@@ -87,6 +97,8 @@ namespace ISILab.LBS.Manipulators
         protected override void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e)
         {
             MainView.Instance.RemoveElement(_previewFeedback);
+
+            if (ForceCancel) return;
  
             var topLeftCorner = -_population.OwnerLayer.ToFixedPosition(movePosition); // use negative value for corner
             var bottomRightCorner = topLeftCorner;

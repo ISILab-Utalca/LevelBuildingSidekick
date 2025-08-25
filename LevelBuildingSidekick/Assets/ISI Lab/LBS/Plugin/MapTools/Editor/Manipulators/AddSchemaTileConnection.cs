@@ -49,6 +49,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
+            base.OnMouseUp(element, position, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             if (ToSet == null)
             {
                 LBSMainWindow.MessageNotify("Select a connection type in the LBS-inspector panel",LogType.Warning,4);
