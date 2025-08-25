@@ -1,0 +1,30 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <engine:VisualElement class="lbs-window dark" style="overflow: hidden;">
+        <engine:VisualElement name="TopBar" style="flex-grow: 0; height: 32px; flex-direction: row;">
+            <ISILab.LBS.CustomComponents.LBSCustomEnumField label="Direction Type" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Bundle_Layer_Icon.svg?fileID=7388822144124034973&amp;guid=3bdd2784b8f3fa54cae9d7e3031bca6c&amp;type=3#Bundle_Layer_Icon" type="LBS.Bundles.BundleFlags, LBS" name="DirectionTypeEnum" class="lbs-field-box-container" style="flex-grow: 1;" />
+            <ISILab.LBS.CustomComponents.LBSCustomEnumField label="Tag Group" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=TagOutline.svg?fileID=7388822144124034973&amp;guid=40d548834301ba14f96af3e1715add5f&amp;type=3#Icon=TagOutline" type="ISILab.LBS.LBSIdentifierBundle+TagType, LBS" name="TagGroupEnum" class="lbs-field-box-container" style="flex-grow: 1;" />
+        </engine:VisualElement>
+        <engine:VisualElement name="MiddleZone" style="flex-grow: 1; align-items: center; justify-content: center; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px;">
+            <engine:VisualElement name="Thumbnail" style="flex-grow: 0; flex-shrink: 0; height: 128px; width: 128px; background-color: rgb(255, 0, 255); bottom: 0; right: 0; top: auto; left: auto; align-items: center;">
+                <engine:VisualElement style="flex-grow: 0; position: relative; top: -42px; left: auto; height: 32px; width: 192px;">
+                    <ISILab.LBS.CustomComponents.LBSCustomEnumField name="UpDirectionEnum" label="Up" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/Type=Top.svg?fileID=7388822144124034973&amp;guid=936e2d6abda898d4cbe48a669d82c9d8&amp;type=3#Type=Top" class="lbs-field-box-container" style="top: 3px; position: absolute; left: 9px;" />
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 0; position: absolute; top: auto; left: auto; height: 32px; width: 192px; bottom: -32px;">
+                    <ISILab.LBS.CustomComponents.LBSCustomEnumField name="DownDirectionEnum" label="Down" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/Type=Bottom.svg?fileID=7388822144124034973&amp;guid=2341fd92b9cbd284485b4fc94fa32aa3&amp;type=3#Type=Bottom" class="lbs-field-box-container" style="top: 4px;" />
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 0; position: absolute; top: 46px; left: -210px; height: 32px; width: 192px; bottom: auto;">
+                    <ISILab.LBS.CustomComponents.LBSCustomEnumField name="LeftDirectionEnum" label="Left" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/Type=Left.svg?fileID=7388822144124034973&amp;guid=f4706096a701f4f4092347cba6302330&amp;type=3#Type=Left" class="lbs-field-box-container" style="top: auto;" />
+                </engine:VisualElement>
+                <engine:VisualElement style="flex-grow: 0; position: absolute; top: 40%; left: auto; height: 32px; width: 192px; bottom: auto; right: -207px;">
+                    <ISILab.LBS.CustomComponents.LBSCustomEnumField name="RightDirectionEnum" label="Right" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/Type=Right.svg?fileID=7388822144124034973&amp;guid=4d21b925e57f7464498d67f86cb416df&amp;type=3#Type=Right" icon-size="16" class="lbs-field-box-container" style="top: auto;" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement style="flex-grow: 0; flex-shrink: 0; position: absolute; bottom: 3px; left: 3px; width: 48px; height: 48px; background-image: url(&quot;project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/gizmo_zx.svg?fileID=7388822144124034973&amp;guid=b9ae400ed6aad054ebea53ab1603f838&amp;type=3#gizmo_zx&quot;);" />
+        </engine:VisualElement>
+        <engine:VisualElement name="LowerBar" class="lbs-box-container" style="flex-grow: 0; height: 32px; flex-direction: row-reverse;">
+            <ISILab.LBS.CustomComponents.LBSCustomButton text="Save" name="SaveButton" style="flex-grow: 0; flex-shrink: 0; width: 72px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomButton text="Revert" name="RevertButton" style="flex-grow: 0; width: 64px;" />
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

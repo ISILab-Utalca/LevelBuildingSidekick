@@ -57,6 +57,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             Texture icon = LBSAssetMacro.LoadAssetByGuid<Texture>("6351057aa17189c44902075c0b9353fd");
             window.titleContent = new GUIContent("Bundle Manager", icon);
         }
+        
 
         private void CreateGUI()
         {
@@ -75,7 +76,7 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             FindWarnings();
 
             // Create window
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleManagerWindow");
+            VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleManagerWindow");
             visualTree.CloneTree(rootVisualElement);
 
             // Setting MasterBundle lists

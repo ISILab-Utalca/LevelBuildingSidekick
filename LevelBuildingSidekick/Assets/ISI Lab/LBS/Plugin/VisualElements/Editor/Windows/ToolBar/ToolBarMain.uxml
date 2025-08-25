@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
-    <ISILab.LBS.CustomComponents.LBSToolbar name="MainToolBar" class="horizontal light">
+    <ISILab.LBS.CustomComponents.LBSToolbar name="MainToolBar" class="horizontal">
         <ISILab.LBS.CustomComponents.LBSToolbarMenu name="ToolBarMenu" text="File" arrow-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Arrows/Icon=ArrowDown.svg?fileID=7388822144124034973&amp;guid=b570a25de51f01c41bd82dbe5372bb3f&amp;type=3#Icon=ArrowDown" toggle-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Save.svg?fileID=7388822144124034973&amp;guid=5f37bee82c86e6f49a594f15b4eea225&amp;type=3#Icon=Save" style="flex-shrink: 0;" />
         <ISILab.LBS.CustomComponents.LBSToolbarToggle toggle-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Learn.svg?fileID=7388822144124034973&amp;guid=3dbf6a146d2ec9844b00f07207af8065&amp;type=3#Icon=Learn" label="Help!" name="KeyMapToggle" />
         <ISILab.LBS.CustomComponents.LBSToolbarButton icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Configuration.svg?fileID=7388822144124034973&amp;guid=2e8733a9783bee545bed1145cab4d1ce&amp;type=3#Icon=Configuration" name="OptionButton" />

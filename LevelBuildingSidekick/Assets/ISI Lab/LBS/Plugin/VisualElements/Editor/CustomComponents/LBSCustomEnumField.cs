@@ -13,6 +13,7 @@ namespace ISILab.LBS.CustomComponents
         #region constants
         
         public readonly static string LBSClassName = "lbs-field";
+        public readonly static string LBSEnumFieldClass = ".lbs-enum-field";
         
         #endregion
         
@@ -81,9 +82,22 @@ namespace ISILab.LBS.CustomComponents
         {
             style.alignItems = Align.Center;
             this.AddToClassList(LBSClassName);
+            this.AddToClassList(LBSEnumFieldClass);
             m_Icon = new VisualElement();
             labelElement.AddToClassList("lbs-label");
             labelElement.RemoveFromClassList("unity-label");
+            
+            // input
+            VisualElement inputButton = this.Q<VisualElement>(classes: inputUssClassName);
+            inputButton.AddToClassList("lbs-enum-field-input");
+            inputButton.AddToClassList("lbs-button");
+            inputButton.RemoveFromClassList(inputUssClassName);
+            
+            
+            // arrow
+            VisualElement arrow = this.Q<VisualElement>(classes: arrowUssClassName);
+            arrow.AddToClassList("lbs-arrow");
+            arrow.RemoveFromClassList(arrowUssClassName);
             
             
             //styles
