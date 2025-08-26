@@ -2,7 +2,7 @@
     <ui:Template name="LBSHorizontalDivider" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/StaticTemplateComponents/SimpleComponents/LBSHorizontalDivider.uxml?fileID=9197481963319205126&amp;guid=8e276661d37de8e41905231bb939b61a&amp;type=3#LBSHorizontalDivider" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
-    <uie:Toolbar class="lbs-toolbar">
+    <uie:Toolbar name="Toolbar" class="lbs-toolbar">
         <uie:ToolbarButton text="Button" />
         <uie:ToolbarToggle label="Toggle" />
         <uie:ToolbarMenu />
@@ -49,6 +49,10 @@
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
             <ISILab.LBS.CustomComponents.LBSCustomButton text="Button" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" style="height: 31px;" />
             <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
+            <ISILab.LBS.CustomComponents.LBSCustomVector2Field label="A Custom Vector2" style="height: 35px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" />
+            <ISILab.LBS.CustomComponents.LBSCustomTextField placeholder-text="Insert Text..." hide-placeholder-on-focus="false" readonly="false" is-delayed="false" password="false" label="Custom Text Field" style="height: 36px;" />
+            <ISILab.LBS.CustomComponents.LBSSCustomObjectField label="Custom Object Field" />
         </ui:VisualElement>
     </ISILab.Commons.VisualElements.Editor.SplitView>
     <uie:Toolbar>

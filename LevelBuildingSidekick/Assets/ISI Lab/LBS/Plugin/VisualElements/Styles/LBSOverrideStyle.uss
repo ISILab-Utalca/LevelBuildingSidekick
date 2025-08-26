@@ -22,11 +22,6 @@
 }
 
 .unity-base-field__input {
-    background-color: var(--lbs-field-solid-bg-gray-color);
-    border-bottom-color: var(--lbs-dark-overlay-color);
-    border-top-color: var(--lbs-dark-overlay-color);
-    border-left-color: var(--lbs-dark-overlay-color);
-    border-right-color: var(--lbs-dark-overlay-color);
 }
 
 .unity-base-popup-field {
@@ -50,3 +45,5 @@
 
 .unity-image {
 }
+
+

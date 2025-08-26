@@ -100,14 +100,20 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 
                 _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+                
             }
             else
             {   //Set generation setting by default
+                Debug.Log("Set replace from default value as true!");
                 _replacePrev.value = true;
                 GeneratorSettings = LBSSettings.Instance.generator;
-                GeneratorSettings.settings.replacePrevious = true;
+                GeneratorSettings.settings.replacePrevious = _replacePrev.value;
             }
-            _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
+            _replacePrev.RegisterValueChangedCallback<bool>(evt =>
+            {
+                //GeneratorSettings.settings.replacePrevious = evt.newValue;
+                LBSSettings.Instance.MarkSettingsAsDirty();
+            });
             
             
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
@@ -150,14 +156,10 @@ namespace ISILab.LBS.VisualElements.Editor
             if (GeneratorSettings == null) return;
             _scaleField.value = _settings.scale;
             _positionField.value = _settings.position;
-            _nameField.value = layer.Name;
+            _nameField.value = LBSSettings.Instance.generator.settings.rootParentName;
             _resizeField.value = _settings.resize;
         }
-
-        void OnEnable()
-        {
-            Debug.Log("3D Panel - OnEnable");
-        }
+        
         
 
         private void GenerateAllLayers()
@@ -182,9 +184,9 @@ namespace ISILab.LBS.VisualElements.Editor
             //Debug.Log(log);
             
             //eliminar previo "root_Parent"
-            Object.DestroyImmediate(GameObject.Find("root_Parent"));
+            Object.DestroyImmediate(GameObject.Find(_nameField.value));
             //crear objeto empty fuera del foreach
-            GameObject rootParent = new GameObject("root_Parent");
+            GameObject rootParent = new GameObject(_nameField.value);
             
             foreach (LBSLayer layer in layers)
             {
@@ -308,14 +310,14 @@ namespace ISILab.LBS.VisualElements.Editor
             var generated = GeneratorSettings.Generate(_layer, _layer.GeneratorRules, _settings);
             
             // Setting layer's parent, "root_Parent"
-            if (GameObject.Find("root_Parent"))
+            if (GameObject.Find(_nameField.value))
             {
-                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+                generated.Item1.transform.parent = GameObject.Find(_nameField.value).transform;
             }
             else
             {
-                GameObject rootParent = new GameObject("root_Parent");
-                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+                GameObject rootParent = new GameObject(_nameField.value);
+                generated.Item1.transform.parent = GameObject.Find(_nameField.value).transform;
             }
 
             // If it created a usable LBS game object 

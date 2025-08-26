@@ -33,7 +33,7 @@ MonoBehaviour:
     tileSize: {x: 50, y: 50}
     baseLayerName: New Layer
   view:
-    LBSTheme: 2
+    LBSTheme: 0
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     newToolkitSelected: {r: 0.21, g: 0.48, b: 0.96, a: 1}
     behavioursColor: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
@@ -67,6 +67,7 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       replacePrevious: 1
       name: DEFAULT
+      rootParentName: Root_Parent
     rules: []
   references:
     version: 2
