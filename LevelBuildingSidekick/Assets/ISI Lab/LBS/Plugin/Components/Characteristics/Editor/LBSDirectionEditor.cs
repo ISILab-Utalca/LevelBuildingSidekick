@@ -33,6 +33,7 @@ namespace ISILab.LBS.VisualElements
             SetInfo(target);
 
             directionWindow = ScriptableObject.CreateInstance<BundleDirectionEditorWindow>();
+            directionWindow.target = target as LBSDirection;
         }
 
         public override void SetInfo(object _paramTarget)
@@ -42,7 +43,7 @@ namespace ISILab.LBS.VisualElements
 
             if (target == null)
                 return;
-
+            
             target.Size = 4;
             var connections = target.Connections;
 

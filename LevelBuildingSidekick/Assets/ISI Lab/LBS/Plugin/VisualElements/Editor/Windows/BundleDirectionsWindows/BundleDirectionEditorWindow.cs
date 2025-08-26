@@ -1,7 +1,13 @@
 ﻿using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Characteristics;
+using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.Macros;
+using LBS.Bundles;
+using System;
+using System.Linq;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -17,10 +23,11 @@ public class BundleDirectionEditorWindow : EditorWindow
     private VisualElement middleZone;
     private VisualElement centreVisual;
 
-    private LBSCustomEnumField upDirectionEnum;
-    private LBSCustomEnumField downDirectionEnum;
-    private LBSCustomEnumField leftDirectionEnum;
-    private LBSCustomEnumField rightDirectionEnum;
+    //Temporals
+    private ObjectField UpDirectionField;
+    private ObjectField DownDirectionField;
+    private ObjectField LeftDirectionField;
+    private ObjectField RightDirectionField;
 
     //Bottom buttons
     private LBSCustomButton RevertButton;
@@ -28,11 +35,18 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     #endregion
 
-    private Texture2D renderTexture;
-    private Background previewImageBG;
-    private GameObject previewCube;
+    #region SQUARE PREVIEW ELEMENTS
 
-    void CreateGUI()
+    private Texture2D renderTexture;
+    private GameObject previewPrefab;
+    private PreviewRenderUtility prevRenderUtil;
+    private GameObject prefab;
+
+    #endregion
+
+    public LBSDirection target;
+
+    public void CreateGUI()
     {
         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleDirectionEditorWindow");
         visualTree.CloneTree(rootVisualElement);
@@ -41,51 +55,94 @@ public class BundleDirectionEditorWindow : EditorWindow
 
         tagGroupEnum = rootVisualElement.Q<LBSCustomEnumField>("TagGroupEnum");
 
-
         middleZone = rootVisualElement.Q<VisualElement>("MiddleZone");
-
-        // Create a render texture and camera for preview
-        renderTexture = new Texture2D(256, 256, TextureFormat.RGBA32, false);
-
-        previewImageBG = new Background
-        {
-            texture = renderTexture,
-        };
-        middleZone.style.backgroundImage = new StyleBackground(previewImageBG);
-
-        previewCube = LBSAssetMacro.LoadAssetByGuid<GameObject>("53fbf72f0ddda114e850c0c7ad033716");
-
-        EditorApplication.update += CheckPreview;
-
         centreVisual = rootVisualElement.Q<VisualElement>("Thumbnail");
 
-        upDirectionEnum = rootVisualElement.Q<LBSCustomEnumField>("UpDirectionEnum");
-        downDirectionEnum = rootVisualElement.Q<LBSCustomEnumField>("DownDirectionEnum");
-        leftDirectionEnum = rootVisualElement.Q<LBSCustomEnumField>("LeftDirectionEnum");
-        rightDirectionEnum = rootVisualElement.Q<LBSCustomEnumField>("RightDirectionEnum");
+        UpDirectionField = rootVisualElement.Q<LBSCustomObjectField>("UpDirectionField");
+        DownDirectionField = rootVisualElement.Q<LBSCustomObjectField>("DownDirectionField");
+        LeftDirectionField = rootVisualElement.Q<LBSCustomObjectField>("LeftDirectionField");
+        RightDirectionField = rootVisualElement.Q<LBSCustomObjectField>("RightDirectionField");
 
         RevertButton = rootVisualElement.Q<LBSCustomButton>("RevertButton");
 
         SaveButton = rootVisualElement.Q<LBSCustomButton>("SaveButton");
 
+        #region Square Preview Setup
 
+        SetValuesFromBundle();
+
+        renderTexture = new Texture2D(512, 512, TextureFormat.RGBA32, false);
+
+        centreVisual.style.backgroundImage = new StyleBackground(renderTexture);
+
+        prevRenderUtil = new PreviewRenderUtility();
+        prevRenderUtil.cameraFieldOfView = 30f;
+
+        if (prefab != null)
+        {
+            previewPrefab = prevRenderUtil.InstantiatePrefabInScene(prefab);
+            previewPrefab.transform.position = Vector3.zero;
+        }
+
+        EditorApplication.update += UpdatePreview;
+
+        #endregion
     }
 
-    private void CheckPreview()
+    private void SetValuesFromBundle()
     {
-        if (renderTexture == null && previewCube != null)
+        if (target == null)
+            return;
+
+        RightDirectionField.value = target.GetConnection(0)[0] == "" ? null : LBSAssetMacro.GetLBSTag(target.GetConnection(0)[0]);
+        UpDirectionField.value = target.GetConnection(0)[1] == "" ? null : LBSAssetMacro.GetLBSTag(target.GetConnection(0)[1]);
+        LeftDirectionField.value = target.GetConnection(0)[2] == "" ? null : LBSAssetMacro.GetLBSTag(target.GetConnection(0)[2]);
+        DownDirectionField.value = target.GetConnection(0)[3] == "" ? null : LBSAssetMacro.GetLBSTag(target.GetConnection(0)[3]);
+
+        prefab = target.Owner.Assets[0].obj;
+
+        target.GetConnection();
+        
+        
+
+        foreach (var connection in target.Connections)
         {
-            renderTexture = AssetPreview.GetAssetPreview(previewCube);
-
-            // Still loading → returns null, keep waiting
-            if (renderTexture == null)
-                return;
-
-            // Once ready, assign it
-            previewImageBG = renderTexture;
-
-            // Stop polling
-            EditorApplication.update -= CheckPreview;
+            Debug.Log(connection + " " + target.Connections.FindIndex(c => c == connection));
         }
     }
+
+    private void UpdatePreview()
+    {
+        prevRenderUtil.BeginStaticPreview(new Rect(0, 0, 512, 512));
+
+        prevRenderUtil.camera.transform.position = new Vector3(0, 5, 0);
+        prevRenderUtil.camera.transform.rotation = Quaternion.Euler(90, 0, 0);
+        prevRenderUtil.camera.clearFlags = CameraClearFlags.Color;
+        prevRenderUtil.camera.backgroundColor = Color.gray;
+
+        prevRenderUtil.camera.orthographic = true;
+
+        prevRenderUtil.camera.orthographicSize = 1f;
+        prevRenderUtil.camera.nearClipPlane = 0.1f;
+        prevRenderUtil.camera.farClipPlane = 100f;
+
+        prevRenderUtil.lights[0].intensity = 1f;
+        prevRenderUtil.lights[0].transform.rotation = Quaternion.Euler(50f, 50f, 0);
+
+        prevRenderUtil.camera.Render();
+
+        renderTexture = prevRenderUtil.EndStaticPreview();
+
+        centreVisual.style.backgroundImage = new StyleBackground(renderTexture);
+    }
+
+    void OnDisable()
+    {
+        EditorApplication.update -= UpdatePreview;
+        prevRenderUtil?.Cleanup();
+        if (renderTexture != null)
+            DestroyImmediate(renderTexture);
+    }
+
+
 }
