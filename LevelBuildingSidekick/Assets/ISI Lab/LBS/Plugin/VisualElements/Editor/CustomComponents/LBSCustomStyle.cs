@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace ISILab.LBS.CustomComponents
 {
+    
+    public enum IconPosition {None, Left, Right}
+    
+
+    
     public static class LBSCustomStyle
     {
         //Base
@@ -17,7 +22,7 @@ namespace ISILab.LBS.CustomComponents
         public const string CONTENT_ITEM_BOX = "lbs-custom-box";
         
         //Icons
-        public const string LBS_ICON = "lbs-custom-icon";
+        public const string LBS_ICON = "lbs-icon";
         
         //Prefixes
         public const string CONTAINER_PREFIX = "__container";
