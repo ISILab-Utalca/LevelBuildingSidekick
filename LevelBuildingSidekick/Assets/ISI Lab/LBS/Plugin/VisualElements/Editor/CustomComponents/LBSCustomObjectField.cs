@@ -50,22 +50,7 @@ namespace ISILab.LBS.CustomComponents
                 
                 if (iconVisualElement != null)
                 {
-                    switch (iconPosition)
-                    {
-                        case IconPosition.Left:
-                            iconVisualElement.style.display = DisplayStyle.Flex;
-                            iconVisualElement.SendToBack();
-                            break;
-                        case IconPosition.None:
-                            iconVisualElement.style.display = DisplayStyle.None;
-                            break;
-                        case IconPosition.Right:
-                            iconVisualElement.style.display = DisplayStyle.Flex;
-                            iconVisualElement.BringToFront();
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                    SetIconPosition(iconPosition);
                 }
             }
         }
@@ -84,13 +69,18 @@ namespace ISILab.LBS.CustomComponents
             if (vectorIcon != null)
             {
                 iconVisualElement.style.backgroundImage = new StyleBackground(vectorIcon);
-                if (iconPosition == IconPosition.Left)
+                switch (iconPosition)
                 {
-                    iconVisualElement.SendToBack();
-                }
-                else
-                {
-                    iconVisualElement.BringToFront();
+                    case IconPosition.Left:
+                        iconVisualElement.SendToBack();
+                        break;
+                    case IconPosition.Right:
+                        iconVisualElement.SendToBack();
+                        break;
+                    case IconPosition.None:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
             else
@@ -98,6 +88,27 @@ namespace ISILab.LBS.CustomComponents
                 iconVisualElement.style.display = DisplayStyle.None;
             }
         }
+
+        void SetIconPosition(IconPosition _iconPosition)
+        {
+            switch (_iconPosition)
+            {
+                case IconPosition.Left:
+                    iconVisualElement.style.display = DisplayStyle.Flex;
+                    iconVisualElement.SendToBack();
+                    break;
+                case IconPosition.None:
+                    iconVisualElement.style.display = DisplayStyle.None;
+                    break;
+                case IconPosition.Right:
+                    iconVisualElement.style.display = DisplayStyle.Flex;
+                    iconVisualElement.BringToFront();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        
     }
-    
 }
