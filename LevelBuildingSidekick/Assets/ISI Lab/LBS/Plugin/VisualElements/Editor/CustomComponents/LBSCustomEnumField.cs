@@ -119,6 +119,11 @@ namespace ISILab.LBS.CustomComponents
             // RegisterCallback<DetachFromPanelEvent>(e => { });
             
         }
+
+        public void Init(string firstValue)
+        {
+
+        }
         
     }
 }
