@@ -66,22 +66,11 @@ namespace ISILab.LBS.CustomComponents
             iconVisualElement = new VisualElement();
             iconVisualElement.AddToClassList(LBSCustomStyle.LBS_ICON);
             this.Add(iconVisualElement);
+            
             if (vectorIcon != null)
             {
                 iconVisualElement.style.backgroundImage = new StyleBackground(vectorIcon);
-                switch (iconPosition)
-                {
-                    case IconPosition.Left:
-                        iconVisualElement.SendToBack();
-                        break;
-                    case IconPosition.Right:
-                        iconVisualElement.SendToBack();
-                        break;
-                    case IconPosition.None:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                SetIconPosition(iconPosition);
             }
             else
             {
