@@ -21,6 +21,8 @@ namespace ISILab.LBS.VisualElements
         private readonly VisualElement _root;
         private readonly VisualElement _iconType;
         private readonly VisualElement _iconGrammarInvalid;
+        private readonly VisualElement _iconNodeDataInvalid;
+        
         private readonly ToolbarMenu _toolbar;
         private readonly Label _label;
         #endregion
@@ -38,6 +40,7 @@ namespace ISILab.LBS.VisualElements
             _root              = this.Q<VisualElement>("Root");
             _iconType          = this.Q<VisualElement>("TypeIcon");
             InvalidConnectionIcon = this.Q<VisualElement>("InvalidConnectionIcon");
+            _iconNodeDataInvalid = this.Q<VisualElement>("InvalidDataIcon");
             _iconGrammarInvalid = this.Q<VisualElement>("InvalidGrammarIcon");
             _toolbar           = this.Q<ToolbarMenu>("ToolBar");
 
@@ -108,14 +111,15 @@ namespace ISILab.LBS.VisualElements
                 return;
             }
 
-            float padding = 20f;
+            float padding = 32f;
             float minWidth = 100f;
             float typeIconWidth = GetElementWidthIfVisible(_iconType, 24f);
             float grammarIconWidth = GetElementWidthIfVisible(_iconGrammarInvalid, 24f);
+            float dataIconWidth = GetElementWidthIfVisible(_iconNodeDataInvalid, 24f);
             float connectionIconWidth = GetElementWidthIfVisible(InvalidConnectionIcon, 24f);
             
             var textSize = _label.MeasureTextSize(_label.text, 0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined);
-            float newWidth = Mathf.Max(minWidth, textSize.x + padding + grammarIconWidth + connectionIconWidth + typeIconWidth);
+            float newWidth = Mathf.Max(minWidth, textSize.x + padding + grammarIconWidth + connectionIconWidth + typeIconWidth + dataIconWidth);
 
             _root.style.width = new StyleLength(newWidth);
             _label.style.width = new StyleLength(StyleKeyword.Auto);
@@ -128,7 +132,11 @@ namespace ISILab.LBS.VisualElements
         #region Grammar State
         public sealed override void DisplayGrammarState(GraphNode node)
         {
+            if(node is not QuestNode qn) return;
+         
             base.DisplayGrammarState(node);
+            
+            _iconNodeDataInvalid.style.display = qn.NodeData.IsValid() ? DisplayStyle.None : DisplayStyle.Flex;
             _iconGrammarInvalid.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
             _root.SetBorder(node.isValid() ? CorrectGrammar : GrammarWrong, 1f);
         }

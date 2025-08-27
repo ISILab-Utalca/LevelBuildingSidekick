@@ -264,12 +264,19 @@ namespace ISILab.LBS.Modules
 
             // prevent duplicates
             if (graphEdges.Any(e => e.From.Contains(from) && e.To == to))
-                return Tuple.Create("This edge already exists.", LogType.Warning);
+                return Tuple.Create("This connection already exists.", LogType.Error);
 
             // check for looping connections
-            if (IsLooped(from, to, new List<GraphNode>()))
+            if (IsLooped(from, to, new HashSet<GraphNode>()))
             {
-                return Tuple.Create("The destination is a root of this node.", LogType.Warning);
+                return Tuple.Create("The destination is a root of this node.", LogType.Error);
+            }
+            // only branching nodes can be a To on multiple edges
+            if (to is QuestNode && from is QuestNode)
+            {
+                bool alreadyTarget = graphEdges.Any(e => e.To == to);
+                if (alreadyTarget)
+                    return Tuple.Create("Action Nodes can only be the destination of one edge. For multiple use Branching nodes", LogType.Error);
             }
             
             var newEdge = new QuestEdge(from, to);
@@ -279,31 +286,45 @@ namespace ISILab.LBS.Modules
             return Tuple.Create($"Connection: {from} → {to}", LogType.Log);
         }
 
-        private bool IsLooped(GraphNode from, GraphNode to, List<GraphNode> visited)
+        private bool IsLooped(GraphNode origin, GraphNode current, HashSet<GraphNode> visited)
         {
-            if (from == to) return true;
+            if (origin == current)
+                return true;
 
-            if (!visited.Contains(to)) // returns false if already in set
+            if (!visited.Add(current))
                 return false;
-            visited.Add(to);
+
+            // Traverse *forward only* (branches)
+            foreach (var branch in GetBranches(current))
+            {
+                if (IsLooped(origin, branch.To, visited))
+                    return true;
+            }
+            
+            /* Code for single direction 
+            if (origin == current)
+                return true;
+
+            if (!visited.Add(current)) // returns false if already in visited
+                return false;
 
             // Check roots
-            foreach (var rootEdge in GetRoots(to))
+            foreach (var rootEdge in GetRoots(current))
             {
                 foreach (var fromNode in rootEdge.From)
                 {
-                    if (IsLooped(to, fromNode, visited))
+                    if (IsLooped(origin, fromNode, visited))
                         return true;
                 }
             }
 
             // Check branches
-            foreach (var branch in GetBranches(to))
+            foreach (var branch in GetBranches(current))
             {
-                if (IsLooped(to, branch.To, visited))
+                if (IsLooped(origin, branch.To, visited))
                     return true;
             }
-
+*/
             return false;
         }
 
@@ -503,8 +524,12 @@ namespace ISILab.LBS.Modules
         {
             var clone = new QuestGraph { grammarGuid = grammarGuid };
 
-            var nodes = graphNodes.Select(CloneRefs.Get).Cast<QuestNode>();
-            foreach (var n in nodes) clone.graphNodes.Add(n);
+            var nodes = graphNodes.Select(CloneRefs.Get).Cast<GraphNode>();
+            foreach (var n in nodes)
+            {
+                clone.graphNodes.Add(n);
+                n.Graph = clone;
+            }
 
             var edges = graphEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
             foreach (var e in edges) clone.graphEdges.Add(e);

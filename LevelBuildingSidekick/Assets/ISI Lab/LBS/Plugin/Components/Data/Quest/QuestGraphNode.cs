@@ -106,7 +106,6 @@ namespace ISILab.LBS.Components
             clone.nodeViewRect = nodeViewRect;
             clone.x = x;
             clone.y = y;
-            clone.graph = graph;
             return clone;
         }
 
@@ -247,8 +246,15 @@ namespace ISILab.LBS.Components
 
         protected override GraphNode CreateCloneInstance()
         {
-            return new QuestNode(id, Position, questAction, graph);
+            var clone = new QuestNode(id, Position, questAction, graph)
+            {
+                nodeType = nodeType,
+                questState = questState,
+                nodeData = nodeData
+            };
+            return clone;
         }
+
 
         public override string ToString()
         {
@@ -259,6 +265,8 @@ namespace ISILab.LBS.Components
         {
             return ValidConnections & ValidGrammar;
         }
+        
+        
         #endregion
     }
     

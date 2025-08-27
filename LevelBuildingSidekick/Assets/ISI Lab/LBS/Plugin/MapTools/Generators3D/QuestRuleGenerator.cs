@@ -118,6 +118,22 @@ namespace ISILab.LBS.Generators
         private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer,
             GameObject pivot)
         {
+            // if there is no root
+            if(quest.Root is null)
+            {
+                Debug.LogError($"There is no root in the graph. Assign a root to generate the quest");
+                Object.DestroyImmediate(pivot);
+                return;
+            }
+
+            // if there are no goals
+            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
+            {
+                Debug.LogError("There must be at least one goal node. Make sure to have actions with roots but no branches");
+                Object.DestroyImmediate(pivot);
+                return;
+            }
+            
             foreach (var node in quest.GetQuestNodes())
             {
                 Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);

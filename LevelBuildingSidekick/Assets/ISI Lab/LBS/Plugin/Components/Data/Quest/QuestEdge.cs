@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -51,11 +52,19 @@ namespace ISILab.LBS.Modules
         #region METHODS
         public object Clone()
         {
-            return new QuestEdge(
-                CloneRefs.Get(from) as GraphNode,
-                CloneRefs.Get(to) as GraphNode
-            );
+            var clonedFrom = from
+                .Select(f => CloneRefs.Get(f) as GraphNode)
+                .ToList();
+
+            var clonedTo = CloneRefs.Get(to) as GraphNode;
+
+            return new QuestEdge
+            {
+                From = clonedFrom,
+                To = clonedTo
+            };
         }
+
 
 
         public void AddFrom(GraphNode node)
