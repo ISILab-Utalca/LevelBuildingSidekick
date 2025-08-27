@@ -32,7 +32,8 @@ Label {
 }
 
 .lbs-field Label {
-    padding-right: 21px;
+    padding-right: 4px;
+    min-width: auto;
     color: var(--lbs-default-text-color);
 }
 
@@ -1742,4 +1743,27 @@ Button.lbs-actionbutton {
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
+}
+
+.lbs-vector3-field FloatInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+    min-width: 32px;
+    flex-shrink: 1;
+}
+
+.lbs-vector3-field > VisualElement {
+    flex-grow: 1;
+    align-self: stretch;
+    flex-shrink: 1;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+}
+
+.lbs-object-field {
 }

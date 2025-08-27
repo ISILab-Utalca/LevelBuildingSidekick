@@ -11,10 +11,10 @@
     <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView" class="alt">
         <ui:VisualElement class="lbs-panel">
             <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add.svg?fileID=7388822144124034973&amp;guid=ad8d08a3d465b3a438016713ae2f99c5&amp;type=3#Icon=Add" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" style="height: 47px;" />
-            <ui:DropdownField label="Dropdown" />
+            <ui:DropdownField label="Dropdown" choices="A Value,B Value,C Value" name="DropdownField" index="0" style="height: 37px;" />
             <ui:Instance template="LBSHorizontalDivider" />
-            <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="0" progress-theme-color="#6E00F5FF" title="80" value="60.6" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/Components/Data/Quest/QuestIcons/Icon=Star.svg?fileID=7388822144124034973&amp;guid=8d6364597c916884488b4054a8a747aa&amp;type=3#Icon=Star" />
-            <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="20" progress-theme-color="#00FFADFF" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/AppIcon_24.svg?fileID=7388822144124034973&amp;guid=686cbcf439056ef44a2923e63463db01&amp;type=3#AppIcon_24" />
+            <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="0" progress-theme-color="#6E00F5FF" title="80" value="60.6" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/Components/Data/Quest/QuestIcons/Icon=Star.svg?fileID=7388822144124034973&amp;guid=8d6364597c916884488b4054a8a747aa&amp;type=3#Icon=Star" style="height: 32px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="20" progress-theme-color="#00FFADFF" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/AppIcon_24.svg?fileID=7388822144124034973&amp;guid=686cbcf439056ef44a2923e63463db01&amp;type=3#AppIcon_24" style="height: 33px;" />
             <ISILab.LBS.CustomComponents.LBSCustomToggleField enabled="true" value="false" class="lbs-field" />
             <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Custom Foldout" name="LBSCustomFoldout">
                 <ui:Button text="Button" />
@@ -47,12 +47,12 @@
                     <ISILab.LBS.CustomComponents.LBSCustomMinMaxSlider value="0,12" label="Min Max Slider" low-limit="0" high-limit="100" />
                 </ui:TabView>
             </ISILab.LBS.CustomComponents.LBSCustomFoldout>
-            <ISILab.LBS.CustomComponents.LBSCustomButton text="Button" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" style="height: 31px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomButton text="Button" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" style="height: 40px;" />
             <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
             <ISILab.LBS.CustomComponents.LBSCustomVector2Field label="A Custom Vector2" style="height: 35px;" />
-            <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" />
+            <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" style="height: 38px;" />
             <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Right" />
-            <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Left" />
+            <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Left" style="height: 41px;" />
         </ui:VisualElement>
     </ISILab.Commons.VisualElements.Editor.SplitView>
     <uie:Toolbar>
