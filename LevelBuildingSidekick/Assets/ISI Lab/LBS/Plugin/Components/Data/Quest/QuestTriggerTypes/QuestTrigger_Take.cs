@@ -20,8 +20,16 @@ namespace ISILab.LBS
         public override void SetDataNode(BaseQuestNodeData baseData)
         {
             dataTake = (DataTake)baseData;
-            var objectiveTrigger = objectToTake.AddComponent<GenericObjectiveTrigger>();
-            objectiveTrigger.Setup(this);
+            if (objectToTake is not null)
+            {
+                var objectiveTrigger = objectToTake.AddComponent<GenericObjectiveTrigger>();
+                objectiveTrigger.Setup(this);
+            }
+            else
+            {
+                Debug.LogError("The object to take has no collision component. Add collision and regenerate Quest.");
+            }
+
         }
 
         protected override void OnTriggerEnter(Collider other) 
