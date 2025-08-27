@@ -1727,7 +1727,7 @@ Button.lbs-actionbutton {
     align-items: stretch;
     flex-direction: column;
     height: 100%;
-    width: 100%;
+    width: auto;
 }
 
 .lbs-vector2-field .unity-composite-field__field-spacer {
