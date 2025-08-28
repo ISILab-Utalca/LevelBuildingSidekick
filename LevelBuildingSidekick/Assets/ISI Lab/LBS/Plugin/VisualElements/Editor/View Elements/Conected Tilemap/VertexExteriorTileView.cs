@@ -35,7 +35,7 @@ namespace ISILab.LBS.VisualElements
 
             this.SetMargins(0);
             this.SetPaddings(0);
-
+            
             this.SetBackgroundColor(fillColor);
             this.SetBorderRadius(0);
             this.transform.scale = Vector3.one * scaleFactor;

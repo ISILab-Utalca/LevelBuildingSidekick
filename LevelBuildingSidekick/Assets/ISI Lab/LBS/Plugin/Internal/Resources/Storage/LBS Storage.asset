@@ -170,12 +170,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d28f1839643047e4fa224e0d902409a4, type: 2}
     - {fileID: 11400000, guid: 46baa92181955b1409a078763c86296a, type: 2}
     - {fileID: 11400000, guid: d57f8c64951f0934cb667ba5deedda8b, type: 2}
-    - {fileID: 11400000, guid: fb096001b91ce2a499c3068f243bd3a0, type: 2}
-    - {fileID: 11400000, guid: 9cb6c8b3a06a56b4ea638db3d012fcd5, type: 2}
-    - {fileID: 11400000, guid: 07920b1dfbd6290408a9026252a6ee30, type: 2}
-    - {fileID: 11400000, guid: 265d35646d1f71244ab52e6cc9cf3fe2, type: 2}
-    - {fileID: 11400000, guid: 9a8c2f875ca82694890f0e3bc36f16a5, type: 2}
-    - {fileID: 11400000, guid: 525e2d75212f0cf499cf6f1fbcbdee9c, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
