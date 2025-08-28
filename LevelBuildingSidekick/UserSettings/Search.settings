@@ -30,7 +30,7 @@ scopes = {
 	"last_search.D379D912" = ""
 	"OpenInspectorPreview.D379D912" = "0"
 	"currentGroup.D379D912" = "all"
-	"picker_window_position_offset.075BCD15" = "8;338;861;681"
+	"picker_window_position_offset.075BCD15" = "8;338;868;681"
 	"picker_visibility_flags.075BCD15" = "264"
 	"picker_item_size.075BCD15" = "129"
 	"picker_inspector.075BCD15" = "0"
@@ -110,8 +110,12 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
-	"type: T"
 	"type:"
+	"type: charac"
+	"type: directioned"
+	"type: dire"
+	"type: lbsdirec"
+	"type: T"
 	"type: Charac"
 	"type: Direct"
 	"type: Direction"
@@ -125,11 +129,6 @@ recentSearches = [
 	"type: DirectionCh"
 	"type: Direc"
 	"type: spread"
-	"type: populationParams"
-	"type: population"
-	"type: structure"
-	"lbsmod"
-	""
 ]
 searchItemFavorites = [
 ]

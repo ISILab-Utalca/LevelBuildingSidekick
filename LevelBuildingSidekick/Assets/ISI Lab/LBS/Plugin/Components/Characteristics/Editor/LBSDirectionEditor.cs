@@ -20,7 +20,7 @@ namespace ISILab.LBS.VisualElements
         VisualElement renderView;
 
         private Button openDirectionToolButton;
-        private BundleDirectionEditorWindow directionWindow;
+        private static BundleDirectionEditorWindow directionWindow;
 
         public LBSDirectionEditor()
         {
@@ -31,9 +31,6 @@ namespace ISILab.LBS.VisualElements
         {
             CreateVisualElement();
             SetInfo(target);
-
-            directionWindow = ScriptableObject.CreateInstance<BundleDirectionEditorWindow>();
-            directionWindow.target = target as LBSDirection;
         }
 
         public override void SetInfo(object _paramTarget)
@@ -79,7 +76,7 @@ namespace ISILab.LBS.VisualElements
             fields[3] = this.Q<ObjectField>(name: "Down");
 
             openDirectionToolButton = this.Q<Button>("OpenDirectionToolButton");
-            openDirectionToolButton.clicked += () => OpenDirectionTool();
+            openDirectionToolButton.clicked += OpenDirectionTool;
 
             return this;
         }
@@ -95,6 +92,12 @@ namespace ISILab.LBS.VisualElements
 
         private void OpenDirectionTool()
         {
+            if (directionWindow)
+                directionWindow.Close();
+
+            directionWindow = ScriptableObject.CreateInstance<BundleDirectionEditorWindow>();
+            directionWindow.target = target as LBSDirection;
+
             directionWindow.Show();
         }
     }
