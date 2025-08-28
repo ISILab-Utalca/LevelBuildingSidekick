@@ -116,7 +116,7 @@ namespace ISILab.LBS.VisualElements.Editor
             for (int i = 0; i < templates.Count; i++)
             {
                 int x = i;
-                addLayerButton.menu.AppendAction(templates[i].name, _ => AddLayerByTemplate(x));
+                addLayerButton.menu.AppendAction(templates[i].templateName, _ => AddLayerByTemplate(x));
             }
 
             Button removeSelectedBtn = this.Q<Button>("RemoveSelectedButton");

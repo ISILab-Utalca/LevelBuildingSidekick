@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
   m_Name: Population Layer
   m_EditorClassIdentifier: 
+  templateName: Population Layer
   layer:
     visible: 1
     blocked: 0
-    iconGUID: 48f2011efc0f7b2449db9f824c895d9d
+    iconGuid: 48f2011efc0f7b2449db9f824c895d9d
     id: Population
     name: Layer Population
     modules:
@@ -34,7 +35,10 @@ MonoBehaviour:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
+      replacePrevious: 1
       name: Population
+      rootParentName: Root_Parent
+    index: 0
   references:
     version: 2
     RefIds:
@@ -45,7 +49,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+          iconGuid: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
           id: Population
           name: Layer Population
           modules:
@@ -64,7 +68,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Population
+            rootParentName: Root_Parent
+          index: 0
         tiles: []
     - rid: 6598277744948937222
       type: {class: BundleTileMap, ns: ISILab.LBS.Modules, asm: LBS}
@@ -73,7 +80,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+          iconGuid: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
           id: Population
           name: Layer Population
           modules:
@@ -92,7 +99,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Population
+            rootParentName: Root_Parent
+          index: 0
         groups: []
     - rid: 6598277744948937223
       type: {class: PopulationBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
@@ -101,7 +111,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -115,7 +125,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
+          index: 0
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Population Behavior
@@ -124,7 +137,7 @@ MonoBehaviour:
           ownerLayer:
             visible: 1
             blocked: 0
-            iconGUID: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
+            iconGuid: Assets/ISI Lab/LBS/Plugin/Assets2D/Resources/Icons/ghost.png
             id: Population
             name: Layer Population
             modules:
@@ -143,7 +156,10 @@ MonoBehaviour:
               scale: {x: 2, y: 2}
               resize: {x: 0, y: 0}
               position: {x: 0, y: 0, z: 0}
+              replacePrevious: 1
               name: Population
+              rootParentName: Root_Parent
+            index: 0
           tiles: []
         bundleRefGui: 3e607c0f80297b849a6ea0d7f98c73a3
         selectedToSet: {fileID: 0}
@@ -157,7 +173,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -171,7 +187,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
+          index: 0
         icon: {fileID: 7388822144124034973, guid: 6515130e0caff664593540ffec59637c, type: 3}
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: Map Elite - Genetic Algorithm
@@ -187,5 +206,7 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
           rules: []

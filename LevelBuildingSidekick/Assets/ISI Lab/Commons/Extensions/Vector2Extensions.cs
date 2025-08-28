@@ -44,6 +44,44 @@ namespace ISILab.Extensions
             return toR;
         }
 
+        public static int GetEdge(this Vector2Int targetDirection, List<Vector2Int> directions)
+        {
+            return directions.FindIndex(d => d.Equals(-targetDirection));
+        }
+
+        public static List<int> GetVertices(this Vector2Int direction)
+        {
+            int x = direction.x, y = direction.y;
+            bool nonPositiveX = x < 1;
+            bool nonPositiveY = y < 1;
+            bool nonNegativeX = x > -1;
+            bool nonNegativeY = y > -1;
+            var indices = new List<int>();
+            if (nonPositiveX && nonPositiveY) indices.Add(0);
+            if (nonNegativeX && nonPositiveY) indices.Add(1);
+            if (nonNegativeX && nonNegativeY) indices.Add(2);
+            if (nonPositiveX && nonNegativeY) indices.Add(3);
+            return indices;
+        }
+
+        public static List<int> GetVertices(this Vector2Int direction, out List<int> originVertices)
+        {
+            originVertices = new List<int>();
+
+            int x = direction.x, y = direction.y;
+            bool nonPositiveX = x < 1;
+            bool nonPositiveY = y < 1;
+            bool nonNegativeX = x > -1;
+            bool nonNegativeY = y > -1;
+
+            if(nonNegativeX && nonNegativeY) originVertices.Add(0);
+            if(nonPositiveX && nonNegativeY) originVertices.Add(1);
+            if(nonPositiveX && nonPositiveY) originVertices.Add(2);
+            if(nonNegativeX && nonPositiveY) originVertices.Add(3);
+
+            return direction.GetVertices();
+        }
+
         public static bool IsInLine(this Vector2 vector, Vector2 start, Vector2 end)
         {
             if (start.x <= Mathf.Max(end.x, vector.x)

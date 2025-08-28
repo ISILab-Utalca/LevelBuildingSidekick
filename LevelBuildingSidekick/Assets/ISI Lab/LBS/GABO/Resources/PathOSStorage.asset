@@ -17,8 +17,38 @@ MonoBehaviour:
   worldCameraPrefab: {fileID: 4802606248819095171, guid: 7fc2dc49844862141b01cdd554ae2476, type: 3}
   screenshotCameraPrefab: {fileID: 988990242519381641, guid: 90df82b60f8b4cc4c8c801a3076fb368, type: 3}
   agentData:
-    image: {fileID: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
+    image: {fileID: 2800000, guid: 1df91c8fad8de564fae7be3d9bba3e44, type: 3}
+    color: {r: 0, g: 0, b: 0, a: 1}
   entityDataPool:
-    keys: 
-    values: []
+    keys: 00000000640000006e0000007800000096000000a0000000aa000000b4000000c8000000d2000000dc000000e6000000fa0000002c0100005e010000
+    values:
+    - image: {fileID: 0}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: d65ca6a3d10590445a230757749d002e, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 8e3bd07f16c6a3d4787ce092a94eae47, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 8ae8429f836af284db71942821223a22, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 28a24f58d7ea64344ba6ce293d844f6b, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: a7eea281b72500744a1428cf1a44b511, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: c5618c3e79dfa7148a82434fa1b55521, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 954d8a4d4b430be40a331f4a82450040, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: a6c2d233a3f0343499899defffa15b3e, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 25b8b771f4c61f940803f2d3b0e65620, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 12b8c9cc05129214494d19ea1f0149f0, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: c67251b4eae5c8941b533773e944b148, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 0897562c595adcc4ea0dec15d3478729, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 591212a523040a640b1652431a02f802, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
+    - image: {fileID: 2800000, guid: 8151a6d54ac2891458c82792ce9a04f0, type: 3}
+      color: {r: 0, g: 0, b: 0, a: 1}
