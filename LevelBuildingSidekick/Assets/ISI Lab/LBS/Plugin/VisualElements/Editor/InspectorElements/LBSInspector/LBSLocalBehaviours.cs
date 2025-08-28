@@ -42,6 +42,7 @@ namespace ISILab.LBS.VisualElements
                 foreach (var behaviour in reflayer.Behaviours)
                 {
                     Type type = behaviour.GetType();
+                    if (customEditor.ContainsKey(type)) continue;
                     var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                         .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 
