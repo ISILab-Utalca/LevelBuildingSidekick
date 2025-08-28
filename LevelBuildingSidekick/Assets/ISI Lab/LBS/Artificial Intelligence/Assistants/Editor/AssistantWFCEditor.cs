@@ -173,7 +173,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 presetsList.SetSelection(presetsList.itemsSource.IndexOf(newPreset));
                 LBSMainWindow.MessageNotify($"Weights saved as preset: {endName}.");
             }
-            else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
+            else if(!string.IsNullOrEmpty(errMsg))
+                LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
         }
 
         private void LoadWeights()

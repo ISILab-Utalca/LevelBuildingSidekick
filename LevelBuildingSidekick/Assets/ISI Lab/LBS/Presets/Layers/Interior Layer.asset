@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
   m_Name: Interior Layer
   m_EditorClassIdentifier: 
+  templateName: Interior Layer
   layer:
     visible: 1
     blocked: 0
-    iconGUID: 2f2267df26ee04141a77649628f622b6
+    iconGuid: 2f2267df26ee04141a77649628f622b6
     id: Interior
     name: Layer Interior
     modules:
@@ -38,7 +39,10 @@ MonoBehaviour:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
+      replacePrevious: 1
       name: Interior
+      rootParentName: Root_Parent
+    index: 0
   references:
     version: 2
     RefIds:
@@ -49,7 +53,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
+          iconGuid: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
           id: Interior
           name: Layer Interior
           modules:
@@ -72,7 +76,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Interior
+            rootParentName: Root_Parent
+          index: 0
         tiles: []
     - rid: 6598277660977397761
       type: {class: ConnectedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
@@ -81,7 +88,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
+          iconGuid: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
           id: Interior
           name: Layer Interior
           modules:
@@ -104,7 +111,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Interior
+            rootParentName: Root_Parent
+          index: 0
         connectedDirections: 4
         pairs: []
     - rid: 6598277660977397762
@@ -114,7 +124,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
+          iconGuid: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
           id: Interior
           name: Layer Interior
           modules:
@@ -137,7 +147,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Interior
+            rootParentName: Root_Parent
+          index: 0
         zones: []
         pairs: []
     - rid: 6598277660977397763
@@ -147,7 +160,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
+          iconGuid: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
           id: Interior
           name: Layer Interior
           modules:
@@ -170,7 +183,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Interior
+            rootParentName: Root_Parent
+          index: 0
         edges: []
     - rid: 6598277660977397764
       type: {class: ConstrainsZonesModule, ns: ISILab.LBS.Modules, asm: LBS}
@@ -179,7 +195,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
+          iconGuid: Assets/ISI Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=InteriorLayerIcon.png
           id: Interior
           name: Layer Interior
           modules:
@@ -202,7 +218,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Interior
+            rootParentName: Root_Parent
+          index: 0
         pairs: []
     - rid: 6598277660977397765
       type: {class: SchemaBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}
@@ -211,7 +230,7 @@ MonoBehaviour:
         ownerLayerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -225,7 +244,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
+          index: 0
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Schema behaviour
@@ -239,7 +261,7 @@ MonoBehaviour:
         ownerLayer:
           visible: 1
           blocked: 0
-          iconGUID: Icon/Default
+          iconGuid: Icon/Default
           id: LBSLayer
           name: Layer name
           modules: []
@@ -253,7 +275,10 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
+          index: 0
         icon: {fileID: 7388822144124034973, guid: cabe9f5bc61788d4989e79a2bbc7ec42, type: 3}
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: HillClimbing
@@ -270,7 +295,9 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
           rules: []
     - rid: 6598277660977397768
       type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
@@ -283,5 +310,7 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
           rules: []

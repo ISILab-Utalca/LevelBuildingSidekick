@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
   m_Name: Simulation Layer
   m_EditorClassIdentifier: 
+  templateName: Simulation Layer
   layer:
     visible: 1
     blocked: 0
@@ -33,7 +34,9 @@ MonoBehaviour:
       scale: {x: 2, y: 2}
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
+      replacePrevious: 1
       name: Testing
+      rootParentName: Root_Parent
     index: 0
   references:
     version: 2
@@ -63,7 +66,9 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Testing
+            rootParentName: Root_Parent
           index: 0
         tiles: []
     - rid: 1134172181454913764
@@ -91,7 +96,9 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Testing
+            rootParentName: Root_Parent
           index: 0
         icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
         colorTint: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
@@ -125,7 +132,9 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: Testing
+            rootParentName: Root_Parent
           index: 0
         icon: {fileID: 7388822144124034973, guid: ad8feef201665454ca79e31b7d798ac3, type: 3}
         colorTint: {r: 0.76, g: 0.96, b: 0.44, a: 1}
@@ -141,5 +150,7 @@ MonoBehaviour:
             scale: {x: 2, y: 2}
             resize: {x: 0, y: 0}
             position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
             name: DEFAULT
+            rootParentName: Root_Parent
           rules: []

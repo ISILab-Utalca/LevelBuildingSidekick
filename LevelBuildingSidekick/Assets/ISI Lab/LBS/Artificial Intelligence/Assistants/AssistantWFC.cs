@@ -43,6 +43,8 @@ namespace ISILab.LBS.Assistants
          */
         private string defaultBundleGuid = "9d3dac0f9a486fd47866f815b4fefc29";
 
+        private ConnectedTileMapModule.ConnectedTileType? gridType;
+
         private bool safeMode;
 
         #endregion
@@ -64,10 +66,38 @@ namespace ISILab.LBS.Assistants
             get => GetBundleRef();
             set => targetBundleRef = value;
         }
-        
 
-        private List<Vector2Int> Dirs => Directions.Bidimencional.Edges;
+        [JsonIgnore]
+        private List<Vector2Int> Dirs
+        {
+            get
+            {
+                switch(GridType)
+                {
+                    case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                        return Directions.Bidimencional.Edges;
+                    case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                        return Directions.Bidimencional.All;
+                }
+                return new List<Vector2Int>();
+            }
+        }
 
+        [JsonIgnore]
+        private ConnectedTileMapModule.ConnectedTileType GridType
+        {
+            get
+            {
+                if(!gridType.HasValue)
+                {
+                    gridType = OwnerLayer.GetModule<ConnectedTileMapModule>().GridType;
+                }
+
+                return gridType.Value;
+            }
+        }
+
+        [JsonIgnore]
         public bool SafeMode
         {
             get => safeMode;
@@ -162,7 +192,7 @@ namespace ISILab.LBS.Assistants
             int step = 0, maxStep = 0;
             int saveStateInterval = 10;
 
-            var bundle = targetBundleRef;
+            Bundle bundle = targetBundleRef;
 
             var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
             var map = OwnerLayer.GetModule<TileMapModule>();
@@ -171,15 +201,15 @@ namespace ISILab.LBS.Assistants
             var originalTM = og.Clone()[0] as ConnectedTileMapModule;
 
             // Get tiles to change
-            var toCalc = GetTileToCalc(Positions, map, connected);
+            List<LBSTile> toCalc = GetTileToCalc(Positions, map, connected);
 
             // Build whitelist (positions + direct neighbors)
             var whitelist = new HashSet<Vector2Int>();
-            foreach (var tile in toCalc)
+            foreach (LBSTile tile in toCalc)
             {
                 whitelist.Add(tile.Position);
-                var neighbors = map.GetTileNeighbors(tile, Dirs);
-                foreach (var n in neighbors.RemoveEmpties())
+                List<LBSTile> neighbors = map.GetTileNeighbors(tile, Dirs);
+                foreach (LBSTile n in neighbors.RemoveEmpties())
                 {
                     whitelist.Add(n.Position);
                 }
@@ -189,9 +219,9 @@ namespace ISILab.LBS.Assistants
             var reCalc = new List<LBSTile>();
             var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
 
-            foreach (var tile in toCalc)
+            foreach (LBSTile tile in toCalc)
             {
-                var candidates = CalcCandidates(tile, group);
+                List<Candidate> candidates = CalcCandidates(tile, group);
                 currentCalcs.Add(tile, candidates);
             }
 
@@ -209,14 +239,14 @@ namespace ISILab.LBS.Assistants
 
                 var _closed = new List<LBSTile>(closed);
 
-                var xx = safeMode ? 
+                List<KeyValuePair<LBSTile, List<Candidate>>> xx = safeMode ? 
                     currentCalcs.Where(e => !closed.Contains(e.Key)).ToList() :
                     currentCalcs.Where(e => e.Value.Count > 1).ToList();
 
                 if (xx.Count <= 0)
                     break;
 
-                var current = xx.OrderBy(e => e.Value.Count).First();
+                KeyValuePair<LBSTile, List<Candidate>> current = xx.OrderBy(e => e.Value.Count).First();
 
                 // If cannot generate next tile
                 if(safeMode && (!stepSuccess || current.Value.Count <= 0))
@@ -251,7 +281,7 @@ namespace ISILab.LBS.Assistants
                     states.Reverse();
                     for (int i = 0; i < statesToRevert; i++)
                         states.RemoveAt(0);
-                    var prevState = states[0];
+                    WFCState prevState = states[0];
                     connected.Rewrite(prevState.tileMap);
                     toCalc = prevState.toCalc.Clone();
                     closed = prevState.closed.Clone();
@@ -266,24 +296,23 @@ namespace ISILab.LBS.Assistants
 
                 stepSuccess = true;
 
-                var selected = current.Value.RandomRullete(c => c.weigth);
-                UnityEngine.Assertions.Assert.IsNotNull(selected);
-                var connections = selected.bundle.GetConnection(selected.rotation);
+                Candidate selected = current.Value.RandomRullete(c => c.weigth);
+                string[] connections = selected.bundle.GetConnection(selected.rotation);
                 connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
                 closed.Add(current.Key);
 
-                var neigth = map.GetTileNeighbors(current.Key, Dirs);
+                List<LBSTile> neigth = map.GetTileNeighbors(current.Key, Dirs);
                 SetConnectionNei(current.Key, neigth.ToArray(), closed, whitelist);
 
-                var neigthCalcs = neigth.RemoveEmpties()
+                List<LBSTile> neigthCalcs = neigth.RemoveEmpties()
                                          .Where(n => currentCalcs.ContainsKey(n) && whitelist.Contains(n.Position))
                                          .ToList();
                 reCalc.AddRange(neigthCalcs);
 
                 while (reCalc.Count > 0)
                 {
-                    var tile = reCalc.First();
+                    LBSTile tile = reCalc.First();
 
                     if (!whitelist.Contains(tile.Position))
                     {
@@ -292,11 +321,11 @@ namespace ISILab.LBS.Assistants
                     }
 
                     currentCalcs.TryGetValue(tile, out var lastCandidates);
-                    var newCandidates = CalcCandidates(tile, group);
+                    List<Candidate> newCandidates = CalcCandidates(tile, group);
 
                     if (safeMode && newCandidates.Count == 0)
                     {
-                        // Must revert step in next iteration
+                        // No possible candidates: must revert step in next iteration
                         stepSuccess = false;
                         reCalc.Clear();
                         break;
@@ -306,7 +335,7 @@ namespace ISILab.LBS.Assistants
                     {
                         currentCalcs[tile] = newCandidates;
 
-                        var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+                        List<LBSTile> neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
                         foreach (var nei in neigs)
                         {
                             if (_closed.Contains(nei) || reCalc.Contains(nei))
@@ -349,159 +378,43 @@ namespace ISILab.LBS.Assistants
             }
 
             success = toCalc.Count == 0;
-            //if(success)
-            //{
-            //    
-            //}
-            //else if(safeMode)
-            //{
-            //    connected.Rewrite(originalTM);
-            //}
             if (safeMode && !success) connected.Rewrite(originalTM);
-            else
-            {
-                    ExteriorBehaviour exterior = OwnerLayer.Behaviours
-                        .Find(b => b is ExteriorBehaviour) as ExteriorBehaviour;
-                foreach (var tile in closed)
-                {
-                    //This function doesn't exist anymore, sorry!
-                    //exterior.ReplaceTile(tile); // Requesting paint tiles from assistant does not seems to work
-                }
-            }
             return success;
         }
 
         public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed, HashSet<Vector2Int> whitelist)
         {
             var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
-            var dirs = Directions.Bidimencional.Edges;
-            var oring = connected.GetConnections(origin);
+            List<string> originConnections = connected.GetConnections(origin);
 
             for (int i = 0; i < neis.Length; i++)
             {
-                var nei = neis[i];
+                LBSTile nei = neis[i];
                 if (nei == null || closed.Contains(nei))
                     continue;
 
                 if (!whitelist.Contains(nei.Position))
                     continue;
 
-                var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
-                connected.SetConnection(nei, idir, oring[i], false);
-            }
-        }
-
-        public void OLDExecute()
-        {
-            // Get Bundle
-            OnGUI();
-            var bundle = targetBundleRef;// GetBundle(targetBundle);
-
-            // Cheack if can execute
-            if (bundle == null)
-            {
-                Debug.LogWarning("No bundle selected.");
-                return;
-            }
-
-            // Get bundles posible tiles
-            var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
-
-            // Get modules
-            var map = OwnerLayer.GetModule<TileMapModule>();
-            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
-
-            // Get tiles to change
-            var toCalc = GetTileToCalc(Positions, map, connected);
-
-            // Create auxiliar collections
-            var closed = new List<LBSTile>();
-            var reCalc = new List<LBSTile>();
-
-            //Init
-            var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
-            foreach (var tile in toCalc)
-            {
-                Debug.Log("tile:" + tile.Position);
-                // Get candidates related to current tile
-                var candidates = CalcCandidates(tile, group);
-                currentCalcs.Add(tile, candidates);
-            }
-
-            // Run as long as you have tiles 
-            while (toCalc.Count > 0)
-            {
-                var _closed = new List<LBSTile>(closed);
-
-                // end condition
-                var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
-                if (xx.Count <= 0)
-                    break;
-
-                // Get tile with lees possibilities
-                var current = xx.OrderBy(e => e.Value.Count).First();
-
-                // cheack if curren tile have tile possibilities
-                if (current.Value.Count <= 0)
+                List<int> indices = new List<int>();
+                switch(GridType)
                 {
-                    // Remove from the list of tiles to calculate 
-                    Debug.Log(current.Key.Position + " no tiene posibles tile.");
-                    toCalc.Remove(current.Key);
-                    continue;
-                }
-
-                // Collapse possibilities
-                var selected = current.Value.RandomRullete(c => c.weigth);
-                var connections = selected.bundle.GetConnection(selected.rotation);
-                connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
-                currentCalcs[current.Key] = new List<Candidate>() { selected };
-
-                // Ignore This tiles
-                closed.Add(current.Key);
-
-                // Collapse neighbours connection 
-                var neigth = map.GetTileNeighbors(current.Key, Dirs);
-                OLDSetConnectionNei(current.Key, neigth.ToArray(), closed);
-
-                // Add to reCalc list
-                var neigthCalcs = neigth.RemoveEmpties().Where(n => currentCalcs.Any(c => c.Key == n)).ToList();
-                reCalc.AddRange(neigthCalcs);
-
-                while (reCalc.Count > 0)
-                {
-                    var tile = reCalc.First();
-
-                    // Get candidates related to current tile
-                    List<Candidate> lastCandidates;
-                    currentCalcs.TryGetValue(tile, out lastCandidates);
-                    var newCandidates = CalcCandidates(tile, group);
-
-                    if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
-                    {
-                        currentCalcs[tile] = newCandidates;
-
-                        // Get neighbours
-                        var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
-
-                        // Add to reCalc list
-                        foreach (var nei in neigs)
+                    case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                        indices.Add(Dirs[i].GetEdge(Dirs));
+                        connected.SetConnection(nei, indices[0], originConnections[i], false);
+                        break;
+                    case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                        indices.AddRange(Dirs[i].GetVertices(out List<int> originIndices));
+                        bool invert = !(originIndices.SequenceEqual(new[] { 0, 3 }) || originIndices.SequenceEqual(new[] { 1, 2 }));
+                        for (int j = 0; j < indices.Count; j++)
                         {
-                            // Check if tile is closed
-                            if (_closed.Contains(nei))
-                                continue;
-
-                            if (reCalc.Contains(nei))
-                                continue;
-
-                            reCalc.Add(nei);
+                            int dirIndex = indices[j];
+                            int k = invert ? indices.Count - 1 - j : j;
+                            int originInd = originIndices[k];
+                            connected.SetConnection(nei, dirIndex, originConnections[originInd], false);
                         }
-                    }
-                    reCalc.Remove(tile);
-                    _closed.Add(tile);
+                        break;
                 }
-
-                // Remove from the list of tiles to calculate 
-                toCalc.Remove(current.Key);
             }
         }
 
@@ -542,16 +455,16 @@ namespace ISILab.LBS.Assistants
             for (int i = 0; i < group.Weights.Count; i++)
             {
                 // Get characteristics and weigh
-                var weigth = group.Weights[i].weight;
+                float weigth = group.Weights[i].weight;
                 var sBundle = group.Weights[i].target.GetCharacteristics<LBSDirection>()[0];
 
                 for (int j = 0; j < 4; j++)
                 {
                     // Get connection rotated
-                    var array = sBundle.GetConnection(j); //(!)
+                    string[] array = sBundle.GetConnection(j); //(!)
 
                     // Check if is valid rotated connection
-                    var connections = connectedMod.GetConnections(tile);
+                    List<string> connections = connectedMod.GetConnections(tile);
                     if (Compare(connections.ToArray(), array))
                     {
                         var candidate = new Candidate()
@@ -567,28 +480,6 @@ namespace ISILab.LBS.Assistants
             }
 
             return candidates;
-        }
-
-        public void OLDSetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
-        {
-            var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
-
-            var dirs = Directions.Bidimencional.Edges;
-
-            var oring = connected.GetConnections(origin);
-
-            for (int i = 0; i < neis.Length; i++)
-            {
-                if (neis[i] == null)
-                    continue;
-
-                if (closed.Contains(neis[i]))
-                    continue;
-
-                var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
-
-                connected.SetConnection(neis[i], idir, oring[i], false);
-            }
         }
 
         public bool CaptureWeights(out string errMsg)
@@ -618,10 +509,11 @@ namespace ISILab.LBS.Assistants
                 for(int j = 0; j < currentBundles.Count; j++)
                 {
                     Bundle bundle = currentBundles[j];
-                    List<string> bundleConns = bundle.GetCharacteristics<LBSDirection>()[0].Connections;
+                    LBSDirection directionChar = bundle.GetCharacteristics<LBSDirection>()[0];
+                    //List<string> bundleConns = directionChar.Connections;
                     for (int k = 0; k < 4; k++)
                     {
-                        List<string> rotatedBundleConns = bundleConns.Rotate(k);
+                        List<string> rotatedBundleConns = directionChar.GetConnection(k).ToList();//bundleConns.Rotate(k);
 
                         if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray()))
                         {
@@ -782,6 +674,146 @@ namespace ISILab.LBS.Assistants
             
             return targetBundleRef;
         }
+        #endregion
+
+        #region DEPRECATED
+
+        //public void OLDExecute()
+        //{
+        //    // Get Bundle
+        //    OnGUI();
+        //    var bundle = targetBundleRef;// GetBundle(targetBundle);
+
+        //    // Cheack if can execute
+        //    if (bundle == null)
+        //    {
+        //        Debug.LogWarning("No bundle selected.");
+        //        return;
+        //    }
+
+        //    // Get bundles posible tiles
+        //    var group = bundle.GetCharacteristics<LBSDirectionedGroup>()[0];
+
+        //    // Get modules
+        //    var map = OwnerLayer.GetModule<TileMapModule>();
+        //    var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+        //    // Get tiles to change
+        //    var toCalc = GetTileToCalc(Positions, map, connected);
+
+        //    // Create auxiliar collections
+        //    var closed = new List<LBSTile>();
+        //    var reCalc = new List<LBSTile>();
+
+        //    //Init
+        //    var currentCalcs = new Dictionary<LBSTile, List<Candidate>>();
+        //    foreach (var tile in toCalc)
+        //    {
+        //        Debug.Log("tile:" + tile.Position);
+        //        // Get candidates related to current tile
+        //        var candidates = CalcCandidates(tile, group);
+        //        currentCalcs.Add(tile, candidates);
+        //    }
+
+        //    // Run as long as you have tiles 
+        //    while (toCalc.Count > 0)
+        //    {
+        //        var _closed = new List<LBSTile>(closed);
+
+        //        // end condition
+        //        var xx = currentCalcs.Where(e => e.Value.Count > 1).ToList();
+        //        if (xx.Count <= 0)
+        //            break;
+
+        //        // Get tile with lees possibilities
+        //        var current = xx.OrderBy(e => e.Value.Count).First();
+
+        //        // cheack if curren tile have tile possibilities
+        //        if (current.Value.Count <= 0)
+        //        {
+        //            // Remove from the list of tiles to calculate 
+        //            Debug.Log(current.Key.Position + " no tiene posibles tile.");
+        //            toCalc.Remove(current.Key);
+        //            continue;
+        //        }
+
+        //        // Collapse possibilities
+        //        var selected = current.Value.RandomRullete(c => c.weigth);
+        //        var connections = selected.bundle.GetConnection(selected.rotation);
+        //        connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
+        //        currentCalcs[current.Key] = new List<Candidate>() { selected };
+
+        //        // Ignore This tiles
+        //        closed.Add(current.Key);
+
+        //        // Collapse neighbours connection 
+        //        var neigth = map.GetTileNeighbors(current.Key, Dirs);
+        //        OLDSetConnectionNei(current.Key, neigth.ToArray(), closed);
+
+        //        // Add to reCalc list
+        //        var neigthCalcs = neigth.RemoveEmpties().Where(n => currentCalcs.Any(c => c.Key == n)).ToList();
+        //        reCalc.AddRange(neigthCalcs);
+
+        //        while (reCalc.Count > 0)
+        //        {
+        //            var tile = reCalc.First();
+
+        //            // Get candidates related to current tile
+        //            List<Candidate> lastCandidates;
+        //            currentCalcs.TryGetValue(tile, out lastCandidates);
+        //            var newCandidates = CalcCandidates(tile, group);
+
+        //            if (lastCandidates == null || newCandidates.Count < lastCandidates.Count)
+        //            {
+        //                currentCalcs[tile] = newCandidates;
+
+        //                // Get neighbours
+        //                var neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+
+        //                // Add to reCalc list
+        //                foreach (var nei in neigs)
+        //                {
+        //                    // Check if tile is closed
+        //                    if (_closed.Contains(nei))
+        //                        continue;
+
+        //                    if (reCalc.Contains(nei))
+        //                        continue;
+
+        //                    reCalc.Add(nei);
+        //                }
+        //            }
+        //            reCalc.Remove(tile);
+        //            _closed.Add(tile);
+        //        }
+
+        //        // Remove from the list of tiles to calculate 
+        //        toCalc.Remove(current.Key);
+        //    }
+        //}
+
+        //public void OLDSetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed)
+        //{
+        //    var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+        //    var dirs = Directions.Bidimencional.Edges;
+
+        //    var oring = connected.GetConnections(origin);
+
+        //    for (int i = 0; i < neis.Length; i++)
+        //    {
+        //        if (neis[i] == null)
+        //            continue;
+
+        //        if (closed.Contains(neis[i]))
+        //            continue;
+
+        //        var idir = dirs.FindIndex(d => d.Equals(-dirs[i]));
+
+        //        connected.SetConnection(neis[i], idir, oring[i], false);
+        //    }
+        //}
+
         #endregion
     }
 

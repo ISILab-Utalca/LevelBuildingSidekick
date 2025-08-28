@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
-  m_Name: Exterior Layer
+  m_Name: Exterior Layer Vertex
   m_EditorClassIdentifier: 
-  templateName: Exterior Layer/Edge-based
+  templateName: Exterior Layer/Vertex-based
   layer:
     visible: 1
     blocked: 0
@@ -104,7 +104,7 @@ MonoBehaviour:
             rootParentName: Root_Parent
           index: 0
         connectedDirections: 4
-        gridType: 0
+        gridType: 1
         pairs: []
     - rid: 6598277183820005785
       type: {class: ExteriorBehaviour, ns: ISILab.LBS.Behaviours, asm: LBS}

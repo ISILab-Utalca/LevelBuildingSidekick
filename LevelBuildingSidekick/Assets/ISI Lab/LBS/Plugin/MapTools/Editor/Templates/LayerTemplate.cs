@@ -13,7 +13,13 @@ namespace ISILab.LBS.Template
     public class LayerTemplate : ScriptableObject
     {
         [JsonRequired, SerializeField]
+        public string templateName;
+
+        [JsonRequired, SerializeField]
         public LBSLayer layer;
+
+        [JsonIgnore]
+        public string Name => templateName;
 
         public void Clear()
         {
