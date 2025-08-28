@@ -11,7 +11,7 @@ namespace ISILab.LBS.CustomComponents
         #region constants
             
             public static string LBSClassName = "lbs-field";
-            public static string LBSEnumFieldClass = ".lbs-dropdown-field";
+            public static string LBSDropdownFieldClassName = ".lbs-dropdown-field";
             
             #endregion  
             
@@ -85,6 +85,10 @@ namespace ISILab.LBS.CustomComponents
             
             public LBSCustomDropdown() : base()
             {
+                RemoveFromClassList(ussClassName);
+                AddToClassList(LBSClassName);
+                AddToClassList(LBSDropdownFieldClassName);
+                
                 iconVisualElement = SetupIconVisualElement();
                 this.Add(iconVisualElement);
                 SetIconPosition(iconVisualElement,iconPosition);
