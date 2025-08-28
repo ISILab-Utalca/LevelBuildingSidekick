@@ -21,7 +21,7 @@ namespace ISILab.LBS.CustomComponents
         #endregion
         
         
-        #region Attributes
+        #region Parameters
 
         [UxmlAttribute]
         public int IconSize
@@ -30,10 +30,10 @@ namespace ISILab.LBS.CustomComponents
             set
             {
                 iconSize = value;
-                if (m_Icon != null)
+                if (iconVisualElement != null)
                 {
-                    m_Icon.style.width = value;
-                    m_Icon.style.height = value;
+                    iconVisualElement.style.width = value;
+                    iconVisualElement.style.height = value;
                 }
             }
         }
@@ -45,9 +45,9 @@ namespace ISILab.LBS.CustomComponents
             set
             {
                 iconImage = value;
-                if (m_Icon != null && iconImage != null)
+                if (iconVisualElement != null && iconImage != null)
                 {
-                    m_Icon.style.backgroundImage = new StyleBackground(IconImage);
+                    iconVisualElement.style.backgroundImage = new StyleBackground(IconImage);
                 }
             }
         }
@@ -59,9 +59,9 @@ namespace ISILab.LBS.CustomComponents
             set
             {
                 iconColor = value;
-                if (m_Icon != null)
+                if (iconVisualElement != null)
                 {
-                    m_Icon.style.unityBackgroundImageTintColor = value;
+                    iconVisualElement.style.unityBackgroundImageTintColor = value;
                 }
             }
         }
@@ -69,10 +69,15 @@ namespace ISILab.LBS.CustomComponents
         [UxmlAttribute]
         public IconPosition IconPosition
         {
-            get => iconPositon;
+            get => iconPosition;
             set
             {
-                throw new NotImplementedException("iconPosition not implemented yet");
+                iconPosition = value;
+                
+                if (iconVisualElement != null)
+                {
+                    SetIconPosition(iconVisualElement, iconPosition);
+                }
             }
         }
 
@@ -84,11 +89,12 @@ namespace ISILab.LBS.CustomComponents
         private int iconSize = 16;
         private VectorImage iconImage;
         private Color iconColor = Color.white;
-        private IconPosition iconPositon = IconPosition.None;
+        private IconPosition iconPosition = IconPosition.None;
+        
         
         #endregion
         
-        private VisualElement m_Icon;
+        private VisualElement iconVisualElement;
 
         public LBSCustomEnumField(): this("CustomEnumField"){}
 
@@ -97,7 +103,7 @@ namespace ISILab.LBS.CustomComponents
             style.alignItems = Align.Center;
             this.AddToClassList(LBSClassName);
             this.AddToClassList(LBSEnumFieldClass);
-            m_Icon = new VisualElement();
+            iconVisualElement = new VisualElement();
             labelElement.AddToClassList("lbs-label");
             labelElement.RemoveFromClassList("unity-label");
             
@@ -115,23 +121,43 @@ namespace ISILab.LBS.CustomComponents
             
             
             //styles
-            m_Icon.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
-            m_Icon.style.width = IconSize;
-            m_Icon.style.height = IconSize;
+            iconVisualElement.style.backgroundImage = LBSAssetMacro.LoadPlaceholderTexture();
+            iconVisualElement.style.width = IconSize;
+            iconVisualElement.style.height = IconSize;
             
-            m_Icon.AddToClassList("lbs-icon");
-            this.Add(m_Icon);
-            m_Icon.PlaceBehind(this.Children().First());
+            iconVisualElement.AddToClassList("lbs-icon");
+            this.Add(iconVisualElement);
+            SetIconPosition(iconVisualElement, iconPosition);
 
             if (IconImage != null)
             {
-                m_Icon.style.backgroundImage = new StyleBackground(IconImage);
-                m_Icon.style.unityBackgroundImageTintColor = iconColor;
+                iconVisualElement.style.backgroundImage = new StyleBackground(IconImage);
+                iconVisualElement.style.unityBackgroundImageTintColor = iconColor;
             }
             
             // RegisterCallback<AttachToPanelEvent>(e => { });
             // RegisterCallback<DetachFromPanelEvent>(e => { });
             
+        }
+        
+        void SetIconPosition(VisualElement _iconVe, IconPosition _iconPosition)
+        {
+            switch (_iconPosition)
+            {
+                case IconPosition.Left:
+                    _iconVe.style.display = DisplayStyle.Flex;
+                    _iconVe.SendToBack();
+                    break;
+                case IconPosition.None:
+                    _iconVe.style.display = DisplayStyle.None;
+                    break;
+                case IconPosition.Right:
+                    _iconVe.style.display = DisplayStyle.Flex;
+                    _iconVe.BringToFront();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void Init(string firstValue)

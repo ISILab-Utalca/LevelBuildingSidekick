@@ -11,7 +11,7 @@
         </uie:Toolbar>
         <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView" class="alt">
             <ui:VisualElement class="lbs-panel">
-                <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add.svg?fileID=7388822144124034973&amp;guid=ad8d08a3d465b3a438016713ae2f99c5&amp;type=3#Icon=Add" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" style="height: 47px;" />
+                <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=EnumField.svg?fileID=7388822144124034973&amp;guid=ea38db42f43233b4894243942b78f176&amp;type=3#Icon=EnumField" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" icon-position="Left" style="height: 47px;" />
                 <ISILab.LBS.CustomComponents.LBSCustomDropdown choices="Item 1,Item 2,Item 3" label="Custom Dropdown" index="0" />
                 <ui:Instance template="LBSHorizontalDivider" />
                 <ISILab.LBS.CustomComponents.LBSCustomProgressBar low-value="0" progress-theme-color="#6E00F5FF" title="80" value="60.6" progress-icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/Components/Data/Quest/QuestIcons/Icon=Star.svg?fileID=7388822144124034973&amp;guid=8d6364597c916884488b4054a8a747aa&amp;type=3#Icon=Star" style="height: 32px;" />
