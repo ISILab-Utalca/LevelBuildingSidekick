@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Exterior Layer Vertex
   m_EditorClassIdentifier: 
   templateName: Exterior Layer/Vertex-based
+  order: 21
   layer:
     visible: 1
     blocked: 0

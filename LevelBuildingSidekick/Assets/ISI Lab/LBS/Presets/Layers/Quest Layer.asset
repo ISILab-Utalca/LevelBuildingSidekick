@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Quest Layer
   m_EditorClassIdentifier: 
   templateName: Quest Layer
+  order: 40
   layer:
     visible: 1
     blocked: 0

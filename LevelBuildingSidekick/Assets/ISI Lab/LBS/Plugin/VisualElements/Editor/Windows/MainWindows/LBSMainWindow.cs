@@ -252,6 +252,7 @@ namespace ISILab.LBS.Editor.Windows{
             #region LOAD SCRIPTABLES
 
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
+            layerTemplates.Sort((a, b) => a.order.CompareTo(b.order));
 
             #endregion
 
