@@ -46,4 +46,13 @@
 .unity-image {
 }
 
+ObjectFieldDisplay{
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+    min-width: 32px;
+    flex-shrink: 1;
+}
 

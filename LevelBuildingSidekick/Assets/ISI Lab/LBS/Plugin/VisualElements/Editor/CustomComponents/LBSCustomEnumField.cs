@@ -1,7 +1,10 @@
+using System;
+using System.Drawing;
 using System.Linq;
 using ISILab.Macros;
-using UnityEngine;
+using NUnit.Framework;
 using UnityEngine.UIElements;
+using Color = UnityEngine.Color;
 
 
 namespace ISILab.LBS.CustomComponents
@@ -63,6 +66,16 @@ namespace ISILab.LBS.CustomComponents
             }
         }
 
+        [UxmlAttribute]
+        public IconPosition IconPosition
+        {
+            get => iconPositon;
+            set
+            {
+                throw new NotImplementedException("iconPosition not implemented yet");
+            }
+        }
+
         #endregion
         
         
@@ -71,6 +84,7 @@ namespace ISILab.LBS.CustomComponents
         private int iconSize = 16;
         private VectorImage iconImage;
         private Color iconColor = Color.white;
+        private IconPosition iconPositon = IconPosition.None;
         
         #endregion
         
@@ -118,6 +132,11 @@ namespace ISILab.LBS.CustomComponents
             // RegisterCallback<AttachToPanelEvent>(e => { });
             // RegisterCallback<DetachFromPanelEvent>(e => { });
             
+        }
+
+        public void Init(string firstValue)
+        {
+
         }
         
     }
