@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ISILab.LBS.Components;
 using UnityEngine;
 
 namespace ISILab.LBS
@@ -11,6 +12,8 @@ namespace ISILab.LBS
         [SerializeField]
         private GameObject destinationTrigger;
 
+        public GraphNode GraphNode;
+        
         public List<GameObject> ChildTriggers => childTriggers;
         public GameObject DestinationTrigger => destinationTrigger;
 

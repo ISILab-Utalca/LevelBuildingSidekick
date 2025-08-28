@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
@@ -233,6 +232,7 @@ namespace ISILab.LBS.Generators
                     branchComponent.SetDestinationTrigger(destinationGameObject);
                 }
 
+                branchComponent.GraphNode = branchNode;
                 branchGameObject.SetActive(false);
             }
         }
