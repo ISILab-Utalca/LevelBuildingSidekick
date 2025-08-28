@@ -72,15 +72,20 @@ namespace ISILab.LBS.VisualElements.Editor
 
             // room's name
             _nameField = this.Q<TextField>(name: "ObjName");
+            _nameField.value = "Root_name";
+            _nameField.RegisterValueChangedCallback<string>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
             
             // missing in design prototype
             _resizeField = this.Q<Vector2Field>(name: "Resize");
             _resizeField.value = Vector2.one;
+            _resizeField.RegisterValueChangedCallback<Vector2>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
              
             _positionField = this.Q<Vector3Field>(name: "Position");
+            _positionField.RegisterValueChangedCallback<Vector3>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
                
             _scaleField = this.Q<Vector2Field>(name: "TileSize");
             _scaleField.value = new Vector2(2, 2);
+            _scaleField.RegisterValueChangedCallback<Vector2>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
             
             this.Q<Toggle>(name: "ToggleGenCeilling");
             _buildLightProbes = this.Q<Toggle>(name: "ToggleLightProbes");
@@ -154,10 +159,10 @@ namespace ISILab.LBS.VisualElements.Editor
             _settings = GeneratorSettings.settings;
 
             if (GeneratorSettings == null) return;
-            _scaleField.value = _settings.scale;
-            _positionField.value = _settings.position;
+            _scaleField.value = LBSSettings.Instance.generator.settings.scale;
+            _positionField.value = LBSSettings.Instance.generator.settings.position;
             _nameField.value = LBSSettings.Instance.generator.settings.rootParentName;
-            _resizeField.value = _settings.resize;
+            _resizeField.value = LBSSettings.Instance.generator.settings.resize;
         }
         
         
