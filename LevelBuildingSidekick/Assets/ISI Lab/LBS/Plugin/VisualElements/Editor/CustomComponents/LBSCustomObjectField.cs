@@ -1,7 +1,5 @@
 using System;
-using System.Drawing;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 
@@ -13,7 +11,7 @@ namespace ISILab.LBS.CustomComponents
         public static readonly string LBSClassName = "lbs-field";
         public static readonly string LBSFieldClassName = "lbs-object-field";
         
-        private VectorImage vectorIcon;
+        private VectorImage iconImage;
         private IconPosition iconPosition = IconPosition.Left;
 
         private VisualElement iconVisualElement;
@@ -21,21 +19,21 @@ namespace ISILab.LBS.CustomComponents
         #region Properties
 
         [UxmlAttribute]
-        public VectorImage VectorIcon
+        public VectorImage IconImage
         {
-            get => vectorIcon;
+            get => iconImage;
             set
             {
-                vectorIcon = value;
+                iconImage = value;
                 if (iconVisualElement != null)
                 {
-                    if (vectorIcon == null)
+                    if (iconImage == null)
                     {
                         iconVisualElement.style.display = DisplayStyle.None;
                         return;
                     }
                     iconVisualElement.style.display = DisplayStyle.Flex;
-                    iconVisualElement.style.backgroundImage = new StyleBackground(vectorIcon);
+                    iconVisualElement.style.backgroundImage = new StyleBackground(iconImage);
                 }
             }
         }
@@ -67,9 +65,9 @@ namespace ISILab.LBS.CustomComponents
             iconVisualElement.AddToClassList(LBSCustomStyle.LBS_ICON);
             this.Add(iconVisualElement);
             
-            if (vectorIcon != null)
+            if (iconImage != null)
             {
-                iconVisualElement.style.backgroundImage = new StyleBackground(vectorIcon);
+                iconVisualElement.style.backgroundImage = new StyleBackground(iconImage);
                 SetIconPosition(iconPosition);
             }
             else
