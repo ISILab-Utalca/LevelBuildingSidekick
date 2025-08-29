@@ -445,6 +445,9 @@ namespace LBS.Components
             return pos.ToInt();
         }
 
+        public Vector2Int ToFixedPositionOffset(Vector2 position, Vector2 offset) => ToFixedPosition(position + offset);
+        public Vector2Int ToFixedPositionOffset(Vector2 position, float offset) => ToFixedPosition(position + Vector2.one * offset);
+
         public Vector2 FixedToPosition(Vector2Int position, bool invertY = false) 
         {
             var tileSizeX = TileSize.x * LBSSettings.Instance.general.TileSize.x;

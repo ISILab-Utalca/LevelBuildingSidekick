@@ -35,6 +35,7 @@ namespace ISILab.LBS.VisualElements
         private AddVertexExteriorTile addVertexExteriorTile;
         private RemoveTileExterior removeTile;
         private SetExteriorTileConnection setConnection;
+        private SetVertexExteriorTileConnection setVertexConnection;
         private RemoveConnectionInArea removeConnectionInArea;
         #endregion
 
@@ -75,34 +76,34 @@ namespace ISILab.LBS.VisualElements
         {
             // We set the remover tool first as we want to avoid using switch statement twice when setting the add tool's remover.
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(removeTile);
-            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+            LBSTool t2 = new LBSTool(removeTile);
 
             addExteriorTile = new AddExteriorTile();
             addVertexExteriorTile = new AddVertexExteriorTile();
-            LBSTool t1 = null;
+
+            setConnection = new SetExteriorTileConnection();
+            setVertexConnection = new SetVertexExteriorTileConnection();
+
+            LBSTool t1 = null, t3 = null;
             switch(GridType)
             {
                 case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
                     t1 = new LBSTool(addExteriorTile);
                     addExteriorTile.SetRemover(removeTile);
+                    t3 = new LBSTool(setConnection);
                     break;
                 case ConnectedTileMapModule.ConnectedTileType.VertexBased:
                     t1 = new LBSTool(addVertexExteriorTile);
                     addVertexExteriorTile.SetRemover(removeTile);
+                    t3 = new LBSTool(setVertexConnection);
                     break;
             }
-            //var t1 = new LBSTool(GridType ? addVertexExteriorTile : addExteriorTile);
-            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
-            setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(setConnection);
-            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
 
-            //(GridType ? (LBSManipulator)addVertexExteriorTile : (LBSManipulator)addExteriorTile).SetRemover(removeTile);
-
-            foreach(LBSTool t in new[] { t1, t2, t3 })
-                toolKit.ActivateTool(t, exterior.OwnerLayer, exterior);
+            foreach(LBSTool tool in new[] { t1, t2, t3 })
+            {
+                tool.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+                toolKit.ActivateTool(tool, exterior.OwnerLayer, exterior);
+            }
         }
 
         private void CheckTargetBundle() 
@@ -211,20 +212,21 @@ namespace ISILab.LBS.VisualElements
                 exterior.identifierToSet = selected as LBSTag;
                 // by default set the 
                 System.Type activeManipulator = ToolKit.Instance.GetActiveManipulator().GetType();
-                System.Type addToolType = null;
+                System.Type addToolType = null, connectionToolType = null;
                 switch(GridType)
                 {
                     case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
                         addToolType = addExteriorTile.GetType();
+                        connectionToolType = setConnection.GetType();
                         break;
                     case ConnectedTileMapModule.ConnectedTileType.VertexBased:
                         addToolType = addVertexExteriorTile.GetType();
+                        connectionToolType = setVertexConnection.GetType();
                         break;
                 }
-                //= (GridType ? (object)addVertexExteriorTile : (object)addExteriorTile).GetType();
-                //if ( activeManipulator != typeof(AddExteriorTile) &&
+
                 if (activeManipulator != addToolType &&
-                     activeManipulator != typeof(SetExteriorTileConnection))
+                     activeManipulator != connectionToolType)
                 {
                     ToolKit.Instance.SetActive(addToolType);
                 }
