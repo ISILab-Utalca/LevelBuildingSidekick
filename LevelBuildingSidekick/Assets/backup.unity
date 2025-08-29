@@ -8807,6 +8807,13 @@ MonoBehaviour:
   - {fileID: 302555397}
   - {fileID: 258460486}
   destinationTrigger: {fileID: 1244025604}
+  graphNode:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &1206841287
 GameObject:
   m_ObjectHideFlags: 0
@@ -15908,6 +15915,13 @@ MonoBehaviour:
   - {fileID: 73588144}
   - {fileID: 1396006490}
   destinationTrigger: {fileID: 1244025604}
+  graphNode:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!1 &1695476125
 GameObject:
   m_ObjectHideFlags: 0

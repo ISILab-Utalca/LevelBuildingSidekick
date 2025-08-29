@@ -19,7 +19,11 @@ namespace ISILab.LBS.VisualElements
 
         #region VIEWS
         private readonly VisualElement _root;
-        private readonly VisualElement _iconType;
+        
+        private readonly VisualElement _start;
+        private readonly VisualElement _goal;
+        private readonly VisualElement _scrollIcon;
+        
         private readonly VisualElement _iconGrammarInvalid;
         private readonly VisualElement _iconNodeDataInvalid;
         
@@ -38,20 +42,29 @@ namespace ISILab.LBS.VisualElements
 
             _label             = this.Q<Label>("Title");
             _root              = this.Q<VisualElement>("Root");
-            _iconType          = this.Q<VisualElement>("TypeIcon");
+            _start          = this.Q<VisualElement>("StartVe");
+            _goal          = this.Q<VisualElement>("GoalVe");
+            _scrollIcon = this.Q<VisualElement>("ScrollIcon");
             InvalidConnectionIcon = this.Q<VisualElement>("InvalidConnectionIcon");
             _iconNodeDataInvalid = this.Q<VisualElement>("InvalidDataIcon");
             _iconGrammarInvalid = this.Q<VisualElement>("InvalidGrammarIcon");
             _toolbar           = this.Q<ToolbarMenu>("ToolBar");
 
+            VisualElement coloredVe = this.Q<VisualElement>("Root");
+            coloredVe.style.backgroundColor = DefaultBackgroundColor;
+            
             SetupToolbar();
             SetupNode(graphNode);
             SetupCallbacks();
 
             style.marginBottom = style.marginLeft = style.marginRight = style.marginTop = 0;
-            DefaultBackgroundColor = new Color(0.19f, 0.19f, 0.19f);
 
+            InvalidConnectionIcon.style.unityBackgroundImageTintColor = InvalidGrammarColor;
+            _iconNodeDataInvalid.style.unityBackgroundImageTintColor = InvalidGrammarColor;
+            _iconGrammarInvalid.style.unityBackgroundImageTintColor = InvalidGrammarColor;
+            
             Update();
+            
         }
 
         #region Setup
@@ -68,18 +81,16 @@ namespace ISILab.LBS.VisualElements
             DisplayGrammarState(graphNode);
             SetPosition(new Rect(Node.NodeViewPosition.position, Vector2.one));
 
+            _start.style.display = DisplayStyle.None;
+            _goal.style.display = DisplayStyle.None;
+            
             switch (graphNode.NodeType)
             {
                 case QuestNode.ENodeType.Start:
-                    ShowIcon(_iconType, StartIconGuid);
-                    _iconType.tooltip = "Start Node";
+                   _start.style.display = DisplayStyle.Flex; 
                     break;
                 case QuestNode.ENodeType.Goal:
-                    ShowIcon(_iconType, GoalIconGuid);
-                    _iconType.tooltip = "Goal Node";
-                    break;
-                case QuestNode.ENodeType.Middle:
-                    _iconType.style.display = DisplayStyle.None;
+                    _goal.style.display = DisplayStyle.Flex;
                     break;
             }
         }
@@ -107,18 +118,18 @@ namespace ISILab.LBS.VisualElements
         {
             if (_label.resolvedStyle.width == 0 || float.IsNaN(_label.resolvedStyle.width))
             {
-                this.schedule.Execute(UpdateWidth).ExecuteLater(1);
+                schedule.Execute(UpdateWidth).ExecuteLater(1);
                 return;
             }
 
-            float padding = 32f;
+            float padding = 72f;
             float minWidth = 100f;
-            float typeIconWidth = GetElementWidthIfVisible(_iconType, 24f);
+            float typeIconWidth = GetElementWidthIfVisible(_scrollIcon, 24f);
             float grammarIconWidth = GetElementWidthIfVisible(_iconGrammarInvalid, 24f);
             float dataIconWidth = GetElementWidthIfVisible(_iconNodeDataInvalid, 24f);
             float connectionIconWidth = GetElementWidthIfVisible(InvalidConnectionIcon, 24f);
             
-            var textSize = _label.MeasureTextSize(_label.text, 0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined);
+            var textSize = _label.MeasureTextSize(_label.text,0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined);
             float newWidth = Mathf.Max(minWidth, textSize.x + padding + grammarIconWidth + connectionIconWidth + typeIconWidth + dataIconWidth);
 
             _root.style.width = new StyleLength(newWidth);
@@ -138,7 +149,7 @@ namespace ISILab.LBS.VisualElements
             
             _iconNodeDataInvalid.style.display = qn.NodeData.IsValid() ? DisplayStyle.None : DisplayStyle.Flex;
             _iconGrammarInvalid.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
-            _root.SetBorder(node.isValid() ? CorrectGrammar : GrammarWrong, 1f);
+            _root.SetBorder(node.isValid() ? ValidGrammarColor : InvalidGrammarColor, 1f);
         }
         #endregion
 
@@ -174,11 +185,6 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region Helpers
-        private void ShowIcon(VisualElement iconElement, string guid)
-        {
-            iconElement.style.display = DisplayStyle.Flex;
-            iconElement.style.backgroundImage = new StyleBackground(LBSAssetMacro.LoadAssetByGuid<VectorImage>(guid));
-        }
 
         private float GetElementWidthIfVisible(VisualElement element, float fallback)
         {

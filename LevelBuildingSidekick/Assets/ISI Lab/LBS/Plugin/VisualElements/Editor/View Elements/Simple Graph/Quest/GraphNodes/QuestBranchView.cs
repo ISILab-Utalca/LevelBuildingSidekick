@@ -17,7 +17,9 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region UI Elements
-        private readonly VisualElement _view;
+        private readonly VisualElement _root;
+        private VisualElement _or;
+        private VisualElement _and;
         #endregion
 
         public QuestBranchView(GraphNode graphNode)
@@ -27,17 +29,21 @@ namespace ISILab.LBS.VisualElements
 
             _rootAsset.CloneTree(this);
 
-            _view = this.Q<VisualElement>("View");
+            _root = this.Q<VisualElement>("Root");
             InvalidConnectionIcon = this.Q<VisualElement>("InvalidConnectionIcon");
-            var label = this.Q<Label>("Label");
 
+            InvalidConnectionIcon.style.unityBackgroundImageTintColor = InvalidGrammarColor;
+            
+            VisualElement coloredVe = this.Q<VisualElement>("Root");
+            coloredVe.style.backgroundColor = DefaultBackgroundColor;
+            
             Node = graphNode ?? throw new ArgumentNullException(nameof(graphNode));
-            label.text = graphNode switch
-            {
-                OrNode on => on.ToString(),
-                AndNode an => an.ToString(),
-                _ => label.text
-            };
+            
+            _or = this.Q<VisualElement>("OrVe");
+            _and = this.Q<VisualElement>("AndVe");
+            
+            if(graphNode is OrNode) _or.style.display = DisplayStyle.Flex;
+            if(graphNode is AndNode) _and.style.display = DisplayStyle.Flex;
 
             SetPosition(new Rect(Node.NodeViewPosition.position, Vector2.one));
 
@@ -61,14 +67,16 @@ namespace ISILab.LBS.VisualElements
         private void Update()
         {
             DisplayGrammarState(Node);
-            SetPosition(new Rect(GetPosition().position, new Vector2(_view.resolvedStyle.width, _view.resolvedStyle.height)));
+            SetPosition(new Rect(GetPosition().position, new Vector2(_root.resolvedStyle.width, _root.resolvedStyle.height)));
             OnMoving?.Invoke(GetPosition());
         }
 
         public override void DisplayGrammarState(GraphNode node)
         {
             base.DisplayGrammarState(node);
-            _view.SetBorder(!node.ValidConnections ? GrammarWrong : CorrectGrammar, 1f);
+            _root.SetBorder(!node.ValidConnections ? InvalidGrammarColor : ValidGrammarColor, 1f);
+            _or.SetBorder(!node.ValidConnections ? InvalidGrammarColor : ValidGrammarColor, 1f);
+            _and.SetBorder(!node.ValidConnections ? InvalidGrammarColor : ValidGrammarColor, 1f);
         }
         
         protected override void OnMouseDown(MouseDownEvent evt)

@@ -13,22 +13,22 @@ namespace ISILab.LBS
     public class QuestObserver : MonoBehaviour
     {
         [SerializeField] private QuestGraph questGraph;
-        [SerializeField] private Dictionary<QuestNode, QuestTrigger> nodeTriggerMap = new();
-        [SerializeField] private Dictionary<GraphNode, QuestBranch> branchMap = new();
+        [SerializeField] private Dictionary<QuestNode, QuestTrigger> _nodeTriggerMap = new();
+        [SerializeField] private Dictionary<GraphNode, QuestBranch> _branchMap = new();
         [SerializeField] public UnityEvent onQuestCompleteEvent;
 
-        public bool QuestComplete { get; private set; }
-        public Dictionary<QuestNode, QuestTrigger> NodeTriggerMap => nodeTriggerMap;
-        public Dictionary<GraphNode, QuestBranch> BranchMap => branchMap;
+        public bool questComplete { get; private set; }
+        public Dictionary<QuestNode, QuestTrigger> nodeTriggerMap => _nodeTriggerMap;
+        public Dictionary<GraphNode, QuestBranch> branchMap => _branchMap;
         public event Action OnQuestAdvance;
 
         private void Awake() => StartQuest();
 
         private void OnDisable()
         {
-            foreach (var trigger in nodeTriggerMap.Values)
+            foreach (var trigger in _nodeTriggerMap.Values)
                 trigger.gameObject.SetActive(false);
-            foreach (var branch in branchMap.Values)
+            foreach (var branch in _branchMap.Values)
                 branch.gameObject.SetActive(false);
         }
 
@@ -48,7 +48,7 @@ namespace ISILab.LBS
                 trigger.Init();
                 if (trigger.Node == null) continue;
 
-                nodeTriggerMap.TryAdd(trigger.Node, trigger);
+                _nodeTriggerMap.TryAdd(trigger.Node, trigger);
                 trigger.OnTriggerCompleted += OnTriggerCompleted;
 
                 bool isRoot = trigger.Node.ID == questGraph.Root.ID;
@@ -59,7 +59,7 @@ namespace ISILab.LBS
             // Initialize branch components
             foreach (var branch in GetComponentsInChildren<QuestBranch>())
             {
-                branchMap.TryAdd(branch.GraphNode, branch);
+                _branchMap.TryAdd(branch.graphNode, branch);
                 branch.gameObject.SetActive(false);
             }
         }
@@ -76,11 +76,11 @@ namespace ISILab.LBS
             {
                 switch (edge.To)
                 {
-                    case QuestNode nextNode when nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger):
+                    case QuestNode nextNode when _nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger):
                         ActivateTrigger(nextTrigger);
                         break;
 
-                    case GraphNode branchNode when branchMap.TryGetValue(branchNode, out var branch):
+                    case GraphNode branchNode when _branchMap.TryGetValue(branchNode, out var branch):
                         foreach (var childGO in branch.ChildTriggers)
                             childGO.SetActive(true);
                         break;
@@ -90,7 +90,7 @@ namespace ISILab.LBS
             bool isLastNode = questGraph.GraphEdges.LastOrDefault()?.To == trigger.Node;
             if (isLastNode)
             {
-                QuestComplete = true;
+                questComplete = true;
                 onQuestCompleteEvent?.Invoke();
             }
 

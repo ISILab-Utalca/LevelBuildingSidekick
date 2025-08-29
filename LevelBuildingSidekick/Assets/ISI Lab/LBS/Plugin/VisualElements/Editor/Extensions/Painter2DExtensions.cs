@@ -229,13 +229,13 @@ namespace ISILab.Extensions
         /// <param name="arrowDirection"> A normalized vector facing direction</param>
         /// <param name="arrowWidth"> the width of the triangle face</param>
         /// <param name="color"> Fill color </param>
-        /// <param name="thickness"> The border thickness</param>
+        /// <param name="closed"> Close the arrow paint</param>
         public static void DrawEquilateralArrow(this Painter2D painter, 
             Vector2 center,
             Vector2 arrowDirection,
             float arrowWidth,
             Color color,
-            float thickness = 1)
+            bool closed = true)
         {
             // perpendicular according to https://mathworld.wolfram.com/PerpendicularVector.html
             Vector2 perpendicular = new Vector2(arrowDirection.y, -arrowDirection.x);
@@ -248,7 +248,7 @@ namespace ISILab.Extensions
                 center + arrowDirection * arrowLength * 0.5f,                                                       // Arrow tip
                 center - arrowDirection * arrowLength * 0.5f - perpendicular * arrowWidth * 0.5f  // Right base
             };
-            painter.DrawPolygon(arrowPoints, color, color, 1f);
+            painter.DrawPolygon(arrowPoints, color, color, 1f, closed);
         }
 
         /// <summary>

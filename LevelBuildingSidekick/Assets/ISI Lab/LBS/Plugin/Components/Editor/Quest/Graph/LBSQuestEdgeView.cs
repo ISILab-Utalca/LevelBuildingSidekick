@@ -15,7 +15,7 @@ namespace ISILab.LBS.VisualElements
 {
     public class LBSQuestEdgeView : GraphElement
     {
-        private Vector2 _pos1, _pos2; // Use Vector2 for precise positioning
+        private Vector2 _startPos, _endPos; // Use Vector2 for precise positioning
         private readonly float _lineWidth;
         private readonly float _stroke;
         private readonly QuestEdge _edge;
@@ -65,49 +65,57 @@ namespace ISILab.LBS.VisualElements
 
         private void UpdatePositions()
         {
-            // Convert node local centers -> world space
             var worldPos1 = _node1.worldBound.center;
             var worldPos2 = _node2.worldBound.center;
+            var dir = (worldPos2 - worldPos1).normalized;
 
-            // Convert world space -> edge's local space
-            var graphSpace1 = this.WorldToLocal(worldPos1);
-            var graphSpace2 = this.WorldToLocal(worldPos2);
+            // circle radius ~10, arrow length ~12 → use as offsets
+            var edge1 = GetRectEdgePoint(_node1.worldBound, dir, 5f);   // circle offset
+            var edge2 = GetRectEdgePoint(_node2.worldBound, -dir, 5f);  // arrow offset
 
-            _pos1 = graphSpace1;
-            _pos2 = graphSpace2;
+            _startPos = this.WorldToLocal(edge1);
+            _endPos   = this.WorldToLocal(edge2);
 
             MarkDirtyRepaint();
         }
 
+        
+        private Vector2 GetRectEdgePoint(Rect rect, Vector2 direction, float extraOffset = 0f)
+        {
+            Vector2 center = rect.center;
+            if (direction == Vector2.zero)
+                return center;
+
+            direction.Normalize();
+
+            float tx = direction.x > 0
+                ? (rect.xMax - center.x) / direction.x
+                : (rect.xMin - center.x) / direction.x;
+
+            float ty = direction.y > 0
+                ? (rect.yMax - center.y + 5) / direction.y
+                : (rect.yMin - center.y + 5) / direction.y;
+
+            float t = Mathf.Min(tx, ty);
+
+            return center + direction * (t + extraOffset);
+        }
+
+        
         private void DrawLine(MeshGenerationContext mgc)
         {
             var painter = mgc.painter2D;
-
-            // Draw dotted line
             painter.strokeColor = Color.white;
             painter.lineWidth = _stroke;
-            painter.DrawDottedLine(_pos1, _pos2, painter.strokeColor, _lineWidth);
 
-            // Calculate arrow direction
-            Vector2 mid = (_pos1 + _pos2) * 0.5f;
-            Vector2 dir = (_pos2 - _pos1).normalized;
-            Vector2 perp = new Vector2(-dir.y, dir.x); // perpendicular vector
+            painter.DrawDottedLine(_startPos, _endPos, painter.strokeColor, _lineWidth);
 
-            float arrowSize = 16f;
+            Vector2 dir = (_endPos - _startPos).normalized;
 
-            Vector2 tip = mid + dir * arrowSize;
-            Vector2 left = mid - dir * arrowSize * 0.5f + perp * arrowSize * 0.5f;
-            Vector2 right = mid - dir * arrowSize * 0.5f - perp * arrowSize * 0.5f;
-
-            // Draw arrowhead
-            painter.BeginPath();
-            painter.MoveTo(tip);
-            painter.LineTo(left);
-            painter.LineTo(right);
-            painter.ClosePath();
-            painter.fillColor = Color.white;
-            painter.Fill();
+            painter.DrawEquilateralArrow(_endPos, dir, 24, painter.strokeColor);
+            painter.DrawCircle(_startPos, 10, painter.strokeColor);
         }
+
 
 
         private void OnMouseDown(MouseDownEvent evt)

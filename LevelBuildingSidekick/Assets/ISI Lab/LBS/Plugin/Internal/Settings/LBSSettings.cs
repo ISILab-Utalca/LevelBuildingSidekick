@@ -105,6 +105,7 @@ namespace ISILab.LBS.Settings
         public class Interface
         {
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
+            public Color toolkitNormalDark = new(0.16f, 0.16f, 0.16f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);

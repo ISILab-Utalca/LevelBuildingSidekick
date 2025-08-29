@@ -187,7 +187,8 @@ namespace ISILab.LBS.Generators
             }
 
             trigger.SetDataNode(node.NodeData);
-            go.SetActive(false);
+            // all are active in the scene, on play they are activated in order
+            go.SetActive(true);
             return go;
         }
         
@@ -232,8 +233,8 @@ namespace ISILab.LBS.Generators
                     branchComponent.SetDestinationTrigger(destinationGameObject);
                 }
 
-                branchComponent.GraphNode = branchNode;
-                branchGameObject.SetActive(false);
+                branchComponent.graphNode = branchNode;
+                branchGameObject.SetActive(true);
             }
         }
 

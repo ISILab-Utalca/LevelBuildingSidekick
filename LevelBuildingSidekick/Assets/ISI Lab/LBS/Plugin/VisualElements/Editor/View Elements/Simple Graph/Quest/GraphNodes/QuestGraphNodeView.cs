@@ -14,17 +14,19 @@ namespace ISILab.LBS.VisualElements
     public abstract class QuestGraphNodeView : GraphElement
     {
         #region Static Colors
-        protected static readonly Color GrammarWrong     = LBSSettings.Instance.view.warningColor;
-        protected static readonly Color UncheckedGrammar = LBSSettings.Instance.view.okColor;
-        protected static readonly Color CorrectGrammar   = LBSSettings.Instance.view.successColor;
+        protected static readonly Color InvalidGrammarColor     = LBSSettings.Instance.view.errorColor;
+        protected static readonly Color DefaultBackgroundColor = LBSSettings.Instance.view.toolkitNormalDark;
+        protected static readonly Color ValidGrammarColor   = LBSSettings.Instance.view.successColor;
         #endregion
 
         #region Fields
         protected GraphNode Node;
-        protected Color DefaultBackgroundColor;
         protected VisualElement InvalidConnectionIcon;
 
-        protected static QuestGraphNodeView SelectedGraph;
+        private static QuestGraphNodeView _selectedGraph;
+
+        private const float Alpha = 0.33f;
+
         #endregion
 
         #region Events
@@ -56,7 +58,7 @@ namespace ISILab.LBS.VisualElements
 
         protected void OnMouseMove(MouseMoveEvent e)
         {
-            if(this != SelectedGraph) return;
+            if(this != _selectedGraph) return;
             
             // only move the selected node
             if (Node == null) return;
@@ -84,26 +86,30 @@ namespace ISILab.LBS.VisualElements
             var color = DefaultBackgroundColor;
             if (isSelected)
             {
-                color = Node.isValid() ? CorrectGrammar : GrammarWrong;
-                color.a = 0.33f;
-                
-                // Focus this as the highlighted
-                SelectedGraph = this;
+                color = Node.isValid() ? ValidGrammarColor : InvalidGrammarColor;
+        
+                // Blend color to simulate the alpha effect
+                float r = color.r * Alpha; 
+                float g = color.g * Alpha;
+                float b = color.b * Alpha;
+                color = new Color(r, g, b, 1f); 
+
+                _selectedGraph = this;
             }
 
-            VisualElement coloredVe = this.Q<VisualElement>("ColorBackground");
+            VisualElement coloredVe = this.Q<VisualElement>("Root");
             coloredVe.style.backgroundColor = new StyleColor(color);
         }
 
         public static void Deselect()
         {
-            SelectedGraph?.IsSelected(false);
-            SelectedGraph = null;
+            _selectedGraph?.IsSelected(false);
+            _selectedGraph = null;
         }
 
         public bool IsSelectedView()
         {
-            return SelectedGraph == this;
+            return _selectedGraph == this;
         } 
         
         #endregion

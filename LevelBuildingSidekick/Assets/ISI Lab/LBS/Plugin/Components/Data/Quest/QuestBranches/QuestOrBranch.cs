@@ -1,7 +1,9 @@
+using System;
 using ISILab.LBS.Components;
 
 namespace ISILab.LBS
 {
+    [Serializable]
     public class QuestOrBranch : QuestBranch
     {
         public override bool CanAdvance()

@@ -45,7 +45,7 @@ namespace ISILab.LBS
            
            _observer = observerGameObject.GetComponent<QuestObserver>();
            _observer.OnQuestAdvance +=  UpdateQuest;
-           
+
            UpdateQuest();
            MakeQuestList();
 
@@ -53,7 +53,7 @@ namespace ISILab.LBS
 
         private void UpdateQuest()
         {
-            var quest = _observer.NodeTriggerMap.Keys.ToList();
+            var quest = _observer.nodeTriggerMap.Keys.ToList();
             _questList.itemsSource = quest;
             _questList.Rebuild();
         }
@@ -65,9 +65,13 @@ namespace ISILab.LBS
             {
                 var questEntryVe = element as VisualElementQuest;
                 if (questEntryVe == null) return;
-
-                var quest = _questList.itemsSource[index]; 
-               
+      
+                var quest = _questList.itemsSource[index];
+                
+                // Sub-triggers do not have graph use we only display quests node from graph
+                if (quest is QuestNode { Graph: null }) return;
+                    
+       
                 questEntryVe.SetQuest(quest as QuestNode);
             };
         }

@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
 using ISILab.LBS.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS
 {
+    [DisallowMultipleComponent]
+    [Serializable]
     public abstract class QuestBranch : MonoBehaviour
     {
         [SerializeField]
@@ -12,7 +16,8 @@ namespace ISILab.LBS
         [SerializeField]
         private GameObject destinationTrigger;
 
-        public GraphNode GraphNode;
+        [SerializeField, SerializeReference]
+        public GraphNode graphNode;
         
         public List<GameObject> ChildTriggers => childTriggers;
         public GameObject DestinationTrigger => destinationTrigger;
