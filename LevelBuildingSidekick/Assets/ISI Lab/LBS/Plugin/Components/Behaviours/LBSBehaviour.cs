@@ -70,6 +70,11 @@ namespace ISILab.LBS.Behaviours
         }
         #endregion
 
+        #region EVENTS
+        public event Action<object> OnBehaviourUpdated;
+        #endregion
+
+
         #region METHODS
         public List<Type> GetRequiredModules()
         {
@@ -168,7 +173,6 @@ namespace ISILab.LBS.Behaviours
             
             // Turn into array
             object[] o = _newTiles.ToArray();
-            
             // Clear memory
             _newTiles.Clear();
             
@@ -187,14 +191,37 @@ namespace ISILab.LBS.Behaviours
             
             // Turn into array
             object[] o = _expiredTiles.ToArray();
-            
             // Clear memory
             _expiredTiles.Clear();
             
             // Return array
             return o;
         }
-        
+
+        public virtual void UpdateKeys(List<object> currentList)
+        {
+            //Create if not real
+            _keys ??= new HashSet<object>();
+            //Turn into array
+            List<object> keyList = _keys.ToList();
+
+            foreach(object expiredObject in keyList)
+            {
+                if(!currentList.Contains(expiredObject))
+                {
+                    RequestTileRemove(expiredObject);
+                }
+            }
+            foreach(object newObject in currentList)
+            {
+                if (!keyList.Contains(newObject))
+                {
+                    RequestTilePaint(newObject);
+                }
+            }
+            
+        }
+
         #endregion
     }
 }

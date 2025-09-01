@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
@@ -107,11 +110,17 @@ namespace ISILab.LBS.Behaviours
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;
+            layer.OnChange += UpdateKeys;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             OwnerLayer = null;
+            layer.OnChange -= UpdateKeys;
+        }
+        public void UpdateKeys()
+        {
+            UpdateKeys(Tiles.ToList<object>());
         }
 
         public LBSTile GetTile(Vector2Int pos)
