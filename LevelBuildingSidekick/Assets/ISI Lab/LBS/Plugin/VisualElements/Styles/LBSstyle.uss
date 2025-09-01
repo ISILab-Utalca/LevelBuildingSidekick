@@ -1302,7 +1302,6 @@ Button.lbs-actionbutton {
 }
 
 .lbs-enum-field {
-    background-color: rgb(45, 45, 45);
     padding-top: 2px;
     padding-right: 2px;
     padding-bottom: 2px;
@@ -1311,8 +1310,6 @@ Button.lbs-actionbutton {
     margin-right: 2px;
     margin-bottom: 2px;
     margin-left: 2px;
-    border-color: var(--lbs-dark-overlay-color);
-    border-width: 1px;
 }
 
 .lbs-enum-field:focus {
@@ -1695,6 +1692,9 @@ Button.lbs-actionbutton {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.lbs-dropdown-field {
 }
 
 .lbs-text-field {

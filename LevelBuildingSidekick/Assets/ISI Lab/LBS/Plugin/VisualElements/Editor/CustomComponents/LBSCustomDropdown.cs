@@ -11,7 +11,7 @@ namespace ISILab.LBS.CustomComponents
         #region constants
             
             public static string LBSClassName = "lbs-field";
-            public static string LBSDropdownFieldClassName = ".lbs-dropdown-field";
+            public static string LBSDropdownFieldClassName = "lbs-dropdown-field";
             
             #endregion  
             
@@ -88,6 +88,17 @@ namespace ISILab.LBS.CustomComponents
                 RemoveFromClassList(ussClassName);
                 AddToClassList(LBSClassName);
                 AddToClassList(LBSDropdownFieldClassName);
+                
+                //input field style
+                VisualElement inputButton = this.Q<VisualElement>(classes: inputUssClassName);
+                inputButton.AddToClassList("lbs-enum-field-input");
+                inputButton.AddToClassList("lbs-button");
+                inputButton.RemoveFromClassList(inputUssClassName);
+                
+                //arrow style
+                VisualElement arrow = this.Q<VisualElement>(classes: arrowUssClassName);
+                arrow.AddToClassList("lbs-arrow");
+                arrow.RemoveFromClassList(arrowUssClassName);
                 
                 iconVisualElement = SetupIconVisualElement();
                 this.Add(iconVisualElement);

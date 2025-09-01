@@ -21,14 +21,7 @@
 .unity-base-field {
 }
 
-.unity-base-field__input {
-}
-
 .unity-base-popup-field {
-}
-
-.unity-base-popup-field__input {
-    background-color: var(--lbs-field-solid-bg-gray-color);
 }
 
 .unity-toolbar {

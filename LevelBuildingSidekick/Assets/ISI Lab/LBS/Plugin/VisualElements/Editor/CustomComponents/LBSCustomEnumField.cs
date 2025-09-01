@@ -16,7 +16,7 @@ namespace ISILab.LBS.CustomComponents
         #region constants
         
         public readonly static string LBSClassName = "lbs-field";
-        public readonly static string LBSEnumFieldClass = ".lbs-enum-field";
+        public readonly static string LBSEnumFieldClass = "lbs-enum-field";
         
         #endregion
         
