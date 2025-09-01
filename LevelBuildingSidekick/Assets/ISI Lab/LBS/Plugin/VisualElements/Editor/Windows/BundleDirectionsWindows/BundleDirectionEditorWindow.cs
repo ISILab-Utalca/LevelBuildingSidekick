@@ -34,6 +34,11 @@ public class BundleDirectionEditorWindow : EditorWindow
     private LBSCustomDropdown LeftDirectionDropdown;
     private LBSCustomDropdown RightDirectionDropdown;
 
+    private LBSCustomDropdown URDirectionDropdown; //Upper Right
+    private LBSCustomDropdown ULDirectionDropdown; //Upper Left
+    private LBSCustomDropdown LRDirectionDropdown; //Lower Right
+    private LBSCustomDropdown LLDirectionDropdown; //Lower Left
+
     //Bottom buttons
     private LBSCustomButton RevertButton;
     private LBSCustomButton SaveButton;
@@ -64,6 +69,13 @@ public class BundleDirectionEditorWindow : EditorWindow
         visualTree.CloneTree(rootVisualElement);
 
         directionTypeEnum = rootVisualElement.Q<LBSCustomEnumField>("DirectionTypeEnum");
+        directionTypeEnum.RegisterValueChangedCallback(evt =>
+        {
+            if (evt.newValue != evt.previousValue)
+            {
+                SwitchVisibility((int)(object)evt.newValue);
+            }
+        });
 
         tagGroupEnum = rootVisualElement.Q<LBSCustomEnumField>("TagGroupEnum");
 
@@ -75,8 +87,12 @@ public class BundleDirectionEditorWindow : EditorWindow
         LeftDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("LeftDirectionDropdown");
         RightDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("RightDirectionDropdown");
 
-        allTags = LBSAssetsStorage.Instance.Get<LBSTag>();
-        InitDropdowns();
+        URDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("URDirectionDropdown"); //Upper Right
+        ULDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("ULDirectionDropdown"); //Upper Left
+        LRDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("LRDirectionDropdown"); //Lower Right
+        LLDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("LLDirectionDropdown"); //Lower Left
+
+        Init();
 
         RevertButton = rootVisualElement.Q<LBSCustomButton>("RevertButton");
         RevertButton.clicked += RevertChanges;
@@ -106,8 +122,12 @@ public class BundleDirectionEditorWindow : EditorWindow
         #endregion
     }
 
-    private void InitDropdowns()
+    private void Init()
     {
+        SwitchVisibility((int)(object)directionTypeEnum.value);
+
+        allTags = LBSAssetsStorage.Instance.Get<LBSTag>();
+
         var allPossibleTags = GetPossibleTagsFromBundle(target.Owner.Parent(), allTags);
         var tagLabels = allPossibleTags.Select(t => t.Label).ToList();
 
@@ -115,6 +135,35 @@ public class BundleDirectionEditorWindow : EditorWindow
         UpDirectionDropdown.choices = tagLabels;
         LeftDirectionDropdown.choices = tagLabels;
         DownDirectionDropdown.choices = tagLabels;
+    }
+
+    private void SwitchVisibility(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                // Vertex Based
+                UpDirectionDropdown.style.display = DisplayStyle.Flex;
+                DownDirectionDropdown.style.display = DisplayStyle.Flex;
+                LeftDirectionDropdown.style.display = DisplayStyle.Flex;
+                RightDirectionDropdown.style.display = DisplayStyle.Flex;
+                URDirectionDropdown.style.display = DisplayStyle.None;
+                ULDirectionDropdown.style.display = DisplayStyle.None;
+                LRDirectionDropdown.style.display = DisplayStyle.None;
+                LLDirectionDropdown.style.display = DisplayStyle.None;
+                break;
+            case 1:
+                // Edge Based
+                UpDirectionDropdown.style.display = DisplayStyle.None;
+                DownDirectionDropdown.style.display = DisplayStyle.None;
+                LeftDirectionDropdown.style.display = DisplayStyle.None;
+                RightDirectionDropdown.style.display = DisplayStyle.None;
+                URDirectionDropdown.style.display = DisplayStyle.Flex;
+                ULDirectionDropdown.style.display = DisplayStyle.Flex;
+                LRDirectionDropdown.style.display = DisplayStyle.Flex;
+                LLDirectionDropdown.style.display = DisplayStyle.Flex;
+                break;
+        }
     }
 
     private List<LBSTag> GetPossibleTagsFromBundle(Bundle bundle, List<LBSTag> identifierTags)
