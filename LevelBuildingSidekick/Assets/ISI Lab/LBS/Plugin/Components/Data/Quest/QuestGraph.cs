@@ -527,6 +527,13 @@ namespace ISILab.LBS.Modules
             var nodes = graphNodes.Select(CloneRefs.Get).Cast<GraphNode>();
             foreach (var n in nodes)
             {
+                if(n is QuestNode qn)
+                {
+                    if (Root.ID == qn.ID)
+                    {
+                        clone.root = qn;
+                    }
+                }
                 clone.graphNodes.Add(n);
                 n.Graph = clone;
             }
@@ -534,7 +541,7 @@ namespace ISILab.LBS.Modules
             var edges = graphEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
             foreach (var e in edges) clone.graphEdges.Add(e);
 
-            clone.root = CloneRefs.Get(Root) as QuestNode;
+            //clone.root = CloneRefs.Get(Root) as QuestNode;
             return clone;
         }
 

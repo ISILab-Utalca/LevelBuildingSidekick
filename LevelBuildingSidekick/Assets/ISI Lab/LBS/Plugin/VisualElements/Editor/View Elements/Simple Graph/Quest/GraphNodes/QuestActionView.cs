@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
-using ISILab.Macros;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements

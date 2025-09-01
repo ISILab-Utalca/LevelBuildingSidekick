@@ -1,14 +1,10 @@
 using System;
-using ISILab.Commons.Utility.Editor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
-using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Modules;
-using ISILab.LBS.Settings;
-using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
@@ -121,17 +117,16 @@ namespace ISILab.LBS.VisualElements
         private void OnMouseDown(MouseDownEvent evt)
         {
             // Only right-click
-            if (evt.button == (int)MouseButton.RightMouse)
-            {
-                var menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Set Type/Direct"), false, () => _graph.ChangeConnection(_edge, typeof(QuestNode)));
-                menu.AddItem(new GUIContent("Set Type/OR"), false, () => _graph.ChangeConnection(_edge, typeof(OrNode)));
-                menu.AddItem(new GUIContent("Set Type/AND"), false, () => _graph.ChangeConnection(_edge, typeof(AndNode)));
-                menu.AddSeparator("");
-                //menu.AddItem(new GUIContent("Delete Edge"), false, () => DeleteThisEdge());
-                menu.ShowAsContext();
-                evt.StopPropagation();
-            }
+            if (evt.button != (int)MouseButton.RightMouse) return;
+            
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Set Type/Direct"), false, () => _graph.ChangeConnection(_edge, typeof(QuestNode)));
+            menu.AddItem(new GUIContent("Set Type/OR"), false, () => _graph.ChangeConnection(_edge, typeof(OrNode)));
+            menu.AddItem(new GUIContent("Set Type/AND"), false, () => _graph.ChangeConnection(_edge, typeof(AndNode)));
+            menu.AddSeparator("");
+
+            menu.ShowAsContext();
+            evt.StopPropagation();
         }
     }
 }

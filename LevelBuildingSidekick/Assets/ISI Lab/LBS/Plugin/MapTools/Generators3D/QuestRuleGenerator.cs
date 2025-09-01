@@ -76,11 +76,10 @@ namespace ISILab.LBS.Generators
                  return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
              }
           
-            
+            observer.Init(quest);
             GenerateTriggers(settings, quest, observer, pivot);
 
 
-            observer.Init(quest);
 
             /* For LBS User:
              * ----------------------------------------------------------------

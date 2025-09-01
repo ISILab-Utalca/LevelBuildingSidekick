@@ -6,13 +6,13 @@ using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-
+using System.Runtime.CompilerServices;
 namespace ISILab.LBS
 {
     [Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        [SerializeField] private QuestGraph questGraph;
+        [SerializeField][SerializeReference] private QuestGraph questGraph;
         [SerializeField] private Dictionary<QuestNode, QuestTrigger> _nodeTriggerMap = new();
         [SerializeField] private Dictionary<GraphNode, QuestBranch> _branchMap = new();
         [SerializeField] public UnityEvent onQuestCompleteEvent;
@@ -42,7 +42,21 @@ namespace ISILab.LBS
                 return;
             }
 
-            // Initialize all triggers
+            // --- Rebind all QuestTriggers to cloned nodes ---
+            foreach (var trigger in GetComponentsInChildren<QuestTrigger>())
+            {
+                if (trigger.Node == null) continue;
+
+                // Find the cloned node with the same ID
+                var matchingGraphNode = questGraph.GraphNodes
+                    .OfType<QuestNode>()
+                    .FirstOrDefault(n => n.ID == trigger.Node.ID);
+
+                // Assign runtime ref
+                trigger.Node = matchingGraphNode;
+            }
+
+            // --- Initialize triggers ---
             foreach (var trigger in GetComponentsInChildren<QuestTrigger>())
             {
                 trigger.Init();
@@ -51,12 +65,13 @@ namespace ISILab.LBS
                 _nodeTriggerMap.TryAdd(trigger.Node, trigger);
                 trigger.OnTriggerCompleted += OnTriggerCompleted;
 
-                bool isRoot = trigger.Node.ID == questGraph.Root.ID;
+                bool isRoot = trigger.Node == questGraph.Root;
+                
                 trigger.gameObject.SetActive(isRoot);
                 trigger.Node.QuestState = isRoot ? QuestState.Active : QuestState.Blocked;
             }
 
-            // Initialize branch components
+            // --- Initialize branches ---
             foreach (var branch in GetComponentsInChildren<QuestBranch>())
             {
                 _branchMap.TryAdd(branch.graphNode, branch);
@@ -64,29 +79,41 @@ namespace ISILab.LBS
             }
         }
 
+
         private void OnTriggerCompleted(QuestTrigger trigger)
         {
             if (trigger == null) return;
 
-            var outgoingEdges = questGraph.GraphEdges
-                .Where(e => e.From.Contains(trigger.Node))
-                .ToList();
+            var outgoingEdges = questGraph.GetBranches(trigger.Node);
 
+            // outgoing has the edges with the completed quest node
+            // first try to see if the next node is part of a branch
+            var branchingNodes = new HashSet<GraphNode>();
             foreach (var edge in outgoingEdges)
             {
-                switch (edge.To)
+                // if it is a branch node
+                if (edge.To is not QuestNode)
                 {
-                    case QuestNode nextNode when _nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger):
-                        ActivateTrigger(nextTrigger);
-                        break;
-
-                    case GraphNode branchNode when _branchMap.TryGetValue(branchNode, out var branch):
-                        foreach (var childGO in branch.ChildTriggers)
-                            childGO.SetActive(true);
-                        break;
+                    branchingNodes.Add(edge.To);
                 }
             }
-
+            
+            foreach (var branchingNode in branchingNodes)
+            {
+                if (!_branchMap.TryGetValue(branchingNode, out var branch)) continue;
+                
+                // Activate the branch object
+                branch.gameObject.SetActive(true);
+                
+                foreach (var qt in branch.ChildTriggers.Select(
+                             childTrigger => childTrigger.GetComponent<QuestTrigger>())
+                             .Where(qt => qt is not null))
+                {
+                    ActivateTrigger(qt);
+                }
+            }
+            
+            // Have we finished the quest?
             bool isLastNode = questGraph.GraphEdges.LastOrDefault()?.To == trigger.Node;
             if (isLastNode)
             {
