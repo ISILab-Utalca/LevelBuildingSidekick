@@ -145,7 +145,7 @@ namespace LBS.VisualElements
         
         public void SetActive(Type manipulatorType)
         {
-            Debug.Log("Manipulator changed to " +  manipulatorType);
+            //Debug.Log("Manipulator changed to " +  manipulatorType);
             // Ensure manipulatorType is not null
             if (manipulatorType == null)
             {
