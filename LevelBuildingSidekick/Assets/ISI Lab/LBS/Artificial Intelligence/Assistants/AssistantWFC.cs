@@ -12,7 +12,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
-using ISILab.LBS.Behaviours;
+
 
 
 
@@ -515,7 +515,7 @@ namespace ISILab.LBS.Assistants
                     {
                         List<string> rotatedBundleConns = directionChar.GetConnection(k).ToList();//bundleConns.Rotate(k);
 
-                        if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray()))
+                        if(Compare(tileConns.ToArray(), rotatedBundleConns.ToArray(), false))
                         {
                             bundleFrequency[bundle]++;
                             if(bundleFrequency[bundle] > maxFreq)
@@ -530,6 +530,12 @@ namespace ISILab.LBS.Assistants
                 if (!matchFound)
                     Debug.LogWarning($"Tile {pairs[i].Tile.Position} has no matching bundle");
             }
+
+            if(maxFreq == 0)
+            {
+                errMsg = "Empty map! Could not capture its weights.";
+                return false;
+            }
             
             for (int i = 0; i < currentBundles.Count; i++) 
             {
@@ -537,7 +543,8 @@ namespace ISILab.LBS.Assistants
                 group.Weights[i].weight = maxFreq != 0 ? (float)bundleFrequency[currentBundles[i]] / (float)maxFreq : 1;
             }
 
-            Selection.activeObject = targetBundleRef;
+            //Selection.activeObject = targetBundleRef;
+            RefreshInspector(targetBundleRef);
 
             return true;
         }
@@ -612,18 +619,36 @@ namespace ISILab.LBS.Assistants
             }
 
             // Refresh bundle on inspector. Works inconsistently.
-            Selection.activeObject = null;
-            EditorApplication.delayCall += () => Selection.activeObject = targetBundleRef;
+            RefreshInspector(targetBundleRef);
+            //Selection.activeObject = null;
+            //EditorApplication.delayCall += () => Selection.activeObject = targetBundleRef;
         }
 
-        public bool Compare(string[] a, string[] b)
+        private void RefreshInspector(UnityEngine.Object target)
+        {
+            Action makeNull = () => Selection.activeObject = null;
+            Action set = () => Selection.activeObject = target;
+
+            EditorApplication.delayCall += () => 
+            { 
+                makeNull();
+                EditorApplication.delayCall += () => set();
+            };
+        }
+
+        public bool Compare(string[] a, string[] b, bool ignoreEmpties = true)
         {
             for (int i = 0; i < a.Length; i++)
             {
                 for (int j = 0; j < b.Length; j++)
                 {
-                    if (a[i] != b[i] && !string.IsNullOrEmpty(a[i]) && !string.IsNullOrEmpty(a[i]))
-                        return false;
+                    if (!a[i].Equals(b[i]))
+                    {
+                        bool empties = string.IsNullOrEmpty(a[i]) || string.IsNullOrEmpty(b[i]);
+                        if (ignoreEmpties && empties)
+                            continue;
+                        else return false;
+                    }
                 }
             }
             return true;
