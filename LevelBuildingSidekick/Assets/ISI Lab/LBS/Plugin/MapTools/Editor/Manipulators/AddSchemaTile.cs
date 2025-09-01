@@ -26,7 +26,7 @@ namespace ISILab.LBS.Manipulators
 
         public AddSchemaTile()
         {
-            Name = "Paint Zone";
+            Name = "Paint Selected Zone";
             Description = "Add a new zone in the inspector and then paint in the graph. Hold CTRL and select an area to auto-generate a new zone.";
             
             Feedback = new AreaFeedback();
@@ -77,7 +77,7 @@ namespace ISILab.LBS.Manipulators
 
             if (ToSet == null)
             {
-                LBSMainWindow.MessageNotify("You don't have any selected area to place. Create a new Zone in the panel or press 'CTRL' when left clicking.", LogType.Error, 8);
+                LBSMainWindow.MessageNotify("You don't have any selected Zone to paint with. Create a new Zone in the Behaviours panel or press 'CTRL' when left clicking.", LogType.Error, 8);
                 return;
             }
             

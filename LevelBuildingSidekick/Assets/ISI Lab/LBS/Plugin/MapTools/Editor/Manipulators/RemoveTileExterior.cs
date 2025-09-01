@@ -13,7 +13,7 @@ namespace ISILab.LBS.Manipulators
         
         public RemoveTileExterior()
         {
-            Name = "Remove Tile";
+            Name = "Remove Tiles";
             Description = "Click on a Tile or select an area to remove multiple tiles.";
         }
         
