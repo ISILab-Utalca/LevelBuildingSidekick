@@ -17,7 +17,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new AreaFeedback();
             Feedback.fixToTeselation = true;
 
-            Name = "Remove Tile";
+            Name = "Remove Tiles";
             Description = "Select an area to remove any tiles that belong to the selected zone.";
         }
 
