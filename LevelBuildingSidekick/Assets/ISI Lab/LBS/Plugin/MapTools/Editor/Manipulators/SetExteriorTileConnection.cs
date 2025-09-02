@@ -84,7 +84,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            if (ToSet == null || ToSet.Label == "")
+            if (ToSet == null || ToSet.Label.Equals("") || ToSet.Label.Equals("Empty"))
             {
                 Debug.LogWarning("You don't have any connection selected.");
                 return;
