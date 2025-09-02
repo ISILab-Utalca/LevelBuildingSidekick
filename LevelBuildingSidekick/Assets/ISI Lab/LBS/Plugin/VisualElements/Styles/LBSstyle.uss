@@ -1767,3 +1767,6 @@ Button.lbs-actionbutton {
 
 .lbs-object-field {
 }
+
+.actionbutton {
+}

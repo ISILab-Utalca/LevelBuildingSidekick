@@ -13,6 +13,7 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(QuestGraph))]
     public class QuestBehaviour : LBSBehaviour
     {
+        public Type activeGraphNodeType = null;
         public string ActionToSet { get; set; }
 
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
@@ -46,7 +47,7 @@ namespace ISILab.LBS.Behaviours
 
         public void UpdateKeys()
         {
-            UpdateKeys(Graph.QuestNodes.ToList<object>());
+            UpdateKeys(Graph.GraphNodes.ToList<object>());
         }
     }
 }

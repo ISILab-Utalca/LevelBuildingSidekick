@@ -6,107 +6,34 @@ using ISILab.LBS.Modules;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-
+using System.Runtime.CompilerServices;
 namespace ISILab.LBS
 {
     [Serializable]
     public class QuestObserver : MonoBehaviour
     {
-        #region FIELDS
-        
-        [SerializeField] 
-        private QuestGraph questGraph;
-        [SerializeField, SerializeReference] 
-        private Dictionary<QuestNode, QuestTrigger> nodeTriggerMap = new();
-        [SerializeField] 
-        public UnityEvent onQuestCompleteEvent;
-        
-        #endregion
+        [SerializeField][SerializeReference] private QuestGraph questGraph;
+        [SerializeField] private Dictionary<QuestNode, QuestTrigger> _nodeTriggerMap = new();
+        [SerializeField] private Dictionary<GraphNode, QuestBranch> _branchMap = new();
+        [SerializeField] public UnityEvent onQuestCompleteEvent;
 
-        #region PROPERTIES
-
-        public bool QuestComplete { get; private set; }
-        public Dictionary<QuestNode, QuestTrigger> NodeTriggerMap => nodeTriggerMap;
+        public bool questComplete { get; private set; }
+        public Dictionary<QuestNode, QuestTrigger> nodeTriggerMap => _nodeTriggerMap;
+        public Dictionary<GraphNode, QuestBranch> branchMap => _branchMap;
         public event Action OnQuestAdvance;
-        #endregion
 
+        private void Awake() => StartQuest();
 
-        private void Awake()
-        {
-            StartQuest();
-        }
-        
         private void OnDisable()
         {
-            foreach (var trigger in nodeTriggerMap)
-            {
-                trigger.Value.gameObject.SetActive(false);
-            }
+            foreach (var trigger in _nodeTriggerMap.Values)
+                trigger.gameObject.SetActive(false);
+            foreach (var branch in _branchMap.Values)
+                branch.gameObject.SetActive(false);
         }
 
-        /// <summary>
-        /// Handles the completion of a trigger and advances the quest.
-        /// </summary>
-        /// <param name="trigger">The trigger that was completed.</param>
-        private void HandleTriggerCompleted(QuestTrigger trigger)
-        {
-            if (!AdvanceQuest(trigger) || QuestComplete) return;
-            QuestComplete = true;
-            onQuestCompleteEvent.Invoke();
+        public void Init(QuestGraph graph) => questGraph = graph;
 
-        }
-
-        /// <summary>
-        /// Advances the quest to the next step based on the provided trigger.
-        /// Returns true if the quest can't be advanced anymore i.e. its completed.
-        /// </summary>
-        /// <param name="trigger">The trigger that completed the current step.</param>
-        public bool AdvanceQuest(QuestTrigger trigger)
-        {
-            // get the current node
-            var currentNode = nodeTriggerMap.FirstOrDefault(pair => pair.Value == trigger).Key;
-            if (currentNode == null) return false;
-            
-            // If the current node is the last one, the quest is complete
-            if (questGraph.QuestEdges.LastOrDefault()?.To == currentNode)
-            {
-                OnQuestAdvance?.Invoke();
-                return true;
-            }
-
-
-            // Activate the next node and trigger
-            foreach (var edge in questGraph.QuestEdges)
-            {
-                if (edge.From != currentNode) continue;
-
-                var nextNode = edge.To;
-                nextNode.QuestState = QuestState.Active;
-
-                if (!nodeTriggerMap.TryGetValue(nextNode, out var nextTrigger)) continue;
-                
-                nextTrigger.gameObject.SetActive(true);
-                nextTrigger.OnTriggerCompleted += HandleTriggerCompleted;
-            }
-            
-            OnQuestAdvance?.Invoke();
-            return false;
-        }
-
-
-
-        /// <summary>
-        /// Initializes the quest with a given graph and node-trigger mapping.
-        /// </summary>
-        /// <param name="graph">The quest graph defining flow and logic.</param>
-        public void Init(QuestGraph graph)
-        {
-            questGraph = graph;
-        }
-
-        /// <summary>
-        /// Starts the quest from the first node after the root in the graph.
-        /// </summary>
         private void StartQuest()
         {
             if (questGraph?.Root == null)
@@ -115,51 +42,96 @@ namespace ISILab.LBS
                 return;
             }
 
-            var branches = questGraph.GetBranches(questGraph.Root);
-
-            if (branches.Count == 0)
+            // --- Rebind all QuestTriggers to cloned nodes ---
+            foreach (var trigger in GetComponentsInChildren<QuestTrigger>())
             {
-                Debug.LogWarning("QuestGraph has no branches from root.");
-                return;
+                if (trigger.Node == null) continue;
+
+                // Find the cloned node with the same ID
+                var matchingGraphNode = questGraph.GraphNodes
+                    .OfType<QuestNode>()
+                    .FirstOrDefault(n => n.ID == trigger.Node.ID);
+
+                // Assign runtime ref
+                trigger.Node = matchingGraphNode;
             }
 
-            List<QuestTrigger> childTriggers = (from Transform child in transform select child.GetComponent<QuestTrigger>()).ToList();
-            
-            // subscribe all triggers to call advance quest when completed
-            foreach (var child in childTriggers)
+            // --- Initialize triggers ---
+            foreach (var trigger in GetComponentsInChildren<QuestTrigger>())
             {
+                trigger.Init();
+                if (trigger.Node == null) continue;
+
+                _nodeTriggerMap.TryAdd(trigger.Node, trigger);
+                trigger.OnTriggerCompleted += OnTriggerCompleted;
+
+                bool isRoot = trigger.Node == questGraph.Root;
                 
-                if(child is null) continue;
-                child.Init();
-                if(child.Node is null)  continue;
-                
-                foreach (var questNode in questGraph.QuestNodes)
+                trigger.gameObject.SetActive(isRoot);
+                trigger.Node.QuestState = isRoot ? QuestState.Active : QuestState.Blocked;
+            }
+
+            // --- Initialize branches ---
+            foreach (var branch in GetComponentsInChildren<QuestBranch>())
+            {
+                _branchMap.TryAdd(branch.graphNode, branch);
+                branch.gameObject.SetActive(false);
+            }
+        }
+
+
+        private void OnTriggerCompleted(QuestTrigger trigger)
+        {
+            if (trigger == null) return;
+
+            var outgoingEdges = questGraph.GetBranches(trigger.Node);
+
+            // outgoing has the edges with the completed quest node
+            // first try to see if the next node is part of a branch
+            var branchingNodes = new HashSet<GraphNode>();
+            foreach (var edge in outgoingEdges)
+            {
+                // if it is a branch node
+                if (edge.To is not QuestNode)
                 {
-                    if (child.NodeID != questNode.ID) continue;
-                    child.Node = questNode;
+                    branchingNodes.Add(edge.To);
                 }
-                
-                var node = child.Node;
-                
-                // activate the first trigger only
-                if(node.ID == questGraph.Root.ID) 
-                {
-                    child.gameObject.SetActive(true); 
-                    node.QuestState =  QuestState.Active;
-                }
-                else
-                {
-                    child.gameObject.SetActive(false); 
-                    node.QuestState = QuestState.Blocked;
-                }
-                
-                nodeTriggerMap.TryAdd(node, child);
-                child.OnTriggerCompleted += HandleTriggerCompleted;
-                
             }
             
+            foreach (var branchingNode in branchingNodes)
+            {
+                if (!_branchMap.TryGetValue(branchingNode, out var branch)) continue;
+                
+                // Activate the branch object
+                branch.gameObject.SetActive(true);
+                
+                foreach (var qt in branch.ChildTriggers.Select(
+                             childTrigger => childTrigger.GetComponent<QuestTrigger>())
+                             .Where(qt => qt is not null))
+                {
+                    ActivateTrigger(qt);
+                }
+            }
+            
+            // Have we finished the quest?
+            bool isLastNode = questGraph.GraphEdges.LastOrDefault()?.To == trigger.Node;
+            if (isLastNode)
+            {
+                questComplete = true;
+                onQuestCompleteEvent?.Invoke();
+            }
+
+            OnQuestAdvance?.Invoke();
+        }
+
+        private void ActivateTrigger(QuestTrigger trigger)
+        {
+            trigger.gameObject.SetActive(true);
+            if (trigger.Node != null)
+                trigger.Node.QuestState = QuestState.Active;
         }
     }
+    
 
     /// <summary>
     /// Attribute to tag QuestTrigger by tag.

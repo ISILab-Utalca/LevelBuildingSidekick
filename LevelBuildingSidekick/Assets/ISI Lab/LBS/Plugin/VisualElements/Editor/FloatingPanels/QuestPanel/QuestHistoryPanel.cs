@@ -59,24 +59,24 @@ namespace ISILab.LBS.VisualElements.Editor
 
             _questList.bindItem = (element, index) =>
             {
-                if (index < 0 || index >= QuestGraphs.QuestNodes.Count)
+                if (index < 0 || index >= QuestGraphs.GraphNodes.Count)
                     return;
 
                 if (element is not QuestHistoryEntry questEntryVe)
                     return;
 
-                var quest = QuestGraphs.QuestNodes[index];
-                questEntryVe.SetData(quest);
+                var quest = QuestGraphs.GraphNodes[index];
+               // questEntryVe.SetData(quest);
                 _questEntries.Add(questEntryVe);
 
                 questEntryVe.RemoveNode = () =>
                 {
-                    QuestGraphs.RemoveQuestNode(quest);
-                    QuestGraphs.UpdateFlow.Invoke();
+               //     QuestGraphs.RemoveQuestNode(quest);
+                   // QuestGraphs.UpdateFlow.Invoke();
                     // No direct Refresh(); UpdateFlow will trigger it.
                 };
 
-                questEntryVe.GoToNode = () => GoToNode(quest);
+               // questEntryVe.GoToNode = () => GoToNode(quest);
             };
 
             _questList.itemsRemoved += (_) =>
@@ -86,16 +86,16 @@ namespace ISILab.LBS.VisualElements.Editor
             
             _questList.itemIndexChanged += (_, _) =>
             {
-                QuestGraphs?.Reorder();
+            //    QuestGraphs?.Reorder();
                 // Let UpdateFlow trigger Refresh
             };
 
-            _questList.itemsSource = QuestGraphs.QuestNodes;
+            _questList.itemsSource = QuestGraphs.GraphNodes;
 
             // Avoid double subscription
             if (!_isSubscribed)
             {
-                QuestGraphs.UpdateFlow += Refresh;
+              //  QuestGraphs.UpdateFlow += Refresh;
                 _isSubscribed = true;
             }
 
@@ -124,7 +124,7 @@ namespace ISILab.LBS.VisualElements.Editor
             _questEntries.Clear();
 
             _questList?.Rebuild();
-            QuestGraphs?.UpdateQuestNodes();
+           // QuestGraphs?.UpdateQuestNodes();
             UpdateVeQuestEntries();
 
             DrawManager.Instance.RedrawLayer(QuestGraphs?.OwnerLayer);
