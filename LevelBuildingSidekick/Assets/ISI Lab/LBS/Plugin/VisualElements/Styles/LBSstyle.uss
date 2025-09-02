@@ -1370,6 +1370,15 @@ Button .lbs-actionbutton {
     border-top-color: rgba(0, 0, 0, 0.3);
 }
 
+.lbs-base-panel {
+    background-color: var(--lbs-base-solid-gray-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+}
+
 .lbs-background-panel {
     background-color: var(--lbs-field-solid-bg-gray-color);
     border-top-width: 1px;
@@ -1549,15 +1558,6 @@ Button .lbs-actionbutton {
 .lbs-slide-toggle__input-checked > .lbs-slide-toggle__input-knob {
     translate: 10px 0;
     background-color: var(--lbs-light-green-color);
-}
-
-.lbs-base-panel {
-    background-color: var(--lbs-base-solid-gray-color);
-    border-bottom-color: var(--lbs-dark-overlay-color);
-    border-top-color: var(--lbs-dark-overlay-color);
-    border-left-color: var(--lbs-dark-overlay-color);
-    border-right-color: var(--lbs-dark-overlay-color);
-    border-width: 1px;
 }
 
 .lbs-toolbar {
@@ -1781,4 +1781,7 @@ Button .lbs-actionbutton {
 }
 
 .actionbutton {
+}
+
+.lbs-graph-view {
 }
