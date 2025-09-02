@@ -1370,6 +1370,10 @@ Button.lbs-actionbutton {
     border-top-color: rgba(0, 0, 0, 0.3);
 }
 
+.lbs-background-panel {
+    background-color: var(--lbs-field-solid-bg-gray-color);
+}
+
 .lbs-container-bg {
     background-color: var(--unity-colors-default-background);
     border-left-color: rgb(0, 0, 0);
@@ -1514,7 +1518,7 @@ Button.lbs-actionbutton {
 .lbs-slide-toggle__input-knob {
     height: 16px;
     width: 20px;
-    background-color: var(--lbs-darker-solid-gray-color);
+    background-color: var(--lbs-selectable-gray-color);
     position: absolute;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
