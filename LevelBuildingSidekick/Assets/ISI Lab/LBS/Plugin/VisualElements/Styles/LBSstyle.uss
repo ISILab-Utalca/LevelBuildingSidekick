@@ -1126,7 +1126,7 @@ Toggle > .lbs-default-icon {
     border-top-color: var(--lbs-border-white-overlay-color);
 }
 
-Button.lbs-actionbutton {
+Button .lbs-actionbutton {
     background-color: rgb(62, 62, 62);
     color: white;
     flex-direction: row;
@@ -1372,6 +1372,14 @@ Button.lbs-actionbutton {
 
 .lbs-background-panel {
     background-color: var(--lbs-field-solid-bg-gray-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
 }
 
 .lbs-container-bg {
@@ -1387,7 +1395,6 @@ Button.lbs-actionbutton {
 }
 
 .lbs-foldout {
-    background-color: rgb(43, 43, 43);
     border-left-color: rgba(0, 0, 0, 0.55);
     border-right-color: rgba(0, 0, 0, 0.55);
     border-top-color: rgba(0, 0, 0, 0.55);
@@ -1396,6 +1403,7 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
 }
 
 .lbs-foldout__toggle {
