@@ -27,12 +27,12 @@ namespace ISILab.LBS.VisualElements
 
             _rootAsset.CloneTree(this);
 
-            _root = this.Q<VisualElement>("Root");
+            _root = this.Q<VisualElement>("Capsule");
             InvalidConnectionIcon = this.Q<VisualElement>("InvalidConnectionIcon");
 
             InvalidConnectionIcon.style.unityBackgroundImageTintColor = InvalidGrammarColor;
             
-            VisualElement coloredVe = this.Q<VisualElement>("Root");
+            VisualElement coloredVe = this.Q<VisualElement>("Capsule");
             coloredVe.style.backgroundColor = DefaultBackgroundColor;
             
             Node = graphNode ?? throw new ArgumentNullException(nameof(graphNode));
