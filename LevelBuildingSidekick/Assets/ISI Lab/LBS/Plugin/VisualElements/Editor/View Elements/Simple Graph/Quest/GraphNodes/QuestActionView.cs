@@ -49,7 +49,7 @@ namespace ISILab.LBS.VisualElements
             _iconGrammarInvalid = this.Q<VisualElement>("InvalidGrammarIcon");
             _toolbar           = this.Q<ToolbarMenu>("ToolBar");
 
-            VisualElement coloredVe = this.Q<VisualElement>("Root");
+            VisualElement coloredVe = this.Q<VisualElement>("Capsule");
             coloredVe.style.backgroundColor = DefaultBackgroundColor;
             
             SetupToolbar();
@@ -109,7 +109,10 @@ namespace ISILab.LBS.VisualElements
         private void Update()
         {
             UpdateWidth();
-            SetPosition(new Rect(GetPosition().position, new Vector2(_root.resolvedStyle.width, _root.resolvedStyle.height)));
+            SetPosition(new Rect(GetPosition().position, new Vector2(
+                
+                _root.resolvedStyle.width ,
+                _root.resolvedStyle.height)));
             OnMoving?.Invoke(GetPosition());
         }
 
@@ -127,9 +130,11 @@ namespace ISILab.LBS.VisualElements
             float grammarIconWidth = GetElementWidthIfVisible(_iconGrammarInvalid, 24f);
             float dataIconWidth = GetElementWidthIfVisible(_iconNodeDataInvalid, 24f);
             float connectionIconWidth = GetElementWidthIfVisible(InvalidConnectionIcon, 24f);
+            float startWidth = GetElementWidthIfVisible(_start, 24f);
+            float goalWidth = GetElementWidthIfVisible(_goal, 24f);
             
             var textSize = _label.MeasureTextSize(_label.text,0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined);
-            float newWidth = Mathf.Max(minWidth, textSize.x + padding + grammarIconWidth + connectionIconWidth + typeIconWidth + dataIconWidth);
+            float newWidth = Mathf.Max(minWidth, textSize.x + padding + grammarIconWidth + connectionIconWidth + typeIconWidth + dataIconWidth + startWidth + goalWidth);
 
             _root.style.width = new StyleLength(newWidth);
             _label.style.width = new StyleLength(StyleKeyword.Auto);
@@ -148,7 +153,7 @@ namespace ISILab.LBS.VisualElements
             
             _iconNodeDataInvalid.style.display = qn.NodeData.IsValid() ? DisplayStyle.None : DisplayStyle.Flex;
             _iconGrammarInvalid.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
-            _root.SetBorder(node.isValid() ? ValidGrammarColor : InvalidGrammarColor, 1f);
+            this.Q<VisualElement>("Capsule").SetBorder(node.isValid() ? ValidGrammarColor : InvalidGrammarColor, 1f);
         }
         #endregion
 
