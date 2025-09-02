@@ -9,6 +9,30 @@ using UnityEngine.Events;
 using System.Runtime.CompilerServices;
 namespace ISILab.LBS
 {
+
+    public abstract class GameQuestEntry
+    {
+        private QuestTrigger activeTrigger;
+        private List<QuestTrigger> branchTriggers;
+        private GraphNode branchNode;
+        
+        public List<QuestTrigger> BranchTriggers1
+        {
+            get => branchTriggers;
+            set => branchTriggers = value;
+        }
+        
+        bool CanAdvance()
+        {
+            throw new NotImplementedException();
+        }
+        
+        bool IsBranchTrigger()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
     [Serializable]
     public class QuestObserver : MonoBehaviour
     {
@@ -85,32 +109,47 @@ namespace ISILab.LBS
             if (trigger == null) return;
 
             var outgoingEdges = questGraph.GetBranches(trigger.Node);
-
+            
+            var nextNodes = new HashSet<QuestNode>();
+            foreach (var outgoingEdge in outgoingEdges)
+            {
+                if(outgoingEdge.To is QuestNode qn) nextNodes.Add(qn);
+            }
+            
+            var triggersToActivate = new HashSet<QuestTrigger>();
+            foreach (QuestTrigger questTrigger in _nodeTriggerMap.Values)
+            {
+                if (nextNodes.Contains(questTrigger.Node))
+                {
+                    triggersToActivate.Add(questTrigger);
+                }
+            }
+            
             // outgoing has the edges with the completed quest node
             // first try to see if the next node is part of a branch
             var branchingNodes = new HashSet<GraphNode>();
-            foreach (var edge in outgoingEdges)
+            foreach (var branch in _branchMap.Values)
             {
-                // if it is a branch node
-                if (edge.To is not QuestNode)
-                {
-                    branchingNodes.Add(edge.To);
-                }
+                branchingNodes.Add(branch.graphNode);
             }
             
             foreach (var branchingNode in branchingNodes)
             {
                 if (!_branchMap.TryGetValue(branchingNode, out var branch)) continue;
-                
-                // Activate the branch object
-                branch.gameObject.SetActive(true);
-                
-                foreach (var qt in branch.ChildTriggers.Select(
-                             childTrigger => childTrigger.GetComponent<QuestTrigger>())
-                             .Where(qt => qt is not null))
+                foreach (var triggerToActivate in triggersToActivate)
                 {
-                    ActivateTrigger(qt);
+                    if (branch.ChildTriggers.Contains(triggerToActivate.gameObject))
+                    {
+                        // Activate the branch object
+                        branch.gameObject.SetActive(true);
+                        ActivateTrigger(triggerToActivate);
+                    }
                 }
+
+                // Set quest visually as active
+                ActivateTrigger(branch.DestinationTrigger.GetComponent<QuestTrigger>());
+                // disable, only enable after the branch conditons are met
+                trigger.gameObject.SetActive(false);
             }
             
             // Have we finished the quest?
@@ -130,6 +169,8 @@ namespace ISILab.LBS
             if (trigger.Node != null)
                 trigger.Node.QuestState = QuestState.Active;
         }
+        
+        
     }
     
 

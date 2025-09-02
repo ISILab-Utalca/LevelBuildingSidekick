@@ -21,6 +21,8 @@ namespace ISILab.LBS
         private VisualElement _outerQuestState; // color
         private VisualElement _innerQuestState; // toggle 
         
+        private VisualElement _orIcon;
+        private VisualElement _andIcon;
         private QuestNode _questNode;
         
         public VisualElementQuest()
@@ -36,7 +38,8 @@ namespace ISILab.LBS
             _questLabel = this.Q<Label>("Action");
             _outerQuestState = this.Q<VisualElement>("Outer");
             _innerQuestState = this.Q<VisualElement>("Inner");
-            
+            _orIcon = this.Q<VisualElement>("Or");
+            _andIcon = this.Q<VisualElement>("And");
             return this;
         }
 
@@ -73,7 +76,6 @@ namespace ISILab.LBS
                     throw new ArgumentOutOfRangeException();
             }
             
-            var parentVe = parent;
          //   if(parentVe is not null) parentVe.style.display = display ? DisplayStyle.Flex : DisplayStyle.None;
             
             
@@ -87,9 +89,36 @@ namespace ISILab.LBS
             _questLabel.style.color = new StyleColor(color);
             
             _innerQuestState.style.display = closed ? DisplayStyle.Flex : DisplayStyle.None;
-  
+            _orIcon.style.display = DisplayStyle.None;
+            _andIcon.style.display = DisplayStyle.None;
+
+       
+            
             if (closed) _questLabel.text = "<s>" + questNode.QuestAction + "</s>"; // strikethrough 
             else _questLabel.text = questNode.QuestAction;
+
+            if (questNode.Graph is not null)
+            {
+                var branches = questNode.Graph.GetBranches(questNode);
+                foreach (var branch in branches)
+                {
+                    // if branching to an optional quest
+                    if (branch.To is OrNode)
+                    {
+                        style.paddingLeft = 24f;
+                        _outerQuestState.style.display = DisplayStyle.None;
+                        _innerQuestState.style.display = DisplayStyle.None;
+                        _andIcon.style.display = DisplayStyle.Flex;
+                    }
+                    else if (branch.To is AndNode)
+                    {
+                        style.paddingLeft = 24f;
+                        _outerQuestState.style.display = DisplayStyle.None;
+                        _innerQuestState.style.display = DisplayStyle.None;
+                        _orIcon.style.display = DisplayStyle.Flex;
+                    }
+                }
+            }
         }
     }
 }
