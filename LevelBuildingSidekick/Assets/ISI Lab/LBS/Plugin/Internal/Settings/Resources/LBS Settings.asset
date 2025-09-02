@@ -69,11 +69,11 @@ MonoBehaviour:
       name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 5583321183298257494
+    - rid: 5583321206072804346
   references:
     version: 2
     RefIds:
-    - rid: 5583321183298257494
+    - rid: 5583321206072804346
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
