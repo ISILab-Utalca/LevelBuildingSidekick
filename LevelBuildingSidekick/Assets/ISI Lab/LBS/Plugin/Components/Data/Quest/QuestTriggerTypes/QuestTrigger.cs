@@ -13,7 +13,7 @@ namespace ISILab.LBS
     {
         #region FIELDS
 
-        [SerializeField][HideInInspector]
+        [SerializeField][SerializeReference] 
         protected QuestNode node;
         
         [SerializeField, ReadOnly] 

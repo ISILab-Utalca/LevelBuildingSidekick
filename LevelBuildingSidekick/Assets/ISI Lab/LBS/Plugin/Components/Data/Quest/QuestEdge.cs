@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ISILab.LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -9,22 +11,25 @@ namespace ISILab.LBS.Modules
     public class QuestEdge : ICloneable
     {
         #region FIELDS
+        
         [SerializeField, SerializeReference, JsonRequired]
-        private QuestNode from;
+        private List<GraphNode> from = new();
 
         [SerializeField, SerializeReference, JsonRequired]
-        private QuestNode to;
+        private GraphNode to;
         #endregion
+        
         #region PROPERTIES
+        
         [JsonIgnore]
-        public QuestNode From
+        public List<GraphNode> From
         {
             get => from;
             set => from = value;
         }
 
         [JsonIgnore]
-        public QuestNode To
+        public GraphNode To
         {
             get => to;
             set => to = value;
@@ -36,21 +41,45 @@ namespace ISILab.LBS.Modules
         {
         }
 
-        public QuestEdge(QuestNode from, QuestNode to)
+        public QuestEdge(GraphNode from, GraphNode to)
         {
-            this.from = from;
+            this.from.Add(from);
             this.to = to;
         }
+
         #endregion
 
         #region METHODS
         public object Clone()
         {
-            return new QuestEdge(
-                CloneRefs.Get(from) as QuestNode,
-                CloneRefs.Get(to) as QuestNode
-            );
+            var clonedFrom = from
+                .Select(f => CloneRefs.Get(f) as GraphNode)
+                .ToList();
+
+            var clonedTo = CloneRefs.Get(to) as GraphNode;
+
+            return new QuestEdge
+            {
+                From = clonedFrom,
+                To = clonedTo
+            };
         }
+
+
+
+        public void AddFrom(GraphNode node)
+        {
+            if(from.Contains(node)) return;
+            from.Add(node);
+        }
+
+
+        public void RemoveFrom(GraphNode node)
+        {
+            if(!from.Contains(node)) return;
+            from.Remove(node);
+        }
+        
         #endregion
     }
 }

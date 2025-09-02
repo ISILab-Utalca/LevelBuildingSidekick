@@ -32,7 +32,9 @@ namespace ISILab.LBS.Drawers
             var zonesMod = schema.OwnerLayer.GetModule<SectorizedTileMapModule>();
             var connectionsMod = schema.OwnerLayer.GetModule<ConnectedTileMapModule>();
 
+
             PaintNewTiles(schema, teselationSize, view, zonesMod, connectionsMod);
+
             UpdateLoadedTiles(schema, teselationSize, view, zonesMod, connectionsMod);
             if (!Loaded || FullRedrawRequested)
             {
@@ -57,6 +59,10 @@ namespace ISILab.LBS.Drawers
             }
         }
 
+        protected void UpdateTileKeyRelationship(SchemaBehaviour schema)
+        {
+            Debug.Log("tiles: " + schema.Tiles.Count + "// keys: " + schema.Keys.Count);
+        }
         private void UpdateLoadedTiles(SchemaBehaviour schema, Vector2 teselationSize, MainView view,
             SectorizedTileMapModule zonesMod, ConnectedTileMapModule connectMod)
         {

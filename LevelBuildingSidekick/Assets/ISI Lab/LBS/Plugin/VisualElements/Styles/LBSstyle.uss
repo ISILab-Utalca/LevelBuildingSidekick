@@ -1302,7 +1302,6 @@ Button.lbs-actionbutton {
 }
 
 .lbs-enum-field {
-    background-color: rgb(45, 45, 45);
     padding-top: 2px;
     padding-right: 2px;
     padding-bottom: 2px;
@@ -1311,8 +1310,6 @@ Button.lbs-actionbutton {
     margin-right: 2px;
     margin-bottom: 2px;
     margin-left: 2px;
-    border-color: var(--lbs-dark-overlay-color);
-    border-width: 1px;
 }
 
 .lbs-enum-field:focus {
@@ -1371,6 +1368,10 @@ Button.lbs-actionbutton {
     border-right-color: rgba(0, 0, 0, 0.3);
     border-bottom-color: rgba(0, 0, 0, 0.3);
     border-top-color: rgba(0, 0, 0, 0.3);
+}
+
+.lbs-background-panel {
+    background-color: var(--lbs-field-solid-bg-gray-color);
 }
 
 .lbs-container-bg {
@@ -1517,7 +1518,7 @@ Button.lbs-actionbutton {
 .lbs-slide-toggle__input-knob {
     height: 16px;
     width: 20px;
-    background-color: var(--lbs-darker-solid-gray-color);
+    background-color: var(--lbs-selectable-gray-color);
     position: absolute;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
@@ -1697,6 +1698,9 @@ Button.lbs-actionbutton {
     justify-content: center;
 }
 
+.lbs-dropdown-field {
+}
+
 .lbs-text-field {
 }
 
@@ -1766,4 +1770,7 @@ Button.lbs-actionbutton {
 }
 
 .lbs-object-field {
+}
+
+.actionbutton {
 }

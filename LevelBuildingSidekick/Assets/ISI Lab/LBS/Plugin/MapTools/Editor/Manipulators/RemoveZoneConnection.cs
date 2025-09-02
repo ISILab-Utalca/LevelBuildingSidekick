@@ -13,7 +13,7 @@ namespace ISILab.LBS.Manipulators
 
         public RemoveZoneConnection()
         {
-            Name = "Remove Assistant zone connection";
+            Name = "Remove Assistant Connection";
             Description = "Click a connection between zones to remove it.";
         }
 

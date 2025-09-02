@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Components;
-using ISILab.LBS.Modules;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS
@@ -45,7 +42,7 @@ namespace ISILab.LBS
            
            _observer = observerGameObject.GetComponent<QuestObserver>();
            _observer.OnQuestAdvance +=  UpdateQuest;
-           
+
            UpdateQuest();
            MakeQuestList();
 
@@ -53,7 +50,7 @@ namespace ISILab.LBS
 
         private void UpdateQuest()
         {
-            var quest = _observer.NodeTriggerMap.Keys.ToList();
+            var quest = _observer.nodeTriggerMap.Keys.ToList();
             _questList.itemsSource = quest;
             _questList.Rebuild();
         }
@@ -63,12 +60,21 @@ namespace ISILab.LBS
             _questList.makeItem = () => new VisualElementQuest(); 
             _questList.bindItem = (element, index) =>
             {
-                var questEntryVe = element as VisualElementQuest;
-                if (questEntryVe == null) return;
-
-                var quest = _questList.itemsSource[index]; 
-               
-                questEntryVe.SetQuest(quest as QuestNode);
+                if (element is not VisualElementQuest questEntryVe) return;
+      
+                var quest = _questList.itemsSource[index];
+                
+                // Sub-triggers do not have graph use we only display quests node from graph
+                if (quest is QuestNode questNode)
+                {
+                    questEntryVe.SetQuest(questNode);
+        
+                    // only display main quest node -NO subnodes!
+                    if (questNode.Graph is not null)
+                    {
+                        questEntryVe.style.display = DisplayStyle.Flex;           
+                    }
+                }
             };
         }
         

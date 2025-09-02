@@ -194,7 +194,7 @@ namespace ISILab.LBS.VisualElements
                 
                 // Update the logical area in tile space
                 _data.Area = new Rect(posX, posY, width, height);
-                _data.Graph?.DataChanged(_data.OwnerNode);
+                _data.Graph?.NodeDataChanged(_data.OwnerNode);
 
                 _activeHandle = null;
                 RestoreManipulator();
@@ -248,12 +248,16 @@ namespace ISILab.LBS.VisualElements
 
         private void ShelfManipulator()
         {
-            // only select manipulator if we are not using it
-            if (ToolKit.Instance.GetActiveManipulatorInstance().GetType() != typeof(SelectManipulator))
+            Type ActiveManipulator = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+            bool usingAddNode = ActiveManipulator == typeof(AddGraphNode);
+            bool usingRemoveNode = ActiveManipulator == typeof(RemoveGraphNode);
+            
+            // only set select if using addnode or remove node
+            if (usingAddNode || usingRemoveNode)
             {
                 if (_prevManipulatorType is null)
                 {
-                    _prevManipulatorType = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+                    _prevManipulatorType = ActiveManipulator;
                 }
                 
                 ToolKit.Instance.SetActive(typeof(SelectManipulator));
@@ -287,7 +291,7 @@ namespace ISILab.LBS.VisualElements
             _isDragging = false;
 
             _data.Area = new Rect(Mathf.Round(GetPosition().x/GraphGridLength), -Mathf.Round(GetPosition().y/GraphGridLength), _data.Area.width, _data.Area.height);
-            _data.Graph?.DataChanged(_data.OwnerNode);
+            _data.Graph?.NodeDataChanged(_data.OwnerNode);
         }
 
         private void RestoreManipulator()

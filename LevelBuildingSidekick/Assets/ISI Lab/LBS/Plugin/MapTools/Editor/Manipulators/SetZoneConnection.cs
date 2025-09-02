@@ -20,7 +20,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new ConnectedLine();
             Feedback.fixToTeselation = false;
 
-            Name = "Add Assistant zone connection";
+            Name = "Add Assistant Connection";
             Description = "Select an start and end point between zones to create a connection.";
         }
 

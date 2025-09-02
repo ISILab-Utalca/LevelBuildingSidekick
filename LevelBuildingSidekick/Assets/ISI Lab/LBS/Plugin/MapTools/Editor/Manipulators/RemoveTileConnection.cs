@@ -24,7 +24,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new ConnectedLine();
             Feedback.fixToTeselation = true;
             
-            Name = "Remove connection";
+            Name = "Remove Manual Connection";
             Description = "Click on a connection to remove it.";
         }
 

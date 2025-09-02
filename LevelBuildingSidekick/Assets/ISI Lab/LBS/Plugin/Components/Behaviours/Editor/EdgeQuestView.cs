@@ -14,7 +14,7 @@ namespace ISILab.LBS.VisualElements
 
         private LBSEdge data;
 
-        public EdgeQuestView(LBSEdge data, QuestNodeView node1, QuestNodeView node2, int l, int stroke)
+        public EdgeQuestView(LBSEdge data, QuestActionView node1, QuestActionView node2, int l, int stroke)
         {
             // Set Data
             this.data = data;
