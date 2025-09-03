@@ -13,23 +13,6 @@ namespace ISILab.LBS.VisualElements
         
         public enum WarningType {Default, Log, Warning, Error, Success }
         
-        #region FACTORY
-        
-        // UxmlStringAttributeDescription m_Text = new UxmlStringAttributeDescription
-        // {
-        //     name = "Text",
-        //     defaultValue = "...",
-        // };
-
-        // public IEnumerable<UxmlChildElementDescription> uxmlChildElementsDescription
-        // {
-        //     get
-        //     {
-        //         yield return new UxmlChildElementDescription(typeof(VisualElement));
-        //     }
-        // }
-        
-        #endregion
 
         #region FIELDS
         

@@ -52,6 +52,7 @@
                 <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" style="height: 38px;" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Right" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Left" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=AddNode.svg?fileID=7388822144124034973&amp;guid=06654253ab4877944a9b07f8d8c82308&amp;type=3#Icon=AddNode" style="height: 41px;" />
+                <ISILab.LBS.CustomComponents.LBSCustomHeader text="LBS Sample Header" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Manipulators/Icon=AddQuest.svg?fileID=7388822144124034973&amp;guid=3d0b251f4a09bce4b9224787cfa08d49&amp;type=3#Icon=AddQuest" style="height: 34px;" />
             </ui:VisualElement>
         </ISILab.Commons.VisualElements.Editor.SplitView>
         <uie:Toolbar>
