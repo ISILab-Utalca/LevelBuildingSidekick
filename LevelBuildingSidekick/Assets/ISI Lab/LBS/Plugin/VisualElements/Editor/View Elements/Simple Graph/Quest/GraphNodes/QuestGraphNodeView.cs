@@ -97,7 +97,7 @@ namespace ISILab.LBS.VisualElements
                 _selectedGraph = this;
             }
 
-            VisualElement coloredVe = this.Q<VisualElement>("Root");
+            VisualElement coloredVe = this.Q<VisualElement>("Capsule");
             coloredVe.style.backgroundColor = new StyleColor(color);
         }
 

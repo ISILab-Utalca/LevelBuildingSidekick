@@ -142,8 +142,13 @@ namespace ISILab.LBS.VisualElements.Editor
         public MainView()
         {
             Insert(0, new GridBackground());
-            var styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MainViewUSS");
+            
+            //Style part
+            StyleSheet styleSheet = DirectoryTools.GetAssetByName<StyleSheet>("MainViewUSS");
             styleSheets.Add(styleSheet);
+            AddToClassList("lbs-graph-view");
+            RemoveFromClassList("graphView");
+            
             style.flexGrow = 1;
             
             SetBasicManipulators();

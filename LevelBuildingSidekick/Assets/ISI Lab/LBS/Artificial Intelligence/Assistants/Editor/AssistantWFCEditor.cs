@@ -145,8 +145,9 @@ namespace ISILab.LBS.AI.Assistants.Editor
             safeModeCheckbox.RegisterValueChangedCallback(evt => 
             { 
                 assistant.SafeMode = safeModeCheckbox.value;
-                if (!safeModeCheckbox.value)
-                    LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 7);
+                if (safeModeCheckbox.value)
+                    LBSMainWindow.MessageNotify("Safe Generation enabled.");
+                else LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 7);
             });
             safeModeCheckbox.SetValueWithoutNotify(assistant.SafeMode);
 
