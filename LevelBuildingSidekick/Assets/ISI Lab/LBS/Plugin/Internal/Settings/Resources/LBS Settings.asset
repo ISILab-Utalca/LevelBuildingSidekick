@@ -33,7 +33,7 @@ MonoBehaviour:
     tileSize: {x: 50, y: 50}
     baseLayerName: New Layer
   view:
-    LBSTheme: 1
+    LBSTheme: 0
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     toolkitNormalDark: {r: 0.16, g: 0.16, b: 0.16, a: 1}
     newToolkitSelected: {r: 0.21, g: 0.48, b: 0.96, a: 1}
@@ -70,11 +70,11 @@ MonoBehaviour:
       name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 5583321206072804346
+    - rid: 5583321183298257494
   references:
     version: 2
     RefIds:
-    - rid: 5583321206072804346
+    - rid: 5583321183298257494
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
