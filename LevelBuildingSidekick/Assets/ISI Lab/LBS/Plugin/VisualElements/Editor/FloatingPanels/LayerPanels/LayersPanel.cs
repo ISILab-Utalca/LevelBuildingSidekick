@@ -52,6 +52,8 @@ namespace ISILab.LBS.VisualElements.Editor
 
             _list = this.Q<ListView>("List");
 
+            _list.reorderMode = ListViewReorderMode.Simple;
+
             VisualElement MakeItem() => new LayerView();
             _list.bindItem += (item, index) =>
             {
@@ -64,7 +66,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (item is LayerView view)
                 {
                     var layer = this.Data.GetLayer(index);
-                    layer.index = _list.childCount - index;
+                    layer.index = _list.childCount - index; // childCount no devuelve el numero de elementos de la lista, es de VisualElement!!
                     if(dragAffected.Count == 0)
                     {
 
@@ -78,7 +80,8 @@ namespace ISILab.LBS.VisualElements.Editor
                     else
                     {
                         dragAffected.Remove(index);
-                        if(dragAffected.Count == 0)
+                        view.SetInfo(layer);
+                        if (dragAffected.Count == 0)
                         {
                             OnLayerOrderChange?.Invoke(layer);
                         }
