@@ -51,7 +51,20 @@ namespace ISILab.LBS.CustomComponents
             }
         }
         
-        
+        [UxmlAttribute]
+        public Color IconColor
+        {
+            get => iconColor;
+            set
+            {
+                iconColor = value;
+                if (iconVisualElement != null)
+                {
+                    iconVisualElement.tintColor = value;
+                }
+            }
+            
+        }
         
 
         #endregion
@@ -64,6 +77,7 @@ namespace ISILab.LBS.CustomComponents
         Label labelVisualElement;
         LBSCustomImage iconVisualElement;
         private VisualElement iconContainer;
+        private Color iconColor = Color.white;
 
         public LBSCustomHeader(): this("LBS Sample Header")
         {
@@ -74,7 +88,7 @@ namespace ISILab.LBS.CustomComponents
         {
             VisualTreeAsset visualTree = Macros.LBSAssetMacro.LoadAssetByGuid<VisualTreeAsset>("4b6c101d1038601419b07d23e8a28d3b"); 
             visualTree.CloneTree(this);
-            
+            //this.styleSheets =    
             iconVisualElement = this.Q<LBSCustomImage>("HeaderIcon");
             
             labelVisualElement = this.Q<Label>("HeaderLabel");
