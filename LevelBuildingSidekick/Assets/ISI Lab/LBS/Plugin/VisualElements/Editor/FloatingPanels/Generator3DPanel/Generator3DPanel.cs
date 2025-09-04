@@ -32,8 +32,8 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private readonly TextField _nameField;
         
-        private readonly Button _generateCurrLayer;
-        private readonly Button _generateAllLayers;
+        private readonly LBSCustomButton _generateCurrLayer;
+        private readonly LBSCustomButton _generateAllLayers;
 
         private readonly Toggle _buildLightProbes;
         private readonly Toggle _bakeLights;
@@ -124,11 +124,11 @@ namespace ISILab.LBS.VisualElements.Editor
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
             _reflection = this.Q<Toggle>(name: "ToggleReflection");
             
-            _generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
+            _generateCurrLayer = this.Q<LBSCustomButton>(name: "ButtonGenCurrentLayer");
             _generateCurrLayer.clicked += OnExecute;
             _generateCurrLayer.clicked += GenerateCurrentLayer;
             
-            _generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
+            _generateAllLayers = this.Q<LBSCustomButton>(name: "ButtonGenAllLayers");
             _generateAllLayers.clicked += OnExecute;
             _generateAllLayers.clicked += GenerateAllLayers;
 

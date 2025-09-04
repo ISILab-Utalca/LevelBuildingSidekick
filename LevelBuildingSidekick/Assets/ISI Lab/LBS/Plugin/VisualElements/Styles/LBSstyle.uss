@@ -285,27 +285,31 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    border-left-color: rgba(0, 0, 0, 0.3);
-    border-right-color: rgba(0, 0, 0, 0.3);
-    border-top-color: rgba(0, 0, 0, 0.3);
-    border-bottom-color: rgba(0, 0, 0, 0.3);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     align-items: center;
     justify-content: center;
     -unity-text-align: middle-center;
     padding-right: 3px;
     padding-left: 3px;
+    overflow: hidden;
 }
 
 .lbs-button:hover {
     background-color: var(--lbs-selectable-hover-color);
+    overflow: hidden;
 }
 
 .lbs-button:focus {
     border-color: var(--lbs-selection-focus-blue-color);
+    overflow: hidden;
 }
 
 .lbs-button:active {
     background-color: var(--lbs-selection-neutral-blue-color);
+    overflow: hidden;
 }
 
 .lbs-button > TextElement {
@@ -1802,4 +1806,11 @@ Button .lbs-actionbutton {
     border-right-color: var(--lbs-darker-solid-gray-color);
     border-bottom-color: var(--lbs-darker-solid-gray-color);
     border-left-color: var(--lbs-darker-solid-gray-color);
+}
+
+.lbs-button-tint-overlay {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
