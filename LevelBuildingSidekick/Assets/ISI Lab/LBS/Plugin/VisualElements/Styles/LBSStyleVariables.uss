@@ -83,7 +83,7 @@
     
     --lbs-base-solid-gray-color: rgb(217, 217, 217);
     --lbs-field-solid-bg-gray-color: rgb(174,174,174);
-    --lbs-darker-solid-gray-color: rgb(230,230, 230);
+    --lbs-darker-solid-gray-color: rgb(150,150, 150);
     --lbs-unity-6-black-color: rgb(240,240,240);
 
     --lbs-selectable-gray-color: rgb(227,227,227);

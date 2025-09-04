@@ -36,15 +36,15 @@ MonoBehaviour:
     LBSTheme: 1
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     toolkitNormalDark: {r: 0.16, g: 0.16, b: 0.16, a: 1}
-    newToolkitSelected: {r: 0.21, g: 0.48, b: 0.96, a: 1}
-    behavioursColor: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
+    newToolkitSelected: {r: 0, g: 0, b: 0, a: 1}
+    behavioursColor: {r: 0.53, g: 0.84, b: 0.96, a: 1}
     assistantColor: {r: 0.76, g: 0.96, b: 0.44, a: 1}
-    bundlesColor: {r: 0, g: 0, b: 0, a: 1}
-    tagsColor: {r: 0, g: 0, b: 0, a: 1}
+    bundlesColor: {r: 0.5, g: 0.69, b: 0.98, a: 1}
+    tagsColor: {r: 0.93, g: 0.81, b: 0.42, a: 1}
     warningColor: {r: 1, g: 0.76, b: 0.03, a: 1}
     errorColor: {r: 0.81, g: 0.13, b: 0.31, a: 1}
     okColor: {r: 1, g: 1, b: 1, a: 1}
-    successColor: {r: 0, g: 1, b: 0.68, a: 1}
+    successColor: {r: 0, g: 1, b: 0.5897913, a: 1}
     calloutColor: {r: 0.5921569, g: 0.2784314, b: 1, a: 1}
     colorTrigger: {r: 0, g: 1, b: 0.68, a: 1}
     colorKill: {r: 0.93, g: 0.33, b: 0.42, a: 1}
@@ -70,12 +70,28 @@ MonoBehaviour:
       name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 5583321206072804346
+    - rid: 717083976906310185
+    - rid: 717083976906310186
   references:
     version: 2
     RefIds:
-    - rid: 5583321206072804346
-      type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+    - rid: 717083976906310185
+      type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
+            name: DEFAULT
+            rootParentName: Root_Parent
+          rules: []
+    - rid: 717083976906310186
+      type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
