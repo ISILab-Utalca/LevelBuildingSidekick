@@ -33,7 +33,7 @@ MonoBehaviour:
     tileSize: {x: 50, y: 50}
     baseLayerName: New Layer
   view:
-    LBSTheme: 1
+    LBSTheme: 0
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     toolkitNormalDark: {r: 0.16, g: 0.16, b: 0.16, a: 1}
     newToolkitSelected: {r: 0, g: 0, b: 0, a: 1}
