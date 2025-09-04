@@ -8,6 +8,7 @@
         </ui:VisualElement>
         <ISILab.LBS.CustomComponents.LBSCustomFoldout name="ButtonsFoldout" text="Generation Actions" style="border-bottom-width: 0;">
             <ui:Button tabindex="-1" text="Generate Current Layer" display-tooltip-when-elided="true" name="ButtonGenCurrentLayer" tooltip="Generate 3D models of the current layer in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px; height: 39px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomButton tooltip="Generate 3D models of the current layer in the scene." text="Generate Current Layer" name="ButtonGenCurrentLayer" />
             <ui:Button tabindex="-1" text="Generate All Layers" display-tooltip-when-elided="true" name="ButtonGenAllLayers" tooltip="Generate 3D models of all the layers in the scene." class="lbs-button-dark" style="margin-bottom: 3px; margin-top: 3px; height: 25px;" />
             <ui:VisualElement name="AutoGenerate" tooltip="Applies any changes immediately." style="flex-grow: 0; background-color: rgba(0, 0, 0, 0); flex-direction: row; justify-content: space-between; align-self: stretch; align-items: stretch; margin-bottom: 10px; flex-shrink: 0; height: 20px; margin-top: 2px; display: none;">
                 <ui:Label tabindex="-1" text="Auto Generate (Preview)" display-tooltip-when-elided="true" name="Label" style="flex-direction: row; color: rgb(255, 255, 255); -unity-text-align: middle-left; align-self: stretch;" />

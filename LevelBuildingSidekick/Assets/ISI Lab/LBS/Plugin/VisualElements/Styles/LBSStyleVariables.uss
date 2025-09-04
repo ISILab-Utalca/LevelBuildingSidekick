@@ -92,8 +92,14 @@
     --graph-thin-line-color: rgba(20, 20, 20, 0.02);
     --graph-thick-line-color: rgba(20, 20, 20, 0.1);
 
+    /*invert default color*/
+    --lbs-dark-overlay-color: rgba(255, 255, 255, 0.3);
+    --lbs-border-white-overlay-color: rgba(0, 0, 0, 0.2);
+    
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
     --lbs-selection-dark-blue-color: rgb(54, 123, 245);
+
+    --lbs-light-blue-color: rgb(23, 73, 140);
 }
 
 .horizontal{
