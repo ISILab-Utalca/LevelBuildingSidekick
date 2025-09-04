@@ -201,6 +201,7 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-notificator {
+    background-color: var(--lbs-base-solid-gray-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;

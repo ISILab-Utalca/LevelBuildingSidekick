@@ -890,3 +890,9 @@ MonoBehaviour:
   - type: ISILab.LBS.Modules.PathOSStorage
     items:
     - {fileID: 11400000, guid: 866387a6890e135458a3470e5c459a2d, type: 2}
+  - type: UnityEngine.TextCore.Text.SpriteAsset
+    items:
+    - {fileID: 11400000, guid: 86db8113ab5fd804bb810174331bf5b4, type: 2}
+  - type: UnityEngine.TextCore.Text.FontAsset
+    items:
+    - {fileID: 11400000, guid: c5619ed3c27f66f41af19672d913ab95, type: 2}
