@@ -298,8 +298,8 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-button:hover {
-    background-color: var(--lbs-selectable-hover-color);
     overflow: hidden;
+    background-color: var(--lbs-selectable-hover-color);
 }
 
 .lbs-button:focus {
@@ -1813,4 +1813,5 @@ Button .lbs-actionbutton {
     width: 100%;
     height: 100%;
     position: absolute;
+    opacity: 0.15;
 }

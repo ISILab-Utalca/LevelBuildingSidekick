@@ -33,13 +33,14 @@
 }
 
 .unity-button__image {
-    -unity-background-image-tint-color: rgb(0, 0, 0);
+    -unity-background-image-tint-color:var(--lbs-default-icon-color);
 }
 
 .unity-image {
+    -unity-background-image-tint-color: var(--lbs-default-icon-color);
 }
 
-ObjectFieldDisplay{
+ObjectFieldDisplay {
     border-color: var(--lbs-dark-overlay-color);
     border-width: 1px;
     background-color: var(--lbs-field-solid-bg-gray-color);
@@ -48,4 +49,3 @@ ObjectFieldDisplay{
     min-width: 32px;
     flex-shrink: 1;
 }
-

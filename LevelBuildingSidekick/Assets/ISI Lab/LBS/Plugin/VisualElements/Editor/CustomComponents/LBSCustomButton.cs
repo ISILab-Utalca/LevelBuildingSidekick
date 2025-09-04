@@ -50,7 +50,7 @@ namespace ISILab.LBS.CustomComponents
             this.Add(tintOverlayElement);
             tintOverlayElement.SendToBack();
             tintOverlayElement.style.position = Position.Absolute;
-            
+            tintOverlayElement.pickingMode = PickingMode.Ignore;
             if (baseTint != Color.white)
             {
                 tintOverlayElement.style.backgroundColor = new StyleColor(baseTint);
