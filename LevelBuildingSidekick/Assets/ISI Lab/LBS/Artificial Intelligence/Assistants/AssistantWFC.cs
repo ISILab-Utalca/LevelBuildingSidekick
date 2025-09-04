@@ -13,6 +13,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
+
 
 
 
@@ -541,6 +543,61 @@ namespace ISILab.LBS.Assistants
 
             return true;
         }
+
+        //out string errMsg
+
+        public bool CaptureRules()
+        {
+            //errMsg = null;
+
+            // TO DO
+            // Take the tiles that are currently present in the owner layer,
+            // then for each tile, get it's tags so they can be compared with one another
+            // to finally be able to assign specific rules to how the tiles should go for the WFC.
+
+            List<TileRule> tileRules = new List<TileRule>();
+
+            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().
+                Pairs.OrderBy(t => t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+            if (pairs.Count == 0)
+            {
+                //errMsg = "Empty map! Could not capture its weights.";
+                return false;
+            }
+
+            //ArrangeListByPosition(pairs);
+
+            foreach (var p in pairs)
+            {
+                Debug.Log($"Tile {p.Tile.Position} Connections: {string.Join(", ", p.Connections)}");
+
+                if (!tileRules.Any())
+                {
+                    TileRule currentTile = new TileRule();
+                    currentTile.tile = p.Tile;
+
+                    tileRules.Add(currentTile);
+                }
+            }
+
+            //var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+
+            //Selection.activeObject = targetBundleRef;
+
+            return true;
+        }
+
+        private struct TileRule
+        {
+            public LBSTile tile;
+            public List<string> validConnections;
+        }
+
+        private void ArrangeListByPosition(List<TileConnectionsPair> tiles)
+        {
+            tiles = tiles.OrderBy(t => t.Tile.Position.x).ThenBy(t => t.Tile.Position.y).ToList();
+        }
+
 
         public bool SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset, out string errMsg)
         {
