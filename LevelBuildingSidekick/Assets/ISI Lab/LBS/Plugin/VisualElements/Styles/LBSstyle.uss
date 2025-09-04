@@ -69,11 +69,11 @@ Label {
 }
 
 .lbs-default-container-panel {
-    background-color: var(--unity-colors-toolbar-background);
-    border-left-color: var(--unity-colors-default-border);
-    border-right-color: var(--unity-colors-default-border);
-    border-top-color: var(--unity-colors-default-border);
-    border-bottom-color: var(--unity-colors-default-border);
+    background-color: var(--lbs-base-solid-gray-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -201,6 +201,7 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-notificator {
+    background-color: var(--lbs-base-solid-gray-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
