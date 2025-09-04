@@ -40,6 +40,8 @@ namespace ISILab.LBS
             set => node = value;
         }
 
+        public GraphNode OwnerBranchNode { get; set; }
+
         #endregion
        
         #region EVENTS
