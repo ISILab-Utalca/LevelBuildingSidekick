@@ -1,0 +1,3 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ISILab.LBS.CustomComponents.LBSCustomTreeView tree-data-asset="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/AppIcon_24.svg?fileID=7388822144124034973&amp;guid=686cbcf439056ef44a2923e63463db01&amp;type=3#AppIcon_24" />
+</ui:UXML>

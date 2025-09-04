@@ -3,7 +3,7 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
     <ui:VisualElement class="alt" style="flex-grow: 1;">
-        <ISILab.LBS.CustomComponents.LBSCustomTreeView field="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/AppIcon_24.svg?fileID=7388822144124034973&amp;guid=686cbcf439056ef44a2923e63463db01&amp;type=3#AppIcon_24" />
+        <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple" />
         <uie:Toolbar name="Toolbar" class="lbs-toolbar">
             <uie:ToolbarButton text="Button" />
             <uie:ToolbarToggle label="Toggle" />
