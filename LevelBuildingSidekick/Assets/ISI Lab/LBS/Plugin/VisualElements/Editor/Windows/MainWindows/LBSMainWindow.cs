@@ -252,6 +252,7 @@ namespace ISILab.LBS.Editor.Windows{
             #region LOAD SCRIPTABLES
 
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
+            layerTemplates.Sort((a, b) => a.order.CompareTo(b.order));
 
             #endregion
 
@@ -544,7 +545,6 @@ namespace ISILab.LBS.Editor.Windows{
             if (_selectedLayer is not null)
             {
                 _selectedLayer.OnChangeUpdate();
-
             }
             _selectedLayer = layer;
            
@@ -596,7 +596,12 @@ namespace ISILab.LBS.Editor.Windows{
 
         private void UNDO()
         {
-            if(_selectedLayer is not null ) DrawManager.Instance.RedrawLayer(_selectedLayer);
+            //So for some reason, THIS executes about 3-4 times every time it's executed. I have NO idea why this is and at this point I'm too scared to ask. -Alice
+            if (_selectedLayer is not null)
+            {
+                _selectedLayer.OnChangeUpdate();
+                DrawManager.Instance.RedrawLayer(_selectedLayer);
+            }
             else DrawManager.ReDraw();
             
             LBSInspectorPanel.ReDraw();

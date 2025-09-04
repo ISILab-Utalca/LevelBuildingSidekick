@@ -36,6 +36,7 @@ namespace ISILab.LBS
             _questLabel = this.Q<Label>("Action");
             _outerQuestState = this.Q<VisualElement>("Outer");
             _innerQuestState = this.Q<VisualElement>("Inner");
+            
             return this;
         }
 
@@ -49,27 +50,32 @@ namespace ISILab.LBS
 
             var color = Color.gray;
             bool closed = false;
+            bool display = false;
             switch (questNode.QuestState)
             {
-                case QuestState.Blocked: 
-                    // hide: display = false;
+                case QuestState.Blocked:
                     break;
                 case QuestState.Active:
                     color = Color.white;
+                    display = true;
                     break;
                 case QuestState.Completed:
                     color = LBSSettings.Instance.view.successColor;
+                    display = true;
                     closed = true;
                     break;
                 case QuestState.Failed:
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
+                    display = true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
             
-            style.display = DisplayStyle.Flex;
+            var parentVe = parent;
+         //   if(parentVe is not null) parentVe.style.display = display ? DisplayStyle.Flex : DisplayStyle.None;
+            
             
             _outerQuestState.style.borderBottomColor = color;
             _outerQuestState.style.borderTopColor = color;

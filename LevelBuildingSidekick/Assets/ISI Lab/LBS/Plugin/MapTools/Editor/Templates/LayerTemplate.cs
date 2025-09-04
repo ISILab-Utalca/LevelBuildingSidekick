@@ -16,6 +16,9 @@ namespace ISILab.LBS.Template
         public string templateName;
 
         [JsonRequired, SerializeField]
+        public int order;
+
+        [JsonRequired, SerializeField]
         public LBSLayer layer;
 
         [JsonIgnore]

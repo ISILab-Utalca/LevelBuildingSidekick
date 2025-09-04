@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Exterior Layer
   m_EditorClassIdentifier: 
   templateName: Exterior Layer/Edge-based
+  order: 20
   layer:
     visible: 1
     blocked: 0

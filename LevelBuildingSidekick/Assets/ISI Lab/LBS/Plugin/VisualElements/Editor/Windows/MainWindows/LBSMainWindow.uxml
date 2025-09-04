@@ -3,7 +3,7 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; flex-direction: row; position: absolute; width: 100%; height: 100%; visibility: visible; opacity: 1; overflow: visible;">
-        <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" style="flex-grow: 1; width: auto; height: auto; visibility: visible; display: flex; -unity-text-align: upper-left;">
+        <ISILab.LBS.VisualElements.Editor.MainView focusable="true" name="MainView" tabindex="0" class="lbs-graph-view" style="flex-grow: 1; width: auto; height: auto; visibility: visible; display: flex; -unity-text-align: upper-left;">
             <ui:VisualElement name="HelpOverlayAnchor" style="flex-grow: 1; position: absolute; height: 26px; width: 30px; top: 32px; left: 72px;" />
         </ISILab.LBS.VisualElements.Editor.MainView>
     </ui:VisualElement>
@@ -54,7 +54,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="ExtraToolsBar" class="lbs-container-bg" style="overflow: visible; position: relative; height: auto; width: 32px; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 0; flex-shrink: 0; border-left-width: 1px; border-right-width: 1px; border-left-color: rgba(29, 29, 29, 0.6); border-right-color: rgba(29, 29, 29, 0.6); border-top-color: rgba(29, 29, 29, 0.6); border-bottom-color: rgba(29, 29, 29, 0.6); flex-basis: auto; max-width: 48px; min-width: 48px; align-items: stretch; flex-direction: column; justify-content: flex-start; margin-left: 1px; margin-top: -1px;">
+            <ui:VisualElement name="ExtraToolsBar" class="lbs-background-panel" style="overflow: visible; position: relative; height: auto; width: 32px; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 0; flex-shrink: 0; flex-basis: auto; max-width: 48px; min-width: 48px; align-items: stretch; flex-direction: column; justify-content: flex-start; margin-left: 1px; margin-top: -1px;">
                 <ui:VisualElement style="flex-grow: 0; border-bottom-width: 1px; height: 8px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35);" />
                 <ui:Button tabindex="-1" text="AI" display-tooltip-when-elided="true" name="AIButton" tooltip="Display available assistant window for the layer type" style="border-left-color: rgba(0, 0, 0, 0.6); border-right-color: rgba(0, 0, 0, 0.6); border-top-color: rgba(0, 0, 0, 0.6); border-bottom-color: rgba(0, 0, 0, 0.6); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 1px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 30px; background-image: url(&quot;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade%201.png?fileID=2800000&amp;guid=c86acac07209fcc41a17cab77404a8b9&amp;type=3#Fade 1&quot;); -unity-background-image-tint-color: rgba(0, 0, 0, 0.2); align-items: center; justify-content: space-around; -unity-font-style: bold; font-size: 18px; color: rgb(195, 196, 195); display: none;" />
                 <ui:Toggle value="false" focusable="true" name="LayerToggle" tooltip="Layers Panel" class="lbs-tool-button-toggle" style="flex-direction: row-reverse; color: rgb(58, 58, 58); height: 40px; width: auto;">
@@ -70,7 +70,7 @@
                     <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
                 </ui:Toggle>
                 <ui:VisualElement name="Separator" style="flex-grow: 0; border-bottom-width: 1px; height: 2px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35); margin-top: 2px; margin-bottom: 2px;" />
-                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: column-reverse; justify-content: flex-end;">
+                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; flex-direction: column-reverse; justify-content: flex-end;">
                     <ui:Toggle value="false" focusable="true" name="LayerDataButton" tooltip="Layer Data" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
                         <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Editor&apos;);" />
                     </ui:Toggle>

@@ -7,6 +7,7 @@
         </engine:VisualElement>
         <engine:VisualElement name="MiddleZone" style="flex-grow: 1; align-items: center; justify-content: center; padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; overflow: hidden; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); margin-top: 3px; margin-right: 3px; margin-bottom: 3px; margin-left: 3px;">
             <engine:VisualElement name="Thumbnail" style="flex-grow: 0; flex-shrink: 0; height: 128px; width: 128px; background-color: rgb(255, 0, 255); bottom: 0; right: 0; top: auto; left: auto; align-items: center;">
+                <engine:VisualElement name="Frame" style="flex-grow: 1; position: absolute; right: -10px; bottom: -10px; left: -10px; top: -10px; background-image: url(&quot;project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/rect_frame_sides.svg?fileID=7388822144124034973&amp;guid=f0de0c827bb8a654e8cc48b71ca0b057&amp;type=3#rect_frame_sides&quot;);" />
                 <engine:VisualElement enabled="true" style="flex-grow: 0; position: relative; top: -64px; left: auto; height: 32px; width: 192px; justify-content: flex-start; align-self: auto; align-content: flex-start; align-items: stretch; flex-shrink: 1; flex-direction: column;">
                     <ISILab.LBS.CustomComponents.LBSCustomDropdown name="UpDirectionDropdown" label="Up" icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/Windows/BundleDirectionsWindows/ConnectionIcons/Type=Top.svg?fileID=7388822144124034973&amp;guid=936e2d6abda898d4cbe48a669d82c9d8&amp;type=3#Type=Top" icon-position="Left" enabled="true" class="lbs-field-box-container" />
                 </engine:VisualElement>
@@ -37,6 +38,7 @@
         <engine:VisualElement name="LowerBar" class="lbs-box-container" style="flex-grow: 0; height: 32px; flex-direction: row-reverse;">
             <ISILab.LBS.CustomComponents.LBSCustomButton text="Save" name="SaveButton" style="flex-grow: 0; flex-shrink: 0; width: 72px;" />
             <ISILab.LBS.CustomComponents.LBSCustomButton text="Revert" name="RevertButton" style="flex-grow: 0; width: 64px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField name="ZoomScaleInt" label="Zoom Scale" max-length="100" value="2" class="lbs-field-box-container" style="width: 260px; position: absolute; right: 4px; top: -41px;" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

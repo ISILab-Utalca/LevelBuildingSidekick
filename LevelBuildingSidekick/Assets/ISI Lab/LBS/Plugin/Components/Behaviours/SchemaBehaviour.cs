@@ -10,6 +10,7 @@ using LBS.Components.TileMap;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -108,11 +109,17 @@ namespace ISILab.LBS.Behaviours
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;
+            layer.OnChange += UpdateKeys;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             OwnerLayer = null;
+            layer.OnChange -= UpdateKeys;
+        }
+        public void UpdateKeys()
+        {
+            UpdateKeys(Tiles.ToList<object>());
         }
 
         public LBSTile AddTile(Vector2Int position, Zone zone)
@@ -125,7 +132,7 @@ namespace ISILab.LBS.Behaviours
             areas.AddTile(tile, zone);
             
             RequestTilePaint(tile);
-            
+
             return tile;
         }
 

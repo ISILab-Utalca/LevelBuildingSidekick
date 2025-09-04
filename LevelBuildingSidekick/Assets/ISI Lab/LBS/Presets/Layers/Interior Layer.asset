@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Interior Layer
   m_EditorClassIdentifier: 
   templateName: Interior Layer
+  order: 10
   layer:
     visible: 1
     blocked: 0
@@ -116,6 +117,7 @@ MonoBehaviour:
             rootParentName: Root_Parent
           index: 0
         connectedDirections: 4
+        gridType: 0
         pairs: []
     - rid: 6598277660977397762
       type: {class: SectorizedTileMapModule, ns: ISILab.LBS.Modules, asm: LBS}

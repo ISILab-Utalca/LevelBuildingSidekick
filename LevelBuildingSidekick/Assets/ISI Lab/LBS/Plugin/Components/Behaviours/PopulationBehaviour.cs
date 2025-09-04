@@ -201,13 +201,22 @@ namespace ISILab.LBS.Behaviours
 
             tileMap = OwnerLayer.GetModule<TileMapModule>();
             _bundleTileMap = OwnerLayer.GetModule<BundleTileMap>();
+            layer.OnChange += UpdateKeys;
+
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             OwnerLayer = null;
+            layer.OnChange -= UpdateKeys;
+
         }
-        
+
+        public void UpdateKeys()
+        {
+            UpdateKeys(Tilemap.ToList<object>());
+        }
+
         private void ReplaceTile(TileBundleGroup tile)
         {
             RequestTileRemove(tile);

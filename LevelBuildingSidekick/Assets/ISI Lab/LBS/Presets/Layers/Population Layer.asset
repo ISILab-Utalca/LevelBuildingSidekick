@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Population Layer
   m_EditorClassIdentifier: 
   templateName: Population Layer
+  order: 30
   layer:
     visible: 1
     blocked: 0

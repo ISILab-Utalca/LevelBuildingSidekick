@@ -29,7 +29,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new ConnectedLine();
             Feedback.fixToTeselation = true;
 
-            Name = "Set connection";
+            Name = "Set Manual Connection";
             Description = "Draw across a zone's border to generate a connection.";
         }
 

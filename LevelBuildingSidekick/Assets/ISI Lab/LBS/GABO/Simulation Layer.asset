@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Simulation Layer
   m_EditorClassIdentifier: 
   templateName: Simulation Layer
+  order: 50
   layer:
     visible: 1
     blocked: 0
