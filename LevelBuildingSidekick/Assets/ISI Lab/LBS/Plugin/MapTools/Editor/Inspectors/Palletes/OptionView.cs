@@ -65,6 +65,7 @@ namespace LBS.VisualElements
             this.label = this.Q<Label>();
             this.icon = this.Q<VisualElement>("Icon");
             this.border = this.Q<VisualElement>("Border");
+            border.SetBorder(border.style.backgroundColor.value, 2);
             this.button = this.Q<Button>();
             button.clicked += () => { 
                 this.OnSelect?.Invoke(target);
@@ -118,7 +119,7 @@ namespace LBS.VisualElements
             }
             else
             {
-                border.SetBorder(nonSelected, 0);
+                border.SetBorder(nonSelected, 2);
                 border.style.backgroundColor = nonSelected;
             }
         }
