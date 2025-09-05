@@ -11,6 +11,7 @@ using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ISILab.LBS.Modules
 {
@@ -193,37 +194,42 @@ namespace ISILab.LBS.Modules
 
         public GraphNode AddNewNode(QuestBehaviour behaviour, Vector2 pos)
         {
+            if (behaviour.activeGraphNodeType is null) return null;
+
+            // adding a quest action node
             if (behaviour.activeGraphNodeType == typeof(QuestNode))
                 return AddNewQuestNode(behaviour.ActionToSet, pos);
 
-            if (behaviour.activeGraphNodeType == typeof(OrNode))
-            {
-                var node = new OrNode(pos, this);
-                AddNodeToGraph(node);
-                return node;
-            }
+            // adding a branching node
+            GraphNode node = behaviour.activeGraphNodeType == typeof(OrNode)
+                     ? new OrNode(string.Empty, pos, this)
+                     : new AndNode(string.Empty, pos, this);
 
-            if (behaviour.activeGraphNodeType == typeof(AndNode))
-            {
-                var node = new AndNode(pos, this);
-                AddNodeToGraph(node);
-                return node;
-            }
-
-            return null;
+            node.ID = GenerateUniqueId(node.ToString(), GraphNodes.Select(n => n.ID));
+            AddNodeToGraph(node);
+            return node;
         }
 
         public QuestNode AddNewQuestNode(string action, Vector2 pos)
         {
-            int suffix = 0;
-            string id;
-            do { id = $"{action} ({suffix++})"; }
-            while (GetQuestNodes().Any(n => n.ID == id));
-
+            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
             var node = new QuestNode(id, pos, action, this);
             AddNodeToGraph(node);
             return node;
         }
+
+        private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
+        {
+            if (!existingIds.Contains(baseName))
+                return baseName;
+
+            int suffix = 1;
+            string id;
+            do { id = $"{baseName} ({suffix++})"; }
+            while (existingIds.Contains(id));
+            return id;
+        }
+
 
         public void AddNodeToGraph(GraphNode node)
         {

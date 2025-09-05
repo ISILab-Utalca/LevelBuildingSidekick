@@ -4,7 +4,7 @@
             <engine:Label text="Quests" name="Label" style="align-self: auto; align-content: auto; justify-content: space-evenly; align-items: auto; color: rgb(255, 255, 255); -unity-text-align: upper-center; padding-left: 2px; border-bottom-width: 0; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); flex-grow: 1; font-size: 24px; flex-shrink: 1; border-top-width: 0; border-right-width: 0; border-left-width: 0;" />
         </engine:VisualElement>
         <engine:VisualElement picking-mode="Ignore" style="flex-grow: 1; border-left-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-top-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-right-width: 3px; align-self: auto; align-content: auto; flex-direction: row; align-items: auto; justify-content: flex-start; border-top-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
-            <engine:TreeView name="QuestTree" picking-mode="Ignore" focusable="false" selection-type="None" style="flex-direction: column; align-self: flex-start; transform-origin: left top; scale: 3 3;" />
+            <engine:TreeView name="QuestTree" picking-mode="Ignore" focusable="false" selection-type="None" style="flex-direction: column; align-self: flex-start; transform-origin: left top; scale: 1 1;" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

@@ -193,8 +193,6 @@ namespace ISILab.LBS.Generators
         
         private static void CreateBranchNodeComponents(QuestGraph quest, QuestTracker tracker, Dictionary<QuestNode, GameObject> questNodeGameObjects)
         {
-            int orID = 0, andID = 0;
-
             // Group edges by destination branch node
             var branchGroups = quest.GraphEdges
                 .Where(e => e.To is AndNode || e.To is OrNode)
@@ -206,19 +204,9 @@ namespace ISILab.LBS.Generators
                 GameObject branchGameObject;
                 QuestTriggerBranch triggerBranchComponent;
 
-                if (branchNode is OrNode)
-                {
-                    branchGameObject = new GameObject($"OR_{orID++}") { transform = { parent = tracker.transform } };
-                    triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
-                }
-                else if (branchNode is AndNode)
-                {
-                    branchGameObject = new GameObject($"AND_{andID++}") { transform = { parent = tracker.transform } };
-                    triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
-                }
-                else
-                    continue;
-
+                branchGameObject = new GameObject($"{branchNode.ID}") { transform = { parent = tracker.transform } };
+                triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
+       
                 // Assign child triggers
                 var childGameObjects = group.SelectMany(e => e.From.Cast<QuestNode>().Select(n => questNodeGameObjects[n]))
                                             .Distinct()

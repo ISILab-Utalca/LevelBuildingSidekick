@@ -45,10 +45,10 @@ namespace ISILab.LBS
         #region Setters
 
         /// <summary>Assigns child triggers directly.</summary>
-        public void SetChildTriggers(List<GameObject> triggers) => childObjects = triggers;
+        public void SetChildTriggers(List<GameObject> triggersGo) => childObjects = triggersGo;
 
         /// <summary>Assigns the destination trigger to activate when branch conditions are satisfied.</summary>
-        public void SetDestinationTrigger(GameObject trigger) => destinationObject = trigger;
+        public void SetDestinationTrigger(GameObject triggerGo) => destinationObject = triggerGo;
 
         #endregion
 
@@ -102,6 +102,22 @@ namespace ISILab.LBS
         
         #endregion
 
-        
+
+        public void OnProgress()
+        {
+            // child (required actions) have been completed
+            foreach (var child in ChildObjects)
+            {
+                var trigger =  child.GetComponent<QuestTrigger>();
+                if(trigger is null) continue;
+                
+                trigger.IsCompleted = true;
+                trigger.Node.QuestState = QuestState.Completed;
+                child.SetActive(false);
+            }
+            
+            // activate next action
+            DestinationObject.SetActive(true);
+        }
     }
 }

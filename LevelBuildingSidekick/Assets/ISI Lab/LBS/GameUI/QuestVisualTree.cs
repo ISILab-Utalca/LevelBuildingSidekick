@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Serialization;
 
 namespace ISILab.LBS
@@ -67,7 +68,11 @@ namespace ISILab.LBS
             var rootItems = new List<TreeViewItemData<QuestObjective>>();
             foreach (var rootObjective in objectives)
             {
-                rootItems.Add(BuildTreeRecursive(rootObjective));
+                if (rootObjective.Trigger.OwnerBranchNode is null)
+                {
+                    rootItems.Add(BuildTreeRecursive(rootObjective));
+                }
+              
             }
 
             // Assign tree root

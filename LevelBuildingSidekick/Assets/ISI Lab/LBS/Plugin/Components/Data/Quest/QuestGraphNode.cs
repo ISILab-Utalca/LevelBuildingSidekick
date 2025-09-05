@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Components
 {
@@ -16,12 +17,16 @@ namespace ISILab.LBS.Components
     public abstract class GraphNode : ICloneable
     {
         #region FIELDS
+
+        [SerializeField, JsonRequired]
+        private string id = "";
+
         [SerializeField, JsonRequired]
         protected bool validGrammar;
 
         [SerializeField, JsonRequired]
         protected bool validConnections;
-        
+
         [SerializeField, HideInInspector, JsonRequired]
         protected int x;
 
@@ -33,6 +38,7 @@ namespace ISILab.LBS.Components
 
         [SerializeField]
         protected Rect nodeViewRect;
+
         #endregion
 
         #region PROPERTIES
@@ -41,6 +47,13 @@ namespace ISILab.LBS.Components
         {
             get => graph;
             set => graph = value;
+        }
+
+        [JsonIgnore]
+        public string ID
+        {
+            get => id;
+            set => id = value;
         }
 
         [JsonIgnore]
@@ -60,7 +73,7 @@ namespace ISILab.LBS.Components
             get => validGrammar;
             set => validGrammar = value;
         }
-        
+
         [JsonIgnore]
         public bool ValidConnections
         {
@@ -88,8 +101,9 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTORS
         protected GraphNode() { }
 
-        protected GraphNode(Vector2 position, QuestGraph graph)
+        protected GraphNode(string id, Vector2 position, QuestGraph graph)
         {
+            this.id = id;
             x = (int)position.x;
             y = (int)position.y;
             this.graph = graph;
@@ -102,18 +116,30 @@ namespace ISILab.LBS.Components
         public object Clone()
         {
             var clone = CreateCloneInstance();
+
+            // ✅ Ensure ID is copied for all nodes
+            clone.ID = ID;
+
             clone.validGrammar = validGrammar;
+            clone.validConnections = validConnections;
             clone.nodeViewRect = nodeViewRect;
             clone.x = x;
             clone.y = y;
+            clone.graph = graph;
+
             return clone;
         }
 
         protected abstract GraphNode CreateCloneInstance();
 
         public abstract override string ToString();
-        
+
         public abstract bool isValid();
+
+        public bool Equal(GraphNode other)
+        {
+            return nodeViewRect == other.nodeViewRect;
+        }
         #endregion
     }
 
@@ -121,11 +147,11 @@ namespace ISILab.LBS.Components
     [Serializable]
     public class OrNode : GraphNode
     {
-        public OrNode(Vector2 position, QuestGraph graph) : base(position, graph) { }
+        public OrNode(string id, Vector2 position, QuestGraph graph) : base(id, position, graph) { }
 
         protected override GraphNode CreateCloneInstance()
         {
-            return new OrNode(Position, graph);
+            return new OrNode(ID, Position, graph);
         }
 
         public override string ToString()
@@ -143,18 +169,18 @@ namespace ISILab.LBS.Components
     [Serializable]
     public class AndNode : GraphNode
     {
-        public AndNode(Vector2 position, QuestGraph graph) : base(position, graph) { }
+        public AndNode(string id, Vector2 position, QuestGraph graph) : base(id, position, graph) { }
 
         protected override GraphNode CreateCloneInstance()
         {
-            return new AndNode(Position, graph);
+            return new AndNode(ID, Position, graph);
         }
 
         public override string ToString()
         {
             return "And";
         }
-        
+
         public override bool isValid()
         {
             return ValidConnections;
@@ -176,9 +202,6 @@ namespace ISILab.LBS.Components
         private BaseQuestNodeData nodeData;
 
         [SerializeField, JsonRequired]
-        private string id = "";
-
-        [SerializeField, JsonRequired]
         private string questAction = "";
 
         [SerializeField, JsonRequired]
@@ -194,13 +217,6 @@ namespace ISILab.LBS.Components
         {
             get => nodeData;
             set => nodeData = value;
-        }
-
-        [JsonIgnore]
-        public string ID
-        {
-            get => id;
-            set => id = value;
         }
 
         [JsonIgnore]
@@ -228,9 +244,8 @@ namespace ISILab.LBS.Components
         #region CONSTRUCTORS
         private QuestNode() : base() { }
 
-        public QuestNode(string id, Vector2 position, string action, QuestGraph graph) : base(position, graph)
+        public QuestNode(string id, Vector2 position, string action, QuestGraph graph) : base(id, position, graph)
         {
-            this.id = id;
             questAction = action;
             nodeType = ENodeType.Middle;
             InstanceDataByAction(action);
@@ -246,7 +261,7 @@ namespace ISILab.LBS.Components
 
         protected override GraphNode CreateCloneInstance()
         {
-            var clone = new QuestNode(id, Position, questAction, graph)
+            var clone = new QuestNode(ID, Position, questAction, graph)
             {
                 nodeType = nodeType,
                 questState = questState,
@@ -255,19 +270,17 @@ namespace ISILab.LBS.Components
             return clone;
         }
 
-
         public override string ToString()
         {
             return questAction;
         }
-        
+
         public override bool isValid()
         {
             return ValidConnections & ValidGrammar;
         }
-        
-        
+
         #endregion
     }
-    
+
 }
