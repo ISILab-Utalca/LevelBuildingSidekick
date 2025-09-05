@@ -222,8 +222,8 @@ namespace ISILab.LBS.VisualElements
             type.SetValueWithoutNotify(behaviour.SelectedFilter); 
             warningPanel.SetDisplay(false);
             bundlePallete.DisplayContent(true);
-            var bundles = _collection.Collection;
-            var candidates = new List<Bundle>();
+            List<Bundle> bundles = _collection.Collection;
+            List<Bundle> candidates = new();
             if (type.value == behaviour.allFilter)
             {
                 candidates = bundles
@@ -236,7 +236,8 @@ namespace ISILab.LBS.VisualElements
                     .ToList();
             }
             bundlePallete.ShowGroups = false;
-            candidates.Sort((b1, b2) => b1.Name.CompareTo(b2.Name));
+
+            candidates.Sort((b1, b2) => b1.BundleName.CompareTo(b2.BundleName));
             var options = new object[candidates.Count];
             for (int i = 0; i < candidates.Count; i++)
             {
@@ -247,7 +248,7 @@ namespace ISILab.LBS.VisualElements
             bundlePallete.SetOptions(options, (optionView, option) =>
             {
                 var bundle = (Bundle)option;
-                optionView.Label = bundle.name;
+                optionView.Label = bundle.BundleName;
                 optionView.Color = bundle.Color;
                 optionView.Icon = bundle.Icon;
             });
@@ -256,8 +257,6 @@ namespace ISILab.LBS.VisualElements
             behaviour.BundleCollection = _collection;
             
             bundlePallete.Repaint();
-            
-            
         }
 
         private void SetCollection(BundleCollection collection)

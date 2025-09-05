@@ -58,16 +58,6 @@ namespace LBS.Bundles
         {
             layerContentFlags = BundleFlags.None;
         }
-        
-        // Add a flags field
-        [FormerlySerializedAs("flags")] [SerializeField]
-        private BundleFlags layerContentFlags;
-
-        public BundleFlags LayerContentFlags
-        {
-            set => layerContentFlags = value;
-            get => layerContentFlags;
-        }
 
         public enum TagType
         {
@@ -86,8 +76,18 @@ namespace LBS.Bundles
             Prop, // static mesh
             Misc // non categorized
         }
-        
+
         #region FIELDS
+
+        [FormerlySerializedAs("populationName")]
+        [SerializeField]
+        private string bundleName;
+
+        // Add a flags field
+        [FormerlySerializedAs("flags")]
+        [SerializeField]
+        private BundleFlags layerContentFlags;
+
         [SerializeField]
         private TagType type;
 
@@ -127,6 +127,19 @@ namespace LBS.Bundles
         #endregion
 
         #region PROPERTIES
+
+        public string BundleName
+        {
+            get => string.IsNullOrEmpty(bundleName) ? Name : bundleName;
+            set => bundleName = value;
+        }
+
+        public BundleFlags LayerContentFlags
+        {
+            get => layerContentFlags;
+            set => layerContentFlags = value;
+        }
+
         public VectorImage Icon
         {
             get => !icon ? null : icon;
