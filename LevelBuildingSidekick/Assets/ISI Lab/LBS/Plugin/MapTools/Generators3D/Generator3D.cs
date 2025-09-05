@@ -47,6 +47,7 @@ namespace ISILab.LBS.Generators
             public bool replacePrevious = true;
 
             [SerializeField]
+            [HideInInspector]
             public string name = "DEFAULT";
             
             [SerializeField]
