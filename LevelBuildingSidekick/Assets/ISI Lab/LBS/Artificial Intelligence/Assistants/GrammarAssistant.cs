@@ -107,7 +107,7 @@ namespace ISILab.LBS.Assistants
                 foreach (var from in rootEdge.From)
                 {
                     // a quest node was found as root, get its grammar value
-                    if (from.GetType() == typeof(QuestNode) & !from.isValid())
+                    if (from.GetType() == typeof(QuestNode) & !from.IsValid())
                     {
                         // atleast one of the roots is not of valid grammar
                         return false;

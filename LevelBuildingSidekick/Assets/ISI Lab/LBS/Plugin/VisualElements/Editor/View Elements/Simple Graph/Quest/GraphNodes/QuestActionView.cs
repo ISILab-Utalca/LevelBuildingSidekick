@@ -153,7 +153,7 @@ namespace ISILab.LBS.VisualElements
             
             _iconNodeDataInvalid.style.display = qn.NodeData.IsValid() ? DisplayStyle.None : DisplayStyle.Flex;
             _iconGrammarInvalid.style.display = node.ValidGrammar ? DisplayStyle.None : DisplayStyle.Flex;
-            this.Q<VisualElement>("Capsule").SetBorder(node.isValid() ? ValidGrammarColor : InvalidGrammarColor, 1f);
+            this.Q<VisualElement>("Capsule").SetBorder(node.IsValid() ? ValidGrammarColor : InvalidGrammarColor, 1f);
         }
         #endregion
 

@@ -86,7 +86,7 @@ namespace ISILab.LBS.VisualElements
             var color = DefaultBackgroundColor;
             if (isSelected)
             {
-                color = Node.isValid() ? ValidGrammarColor : InvalidGrammarColor;
+                color = Node.IsValid() ? ValidGrammarColor : InvalidGrammarColor;
         
                 // Blend color to simulate the alpha effect
                 float r = color.r * Alpha; 

@@ -2,7 +2,6 @@
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Components
 {
@@ -87,7 +86,7 @@ namespace ISILab.LBS.Components
             get => nodeViewRect;
             set
             {
-                // to avoid assigning the view Rect thats undefined (the visual element is being layed out)
+                // to avoid assigning the view Rect that's undefined (the visual element is being laid out)
                 if (!float.IsFinite(value.size.x) || !float.IsFinite(value.size.y)) return;
                 if (value.size == Vector2.zero || value.size == Vector2.one) return;
 
@@ -134,7 +133,7 @@ namespace ISILab.LBS.Components
 
         public abstract override string ToString();
 
-        public abstract bool isValid();
+        public abstract bool IsValid();
 
         public bool Equal(GraphNode other)
         {
@@ -159,7 +158,7 @@ namespace ISILab.LBS.Components
             return "Or";
         }
 
-        public override bool isValid()
+        public override bool IsValid()
         {
             return ValidConnections;
         }
@@ -181,7 +180,7 @@ namespace ISILab.LBS.Components
             return "And";
         }
 
-        public override bool isValid()
+        public override bool IsValid()
         {
             return ValidConnections;
         }
@@ -242,7 +241,8 @@ namespace ISILab.LBS.Components
         #endregion
 
         #region CONSTRUCTORS
-        private QuestNode() : base() { }
+        private QuestNode()
+        { }
 
         public QuestNode(string id, Vector2 position, string action, QuestGraph graph) : base(id, position, graph)
         {
@@ -275,7 +275,7 @@ namespace ISILab.LBS.Components
             return questAction;
         }
 
-        public override bool isValid()
+        public override bool IsValid()
         {
             return ValidConnections & ValidGrammar;
         }

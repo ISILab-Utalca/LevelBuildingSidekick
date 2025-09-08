@@ -115,9 +115,6 @@ namespace ISILab.LBS
                 trigger.Node.QuestState = QuestState.Completed;
                 child.SetActive(false);
             }
-            
-            // activate next action
-            DestinationObject.SetActive(true);
         }
     }
 }

@@ -456,7 +456,7 @@ namespace ISILab.LBS.Generators
 
             if (!uiAsset || !panelSettings) return;
 
-            questVisualTree.GO = observerGameObject;
+            questVisualTree.Go = observerGameObject;
             uiDocument.visualTreeAsset = uiAsset;
             uiDocument.panelSettings = panelSettings;
             uiGameObject.transform.SetParent(pivotTransform);
