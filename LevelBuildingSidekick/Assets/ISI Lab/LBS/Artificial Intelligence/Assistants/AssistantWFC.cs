@@ -613,33 +613,45 @@ namespace ISILab.LBS.Assistants
             //errMsg = null;
 
             // TO DO
-            // Take the tiles that are currently present in the owner layer,
-            // then for each tile, get it's tags so they can be compared with one another
-            // to finally be able to assign specific rules to how the tiles should go for the WFC.
+            //Hacer un nuevo LBSCharacteristic que pueda implementar
+            //las reglas del diccionario.
 
-            List<TileRule> tileRules = new List<TileRule>();
+            Dictionary<TileConnectionsPair, List<List<TileConnectionsPair>>> tileRules = new();
+
 
             List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().
-                Pairs.OrderBy(t => t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+                Pairs.OrderBy(t => -t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+
             if (pairs.Count == 0)
             {
                 //errMsg = "Empty map! Could not capture its weights.";
                 return false;
             }
 
-            //ArrangeListByPosition(pairs);
-
             foreach (var p in pairs)
             {
-                Debug.Log($"Tile {p.Tile.Position} Connections: {string.Join(", ", p.Connections)}");
-
-                if (!tileRules.Any())
+                var adjacent = new List<List<TileConnectionsPair>>
                 {
-                    TileRule currentTile = new TileRule();
-                    currentTile.tile = p.Tile;
+                    GetAdjacentFromCurrent(pairs, p)
+                };
 
-                    tileRules.Add(currentTile);
+                if (!tileRules.ContainsKey(p))
+                    tileRules.Add(p, adjacent);
+                else
+                {
+                    tileRules[p].Add(GetAdjacentFromCurrent(pairs, p));
                 }
+            }
+
+            foreach (var rule in tileRules)
+            {
+                Debug.Log(rule.Key);
+
+                foreach (var pair in rule.Value)
+                {
+                    Debug.Log($" - {string.Join(", ", pair)}");
+                }
+
             }
 
             //var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
@@ -649,15 +661,52 @@ namespace ISILab.LBS.Assistants
             return true;
         }
 
-        private struct TileRule
-        {
-            public LBSTile tile;
-            public List<string> validConnections;
-        }
-
         private void ArrangeListByPosition(List<TileConnectionsPair> tiles)
         {
             tiles = tiles.OrderBy(t => t.Tile.Position.x).ThenBy(t => t.Tile.Position.y).ToList();
+        }
+
+        private List<TileConnectionsPair> GetAdjacentFromCurrent(List<TileConnectionsPair> tiles, TileConnectionsPair current)
+        {
+            List<TileConnectionsPair> adjacent = new();
+
+            foreach (var tile in tiles)
+            {
+                if (tile.Tile == current.Tile)
+                    continue;
+
+                Vector2Int currentPos = current.Tile.Position;
+                Vector2Int tilePos = tile.Tile.Position;
+
+                if (tilePos == currentPos + Vector2Int.right)
+                {
+                    //Debug.Log($"Right: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.left)
+                {
+                    //Debug.Log($"Left: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.up)
+                {
+                    //Debug.Log($"Up: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.down)
+                {
+                    //Debug.Log($"Down: {tile.Tile}");
+                    adjacent.Add(tile);
+                }
+            }
+
+            return adjacent;
         }
 
 
