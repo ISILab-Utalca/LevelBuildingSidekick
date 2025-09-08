@@ -5,7 +5,7 @@ using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
 using LBS.Bundles;
 using LBS.Bundles.Tools;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Serialization;
@@ -86,6 +86,7 @@ namespace LBS.Bundles
         // Add a flags field
         [FormerlySerializedAs("flags")]
         [SerializeField]
+
         private BundleFlags layerContentFlags;
 
         [SerializeField]
