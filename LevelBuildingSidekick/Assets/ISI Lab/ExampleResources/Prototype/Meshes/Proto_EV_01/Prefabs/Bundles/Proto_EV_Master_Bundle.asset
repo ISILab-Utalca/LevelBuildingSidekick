@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundleName: Proto_EV_Master_Bundle
   layerContentFlags: 2
-  type: 0
+  type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}

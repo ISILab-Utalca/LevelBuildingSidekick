@@ -20,7 +20,9 @@ MonoBehaviour:
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 6036638440915748377, guid: fc74c7671f5b86841ad5139ab806df4f, type: 3}
-    probability: 0.5
+    probability: 1
+  - obj: {fileID: 5072780258731210804, guid: 5a20aec4bd8500c4e9d63aa2bc6373bf, type: 3}
+    probability: 1
   characteristics:
   - rid: 717084090436419802
   populationType: 0

@@ -22,7 +22,7 @@ MonoBehaviour:
   - obj: {fileID: 5265446866544783027, guid: 4ff2597d1f9f72f4d9e561a842ea1465, type: 3}
     probability: 0.5
   characteristics:
-  - rid: 717084090436419799
+  - rid: 717084090436419804
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -39,12 +39,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 717084090436419799
+    - rid: 717084090436419804
       type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 11400000}
         connections:
         - Water
         - Water
-        - Water
-        - Water
+        - 
+        - 
