@@ -70,12 +70,12 @@ MonoBehaviour:
       name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 717083976906310185
-    - rid: 717083976906310186
+    - rid: 717083995588264549
+    - rid: 717083995588264550
   references:
     version: 2
     RefIds:
-    - rid: 717083976906310185
+    - rid: 717083995588264549
       type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
@@ -90,7 +90,7 @@ MonoBehaviour:
             name: DEFAULT
             rootParentName: Root_Parent
           rules: []
-    - rid: 717083976906310186
+    - rid: 717083995588264550
       type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:

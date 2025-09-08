@@ -16,7 +16,7 @@ namespace ISI_Lab.DevTools.Gizmos.Editor
         private Rect popupRect;
 
         private const float buttonSize = 18;
-        private const float yOffset = 64;
+        private const float yOffset = 200;
 
         private LBSGenerated lbsComponent;
         

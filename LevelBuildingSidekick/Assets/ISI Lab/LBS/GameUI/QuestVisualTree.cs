@@ -1,83 +1,106 @@
-using System.Linq;
-using ISILab.LBS.Components;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 namespace ISILab.LBS
 {
-    /// <summary>
-    /// Example UI class that displays an active quest and its steps.
-    /// Must attach to a scene UI document to work.
-    /// </summary>
     public class QuestVisualTree : MonoBehaviour
     {
+        [SerializeField] 
+        private GameObject trackerGO;
+        [SerializeField] 
+        private QuestTracker tracker;
         
-        #region FIELDS
+        
         private UIDocument _questVisualTree;
-        private ListView _questList;
-        private QuestObserver _observer;
-        
-        [SerializeField]
-        private GameObject observerGameObject;
-        
-        #endregion
-        
-        #region PROPERTIES
-        public GameObject Observer 
+        private TreeView _questTree;
+
+
+        public GameObject GO
         {
-            get => observerGameObject;
-            set => observerGameObject = value;
+            get => trackerGO;
+            set => trackerGO = value;
         }
-        
-        #endregion
-        
-        
-        #region METHODS
-        public void Start()
+
+        private void Start()
         {
-           _questVisualTree = GetComponentInParent<UIDocument>();
-           var root = _questVisualTree.rootVisualElement;
-           _questList = root.Q<ListView>("QuestList");
-           if (_questList == null) return;
-           
-           _observer = observerGameObject.GetComponent<QuestObserver>();
-           _observer.OnQuestAdvance +=  UpdateQuest;
+            _questVisualTree = GetComponentInParent<UIDocument>();
+            var root = _questVisualTree.rootVisualElement;
 
-           UpdateQuest();
-           MakeQuestList();
+            _questTree = root.Q<TreeView>("QuestTree");
+            if (_questTree == null) return;
 
+            tracker = trackerGO.GetComponent<QuestTracker>();
+            tracker.OnQuestAdvance += UpdateQuest;
+
+            ConfigureTree();
+            UpdateQuest();
+        }
+
+        private void ConfigureTree()
+        {
+            // Create a VisualElement for each quest
+            _questTree.makeItem = () => new VisualElementQuest();
+
+            // Bind quest objective data to its visual element
+            _questTree.bindItem = (element, index) =>
+            {
+                if (element is VisualElementQuest questEntryVe)
+                {
+                    var item = _questTree.GetItemDataForIndex<QuestObjective>(index);
+                    questEntryVe.SetQuest(item);
+                }
+                
+            };
+            
         }
 
         private void UpdateQuest()
         {
-            var quest = _observer.nodeTriggerMap.Keys.ToList();
-            _questList.itemsSource = quest;
-            _questList.Rebuild();
+            if (tracker == null) return;
+
+            var objectives = tracker.Objectives;
+            if (objectives == null) return;
+
+            // Build TreeViewItemData hierarchy
+            var rootItems = new List<TreeViewItemData<QuestObjective>>();
+            foreach (var rootObjective in objectives)
+            {
+                rootItems.Add(BuildTreeRecursive(rootObjective));
+            }
+
+            // Assign tree root
+            _questTree.SetRootItems(rootItems);
+
+            // Refresh the tree
+            _questTree.Rebuild();
+            
+            _questTree.ExpandAll();
+            
         }
 
-        private void MakeQuestList()
+        private TreeViewItemData<QuestObjective> BuildTreeRecursive(QuestObjective objective)
         {
-            _questList.makeItem = () => new VisualElementQuest(); 
-            _questList.bindItem = (element, index) =>
+            var children = new List<TreeViewItemData<QuestObjective>>();
+
+            foreach (var branch in objective.GetBranches())
             {
-                if (element is not VisualElementQuest questEntryVe) return;
-      
-                var quest = _questList.itemsSource[index];
-                
-                // Sub-triggers do not have graph use we only display quests node from graph
-                if (quest is QuestNode questNode)
+                var subs = objective.GetSubObjectives(branch);
+                if (subs == null) continue;
+
+                foreach (var subTrigger in subs)
                 {
-                    questEntryVe.SetQuest(questNode);
-        
-                    // only display main quest node -NO subnodes!
-                    if (questNode.Graph is not null)
-                    {
-                        questEntryVe.style.display = DisplayStyle.Flex;           
-                    }
+                    var subObjective = new QuestObjective(subTrigger);
+                    children.Add(BuildTreeRecursive(subObjective));
                 }
-            };
+            }
+
+            return new TreeViewItemData<QuestObjective>(
+                objective.Trigger.GetInstanceID(), // unique ID
+                objective,
+                children
+            );
         }
-        
-        #endregion
     }
 }

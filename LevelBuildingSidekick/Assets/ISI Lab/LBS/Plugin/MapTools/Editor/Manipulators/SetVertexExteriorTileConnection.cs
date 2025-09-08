@@ -106,7 +106,7 @@ namespace ISILab.LBS.Manipulators
             }
             else
             {
-                AreaEffect();
+                //AreaEffect();
             }
 
             if (EditorGUI.EndChangeCheck())
