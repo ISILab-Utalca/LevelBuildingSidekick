@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Proto_V_convex_corner_wall_grass
   m_EditorClassIdentifier: 
   bundleName: 
-  layerContentFlags: 0
-  type: 0
+  layerContentFlags: 2
+  type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 7859531630237507475, guid: 363be0ac2d9baff44a97212c8c235ca2, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 717084090436419801
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -37,4 +38,13 @@ MonoBehaviour:
   guid: 0da366ea27816ea409b299c1e7d69ee7
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 717084090436419801
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - 
+        - 
+        - 
+        - 

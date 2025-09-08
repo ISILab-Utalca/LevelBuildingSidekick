@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Proto_v_convex_corner_grass_water
   m_EditorClassIdentifier: 
   bundleName: 
-  layerContentFlags: 0
-  type: 0
+  layerContentFlags: 2
+  type: 1
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 6036638440915748377, guid: fc74c7671f5b86841ad5139ab806df4f, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 717084090436419802
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -37,4 +38,13 @@ MonoBehaviour:
   guid: ef7c0efe12a54b843a4d9987aa64905a
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 717084090436419802
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - 
+        - 
+        - 
+        - 

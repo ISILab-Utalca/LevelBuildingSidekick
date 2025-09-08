@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bundleName: 
   layerContentFlags: 2
-  type: 0
+  type: 1
   anchorPosition: 0
   color: {r: 0.4056604, g: 0.18943574, b: 0.3639429, a: 0}
   icon: {fileID: 0}
