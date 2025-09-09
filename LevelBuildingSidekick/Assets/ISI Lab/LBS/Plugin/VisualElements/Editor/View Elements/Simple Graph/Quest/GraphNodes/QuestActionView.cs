@@ -190,6 +190,7 @@ namespace ISILab.LBS.VisualElements
 
         #region Helpers
 
+
         private float GetElementWidthIfVisible(VisualElement element, float fallback)
         {
             if (element.style.display != DisplayStyle.Flex) return 0f;
@@ -204,6 +205,11 @@ namespace ISILab.LBS.VisualElements
 
             _label.text = text;
             UpdateWidth();
+        }
+
+        public override VisualElement GetSelectVisualElement()
+        {
+            return this.Q<VisualElement>("Capsule");
         }
         #endregion
     }

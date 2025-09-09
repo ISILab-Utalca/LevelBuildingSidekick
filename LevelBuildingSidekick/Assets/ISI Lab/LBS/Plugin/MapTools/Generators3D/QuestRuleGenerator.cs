@@ -66,7 +66,17 @@ namespace ISILab.LBS.Generators
 
             if (!quest.GraphEdges.Any())
             {
-                return Tuple.Create<GameObject, string>(null, "The quest graph only has one node, can't generate. Can't generate");
+                return Tuple.Create<GameObject, string>(null, "The quest graph is empty!. Can't generate");
+            }
+            
+            if (quest.Root is null)
+            {
+                return Tuple.Create<GameObject, string>(null, "There is no root in the graph. Assign a root to generate the quest");
+            }
+
+            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
+            {
+                return Tuple.Create<GameObject, string>(null, "There must be at least one goal node. Make sure to have actions with roots but no branches");
             }
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
@@ -115,20 +125,6 @@ namespace ISILab.LBS.Generators
 
         private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestTracker tracker, GameObject pivot)
         {
-            if (quest.Root is null)
-            {
-                Debug.LogError("There is no root in the graph. Assign a root to generate the quest");
-                Object.DestroyImmediate(pivot);
-                return;
-            }
-
-            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
-            {
-                Debug.LogError("There must be at least one goal node. Make sure to have actions with roots but no branches");
-                Object.DestroyImmediate(pivot);
-                return;
-            }
-
             // Map QuestNode -> Trigger GameObject
             var questNodeGameObjects = CreateQuestNodeGameObjects(settings, quest, tracker, pivot);
 

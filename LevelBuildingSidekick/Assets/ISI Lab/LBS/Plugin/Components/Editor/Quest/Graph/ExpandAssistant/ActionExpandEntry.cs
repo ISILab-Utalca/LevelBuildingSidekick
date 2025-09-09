@@ -5,6 +5,7 @@ using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
 using TreeEditor;
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -18,6 +19,12 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region VIEW ELEMENTS
+        
+        private const string startIconGuid = "f3d5f865060356e478b82ca9c9f186ad";
+        private const string middleIconGuid = "f6e87932ed95e884199f001318ed0f76";
+        private const string goalIconGuid = "fbb664e94acc4824eb24b56a5c6c9084";
+        private const string singleIconGuid = "522548510e771274b90a7044b5e86531";
+        
         /// <summary>
         /// Node type
         /// </summary>
@@ -42,21 +49,26 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region METHODS
-    
-        public void SetEntryAction(string action, QuestNode.ENodeType nodeType)
+
+        public void SetEntryAction(string action, QuestNode.ENodeType nodeType, bool SingleEntry)
         {
             Color backgroundColor = Color.white;
-            var iconSize = new BackgroundSize(28, 28);
-            var iconPath = nodeType switch
-            {
-                QuestNode.ENodeType.Start => "Icons/Vectorial/QuestIcons/QuestIcon=StartNode",
-                QuestNode.ENodeType.Middle => "Icons/Vectorial/QuestIcons/QuestIcon=MiddleNode",
-                QuestNode.ENodeType.Goal => "Icons/Vectorial/QuestIcons/QuestIcon=EndNode",
-                _ => throw new ArgumentOutOfRangeException()
-            };
+            BackgroundSize iconSize = new BackgroundSize(28, 28);
+            string iconPath = singleIconGuid;
 
+            if (!SingleEntry)
+            {
+                iconPath = nodeType switch
+                {
+                    QuestNode.ENodeType.Start => startIconGuid,
+                    QuestNode.ENodeType.Middle => middleIconGuid,
+                    QuestNode.ENodeType.Goal => goalIconGuid,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+            
             _nodeTypeImage.style.backgroundSize = new StyleBackgroundSize(iconSize);
-            _nodeTypeImage.style.backgroundImage = new StyleBackground(Resources.Load<VectorImage>(iconPath));
+            _nodeTypeImage.style.backgroundImage = new StyleBackground(LBSAssetMacro.LoadAssetByGuid<VectorImage>(iconPath));
             _nodeTypeImage.style.unityBackgroundImageTintColor = backgroundColor;
             _nodeName.text = char.ToUpper(action[0]) + action[1..];
 

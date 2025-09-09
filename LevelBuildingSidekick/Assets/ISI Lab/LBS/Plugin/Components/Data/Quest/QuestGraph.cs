@@ -46,7 +46,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore] public List<GraphNode> GraphNodes => graphNodes;
         [JsonIgnore] public List<QuestEdge> GraphEdges => graphEdges;
 
-        public GraphNode SelectedQuestNode
+        public GraphNode SelectedGraphNode
         {
             get => _selectedNode;
             set
@@ -69,7 +69,7 @@ namespace ISILab.LBS.Modules
             }
         }
 
-        public event Action<GraphNode> OnQuestNodeSelected
+        public event Action<GraphNode> OnGraphNodeSelected
         {
             add => _onNodeSelected += value;
             remove => _onNodeSelected = null;
@@ -177,7 +177,7 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region Nodes
-        public void NodeDataChanged(QuestNode node) => _onNodeSelected?.Invoke(node);
+        public void NodeDataChanged(GraphNode node) => _onNodeSelected?.Invoke(node);
 
         public T GetNodeAtPosition<T>(Vector2 pos) where T : GraphNode
         {
@@ -425,7 +425,7 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action">The action type for the new node</param>
         /// <param name="referenceNode">The node before which the new node will be inserted</param>
-        public QuestNode InsertNodeBefore(string action, QuestNode referenceNode)
+        public QuestNode InsertQuestNodeBefore(string action, QuestNode referenceNode)
         {
             if (referenceNode == null || !graphNodes.Contains(referenceNode))
             {
@@ -515,13 +515,13 @@ namespace ISILab.LBS.Modules
 
         public BaseQuestNodeData GetNodeData()
         {
-            QuestNode node = SelectedQuestNode as QuestNode;
+            QuestNode node = SelectedGraphNode as QuestNode;
             return node?.NodeData;
         }
         
         public QuestNode GetNodeAsQuest()
         {
-            return SelectedQuestNode as QuestNode;
+            return SelectedGraphNode as QuestNode;
         }
         
         public override bool IsEmpty() => graphNodes.Count == 0;
@@ -530,6 +530,7 @@ namespace ISILab.LBS.Modules
         {
             var clone = new QuestGraph { grammarGuid = grammarGuid };
 
+            // cloning nodes and their data
             var nodes = graphNodes.Select(CloneRefs.Get).Cast<GraphNode>();
             foreach (var n in nodes)
             {
@@ -544,10 +545,20 @@ namespace ISILab.LBS.Modules
                 n.Graph = clone;
             }
 
+            // cloning edges
             var edges = graphEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
             foreach (var e in edges) clone.graphEdges.Add(e);
 
-            //clone.root = CloneRefs.Get(Root) as QuestNode;
+            // assign selected node
+            if (_selectedNode is not null)
+            {
+                foreach (var cloneNode in clone.graphNodes.Where(cloneNode => cloneNode.ID == _selectedNode.ID))
+                {
+                    clone._selectedNode = cloneNode;
+                    break;
+                }
+            }
+            
             return clone;
         }
 
