@@ -5,6 +5,7 @@ using ISILab.LBS.CustomComponents;
 using ISILab.Macros;
 using LBS.Bundles;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -13,6 +14,12 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Internal;
+using ISILab.LBS;
+using UnityEngine.Windows;
+using Mono.Cecil.Cil;
+using static UnityEditor.MaterialProperty;
+using static UnityEngine.Analytics.IAnalytic;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class BundleDirectionEditorWindow : EditorWindow
 {
@@ -20,7 +27,7 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     //Top Enums
     private LBSCustomEnumField directionTypeEnum;
-    private LBSCustomEnumField tagGroupEnum;
+    private LBSCustomDropdown tagGroupDropdown;
 
     //Centre
     private VisualElement centreThumbnail;
@@ -50,6 +57,8 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     private List<LBSTag> allTags;
     private List<string> currentTagList;
+    private List<LBSTagGroup> tagBundles;
+
     public LBSDirection target;
 
     private VectorImage edgeFrame;
@@ -73,7 +82,14 @@ public class BundleDirectionEditorWindow : EditorWindow
         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleDirectionEditorWindow");
         visualTree.CloneTree(rootVisualElement);
 
-        tagGroupEnum = rootVisualElement.Q<LBSCustomEnumField>("TagGroupEnum");
+        tagBundles = DirectoryTools.GetScriptables<LBSTagGroup>("TG");
+
+        foreach (LBSTagGroup bundle in tagBundles)
+        {
+            Debug.Log("Found bundle: " + bundle.name);
+        }
+
+        tagGroupDropdown = rootVisualElement.Q<LBSCustomDropdown>("TagGroupDropdown");
 
         centreThumbnail = rootVisualElement.Q<VisualElement>("Thumbnail");
         centreFrame = rootVisualElement.Q<VisualElement>("Frame");
@@ -226,12 +242,21 @@ public class BundleDirectionEditorWindow : EditorWindow
         LeftDirectionDropdown.value = target.GetConnection()[2];
         DownDirectionDropdown.value = target.GetConnection()[3];
 
+        URDirectionDropdown.value = target.GetConnection()[0];
+        ULDirectionDropdown.value = target.GetConnection()[1];
+        LRDirectionDropdown.value = target.GetConnection()[2];
+        LLDirectionDropdown.value = target.GetConnection()[3];
+
         currentTagList = new List<string>()
         {
             RightDirectionDropdown.value,
             UpDirectionDropdown.value,
             LeftDirectionDropdown.value,
-            DownDirectionDropdown.value
+            DownDirectionDropdown.value,
+            URDirectionDropdown.value,
+            ULDirectionDropdown.value,
+            LRDirectionDropdown.value,
+            LLDirectionDropdown.value
         };
 
         prefab = target.Owner.Assets[0].obj;
@@ -271,6 +296,11 @@ public class BundleDirectionEditorWindow : EditorWindow
         target.SetConnection(ConvertStringToLBSTag(LeftDirectionDropdown.value), 2);
         target.SetConnection(ConvertStringToLBSTag(DownDirectionDropdown.value), 3);
 
+        target.SetConnection(ConvertStringToLBSTag(URDirectionDropdown.value), 0);
+        target.SetConnection(ConvertStringToLBSTag(ULDirectionDropdown.value), 1);
+        target.SetConnection(ConvertStringToLBSTag(LRDirectionDropdown.value), 2);
+        target.SetConnection(ConvertStringToLBSTag(LLDirectionDropdown.value), 3);
+
         UpdateWindow();
         EditorUtility.SetDirty(target.Owner);
         AssetDatabase.SaveAssets();
@@ -282,6 +312,11 @@ public class BundleDirectionEditorWindow : EditorWindow
         UpDirectionDropdown.value = currentTagList[1];
         LeftDirectionDropdown.value = currentTagList[2];
         DownDirectionDropdown.value = currentTagList[3];
+
+        URDirectionDropdown.value = currentTagList[0];
+        ULDirectionDropdown.value = currentTagList[1];
+        LRDirectionDropdown.value = currentTagList[2];
+        LLDirectionDropdown.value = currentTagList[3];
     }
 
     private void UpdateWindow()
