@@ -189,7 +189,7 @@ Label {
 }
 
 .lbs-tool-button-toggle:selected {
-    background-color: var(--lbs-selection-dark-blue-color);
+    background-color: var(--lbs-selection-neutral-blue-color);
 }
 
 .lbs-tool-button-toggle > VisualElement {
@@ -1580,7 +1580,7 @@ Button.lbs-actionbutton {
 }
 
 .lbs-toolbar-toggle:selected {
-    background-color: var(--lbs-selection-dark-blue-color);
+    background-color: var(--lbs-selection-neutral-blue-color);
 }
 
 .lbs-toolbar-menu {
