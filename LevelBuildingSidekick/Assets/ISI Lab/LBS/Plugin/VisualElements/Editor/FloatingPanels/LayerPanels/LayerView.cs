@@ -1,10 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using ISILab.Macros;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,21 +10,23 @@ namespace ISILab.LBS.VisualElements.Editor
     [UxmlElement]
     public partial class LayerView : VisualElement
     {
-       // public new class UxmlFactory : UxmlFactory<LayerView, VisualElement.UxmlTraits> { }
-
+        #region FIELDS
         private LBSLayer _target;
 
-        private readonly TextField _layerName;
-        private readonly VisualElement _layerIcon;
-        private readonly VisualElement _iconsModules;
-        private readonly Button _showButton;
-        private readonly Button _hideButton;
+        private TextField _layerName;
+        private VisualElement _layerIcon;
+        private VisualElement _iconsModules;
+        private VisualElement _iconFocus;
+        private Button _showButton;
+        private Button _hideButton;
 
         public VisualElement Base;
 
         private Action _onVisibilityChange;
         private Action _onNameChange;
-        
+        #endregion
+
+        #region EVENTS
         public event Action OnVisibilityChange
         {
             add => _onVisibilityChange += value;
@@ -40,65 +39,69 @@ namespace ISILab.LBS.VisualElements.Editor
         }
 
         public Action OnLayerVisibilityChangeAction;
+        #endregion
 
+        #region CONSTRUCTOR
         public LayerView()
+        {
+            CloneVisualTree();
+            BindUIElements();
+            RegisterCallbacks();
+        }
+        #endregion
+
+        #region METHODS
+
+        #region INITIALIZATION
+        private void CloneVisualTree()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");
             visualTree.CloneTree(this);
-
             Base = this.Q<VisualElement>("Base");
+        }
 
-            // LayerName
+        private void BindUIElements()
+        {
             _layerName = this.Q<TextField>("Name");
-            _layerName.RegisterCallback<ChangeEvent<string>>(e =>
-            {
-                _target.Name = e.newValue;
-                _onNameChange?.Invoke();
-            });
-
-            // LayerIcon
             _layerIcon = this.Q<VisualElement>("Icon");
-
-            // IconsModules
+            _iconFocus = this.Q<VisualElement>("IconFocus");
             _iconsModules = this.Q<VisualElement>("IconsModules");
-
-            // Show/Hide button
             _showButton = this.Q<Button>("ShowButton");
-            _showButton.clicked += () => { ShowLayer(true); };
             _hideButton = this.Q<Button>("HideButton");
+
+            _iconFocus.style.display = DisplayStyle.None;
+        }
+
+        private void RegisterCallbacks()
+        {
+            _layerName.RegisterCallback<ChangeEvent<string>>(OnNameChanged);
+            _showButton.clicked += () => ShowLayer(true);
             _hideButton.clicked += () => ShowLayer(false);
         }
+        #endregion
 
-        private void SetName(string name)
-        {
-            _layerName.value = name;
-        }
-
-        private void SetIcon(string guid)
-        {
-            VectorImage icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(guid);
-            _layerIcon.style.backgroundImage = new StyleBackground(icon);
-        }
-
+        #region INFO & UI UPDATE
         public void SetInfo(LBSLayer layer)
         {
             _target = layer;
-
             SetIcon(layer.iconGuid);
             SetName(layer.Name);
 
-            layer.OnAddModule += (layer, module) =>
-            {
-                ShowModulesIcons();
-            };
-
+            layer.OnAddModule += (_, _) => ShowModulesIcons();
             ShowLayer(layer.IsVisible);
+        }
+
+        private void SetName(string newName) => _layerName.value = newName;
+
+        private void SetIcon(string guid)
+        {
+            var icon = LBSAssetMacro.LoadAssetByGuid<VectorImage>(guid);
+            _layerIcon.style.backgroundImage = new StyleBackground(icon);
         }
 
         private void ShowModulesIcons()
         {
             _iconsModules.Clear();
-
             foreach (var module in _target.Modules)
             {
                 var icon = new VisualElement();
@@ -109,11 +112,37 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void ShowLayer(bool value)
         {
-            _showButton.style.display = (!value) ? DisplayStyle.Flex : DisplayStyle.None;
-            _hideButton.style.display = (value) ? DisplayStyle.Flex : DisplayStyle.None;
+            _showButton.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
+            _hideButton.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
 
             _target.IsVisible = value;
             _onVisibilityChange?.Invoke();
         }
+        #endregion
+
+        #region CALLBACKS
+        private void OnNameChanged(ChangeEvent<string> evt)
+        {
+            _target.Name = evt.newValue;
+            _onNameChange?.Invoke();
+        }
+        #endregion
+
+        #region SELECTION
+        public void UpdateSelect(LBSLayer layer)
+        {
+            if (layer is null || !layer.Equals(_target))
+            {
+                _iconFocus.style.display = DisplayStyle.None;
+                Base.RemoveFromClassList("selected");
+                return;
+            }
+
+            _iconFocus.style.display = DisplayStyle.Flex;
+            Base.AddToClassList("selected");
+        }
+        #endregion
+
+        #endregion
     }
 }
