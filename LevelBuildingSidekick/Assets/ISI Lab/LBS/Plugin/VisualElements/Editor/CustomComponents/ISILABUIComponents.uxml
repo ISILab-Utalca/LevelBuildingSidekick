@@ -51,6 +51,8 @@
                 <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" style="height: 38px;" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Right" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Left" style="height: 41px;" />
+                <ISILab.LBS.VisualElements.ActionButton style="height: 24px;" />
+                <ISILab.LBS.VisualElements.Editor.LayerView style="height: 26px;" />
             </ui:VisualElement>
         </ISILab.Commons.VisualElements.Editor.SplitView>
         <uie:Toolbar>

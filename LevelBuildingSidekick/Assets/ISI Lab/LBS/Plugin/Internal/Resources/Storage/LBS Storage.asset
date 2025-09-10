@@ -575,13 +575,6 @@ MonoBehaviour:
     items:
     - {fileID: 11400000, guid: 3e607c0f80297b849a6ea0d7f98c73a3, type: 2}
     - {fileID: 11400000, guid: a593f44b9aba33045a54c246a0a5007f, type: 2}
-  - type: ISILab.LBS.LBSIdentifierBundle
-    items:
-    - {fileID: 11400000, guid: 468aebbf5a02f6d45b144fc9dc3deb01, type: 2}
-    - {fileID: 11400000, guid: 5dab7331507a6554a83a7ddfd42f5292, type: 2}
-    - {fileID: 11400000, guid: 2bf3c5dcf9db60848bd36df406db40ab, type: 2}
-    - {fileID: 11400000, guid: 024b2b5cb9df3564fbc1a98774dec352, type: 2}
-    - {fileID: 11400000, guid: b1b87ee4c9e4dba41adf7d63dc128af1, type: 2}
   - type: ISILab.AI.Grammar.LBSGrammar
     items:
     - {fileID: 11400000, guid: 63ab688b53411154db5edd0ec7171c42, type: 2}
@@ -906,3 +899,9 @@ MonoBehaviour:
   - type: UnityEngine.TextCore.Text.FontAsset
     items:
     - {fileID: 11400000, guid: c5619ed3c27f66f41af19672d913ab95, type: 2}
+  - type: ISILab.LBS.LBSTagGroup
+    items:
+    - {fileID: 11400000, guid: 5c8d8f28646aabb4d811be87265127a7, type: 2}
+    - {fileID: 11400000, guid: d5e95828a0ce22a48834ad6af8370ad3, type: 2}
+    - {fileID: 11400000, guid: e6dd76e0eebe22a49825c8f693d65d09, type: 2}
+    - {fileID: 11400000, guid: f124e644c8305d740b7d7503cc6edb03, type: 2}

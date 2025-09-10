@@ -329,7 +329,7 @@ Toggle > .lbs-default-icon {
     flex-direction: row;
     align-items: stretch;
     justify-content: center;
-    background-color: rgb(47, 47, 47);
+    background-color: var(--lbs-selectable-gray-colorA);
     width: auto;
     white-space: nowrap;
     -unity-background-scale-mode: scale-to-fit;
@@ -342,10 +342,10 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 4px;
-    border-left-color: rgba(255, 255, 255, 0.2);
-    border-right-color: rgba(255, 255, 255, 0.2);
-    border-top-color: rgba(255, 255, 255, 0.2);
-    border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -1131,28 +1131,73 @@ Toggle > .lbs-default-icon {
     border-top-color: var(--lbs-border-white-overlay-color);
 }
 
-Button .lbs-actionbutton {
-    background-color: rgb(62, 62, 62);
-    color: white;
+.lbs-list-item {
+    border-left-width: 1px;
+    border-left-color: var(--lbs-dark-overlay-color);
+}
+
+.lbs-item-content {
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    height: 100%;
+}
+
+.lbs-quest-list-item {
+}
+
+.lbs-action-button {
     flex-direction: row;
     align-items: center;
     margin: 4px;
     border-radius: 0;
-    background-image: none;
-    -unity-font-style: normal;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
     border-color: rgba(0, 0, 0, 0.4);
     border-width: 2px;
     border-style: solid;
     padding: 5px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: var(--lbs-selectable-gray-color);
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
-    padding-left: 5px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-left-color: var(--lbs-dark-overlay-color);
+    flex-grow: 1;
+    height: 100%;
 }
 
-.lbs-actionbutton:hover > Button {
+.lbs-action-button:hover {
+    flex-direction: row;
+    background-color: var(--lbs-selectable-hover-color);
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.lbs-action-button:selected {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1183,38 +1228,7 @@ Button .lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton:selected > Button {
-    flex-direction: row;
-    background-color: rgb(106, 106, 106);
-    color: rgb(255, 255, 255);
-    align-items: center;
-    margin-top: 0;
-    margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    scale: 1 1;
-    -unity-font-style: normal;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
-    background-image: none;
-    border-left-color: rgba(0, 0, 0, 0.4);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-top-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
-    border-top-width: 2px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    margin-right: 0;
-    margin-left: 0;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 12px;
-}
-
-.lbs-actionbutton_selected > Button {
+.lbs-action-button_selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
