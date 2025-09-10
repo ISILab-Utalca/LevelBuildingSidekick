@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ISILab.LBS
 {
     [CreateAssetMenu(fileName = "New Tags Group", menuName = "ISILab/New Tags Group")]
-    public class LBSIdentifierBundle : ScriptableObject
+    public class LBSTagGroup : ScriptableObject
     {
         public enum TagType
         {

@@ -10,7 +10,7 @@ namespace ISILab.LBS.VisualElements
 {
     public class BundleTagView : VisualElement
     {
-        public LBSIdentifierBundle target;
+        public LBSTagGroup target;
 
         // VisualElements
         private TextField bundleNameField;
@@ -19,7 +19,7 @@ namespace ISILab.LBS.VisualElements
         private Button addButton;
         private List<TagView> tagViews = new List<TagView>();
 
-        public BundleTagView(LBSIdentifierBundle bundle)
+        public BundleTagView(LBSTagGroup bundle)
         {
             target = bundle;
 

@@ -24,7 +24,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region FIELDS
-        private LBSIdentifierBundle selected;
+        private LBSTagGroup selected;
         #endregion
 
         #region VIEW FIELDS
@@ -35,12 +35,12 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region PROPERTIES
-        private List<LBSIdentifierBundle> TagsBundles
+        private List<LBSTagGroup> TagsBundles
         {
             get
             {
                 var storage = LBSAssetsStorage.Instance;
-                var tagsBundles = storage.Get<LBSIdentifierBundle>();
+                var tagsBundles = storage.Get<LBSTagGroup>();
                 return tagsBundles;
             }
         }
@@ -117,7 +117,7 @@ namespace ISILab.LBS.VisualElements
 
         private void CreateBundle()
         {
-            var nSO = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
+            var nSO = ScriptableObject.CreateInstance<LBSTagGroup>();
 
             var settings = LBSSettings.Instance;
 
@@ -139,7 +139,7 @@ namespace ISILab.LBS.VisualElements
 
         private void OnSelectionChange(IEnumerable<object> objects)
         {
-            selected = objects.ToList()[0] as LBSIdentifierBundle;
+            selected = objects.ToList()[0] as LBSTagGroup;
         }
 
         private void SelectedTagChange(LBSTag tag)

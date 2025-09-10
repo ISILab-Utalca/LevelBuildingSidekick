@@ -16,7 +16,7 @@ namespace ISILab.LBS.VisualElements
     public class TagBundleView : VisualElement
     {
         #region FIELDS
-        private LBSIdentifierBundle target;
+        private LBSTagGroup target;
         public LBSTag selected;
         #endregion
 
@@ -59,7 +59,7 @@ namespace ISILab.LBS.VisualElements
             typeDropdown = this.Q<EnumField>("TypeDropdown");
             typeDropdown.RegisterCallback<ChangeEvent<Enum>>((evt) =>
             {
-                target.type = (LBSIdentifierBundle.TagType)evt.newValue;
+                target.type = (LBSTagGroup.TagType)evt.newValue;
                 AssetDatabase.SaveAssets();
             });
 
@@ -130,7 +130,7 @@ namespace ISILab.LBS.VisualElements
             EditorUtility.SetDirty(target);
         }
 
-        public void SetInfo(LBSIdentifierBundle tagBundle)
+        public void SetInfo(LBSTagGroup tagBundle)
         {
             target = tagBundle;
 

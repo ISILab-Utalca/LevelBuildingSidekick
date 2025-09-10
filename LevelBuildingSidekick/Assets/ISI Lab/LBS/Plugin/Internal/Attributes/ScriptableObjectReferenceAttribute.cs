@@ -25,8 +25,8 @@ namespace ISILab.LBS
             }
             else
             {
-                var xx = LBSAssetsStorage.Instance.Get(typeof(LBSIdentifierBundle));
-                var x = xx.Find(b => b.name.Equals(blackBoard)) as LBSIdentifierBundle;
+                var xx = LBSAssetsStorage.Instance.Get(typeof(LBSTagGroup));
+                var x = xx.Find(b => b.name.Equals(blackBoard)) as LBSTagGroup;
                 SOs = x.Tags.Cast<ScriptableObject>().ToList();
             }
         }
