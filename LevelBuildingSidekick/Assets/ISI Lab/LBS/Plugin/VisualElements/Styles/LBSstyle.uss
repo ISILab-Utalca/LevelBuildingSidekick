@@ -1134,8 +1134,17 @@ Toggle > .lbs-default-icon {
 .lbs-list-item {
     border-left-width: 1px;
     border-left-color: var(--lbs-dark-overlay-color);
+    background-color: var(--lbs-selectable-gray-color);
 }
 
+.lbs-list-item__hover {
+
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-list-item:selected {
+    background-color: var(--lbs-selection-neutral-blue-color);
+}
 .lbs-item-content {
     border-top-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
