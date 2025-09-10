@@ -1785,3 +1785,20 @@ Button .lbs-actionbutton {
 
 .lbs-graph-view {
 }
+
+.lbs-header-card {
+    flex-direction: row;
+    height: 18px;
+    background-color: var(--lbs-base-solid-gray-color);
+    border-width: 1px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border-top-color: var(--lbs-darker-solid-gray-color);
+    border-right-color: var(--lbs-darker-solid-gray-color);
+    border-bottom-color: var(--lbs-darker-solid-gray-color);
+    border-left-color: var(--lbs-darker-solid-gray-color);
+}
