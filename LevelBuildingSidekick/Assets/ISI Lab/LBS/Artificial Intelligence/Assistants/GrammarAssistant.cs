@@ -107,7 +107,7 @@ namespace ISILab.LBS.Assistants
                 foreach (var from in rootEdge.From)
                 {
                     // a quest node was found as root, get its grammar value
-                    if (from.GetType() == typeof(QuestNode) & !from.isValid())
+                    if (from.GetType() == typeof(QuestNode) & !from.IsValid())
                     {
                         // atleast one of the roots is not of valid grammar
                         return false;
@@ -186,8 +186,36 @@ namespace ISILab.LBS.Assistants
                     }
                 }
             }
-
+            
             return nextValidTerminals.ToList();
+        }
+        
+        public List<string> GetAllValidNextActionsInsert(string currentAction, QuestGraph questGraph)
+        {
+            // get valid actions out of context
+            var nextValidTerminals = GetAllValidNextActions(currentAction);
+            
+            // Simulate to only get if its valid in the new context for insert
+            HashSet<string> nextValidInsert = new HashSet<string>();
+            foreach (var nextValidTerminal in nextValidTerminals)
+            {
+                CloneRefs.Start();
+                var clone = questGraph.Clone() as QuestGraph;
+                CloneRefs.End();
+             
+                if (clone is null) break;
+                
+                clone.OwnerLayer = questGraph.OwnerLayer;
+                var newNode = clone.InsertQuestNodeAfter(nextValidTerminal, clone.GetNodeAsQuest());
+                if (newNode.ValidGrammar)
+                {
+                    nextValidInsert.Add(nextValidTerminal);
+                }
+                
+                clone.OwnerLayer = null;
+            }
+            
+            return nextValidInsert.ToList();
         }
         
         public List<string> GetAllValidPrevActions(string currentAction)
@@ -232,6 +260,34 @@ namespace ISILab.LBS.Assistants
             return prevValidTerminals.ToList();
         }
 
+        public List<string> GetAllValidPrevActionsInsert(string currentAction, QuestGraph questGraph)
+        {
+            // Get all non context prev actions   
+            var prevValidTerminals = GetAllValidPrevActions(currentAction);
+
+            // Simulate to only get if its valid in the new context for insert
+            HashSet<string> prevValidInsert = new HashSet<string>();
+            foreach (var nextValidTerminal in prevValidTerminals)
+            {
+                CloneRefs.Start();
+                var clone = questGraph.Clone() as QuestGraph;
+                CloneRefs.End();
+
+                if (clone is null) break;
+                clone.OwnerLayer = questGraph.OwnerLayer;
+                
+                var newNode = clone.InsertQuestNodeBefore(nextValidTerminal, clone.GetNodeAsQuest());
+                if (newNode.ValidGrammar)
+                {
+                    prevValidInsert.Add(nextValidTerminal);
+                }
+
+                clone.OwnerLayer = null;
+            }
+            
+            return prevValidInsert.ToList();
+        }
+        
         public List<List<string>> GetAllExpansions(string currentAction)
         {
             HashSet<List<string>> allExpansions = new HashSet<List<string>>();

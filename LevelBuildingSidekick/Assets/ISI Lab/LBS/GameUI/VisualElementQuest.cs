@@ -1,10 +1,8 @@
 using System;
-using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
-using LBS.Bundles;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -23,12 +21,12 @@ namespace ISILab.LBS
 
         private QuestNode _questNode;
 
-        private static string ActiveIconGuid = "2d0e21afed0e2b948a825ad351292248";
-        private static string CompletedIconGuid = "eff207486cc48924b8691a0a3545be17";
-        private static string OrIconGuid = "1d6ab847894293148bfa4d70136a75a9";
-        private static string AndIconGuid = "84fdb6a97aae79e4eb5eba243b760ee7";
-        private static string FailedIconGuid = "19533ec5deae6304ebe6b68e51ddeda1";
-        
+        private const string ActiveIconGuid = "2d0e21afed0e2b948a825ad351292248";
+        private const string CompletedIconGuid = "eff207486cc48924b8691a0a3545be17";
+        private const string OrIconGuid = "1d6ab847894293148bfa4d70136a75a9";
+        private const string AndIconGuid = "84fdb6a97aae79e4eb5eba243b760ee7";
+        private const string FailedIconGuid = "19533ec5deae6304ebe6b68e51ddeda1";
+
         public VisualElementQuest()
         {
             CreateVisualElement();
@@ -57,27 +55,27 @@ namespace ISILab.LBS
             Color color;
             bool closed = false;
 
-            VectorImage VecImage;
+            VectorImage vecImage;
             switch (_questNode.QuestState)
             {
                 case QuestState.Blocked:
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
                     color = Color.gray;
                     break;
 
                 case QuestState.Active:
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
                     color = Color.white;
                     break;
 
                 case QuestState.Completed:
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(CompletedIconGuid);
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(CompletedIconGuid);
                     color = LBSSettings.Instance.view.successColor;
                     closed = true;
                     break;
 
                 case QuestState.Failed:
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(FailedIconGuid);
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(FailedIconGuid);
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
                     break;
@@ -89,19 +87,17 @@ namespace ISILab.LBS
             // for branches
             if (questObjective.Trigger.Node != null)
             {
-                if (questObjective.Trigger.OwnerBranchNode is AndNode an)
+                vecImage = questObjective.Trigger.OwnerBranchNode switch
                 {
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(AndIconGuid);
-                }
-                if (questObjective.Trigger.OwnerBranchNode is OrNode on)
-                {
-                    VecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(OrIconGuid);
-                }
+                    AndNode => LBSAssetMacro.LoadAssetByGuid<VectorImage>(AndIconGuid),
+                    OrNode => LBSAssetMacro.LoadAssetByGuid<VectorImage>(OrIconGuid),
+                    _ => vecImage
+                };
             }
             
             
-            // LaStataebel changes
-            _state.style.backgroundImage = new StyleBackground(VecImage);
+            // State icon changes
+            _state.style.backgroundImage = new StyleBackground(vecImage);
             _state.style.unityBackgroundImageTintColor = color;
             // Label changes
             _questLabel.style.color = new StyleColor(color);

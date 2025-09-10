@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS.Components;
+using UnityEditor;
 using UnityEngine;
 
 namespace ISILab.LBS
@@ -8,6 +10,9 @@ namespace ISILab.LBS
     {
         private QuestTrigger objectiveTrigger;
         private QuestTrigger trigger;
+        private bool inBranch;
+        
+        
         private Dictionary<QuestTriggerBranch, List<QuestTrigger>> subObjectives = new();
 
         public QuestTrigger Trigger => trigger;

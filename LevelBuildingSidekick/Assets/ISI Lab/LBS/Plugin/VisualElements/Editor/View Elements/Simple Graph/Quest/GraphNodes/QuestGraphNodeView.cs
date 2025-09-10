@@ -50,7 +50,7 @@ namespace ISILab.LBS.VisualElements
             {
                 LBSInspectorPanel.ActivateBehaviourTab();
                 if (Node.Graph.GraphNodes.Contains(Node))
-                    Node.Graph.SelectedQuestNode = Node;
+                    Node.Graph.SelectedGraphNode = Node;
             }
             
             DrawManager.Instance.RedrawLayer(Node.Graph.OwnerLayer);
@@ -79,14 +79,17 @@ namespace ISILab.LBS.VisualElements
             OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta));
         }
         #endregion
-        
+
         #region Selection
+
+        public abstract VisualElement GetSelectVisualElement();
+
         public void IsSelected(bool isSelected)
         {
             var color = DefaultBackgroundColor;
             if (isSelected)
             {
-                color = Node.isValid() ? ValidGrammarColor : InvalidGrammarColor;
+                color = Node.IsValid() ? ValidGrammarColor : InvalidGrammarColor;
         
                 // Blend color to simulate the alpha effect
                 float r = color.r * Alpha; 

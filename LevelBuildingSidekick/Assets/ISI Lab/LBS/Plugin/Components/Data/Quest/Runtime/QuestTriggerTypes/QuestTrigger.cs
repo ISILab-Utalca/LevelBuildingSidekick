@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ISILab.LBS.Components;
 using Unity.Collections;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace ISILab.LBS
         [SerializeField]
         protected bool isCompleted;
        
+        private List<GraphNode> destinations = new();
         #endregion
 
         #region PROPERTIES
@@ -41,6 +43,7 @@ namespace ISILab.LBS
         }
 
         public GraphNode OwnerBranchNode { get; set; }
+        public List<GraphNode> Destinations { get => destinations; set => destinations = value; }
 
         #endregion
        

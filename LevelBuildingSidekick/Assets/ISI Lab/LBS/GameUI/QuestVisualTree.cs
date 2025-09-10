@@ -1,49 +1,79 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
-using UnityEngine.Serialization;
 
 namespace ISILab.LBS
 {
     public class QuestVisualTree : MonoBehaviour
     {
-        [SerializeField] 
-        private GameObject trackerGO;
-        [SerializeField] 
-        private QuestTracker tracker;
-        
-        
-        private UIDocument _questVisualTree;
-        private TreeView _questTree;
+        #region FIELDS
+        [SerializeField]
+        private GameObject trackerGo; // Reference to the GameObject holding QuestTracker
 
+        [SerializeField]
+        private QuestTracker tracker; // Reference to the QuestTracker component
 
-        public GameObject GO
+        private UIDocument _questVisualTree; // UI document for the quest tree
+        private TreeView _questTree; // TreeView UI element for displaying quests
+        #endregion
+
+        #region PROPERTIES
+        public GameObject Go
         {
-            get => trackerGO;
-            set => trackerGO = value;
+            get => trackerGo;
+            set => trackerGo = value;
         }
+        #endregion
 
+ 
+        #region METHODS
         private void Start()
         {
-            _questVisualTree = GetComponentInParent<UIDocument>();
-            var root = _questVisualTree.rootVisualElement;
-
-            _questTree = root.Q<TreeView>("QuestTree");
-            if (_questTree == null) return;
-
-            tracker = trackerGO.GetComponent<QuestTracker>();
-            tracker.OnQuestAdvance += UpdateQuest;
-
-            ConfigureTree();
+            InitializeUI();
+            SubscribeToTracker();
             UpdateQuest();
         }
 
-        private void ConfigureTree()
+        private void InitializeUI()
         {
-            // Create a VisualElement for each quest
-            _questTree.makeItem = () => new VisualElementQuest();
+            // Retrieves the UIDocument and TreeView for quest display
+            _questVisualTree = GetComponentInParent<UIDocument>();
+            if (_questVisualTree == null)
+            {
+                Debug.LogWarning("No UIDocument found in parent.");
+                return;
+            }
 
-            // Bind quest objective data to its visual element
+            _questTree = _questVisualTree.rootVisualElement.Q<TreeView>("QuestTree");
+            if (_questTree == null)
+            {
+                Debug.LogWarning("No TreeView named 'QuestTree' found in UI.");
+                return;
+            }
+
+            ConfigureTreeView();
+        }
+
+        private void SubscribeToTracker()
+        {
+            if (trackerGo == null) return;
+            
+            tracker = trackerGo.GetComponent<QuestTracker>();
+            if (tracker != null)
+            {
+                tracker.OnQuestAdvance += UpdateQuest;
+            }
+            else
+            {
+                Debug.LogWarning("QuestTracker component not found on trackerGO.");
+            }
+        }
+
+        private void ConfigureTreeView()
+        {
+            // Configures how TreeView items are created and bound
+            // Note: VisualElementQuest is assumed to be a custom VisualElement for quests
+            _questTree.makeItem = () => new VisualElementQuest();
             _questTree.bindItem = (element, index) =>
             {
                 if (element is VisualElementQuest questEntryVe)
@@ -51,45 +81,53 @@ namespace ISILab.LBS
                     var item = _questTree.GetItemDataForIndex<QuestObjective>(index);
                     questEntryVe.SetQuest(item);
                 }
-                
             };
-            
         }
 
         private void UpdateQuest()
         {
-            if (tracker == null) return;
-
-            var objectives = tracker.Objectives;
-            if (objectives == null) return;
-
-            // Build TreeViewItemData hierarchy
-            var rootItems = new List<TreeViewItemData<QuestObjective>>();
-            foreach (var rootObjective in objectives)
+            if (tracker?.Objectives == null)
             {
-                rootItems.Add(BuildTreeRecursive(rootObjective));
+                Debug.LogWarning("Tracker or Objectives is null.");
+                return;
             }
 
-            // Assign tree root
+            var rootItems = BuildTreeItems();
             _questTree.SetRootItems(rootItems);
-
-            // Refresh the tree
             _questTree.Rebuild();
-            
             _questTree.ExpandAll();
-            
+        }
+
+        private List<TreeViewItemData<QuestObjective>> BuildTreeItems()
+        {
+            // Builds the hierarchy of TreeView items for root objectives
+            var rootItems = new List<TreeViewItemData<QuestObjective>>();
+            var objectives = tracker.Objectives;
+
+            foreach (var objective in objectives)
+            {
+                // Only include objectives that are not part of a branch
+                if (objective.Trigger.OwnerBranchNode == null)
+                {
+                    rootItems.Add(BuildTreeRecursive(objective));
+                }
+            }
+
+            return rootItems;
         }
 
         private TreeViewItemData<QuestObjective> BuildTreeRecursive(QuestObjective objective)
         {
+            // Recursively builds the TreeView hierarchy for objectives and sub-objectives
+            // Note: Uses GetInstanceID for unique IDs to avoid conflicts in TreeView
             var children = new List<TreeViewItemData<QuestObjective>>();
 
             foreach (var branch in objective.GetBranches())
             {
-                var subs = objective.GetSubObjectives(branch);
-                if (subs == null) continue;
+                var subObjectives = objective.GetSubObjectives(branch);
+                if (subObjectives == null) continue;
 
-                foreach (var subTrigger in subs)
+                foreach (var subTrigger in subObjectives)
                 {
                     var subObjective = new QuestObjective(subTrigger);
                     children.Add(BuildTreeRecursive(subObjective));
@@ -97,10 +135,11 @@ namespace ISILab.LBS
             }
 
             return new TreeViewItemData<QuestObjective>(
-                objective.Trigger.GetInstanceID(), // unique ID
+                objective.Trigger.GetInstanceID(),
                 objective,
                 children
             );
         }
+        #endregion
     }
 }

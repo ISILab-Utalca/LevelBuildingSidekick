@@ -127,6 +127,55 @@ namespace ISILab.Extensions
             DrawPolygon(paint2D, new List<Vector2>() { iniPos, endPos }, new Color(0, 0, 0, 0), color, stroke);
         }
 
+        public static Vector2 BezierTangent(this Painter2D _, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+        {
+            Vector2 tangent = p3 - p2;
+
+            if (tangent.sqrMagnitude < 1e-6f)
+            {
+                float t = 0.99f;
+                float omt = 1 - t;
+                tangent =
+                    3 * omt * omt * (p1 - p0) +
+                    6 * omt * t * (p2 - p1) +
+                    3 * t * t * (p3 - p2);
+            }
+
+            return tangent.normalized;
+        }
+
+
+        
+        public static Vector2 DrawBezierLine(this Painter2D paint2D, Vector2 iniPos, Vector2 controlPoint1,
+            Vector2 controlPoint2, Vector2 endPos, Color color, Color border)
+        {
+            paint2D.strokeColor = border;
+            paint2D.fillColor = color;
+            paint2D.BeginPath();
+    
+            paint2D.MoveTo(iniPos);
+            paint2D.BezierCurveTo(controlPoint1, controlPoint2, endPos);
+            paint2D.Stroke();
+            paint2D.ClosePath();
+    
+            // Calculate tangent at end
+            Vector2 tangent = endPos - controlPoint2;
+            if (tangent.sqrMagnitude < 1e-6f)
+            {
+                // fallback if too small
+                float t = 0.99f;
+                float omt = 1 - t;
+                tangent =
+                    3 * omt * omt * (controlPoint1 - iniPos) +
+                    6 * omt * t * (controlPoint2 - controlPoint1) +
+                    3 * t * t * (endPos - controlPoint2);
+            }
+
+            return tangent.normalized;
+        }
+
+        
+
         public static void DrawDottedPolygon(this Painter2D paint2D, List<Vector2> point, Color color, float stroke = 1, bool closed = false)
         {
             for (int i = 1; i < point.Count; i++)
@@ -246,6 +295,36 @@ namespace ISILab.Extensions
             painter.DrawPolygon(arrowPoints, color, color, 1f, closed);
         }
 
+        /// <summary>
+        /// Create a triangle arrow facing <c>arrowDirection</c>.
+        /// </summary>
+        /// <param name="center"> The Vector2 center point.</param>
+        /// <param name="arrowDirection"> A normalized vector facing direction</param>
+        /// <param name="arrowWidth"> the width of the triangle face</param>
+        /// <param name="arrowLengthFactor"> factor applied to width, to get the tip length</param>
+        /// <param name="color"> Fill color </param>
+        /// <param name="closed"> Close the arrow paint</param>
+        public static void DrawArrow(this Painter2D painter, 
+            Vector2 center,
+            Vector2 arrowDirection,
+            float arrowWidth,
+            float arrowLengthFactor,
+            Color color,
+            bool closed = true)
+        {
+            // perpendicular according to https://mathworld.wolfram.com/PerpendicularVector.html
+            Vector2 perpendicular = new Vector2(arrowDirection.y, -arrowDirection.x);
+            float arrowLength = arrowWidth * Mathf.Sqrt(3f) / 2f;
+            
+            // Define the arrow points relative to the midpoint
+            List<Vector2> arrowPoints = new List<Vector2>()
+            {
+                center - arrowDirection * arrowLength * 0.5f + perpendicular * arrowWidth * 0.5f, // Left base
+                center + arrowDirection * arrowLength * 0.5f * arrowLengthFactor,                                                       // Arrow tip
+                center - arrowDirection * arrowLength * 0.5f - perpendicular * arrowWidth * 0.5f  // Right base
+            };
+            painter.DrawPolygon(arrowPoints, color, color, 1f, closed);
+        }
         /// <summary>
         /// Rotates a Vector2 object by a given number of degrees around the origin point (0,0).
         /// </summary>
