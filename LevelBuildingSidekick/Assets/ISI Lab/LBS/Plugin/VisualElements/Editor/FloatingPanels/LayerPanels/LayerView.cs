@@ -158,7 +158,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
             }
             _iconFocus.style.display = FocusToggle ? DisplayStyle.Flex :  DisplayStyle.None;
-            //AddToClassList("lbs-list-item:selected");
+            AddToClassList("unity-collection-view__item:selected");
         }
 
 

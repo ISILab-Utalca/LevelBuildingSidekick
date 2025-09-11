@@ -43,10 +43,8 @@ namespace ISILab.LBS.VisualElements
             if (_behaviour != null) return;
             _behaviour = target as QuestBehaviour;
 
-            if (_behaviour == null) return;
-            
             // this should only happen on object creation
-            var questGraph = _behaviour.OwnerLayer.GetModule<QuestGraph>();
+            var questGraph = _behaviour?.OwnerLayer.GetModule<QuestGraph>();
             if (questGraph is null) return;
             
             questGraph.LoadGrammar();
@@ -150,6 +148,7 @@ namespace ISILab.LBS.VisualElements
                     ToolKit.Instance.SetActive(typeof(AddGraphNode));
                     _behaviour.activeGraphNodeType = typeof(QuestNode);
                     _behaviour.ActionToSet = action;
+                    
                 });
                 
                 actionButtons.Add(actionButton);
