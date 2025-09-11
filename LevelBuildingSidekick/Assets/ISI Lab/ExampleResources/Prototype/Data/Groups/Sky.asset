@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9ebcf58189b83746bd135834bb0cee0, type: 3}
-  m_Name: TG_FourBiomes
+  m_Name: Sky
   m_EditorClassIdentifier: 
   tags:
-  - {fileID: 11400000, guid: 0091aa48152daf84b879bd47afd95c5f, type: 2}
-  - {fileID: 11400000, guid: dc218e9181dcc474b9d4c0b85a7d634a, type: 2}
-  - {fileID: 11400000, guid: 668924b40b14ff249bcc75a3405722ef, type: 2}
-  - {fileID: 11400000, guid: 1b8092fb5937c544dafbc733564ac39a, type: 2}
+  - {fileID: 11400000, guid: 3ee62dd03f67c7545a8fc2590983e4ee, type: 2}
+  - {fileID: 11400000, guid: 1d5bb63e17b60b24fbcc07529b297294, type: 2}
   type: 0

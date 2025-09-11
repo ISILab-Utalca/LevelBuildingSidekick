@@ -205,7 +205,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 0091aa48152daf84b879bd47afd95c5f, type: 2}
     - {fileID: 11400000, guid: 668924b40b14ff249bcc75a3405722ef, type: 2}
     - {fileID: 11400000, guid: 1b8092fb5937c544dafbc733564ac39a, type: 2}
-    - {fileID: 11400000, guid: c24ceb3018896af43b3002b5857746f7, type: 2}
     - {fileID: 11400000, guid: ce98e237a5ac2e441860779a44e25c85, type: 2}
     - {fileID: 11400000, guid: 03e58311bc09e0249a119c303a11b4b2, type: 2}
     - {fileID: 11400000, guid: 261af09a46f50a647b4fb33a0e989c66, type: 2}
@@ -898,3 +897,10 @@ MonoBehaviour:
   - type: UnityEngine.TextCore.Text.FontAsset
     items:
     - {fileID: 11400000, guid: c5619ed3c27f66f41af19672d913ab95, type: 2}
+  - type: ISILab.LBS.LBSTagGroup
+    items:
+    - {fileID: 11400000, guid: d5e95828a0ce22a48834ad6af8370ad3, type: 2}
+    - {fileID: 11400000, guid: e6dd76e0eebe22a49825c8f693d65d09, type: 2}
+    - {fileID: 11400000, guid: 5c8d8f28646aabb4d811be87265127a7, type: 2}
+    - {fileID: 11400000, guid: f124e644c8305d740b7d7503cc6edb03, type: 2}
+    - {fileID: 11400000, guid: 024b2b5cb9df3564fbc1a98774dec352, type: 2}

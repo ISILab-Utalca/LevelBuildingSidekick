@@ -21,7 +21,8 @@ MonoBehaviour:
   assets:
   - obj: {fileID: 6226509778324813971, guid: 50e70a16041a8984784b60560612465a, type: 3}
     probability: 0.5
-  characteristics: []
+  characteristics:
+  - rid: 8604886014353211475
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
@@ -37,4 +38,13 @@ MonoBehaviour:
   guid: 47425ddd064f3c5438b7f97e28322eb4
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8604886014353211475
+      type: {class: LBSDirection, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        connections:
+        - Darkness
+        - Darkness
+        - Grass
+        - Grass

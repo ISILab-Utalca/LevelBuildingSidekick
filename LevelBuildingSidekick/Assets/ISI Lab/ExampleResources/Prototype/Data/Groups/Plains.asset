@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9ebcf58189b83746bd135834bb0cee0, type: 3}
-  m_Name: TG_Plains
+  m_Name: Plains
   m_EditorClassIdentifier: 
   tags:
   - {fileID: 11400000, guid: dc218e9181dcc474b9d4c0b85a7d634a, type: 2}
