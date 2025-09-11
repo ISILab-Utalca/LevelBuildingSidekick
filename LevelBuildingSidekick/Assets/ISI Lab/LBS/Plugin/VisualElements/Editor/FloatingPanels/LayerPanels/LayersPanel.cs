@@ -224,12 +224,22 @@ namespace ISILab.LBS.VisualElements.Editor
             layer.Name = GenerateUniqueLayerName(layer.Name);
 
             Data.AddLayer(layer);
-            _list.SetSelectionWithoutNotify(new List<int> { 0 });
+            _list.SetSelection(new List<int> { 0 });
             OnAddLayer?.Invoke(layer);
             SetSelectedLayer(layer);
 
             LBSMainWindow.MessageNotify("New Data layer created");
             _list.Rebuild();
+
+            foreach (var layerView in _layerViews)
+            {
+                if (Equals(layerView.Target, layer))
+                {
+                    layerView.UpdateSelect(layer, IsFocusToggleOn());
+                }
+            }
+            
+            CheckOpacity();
         }
 
         private string GenerateUniqueLayerName(string baseName)
@@ -278,6 +288,10 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FOCUS MANAGEMENT
         private void OnToggleFocusChanged(ChangeEvent<bool> evt)
         {
+            if (!evt.newValue)
+            {
+                DrawManager.Instance.ChangeOpacityAll(1f);
+            }
             OnSelectLayer?.Invoke(GetSelectedLayer());
         }
 
@@ -291,12 +305,6 @@ namespace ISILab.LBS.VisualElements.Editor
                 DrawManager.Instance.ChangeOpacityAll(UnfocusOpacity);
                 DrawManager.ChangeLayerOpacity(selectedLayer, 1f);
             }
-            else
-            {
-                DrawManager.Instance.ChangeOpacityAll(1f);
-            }
-            
-            UpdateListChildItems(selectedLayer);
         }
 
         private bool IsFocusToggleOn()
@@ -343,11 +351,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RefreshUI()
         {
-            CheckOpacity();
             UpdateNoLayerPanel();
             UpdateNoSelectedLayer();
             UpdateDisplayList();
             UpdateListChildItems(GetSelectedLayer());
+            CheckOpacity();
         }
 
         private void UpdateNoLayerPanel()

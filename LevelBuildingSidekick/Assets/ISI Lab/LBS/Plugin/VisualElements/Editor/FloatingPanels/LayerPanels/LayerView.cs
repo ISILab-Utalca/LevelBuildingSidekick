@@ -26,6 +26,10 @@ namespace ISILab.LBS.VisualElements.Editor
         private Action _onNameChange;
         #endregion
 
+        #region PROPERTIES
+        public LBSLayer Target { get => _target; set => _target = value; }
+        #endregion
+        
         #region EVENTS
         public event Action OnVisibilityChange
         {
@@ -47,7 +51,18 @@ namespace ISILab.LBS.VisualElements.Editor
             CloneVisualTree();
             BindUIElements();
             Callbacks();
+            
+            RemoveFromClassList("unity-collection-view__item");
+            RemoveFromClassList("unity-list-view__item");
+            RemoveFromClassList("unity-collection-view__item--selected");
+            RemoveFromClassList("unity-collection-view__item:hover");
+            
+            AddToClassList("lbs-list-item");
+            
+            
+                
         }
+
         #endregion
 
         #region METHODS
@@ -145,15 +160,15 @@ namespace ISILab.LBS.VisualElements.Editor
         #region SELECTION
         public void UpdateSelect(LBSLayer layer, bool FocusToggle = false)
         {
+            _iconFocus.style.display = DisplayStyle.None;
+    
             if (layer is null || !layer.Equals(_target))
             {
-                _iconFocus.style.display = DisplayStyle.None;
-                Base.RemoveFromClassList("lbs-list-item:selected");
+                RemoveFromClassList("lbs-list-item:selected");
                 return;
             }
-
-            _iconFocus.style.display = DisplayStyle.Flex;
-            Base.AddToClassList("lbs-list-item:selected");
+            _iconFocus.style.display = FocusToggle ? DisplayStyle.Flex :  DisplayStyle.None;
+            AddToClassList("lbs-list-item:selected");
         }
 
 
