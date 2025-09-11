@@ -151,6 +151,8 @@ namespace ISILab.LBS.VisualElements.Editor
                     OnLayerOrderChange?.Invoke(layer);
                 }
             }
+            view.UpdateSelect(GetSelectedLayer());
+            CheckOpacity();
         }
 
         private void ResetLayerViewEvents(LayerView view, LBSLayer layer)
@@ -161,7 +163,11 @@ namespace ISILab.LBS.VisualElements.Editor
             view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
             view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
             view.SetInfo(layer);
-        }
+            view.OnNameChange += layer.InvokeNameChanged;
+            // OnLayerOrderChange -= view.UpdateSelect;
+            // OnLayerOrderChange += view.UpdateSelect;
+            CheckOpacity();
+    }
 
         private void SelectionChanged(IEnumerable<object> objs)
         {

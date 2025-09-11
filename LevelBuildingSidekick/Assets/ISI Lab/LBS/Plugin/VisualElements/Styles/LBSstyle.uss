@@ -41,9 +41,6 @@ Label {
     color: var(--lbs-default-text-color);
 }
 
-.lbs-item {
-}
-
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
     width: 32px;
@@ -1135,16 +1132,28 @@ Toggle > .lbs-default-icon {
     border-left-width: 1px;
     border-left-color: var(--lbs-dark-overlay-color);
     background-color: var(--lbs-selectable-gray-color);
+    flex-direction: row;
+    height: 24px;
 }
 
-.lbs-list-item__hover {
+.lbs-list-item > .lbs-text-field {
+    padding: 0;
+    padding-top: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 1px;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
 
+.lbs-list-item:hover {
     background-color: var(--lbs-selectable-hover-color);
 }
 
 .lbs-list-item:selected {
     background-color: var(--lbs-selection-neutral-blue-color);
 }
+
 .lbs-item-content {
     border-top-color: var(--lbs-dark-overlay-color);
     border-right-color: var(--lbs-dark-overlay-color);
