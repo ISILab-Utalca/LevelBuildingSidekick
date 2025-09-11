@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <ui:VisualElement name="VisualElement" class="lbs-default-container-panel">
-        <ui:VisualElement class="lbs-title-label-container">
+        <ui:VisualElement class="lbs-title-label-container" style="margin-bottom: 2px;">
             <ui:VisualElement name="LayerIcon" class="lbs-layer-icon lbs-default-label-icon" style="background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;);" />
             <ui:Label tabindex="-1" text="Layers" display-tooltip-when-elided="true" name="LayerLabel" enable-rich-text="false" style="-unity-font-style: bold; padding-left: 2px; -unity-text-align: middle-left;" />
         </ui:VisualElement>
-        <ui:VisualElement name="ToolLayerEditor" style="flex-grow: 1; flex-direction: row-reverse; background-color: rgb(48, 48, 48); min-height: 24px; border-left-color: rgba(0, 0, 0, 0.2); border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-bottom-color: rgba(0, 0, 0, 0.2); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 1.5px; border-bottom-left-radius: 0; border-top-right-radius: 1.5px; border-bottom-right-radius: 0; margin-top: 2px; overflow: hidden;">
+        <ISILab.LBS.CustomComponents.LBSToolbar name="ToolLayerEditor" style="height: 24px; flex-direction: row-reverse;">
             <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" name="AddLayerButtonMenu" tooltip="Create a new layer" class="lbs-tool-bar-button" style="padding-right: 7px; border-right-width: 0; border-left-color: rgb(87, 87, 87); border-right-color: rgb(87, 87, 87); border-top-color: rgb(87, 87, 87); border-bottom-color: rgb(87, 87, 87); border-left-width: 0;">
                 <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Add_New_Layer&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(194, 246, 113); margin-left: 0; border-left-color: rgba(32, 32, 32, 0); border-right-color: rgba(32, 32, 32, 0); border-top-color: rgba(32, 32, 32, 0); border-bottom-color: rgba(32, 32, 32, 0);" />
             </uie:ToolbarMenu>
@@ -13,8 +13,8 @@
                 <ui:VisualElement name="ButtonIcon" class="lbs-default-button" style="background-color: rgba(0, 0, 0, 0); background-image: resource(&apos;Icons/Vectorial/Icon=Trash_Layer_Icon&apos;); min-width: 16px; min-height: 16px; -unity-background-image-tint-color: rgb(254, 118, 105); margin-left: 0;" />
             </ui:Button>
             <ui:VisualElement style="flex-grow: 1;" />
-            <ISILab.LBS.CustomComponents.LBSToolbarToggle toggle-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/LayerPanel/Icon=AutoFocus.svg?fileID=7388822144124034973&amp;guid=cf58ef1d5947e7041ba1377ce1d1165a&amp;type=3#Icon=AutoFocus" name="ToggleFocusButton" style="padding-right: 2px; padding-left: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; align-items: center;" />
-        </ui:VisualElement>
+            <ISILab.LBS.CustomComponents.LBSToolbarToggle toggle-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/LayerPanel/Icon=AutoFocus.svg?fileID=7388822144124034973&amp;guid=cf58ef1d5947e7041ba1377ce1d1165a&amp;type=3#Icon=AutoFocus" name="ToggleFocusButton" value="false" style="padding-right: 2px; padding-left: 2px; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; align-items: center;" />
+        </ISILab.LBS.CustomComponents.LBSToolbar>
         <ISILab.LBS.CustomComponents.LBSPanelTextIcon text="Add new layer to start working." icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" opacity="0.33" picking-mode="Ignore" direction="RowReverse" name="NoLayerNotify" style="flex-direction: row; align-self: stretch; align-items: flex-start; max-height: 24px; min-height: 24px;" />
         <ISILab.LBS.CustomComponents.LBSCustomListView name="List" reorderable="true" virtualization-method="DynamicHeight" show-border="true" style="padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px;" />
         <ui:VisualElement name="LayerSettings" class="lbs-group-box" style="display: none;">

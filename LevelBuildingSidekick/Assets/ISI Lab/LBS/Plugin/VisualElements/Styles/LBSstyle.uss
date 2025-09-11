@@ -41,6 +41,16 @@ Label {
     color: var(--lbs-default-text-color);
 }
 
+
+.lbs-icon {
+    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    min-height: 16px;
+    min-width: 16px;
+    max-width: 16px;
+    max-height: 16px;
+    -unity-background-scale-mode: stretch-to-fill;
+}
+
 .lbs-default-icon {
     -unity-background-image-tint-color: var(--unity-colors-default-text);
     width: 32px;
@@ -56,14 +66,6 @@ Label {
     display: flex;
 }
 
-.lbs-icon {
-    -unity-background-image-tint-color: var(--lbs-default-icon-color);
-    min-height: 16px;
-    min-width: 16px;
-    max-width: 16px;
-    max-height: 16px;
-    -unity-background-scale-mode: stretch-to-fill;
-}
 
 .lbs-default-container-panel {
     background-color: var(--lbs-base-solid-gray-color);
