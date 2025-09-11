@@ -1134,6 +1134,17 @@ Toggle > .lbs-default-icon {
     background-color: var(--lbs-selectable-gray-color);
     flex-direction: row;
     height: 24px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-right-width: 0;
+    padding-right: 0;
+    padding-left: 0;
+    margin-top: 1px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
 }
 
 .lbs-list-item > .lbs-text-field {

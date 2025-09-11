@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
 using System;
+using ISILab.LBS.CustomComponents;
 using ISILab.Macros;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -51,17 +52,9 @@ namespace ISILab.LBS.VisualElements.Editor
             CloneVisualTree();
             BindUIElements();
             Callbacks();
-            
-            RemoveFromClassList("unity-collection-view__item");
-            RemoveFromClassList("unity-list-view__item");
-            RemoveFromClassList("unity-collection-view__item--selected");
-            RemoveFromClassList("unity-collection-view__item:hover");
-            
-            AddToClassList("lbs-list-item");
-            
-            
-                
+            SetStyleSelectors();
         }
+
 
         #endregion
 
@@ -72,7 +65,8 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");
             visualTree.CloneTree(this);
-            Base = this.Q<VisualElement>("Base");
+            Base = this;
+            Base.name = "Base";
         }
 
         private void BindUIElements()
@@ -92,9 +86,16 @@ namespace ISILab.LBS.VisualElements.Editor
             _layerName.RegisterCallback<ChangeEvent<string>>(OnNameChanged);
             _showButton.clicked += () => ShowLayer(true);
             _hideButton.clicked += () => ShowLayer(false);
-
-            RegisterCallback<PointerEnterEvent>(OnHover);
-            RegisterCallback<PointerLeaveEvent>(OnLeave);
+        }
+        
+        public void SetStyleSelectors()
+        {
+            RemoveFromClassList("unity-collection-view__item");
+            RemoveFromClassList("unity-list-view__item");
+            RemoveFromClassList("unity-collection-view__item:selected");
+            RemoveFromClassList("unity-collection-view__item:hover");
+            
+            AddToClassList("lbs-list-item");
         }
         #endregion
 
@@ -144,17 +145,6 @@ namespace ISILab.LBS.VisualElements.Editor
             _target.Name = evt.newValue;
             _onNameChange?.Invoke();
         }
-        
-        
-        public void OnHover(PointerEnterEvent evt)
-        {
-            Base.AddToClassList("lbs-list-item__hover");
-        }
-
-        public void OnLeave(PointerLeaveEvent evt)
-        {
-            Base.RemoveFromClassList("lbs-list-item__hover");
-        }
         #endregion
 
         #region SELECTION
@@ -164,11 +154,11 @@ namespace ISILab.LBS.VisualElements.Editor
     
             if (layer is null || !layer.Equals(_target))
             {
-                RemoveFromClassList("lbs-list-item:selected");
+                //RemoveFromClassList("lbs-list-item:selected");
                 return;
             }
             _iconFocus.style.display = FocusToggle ? DisplayStyle.Flex :  DisplayStyle.None;
-            AddToClassList("lbs-list-item:selected");
+            //AddToClassList("lbs-list-item:selected");
         }
 
 

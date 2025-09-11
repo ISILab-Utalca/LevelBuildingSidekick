@@ -55,7 +55,7 @@
     --graph-thick-line-color: rgba(196, 196, 196, 0.1);
 
     --lbs-selection-neutral-blue-color: rgb(54, 123, 245);
-    --lbs-selection-dark-blue-color: rgb(54, 123, 245);
+    --lbs-selection-dark-blue-color: rgb(31, 90, 194);
 }
 
 .alt {

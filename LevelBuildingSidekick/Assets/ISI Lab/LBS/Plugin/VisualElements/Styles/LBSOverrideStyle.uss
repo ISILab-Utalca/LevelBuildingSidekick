@@ -49,3 +49,7 @@ ObjectFieldDisplay {
     min-width: 32px;
     flex-shrink: 1;
 }
+
+.unity-collection-view__item--selected{
+    background-color: var(--lbs-selection-neutral-blue-color)
+}

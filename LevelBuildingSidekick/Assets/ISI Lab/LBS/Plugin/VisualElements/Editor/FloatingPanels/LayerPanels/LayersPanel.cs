@@ -152,6 +152,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 }
             }
             view.UpdateSelect(GetSelectedLayer());
+            view.SetStyleSelectors();
             CheckOpacity();
         }
 
