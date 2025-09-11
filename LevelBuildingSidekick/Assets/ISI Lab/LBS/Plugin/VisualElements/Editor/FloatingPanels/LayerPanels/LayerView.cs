@@ -57,7 +57,8 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerView");
             visualTree.CloneTree(this);
-            Base = this.Q<VisualElement>("Base");
+            Base = this;
+            Base.AddToClassList("lbs-list-item");
         }
 
         private void BindUIElements()
@@ -143,21 +144,18 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region SELECTION
-        public void UpdateSelect(LBSLayer layer)
-        {
-            if (layer is null || !layer.Equals(_target))
-            {
-                _iconFocus.style.display = DisplayStyle.None;
-                Base.RemoveFromClassList("lbs-list-item:selected");
-                return;
-            }
-
-            _iconFocus.style.display = DisplayStyle.Flex;
-            Base.AddToClassList("lbs-list-item:selected");
-        }
-
-
-        
+        // public void UpdateSelect(LBSLayer layer)
+        // {
+        //     if (layer is null || !layer.Equals(_target))
+        //     {
+        //         _iconFocus.style.display = DisplayStyle.None;
+        //         Base.RemoveFromClassList("lbs-list-item:selected");
+        //         return;
+        //     }
+        //
+        //     _iconFocus.style.display = DisplayStyle.Flex;
+        //     Base.AddToClassList("lbs-list-item:selected");
+        // }
         
         
         #endregion

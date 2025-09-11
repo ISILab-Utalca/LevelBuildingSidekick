@@ -131,8 +131,8 @@ namespace ISILab.LBS.VisualElements.Editor
             if (item is not LayerView view) return;
 
             var layer = Data.GetLayer(index);
-            OnSelectLayer += view.UpdateSelect;
-            OnLayerOrderChange += view.UpdateSelect;
+            // OnSelectLayer += view.UpdateSelect;
+            // OnLayerOrderChange += view.UpdateSelect;
             layer.index = _list.childCount - index;
 
             if (_dragAffected.Count == 0)
@@ -149,7 +149,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     OnLayerOrderChange?.Invoke(layer);
                 }
             }
-            view.UpdateSelect(GetSelectedLayer());
+            // view.UpdateSelect(GetSelectedLayer());
             CheckOpacity();
         }
 
@@ -162,8 +162,8 @@ namespace ISILab.LBS.VisualElements.Editor
             view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
             view.SetInfo(layer);
             view.OnNameChange += layer.InvokeNameChanged;
-            OnLayerOrderChange -= view.UpdateSelect;
-            OnLayerOrderChange += view.UpdateSelect;
+            // OnLayerOrderChange -= view.UpdateSelect;
+            // OnLayerOrderChange += view.UpdateSelect;
             CheckOpacity();
     }
 
