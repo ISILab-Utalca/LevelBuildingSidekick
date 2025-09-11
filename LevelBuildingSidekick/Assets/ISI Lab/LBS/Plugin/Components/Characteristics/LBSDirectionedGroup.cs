@@ -28,9 +28,6 @@ namespace ISILab.LBS.Characteristics
         [SerializeField]
         public List<WeightStruct> Weights = new List<WeightStruct>();
 
-        //[SerializeField]
-        //public bool VertexBased = false;
-
         [JsonIgnore]
         public Action OnAddOwnerChild;
         [JsonIgnore]

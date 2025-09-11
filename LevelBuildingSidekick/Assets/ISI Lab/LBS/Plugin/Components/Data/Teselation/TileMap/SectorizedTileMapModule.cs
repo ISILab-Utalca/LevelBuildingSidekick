@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons;
 using ISILab.Extensions;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -332,6 +334,112 @@ namespace ISILab.LBS.Modules
                 log += "]\n";
             }
             Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
+        }
+
+        public void BuildFromExterior(ConnectedTileMapModule connectedTM, ConnectedTileMapModule zoneConnected)
+        {
+            if (connectedTM == null)
+            {
+                Debug.LogError("Could not interpret zones. Connected Tile Map was null.");
+                return;
+            }
+
+            List<string> floorTags = OwnerLayer.GetBehaviour<ExteriorBehaviour>().NavigableTags;
+
+            if (floorTags == null || floorTags.Count == 0)
+            {
+                Debug.LogError("Cannot build zones. Floor tags were null or empty.");
+                return;
+            }
+
+            switch (connectedTM.GridType)
+            {
+                case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                    BuildFromEdgeBasedExterior(connectedTM, floorTags);
+                    break;
+                case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                    BuildFromVertexBasedExterior(connectedTM, floorTags, zoneConnected);
+                    break;
+            }
+        }
+
+        private void BuildFromEdgeBasedExterior(ConnectedTileMapModule connectedTM, List<string> floorTags)
+        {
+            throw new NotImplementedException("It's currently not possible to interpret zones from Edge-based Exterior Layers");
+        }
+
+        private void BuildFromVertexBasedExterior(ConnectedTileMapModule connectedTM, List<string> floorTags, ConnectedTileMapModule zoneConnected)
+        {
+            Clear();
+
+            List<TileConnectionsPair> tiles = connectedTM.Pairs;
+            List<List<LBSTile>> tileGroups = new();
+
+            List<Vector2Int> dirs = Directions.Bidimencional.Edges;
+
+            HashSet<TileConnectionsPair> toRemove = new();
+
+            while (tiles.Count > 0)
+            {
+                TileConnectionsPair current = tiles[0];
+                tiles.Remove(current);
+
+                if (!current.IsFloor(floorTags))
+                {
+                    toRemove.Add(current);
+                    continue;
+                }
+
+                tileGroups.Insert(0, new List<LBSTile>() { current.Tile });
+
+                List<TileConnectionsPair> found = new List<TileConnectionsPair>() { current };
+
+                while (found.Count > 0)
+                {
+                    current = found[0];
+                    found.Remove(current);
+                    Vector2Int currentPos = current.Tile.Position;
+
+                    foreach (Vector2Int dir in dirs)
+                    {
+                        TileConnectionsPair neighbourTile = connectedTM.Pairs.FirstOrDefault(p => p.Tile.Position == currentPos + dir);
+                        if (!tiles.Remove(neighbourTile)) continue;
+                        if (!neighbourTile.IsFloor(floorTags))
+                        {
+                            toRemove.Add(neighbourTile);
+                            continue;
+                        }
+                        found.Add(neighbourTile);
+                        tileGroups[0].Add(neighbourTile.Tile);
+                    }
+                }
+            }
+
+            foreach(TileConnectionsPair tile in toRemove)
+                zoneConnected.RemoveTile(tile);
+
+            foreach (List<LBSTile> tileGroup in tileGroups)
+            {
+                Color zoneColor = new Color().RandomColorHSV();
+                Zone zone = new Zone(zoneColor.ToString(), zoneColor);
+                AddZone(zone);
+
+                foreach (LBSTile tile in tileGroup)
+                {
+                    AddPair(new TileZonePair(tile, zone));
+
+                    List<Vector2Int> positions = tileGroup.Select(t => t.Position).ToList();
+                    for(int i = 0; i < dirs.Count; i++)
+                    {
+                        Vector2Int neighPos = tile.Position + dirs[i];
+                        string toSet = positions.Contains(neighPos) ? "Empty" : "Wall";
+                        zoneConnected.SetConnection(tile, i, toSet, false);
+                    }
+                }
+            }
+
+            Print();
+            zoneConnected.Print();
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -667,6 +775,10 @@ namespace ISILab.LBS.Modules
         public override void Clear()
         {
             pairs.Clear();
+            while (zones.Count > 0)
+            {
+                RemoveZone(zones[0]);
+            }
         }
 
         public override object Clone()

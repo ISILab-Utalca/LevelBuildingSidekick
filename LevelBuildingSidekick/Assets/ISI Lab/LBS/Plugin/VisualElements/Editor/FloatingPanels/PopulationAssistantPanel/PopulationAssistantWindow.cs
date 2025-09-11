@@ -13,21 +13,13 @@ using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using System.Linq;
 using ISILab.LBS.Assistants;
-using ISILab.LBS.Editor;
-using ISILab.LBS.AI.Assistants.Editor;
-using ISILab.LBS.Internal;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
 using ISILab.Extensions;
-using ISILab.Macros;
 using ISILab.AI.Categorization;
-using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
-using UnityEditor.Graphs;
 using LBS.Components;
-using System.Xml.Serialization;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -178,9 +170,6 @@ namespace ISILab.LBS.VisualElements.Editor
             xProgressBar = rootVisualElement.Q<ProgressBar>("XProgressBar");
             yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
-
-            //var interiorLayer = assistant.OwnerLayer.Parent.Layers.Where(l => l.ID.Equals("Interior") && l.IsVisible).ToList();
-            //interiorLayer.ForEach(l => l.GetModule<SectorizedTileMapModule>()?.RecalculateZonesProximity()); // Buscar un mejor lugar para esto despues
 
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
@@ -341,9 +330,10 @@ namespace ISILab.LBS.VisualElements.Editor
                 layerContextVE.OnRemoveButtonClicked = null;
                 layerContextVE.OnRemoveButtonClicked += () =>
                 {
-                    Data.ContextLayers.RemoveAt(index);
-                    layerList.Remove(element);
-                    layerList.Rebuild();
+                    ToggleLayerContext(layerContextVE.LayerReference);
+                    //Data.ContextLayers.RemoveAt(index);
+                    //layerList.Remove(element);
+                    //layerList.Rebuild();
                 };
             };
 
@@ -439,9 +429,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
             foreach (LBSLayer layer in Data.ContextLayers)
             {
-                if (layer.ID != "Interior")
+                if (layer.ID != "Interior" && layer.ID != "Exterior")
                 {
-                    LBSMainWindow.MessageNotify("Context layers must be of type 'Interior'. " +
+                    LBSMainWindow.MessageNotify("Context layers must be of type 'Interior' or 'Exterior'. " +
                         "Layer '" + layer.Name + "' ignored.", LogType.Warning, 5);
                     continue;
                 }
@@ -452,10 +442,11 @@ namespace ISILab.LBS.VisualElements.Editor
             for (int i = 0; i < filteredLayers.Count; i++)
             {
                 LBSLayer layer = filteredLayers[i];
+                string moduleID = layer.ID.Equals("Exterior") ? "TempConnectedModule" : "";
 
-                if (i == 0) combinedRect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+                if (i == 0) combinedRect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
 
-                Rect rect = layer.GetModule<ConnectedTileMapModule>().GetBounds();
+                Rect rect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
                 combinedRect.GetCombinedArea(rect);
             }
 
@@ -878,11 +869,17 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 Debug.LogError("Object Layer was null.");
                 return;
-            }
-            switch(Data.ContextLayers.Contains(layer))
+            }                
+
+            if(Data.ContextLayers.Contains(layer))
             {
-                case true: Data.ContextLayers.Remove(objectLayer); break;
-                case false: Data.ContextLayers.Add(objectLayer); break;
+                Data.ContextLayers.Remove(objectLayer);
+                objectLayer.OnContextRemoveInvoke();
+            }
+            else
+            {
+                Data.ContextLayers.Add(objectLayer);
+                objectLayer.OnContextAddInvoke();
             }
             layerList.Rebuild();
 

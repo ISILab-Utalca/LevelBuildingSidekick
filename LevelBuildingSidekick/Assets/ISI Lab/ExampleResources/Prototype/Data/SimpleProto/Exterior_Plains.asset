@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Exterior_Plains
   m_EditorClassIdentifier: 
+  bundleName: 
   layerContentFlags: 2
   type: 1
   anchorPosition: 0
@@ -20,6 +21,7 @@ MonoBehaviour:
   assets: []
   characteristics:
   - rid: 8454501613873136375
+  - rid: 5583321337985237386
   populationType: 1
   tileSize: {x: 1, y: 1}
   childsBundles:
@@ -50,6 +52,10 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 5583321337985237386
+      type: {class: LBSNavigableTags, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
     - rid: 8454501613873136375
       type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
