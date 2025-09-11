@@ -129,7 +129,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region SELECTION
-        public void UpdateSelect(LBSLayer layer)
+        public void UpdateSelect(LBSLayer layer, bool FocusToggle = false)
         {
             if (layer is null || !layer.Equals(_target))
             {
@@ -138,7 +138,7 @@ namespace ISILab.LBS.VisualElements.Editor
                 return;
             }
 
-            _iconFocus.style.display = DisplayStyle.Flex;
+            if(FocusToggle)  _iconFocus.style.display = DisplayStyle.Flex;
             Base.AddToClassList("selected");
         }
         #endregion

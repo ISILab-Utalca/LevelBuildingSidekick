@@ -26,7 +26,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private TextField _nameField;
         private VisualElement _noLayerNotifications;
         private VisualElement _noSelectedLayerNotificator;
-        
+
+        private readonly HashSet<LayerView> _layerViews = new HashSet<LayerView>();
         
         [SerializeField]
         private Toggle _toggleFocus;
@@ -70,15 +71,19 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             OnAddLayer += HandleLayerChangeEvent;
             OnRemoveLayer += HandleLayerChangeEvent;
+            OnSelectLayer += HandleLayerChangeEvent;
+            OnLayerOrderChange += HandleLayerChangeEvent;
+            
             RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
         private void InitializeUI()
         {
             _list = this.Q<ListView>("List");
+            _list.itemsSource = Data.Layers;
+            
             _list.makeItem = () => new LayerView();
             _list.bindItem = BindListItem;
-            _list.itemsSource = Data.Layers;
             _list.itemsChosen += ItemChosen;
             _list.selectionChanged += SelectionChanged;
             _list.itemIndexChanged += OnItemDrag;
@@ -131,8 +136,7 @@ namespace ISILab.LBS.VisualElements.Editor
             if (item is not LayerView view) return;
 
             var layer = Data.GetLayer(index);
-            OnSelectLayer += view.UpdateSelect;
-            OnLayerOrderChange += view.UpdateSelect;
+            _layerViews.Add(view);
             layer.index = _list.childCount - index;
 
             if (_dragAffected.Count == 0)
@@ -145,12 +149,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (_dragAffected.Count == 0)
                 {
                     OnLayerOrderChange?.Invoke(layer);
-                    _list.Rebuild();
-                    OnLayerOrderChange?.Invoke(layer);
                 }
             }
-            view.UpdateSelect(GetSelectedLayer());
-            CheckOpacity();
         }
 
         private void ResetLayerViewEvents(LayerView view, LBSLayer layer)
@@ -161,34 +161,25 @@ namespace ISILab.LBS.VisualElements.Editor
             view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
             view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
             view.SetInfo(layer);
-            view.OnNameChange += layer.InvokeNameChanged;
-            OnLayerOrderChange -= view.UpdateSelect;
-            OnLayerOrderChange += view.UpdateSelect;
-            CheckOpacity();
-    }
+        }
 
         private void SelectionChanged(IEnumerable<object> objs)
         {
             var selected = objs.FirstOrDefault() as LBSLayer;
             LBSMainWindow.Instance._selectedLayer = selected;
-            UpdateNoSelectedLayer();
             OnSelectLayer?.Invoke(GetSelectedLayer());
-            CheckOpacity();
         }
 
         private void ItemChosen(IEnumerable<object> objs)
         {
             var selected = objs.FirstOrDefault() as LBSLayer;
             LBSMainWindow.Instance._selectedLayer = selected;
-            UpdateNoLayerPanel();
-            UpdateNoSelectedLayer();
             OnDoubleSelectLayer?.Invoke(GetSelectedLayer());
-            CheckOpacity();
         }
 
         private void OnItemDrag(int oldIndex, int newIndex)
         {
-            CheckOpacity();
+       
             int count = Mathf.Abs(newIndex - oldIndex) + 1;
             int step = (int)Mathf.Sign(newIndex - oldIndex);
             for (int i = 0; i < count; i++)
@@ -196,8 +187,23 @@ namespace ISILab.LBS.VisualElements.Editor
                 int index = oldIndex + i * step;
                 _dragAffected.Add(index);
             }
+            RefreshUI();
         }
         #endregion
+        
+        #region EVENT HANDLERS
+        private void UpdateListChildItems(LBSLayer layer)
+        {
+            _layerViews.Clear();
+            _list.RefreshItems(); // calls rebind -> refill _layerViews
+            foreach (var layerView in _layerViews)
+            {
+                layerView.UpdateSelect(layer, IsFocusToggleOn());
+            }
+        }
+        
+        #endregion
+
 
         #region LAYER MANAGEMENT
         private void AddLayerByTemplate(int index)
@@ -272,15 +278,15 @@ namespace ISILab.LBS.VisualElements.Editor
         #region FOCUS MANAGEMENT
         private void OnToggleFocusChanged(ChangeEvent<bool> evt)
         {
-            CheckOpacity();
+            OnSelectLayer?.Invoke(GetSelectedLayer());
         }
 
         private void CheckOpacity()
         {
-            if(DrawManager.Instance is null) return;
-            
+            if (DrawManager.Instance is null) return;
+
             var selectedLayer = GetSelectedLayer();
-            if (_toggleFocus.value && selectedLayer != null)
+            if (IsFocusToggleOn() && selectedLayer != null)
             {
                 DrawManager.Instance.ChangeOpacityAll(UnfocusOpacity);
                 DrawManager.ChangeLayerOpacity(selectedLayer, 1f);
@@ -289,6 +295,13 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 DrawManager.Instance.ChangeOpacityAll(1f);
             }
+            
+            UpdateListChildItems(selectedLayer);
+        }
+
+        private bool IsFocusToggleOn()
+        {
+            return _toggleFocus.value;
         }
 
         #endregion
@@ -296,10 +309,8 @@ namespace ISILab.LBS.VisualElements.Editor
         #region SELECTION MANAGEMENT
         private void SetSelectedLayer(LBSLayer layer)
         {
-            CheckOpacity();
-            if (Equals(layer, _selectedLayer)) return;
             _selectedLayer = layer;
-            UpdateNoSelectedLayer();
+            OnSelectLayer?.Invoke(layer);
         }
 
         private LBSLayer GetSelectedLayer() => LBSMainWindow.Instance._selectedLayer;
@@ -308,7 +319,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             _list.ClearSelection();
             SetSelectedLayer(null);
-            CheckOpacity();
+   
         }
 
         private void UpdateNoSelectedLayer()
@@ -318,13 +329,11 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 LBSInspectorPanel.ActivateDataTab();
                 _noSelectedLayerNotificator.style.display = DisplayStyle.None;
-                OnSelectLayer?.Invoke(layer);
             }
             else
             {
                 _noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 LBSInspectorPanel.Instance.SetSelectedTab(null);
-                OnSelectLayer?.Invoke(null);
             }
         }
         #endregion
@@ -334,10 +343,11 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void RefreshUI()
         {
-     
+            CheckOpacity();
             UpdateNoLayerPanel();
             UpdateNoSelectedLayer();
             UpdateDisplayList();
+            UpdateListChildItems(GetSelectedLayer());
         }
 
         private void UpdateNoLayerPanel()
