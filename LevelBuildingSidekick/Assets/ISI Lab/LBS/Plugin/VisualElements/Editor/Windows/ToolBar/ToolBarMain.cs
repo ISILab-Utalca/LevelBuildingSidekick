@@ -18,6 +18,7 @@ namespace ISILab.LBS.VisualElements.Editor
         //public new class UxmlFactory : UxmlFactory<ToolBarMain, VisualElement.UxmlTraits> { }
         
         public LBSMainWindow MainWindow;
+        public string defaultLabel = "Unsaved File *";
         
         public event Action<LoadedLevel> OnLoadLevel;
         public event Action<LoadedLevel> OnNewLevel;
@@ -56,7 +57,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // file name label
             var label = this.Q<Label>("IsSavedLabel"); 
             if(LBS.loadedLevel?.FileInfo!=null) { label.text = LBS.loadedLevel.FileInfo.Name; }
-            else { label.text = "Unsaved File *"; }
+            else { label.text = defaultLabel; }
 
                 LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
             ThemeSelector.RegisterValueChangedCallback(_evt =>
@@ -67,8 +68,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 
             });
 
-            OnSaveLevel += (level) => { label.text = LBS.loadedLevel.FileInfo.Name; };
-            OnLevelChange += (level) => { label.text = LBS.loadedLevel.FileInfo.Name +" *"; };
+            OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
+            OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
         }
 
         public void NewLevel(DropdownMenuAction dma)
