@@ -400,6 +400,8 @@ public class BundleDirectionEditorWindow : EditorWindow
         LRDirectionDropdown.value = currentTagList[3];
 
         tagGroupDropdown.SetValueWithoutNotify(currentTagGroup);
+
+        SetChoices(tagBundles.Find(bundle => bundle.name == tagGroupDropdown.value)?.Tags);
     }
 
     private void UpdateWindow()
