@@ -46,7 +46,7 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             CloneVisualTree();
             BindUIElements();
-            RegisterCallbacks();
+            Callbacks();
         }
         #endregion
 
@@ -72,11 +72,14 @@ namespace ISILab.LBS.VisualElements.Editor
             _iconFocus.style.display = DisplayStyle.None;
         }
 
-        private void RegisterCallbacks()
+        private void Callbacks()
         {
             _layerName.RegisterCallback<ChangeEvent<string>>(OnNameChanged);
             _showButton.clicked += () => ShowLayer(true);
             _hideButton.clicked += () => ShowLayer(false);
+
+            RegisterCallback<PointerEnterEvent>(OnHover);
+            RegisterCallback<PointerLeaveEvent>(OnLeave);
         }
         #endregion
 
@@ -126,6 +129,17 @@ namespace ISILab.LBS.VisualElements.Editor
             _target.Name = evt.newValue;
             _onNameChange?.Invoke();
         }
+        
+        
+        public void OnHover(PointerEnterEvent evt)
+        {
+            Base.AddToClassList("lbs-list-item__hover");
+        }
+
+        public void OnLeave(PointerLeaveEvent evt)
+        {
+            Base.RemoveFromClassList("lbs-list-item__hover");
+        }
         #endregion
 
         #region SELECTION
@@ -134,13 +148,18 @@ namespace ISILab.LBS.VisualElements.Editor
             if (layer is null || !layer.Equals(_target))
             {
                 _iconFocus.style.display = DisplayStyle.None;
-                Base.RemoveFromClassList("selected");
+                Base.RemoveFromClassList("lbs-list-item:selected");
                 return;
             }
 
-            if(FocusToggle)  _iconFocus.style.display = DisplayStyle.Flex;
-            Base.AddToClassList("selected");
+            _iconFocus.style.display = DisplayStyle.Flex;
+            Base.AddToClassList("lbs-list-item:selected");
         }
+
+
+        
+        
+        
         #endregion
 
         #endregion

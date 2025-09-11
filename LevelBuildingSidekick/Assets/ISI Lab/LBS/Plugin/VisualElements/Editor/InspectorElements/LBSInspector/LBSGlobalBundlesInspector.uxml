@@ -1,11 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <ui:Template name="LBSCustomHeader" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/CustomComponents/ComplexCoponents/LBSHeader/LBSCustomHeader.uxml?fileID=9197481963319205126&amp;guid=4b6c101d1038601419b07d23e8a28d3b&amp;type=3#LBSCustomHeader" />
     <ui:VisualElement style="flex-grow: 1; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 8px;">
-        <ui:VisualElement name="Header" style="flex-direction: row; height: 18px; border-left-color: rgb(25, 25, 25); border-right-color: rgb(25, 25, 25); border-top-color: rgb(25, 25, 25); border-bottom-color: rgb(25, 25, 25); border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 5px;">
-            <ui:VisualElement style="background-color: rgb(42, 42, 42); flex-grow: 0.1; min-height: auto; align-items: center; justify-content: center;">
-                <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Vectorial/Bundle_Layer&apos;); -unity-background-image-tint-color: rgb(163, 160, 251); -unity-background-scale-mode: stretch-to-fill;" />
-            </ui:VisualElement>
-            <ui:Label tabindex="-1" text="Bundles creation" display-tooltip-when-elided="true" style="padding-left: 5px;" />
-        </ui:VisualElement>
+        <ui:Instance template="LBSCustomHeader" name="LBSCustomHeader" />
         <ui:VisualElement name="ListPanel" style="background-color: rgba(0, 0, 0, 0.51); padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 8px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; margin-bottom: 4px;">
             <ui:VisualElement name="Title" style="flex-direction: row; align-items: center; padding-bottom: 4px; padding-left: 2px;">
                 <ui:VisualElement style="width: 12px; height: 12px; background-image: resource(&apos;Icons/Bundl_Interface/Bundle_List@32&apos;); -unity-background-image-tint-color: rgb(163, 160, 251);" />

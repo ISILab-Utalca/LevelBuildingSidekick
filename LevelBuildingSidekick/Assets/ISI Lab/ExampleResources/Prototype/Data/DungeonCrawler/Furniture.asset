@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Furniture
   m_EditorClassIdentifier: 
+  bundleName: Furniture
   layerContentFlags: 0
   type: 2
   anchorPosition: 0
   color: {r: 0.97647065, g: 0.5176471, b: 0.2901961, a: 1}
-  icon: {fileID: 7388822144124034973, guid: 6596c0ea750e1df44946154d240660b3, type: 3}
+  icon: {fileID: 7388822144124034973, guid: 2c574c2f54a4fdb4ab59ccedd5d5e63d, type: 3}
   assets:
   - obj: {fileID: 1186279966818311413, guid: 5f4f39f256dd4f94799740976e13c298, type: 3}
     probability: 1

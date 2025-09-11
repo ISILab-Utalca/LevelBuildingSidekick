@@ -12,6 +12,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 
 
 
@@ -46,6 +48,9 @@ namespace ISILab.LBS.Assistants
         private ConnectedTileMapModule.ConnectedTileType? gridType;
 
         private bool safeMode;
+
+        const int MAX_MEMORY = 3, MAX_RETRIES = 5;
+        const int SAVE_STATE_INTERVAL = 10;
 
         #endregion
 
@@ -186,11 +191,9 @@ namespace ISILab.LBS.Assistants
         {
             bool success = false;
 
-            const int MAX_MEMORY = 3, MAX_RETRIES = 5;
             int initialRetryBonus = 10;
             (int, int) retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
             int step = 0, maxStep = 0;
-            int saveStateInterval = 10;
 
             Bundle bundle = targetBundleRef;
 
@@ -201,19 +204,53 @@ namespace ISILab.LBS.Assistants
             var originalTM = og.Clone()[0] as ConnectedTileMapModule;
 
             // Get tiles to change
-            List<LBSTile> toCalc = GetTileToCalc(Positions, map, connected);
+            List<LBSTile> toCalc = GetTileToCalc(map, connected);
 
             // Build whitelist (positions + direct neighbors)
+            // and selection area neighbourhood
             var whitelist = new HashSet<Vector2Int>();
+            var areaNeighbours = new List<(LBSTile, int)>();
+            bool implemented = true;
             foreach (LBSTile tile in toCalc)
             {
                 whitelist.Add(tile.Position);
-                List<LBSTile> neighbors = map.GetTileNeighbors(tile, Dirs);
-                foreach (LBSTile n in neighbors.RemoveEmpties())
+                List<LBSTile> neighbours = map.GetTileNeighbors(tile, Dirs);
+
+                for(int i = 0; i < neighbours.Count; i++)
                 {
-                    whitelist.Add(n.Position);
+                    if (neighbours[i] == null) continue;
+
+                    bool isAreaNeighbour = !toCalc.Contains(neighbours[i]);
+                    bool haveEmpties = connected.GetConnections(neighbours[i]).Contains("");
+
+                    if (isAreaNeighbour && haveEmpties)
+                        continue;
+
+                    whitelist.Add(neighbours[i].Position);
+
+                    if(overrideValues && isAreaNeighbour)
+                    {
+                        switch(GridType)
+                        {
+                            case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                                areaNeighbours.Add((neighbours[i], (i+2)%4));
+                                break;
+                            case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                                implemented = false;
+                                break;
+                        }
+                    }
                 }
             }
+            if(implemented)
+            {
+                foreach ((LBSTile, int) areaNeighbour in areaNeighbours)
+                {
+                    connected.SetConnection(areaNeighbour.Item1, areaNeighbour.Item2, "", false);
+                    toCalc.Add(areaNeighbour.Item1);
+                }
+            }
+            else Debug.LogError("Unhandled case for Vertex-based grid. Could not build area neighbourhood.");
 
             var closed = new List<LBSTile>();
             var reCalc = new List<LBSTile>();
@@ -233,11 +270,10 @@ namespace ISILab.LBS.Assistants
             bool stepSuccess = true;
             int tryCount = 0;
 
+            /// MAIN LOOP
             while (toCalc.Count > 0)
             {
                 tryCount++;
-
-                var _closed = new List<LBSTile>(closed);
 
                 List<KeyValuePair<LBSTile, List<Candidate>>> xx = safeMode ? 
                     currentCalcs.Where(e => !closed.Contains(e.Key)).ToList() :
@@ -251,56 +287,27 @@ namespace ISILab.LBS.Assistants
                 // If cannot generate next tile
                 if(safeMode && (!stepSuccess || current.Value.Count <= 0))
                 {
-                    // Decrease step retries
-                    retryCount.Item2--;
-                    // If step retries run out, it rollbacks to previous state
-                    if(retryCount.Item2 <= 0)
+                    if (Backtrack(states, ref retryCount, connected, originalTM, ref step, maxStep, ref toCalc, ref closed, ref currentCalcs))
                     {
-                        retryCount.Item2 = MAX_RETRIES;
-                        retryCount.Item1--;
-                        // If it reaches maximum number of reverts allowed, it cancels generation
-                        if( retryCount.Item1 <= 0)
-                        {
-                            connected.Rewrite(originalTM);
-                            return false;
-                        }
+                        stepSuccess = true;
+                        Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
+                        continue;
                     }
-                    // Determines target step and number of steps to revert
-                    int offset = (MAX_MEMORY - retryCount.Item1) * saveStateInterval + (maxStep % saveStateInterval);
-                    int targetStep = maxStep - offset;
-                    int stepsToRevert = step - targetStep;
-                    step = targetStep;
-                    if(step < 0)
-                    {
-                        connected.Rewrite(originalTM);
-                        return false;
-                    }
-
-                    int statesToRevert = stepsToRevert / saveStateInterval;
-
-                    states.Reverse();
-                    for (int i = 0; i < statesToRevert; i++)
-                        states.RemoveAt(0);
-                    WFCState prevState = states[0];
-                    connected.Rewrite(prevState.tileMap);
-                    toCalc = prevState.toCalc.Clone();
-                    closed = prevState.closed.Clone();
-                    //currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
-                    currentCalcs = new Dictionary<LBSTile, List<Candidate>>(prevState.currentCalcs);
-                    states.Reverse();
-
-                    stepSuccess = true;
-                    Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
-                    continue;
+                    else return false;
                 }
 
                 stepSuccess = true;
 
+                if (current.Value.Count == 1)
+                    ;
+
                 Candidate selected = current.Value.RandomRullete(c => c.weigth);
-                string[] connections = selected.bundle.GetConnection(selected.rotation);
-                connected.SetConnections(current.Key, connections.ToList(), new List<bool>() { false, false, false, false });
+                List<string> connections = selected.bundle.GetConnection(selected.rotation).ToList();
+                connected.SetConnections(current.Key, connections, new List<bool>() { false, false, false, false });
                 currentCalcs[current.Key] = new List<Candidate>() { selected };
                 closed.Add(current.Key);
+
+                var _closed = new List<LBSTile>(closed);
 
                 List<LBSTile> neigth = map.GetTileNeighbors(current.Key, Dirs);
                 SetConnectionNei(current.Key, neigth.ToArray(), closed, whitelist);
@@ -309,6 +316,8 @@ namespace ISILab.LBS.Assistants
                                          .Where(n => currentCalcs.ContainsKey(n) && whitelist.Contains(n.Position))
                                          .ToList();
                 reCalc.AddRange(neigthCalcs);
+
+                //bool noCandidatesFlag = false;
 
                 while (reCalc.Count > 0)
                 {
@@ -320,7 +329,7 @@ namespace ISILab.LBS.Assistants
                         continue;
                     }
 
-                    currentCalcs.TryGetValue(tile, out var lastCandidates);
+                    currentCalcs.TryGetValue(tile, out List<Candidate> lastCandidates);
                     List<Candidate> newCandidates = CalcCandidates(tile, group);
 
                     if (safeMode && newCandidates.Count == 0)
@@ -335,14 +344,15 @@ namespace ISILab.LBS.Assistants
                     {
                         currentCalcs[tile] = newCandidates;
 
-                        List<LBSTile> neigs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
-                        foreach (var nei in neigs)
+                        List<LBSTile> neighs = map.GetTileNeighbors(tile, Dirs).RemoveEmpties();
+                        //foreach (LBSTile nei in neighs)
+                        for(int i = 0; i < neighs.Count; i++)
                         {
-                            if (_closed.Contains(nei) || reCalc.Contains(nei))
+                            if (_closed.Contains(neighs[i]) || reCalc.Contains(neighs[i]))
                                 continue;
 
-                            if (whitelist.Contains(nei.Position))
-                                reCalc.Add(nei);
+                            if (whitelist.Contains(neighs[i].Position))
+                                reCalc.Add(neighs[i]);
                         }
                     }
 
@@ -357,7 +367,7 @@ namespace ISILab.LBS.Assistants
                 if(step > maxStep)
                 {
                     maxStep = step;
-                    if(maxStep > saveStateInterval)
+                    if(maxStep > SAVE_STATE_INTERVAL)
                         initialRetryBonus = 0;
                     retryCount = (MAX_MEMORY, MAX_RETRIES + initialRetryBonus);
                 }
@@ -365,7 +375,7 @@ namespace ISILab.LBS.Assistants
                 if(safeMode)
                 {
                     Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
-                    if(step % saveStateInterval == 0)
+                    if(step % SAVE_STATE_INTERVAL == 0)
                     {
                         // Save state
                         states.Add(new WFCState(step, connected, toCalc, closed, currentCalcs));
@@ -380,6 +390,53 @@ namespace ISILab.LBS.Assistants
             success = toCalc.Count == 0;
             if (safeMode && !success) connected.Rewrite(originalTM);
             return success;
+        }
+
+        private bool Backtrack(
+            List<WFCState> states, ref (int, int) retryCount, 
+            ConnectedTileMapModule currentTM, ConnectedTileMapModule originalTM, 
+            ref int currentStep, int maxStep,
+            ref List<LBSTile> toCalc, ref List<LBSTile> closed, ref Dictionary<LBSTile, List<Candidate>> currentCalcs)
+        {
+            // Decrease step retries
+            retryCount.Item2--;
+            // If step retries run out, it rollbacks to previous state
+            if (retryCount.Item2 <= 0)
+            {
+                retryCount.Item2 = MAX_RETRIES;
+                retryCount.Item1--;
+                // If it reaches maximum number of reverts allowed, it cancels generation
+                if (retryCount.Item1 <= 0)
+                {
+                    currentTM.Rewrite(originalTM);
+                    return false;
+                }
+            }
+            // Determines target step and number of steps to revert
+            int offset = (MAX_MEMORY - retryCount.Item1) * SAVE_STATE_INTERVAL + (maxStep % SAVE_STATE_INTERVAL);
+            int targetStep = maxStep - offset;
+            int stepsToRevert = currentStep - targetStep;
+            currentStep = targetStep;
+            if (currentStep < 0)
+            {
+                currentTM.Rewrite(originalTM);
+                return false;
+            }
+
+            int statesToRevert = stepsToRevert / SAVE_STATE_INTERVAL;
+
+            states.Reverse();
+            for (int i = 0; i < statesToRevert; i++)
+                states.RemoveAt(0);
+            WFCState prevState = states[0];
+            currentTM.Rewrite(prevState.tileMap);
+            toCalc = prevState.toCalc.Clone();
+            closed = prevState.closed.Clone();
+            //currentCalcs = prevState.currentCalcs.Clone(); //revisar clonacion
+            currentCalcs = new Dictionary<LBSTile, List<Candidate>>(prevState.currentCalcs);
+            states.Reverse();
+
+            return true;
         }
 
         public void SetConnectionNei(LBSTile origin, LBSTile[] neis, List<LBSTile> closed, HashSet<Vector2Int> whitelist)
@@ -418,7 +475,7 @@ namespace ISILab.LBS.Assistants
             }
         }
 
-        private List<LBSTile> GetTileToCalc(List<Vector2Int> positions, TileMapModule map, ConnectedTileMapModule connected)
+        private List<LBSTile> GetTileToCalc(TileMapModule map, ConnectedTileMapModule connected)
         {
             var toR = new List<LBSTile>();
             foreach (var position in Positions)
@@ -431,7 +488,7 @@ namespace ISILab.LBS.Assistants
                     continue;
 
                 // Get connections
-                var connection = connected.GetConnections(tile);
+                //var connection = connected.GetConnections(tile);
 
                 if (overrideValues)
                 {
@@ -548,6 +605,110 @@ namespace ISILab.LBS.Assistants
 
             return true;
         }
+
+        //out string errMsg
+
+        public bool CaptureRules()
+        {
+            //errMsg = null;
+
+            // TO DO
+            //Hacer un nuevo LBSCharacteristic que pueda implementar
+            //las reglas del diccionario.
+
+            Dictionary<TileConnectionsPair, List<List<TileConnectionsPair>>> tileRules = new();
+
+
+            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().
+                Pairs.OrderBy(t => -t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+
+            if (pairs.Count == 0)
+            {
+                //errMsg = "Empty map! Could not capture its weights.";
+                return false;
+            }
+
+            foreach (var p in pairs)
+            {
+                var adjacent = new List<List<TileConnectionsPair>>
+                {
+                    GetAdjacentFromCurrent(pairs, p)
+                };
+
+                if (!tileRules.ContainsKey(p))
+                    tileRules.Add(p, adjacent);
+                else
+                {
+                    tileRules[p].Add(GetAdjacentFromCurrent(pairs, p));
+                }
+            }
+
+            foreach (var rule in tileRules)
+            {
+                Debug.Log(rule.Key);
+
+                foreach (var pair in rule.Value)
+                {
+                    Debug.Log($" - {string.Join(", ", pair)}");
+                }
+
+            }
+
+            //var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+
+            //Selection.activeObject = targetBundleRef;
+
+            return true;
+        }
+
+        private void ArrangeListByPosition(List<TileConnectionsPair> tiles)
+        {
+            tiles = tiles.OrderBy(t => t.Tile.Position.x).ThenBy(t => t.Tile.Position.y).ToList();
+        }
+
+        private List<TileConnectionsPair> GetAdjacentFromCurrent(List<TileConnectionsPair> tiles, TileConnectionsPair current)
+        {
+            List<TileConnectionsPair> adjacent = new();
+
+            foreach (var tile in tiles)
+            {
+                if (tile.Tile == current.Tile)
+                    continue;
+
+                Vector2Int currentPos = current.Tile.Position;
+                Vector2Int tilePos = tile.Tile.Position;
+
+                if (tilePos == currentPos + Vector2Int.right)
+                {
+                    //Debug.Log($"Right: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.left)
+                {
+                    //Debug.Log($"Left: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.up)
+                {
+                    //Debug.Log($"Up: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.down)
+                {
+                    //Debug.Log($"Down: {tile.Tile}");
+                    adjacent.Add(tile);
+                }
+            }
+
+            return adjacent;
+        }
+
 
         public bool SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset, out string errMsg)
         {

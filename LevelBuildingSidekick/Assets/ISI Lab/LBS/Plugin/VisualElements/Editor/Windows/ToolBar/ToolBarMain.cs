@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Settings;
 using UnityEngine;
+using static UnityEngine.Analytics.IAnalytic;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -20,6 +21,8 @@ namespace ISILab.LBS.VisualElements.Editor
         
         public event Action<LoadedLevel> OnLoadLevel;
         public event Action<LoadedLevel> OnNewLevel;
+        public event Action<LoadedLevel> OnSaveLevel;
+        public event Action<LoadedLevel> OnLevelChange;
         
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
         
@@ -51,9 +54,11 @@ namespace ISILab.LBS.VisualElements.Editor
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
 
             // file name label
-            var label = this.Q<Label>("IsSavedLabel"); // TODO: mark as unsaved when changes are made
-            
-            LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
+            var label = this.Q<Label>("IsSavedLabel"); 
+            if(LBS.loadedLevel?.FileInfo!=null) { label.text = LBS.loadedLevel.FileInfo.Name; }
+            else { label.text = "Unsaved File *"; }
+
+                LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
             ThemeSelector.RegisterValueChangedCallback(_evt =>
             {
                 //Debug.Log(_evt.currentTarget);
@@ -61,7 +66,9 @@ namespace ISILab.LBS.VisualElements.Editor
                 OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
                 
             });
-            
+
+            OnSaveLevel += (level) => { label.text = LBS.loadedLevel.FileInfo.Name; };
+            OnLevelChange += (level) => { label.text = LBS.loadedLevel.FileInfo.Name +" *"; };
         }
 
         public void NewLevel(DropdownMenuAction dma)
@@ -81,16 +88,29 @@ namespace ISILab.LBS.VisualElements.Editor
             }
                 
         }
+        
+        public void LevelChange()
+        {
+            OnLevelChange?.Invoke(LBS.loadedLevel);
+        }
 
         public void SaveLevel(DropdownMenuAction dma)
         {
+            SaveLevel();
+        }
+        public void SaveLevel()
+        {
+            Debug.Log("saving");
             LBSController.SaveFile();
+            OnSaveLevel?.Invoke(LBS.loadedLevel);
             AssetDatabase.Refresh();
         }
 
         public void SaveAsLevel(DropdownMenuAction dma)
         {
-            LBSController.SaveFileAs();
+            if (LBSController.SaveFileAs()) { 
+            OnSaveLevel?.Invoke(LBS.loadedLevel);
+            }
             AssetDatabase.Refresh();
         }
 

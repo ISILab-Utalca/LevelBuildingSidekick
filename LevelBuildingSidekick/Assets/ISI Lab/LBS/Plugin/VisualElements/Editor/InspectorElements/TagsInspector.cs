@@ -21,7 +21,7 @@ namespace ISILab.LBS.VisualElements
             visualTree.CloneTree(this);
 
             // Init tags bundle
-            var bundles = DirectoryTools.GetScriptablesByType<LBSIdentifierBundle>().ToList();
+            var bundles = DirectoryTools.GetScriptablesByType<LBSTagGroup>().ToList();
 
             // Content
             var content = this.Q<VisualElement>("Content");
@@ -51,7 +51,7 @@ namespace ISILab.LBS.VisualElements
 
         private void AddBundle(string name)
         {
-            var so = ScriptableObject.CreateInstance<LBSIdentifierBundle>();
+            var so = ScriptableObject.CreateInstance<LBSTagGroup>();
 
             string path = "Assets/" + name + "_Tag" + ".asset";
             AssetDatabase.CreateAsset(so, path);

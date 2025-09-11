@@ -4,20 +4,23 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class ActionButton : VisualElement
+    
+    [UxmlElement]
+    public partial class ActionButton : VisualElement
     {
         private static ActionButton _activeButton;
         
         public readonly Label Label;
-        private readonly Button _button;
+        private  Button _button;
 
-        private ActionButton()
+        public  ActionButton()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("ActionButton");
             visualTree.CloneTree(this);
-
+            AddToClassList("lbs-quest-list-item");
             Label = this.Q<Label>(name: "Action");
             _button = this.Q<Button>(name: "Button");
+            _button.RemoveFromClassList(Button.ussClassName);
             _button.clicked += Highlight;
         }
 
@@ -25,18 +28,17 @@ namespace ISILab.LBS.VisualElements
         {
             Label.text = char.ToUpper(text[0]) + text.Substring(1);
             _button.clicked += action;
-            AddToClassList("lbs-actionbutton");
         }
 
         private void Highlight()
         {
-            if (_activeButton is not null && _activeButton != this)
+            if (_button is not null)
             {
-                _activeButton.RemoveFromClassList("lbs-actionbutton_selected");
+                _button.RemoveFromClassList(".lbs-action-button_selected");
             }
 
-            _activeButton = this;
-            AddToClassList("lbs-actionbutton_selected");
+            _button = this.Q<Button>(name: "Button");
+            _button.AddToClassList(".lbs-action-button_selected");
         }
     }
 }

@@ -61,8 +61,8 @@ namespace ISILab.LBS.CustomComponents
             
             minusButton.RegisterCallback<ClickEvent>((evt) =>
             {
-                value = Math.Clamp(value - 1, minValue, maxValue);
-                
+                if (value != 0) 
+                    value = Math.Clamp(value - 1, minValue, maxValue);
             });
             
         }
