@@ -46,7 +46,7 @@ MonoBehaviour:
       data:
         owner: {fileID: 11400000}
         connections:
-        - 
-        - 
-        - 
-        - 
+        - Grass
+        - Water
+        - Water
+        - Water

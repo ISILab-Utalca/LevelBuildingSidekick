@@ -19,7 +19,8 @@ MonoBehaviour:
   color: {r: 0, g: 0, b: 0, a: 0}
   icon: {fileID: 0}
   assets: []
-  characteristics: []
+  characteristics:
+  - rid: 8604886014353211479
   populationType: 0
   tileSize: {x: 1, y: 1}
   childsBundles:
@@ -43,4 +44,26 @@ MonoBehaviour:
   guid: 38075b72e84101f499766c3c0a48cb25
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8604886014353211479
+      type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
+      data:
+        owner: {fileID: 11400000}
+        Weights:
+        - target: {fileID: 11400000, guid: 6ce7819921257684ea4d4ad637aca9d9, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: 47425ddd064f3c5438b7f97e28322eb4, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: 452799d9db88f3c49915e6d718f9750f, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: c6746ecb7072c31458a256f79dcda348, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: ef7c0efe12a54b843a4d9987aa64905a, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: 0da366ea27816ea409b299c1e7d69ee7, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: d03d947e43d7f88469d49e2bc69da792, type: 2}
+          weight: 0.5
+        - target: {fileID: 11400000, guid: cba2870db3f05d445af0942025d32eb3, type: 2}
+          weight: 0.5
+        currentType: 0

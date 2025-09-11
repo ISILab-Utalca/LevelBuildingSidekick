@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9ebcf58189b83746bd135834bb0cee0, type: 3}
-  m_Name: TG_Sky
+  m_Name: City
   m_EditorClassIdentifier: 
-  tags: []
-  type: 0
+  tags:
+  - {fileID: 11400000, guid: 7f4f15def595c724f91b2b6305e43a0c, type: 2}
+  - {fileID: 11400000, guid: 6250d4dc1497e2f4bb088157a4da725f, type: 2}
+  type: 1
