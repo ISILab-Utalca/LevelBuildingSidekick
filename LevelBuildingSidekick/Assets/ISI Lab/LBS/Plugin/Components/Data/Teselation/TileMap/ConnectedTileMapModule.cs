@@ -14,9 +14,14 @@ namespace ISILab.LBS.Modules
     [System.Serializable]
     public class ConnectedTileMapModule : LBSModule
     {
+        public enum ConnectedTileType { EdgeBased, VertexBased }
+
         #region FIELDS
         [SerializeField, JsonRequired]
         private int connectedDirections = 4;
+
+        [SerializeField, JsonRequired]
+        private ConnectedTileType gridType;
 
         [SerializeField, JsonRequired, SerializeReference]
         private List<TileConnectionsPair> pairs = new List<TileConnectionsPair>();
@@ -32,6 +37,9 @@ namespace ISILab.LBS.Modules
 
         [JsonIgnore]
         public List<TileConnectionsPair> Pairs => new List<TileConnectionsPair>(pairs);
+
+        [JsonIgnore]
+        public ConnectedTileType GridType => gridType;
         #endregion
 
         #region EVENTS
@@ -45,9 +53,10 @@ namespace ISILab.LBS.Modules
             id = GetType().Name;
         }
 
-        public ConnectedTileMapModule(IEnumerable<TileConnectionsPair> tiles, int connectedDirections, string id = "ConnectedTileMapModule") : base(id)
+        public ConnectedTileMapModule(IEnumerable<TileConnectionsPair> tiles, int connectedDirections, ConnectedTileType gridType, string id = "ConnectedTileMapModule") : base(id)
         {
             this.connectedDirections = connectedDirections;
+            this.gridType = gridType;
             foreach (var t in tiles)
             {
                 AddPair(t.Tile, t.Connections, t.EditedByIA);
@@ -150,7 +159,7 @@ namespace ISILab.LBS.Modules
         public override object Clone()
         {
             var pairs = this.pairs.Select(t => t.Clone()).Cast<TileConnectionsPair>();
-            var clone = new ConnectedTileMapModule(pairs, connectedDirections, ID);
+            var clone = new ConnectedTileMapModule(pairs, connectedDirections, GridType, ID);
             return clone;
         }
 
@@ -195,6 +204,8 @@ namespace ISILab.LBS.Modules
             if (other == null) return false;
 
             if (other.connectedDirections != this.connectedDirections) return false;
+
+            if(other.gridType != this.gridType) return false;
 
             var pCount = this.pairs.Count;
 

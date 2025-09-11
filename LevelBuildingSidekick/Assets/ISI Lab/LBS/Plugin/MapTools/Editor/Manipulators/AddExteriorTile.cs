@@ -41,6 +41,15 @@ namespace ISILab.LBS.Manipulators
         
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+            base.OnMouseUp(element, endPosition, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add empty tiles");

@@ -43,6 +43,7 @@ namespace ISILab.LBS.VisualElements
                 foreach (var assistant in layer.Assistants)
                 {
                     var type = assistant.GetType();
+                    if (customEditor.ContainsKey(type)) continue;
                     var ves = Reflection.GetClassesWith<LBSCustomEditorAttribute>()
                         .Where(t => t.Item2.Any(v => v.type == type)).ToList();
 

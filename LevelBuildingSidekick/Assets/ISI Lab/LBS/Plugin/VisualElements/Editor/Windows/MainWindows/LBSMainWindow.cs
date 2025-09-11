@@ -21,6 +21,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
+using UnityEditor.UIElements;
 
 namespace ISILab.LBS.Editor.Windows{
 
@@ -122,6 +123,7 @@ namespace ISILab.LBS.Editor.Windows{
 
         #region EVENTS
         public static Action OnWindowRepaint;
+        public static Action OnLayerChange;
         #endregion
 
         #region STATIC METHODS
@@ -252,6 +254,7 @@ namespace ISILab.LBS.Editor.Windows{
             #region LOAD SCRIPTABLES
 
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
+            layerTemplates.Sort((a, b) => a.order.CompareTo(b.order));
 
             #endregion
 
@@ -319,12 +322,13 @@ namespace ISILab.LBS.Editor.Windows{
                 drawManager.RedrawLevel(levelData);
             };
             toolbar.OnThemeChanged += data => ChangeTheme(data);
+            OnLayerChange += toolbar.LevelChange;
 
             rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.S)
                 {
-                    LBSController.SaveFile();
+                    toolbar.SaveLevel();
                     evt.StopPropagation();
                 }    
             }, TrickleDown.TrickleDown);
@@ -366,7 +370,7 @@ namespace ISILab.LBS.Editor.Windows{
              //   sw.Stop(); Debug.Log("OnAddLayer: " + sw.ElapsedMilliseconds + " ms");
                 sw.Restart();
                 DrawManager.Instance.AddContainer(layer);
-              //  sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
+                //  sw.Stop(); Debug.Log("DrawManager.Instance.AddContainer: " + sw.ElapsedMilliseconds + " ms");
             };
             layerPanel.OnRemoveLayer += l =>
             {
@@ -532,7 +536,6 @@ namespace ISILab.LBS.Editor.Windows{
             var questIsEmpty = levelData.Quests.Count <= 0;
 
             noLayerSign.style.display = (layersIsEmpty && questIsEmpty) ? DisplayStyle.Flex : DisplayStyle.None;
-          
         }
 
         /// <summary>
@@ -543,11 +546,12 @@ namespace ISILab.LBS.Editor.Windows{
         {
             if (_selectedLayer is not null)
             {
+                _selectedLayer.OnChange -= NotifyChange;
                 _selectedLayer.OnChangeUpdate();
-
             }
             _selectedLayer = layer;
-           
+            _selectedLayer.OnChange += NotifyChange;
+
             toolkit.Clear();
             inspectorManager.SetTarget(layer);
             toolkit.SetActive(typeof(SelectManipulator));
@@ -564,6 +568,11 @@ namespace ISILab.LBS.Editor.Windows{
             if (warningLabel == null) return;
             warningLabel.text = description;
             warningNotification.visible = description != null;
+        }
+
+        public static void NotifyChange()
+        {
+            OnLayerChange?.Invoke();
         }
 
         public List<LBSLayer> GetLayers()
@@ -596,7 +605,12 @@ namespace ISILab.LBS.Editor.Windows{
 
         private void UNDO()
         {
-            if(_selectedLayer is not null ) DrawManager.Instance.RedrawLayer(_selectedLayer);
+            //So for some reason, THIS executes about 3-4 times every time it's executed. I have NO idea why this is and at this point I'm too scared to ask. -Alice
+            if (_selectedLayer is not null)
+            {
+                _selectedLayer.OnChangeUpdate();
+                DrawManager.Instance.RedrawLayer(_selectedLayer);
+            }
             else DrawManager.ReDraw();
             
             LBSInspectorPanel.ReDraw();

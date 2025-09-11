@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static ISILab.LBS.Modules.ConnectedTileMapModule;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -38,6 +39,7 @@ namespace ISILab.LBS.VisualElements
 
             content = new VisualElement();
             Add(content);
+
             var weights = target.Weights;
 
             // Show warning if there are no child bundles to add weights

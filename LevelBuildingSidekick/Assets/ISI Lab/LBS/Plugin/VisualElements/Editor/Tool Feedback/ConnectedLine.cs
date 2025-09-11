@@ -50,6 +50,8 @@ namespace ISILab.LBS.VisualElements
 
         public Vector2Int cornerPoint;
 
+        public bool useVertices = false;
+
         public override void ActualizePositions(Vector2Int p1, Vector2Int p2)
         {
             startPosition = p1;
@@ -61,13 +63,16 @@ namespace ISILab.LBS.VisualElements
 
             if (fixToTeselation)
             {
-                startPosition = CalcFixTeselation(startPosition);
-                endPosition = CalcFixTeselation(endPosition);
-                cornerPoint = CalcFixTeselation(cornerPoint);
-
-                startPosition = (startPosition * TeselationSize) + TeselationSize.Multiply(0.5f);
-                endPosition = (endPosition * TeselationSize) + TeselationSize.Multiply(0.5f);
-                cornerPoint = (cornerPoint * TeselationSize) + TeselationSize.Multiply(0.5f);
+                Vector2Int offsetValue = TeselationSize.Multiply(0.5f);
+                offsetValue = new Vector2Int(offsetValue.x, -offsetValue.y);
+                Vector2Int offset = useVertices ? TeselationSize.Multiply(0.5f) : Vector2Int.zero;
+                startPosition = CalcFixTeselation(startPosition + offset);
+                endPosition = CalcFixTeselation(endPosition + offset);
+                cornerPoint = CalcFixTeselation(cornerPoint + offset);
+                                                                    
+                startPosition = (startPosition * TeselationSize) + TeselationSize.Multiply(0.5f) - offset;
+                endPosition = (endPosition * TeselationSize) + TeselationSize.Multiply(0.5f) - offset;
+                cornerPoint = (cornerPoint * TeselationSize) + TeselationSize.Multiply(0.5f) - offset;
             }
 
             this.MarkDirtyRepaint();

@@ -27,7 +27,7 @@ namespace ISILab.LBS.Editor
 
         public virtual void Repaint() { }
 
-        public virtual void OnFocus() { Debug.Log("On Focus: " + target.ToString()); }
+        public virtual void OnFocus() { }
 
 
         public abstract void SetInfo(object paramTarget);

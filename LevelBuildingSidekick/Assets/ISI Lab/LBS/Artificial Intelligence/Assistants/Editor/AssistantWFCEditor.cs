@@ -145,8 +145,9 @@ namespace ISILab.LBS.AI.Assistants.Editor
             safeModeCheckbox.RegisterValueChangedCallback(evt => 
             { 
                 assistant.SafeMode = safeModeCheckbox.value;
-                if (!safeModeCheckbox.value)
-                    LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 7);
+                if (safeModeCheckbox.value)
+                    LBSMainWindow.MessageNotify("Safe Generation enabled.");
+                else LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 7);
             });
             safeModeCheckbox.SetValueWithoutNotify(assistant.SafeMode);
 
@@ -161,6 +162,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
             if(assistant.CaptureWeights(out string errMsg))
                 LBSMainWindow.MessageNotify("Current map weights captured.");
             else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
+
+            assistant.CaptureRules();
         }
 
         private void SaveWeights()
@@ -173,7 +176,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 presetsList.SetSelection(presetsList.itemsSource.IndexOf(newPreset));
                 LBSMainWindow.MessageNotify($"Weights saved as preset: {endName}.");
             }
-            else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
+            else if(!string.IsNullOrEmpty(errMsg))
+                LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
         }
 
         private void LoadWeights()

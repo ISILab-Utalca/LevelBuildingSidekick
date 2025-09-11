@@ -5,7 +5,7 @@ using System.Linq;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using UnityEngine;
-
+using static ISILab.LBS.Modules.ConnectedTileMapModule;
 
 namespace ISILab.LBS.Characteristics
 {
@@ -28,6 +28,9 @@ namespace ISILab.LBS.Characteristics
         [SerializeField]
         public List<WeightStruct> Weights = new List<WeightStruct>();
 
+        [SerializeField]
+        public ConnectedTileType currentType;
+
         [JsonIgnore]
         public Action OnAddOwnerChild;
         [JsonIgnore]
@@ -35,7 +38,7 @@ namespace ISILab.LBS.Characteristics
 
         public LBSDirectionedGroup()
         {
-
+            
         }
 
         public override void OnEnable()
@@ -128,17 +131,32 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
-        
+
         public override List<string> Validate()
         {
             List<string> warnings = new List<string>();
-         
+
             if (Owner == null)
                 return warnings;
 
             if (Owner.ChildsBundles == null || Owner.ChildsBundles.Count == 0)
             {
-                warnings.Add("The bundle has no children bundles for LBSDirectionedGroup to work.");
+                warnings.Add("The bundle has no child bundles for LBSDirectionedGroup to work.");
+            }
+            else
+            {
+                foreach (Bundle child in Owner.ChildsBundles)
+                {
+                    var directionChars = child.GetCharacteristics<LBSDirection>();
+                    LBSDirection directionChar = directionChars.Count > 0 ? directionChars[0] : null;
+                    if (directionChar == null)
+                    {
+                        warnings.Add($"Child bundle '{child.Name}' does not have any LBSDirection characteristic. You should only use directioned bundles as children of an LBSDirectionedGroup.");
+                        continue;
+                    }
+                    //if (Use8Connected && !directionChar.UseDiagonals)
+                    //    warnings.Add($"Child bundle '{child.Name}' does not use diagonals. If you are using an 8-connected LBSDirectionedGroup, make sure to allow all child bundles to use diagonals.");
+                }
             }
             return warnings;
         }

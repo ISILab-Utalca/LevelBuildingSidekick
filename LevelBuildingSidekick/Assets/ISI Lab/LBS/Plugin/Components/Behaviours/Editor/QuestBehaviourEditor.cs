@@ -10,7 +10,6 @@ using LBS.VisualElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.LBS.Assistants;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEditor.UIElements;
@@ -22,17 +21,15 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("QuestBehaviour", typeof(QuestBehaviour))]
     public class QuestBehaviourEditor : LBSCustomEditor, IToolProvider
     {
-        private AddQuestNode _addNode;
-        private RemoveQuestNode _removeNode;
+        private AddGraphNode _addNode;
+        private RemoveGraphNode _removeNode;
         private ConnectQuestNodes _connectNodes;
         private RemoveQuestConnection _removeConnection;
-
-        private QuestHistoryPanel _questHistoryPanel;
-
         private ObjectField _grammarReference;
 
         private VisualElement _actionPallete;
-
+        private VisualElement _conditionalPallete;
+        
         private QuestBehaviour _behaviour;
         
         public QuestBehaviourEditor(object target) : base(target)
@@ -46,25 +43,28 @@ namespace ISILab.LBS.VisualElements
             if (_behaviour != null) return;
             _behaviour = target as QuestBehaviour;
 
-            if (_behaviour == null) return;
             // this should only happen on object creation
-            var quest = _behaviour.OwnerLayer.GetModule<QuestGraph>();
-            quest.LoadGrammar();
+            var questGraph = _behaviour?.OwnerLayer.GetModule<QuestGraph>();
+            if (questGraph is null) return;
+            
+            questGraph.LoadGrammar();
             
             // Manually set both
-            _grammarReference.value = quest.Grammar;
-            ChangeGrammar(quest.Grammar);
+            _grammarReference.value = questGraph.Grammar;
+            ChangeGrammar(questGraph.Grammar);
+
+            questGraph.RedrawGraph += () => DrawManager.Instance.RedrawLayer(questGraph.OwnerLayer);
         }
 
         public void SetTools(ToolKit toolkit)
         {
             _behaviour = target as QuestBehaviour;
             
-            _addNode = new AddQuestNode();
+            _addNode = new AddGraphNode();
             var t1 = new LBSTool(_addNode);
             t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            _removeNode = new RemoveQuestNode();
+            _removeNode = new RemoveGraphNode();
             var t2 = new LBSTool(_removeNode);
             t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements
             var t4 = new LBSTool(_removeConnection);
             t4.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
             
-            _connectNodes.SetRemover(_removeConnection);
+            //_connectNodes.SetRemover(_removeConnection);
             
             toolkit.ActivateTool(t1,_behaviour?.OwnerLayer, target);
             toolkit.ActivateTool(t2,_behaviour?.OwnerLayer, target);
@@ -93,7 +93,7 @@ namespace ISILab.LBS.VisualElements
             _behaviour!.Graph.GoToNode += GoToQuestNode;
         }
 
-        private static void GoToQuestNode(QuestNode node)
+        private static void GoToQuestNode(GraphNode node)
         {
             var nodePos = node.Position;
             var scale = MainView.Instance.viewTransform.scale;
@@ -113,7 +113,7 @@ namespace ISILab.LBS.VisualElements
         private void RefreshHistoryPanel()
         {
             SetInfo(target);
-            _behaviour.Graph.UpdateFlow?.Invoke();
+            
         }
         
         protected sealed override VisualElement CreateVisualElement()
@@ -123,6 +123,8 @@ namespace ISILab.LBS.VisualElements
 
             _grammarReference = this.Q<ObjectField>(name: "Grammar");
             _grammarReference.objectType = typeof(LBSGrammar);
+            
+            _conditionalPallete  = this.Q<VisualElement>(name: "Conditional");
             
             _actionPallete = this.Q<VisualElement>(name: "Content");
             _grammarReference.RegisterValueChangedCallback(evt => ChangeGrammar(evt.newValue as LBSGrammar));
@@ -137,22 +139,39 @@ namespace ISILab.LBS.VisualElements
             if (quest == null) return;
             if (quest.Grammar == null || !quest.Grammar.TerminalActions.Any()) return;
             
-
+            // Grammar actions
             List<ActionButton> actionButtons = new();
-            
             foreach (string action in quest.Grammar.TerminalActions)
             {
                 ActionButton actionButton = new ActionButton(action, () =>
                 {
-                    ToolKit.Instance.SetActive(typeof(AddQuestNode));
+                    ToolKit.Instance.SetActive(typeof(AddGraphNode));
+                    _behaviour.activeGraphNodeType = typeof(QuestNode);
                     _behaviour.ActionToSet = action;
-                    _behaviour.Graph.UpdateFlow?.Invoke();
+                    
                 });
                 
                 actionButtons.Add(actionButton);
                 _actionPallete.Add(actionButton);
             }
-           
+            
+            // conditional nodes
+            ActionButton orButton = new ActionButton("Or", () =>
+            {
+                ToolKit.Instance.SetActive(typeof(AddGraphNode));
+                _behaviour.activeGraphNodeType = typeof(OrNode);
+                _behaviour.ActionToSet = string.Empty;
+            });
+            _conditionalPallete.Add(orButton);
+            
+            ActionButton andButton = new ActionButton("And", () =>
+            {
+                ToolKit.Instance.SetActive(typeof(AddGraphNode));
+                _behaviour.activeGraphNodeType = typeof(AndNode);
+                _behaviour.ActionToSet = string.Empty;
+            });
+            _conditionalPallete.Add(andButton);
+
         }
 
         private void ChangeGrammar(LBSGrammar grammar)

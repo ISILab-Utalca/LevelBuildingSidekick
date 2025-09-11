@@ -13,7 +13,7 @@ namespace ISILab.LBS.Manipulators
         
         public RemoveTileExterior()
         {
-            Name = "Remove Tile";
+            Name = "Remove Tiles";
             Description = "Click on a Tile or select an area to remove multiple tiles.";
         }
         
@@ -27,6 +27,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
+            base.OnMouseUp(element, position, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Tiles");

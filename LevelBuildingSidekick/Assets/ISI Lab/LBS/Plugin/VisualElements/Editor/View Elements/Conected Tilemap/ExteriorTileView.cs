@@ -85,7 +85,8 @@ namespace ISILab.LBS.VisualElements
         public void SetConnections(string[] tags)
         {
             var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
-            Color color = Color.magenta; // invalid color
+            Color invalidColor = Color.white;
+            Color color = invalidColor;
             Dictionary<Color,int> ConnectionColors = new Dictionary<Color, int>();
             if (!string.IsNullOrEmpty(tags[0]))
             {
@@ -150,7 +151,8 @@ namespace ISILab.LBS.VisualElements
                 var orderedConnectionColors = ConnectionColors
                     .OrderByDescending(kvp => kvp.Value)
                     .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                SetBackgroundColor(center,orderedConnectionColors.First().Key);
+                SetBackgroundColor(center,
+                    tags.Contains("") ? invalidColor : orderedConnectionColors.First().Key);
             }
    
         }

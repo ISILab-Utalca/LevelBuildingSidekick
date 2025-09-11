@@ -480,7 +480,11 @@ namespace ISILab.LBS.Components
 
             public override bool IsValid()
             {
-                return bundleGiveType.Valid() && bundleReceiveType.Valid();
+                if (bundleGiveType is null || bundleReceiveType is null)
+                {
+                    return false;
+                }
+                return   bundleGiveType.Valid() && bundleReceiveType.Valid();
             }
         }
         [Serializable]
@@ -582,7 +586,7 @@ namespace ISILab.LBS.Components
 
           public override bool IsValid()
           {
-              return bundleGatherType.Valid();
+              return bundleGatherType is not null && bundleGatherType.Valid();
           }
         }
         [Serializable]

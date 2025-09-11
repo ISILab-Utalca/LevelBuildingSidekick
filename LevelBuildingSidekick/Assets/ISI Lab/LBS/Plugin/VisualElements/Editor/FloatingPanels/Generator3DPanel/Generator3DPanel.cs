@@ -32,8 +32,8 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private readonly TextField _nameField;
         
-        private readonly Button _generateCurrLayer;
-        private readonly Button _generateAllLayers;
+        private readonly LBSCustomButton _generateCurrLayer;
+        private readonly LBSCustomButton _generateAllLayers;
 
         private readonly Toggle _buildLightProbes;
         private readonly Toggle _bakeLights;
@@ -72,15 +72,20 @@ namespace ISILab.LBS.VisualElements.Editor
 
             // room's name
             _nameField = this.Q<TextField>(name: "ObjName");
+            _nameField.value = "Root_name";
+            _nameField.RegisterValueChangedCallback<string>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
             
             // missing in design prototype
             _resizeField = this.Q<Vector2Field>(name: "Resize");
             _resizeField.value = Vector2.one;
+            _resizeField.RegisterValueChangedCallback<Vector2>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
              
             _positionField = this.Q<Vector3Field>(name: "Position");
+            _positionField.RegisterValueChangedCallback<Vector3>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
                
             _scaleField = this.Q<Vector2Field>(name: "TileSize");
             _scaleField.value = new Vector2(2, 2);
+            _scaleField.RegisterValueChangedCallback<Vector2>(evt => { LBSSettings.Instance.MarkSettingsAsDirty(); });
             
             this.Q<Toggle>(name: "ToggleGenCeilling");
             _buildLightProbes = this.Q<Toggle>(name: "ToggleLightProbes");
@@ -100,24 +105,30 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 
                 _replacePrev.value = GeneratorSettings.settings.replacePrevious;
+                
             }
             else
             {   //Set generation setting by default
+                Debug.Log("Set replace from default value as true!");
                 _replacePrev.value = true;
                 GeneratorSettings = LBSSettings.Instance.generator;
-                GeneratorSettings.settings.replacePrevious = true;
+                GeneratorSettings.settings.replacePrevious = _replacePrev.value;
             }
-            _replacePrev.RegisterValueChangedCallback<bool>(evt => { GeneratorSettings.settings.replacePrevious = evt.newValue; });
+            _replacePrev.RegisterValueChangedCallback<bool>(evt =>
+            {
+                //GeneratorSettings.settings.replacePrevious = evt.newValue;
+                LBSSettings.Instance.MarkSettingsAsDirty();
+            });
             
             
             _ignoreBundleTileSize = this.Q<Toggle>(name: "ToggleTileSize");  
             _reflection = this.Q<Toggle>(name: "ToggleReflection");
             
-            _generateCurrLayer = this.Q<Button>(name: "ButtonGenCurrentLayer");
+            _generateCurrLayer = this.Q<LBSCustomButton>(name: "ButtonGenCurrentLayer");
             _generateCurrLayer.clicked += OnExecute;
             _generateCurrLayer.clicked += GenerateCurrentLayer;
             
-            _generateAllLayers = this.Q<Button>(name: "ButtonGenAllLayers");
+            _generateAllLayers = this.Q<LBSCustomButton>(name: "ButtonGenAllLayers");
             _generateAllLayers.clicked += OnExecute;
             _generateAllLayers.clicked += GenerateAllLayers;
 
@@ -148,16 +159,12 @@ namespace ISILab.LBS.VisualElements.Editor
             _settings = GeneratorSettings.settings;
 
             if (GeneratorSettings == null) return;
-            _scaleField.value = _settings.scale;
-            _positionField.value = _settings.position;
-            _nameField.value = layer.Name;
-            _resizeField.value = _settings.resize;
+            _scaleField.value = LBSSettings.Instance.generator.settings.scale;
+            _positionField.value = LBSSettings.Instance.generator.settings.position;
+            _nameField.value = LBSSettings.Instance.generator.settings.rootParentName;
+            _resizeField.value = LBSSettings.Instance.generator.settings.resize;
         }
-
-        void OnEnable()
-        {
-            Debug.Log("3D Panel - OnEnable");
-        }
+        
         
 
         private void GenerateAllLayers()
@@ -182,9 +189,9 @@ namespace ISILab.LBS.VisualElements.Editor
             //Debug.Log(log);
             
             //eliminar previo "root_Parent"
-            Object.DestroyImmediate(GameObject.Find("root_Parent"));
+            Object.DestroyImmediate(GameObject.Find(_nameField.value));
             //crear objeto empty fuera del foreach
-            GameObject rootParent = new GameObject("root_Parent");
+            GameObject rootParent = new GameObject(_nameField.value);
             
             foreach (LBSLayer layer in layers)
             {
@@ -308,14 +315,14 @@ namespace ISILab.LBS.VisualElements.Editor
             var generated = GeneratorSettings.Generate(_layer, _layer.GeneratorRules, _settings);
             
             // Setting layer's parent, "root_Parent"
-            if (GameObject.Find("root_Parent"))
+            if (GameObject.Find(_nameField.value))
             {
-                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+                generated.Item1.transform.parent = GameObject.Find(_nameField.value).transform;
             }
             else
             {
-                GameObject rootParent = new GameObject("root_Parent");
-                generated.Item1.transform.parent = GameObject.Find("root_Parent").transform;
+                GameObject rootParent = new GameObject(_nameField.value);
+                generated.Item1.transform.parent = GameObject.Find(_nameField.value).transform;
             }
 
             // If it created a usable LBS game object 

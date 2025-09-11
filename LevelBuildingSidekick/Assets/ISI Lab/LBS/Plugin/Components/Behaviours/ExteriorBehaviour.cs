@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using ISILab.LBS.Characteristics;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
@@ -7,8 +9,11 @@ using LBS.Bundles;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static ISILab.LBS.Modules.ConnectedTileMapModule;
 
 namespace ISILab.LBS.Behaviours
 {
@@ -27,6 +32,8 @@ namespace ISILab.LBS.Behaviours
          */
         [SerializeField]
         private string bundleRefGui = "9d3dac0f9a486fd47866f815b4fefc29";
+
+        private ConnectedTileType? gridType = null;
         #endregion
 
         #region META-FIELDS
@@ -48,6 +55,19 @@ namespace ISILab.LBS.Behaviours
             {
                 targetBundleRef = value;
                 bundleRefGui = LBSAssetMacro.GetGuidFromAsset(value);
+            }
+        }
+
+        public ConnectedTileType GridType
+        {
+            get
+            {
+                if (!gridType.HasValue)
+                {
+                    gridType = Connections.GridType;
+                }
+
+                return gridType.Value;
             }
         }
 
@@ -90,11 +110,17 @@ namespace ISILab.LBS.Behaviours
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;
+            layer.OnChange += UpdateKeys;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
             OwnerLayer = null;
+            layer.OnChange -= UpdateKeys;
+        }
+        public void UpdateKeys()
+        {
+            UpdateKeys(Tiles.ToList<object>());
         }
 
         public LBSTile GetTile(Vector2Int pos)

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISI_Lab.LBS.Plugin.MapTools.Generators3D;
@@ -55,7 +54,7 @@ namespace ISILab.LBS.Generators
         {
             
             var pivot = new GameObject(layer.ID);
-            var observer = pivot.AddComponent<QuestObserver>();
+            var observer = pivot.AddComponent<QuestTracker>();
 
             CloneRefs.Start();
             var quest = layer.GetModule<QuestGraph>().Clone() as QuestGraph;
@@ -65,9 +64,19 @@ namespace ISILab.LBS.Generators
             }
             CloneRefs.End();
 
-            if (!quest.QuestEdges.Any())
+            if (!quest.GraphEdges.Any())
             {
-                return Tuple.Create<GameObject, string>(null, "The quest graph only has one node, can't generate. Can't generate");
+                return Tuple.Create<GameObject, string>(null, "The quest graph is empty!. Can't generate");
+            }
+            
+            if (quest.Root is null)
+            {
+                return Tuple.Create<GameObject, string>(null, "There is no root in the graph. Assign a root to generate the quest");
+            }
+
+            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
+            {
+                return Tuple.Create<GameObject, string>(null, "There must be at least one goal node. Make sure to have actions with roots but no branches");
             }
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
@@ -77,11 +86,10 @@ namespace ISILab.LBS.Generators
                  return Tuple.Create<GameObject, string>(null, "At least one quest node is not grammatically valid. Fix or remove");
              }
           
-            
+            observer.Init(quest);
             GenerateTriggers(settings, quest, observer, pivot);
 
 
-            observer.Init(quest);
 
             /* For LBS User:
              * ----------------------------------------------------------------
@@ -94,9 +102,9 @@ namespace ISILab.LBS.Generators
             return Tuple.Create<GameObject, string>(pivot, null);
         }
 
-        private void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer, GameObject pivot)
+        private void GenerateTriggers(Generator3D.Settings settings, QuestGraph quest, QuestTracker tracker, GameObject pivot)
         {
-            foreach (var node in quest.QuestNodes)
+            foreach (var node in quest.GetQuestNodes())
             {
                 // Find if it has a reference to another layer
                 GenerateRequiredLayers(node);
@@ -111,68 +119,105 @@ namespace ISILab.LBS.Generators
                 if (_currentFrameDelay-- > 0) return;
                 _currentFrameDelay = frameDelay;
                 EditorApplication.update -= DelayGeneration;
-                GenerateTriggersPerNode(settings, quest, observer, pivot);
+                GenerateTriggersPerNode(settings, quest, tracker, pivot);
             }
         }
 
-        private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestObserver observer,
-            GameObject pivot)
+        private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestTracker tracker, GameObject pivot)
         {
-            foreach (var node in quest.QuestNodes)
+            // Map QuestNode -> Trigger GameObject
+            var questNodeGameObjects = CreateQuestNodeGameObjects(settings, quest, tracker, pivot);
+
+            // Create AND/OR branch node components
+            CreateBranchNodeComponents(quest, tracker, questNodeGameObjects);
+        }
+        
+        private static Dictionary<QuestNode, GameObject> CreateQuestNodeGameObjects(Generator3D.Settings settings, QuestGraph quest, QuestTracker tracker, GameObject pivot)
+        {
+            var questNodeGameObjects = new Dictionary<QuestNode, GameObject>();
+
+            foreach (var node in quest.GetQuestNodes())
             {
                 Type triggerType = QuestTagRegistry.GetTriggerTypeForTag(node.QuestAction);
-
                 if (triggerType == null)
                 {
                     Debug.LogError($"No trigger type found for tag '{node.QuestAction}' in QuestTagRegistry");
                     continue;
                 }
-                
-                // Create GameObject for the trigger
-                var go = new GameObject(node.ID)
+
+                var go = CreateTriggerGameObject(settings, pivot, tracker, node, triggerType);
+
+                questNodeGameObjects[node] = go;
+            }
+
+            return questNodeGameObjects;
+        }
+        
+        private static GameObject CreateTriggerGameObject(Generator3D.Settings settings, GameObject pivot, QuestTracker tracker, QuestNode node, Type triggerType)
+        {
+            var go = new GameObject(node.ID) { transform = { parent = tracker.transform } };
+            var trigger = (QuestTrigger)go.AddComponent(triggerType);
+
+            // Set visual size
+            var size = node.NodeData.Area;
+            trigger.SetSize(new Vector3(size.width * settings.scale.x,
+                                        size.height * settings.scale.y,
+                                        size.height * settings.scale.y));
+
+            // Set position
+            var x = (node.NodeData.Area.x + node.NodeData.Area.width / 2 - 1) * settings.scale.x;
+            var z = (node.NodeData.Area.y - node.NodeData.Area.height / 2) * settings.scale.y;
+            var y = pivot.transform.position.y;
+            go.transform.position = settings.position + new Vector3(x, y, z);
+
+            // Assign data
+            trigger.SetData(node);
+            FindPopulationObjects(trigger, settings, node, settings.position, y, new Vector3(settings.scale.x, 0, settings.scale.y) / 2f);
+
+            if (!node.NodeData.IsValid())
+            {
+                Debug.LogError($"Node Data '{node.ID}' doesn't have a valid data");
+                Object.DestroyImmediate(pivot);
+                return null;
+            }
+
+            trigger.SetDataNode(node.NodeData);
+            // all are active in the scene, on play they are activated in order
+            go.SetActive(true);
+            return go;
+        }
+        
+        private static void CreateBranchNodeComponents(QuestGraph quest, QuestTracker tracker, Dictionary<QuestNode, GameObject> questNodeGameObjects)
+        {
+            // Group edges by destination branch node
+            var branchGroups = quest.GraphEdges
+                .Where(e => e.To is AndNode || e.To is OrNode)
+                .GroupBy(e => e.To);
+
+            foreach (var group in branchGroups)
+            {
+                var branchNode = group.Key;
+                GameObject branchGameObject;
+                QuestTriggerBranch triggerBranchComponent;
+
+                branchGameObject = new GameObject($"{branchNode.ID}") { transform = { parent = tracker.transform } };
+                triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
+       
+                // Assign child triggers
+                var childGameObjects = group.SelectMany(e => e.From.Cast<QuestNode>().Select(n => questNodeGameObjects[n]))
+                                            .Distinct()
+                                            .ToList();
+                triggerBranchComponent.SetChildTriggers(childGameObjects);
+
+                // Assign destination trigger(s)
+                var destinationEdges = quest.GraphEdges.Where(e => e.From.Contains(branchNode)).ToList();
+                if (destinationEdges.Count > 0 && destinationEdges[0].To is QuestNode destNode && questNodeGameObjects.TryGetValue(destNode, out var destinationGameObject))
                 {
-                    transform = { parent = observer.transform }
-                };
-
-                // Add the trigger component dynamically
-                var trigger = (QuestTrigger)go.AddComponent(triggerType);
-                
-                // Set up visual size
-                var size = node.NodeData.Area;
-                trigger.SetSize(new Vector3(
-                    size.width * settings.scale.x,
-                    size.height * settings.scale.y,
-                    size.height * settings.scale.y));
-
-                // Position the trigger in the world
-                var x = (node.NodeData.Area.x + node.NodeData.Area.width/2 - 1) * settings.scale.x;
-                var z = (node.NodeData.Area.y - node.NodeData.Area.height/2) * settings.scale.y;
-                var y = pivot.transform.position.y;
-
-                var questPos = new Vector3(x, y, z);
-                var basePos = settings.position;
-                var delta = new Vector3(settings.scale.x, 0, settings.scale.y) / 2f;
-
-                go.transform.position = basePos + questPos;// - delta;
-
-                // Set shared data
-                trigger.SetData(node);
-                
-                // Find and assign population objects for specific node types
-                FindPopulationObjects(trigger, settings, node, basePos, y, delta);
-
-                if(node.NodeData.IsValid())
-                {
-                    trigger.SetDataNode(node.NodeData);
+                    triggerBranchComponent.SetDestinationTrigger(destinationGameObject);
                 }
-                else
-                {
-                    Debug.LogError($"Node Data '{node.ID}' doesn't have a valid data");
-                    Object.DestroyImmediate(pivot);
-                    return;
-                }
-                
-                go.SetActive(false);
+
+                triggerBranchComponent.SetNode(branchNode);
+                branchGameObject.SetActive(true);
             }
         }
 
@@ -407,7 +452,7 @@ namespace ISILab.LBS.Generators
 
             if (!uiAsset || !panelSettings) return;
 
-            questVisualTree.Observer = observerGameObject;
+            questVisualTree.Go = observerGameObject;
             uiDocument.visualTreeAsset = uiAsset;
             uiDocument.panelSettings = panelSettings;
             uiGameObject.transform.SetParent(pivotTransform);

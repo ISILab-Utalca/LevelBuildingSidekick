@@ -47,7 +47,11 @@ namespace ISILab.LBS.Generators
             public bool replacePrevious = true;
 
             [SerializeField]
+            [HideInInspector]
             public string name = "DEFAULT";
+            
+            [SerializeField]
+            public string rootParentName = "Root_Parent";
 
             public override bool Equals(object obj)
             {
@@ -56,20 +60,23 @@ namespace ISILab.LBS.Generators
                 // check if other have the same type
                 if (other is not Generator3D.Settings) return false;
 
-                // cheack if scale is the same
+                // check if scale is the same
                 if (!this.scale.Equals(other.scale)) return false;
 
-                // cheack if resize is the same
+                // check if resize is the same
                 if (!this.resize.Equals(other.resize)) return false;
 
-                // cheack if position is the same
+                // check if position is the same
                 if (!this.position.Equals(other.position)) return false;
 
-                // cheack if name is the same
+                // check if name is the same
                 if (this.name != other.name) return false;
 
+                // check if rootParentName is the same
+                if (this.rootParentName != other.rootParentName) return false;
+
                 if (this.useBundleSize != other.useBundleSize) return false;
-                
+
                 return true;
             }
 

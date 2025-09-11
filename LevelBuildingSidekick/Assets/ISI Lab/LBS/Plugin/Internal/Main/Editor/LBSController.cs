@@ -103,31 +103,33 @@ namespace ISILab.LBS
         /// or prompts the user to save it as a new file if it has not been
         /// saved before.
         /// </summary>
-        public static void SaveFile()
+        public static bool SaveFile()
         {
             var fileInfo = CurrentLevel.FileInfo;
             if (fileInfo == null)
             {
-                SaveFileAs();
+                return SaveFileAs();
             }
             else if (!fileInfo.Exists)
             {
-                SaveFileAs();
+                return SaveFileAs();
             }
             else
             {
                 if (JSONDataManager.SaveData(fileInfo.DirectoryName, fileInfo.Name, CurrentLevel.data))
                 {
                     LBSMainWindow.MessageNotify("The file has been saved.");
+                    return true;
                 }
             }
+            return false;
         }
 
         /// <summary>
         /// Saves the current level data to a new file,
         /// prompting the user to choose the file path.
         /// </summary>
-        public static void SaveFileAs()
+        public static bool SaveFileAs()
         {
             var path = "";
             var fileInfo = CurrentLevel.FileInfo;
@@ -160,7 +162,7 @@ namespace ISILab.LBS
                 LBS.loadedLevel.fullName = path;
                 LBSMainWindow.MessageNotify("The file has been saved.");
             }
-
+            return (path != "");
         }
 
         /// <summary>

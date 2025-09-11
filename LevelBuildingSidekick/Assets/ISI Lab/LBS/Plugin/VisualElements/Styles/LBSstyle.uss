@@ -32,7 +32,8 @@ Label {
 }
 
 .lbs-field Label {
-    padding-right: 21px;
+    padding-right: 4px;
+    min-width: auto;
     color: var(--lbs-default-text-color);
 }
 
@@ -40,7 +41,13 @@ Label {
     color: var(--lbs-default-text-color);
 }
 
-.lbs-item {
+.lbs-icon {
+    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    min-height: 16px;
+    min-width: 16px;
+    max-width: 16px;
+    max-height: 16px;
+    -unity-background-scale-mode: stretch-to-fill;
 }
 
 .lbs-default-icon {
@@ -58,21 +65,12 @@ Label {
     display: flex;
 }
 
-.lbs-icon {
-    -unity-background-image-tint-color: var(--lbs-default-icon-color);
-    min-height: 16px;
-    min-width: 16px;
-    max-width: 16px;
-    max-height: 16px;
-    -unity-background-scale-mode: stretch-to-fill;
-}
-
 .lbs-default-container-panel {
-    background-color: var(--unity-colors-toolbar-background);
-    border-left-color: var(--unity-colors-default-border);
-    border-right-color: var(--unity-colors-default-border);
-    border-top-color: var(--unity-colors-default-border);
-    border-bottom-color: var(--unity-colors-default-border);
+    background-color: var(--lbs-base-solid-gray-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -90,24 +88,32 @@ Label {
 
 .lbs-default-label-icon {
     flex-grow: 1;
-    background-color: var(--lbs-dark-overlay-color);
     flex-direction: row;
     flex-basis: auto;
     flex-shrink: initial;
-    -unity-background-image-tint-color: var(--unity-colors-label-text);
     min-width: 16px;
     min-height: 16px;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-left-width: 0;
-    border-right-width: 0;
+    border-radius: 3px;
+    border-color: var(--lbs-dark-overlay-color);
+    border-left-width: 1px;
+    border-right-width: 1px;
     border-top-width: 1px;
     border-bottom-width: 1px;
     max-width: 24px;
     max-height: 24px;
     -unity-background-scale-mode: scale-to-fit;
+}
+
+.lbs-icon-tint-yellow {
+    -unity-background-image-tint-color: var(--lbs-main-yellow-color);
+}
+
+.lbs-icon-tint-green {
+    -unity-background-image-tint-color: var(--lbs-main-green-color);
+}
+
+.lbs-icon-tint-blue {
+    -unity-background-image-tint-color: var(--lbs-main-blue-color);
 }
 
 .lbs-group-box {
@@ -120,17 +126,18 @@ Label {
     border-bottom-left-radius: 1.5px;
     border-top-right-radius: 1.5px;
     border-bottom-right-radius: 1.5px;
-    border-left-color: rgba(0, 0, 0, 0.16);
-    border-right-color: rgba(0, 0, 0, 0.16);
-    border-top-color: rgba(0, 0, 0, 0.16);
-    border-bottom-color: rgba(0, 0, 0, 0.16);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     margin-right: 0;
     margin-top: 2px;
     margin-bottom: 2px;
-    padding-left: -1px;
-    padding-right: -1px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-left: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-left: 0;
 }
 
 .lbs-3d-icon {
@@ -172,11 +179,9 @@ Label {
     margin-bottom: 0;
     height: 30px;
     background-image: url("project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade%201.png?fileID=2800000&guid=c86acac07209fcc41a17cab77404a8b9&type=3#Fade 1");
-    -unity-background-image-tint-color: rgba(0, 0, 0, 0.2);
-    -unity-font-style: bold;
+    -unity-background-image-tint-color: rgba(0, 0, 0, 0.1);
     font-size: 18px;
-    color: rgb(195, 196, 195);
-    background-color: var(--unity-colors-button-background);
+    background-color: var(--lbs-selectable-gray-color);
     -unity-text-align: middle-center;
     align-self: stretch;
     justify-content: center;
@@ -184,11 +189,11 @@ Label {
 }
 
 .lbs-tool-button-toggle:active {
-    background-color: var(--unity-colors-button-background-pressed);
+    background-color: var(--lbs-selectable-hover-color);
 }
 
 .lbs-tool-button-toggle:selected {
-    background-color: var(--lbs-selection-dark-blue-color);
+    background-color: var(--lbs-selection-neutral-blue-color);
 }
 
 .lbs-tool-button-toggle > VisualElement {
@@ -200,6 +205,7 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-notificator {
+    background-color: var(--lbs-base-solid-gray-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -283,15 +289,31 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
-    border-left-color: rgba(0, 0, 0, 0.3);
-    border-right-color: rgba(0, 0, 0, 0.3);
-    border-top-color: rgba(0, 0, 0, 0.3);
-    border-bottom-color: rgba(0, 0, 0, 0.3);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     align-items: center;
     justify-content: center;
     -unity-text-align: middle-center;
     padding-right: 3px;
     padding-left: 3px;
+    overflow: hidden;
+}
+
+.lbs-button:hover {
+    overflow: hidden;
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-button:focus {
+    border-color: var(--lbs-selection-focus-blue-color);
+    overflow: hidden;
+}
+
+.lbs-button:active {
+    background-color: var(--lbs-selection-neutral-blue-color);
+    overflow: hidden;
 }
 
 .lbs-button > TextElement {
@@ -311,7 +333,7 @@ Toggle > .lbs-default-icon {
     flex-direction: row;
     align-items: stretch;
     justify-content: center;
-    background-color: rgb(47, 47, 47);
+    background-color: var(--lbs-selectable-gray-color);
     width: auto;
     white-space: nowrap;
     -unity-background-scale-mode: scale-to-fit;
@@ -324,10 +346,10 @@ Toggle > .lbs-default-icon {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 4px;
-    border-left-color: rgba(255, 255, 255, 0.2);
-    border-right-color: rgba(255, 255, 255, 0.2);
-    border-top-color: rgba(255, 255, 255, 0.2);
-    border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
     border-left-width: 1px;
     border-right-width: 1px;
     border-top-width: 1px;
@@ -1113,28 +1135,105 @@ Toggle > .lbs-default-icon {
     border-top-color: var(--lbs-border-white-overlay-color);
 }
 
-Button.lbs-actionbutton {
-    background-color: rgb(62, 62, 62);
-    color: white;
+.lbs-list-item {
+    border-left-width: 1px;
+    border-left-color: var(--lbs-dark-overlay-color);
+    background-color: var(--lbs-selectable-gray-color);
+    flex-direction: row;
+    height: 24px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-right-width: 0;
+    padding-right: 0;
+    padding-left: 0;
+    margin-top: 1px;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.lbs-list-item > .lbs-text-field {
+    padding: 0;
+    padding-top: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-bottom: 1px;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.lbs-list-item:hover {
+    background-color: var(--lbs-selectable-hover-color);
+}
+
+.lbs-list-item:selected {
+    background-color: var(--lbs-selection-neutral-blue-color);
+}
+
+.lbs-item-content {
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    height: 100%;
+}
+
+.lbs-quest-list-item {
+}
+
+.lbs-action-button {
     flex-direction: row;
     align-items: center;
     margin: 4px;
     border-radius: 0;
-    background-image: none;
-    -unity-font-style: normal;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
     border-color: rgba(0, 0, 0, 0.4);
     border-width: 2px;
     border-style: solid;
     padding: 5px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: var(--lbs-selectable-gray-color);
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
     margin-left: 0;
-    padding-left: 5px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-left-color: var(--lbs-dark-overlay-color);
+    flex-grow: 1;
+    height: 100%;
 }
 
-.lbs-actionbutton:hover > Button {
+.lbs-action-button:hover {
+    flex-direction: row;
+    background-color: var(--lbs-selectable-hover-color);
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.lbs-action-button:selected {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1165,38 +1264,7 @@ Button.lbs-actionbutton {
     padding-left: 12px;
 }
 
-.lbs-actionbutton:selected > Button {
-    flex-direction: row;
-    background-color: rgb(106, 106, 106);
-    color: rgb(255, 255, 255);
-    align-items: center;
-    margin-top: 0;
-    margin-bottom: 0;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    scale: 1 1;
-    -unity-font-style: normal;
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
-    background-image: none;
-    border-left-color: rgba(0, 0, 0, 0.4);
-    border-right-color: rgba(0, 0, 0, 0.4);
-    border-top-color: rgba(0, 0, 0, 0.4);
-    border-bottom-color: rgba(0, 0, 0, 0.4);
-    border-top-width: 2px;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    border-left-width: 2px;
-    margin-right: 0;
-    margin-left: 0;
-    padding-top: 5px;
-    padding-right: 5px;
-    padding-bottom: 5px;
-    padding-left: 12px;
-}
-
-.lbs-actionbutton_selected > Button {
+.lbs-action-button_selected > Button {
     flex-direction: row;
     background-color: rgb(106, 106, 106);
     color: rgb(255, 255, 255);
@@ -1289,7 +1357,6 @@ Button.lbs-actionbutton {
 }
 
 .lbs-enum-field {
-    background-color: rgb(45, 45, 45);
     padding-top: 2px;
     padding-right: 2px;
     padding-bottom: 2px;
@@ -1298,11 +1365,10 @@ Button.lbs-actionbutton {
     margin-right: 2px;
     margin-bottom: 2px;
     margin-left: 2px;
-    border-color: var(--lbs-dark-overlay-color);
-    border-top-width: 1px;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
+}
+
+.lbs-enum-field:focus {
+    border-color: var(--lbs-selection-focus-blue-color);
 }
 
 .lbs-quest-action-icon {
@@ -1359,6 +1425,27 @@ Button.lbs-actionbutton {
     border-top-color: rgba(0, 0, 0, 0.3);
 }
 
+.lbs-base-panel {
+    background-color: var(--lbs-base-solid-gray-color);
+    border-bottom-color: var(--lbs-dark-overlay-color);
+    border-top-color: var(--lbs-dark-overlay-color);
+    border-left-color: var(--lbs-dark-overlay-color);
+    border-right-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+}
+
+.lbs-background-panel {
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.2);
+    border-right-color: rgba(0, 0, 0, 0.2);
+    border-top-color: rgba(0, 0, 0, 0.2);
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+}
+
 .lbs-container-bg {
     background-color: var(--unity-colors-default-background);
     border-left-color: rgb(0, 0, 0);
@@ -1372,7 +1459,6 @@ Button.lbs-actionbutton {
 }
 
 .lbs-foldout {
-    background-color: rgb(43, 43, 43);
     border-left-color: rgba(0, 0, 0, 0.55);
     border-right-color: rgba(0, 0, 0, 0.55);
     border-top-color: rgba(0, 0, 0, 0.55);
@@ -1381,6 +1467,7 @@ Button.lbs-actionbutton {
     border-right-width: 1px;
     border-bottom-width: 1px;
     border-left-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
 }
 
 .lbs-foldout__toggle {
@@ -1503,7 +1590,7 @@ Button.lbs-actionbutton {
 .lbs-slide-toggle__input-knob {
     height: 16px;
     width: 20px;
-    background-color: var(--lbs-darker-solid-gray-color);
+    background-color: var(--lbs-selectable-gray-color);
     position: absolute;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
@@ -1526,15 +1613,6 @@ Button.lbs-actionbutton {
 .lbs-slide-toggle__input-checked > .lbs-slide-toggle__input-knob {
     translate: 10px 0;
     background-color: var(--lbs-light-green-color);
-}
-
-.lbs-base-panel {
-    background-color: var(--lbs-base-solid-gray-color);
-    border-bottom-color: var(--lbs-dark-overlay-color);
-    border-top-color: var(--lbs-dark-overlay-color);
-    border-left-color: var(--lbs-dark-overlay-color);
-    border-right-color: var(--lbs-dark-overlay-color);
-    border-width: 1px;
 }
 
 .lbs-toolbar {
@@ -1561,7 +1639,9 @@ Button.lbs-actionbutton {
     padding-top: 0;
     padding-right: 4px;
     padding-bottom: 0;
-    padding-left: 0;
+    padding-left: 4px;
+    align-self: stretch;
+    justify-content: center;
 }
 
 .lbs-toolbar-toggle:hover {
@@ -1569,7 +1649,7 @@ Button.lbs-actionbutton {
 }
 
 .lbs-toolbar-toggle:selected {
-    background-color: var(--lbs-selection-dark-blue-color);
+    background-color: var(--lbs-selection-neutral-blue-color);
 }
 
 .lbs-toolbar-menu {
@@ -1681,4 +1761,109 @@ Button.lbs-actionbutton {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
+
+.lbs-dropdown-field {
+}
+
+.lbs-text-field {
+}
+
+.lbs-text-field > TextInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+}
+
+.lbs-vector2-field {
+}
+
+.lbs-vector2-field FloatInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+    min-width: 32px;
+    flex-shrink: 1;
+}
+
+.lbs-vector2-field > VisualElement {
+    flex-grow: 1;
+    align-self: stretch;
+    flex-shrink: 1;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+}
+
+.lbs-vector2-field .unity-composite-field__field-spacer {
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: stretch;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.lbs-vector3-field FloatInput {
+    border-color: var(--lbs-dark-overlay-color);
+    border-width: 1px;
+    background-color: var(--lbs-field-solid-bg-gray-color);
+    flex-grow: 1;
+    align-self: stretch;
+    min-width: 32px;
+    flex-shrink: 1;
+}
+
+.lbs-vector3-field > VisualElement {
+    flex-grow: 1;
+    align-self: stretch;
+    flex-shrink: 1;
+    align-items: stretch;
+    flex-direction: column;
+    height: 100%;
+    width: auto;
+}
+
+.lbs-object-field {
+}
+
+.actionbutton {
+}
+
+.lbs-graph-view {
+}
+
+.lbs-header-card {
+    flex-direction: row;
+    height: 18px;
+    background-color: var(--lbs-base-solid-gray-color);
+    border-width: 1px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    overflow: hidden;
+    margin-top: 2px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border-top-color: var(--lbs-darker-solid-gray-color);
+    border-right-color: var(--lbs-darker-solid-gray-color);
+    border-bottom-color: var(--lbs-darker-solid-gray-color);
+    border-left-color: var(--lbs-darker-solid-gray-color);
+}
+
+.lbs-button-tint-overlay {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0.15;
 }

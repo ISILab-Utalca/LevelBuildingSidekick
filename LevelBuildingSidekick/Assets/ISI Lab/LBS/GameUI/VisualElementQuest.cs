@@ -2,88 +2,108 @@ using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
+using ISILab.Macros;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS
 {
     /// <summary>
-    /// Visual Element used to indicate quest objectives in the QuestVisualTree UI Document.
-    /// meant to display the state of each quest step
+    /// Visual Element used to indicate a single quest objective
+    /// in the QuestVisualTree (TreeView).
+    /// Displays the state of each quest step.
     /// </summary>
     [UxmlElement]
     public partial class VisualElementQuest : VisualElement
     {
-        [UxmlElementAttribute]
-        public new class UxmlFactory { }
-        
         private Label _questLabel;
-        private VisualElement _outerQuestState; // color
-        private VisualElement _innerQuestState; // toggle 
-        
+        private VisualElement _state;
+
         private QuestNode _questNode;
-        
+
+        private const string ActiveIconGuid = "2d0e21afed0e2b948a825ad351292248";
+        private const string CompletedIconGuid = "eff207486cc48924b8691a0a3545be17";
+        private const string OrIconGuid = "1d6ab847894293148bfa4d70136a75a9";
+        private const string AndIconGuid = "84fdb6a97aae79e4eb5eba243b760ee7";
+        private const string FailedIconGuid = "19533ec5deae6304ebe6b68e51ddeda1";
+
         public VisualElementQuest()
         {
             CreateVisualElement();
         }
-        
-        private VisualElement CreateVisualElement()
+
+        private void CreateVisualElement()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("VisualElementQuest");
             visualTree.CloneTree(this);
-            
+
             _questLabel = this.Q<Label>("Action");
-            _outerQuestState = this.Q<VisualElement>("Outer");
-            _innerQuestState = this.Q<VisualElement>("Inner");
-            return this;
+            _state = this.Q<VisualElement>("State");
         }
 
         /// <summary>
-        ///  Assigns the quest and updates the element's display to represent the quest's state
+        /// Updates this element to represent the quest's state.
+        /// Called from QuestVisualTree.TreeView binding.
         /// </summary>
-        /// <param name="questNode"></param>
-        public void SetQuest(QuestNode questNode)
+        public void SetQuest(QuestObjective questObjective)
         {
-            _questNode = questNode;
+            if (questObjective?.Trigger?.Node == null)
+                return;
 
-            var color = Color.gray;
+            _questNode = questObjective.Trigger.Node;
+
+            Color color;
             bool closed = false;
-            switch (questNode.QuestState)
+
+            VectorImage vecImage;
+            switch (_questNode.QuestState)
             {
-                case QuestState.Blocked: 
-                    // hide: display = false;
+                case QuestState.Blocked:
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
+                    color = Color.gray;
                     break;
+
                 case QuestState.Active:
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(ActiveIconGuid);
                     color = Color.white;
                     break;
+
                 case QuestState.Completed:
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(CompletedIconGuid);
                     color = LBSSettings.Instance.view.successColor;
                     closed = true;
                     break;
+
                 case QuestState.Failed:
+                    vecImage = LBSAssetMacro.LoadAssetByGuid<VectorImage>(FailedIconGuid);
                     color = LBSSettings.Instance.view.errorColor;
                     closed = true;
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            // for branches
+            if (questObjective.Trigger.Node != null)
+            {
+                vecImage = questObjective.Trigger.OwnerBranchNode switch
+                {
+                    AndNode => LBSAssetMacro.LoadAssetByGuid<VectorImage>(AndIconGuid),
+                    OrNode => LBSAssetMacro.LoadAssetByGuid<VectorImage>(OrIconGuid),
+                    _ => vecImage
+                };
+            }
             
-            style.display = DisplayStyle.Flex;
             
-            _outerQuestState.style.borderBottomColor = color;
-            _outerQuestState.style.borderTopColor = color;
-            _outerQuestState.style.borderLeftColor = color;
-            _outerQuestState.style.borderRightColor = color;
-            
-            _innerQuestState.style.backgroundColor = color;
-            
+            // State icon changes
+            _state.style.backgroundImage = new StyleBackground(vecImage);
+            _state.style.unityBackgroundImageTintColor = color;
+            // Label changes
             _questLabel.style.color = new StyleColor(color);
-            
-            _innerQuestState.style.display = closed ? DisplayStyle.Flex : DisplayStyle.None;
-  
-            if (closed) _questLabel.text = "<s>" + questNode.QuestAction + "</s>"; // strikethrough 
-            else _questLabel.text = questNode.QuestAction;
+            _questLabel.text = closed
+                ? $"<s>{_questNode.QuestAction}</s>"
+                : _questNode.QuestAction;
         }
     }
 }

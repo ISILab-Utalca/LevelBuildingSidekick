@@ -36,6 +36,8 @@ namespace ISILab.LBS.Manipulators
         private bool _ended;
         private bool _isRightClick;
         private bool _hasProcessedMouseUp;
+        private bool _forceCancel;
+        private bool _onToolUsage;
         #endregion
         
         #region POSITIONS
@@ -78,7 +80,20 @@ namespace ISILab.LBS.Manipulators
 
         public VectorImage Icon => _icon;
 
-     
+        protected bool Started => _started;
+        protected bool Ended => _ended;
+
+        protected bool ForceCancel
+        {
+            get => _forceCancel;
+            set => _forceCancel = value;
+        }
+
+        protected bool OnToolUsage
+        {
+            get => _onToolUsage;
+            set => _onToolUsage = value;
+        }
 
         public Vector2Int StartPosition
         {
@@ -241,7 +256,7 @@ namespace ISILab.LBS.Manipulators
         {
             if (@event.button != 0 && @event.button != 1)
                 return;
-            
+
             _hasProcessedMouseUp = false;
             OnManipulationNotification?.Invoke();
             _startClickPosition = MainView.Instance.FixPos(@event.localMousePosition).ToInt();
@@ -267,7 +282,8 @@ namespace ISILab.LBS.Manipulators
             }
             
             _started = true;
-             
+            _onToolUsage = true;
+
             StartFeedback();
 
             OnManipulationStart?.Invoke();
@@ -323,14 +339,12 @@ namespace ISILab.LBS.Manipulators
         /// <param name="event"></param>
         protected void OnInternalMouseUp(MouseUpEvent @event)
         {
-            
             if (@event.button != 0 && @event.button != 1 || _hasProcessedMouseUp)
             {
                 @event.StopImmediatePropagation();
                 DrawManager.Instance.RedrawLayer(LBSLayer);
                 return;
             }
-
 
             _hasProcessedMouseUp = true;
             
@@ -372,7 +386,7 @@ namespace ISILab.LBS.Manipulators
                 @event.StopImmediatePropagation();
             }
             //UnityEngine.Assertions.Assert.IsTrue(_started && _ended);
-            _ended = _started = false;
+            _ended = _started = _onToolUsage = false;
 
             // if it's a deleter called from an adder
             if (_isRightClick)
@@ -402,9 +416,23 @@ namespace ISILab.LBS.Manipulators
 
         protected virtual void OnMouseMove(VisualElement element, Vector2Int movePosition, MouseMoveEvent e) { }
 
-        protected virtual void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e) { }
+        protected virtual void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e) 
+        { 
+            if (Feedback != null) 
+                if (!Feedback.GetDisplay()) Feedback.SetDisplay(true);
+        }
         
-        protected virtual void OnKeyDown(KeyDownEvent e) { }
+        protected virtual void OnKeyDown(KeyDownEvent e) 
+        {
+            if ((e.keyCode == KeyCode.Escape) && _onToolUsage)
+            {
+                _forceCancel = true;
+                _onToolUsage = false;
+
+                LBSMainWindow.MessageNotify("'" + Name + "' action cancelled.");
+                Feedback?.SetDisplay(false);
+            }
+        }
         
         protected virtual void OnKeyUp(KeyUpEvent e) { }
         

@@ -15,7 +15,7 @@ using ISILab.LBS.VisualElements;
 
 namespace ISILab.LBS.Bundles.Editor
 {
-    [CustomEditor(typeof(Bundle))]
+    [CustomEditor(typeof(Bundle)), CanEditMultipleObjects]
     public class BundleEditor : UnityEditor.Editor
     {
         ListView characteristics;

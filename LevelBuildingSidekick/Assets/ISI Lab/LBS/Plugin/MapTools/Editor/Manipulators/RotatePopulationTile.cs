@@ -73,6 +73,8 @@ namespace ISILab.LBS.Manipulators
             }
         }
 
+        protected override void OnKeyDown(KeyDownEvent e) { }
+
         private void RotateRight()
         {
             PreRotate();

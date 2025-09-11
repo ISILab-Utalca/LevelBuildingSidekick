@@ -69,6 +69,7 @@ namespace ISILab.LBS.CustomComponents
         public LBSToolbarToggle() : base()
         {
             RemoveFromClassList(ussClassName);
+            RemoveFromClassList("unity-base-field");
             AddToClassList(lbsClassName);
             
             _toggleIconElement = new VisualElement();

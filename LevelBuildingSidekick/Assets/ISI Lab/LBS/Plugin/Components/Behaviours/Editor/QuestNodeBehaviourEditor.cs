@@ -69,7 +69,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            OnSelectNode(_behaviour.Graph.SelectedQuestNode);
+            OnSelectNode(_behaviour.Graph.SelectedGraphNode);
         }
         #endregion
         
@@ -78,7 +78,7 @@ namespace ISILab.LBS.VisualElements
         {
             _behaviour = paramTarget as QuestNodeBehaviour;
             if (_behaviour == null) return;
-            _behaviour.Graph!.OnQuestNodeSelected += OnSelectNode;
+            _behaviour.Graph!.OnGraphNodeSelected += OnSelectNode;
             DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
         }
         protected sealed override VisualElement CreateVisualElement()
@@ -110,15 +110,17 @@ namespace ISILab.LBS.VisualElements
             _targetPosition._onClicked = () =>
             {
                 if (ToolKit.Instance.GetActiveManipulatorInstance() is not QuestPicker pickerManipulator) return;
-
+                
+                BaseQuestNodeData nodeData = _behaviour.Graph.GetNodeData();
+                if (nodeData is null) return;
+                
                 pickerManipulator.PickTriggerPosition = true;
-                pickerManipulator.ActiveData = _behaviour.Graph.SelectedQuestNode.NodeData;
+                pickerManipulator.ActiveData = nodeData;
                 
                 if(pickerManipulator.ActiveData == null) return;
                 
                 pickerManipulator.OnPositionPicked = (pos) =>
                 {
-                    var nodeData = _behaviour.Graph.SelectedQuestNode.NodeData;
                     nodeData.Area = new Rect(pos.x,pos.y, nodeData.Area.width,nodeData.Area.height);
                     
                     // Refresh UI
@@ -139,7 +141,9 @@ namespace ISILab.LBS.VisualElements
         
         private void SetNodeDataArea(Rect newValue)
         {
-            BaseQuestNodeData nodeData = _behaviour.Graph.SelectedQuestNode.NodeData;
+            QuestNode node = _behaviour.Graph.SelectedGraphNode as QuestNode;
+
+            BaseQuestNodeData nodeData = node?.NodeData;
             if (nodeData is null) return;
             
             newValue.x = Mathf.Round(newValue.x);
@@ -164,8 +168,9 @@ namespace ISILab.LBS.VisualElements
             toolkit.ActivateTool(t1,_behaviour?.OwnerLayer, target);
         }
 
-        private void OnSelectNode(QuestNode node)
+        private void OnSelectNode(GraphNode graphNode)
         {
+            QuestNode node = graphNode as QuestNode;
             var validNode = node is not null && node.NodeData is not null;
             
             _noNodeSelectedPanel.style.display = validNode ? DisplayStyle.None : DisplayStyle.Flex;  
@@ -191,7 +196,6 @@ namespace ISILab.LBS.VisualElements
                 _instancedContent.Add(instance);
                 instance.SetNodeData(node.NodeData); // bindings per editor type
                 SetBaseDataValues(node.NodeData); // for trigger position and size
-          //      DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
             }
             
             // if not in the dictionary just set the default data: For example "GoTo" action

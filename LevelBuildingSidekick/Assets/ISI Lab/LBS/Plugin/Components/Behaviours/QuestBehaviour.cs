@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ISILab.AI.Grammar;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
@@ -12,6 +13,7 @@ namespace ISILab.LBS.Behaviours
     [RequieredModule(typeof(QuestGraph))]
     public class QuestBehaviour : LBSBehaviour
     {
+        public Type activeGraphNodeType = null;
         public string ActionToSet { get; set; }
 
         public QuestGraph Graph => OwnerLayer.GetModule<QuestGraph>();
@@ -34,10 +36,18 @@ namespace ISILab.LBS.Behaviours
         public override void OnAttachLayer(LBSLayer layer)
         {
             OwnerLayer = layer;
+            layer.OnChange += UpdateKeys;
         }
 
         public override void OnDetachLayer(LBSLayer layer)
         {
+            OwnerLayer = null;
+            layer.OnChange -= UpdateKeys;
+        }
+
+        public void UpdateKeys()
+        {
+            UpdateKeys(Graph.GraphNodes.ToList<object>());
         }
     }
 }

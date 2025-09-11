@@ -1,8 +1,7 @@
 using ISILab.LBS.Generators;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 namespace ISILab.LBS.Settings
@@ -39,6 +38,11 @@ namespace ISILab.LBS.Settings
                 instance = value;
             }
         }
+
+        public void MarkSettingsAsDirty()
+        {
+            EditorUtility.SetDirty(this);
+        }        
         #endregion
 
         public Paths paths = new Paths();
@@ -113,6 +117,7 @@ namespace ISILab.LBS.Settings
             public InterfaceTheme LBSTheme = InterfaceTheme.Dark;
             
             public Color toolkitNormal = new Color(0.28f, 0.28f, 0.28f);
+            public Color toolkitNormalDark = new(0.16f, 0.16f, 0.16f);
             public Color newToolkitSelected = new Color(0.21f, 0.48f, 0.96f);
             
             public Color behavioursColor = new Color(0.53f, 0.84f, 0.96f);

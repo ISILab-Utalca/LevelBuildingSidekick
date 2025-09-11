@@ -20,7 +20,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new ConnectedLine();
             Feedback.fixToTeselation = false;
 
-            Name = "Add Assistant zone connection";
+            Name = "Add Assistant Connection";
             Description = "Select an start and end point between zones to create a connection.";
         }
 
@@ -41,6 +41,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
+            base.OnMouseUp(element, position, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             LBSLayer.ToFixedPosition(position);
 
             var z1 = _assistant.GetZone(_first);

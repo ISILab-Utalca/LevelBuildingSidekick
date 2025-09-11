@@ -18,6 +18,7 @@ using ISILab.LBS.Components;
 using ISILab.LBS.Editor.Windows;
 using ISILab.Macros;
 using UnityEditor;
+using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -27,12 +28,14 @@ namespace ISILab.LBS.VisualElements
         #region FIELDS
         private ExteriorBehaviour exterior;
    
-        private List<LBSIdentifierBundle> Groups;
+        private List<LBSTagGroup> Groups;
         private object[] options;
 
         private AddExteriorTile addExteriorTile;
+        private AddVertexExteriorTile addVertexExteriorTile;
         private RemoveTileExterior removeTile;
         private SetExteriorTileConnection setConnection;
+        private SetVertexExteriorTileConnection setVertexConnection;
         private RemoveConnectionInArea removeConnectionInArea;
         #endregion
 
@@ -46,6 +49,8 @@ namespace ISILab.LBS.VisualElements
 
         #region PROPERTIES
         private Color BHcolor => LBSSettings.Instance.view.behavioursColor;
+
+        public ConnectedTileMapModule.ConnectedTileType GridType => exterior.GridType;
         #endregion
 
         #region CONSTRUCTORS
@@ -69,25 +74,36 @@ namespace ISILab.LBS.VisualElements
 
         public void SetTools(ToolKit toolKit)
         {
-            addExteriorTile = new AddExteriorTile();
-            var t1 = new LBSTool(addExteriorTile);
-            t1.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
+            // We set the remover tool first as we want to avoid using switch statement twice when setting the add tool's remover.
             removeTile = new RemoveTileExterior();
-            var t2 = new LBSTool(removeTile);
-            t2.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-            
+            LBSTool t2 = new LBSTool(removeTile);
+
+            addExteriorTile = new AddExteriorTile();
+            addVertexExteriorTile = new AddVertexExteriorTile();
+
             setConnection = new SetExteriorTileConnection();
-            var t3 = new LBSTool(setConnection);
-            t3.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
-                        
-            addExteriorTile.SetRemover(removeTile);
-            
-            toolKit.ActivateTool(t1,exterior.OwnerLayer, exterior);
-            toolKit.ActivateTool(t2,exterior.OwnerLayer, exterior);
-            toolKit.ActivateTool(t3,exterior.OwnerLayer, exterior);
-            
-       
+            setVertexConnection = new SetVertexExteriorTileConnection();
+
+            LBSTool t1 = null, t3 = null;
+            switch(GridType)
+            {
+                case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                    t1 = new LBSTool(addExteriorTile);
+                    addExteriorTile.SetRemover(removeTile);
+                    t3 = new LBSTool(setConnection);
+                    break;
+                case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                    t1 = new LBSTool(addVertexExteriorTile);
+                    addVertexExteriorTile.SetRemover(removeTile);
+                    t3 = new LBSTool(setVertexConnection);
+                    break;
+            }
+
+            foreach(LBSTool tool in new[] { t1, t2, t3 })
+            {
+                tool.OnSelect += LBSInspectorPanel.ActivateBehaviourTab;
+                toolKit.ActivateTool(tool, exterior.OwnerLayer, exterior);
+            }
         }
 
         private void CheckTargetBundle() 
@@ -195,11 +211,24 @@ namespace ISILab.LBS.VisualElements
             {
                 exterior.identifierToSet = selected as LBSTag;
                 // by default set the 
-                var activeManipulator = ToolKit.Instance.GetActiveManipulator().GetType();
-                if ( activeManipulator != typeof(AddExteriorTile) &&
-                     activeManipulator != typeof(SetExteriorTileConnection))
+                System.Type activeManipulator = ToolKit.Instance.GetActiveManipulator().GetType();
+                System.Type addToolType = null, connectionToolType = null;
+                switch(GridType)
                 {
-                    ToolKit.Instance.SetActive(typeof(AddExteriorTile));
+                    case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                        addToolType = addExteriorTile.GetType();
+                        connectionToolType = setConnection.GetType();
+                        break;
+                    case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                        addToolType = addVertexExteriorTile.GetType();
+                        connectionToolType = setVertexConnection.GetType();
+                        break;
+                }
+
+                if (activeManipulator != addToolType &&
+                     activeManipulator != connectionToolType)
+                {
+                    ToolKit.Instance.SetActive(addToolType);
                 }
             };
 

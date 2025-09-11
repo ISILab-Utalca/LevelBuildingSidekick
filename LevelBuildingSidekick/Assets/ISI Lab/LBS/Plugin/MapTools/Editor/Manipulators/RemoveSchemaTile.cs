@@ -17,7 +17,7 @@ namespace ISILab.LBS.Manipulators
             Feedback = new AreaFeedback();
             Feedback.fixToTeselation = true;
 
-            Name = "Remove Tile";
+            Name = "Remove Tiles";
             Description = "Select an area to remove any tiles that belong to the selected zone.";
         }
 
@@ -33,6 +33,15 @@ namespace ISILab.LBS.Manipulators
 
         protected override void OnMouseUp(VisualElement element, Vector2Int endPosition, MouseUpEvent e)
         {
+            base.OnMouseUp(element, endPosition, e);
+
+            //If esc key was pressed, cancel the operation
+            if (ForceCancel)
+            {
+                ForceCancel = false;
+                return;
+            }
+
             var x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Zone");

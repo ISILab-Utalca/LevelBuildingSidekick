@@ -31,6 +31,11 @@ namespace ISILab.Extensions
             return clone;
         }
 
+        public static bool ContainsOnly<T>(this List<T> list, params T[] values)
+        {
+            return !list.Except(values).Any();
+        }
+
         public static T RandomRullete<T>(this List<T> list, Func<T, float> predicate)
         {
             if (list.Count <= 0)

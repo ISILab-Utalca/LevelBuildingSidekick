@@ -58,6 +58,8 @@ namespace ISILab.LBS.VisualElements
             go = targetComponent.gameObject;
             lbsComponent = targetComponent;
             isStructure = lbsComponent.BundleTemp.Type == Bundle.TagType.Structural;
+
+            lbsComponent.AssetIndex = lbsComponent.BundleRef.Assets.FindIndex(a => a.obj.Equals(PrefabUtility.GetCorrespondingObjectFromSource(go)));
         }
 
         #region BUTTON METHODS
@@ -218,6 +220,8 @@ namespace ISILab.LBS.VisualElements
             ngo.transform.localScale = go.transform.localScale;
             ngo.transform.SetParent(go.transform.parent);
 
+            Selection.objects = new Object[] {ngo};
+
             //Copy LBSGenerated component
             LBSGenerated newLbs = ngo.AddComponent<LBSGenerated>();
             newLbs.BundleRef = lbs.BundleRef;
@@ -234,6 +238,7 @@ namespace ISILab.LBS.VisualElements
         //Returns the StructureBundle enum value according to a LBSTag
         private static StructureTags TagToEnum(LBSTag tag)
         {
+            if(tag == null) return StructureTags.None;
             return tag.label switch
             {
                 "Wall" => StructureTags.Wall,
