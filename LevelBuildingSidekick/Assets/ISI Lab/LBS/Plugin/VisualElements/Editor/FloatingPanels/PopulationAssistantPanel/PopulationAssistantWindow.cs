@@ -13,21 +13,13 @@ using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using System.Linq;
 using ISILab.LBS.Assistants;
-using ISILab.LBS.Editor;
-using ISILab.LBS.AI.Assistants.Editor;
-using ISILab.LBS.Internal;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
 using ISILab.Extensions;
-using ISILab.Macros;
 using ISILab.AI.Categorization;
-using static UnityEngine.Analytics.IAnalytic;
 using LBS.Components.TileMap;
 using ISILab.LBS.Modules;
-using UnityEditor.Graphs;
 using LBS.Components;
-using System.Xml.Serialization;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
