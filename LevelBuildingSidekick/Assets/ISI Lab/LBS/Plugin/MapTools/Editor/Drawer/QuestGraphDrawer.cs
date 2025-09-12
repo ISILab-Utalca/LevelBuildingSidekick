@@ -28,7 +28,7 @@ namespace ISILab.LBS.Drawers.Editor
             layer.OnChange += () =>
             {
                 // Reset layer input when changing to another layer
-                graph.SelectedQuestNode = null;
+                graph.SelectedGraphNode = null;
                 behaviour.ActionToSet = string.Empty;
                 QuestGraphNodeView.Deselect();
 
@@ -80,10 +80,10 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
                 {
-                    if (behaviour.Graph.SelectedQuestNode is not null)
+                    if (behaviour.Graph.SelectedGraphNode is not null)
                     {
                         // to find the highlighted element is within the active quest layer
-                        nodeView?.IsSelected(node == behaviour.Graph.SelectedQuestNode);
+                        nodeView?.IsSelected(node == behaviour.Graph.SelectedGraphNode);
                     }
 
                 }
@@ -122,7 +122,7 @@ namespace ISILab.LBS.Drawers.Editor
             if (selectedGraphView is not null)
             {
                 // key has to be the selected node
-                view.AddElementToLayerContainer(questGraph.OwnerLayer, questGraph.SelectedQuestNode, selectedGraphView);
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, questGraph.SelectedGraphNode, selectedGraphView);
             }
         }
 
@@ -168,7 +168,7 @@ namespace ISILab.LBS.Drawers.Editor
 
             n2.DisplayGrammarState(edge.To);
             
-            return new LBSQuestEdgeView(graph, edge, n1, n2, 4, 4);
+            return new LBSQuestEdgeView(graph, edge, n1, n2, 1.5f, 3.5f);
         }
         
         private QuestActionView CreateActionView(QuestNode node)

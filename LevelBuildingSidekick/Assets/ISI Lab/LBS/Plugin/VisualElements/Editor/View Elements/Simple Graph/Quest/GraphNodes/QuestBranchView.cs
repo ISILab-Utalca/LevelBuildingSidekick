@@ -117,6 +117,11 @@ namespace ISILab.LBS.VisualElements
             evt.StopPropagation();
         }
 
+        public override VisualElement GetSelectVisualElement()
+        {
+            return this;
+        }
+
         #endregion
     }
 }

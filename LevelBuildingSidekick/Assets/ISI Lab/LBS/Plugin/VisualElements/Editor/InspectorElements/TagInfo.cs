@@ -33,10 +33,10 @@ namespace ISILab.LBS.VisualElements
             parentField = this.Q<ObjectField>("ParentField");
             parentField.RegisterCallback<ChangeEvent<Object>>(e =>
             {
-                var prevP = e.previousValue as LBSIdentifierBundle;
+                var prevP = e.previousValue as LBSTagGroup;
                 prevP?.Remove(target);
 
-                var newP = e.newValue as LBSIdentifierBundle;
+                var newP = e.newValue as LBSTagGroup;
                 newP.Add(target);
             });
 
@@ -59,7 +59,7 @@ namespace ISILab.LBS.VisualElements
             this.target = target;
 
             var storage = LBSAssetsStorage.Instance;
-            parentField.SetValueWithoutNotify(storage.Get<LBSIdentifierBundle>().Find(b => b.Tags.Contains(target)));
+            parentField.SetValueWithoutNotify(storage.Get<LBSTagGroup>().Find(b => b.Tags.Contains(target)));
 
             labelField.value = target.Label;
             colorField.value = target.Color;

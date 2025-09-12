@@ -1,4 +1,6 @@
 @import url("project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&guid=85a69280ec227ab48bb86c136d9591fe&type=3#LBSStyleVariables");
+
+
 .unity-enum-field {
 }
 
@@ -48,4 +50,8 @@ ObjectFieldDisplay {
     align-self: stretch;
     min-width: 32px;
     flex-shrink: 1;
+}
+
+.unity-collection-view__item--selected{
+    background-color: var(--lbs-selection-neutral-blue-color)
 }

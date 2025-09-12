@@ -18,7 +18,6 @@ using ISILab.LBS.Drawers;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using UnityEditor;
-using NUnit.Framework.Internal;
 
 //This is meant to be an updated version of AssistantMapEliteEditor that uses PopulationAssistantWindow as its basis.
 //It's necessary for it to use the running commands for the algorithm, so it's here.

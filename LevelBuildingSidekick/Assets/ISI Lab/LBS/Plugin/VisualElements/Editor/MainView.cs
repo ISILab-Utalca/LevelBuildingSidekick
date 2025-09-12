@@ -92,6 +92,15 @@ namespace ISILab.LBS.VisualElements.Editor
             }
             return erasedElements;
         }
+
+        /// <summary>
+        /// Returns all GraphElements in this container, flattened into a single list.
+        /// </summary>
+        public List<GraphElement> GetAllElements()
+        {
+            return _pairs.Values.SelectMany(list => list).ToList();
+        }
+
     }
 
 
@@ -447,6 +456,21 @@ namespace ISILab.LBS.VisualElements.Editor
             return result;
         }
 
+        /// <summary>
+        /// Returns all GraphElements stored in a layer container, regardless of key.
+        /// </summary>
+        /// <param name="layer">The layer to retrieve elements from.</param>
+        /// <returns>List of all GraphElements in the layer, or an empty list if none.</returns>
+        public List<GraphElement> GetAllElementsInLayer(LBSLayer layer)
+        {
+            var container = GetLayerContainer(layer);
+            if (container == null) return new List<GraphElement>();
+
+            // Flatten all values in the dictionary to a single list
+            return container.GetAllElements();
+        }
+
+        
         /// <summary>
         /// Retrieves an existing container for a layer.
         /// </summary>

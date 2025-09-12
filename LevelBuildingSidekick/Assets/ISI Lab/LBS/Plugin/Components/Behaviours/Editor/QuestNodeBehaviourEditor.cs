@@ -69,7 +69,7 @@ namespace ISILab.LBS.VisualElements
         {
             SetInfo(target);
             CreateVisualElement();
-            OnSelectNode(_behaviour.Graph.SelectedQuestNode);
+            OnSelectNode(_behaviour.Graph.SelectedGraphNode);
         }
         #endregion
         
@@ -78,7 +78,7 @@ namespace ISILab.LBS.VisualElements
         {
             _behaviour = paramTarget as QuestNodeBehaviour;
             if (_behaviour == null) return;
-            _behaviour.Graph!.OnQuestNodeSelected += OnSelectNode;
+            _behaviour.Graph!.OnGraphNodeSelected += OnSelectNode;
             DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer);
         }
         protected sealed override VisualElement CreateVisualElement()
@@ -141,7 +141,7 @@ namespace ISILab.LBS.VisualElements
         
         private void SetNodeDataArea(Rect newValue)
         {
-            QuestNode node = _behaviour.Graph.SelectedQuestNode as QuestNode;
+            QuestNode node = _behaviour.Graph.SelectedGraphNode as QuestNode;
 
             BaseQuestNodeData nodeData = node?.NodeData;
             if (nodeData is null) return;
@@ -196,7 +196,6 @@ namespace ISILab.LBS.VisualElements
                 _instancedContent.Add(instance);
                 instance.SetNodeData(node.NodeData); // bindings per editor type
                 SetBaseDataValues(node.NodeData); // for trigger position and size
-          //      DrawManager.Instance.RedrawLayer(_behaviour.OwnerLayer, MainView.Instance); // Must draw in case changes were made
             }
             
             // if not in the dictionary just set the default data: For example "GoTo" action

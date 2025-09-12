@@ -11,6 +11,7 @@ using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ISILab.LBS.Modules
 {
@@ -45,7 +46,7 @@ namespace ISILab.LBS.Modules
         [JsonIgnore] public List<GraphNode> GraphNodes => graphNodes;
         [JsonIgnore] public List<QuestEdge> GraphEdges => graphEdges;
 
-        public GraphNode SelectedQuestNode
+        public GraphNode SelectedGraphNode
         {
             get => _selectedNode;
             set
@@ -68,7 +69,7 @@ namespace ISILab.LBS.Modules
             }
         }
 
-        public event Action<GraphNode> OnQuestNodeSelected
+        public event Action<GraphNode> OnGraphNodeSelected
         {
             add => _onNodeSelected += value;
             remove => _onNodeSelected = null;
@@ -176,7 +177,7 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region Nodes
-        public void NodeDataChanged(QuestNode node) => _onNodeSelected?.Invoke(node);
+        public void NodeDataChanged(GraphNode node) => _onNodeSelected?.Invoke(node);
 
         public T GetNodeAtPosition<T>(Vector2 pos) where T : GraphNode
         {
@@ -193,37 +194,42 @@ namespace ISILab.LBS.Modules
 
         public GraphNode AddNewNode(QuestBehaviour behaviour, Vector2 pos)
         {
+            if (behaviour.activeGraphNodeType is null) return null;
+
+            // adding a quest action node
             if (behaviour.activeGraphNodeType == typeof(QuestNode))
                 return AddNewQuestNode(behaviour.ActionToSet, pos);
 
-            if (behaviour.activeGraphNodeType == typeof(OrNode))
-            {
-                var node = new OrNode(pos, this);
-                AddNodeToGraph(node);
-                return node;
-            }
+            // adding a branching node
+            GraphNode node = behaviour.activeGraphNodeType == typeof(OrNode)
+                     ? new OrNode(string.Empty, pos, this)
+                     : new AndNode(string.Empty, pos, this);
 
-            if (behaviour.activeGraphNodeType == typeof(AndNode))
-            {
-                var node = new AndNode(pos, this);
-                AddNodeToGraph(node);
-                return node;
-            }
-
-            return null;
+            node.ID = GenerateUniqueId(node.ToString(), GraphNodes.Select(n => n.ID));
+            AddNodeToGraph(node);
+            return node;
         }
 
         public QuestNode AddNewQuestNode(string action, Vector2 pos)
         {
-            int suffix = 0;
-            string id;
-            do { id = $"{action} ({suffix++})"; }
-            while (GetQuestNodes().Any(n => n.ID == id));
-
+            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
             var node = new QuestNode(id, pos, action, this);
             AddNodeToGraph(node);
             return node;
         }
+
+        private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
+        {
+            if (!existingIds.Contains(baseName))
+                return baseName;
+
+            int suffix = 1;
+            string id;
+            do { id = $"{baseName} ({suffix++})"; }
+            while (existingIds.Contains(id));
+            return id;
+        }
+
 
         public void AddNodeToGraph(GraphNode node)
         {
@@ -419,7 +425,7 @@ namespace ISILab.LBS.Modules
         /// </summary>
         /// <param name="action">The action type for the new node</param>
         /// <param name="referenceNode">The node before which the new node will be inserted</param>
-        public QuestNode InsertNodeBefore(string action, QuestNode referenceNode)
+        public QuestNode InsertQuestNodeBefore(string action, QuestNode referenceNode)
         {
             if (referenceNode == null || !graphNodes.Contains(referenceNode))
             {
@@ -509,13 +515,13 @@ namespace ISILab.LBS.Modules
 
         public BaseQuestNodeData GetNodeData()
         {
-            QuestNode node = SelectedQuestNode as QuestNode;
+            QuestNode node = SelectedGraphNode as QuestNode;
             return node?.NodeData;
         }
         
         public QuestNode GetNodeAsQuest()
         {
-            return SelectedQuestNode as QuestNode;
+            return SelectedGraphNode as QuestNode;
         }
         
         public override bool IsEmpty() => graphNodes.Count == 0;
@@ -524,6 +530,7 @@ namespace ISILab.LBS.Modules
         {
             var clone = new QuestGraph { grammarGuid = grammarGuid };
 
+            // cloning nodes and their data
             var nodes = graphNodes.Select(CloneRefs.Get).Cast<GraphNode>();
             foreach (var n in nodes)
             {
@@ -538,10 +545,20 @@ namespace ISILab.LBS.Modules
                 n.Graph = clone;
             }
 
+            // cloning edges
             var edges = graphEdges.Select(CloneRefs.Get).Cast<QuestEdge>();
             foreach (var e in edges) clone.graphEdges.Add(e);
 
-            //clone.root = CloneRefs.Get(Root) as QuestNode;
+            // assign selected node
+            if (_selectedNode is not null)
+            {
+                foreach (var cloneNode in clone.graphNodes.Where(cloneNode => cloneNode.ID == _selectedNode.ID))
+                {
+                    clone._selectedNode = cloneNode;
+                    break;
+                }
+            }
+            
             return clone;
         }
 

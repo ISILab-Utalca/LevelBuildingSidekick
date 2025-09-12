@@ -1,4 +1,3 @@
-// Cleaned and fixed version
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Template;
@@ -12,131 +11,208 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
     [UxmlElement]
     public partial class LayersPanel : VisualElement
     {
+        #region FIELDS
         public readonly LBSLevelData Data;
         private LBSLayer _selectedLayer;
         private readonly List<LayerTemplate> _templates;
 
-        private readonly ListView _list;
-        private readonly TextField _nameField;
-        private readonly List<VisualElement> _noLayerNotifications;
-        private readonly VisualElement _noSelectedLayerNotificator;
+        private ListView _list;
+        private TextField _nameField;
+        private VisualElement _noLayerNotifications;
+        private VisualElement _noSelectedLayerNotificator;
 
+        private readonly HashSet<LayerView> _layerViews = new HashSet<LayerView>();
+        
+        [SerializeField]
+        private Toggle _toggleFocus;
+        
+        private const float UnfocusOpacity = 0.33f;
+        private readonly List<int> _dragAffected = new();
+       
+
+        #endregion
+
+        #region EVENTS
         public event Action<LBSLayer> OnAddLayer;
         public event Action<LBSLayer> OnRemoveLayer;
         public event Action<LBSLayer> OnSelectLayer;
         public event Action<LBSLayer> OnDoubleSelectLayer;
         public event Action<LBSLayer> OnLayerVisibilityChange;
         public event Action<LBSLayer> OnLayerOrderChange;
+        #endregion
 
-        private List<int> dragAffected = new List<int>();
-
-        public LayersPanel() { }
-
+        #region CONSTRUCTOR
+        public LayersPanel(){}
+        
         public LayersPanel(LBSLevelData data, ref List<LayerTemplate> templates)
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayersPanel");
             visualTree.CloneTree(this);
 
-            this.Data = data;
-            this._templates = templates;
+            Data = data;
+            _templates = templates;
 
-            OnAddLayer += OnLayerChangeEventHandle;
-            OnRemoveLayer += OnLayerChangeEventHandle;
+            RegisterEvents();
+            InitializeUI();
+            RefreshUI();
+        }
+        #endregion
 
+        #region METHODS
+
+        #region INITIALIZATION
+        private void RegisterEvents()
+        {
+            OnAddLayer += HandleLayerChangeEvent;
+            OnRemoveLayer += HandleLayerChangeEvent;
+            OnSelectLayer += HandleLayerChangeEvent;
+            OnLayerOrderChange += HandleLayerChangeEvent;
+            
+            RegisterCallback<KeyDownEvent>(OnKeyDown);
+        }
+
+        private void InitializeUI()
+        {
             _list = this.Q<ListView>("List");
-
-            _list.reorderMode = ListViewReorderMode.Simple;
-
-            VisualElement MakeItem() => new LayerView();
-            _list.bindItem += (item, index) =>
-            {
-                if (index >= this.Data.LayerCount) 
-                {
-                    dragAffected.Remove(index);
-                    return;
-                }
-
-                if (item is LayerView view)
-                {
-                    var layer = this.Data.GetLayer(index);
-                    layer.index = _list.childCount - index; // childCount no devuelve el numero de elementos de la lista, es de VisualElement!!
-                    if(dragAffected.Count == 0)
-                    {
-
-                        if(view.OnLayerVisibilityChangeAction != null)
-                            view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
-                        view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
-                        view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
-                        view.SetInfo(layer);
-                        view.OnNameChange += () => layer.InvokeNameChanged();
-                    }
-                    else
-                    {
-                        dragAffected.Remove(index);
-                        view.SetInfo(layer);
-                        if (dragAffected.Count == 0)
-                        {
-                            OnLayerOrderChange?.Invoke(layer);
-                        }
-                    }
-
-                    ChangeListItemView(item);
-                }
-            };
-            _list.itemIndexChanged += (_old, _new) => {
-                UnityEngine.Assertions.Assert.IsTrue(dragAffected.Count == 0);
-                int count = Mathf.Abs(_new - _old) + 1;
-                int step = (int)Mathf.Sign(_new - _old);
-                for(int i = 0; i < count; i++)
-                {
-                    int index = _old + i * step;
-                    dragAffected.Add(index);
-                }
-            };
-
-            _list.fixedItemHeight = 24;
-            _list.itemsSource = data.Layers;
-            _list.makeItem += MakeItem;
+            _list.itemsSource = Data.Layers;
+            
+            _list.makeItem = () => new LayerView();
+            _list.bindItem = BindListItem;
             _list.itemsChosen += ItemChosen;
-            _list.selectionChanged += SelectionChange;
+            _list.selectionChanged += SelectionChanged;
+            _list.itemIndexChanged += OnItemDrag;
 
             _nameField = this.Q<TextField>("NameField");
 
-            var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
-            foreach (var ve in addLayerButton.Children())
-            {
-                if (ve != addLayerButton.Children().Last())
-                    ve.style.display = DisplayStyle.None;
-            }
+            SetupAddLayerButton();
+            SetupRemoveLayerButton();
+            SetupFocusToggle();
 
-            for (int i = 0; i < templates.Count; i++)
-            {
-                int x = i;
-                addLayerButton.menu.AppendAction(templates[i].templateName, _ => AddLayerByTemplate(x));
-            }
-
-            Button removeSelectedBtn = this.Q<Button>("RemoveSelectedButton");
-            removeSelectedBtn.clicked += RemoveSelectedLayer;
-
-            _noLayerNotifications = this.Query<VisualElement>("NoLayerNotify").ToList();
+            _noLayerNotifications = this.Q<VisualElement>("NoLayerNotify");
             _noSelectedLayerNotificator = this.Q<VisualElement>("NoSelectedLayerNotify");
-
-            _list.style.display = DisplayStyle.None;
-            _noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
-
-            _list.Rebuild();
-
-            RegisterCallback<KeyDownEvent>(OnKeyDown);
-            OnLayerChangeEventHandle(null);
         }
 
+        private void SetupAddLayerButton()
+        {
+            var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
+            foreach (var ve in Enumerable.OfType<VisualElement>(addLayerButton.Children()).Take(addLayerButton.childCount - 1))
+                ve.style.display = DisplayStyle.None;
+
+            for (int i = 0; i < _templates.Count; i++)
+            {
+                int index = i;
+                addLayerButton.menu.AppendAction(_templates[i].templateName, _ => AddLayerByTemplate(index));
+            }
+        }
+
+        private void SetupRemoveLayerButton()
+        {
+            var removeSelectedBtn = this.Q<Button>("RemoveSelectedButton");
+            removeSelectedBtn.clicked += RemoveSelectedLayer;
+        }
+
+        private void SetupFocusToggle()
+        {
+            _toggleFocus = this.Q<Toggle>("ToggleFocusButton");
+            _toggleFocus.RegisterValueChangedCallback(OnToggleFocusChanged);
+        }
+        #endregion
+
+        #region LISTVIEW HANDLERS
+        private void BindListItem(VisualElement item, int index)
+        {
+            if (index >= Data.LayerCount)
+            {
+                _dragAffected.Remove(index);
+                return;
+            }
+
+            if (item is not LayerView view) return;
+
+            var layer = Data.GetLayer(index);
+            _layerViews.Add(view);
+            layer.index = _list.childCount - index;
+
+            if (_dragAffected.Count == 0)
+            {
+                ResetLayerViewEvents(view, layer);
+            }
+            else
+            {
+                _dragAffected.Remove(index);
+                if (_dragAffected.Count == 0)
+                {
+                    OnLayerOrderChange?.Invoke(layer);
+                }
+            }
+            view.UpdateSelect(GetSelectedLayer());
+            view.SetStyleSelectors();
+            CheckOpacity();
+        }
+
+        private void ResetLayerViewEvents(LayerView view, LBSLayer layer)
+        {
+            if (view.OnLayerVisibilityChangeAction != null)
+                view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
+
+            view.OnLayerVisibilityChangeAction = () => OnLayerVisibilityChange?.Invoke(layer);
+            view.OnVisibilityChange += view.OnLayerVisibilityChangeAction;
+            view.SetInfo(layer);
+            view.OnNameChange += layer.InvokeNameChanged;
+            // OnLayerOrderChange -= view.UpdateSelect;
+            // OnLayerOrderChange += view.UpdateSelect;
+            CheckOpacity();
+    }
+
+        private void SelectionChanged(IEnumerable<object> objs)
+        {
+            var selected = objs.FirstOrDefault() as LBSLayer;
+            LBSMainWindow.Instance._selectedLayer = selected;
+            OnSelectLayer?.Invoke(GetSelectedLayer());
+        }
+
+        private void ItemChosen(IEnumerable<object> objs)
+        {
+            var selected = objs.FirstOrDefault() as LBSLayer;
+            LBSMainWindow.Instance._selectedLayer = selected;
+            OnDoubleSelectLayer?.Invoke(GetSelectedLayer());
+        }
+
+        private void OnItemDrag(int oldIndex, int newIndex)
+        {
+       
+            int count = Mathf.Abs(newIndex - oldIndex) + 1;
+            int step = (int)Mathf.Sign(newIndex - oldIndex);
+            for (int i = 0; i < count; i++)
+            {
+                int index = oldIndex + i * step;
+                _dragAffected.Add(index);
+            }
+            RefreshUI();
+        }
+        #endregion
+        
+        #region EVENT HANDLERS
+        private void UpdateListChildItems(LBSLayer layer)
+        {
+            _layerViews.Clear();
+            _list.RefreshItems(); // calls rebind -> refill _layerViews
+            foreach (var layerView in _layerViews)
+            {
+                layerView.UpdateSelect(layer, IsFocusToggleOn());
+            }
+        }
+        
+        #endregion
+
+
+        #region LAYER MANAGEMENT
         private void AddLayerByTemplate(int index)
         {
             if (index < 0)
@@ -152,152 +228,165 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void AddLayer(LBSLayer layer)
         {
-            int i = 1;
-            while (Data.Layers.Any(l => l.Name.Equals(layer.Name)))
-            {
-                layer.Name = _nameField.text + " " + i;
-                i++;
-            }
+            layer.Name = GenerateUniqueLayerName(layer.Name);
 
             Data.AddLayer(layer);
-            _list.SetSelectionWithoutNotify(new List<int>() { 0 });
-
+            _list.SetSelection(new List<int> { 0 });
             OnAddLayer?.Invoke(layer);
             SetSelectedLayer(layer);
 
             LBSMainWindow.MessageNotify("New Data layer created");
             _list.Rebuild();
+
+            foreach (var layerView in _layerViews)
+            {
+                if (Equals(layerView.Target, layer))
+                {
+                    layerView.UpdateSelect(layer, IsFocusToggleOn());
+                }
+            }
+            
+            CheckOpacity();
         }
+
+        private string GenerateUniqueLayerName(string baseName)
+        {
+            int i = 1;
+            string newName = baseName;
+
+            while (Data.Layers.Any(l => l.Name.Equals(newName)))
+            {
+                newName = $"{baseName} {i}"; 
+                i++;
+            }
+
+            return newName;
+        }
+
 
         private void RemoveSelectedLayer()
         {
             if (!Data.Layers.Any()) return;
-
             var index = _list.selectedIndex;
             if (index < 0) return;
 
-            var answer = EditorUtility.DisplayDialog("Caution",
+            if (!EditorUtility.DisplayDialog("Caution",
                 "You are about to delete a layer. Are you sure?",
-                "Continue", "Cancel");
-
-            if (!answer) return;
+                "Continue", "Cancel")) return;
 
             var removedLayer = Data.RemoveAt(index);
             removedLayer.RemoveAll();
-
-            LBSLayer next = null;
-            if (Data.LayerCount > 0)
-            {
-                int nextIndex = Mathf.Clamp(index, 0, Data.LayerCount - 1);
-                next = Data.GetLayer(nextIndex);
-            }
-
             DrawManager.Instance.RemoveContainer(removedLayer);
             OnRemoveLayer?.Invoke(removedLayer);
             _list.Rebuild();
 
-            SetSelectedLayer(next);
+            SetSelectedLayer(GetNextLayerAfterRemoval(index));
             LBSMainWindow.MessageNotify("Data layer deleted");
         }
 
-        private void SelectionChange(IEnumerable<object> objs)
+        private LBSLayer GetNextLayerAfterRemoval(int removedIndex)
         {
-            var enumerable = objs as object[] ?? objs.ToArray();
-            if (!enumerable.Any()) 
-            {
-                return;
-            }
-
-            var selected = enumerable.ToList()[0] as LBSLayer;
-            _noSelectedLayerNotificator.style.display = selected == null ? DisplayStyle.Flex : DisplayStyle.None;
-            OnSelectLayer?.Invoke(selected);
+            if (Data.LayerCount <= 0) return null;
+            int nextIndex = Mathf.Clamp(removedIndex, 0, Data.LayerCount - 1);
+            return Data.GetLayer(nextIndex);
         }
-        private void ItemChosen(IEnumerable<object> objs)
+        #endregion
+
+        #region FOCUS MANAGEMENT
+        private void OnToggleFocusChanged(ChangeEvent<bool> evt)
         {
-            var selected = objs.FirstOrDefault() as LBSLayer;
-            if (selected == null)
+            if (!evt.newValue)
             {
-                _noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
-                return;
+                DrawManager.Instance.ChangeOpacityAll(1f);
             }
-
-            OnDoubleSelectLayer?.Invoke(selected);
+            OnSelectLayer?.Invoke(GetSelectedLayer());
         }
+
+        private void CheckOpacity()
+        {
+            if (DrawManager.Instance is null) return;
+
+            var selectedLayer = GetSelectedLayer();
+            if (IsFocusToggleOn() && selectedLayer != null)
+            {
+                DrawManager.Instance.ChangeOpacityAll(UnfocusOpacity);
+                DrawManager.ChangeLayerOpacity(selectedLayer, 1f);
+            }
+        }
+
+        private bool IsFocusToggleOn()
+        {
+            return _toggleFocus.value;
+        }
+
+        #endregion
+
+        #region SELECTION MANAGEMENT
+        private void SetSelectedLayer(LBSLayer layer)
+        {
+            _selectedLayer = layer;
+            OnSelectLayer?.Invoke(layer);
+        }
+
+        private LBSLayer GetSelectedLayer() => LBSMainWindow.Instance._selectedLayer;
 
         public void ResetSelection()
         {
             _list.ClearSelection();
             SetSelectedLayer(null);
+   
         }
 
-        private void OnLayerChangeEventHandle(LBSLayer _)
+        private void UpdateNoSelectedLayer()
         {
-            bool hasItems = _list.itemsSource.Count > 0;
-            DisplayStyle notifDisplay = hasItems ? DisplayStyle.None : DisplayStyle.Flex;
-
-            foreach (var ve in _noLayerNotifications)
-                ve.style.display = notifDisplay;
-
-            _list.style.display = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (_selectedLayer == null && hasItems)
-                _noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
-            else
-                _noSelectedLayerNotificator.style.display = DisplayStyle.None;
-        }
-
-        private void SetSelectedLayer(LBSLayer layer)
-        {
-            if (Equals(layer, _selectedLayer)) return;
-            _selectedLayer = layer;
-
+            var layer = GetSelectedLayer();
             if (layer != null)
             {
                 LBSInspectorPanel.ActivateDataTab();
                 _noSelectedLayerNotificator.style.display = DisplayStyle.None;
-                OnSelectLayer?.Invoke(layer);
             }
             else
             {
                 _noSelectedLayerNotificator.style.display = DisplayStyle.Flex;
                 LBSInspectorPanel.Instance.SetSelectedTab(null);
-                OnSelectLayer?.Invoke(null);
             }
         }
+        #endregion
 
-        private static void ChangeListItemView(VisualElement item)
+        #region UI UPDATES
+        private void HandleLayerChangeEvent(LBSLayer _) => RefreshUI();
+
+        private void RefreshUI()
         {
-            var container = item.parent;
-            if (container != null)
-            {
-                container.style.paddingRight = 5;
-                container.style.paddingLeft = 5;
-            }
-
-            var parent = item.parent?.parent;
-            if (parent is { childCount: > 0 })
-            {
-                parent[0].style.display = DisplayStyle.None;
-            }
+            UpdateNoLayerPanel();
+            UpdateNoSelectedLayer();
+            UpdateDisplayList();
+            UpdateListChildItems(GetSelectedLayer());
+            CheckOpacity();
         }
 
+        private void UpdateNoLayerPanel()
+        {
+            bool noItems = _list.itemsSource.Count <= 0;
+            _noLayerNotifications.style.display = noItems ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private void UpdateDisplayList()
+        {
+            bool hasItems = _list.itemsSource.Count > 0;
+            _list.style.display = hasItems ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+        #endregion
+
+        #region KEYBOARD HANDLING
         private void OnKeyDown(KeyDownEvent evt)
         {
             if (evt.keyCode == KeyCode.Delete)
             {
-                var preIndex = _list.selectedIndex;
+                int preIndex = _list.selectedIndex;
                 RemoveSelectedLayer();
-
-                if (Data.LayerCount < 1)
-                {
-                    evt.StopPropagation();
-                    return;
-                }
-
-                int nextIndex = Mathf.Clamp(preIndex, 0, Data.LayerCount - 1);
-                var next = Data.GetLayer(nextIndex);
-                SetSelectedLayer(next);
-
+                if (Data.LayerCount > 0)
+                    SetSelectedLayer(GetNextLayerAfterRemoval(preIndex));
                 evt.StopPropagation();
             }
 
@@ -306,5 +395,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 AddLayer(_selectedLayer.Clone() as LBSLayer);
             }
         }
+        #endregion
+
+        #endregion
     }
 }

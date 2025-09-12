@@ -85,7 +85,13 @@ namespace ISILab.LBS.CustomComponents
             
             _toggleIconElement = new VisualElement();
             _toggleIconElement.AddToClassList("lbs-icon");
-            this.Add(_toggleIconElement);
+            if (toggleIcon != null)
+            {
+                _toggleIconElement.style.backgroundImage = new StyleBackground(toggleIcon);
+                _arrowElement.style.display = DisplayStyle.Flex; 
+            }
+            this.Add(_toggleIconElement);   
+            
             
             TextElement textElement = this.Q<TextElement>(classes: textUssClassName);
             if (textElement != null)

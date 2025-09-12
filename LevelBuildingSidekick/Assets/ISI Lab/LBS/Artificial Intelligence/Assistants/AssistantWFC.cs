@@ -12,6 +12,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
+
+
+
+
+
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -596,6 +605,110 @@ namespace ISILab.LBS.Assistants
 
             return true;
         }
+
+        //out string errMsg
+
+        public bool CaptureRules()
+        {
+            //errMsg = null;
+
+            // TO DO
+            //Hacer un nuevo LBSCharacteristic que pueda implementar
+            //las reglas del diccionario.
+
+            Dictionary<TileConnectionsPair, List<List<TileConnectionsPair>>> tileRules = new();
+
+
+            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().
+                Pairs.OrderBy(t => -t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+
+            if (pairs.Count == 0)
+            {
+                //errMsg = "Empty map! Could not capture its weights.";
+                return false;
+            }
+
+            foreach (var p in pairs)
+            {
+                var adjacent = new List<List<TileConnectionsPair>>
+                {
+                    GetAdjacentFromCurrent(pairs, p)
+                };
+
+                if (!tileRules.ContainsKey(p))
+                    tileRules.Add(p, adjacent);
+                else
+                {
+                    tileRules[p].Add(GetAdjacentFromCurrent(pairs, p));
+                }
+            }
+
+            foreach (var rule in tileRules)
+            {
+                Debug.Log(rule.Key);
+
+                foreach (var pair in rule.Value)
+                {
+                    Debug.Log($" - {string.Join(", ", pair)}");
+                }
+
+            }
+
+            //var group = targetBundleRef.GetCharacteristics<LBSDirectionedGroup>()[0];
+
+            //Selection.activeObject = targetBundleRef;
+
+            return true;
+        }
+
+        private void ArrangeListByPosition(List<TileConnectionsPair> tiles)
+        {
+            tiles = tiles.OrderBy(t => t.Tile.Position.x).ThenBy(t => t.Tile.Position.y).ToList();
+        }
+
+        private List<TileConnectionsPair> GetAdjacentFromCurrent(List<TileConnectionsPair> tiles, TileConnectionsPair current)
+        {
+            List<TileConnectionsPair> adjacent = new();
+
+            foreach (var tile in tiles)
+            {
+                if (tile.Tile == current.Tile)
+                    continue;
+
+                Vector2Int currentPos = current.Tile.Position;
+                Vector2Int tilePos = tile.Tile.Position;
+
+                if (tilePos == currentPos + Vector2Int.right)
+                {
+                    //Debug.Log($"Right: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.left)
+                {
+                    //Debug.Log($"Left: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.up)
+                {
+                    //Debug.Log($"Up: {tile.Tile}");
+                    adjacent.Add(tile);
+                    continue;
+                }
+
+                if (tilePos == currentPos + Vector2Int.down)
+                {
+                    //Debug.Log($"Down: {tile.Tile}");
+                    adjacent.Add(tile);
+                }
+            }
+
+            return adjacent;
+        }
+
 
         public bool SaveWeights(string presetName, string folder, out string endName, out WFCPreset newPreset, out string errMsg)
         {

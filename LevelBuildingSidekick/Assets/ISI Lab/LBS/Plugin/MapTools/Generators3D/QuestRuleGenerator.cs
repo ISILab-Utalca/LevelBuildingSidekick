@@ -66,7 +66,17 @@ namespace ISILab.LBS.Generators
 
             if (!quest.GraphEdges.Any())
             {
-                return Tuple.Create<GameObject, string>(null, "The quest graph only has one node, can't generate. Can't generate");
+                return Tuple.Create<GameObject, string>(null, "The quest graph is empty!. Can't generate");
+            }
+            
+            if (quest.Root is null)
+            {
+                return Tuple.Create<GameObject, string>(null, "There is no root in the graph. Assign a root to generate the quest");
+            }
+
+            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
+            {
+                return Tuple.Create<GameObject, string>(null, "There must be at least one goal node. Make sure to have actions with roots but no branches");
             }
             
             var assistant = layer.GetAssistant<GrammarAssistant>();
@@ -115,20 +125,6 @@ namespace ISILab.LBS.Generators
 
         private static void GenerateTriggersPerNode(Generator3D.Settings settings, QuestGraph quest, QuestTracker tracker, GameObject pivot)
         {
-            if (quest.Root is null)
-            {
-                Debug.LogError("There is no root in the graph. Assign a root to generate the quest");
-                Object.DestroyImmediate(pivot);
-                return;
-            }
-
-            if (quest.GetQuestNodes().All(n => n.NodeType != QuestNode.ENodeType.Goal))
-            {
-                Debug.LogError("There must be at least one goal node. Make sure to have actions with roots but no branches");
-                Object.DestroyImmediate(pivot);
-                return;
-            }
-
             // Map QuestNode -> Trigger GameObject
             var questNodeGameObjects = CreateQuestNodeGameObjects(settings, quest, tracker, pivot);
 
@@ -193,8 +189,6 @@ namespace ISILab.LBS.Generators
         
         private static void CreateBranchNodeComponents(QuestGraph quest, QuestTracker tracker, Dictionary<QuestNode, GameObject> questNodeGameObjects)
         {
-            int orID = 0, andID = 0;
-
             // Group edges by destination branch node
             var branchGroups = quest.GraphEdges
                 .Where(e => e.To is AndNode || e.To is OrNode)
@@ -206,19 +200,9 @@ namespace ISILab.LBS.Generators
                 GameObject branchGameObject;
                 QuestTriggerBranch triggerBranchComponent;
 
-                if (branchNode is OrNode)
-                {
-                    branchGameObject = new GameObject($"OR_{orID++}") { transform = { parent = tracker.transform } };
-                    triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
-                }
-                else if (branchNode is AndNode)
-                {
-                    branchGameObject = new GameObject($"AND_{andID++}") { transform = { parent = tracker.transform } };
-                    triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
-                }
-                else
-                    continue;
-
+                branchGameObject = new GameObject($"{branchNode.ID}") { transform = { parent = tracker.transform } };
+                triggerBranchComponent = branchGameObject.AddComponent<QuestTriggerBranch>();
+       
                 // Assign child triggers
                 var childGameObjects = group.SelectMany(e => e.From.Cast<QuestNode>().Select(n => questNodeGameObjects[n]))
                                             .Distinct()
@@ -468,7 +452,7 @@ namespace ISILab.LBS.Generators
 
             if (!uiAsset || !panelSettings) return;
 
-            questVisualTree.GO = observerGameObject;
+            questVisualTree.Go = observerGameObject;
             uiDocument.visualTreeAsset = uiAsset;
             uiDocument.panelSettings = panelSettings;
             uiGameObject.transform.SetParent(pivotTransform);

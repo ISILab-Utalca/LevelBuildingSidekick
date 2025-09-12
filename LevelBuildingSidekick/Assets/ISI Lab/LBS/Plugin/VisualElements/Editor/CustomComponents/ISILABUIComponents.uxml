@@ -1,9 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:Template name="LBSHorizontalDivider" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/StaticTemplateComponents/SimpleComponents/LBSHorizontalDivider.uxml?fileID=9197481963319205126&amp;guid=8e276661d37de8e41905231bb939b61a&amp;type=3#LBSHorizontalDivider" />
+    <ui:Template name="LayerView" src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/LayerPanels/LayerView.uxml?fileID=9197481963319205126&amp;guid=a0bb7684f168d4e47be1af83879091a1&amp;type=3#LayerView" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSOverrideStyle.uss?fileID=7433441132597879392&amp;guid=dc3922656bcc222469152418c1839f87&amp;type=3#LBSOverrideStyle" />
     <ui:VisualElement class="alt" style="flex-grow: 1;">
-        <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple" />
         <uie:Toolbar name="Toolbar" class="lbs-toolbar">
             <uie:ToolbarButton text="Button" />
             <uie:ToolbarToggle label="Toggle" />
@@ -51,6 +51,10 @@
                 <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" style="height: 38px;" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Right" />
                 <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Left" style="height: 41px;" />
+                <ISILab.LBS.VisualElements.ActionButton style="height: 24px;" />
+                <ISILab.LBS.VisualElements.Editor.LayerView focusable="true" selectable="true" />
+                <ISILab.LBS.VisualElements.Editor.LayerView focusable="true" />
+                <ui:Instance template="LayerView" name="TemplateContainer" style="flex-direction: row;" />
             </ui:VisualElement>
         </ISILab.Commons.VisualElements.Editor.SplitView>
         <uie:Toolbar>

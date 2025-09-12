@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Linq;
 using ISILab.Macros;
-using NUnit.Framework;
 using UnityEngine.UIElements;
 using Color = UnityEngine.Color;
 

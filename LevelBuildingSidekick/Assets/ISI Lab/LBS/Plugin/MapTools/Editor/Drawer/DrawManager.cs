@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Drawers;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
 using UnityEngine.UIElements;
@@ -150,6 +151,28 @@ namespace ISILab.LBS
             foreach (var layer in level.Layers)
             {
                 DrawLayer(layer);
+            }
+        }
+
+        public void ChangeOpacityAll(float opacity)
+        {
+            var layers = LBSMainWindow.Instance.GetLayers();
+            if (!layers.Any()) return;
+            
+            foreach (var layer in layers)
+            {
+              ChangeLayerOpacity(layer, opacity);
+            }
+        }
+
+        public static void ChangeLayerOpacity(LBSLayer layer, float opacity)
+        {
+            if(layer is null)return;
+            var elements =  MainView.Instance.GetAllElementsInLayer(layer);
+            if(!elements.Any()) return;
+            foreach (var element in elements)
+            {
+                element.style.opacity = opacity;
             }
         }
     }
