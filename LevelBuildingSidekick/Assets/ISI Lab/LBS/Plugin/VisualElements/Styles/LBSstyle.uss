@@ -1642,6 +1642,7 @@ Toggle > .lbs-default-icon {
     padding-left: 4px;
     align-self: stretch;
     justify-content: center;
+    flex-direction: row;
 }
 
 .lbs-toolbar-toggle:hover {
