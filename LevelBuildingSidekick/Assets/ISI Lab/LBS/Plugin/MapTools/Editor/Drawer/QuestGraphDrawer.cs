@@ -16,7 +16,7 @@ namespace ISILab.LBS.Drawers.Editor
     {
         // for actions, and ors,
         private readonly Dictionary<GraphNode, QuestGraphNodeView> _actionViews = new();
-        
+        private readonly Dictionary<QuestNode, QuestGraphNodeView> _suggestionViews = new();
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             if (target is not QuestBehaviour behaviour) return;
@@ -90,7 +90,7 @@ namespace ISILab.LBS.Drawers.Editor
                 
                 // if not successfully created
                 if(nodeView is null) continue;
-                
+           
                 if(nodeView.IsSelectedView()) selectedGraphView = nodeView;
                 
                 nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
@@ -98,6 +98,27 @@ namespace ISILab.LBS.Drawers.Editor
                 behaviour.Keys.Add(node);
             }
 
+            
+            foreach (var node in questGraph.Suggestions)
+            {
+                _suggestionViews.TryGetValue(node, out var nodeView);
+              
+                // if not successfully created
+                if(nodeView is null) continue;
+                
+                _suggestionViews[node] = nodeView;
+                
+                if (questGraph.displaySuggestions)
+                {
+                    nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                }
+                else
+                {
+                    nodeView.style.display = DisplayStyle.None;
+                }
+                behaviour.Keys.Add(node);
+            }
+            
             foreach (var edge in questGraph.GraphEdges)
             {
                 if (!_actionViews.TryGetValue(edge.To, out var n2) || n2 == null) continue;

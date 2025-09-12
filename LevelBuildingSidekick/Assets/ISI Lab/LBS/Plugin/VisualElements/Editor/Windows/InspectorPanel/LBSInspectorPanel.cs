@@ -38,6 +38,8 @@ namespace ISILab.LBS.VisualElements
         public static string DataTab = "Layer data";
         public static string BehavioursTab = "Behaviours";
         public static string AssistantsTab = "Assistants";
+        
+        public LBSInspector ActiveInspector;
 
         public static Rect Layout { get => Instance.layout; }
 
@@ -108,7 +110,12 @@ namespace ISILab.LBS.VisualElements
             if (string.IsNullOrEmpty(name)) return;
             if (!VEs.TryGetValue(name, out var inspector))  return;
             if (inspector == null) return;
-
+            
+            // Notify previous active
+            if(ActiveInspector is not null) ActiveInspector.OnUnfocus();
+            
+            // Assign and notify new
+            ActiveInspector = inspector;
             inspector.OnFocus?.Invoke();
             
             SetContent(inspector);
