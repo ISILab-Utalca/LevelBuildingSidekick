@@ -148,6 +148,12 @@ namespace LBS.Components
         public event Action<LBSLayer, LBSModule> OnAddModule;
         public event Action<LBSLayer, LBSModule> OnReplaceModule;
         public event Action<LBSLayer, LBSModule> OnRemoveModule;
+
+        public event Action OnContextAdd;
+        public event Action OnContextRemove;
+
+        //public int OnContextAddCount { get => OnContextAdd.GetInvocationList().Length; }
+        //public int OnContextRemoveCount { get => OnContextRemove.GetInvocationList().Length; }
         #endregion
 
         #region  CONSTRUCTORS
@@ -191,6 +197,8 @@ namespace LBS.Components
             this.name = name;
             this.iconGuid = iconGuid;
             TileSize = tileSize;
+
+            InitializeContextEvents();
         }
         #endregion
 
@@ -315,6 +323,8 @@ namespace LBS.Components
 
         public bool RemoveModule(LBSModule module)
         {
+            if (module is null) return false;
+
             var removed = modules.Remove(module);
             module.OnDetach(this);
             OnRemoveModule?.Invoke(this,module);
@@ -472,7 +482,7 @@ namespace LBS.Components
             return (min, max);
         }
 
-        public void ClearEvents()
+        public void ClearEvents() // Volver a revisar si es adecuado llamarlo al quitar un modulo. Esto se creo para el Automap de Simulation.
         {
             OnChangeName = null;
             OnChange = null;
@@ -480,6 +490,9 @@ namespace LBS.Components
             OnAddModule = null;
             OnReplaceModule = null;
             OnRemoveModule = null;
+
+            //OnContextAdd = null;
+            //OnContextRemove = null;
         }
         
 
@@ -615,6 +628,75 @@ namespace LBS.Components
         public void InvokeNameChanged()
         {
             OnChangeName?.Invoke();
+        }
+
+        public void OnContextAddInvoke()
+        {
+            //Debug.Log($"Layer {Name} OnContextAddInvoke.");
+            OnContextAdd?.Invoke();
+        }
+        public void OnContextRemoveInvoke()
+        {
+            //Debug.Log($"Layer {Name} OnContextRemoveInvoke.");
+            OnContextRemove?.Invoke();
+        }
+
+        private void InitializeContextEvents()
+        {
+            ConnectedTileMapModule connectedTM;
+
+            switch (ID)
+            {
+                case "Interior":
+                    break;
+
+                case "Exterior":
+                    connectedTM = GetModule<ConnectedTileMapModule>();
+                    if(connectedTM == null) return;
+                    ConnectedTileMapModule.ConnectedTileType grid = connectedTM.GridType;
+                    switch (connectedTM.GridType)
+                    {
+                        case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
+                            break;
+                        case ConnectedTileMapModule.ConnectedTileType.VertexBased:
+                            OnContextAdd = VertexExteriorAdd;
+                            OnContextRemove = VertexExteriorRemove;
+                            break;
+                    }
+                    break;
+
+                case "Population":
+                    break;
+
+                case "Quest":
+                    break;
+
+                case "Simulation":
+                    break;
+
+            }
+
+            return; /// END OF METHOD
+
+            /// Local functions
+
+            void VertexExteriorAdd()
+            {
+                //Debug.Log("Vertex Exterior Context Add");
+                SectorizedTileMapModule sectorTM = new();
+                AddModule(sectorTM);
+                var zoneConnected = new List<LBSModule>() { connectedTM }.Clone()[0] as ConnectedTileMapModule;
+                zoneConnected.ID = "TempConnectedModule";
+                sectorTM.BuildFromExterior(connectedTM, zoneConnected);
+                AddModule(zoneConnected);
+            }
+
+            void VertexExteriorRemove()
+            {
+                //Debug.Log("Vertex Exterior Context Remove");
+                RemoveModule(GetModule<SectorizedTileMapModule>());
+                RemoveModule(GetModule<ConnectedTileMapModule>("TempConnectedModule"));
+            }
         }
     }
 

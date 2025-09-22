@@ -1,17 +1,13 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using ISILab.Extensions;
-using ISILab.LBS.AI.Assistants;
 using ISILab.LBS.Generators;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Assistants;
-using ISILab.LBS.Editor;
 using ISILab.Macros;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Template.Editor
@@ -65,7 +61,7 @@ namespace ISILab.LBS.Template.Editor
             GUILayout.BeginHorizontal();
             assitantIndex = EditorGUILayout.Popup("Type:", assitantIndex, assistantOptions.Select(e => e.Name).ToArray());
             var selected2 = assistantOptions[assitantIndex];
-            if (GUILayout.Button("Add Assistent"))
+            if (GUILayout.Button("Add Assistant"))
             {
                 var ass = Activator.CreateInstance(selected2);
                 template.layer.AddAssistant(ass as LBSAssistant);
@@ -285,6 +281,10 @@ namespace ISILab.LBS.Template.Editor
             var ass = new GrammarAssistant(assistantIcon, "Grammar Assistant", Settings.LBSSettings.Instance.view.assistantColor);
             ass.OnAttachLayer(layer);
             layer.AddAssistant(ass);
+            
+            var assQuest = new GrammarAssistant(assistantIcon, "Quest Assistant", Settings.LBSSettings.Instance.view.assistantColor);
+            assQuest.OnAttachLayer(layer);
+            layer.AddAssistant(assQuest);
             
             // Rules
             layer.AddGeneratorRule(new QuestRuleGenerator());

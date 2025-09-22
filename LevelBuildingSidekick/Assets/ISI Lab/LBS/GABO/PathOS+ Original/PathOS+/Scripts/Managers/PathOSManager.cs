@@ -8,7 +8,6 @@ using Unity.AI.Navigation;
 using System.Linq;
 using ISILab.LBS.Components;
 using UnityEngine.AI;
-using UnityEngine.Rendering.VirtualTexturing;
 
 /*
 PathOSManager.cs 

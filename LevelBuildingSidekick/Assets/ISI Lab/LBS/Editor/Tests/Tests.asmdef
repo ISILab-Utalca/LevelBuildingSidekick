@@ -6,9 +6,10 @@
         "UnityEditor.TestRunner",
         "LBS",
         "Commons",
-        "Commons.Editor",
         "LBS.Editor",
-        "Unity.AI.Navigation"
+        "Unity.AI.Navigation",
+        "Unity.PerformanceTesting",
+        "Unity.PerformanceTesting.Editor"
     ],
     "includePlatforms": [
         "Editor"

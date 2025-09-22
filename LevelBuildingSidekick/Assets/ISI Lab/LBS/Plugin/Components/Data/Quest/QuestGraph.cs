@@ -10,8 +10,6 @@ using ISILab.LBS.Settings;
 using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
-using static System.Collections.Specialized.BitVector32;
 
 namespace ISILab.LBS.Modules
 {
@@ -21,7 +19,7 @@ namespace ISILab.LBS.Modules
         #region FIELDS
         [SerializeField, SerializeReference, JsonRequired]
         private List<GraphNode> graphNodes = new();
-
+       
         [SerializeField, SerializeReference, JsonRequired]
         private List<QuestEdge> graphEdges = new();
 
@@ -30,9 +28,13 @@ namespace ISILab.LBS.Modules
         
         private GraphNode _selectedNode;
 
-        private float _viewNodeWidthOffset = 100f;
-        private float _viewNodeHeightOffset = 100f;
+        private const float ViewNodeWidthOffset = 100f;
 
+        [SerializeField]
+        private List<QuestNode> suggestions = new();
+        [SerializeField]
+        public bool displaySuggestions;
+        
         [SerializeField]
         private string grammarGuid = "63ab688b53411154db5edd0ec7171c42"; // Default grammar guid
 
@@ -44,6 +46,12 @@ namespace ISILab.LBS.Modules
         #region PROPERTIES
         [JsonIgnore] public QuestNode Root => root;
         [JsonIgnore] public List<GraphNode> GraphNodes => graphNodes;
+        [JsonIgnore] public List<QuestNode> Suggestions
+        {
+            get => suggestions;
+            set => suggestions = value;
+        }
+
         [JsonIgnore] public List<QuestEdge> GraphEdges => graphEdges;
 
         public GraphNode SelectedGraphNode
@@ -88,6 +96,8 @@ namespace ISILab.LBS.Modules
         [JsonIgnore] public Action<GraphNode> OnRemoveNode;
         [JsonIgnore] public Action<QuestEdge> OnAddEdge;
         [JsonIgnore] public Action<QuestEdge> OnRemoveEdge;
+       
+
         #endregion
 
         #region CONSTRUCTOR
@@ -210,6 +220,14 @@ namespace ISILab.LBS.Modules
             return node;
         }
 
+        public QuestNode AddSuggestion(string action, Vector2 pos)
+        {
+            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
+            var node = new QuestNode(id, pos, action, this);
+            suggestions.Add(node);
+            return node;
+        }
+        
         public QuestNode AddNewQuestNode(string action, Vector2 pos)
         {
             var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
@@ -400,7 +418,7 @@ namespace ISILab.LBS.Modules
 
             // Position new node next to reference
             var position = referenceNode.NodeViewPosition.position;
-            position.x += (int)_viewNodeWidthOffset;
+            position.x += (int)ViewNodeWidthOffset;
 
             var newNode = AddNewQuestNode(action, position);
 
@@ -435,7 +453,7 @@ namespace ISILab.LBS.Modules
 
             // Position new node next to reference
             var position = referenceNode.NodeViewPosition.position;
-            position.x -= (int)_viewNodeWidthOffset;
+            position.x -= (int)ViewNodeWidthOffset;
 
             var newNode = AddNewQuestNode(action, position);
 

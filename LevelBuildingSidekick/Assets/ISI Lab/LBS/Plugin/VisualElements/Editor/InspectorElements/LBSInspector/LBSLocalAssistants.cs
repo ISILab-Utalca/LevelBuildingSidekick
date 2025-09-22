@@ -86,6 +86,7 @@ namespace ISILab.LBS.VisualElements
                 ToolKit.Instance.SetTarget(instance);
 
                 OnFocus += instance.OnFocus;
+                OnUnfocus += instance.OnUnfocus;
                 
                 var content = new InspectorContentPanel(instance, assistant.Name, assistant.Icon, assistant.ColorTint);
                 contentPanel.Add(content);

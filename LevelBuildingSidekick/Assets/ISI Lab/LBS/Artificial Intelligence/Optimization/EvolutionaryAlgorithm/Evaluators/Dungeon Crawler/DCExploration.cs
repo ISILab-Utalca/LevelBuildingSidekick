@@ -25,7 +25,10 @@ namespace ISILab.AI.Categorization
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public LBSLayer CombinedLayer { get; set; } = null;
+
         public LBSLayer CombinedInteriorLayer { get; set; } = null;
+        public LBSLayer CombinedExteriorLayer { get; set; } = null;
 
         public string Tooltip => "DC Exploration Evaluator\n\n" +
             "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
@@ -52,7 +55,7 @@ namespace ISILab.AI.Categorization
                 return 0.0f;
             }
 
-            LBSLayer layer = CombinedInteriorLayer;// ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
+            LBSLayer layer = CombinedLayer;
             
             float fitness = 0;
 
@@ -93,18 +96,25 @@ namespace ISILab.AI.Categorization
             int[,] distances = new int[size, size];
             bool[,] toIgnore = new bool[size, size];
 
-            if (layer != null)
+            if (layer is not null)
             {
-                if(layer.ID.Equals("Interior"))
-                    for (int i = 0; i < size; i++)
-                    {
-                        FloodFill(POIs[i], POIs, i, ref distances, chrom, layer.GetModule<SectorizedTileMapModule>(), layer.GetModule<ConnectedTileMapModule>());
-                    }
-                else
-                    for (int i = 0; i < size; i++)
-                    {
-                        Manhattan(POIs[i], POIs, i, ref distances, chrom);
-                    }
+                switch (layer.ID)
+                {
+                    case "Interior":
+                    case "Exterior":
+                        string moduleID = layer.ID.Equals("Exterior") ? "TempConnectedModule" : "";
+                        for (int i = 0; i < size; i++)
+                        {
+                            FloodFill(POIs[i], POIs, i, ref distances, chrom, layer.GetModule<SectorizedTileMapModule>(), layer.GetModule<ConnectedTileMapModule>(moduleID));
+                        }
+                        break;
+                    default:
+                        for (int i = 0; i < size; i++)
+                        {
+                            Manhattan(POIs[i], POIs, i, ref distances, chrom);
+                        }
+                        break;
+                }
             }
             else
             {
@@ -114,14 +124,13 @@ namespace ISILab.AI.Categorization
                 }
             }
 
-            for(int i = 0; i < size; i++)
-            {
-                break;
-                for(int j = 0; j < size; j++)
-                {
-                    // Llenar toIgnore
-                }
-            }
+            //for(int i = 0; i < size; i++)
+            //{
+            //    for(int j = 0; j < size; j++)
+            //    {
+            //        // Llenar toIgnore
+            //    }
+            //}
 
             float max = 0;
             foreach(float i in distances)
@@ -248,6 +257,8 @@ namespace ISILab.AI.Categorization
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
+            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
             InitializeDefault();
         }
 
@@ -269,7 +280,9 @@ namespace ISILab.AI.Categorization
             var clone = new DCExploration();
 
             clone.ContextLayers = new List<LBSLayer>(ContextLayers);
+            clone.CombinedLayer = CombinedLayer;
             clone.CombinedInteriorLayer = CombinedInteriorLayer;
+            clone.CombinedExteriorLayer = CombinedExteriorLayer;
 
             clone.playerCharacteristic = playerCharacteristic;
             clone.colliderCharacteristic = colliderCharacteristic;

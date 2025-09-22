@@ -1,9 +1,5 @@
 using ISILab.Commons.Utility.Editor;
 using LBS.Components;
-using LBS.VisualElements;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -27,6 +23,7 @@ namespace LBS.VisualElements
         private ObjectField objectField;
         private Vector2IntField sizeField;
 
+        
         public LayerInfoView()
         {
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LayerInfoView");
