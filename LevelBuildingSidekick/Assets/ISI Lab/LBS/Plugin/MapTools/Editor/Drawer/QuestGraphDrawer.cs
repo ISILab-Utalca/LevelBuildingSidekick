@@ -35,7 +35,7 @@ namespace ISILab.LBS.Drawers.Editor
             };
             
             _actionViews.Clear();
-            
+            _suggestionViews.Clear();
             LoadAllTiles(graph, behaviour, view);
             
             /* Unused drawing system
@@ -99,24 +99,27 @@ namespace ISILab.LBS.Drawers.Editor
             }
 
             
-            foreach (var node in questGraph.Suggestions)
+            foreach (var suggestNode in questGraph.Suggestions)
             {
-                _suggestionViews.TryGetValue(node, out var nodeView);
+                _suggestionViews.TryGetValue(suggestNode, out var suggestView);
               
                 // if not successfully created
-                if(nodeView is null) continue;
-                
-                _suggestionViews[node] = nodeView;
+                if(suggestView is null)
+                {
+                    // make a quest action visual element
+                    suggestView = CreateActionView(suggestNode);
+                    _suggestionViews.Add(suggestNode, suggestView);
+                }
                 
                 if (questGraph.displaySuggestions)
                 {
-                    nodeView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                    suggestView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
                 }
                 else
                 {
-                    nodeView.style.display = DisplayStyle.None;
+                    suggestView.style.display = DisplayStyle.None;
                 }
-                behaviour.Keys.Add(node);
+                behaviour.Keys.Add(suggestNode);
             }
             
             foreach (var edge in questGraph.GraphEdges)
@@ -136,6 +139,10 @@ namespace ISILab.LBS.Drawers.Editor
             foreach (var entry in _actionViews)
             {
                 if(entry.Value == selectedGraphView) continue;
+                view.AddElementToLayerContainer(questGraph.OwnerLayer, entry.Key, entry.Value);
+            }
+            foreach (var entry in _suggestionViews)
+            {
                 view.AddElementToLayerContainer(questGraph.OwnerLayer, entry.Key, entry.Value);
             }
             

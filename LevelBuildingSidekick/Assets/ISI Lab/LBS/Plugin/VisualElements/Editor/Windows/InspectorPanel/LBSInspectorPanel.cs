@@ -112,7 +112,7 @@ namespace ISILab.LBS.VisualElements
             if (inspector == null) return;
             
             // Notify previous active
-            if(ActiveInspector is not null) ActiveInspector.OnUnfocus();
+            if(ActiveInspector is not null) ActiveInspector.OnUnfocus?.Invoke();
             
             // Assign and notify new
             ActiveInspector = inspector;

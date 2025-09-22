@@ -39,7 +39,9 @@ namespace ISILab.LBS.VisualElements.Editor
             _applyButton = this.Q<Button>("ApplyButton");
             _discardButton = this.Q<Button>("DiscardButton");
             _discardButton.clicked += () => OnDiscard.Invoke();
-            
+            _applyButton.clicked += () => _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
+            _goToButton.clicked += () => _generatedQuestNode.Graph.GoToNode(_generatedQuestNode);
+
         }
 
         public void UpdateData(QuestNode genNode)

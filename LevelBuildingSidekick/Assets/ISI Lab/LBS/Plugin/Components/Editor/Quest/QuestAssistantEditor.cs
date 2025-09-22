@@ -5,10 +5,12 @@ using ISILab.Extensions;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
+using ISILab.Macros;
 using LBS.VisualElements;
 using LBS.Components;
 using UnityEditor;
@@ -22,6 +24,9 @@ namespace ISILab.LBS.Editor
     public class QuestAssistantEditor : LBSCustomEditor, IToolProvider
     {
         #region FIELDS
+
+        private const int SuggestAmount = 3;
+        
         private QuestAssistant _questAssistant;
         private QuestBehaviour _questBehaviour;
         
@@ -32,6 +37,8 @@ namespace ISILab.LBS.Editor
         private Button _addLayerButton;
         private Button _genSuggestionButton;
         private VisualElement _lockedContextEntryContainer;
+        private LBSPanelTextIcon _noSuggestionPanel;
+
         #endregion
 
         #region PROPERTIES
@@ -58,7 +65,7 @@ namespace ISILab.LBS.Editor
         {
             Clear();
             InitializeUIElements();
-            SetupLayerList();
+            SetupLayerContextList();
             SetupSuggestionList();
             SetupButtons();
             AddLockedLayer();
@@ -87,16 +94,27 @@ namespace ISILab.LBS.Editor
             _suggestionList = this.Q<ListView>("SuggestionList");
             _addLayerButton = this.Q<Button>("AddLayerButton");
             _genSuggestionButton = this.Q<Button>("GenerateSuggestions");
+            _noSuggestionPanel = this.Q<LBSPanelTextIcon>("NoSuggestionPanel");
         }
 
-        private void SetupLayerList()
+        private void SetupLayerContextList()
         {
             _layerList.reorderable = false;
             _layerList.makeItem = CreateLayerContextEntry;
             _layerList.bindItem = BindLayerContextEntry;
+            _layerList.itemsSource = Data.ContextLayers;
+            
+            UpdateContextDisplay();
         }
 
-        private VisualElement CreateLayerContextEntry()
+        private void UpdateContextDisplay()
+        {
+            _layerList.Rebuild();
+            bool existingContext = Data.ContextLayers.Count > 0;
+            _layerList.style.display =  existingContext ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private static VisualElement CreateLayerContextEntry()
         {
             return new LayerContextEntry();
         }
@@ -112,7 +130,7 @@ namespace ISILab.LBS.Editor
             {
                 Data.ContextLayers.RemoveAt(index);
                 _layerList.Remove(element);
-                _layerList.Rebuild();
+                UpdateContextDisplay();
             };
         }
 
@@ -122,9 +140,19 @@ namespace ISILab.LBS.Editor
             _suggestionList.makeItem = CreateQuestNodeSuggestion;
             _suggestionList.bindItem = BindQuestNodeSuggestion;
             _suggestionList.itemsSource = _questGraph.Suggestions;
+
+            UpdateSuggestionsDisplay();
         }
 
-        private VisualElement CreateQuestNodeSuggestion()
+        private void UpdateSuggestionsDisplay()
+        {
+            bool existingSuggestions = _suggestionList.itemsSource.Count > 0;
+            _suggestionList.Rebuild();
+            _noSuggestionPanel.style.display =  existingSuggestions ? DisplayStyle.None : DisplayStyle.Flex;
+            _suggestionList.style.display =  existingSuggestions ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        private static VisualElement CreateQuestNodeSuggestion()
         {
             return new QuestNodeSuggestion();
         }
@@ -151,15 +179,41 @@ namespace ISILab.LBS.Editor
 
         private void GenerateSuggestions()
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < SuggestAmount; i++)
             {
-                var newNode = _questGraph.AddSuggestion(_questGraph.Grammar.TerminalActions.Random(), Vector2.zero);
-                _questGraph.Suggestions.Add(newNode);
+                foreach (var contextLayer in Data.ContextLayers)
+                {
+                   // Add AI behaviour LBSLayerHelper.GetObjectFromLayer<>(contextLayer);
+                    PopulationBehaviour populationLayer = LBSLayerHelper.GetObjectFromLayer<PopulationBehaviour>(contextLayer);
+                    if (populationLayer is not null)
+                    {
+                        bool data = SuggestInfoFromPopulation(populationLayer);
+                    }
+                    ExteriorBehaviour exteriorLayer = LBSLayerHelper.GetObjectFromLayer<ExteriorBehaviour>(contextLayer);
+                    SchemaBehaviour interiorLayer = LBSLayerHelper.GetObjectFromLayer<SchemaBehaviour>(contextLayer);
+                    
+          
+                }
+             
             }
+            UpdateSuggestionsDisplay();
+            MarkDirtyRepaint();
+        }
+
+        private bool SuggestInfoFromPopulation(PopulationBehaviour populationLayer)
+        {
+            // In theory a layer can only have one of those behaviours as per templates
+            foreach (var tileBundleGroup in populationLayer.Tilemap)
+            {
+                tileBundleGroup.BundleData.Bundle.GetHasTagCharacteristic()
+            }
+
+            return false;
         }
 
         #region LAYER CONTEXT METHODS
-        public void AddLockedLayer()
+
+        private void AddLockedLayer()
         {
             var lockedLayer = new LayerContextEntry();
             lockedLayer.UpdateData(_questGraph.OwnerLayer);
@@ -196,7 +250,7 @@ namespace ISILab.LBS.Editor
             {
                 Data.ContextLayers.Add(objectLayer);
             }
-            _layerList.Rebuild();
+            UpdateSuggestionsDisplay();
         }
         #endregion
 
