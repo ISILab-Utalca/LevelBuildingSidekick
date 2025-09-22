@@ -1,10 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <ui:Toggle label="Show Constraints" name="ShowConstraintToggle" />
-    <ui:Foldout text="Constraints" />
-    <ui:VisualElement style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.12); flex-direction: column; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; padding-left: 4px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px;">
+    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
+    <ui:VisualElement class="lbs-group-box">
         <ui:Toggle label="print timer at end" name="ShowTimerToggle" style="display: none;" />
         <ui:Button text="Revert" display-tooltip-when-elided="true" name="Revert" style="flex-grow: 1; display: none;" />
-        <ui:Button text="Execute" display-tooltip-when-elided="true" name="Execute" style="flex-grow: 1;" />
-        <ui:Button text="Execute One Step" display-tooltip-when-elided="true" name="ExecuteOneStep" />
+        <ISILab.LBS.CustomComponents.LBSCustomButton icon-image="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Editor/FloatingPanels/QuickAssistantPanel/PlayQuickAssistant.svg?fileID=7388822144124034973&amp;guid=ae41c9e092b1e5e4f85381b251cf15db&amp;type=3#PlayQuickAssistant" text="Execute" button-tint="#61D156FF" name="Execute" style="height: 33px;" />
+        <ISILab.LBS.CustomComponents.LBSCustomButton text="Execute One Step" name="ExecuteOneStep" style="height: 22px;" />
+        <ui:VisualElement class="lbs-group-box" style="flex-grow: 1;">
+            <ISILab.LBS.CustomComponents.LBSCustomToggleField name="ShowConstraintToggle" label="Show Constraints" style="height: 32px;" />
+            <ISILab.LBS.CustomComponents.LBSCustomToggleField name="UseBenchmark" label="Benchmark Execution" value="true" style="height: 32px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
+    <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Constraints" />
 </ui:UXML>
