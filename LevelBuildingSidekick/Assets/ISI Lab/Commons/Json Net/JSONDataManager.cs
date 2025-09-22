@@ -26,7 +26,7 @@ namespace ISILab.JsonNet
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize, //Esto arregla un problema de serializaci�n de LBSCharacteristics, pero puede que cause problemas luego
-                TypeNameHandling = TypeNameHandling.All,
+                TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };

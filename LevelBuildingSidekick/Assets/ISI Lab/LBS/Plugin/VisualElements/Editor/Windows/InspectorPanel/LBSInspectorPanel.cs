@@ -16,9 +16,6 @@ namespace ISILab.LBS.VisualElements
     [UxmlElement]
     public partial class LBSInspectorPanel : VisualElement
     {
-        #region FACTORY
-        //public new class UxmlFactory : UxmlFactory<LBSInspectorPanel, VisualElement.UxmlTraits> { }
-        #endregion
 
         #region SINGLETON
         private static LBSInspectorPanel instance;
@@ -105,7 +102,6 @@ namespace ISILab.LBS.VisualElements
         public void SetSelectedTab(string name)
         {
             ClearContent();
-
             if (VEs == null) return;
             if (string.IsNullOrEmpty(name)) return;
             if (!VEs.TryGetValue(name, out var inspector))  return;
