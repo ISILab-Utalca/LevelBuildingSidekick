@@ -44,7 +44,7 @@ namespace ISILab.JsonNet
             // generate json string
             string jsonString = "ERROR";
             jsonString = JsonUtility.ToJson(
-                data
+                data, true
                 );
 
             // write json in a file
