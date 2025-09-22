@@ -71,6 +71,28 @@ namespace ISILab.LBS.Behaviours
             }
         }
 
+        public List<string> NavigableTags
+        {
+            get
+            {
+                var ret = new List<string>();
+                Bundle bundle = Bundle;
+                if(!bundle)
+                {
+                    Debug.LogError($"Could not get a bundle for this behaviour.");
+                    return ret;
+                }
+                var navTagsChars = bundle.GetCharacteristics<LBSNavigableTags>();
+                if (navTagsChars.Count == 0)
+                {
+                    Debug.LogError($"Bundle {bundle.BundleName} does not have any LBSNavigableTags characteristic.");
+                    return ret;
+                }
+                ret.AddRange(navTagsChars[0].GetNavigableTags());
+                return ret;
+            }
+        }
+
         [JsonIgnore]
         public List<LBSTile> Tiles => TileMap.Tiles;
 
@@ -97,7 +119,7 @@ namespace ISILab.LBS.Behaviours
 
         public Bundle GetBundleRef()
         {
-            if (bundleRefGui != null)
+            if (targetBundleRef is null && bundleRefGui is not null)
             {
                 // either loads the default guid or the saved guid field
                 targetBundleRef = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleRefGui);

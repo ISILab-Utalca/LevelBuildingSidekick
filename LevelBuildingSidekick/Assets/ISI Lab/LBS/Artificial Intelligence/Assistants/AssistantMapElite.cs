@@ -251,13 +251,14 @@ namespace ISILab.LBS.Assistants
 
         private int[] CalcInvalids(Rect rect, List<LBSLayer> contextLayers)
         {
-            if(contextLayers == null || contextLayers.Count == 0)
+            if(contextLayers is null || contextLayers.Count == 0)
                 return new int[0];
 
             var invalids = new HashSet<int>();
             var layerInvalids = new List<HashSet<int>>();
-            var x = (int)rect.min.x;
-            var y = (int)rect.min.y;
+
+            int x = (int)rect.min.x;
+            int y = (int)rect.min.y;
         
             for(int i = 0; i < contextLayers.Count; i++)
             {
@@ -266,17 +267,36 @@ namespace ISILab.LBS.Assistants
                 {
                     case "Interior":
                         var TM = contextLayers[i].GetModule<TileMapModule>();
-                        if (TM == null)
+                        if (TM is null)
                             continue;
-                        for(int j = x; j < x + rect.width; j++)
+                        for (int j = x; j < x + rect.width; j++)
                         {
-                            for(int k = y; k < y + rect.height; k++)
+                            for (int k = y; k < y + rect.height; k++)
                             {
-                                var tile = TM.GetTile(new Vector2Int(j, k));
-                                if(tile == null)
+                                LBSTile tile = TM.GetTile(new Vector2Int(j, k));
+                                if (tile is null)
                                 {
-                                    var pos = new Vector2(j, k) - rect.position;
-                                    var index = (int)(pos.y * rect.width + pos.x);
+                                    Vector2 pos = new Vector2(j, k) - rect.position;
+                                    int index = (int)(pos.y * rect.width + pos.x);
+                                    layerInvalids[i].Add(index);
+                                }
+                            }
+                        }
+                        break;
+                    case "Exterior":
+                        List<string> floorTags = contextLayers[i].GetBehaviour<ExteriorBehaviour>().NavigableTags;
+                        var connectedTM = contextLayers[i].GetModule<ConnectedTileMapModule>();
+                        if (connectedTM is null)
+                            continue;
+                        for (int j = x; j < x + rect.width; j++)
+                        {
+                            for (int k = y; k < y + rect.height; k++)
+                            {
+                                TileConnectionsPair tilePair = connectedTM.GetPair(new Vector2Int(j, k));
+                                if (tilePair is null || !tilePair.IsFloor(floorTags))
+                                {
+                                    Vector2 pos = new Vector2(j, k) - rect.position;
+                                    int index = (int)(pos.y * rect.width + pos.x);
                                     layerInvalids[i].Add(index);
                                 }
                             }
