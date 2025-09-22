@@ -539,6 +539,11 @@ namespace ISILab.LBS.Assistants
             return candidates;
         }
 
+        private List<Candidate> CalcCandidates()
+        {
+            return new List<Candidate>();
+        }
+
         public bool CaptureWeights(out string errMsg)
         {
             errMsg = null;
@@ -677,6 +682,8 @@ namespace ISILab.LBS.Assistants
 
                 Vector2Int currentPos = current.Tile.Position;
                 Vector2Int tilePos = tile.Tile.Position;
+
+                //Directions.Bidimencional.Edges[index];
 
                 if (tilePos == currentPos + Vector2Int.right)
                 {

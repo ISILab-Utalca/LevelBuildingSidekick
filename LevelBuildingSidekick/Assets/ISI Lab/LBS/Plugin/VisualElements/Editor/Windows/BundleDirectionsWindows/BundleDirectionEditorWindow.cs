@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.LBS.Internal;
 using ISILab.LBS;
+using ISILab.LBS.VisualElements;
 
 public class BundleDirectionEditorWindow : EditorWindow
 {
@@ -156,6 +157,8 @@ public class BundleDirectionEditorWindow : EditorWindow
         #endregion
     }
 
+    
+
     private void Init()
     {
         currentType = (int)(object)directionTypeEnum.value;
@@ -172,6 +175,7 @@ public class BundleDirectionEditorWindow : EditorWindow
 
         SetChoices(tagBundles.Find(bundle => bundle.name == tagGroupDropdown.value)?.Tags ?? tagLabels);
         SetValuesFromBundle();
+        WriteDefaults();
 
         fovScale = 1 + (zoomScaleInt.value * 0.1f);
     }
@@ -324,6 +328,11 @@ public class BundleDirectionEditorWindow : EditorWindow
                 break;
         }
 
+        prefab = target.Owner.Assets[0].obj;
+    }
+
+    private void WriteDefaults()
+    {
         currentTagList?.Clear();
 
         currentTagList = new List<string>()
@@ -333,8 +342,6 @@ public class BundleDirectionEditorWindow : EditorWindow
             LeftDirectionDropdown.value,
             DownDirectionDropdown.value
         };
-
-        prefab = target.Owner.Assets[0].obj;
     }
 
 
@@ -389,6 +396,9 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     private void RevertChanges()
     {
+        if (!EditorUtility.DisplayDialog("Revert Changes", "All unsaved changes will be lost. Are you sure you want to continue?", "Yes", "No"))
+            return;
+
         RightDirectionDropdown.value = currentTagList[0];
         UpDirectionDropdown.value = currentTagList[1];
         LeftDirectionDropdown.value = currentTagList[2];
