@@ -12,8 +12,12 @@ namespace ISILab.LBS.Characteristics
     [LBSCharacteristic("Navigable Tags", "")]
     public class LBSNavigableTags : LBSCharacteristic
     {
+        [SerializeField]
         private List<LBSTag> tags = new List<LBSTag>();
+
+        [SerializeField]
         private List<bool> navigable = new List<bool>();
+
         private Dictionary<LBSTag, bool> navigableTags = new Dictionary<LBSTag, bool>();
 
         public List<LBSTag> Tags => new List<LBSTag>(tags);

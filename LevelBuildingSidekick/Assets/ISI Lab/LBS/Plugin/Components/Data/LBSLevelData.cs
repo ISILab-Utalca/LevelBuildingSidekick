@@ -53,6 +53,9 @@ namespace ISILab.LBS
         public event Action<LBSLevelData> OnChanged;
 
         [JsonIgnore]
+        public Action<LBSLayer> OnContextChanged;
+
+        [JsonIgnore]
         public Action OnReload;
 
         #endregion
@@ -159,6 +162,7 @@ namespace ISILab.LBS
         {
             var layer = layers[index];
             layers.RemoveAt(index);
+            RemoveLayerFromContext(layer);
             layer.OnAddModule -= (layer, module) => OnChanged(this);
             OnChanged?.Invoke(this);
             return layer;
@@ -194,6 +198,17 @@ namespace ISILab.LBS
 
             OnChanged?.Invoke(this);
             return qg;
+        }
+
+        public bool RemoveLayerFromContext(LBSLayer layer)
+        {
+            bool removed = contextLayers.Remove(layer);
+            if (removed)
+            {
+                layer.OnContextRemoveInvoke();
+                OnContextChanged?.Invoke(layer);
+            }
+            return removed;
         }
 
         //To add saved maps

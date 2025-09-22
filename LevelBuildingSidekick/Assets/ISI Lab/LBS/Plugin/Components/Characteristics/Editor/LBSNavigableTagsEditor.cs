@@ -53,9 +53,9 @@ namespace ISILab.LBS.VisualElements
                 {
                     navTags[tag] = evt.newValue;
                     navigableTags.Navigable[index] = evt.newValue;
-                    Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
+                    //Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
                 });
-                Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
+                //Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
                 
                 box.Add(toggle);
             }

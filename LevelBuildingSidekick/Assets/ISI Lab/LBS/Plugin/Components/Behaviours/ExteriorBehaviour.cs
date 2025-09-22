@@ -88,6 +88,7 @@ namespace ISILab.LBS.Behaviours
                     Debug.LogError($"Bundle {bundle.BundleName} does not have any LBSNavigableTags characteristic.");
                     return ret;
                 }
+                navTagsChars[0].SetTags();
                 ret.AddRange(navTagsChars[0].GetNavigableTags());
                 return ret;
             }

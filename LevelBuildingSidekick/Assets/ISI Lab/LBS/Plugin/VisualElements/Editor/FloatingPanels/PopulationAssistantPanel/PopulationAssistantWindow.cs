@@ -317,7 +317,7 @@ namespace ISILab.LBS.VisualElements.Editor
             AddLockedLayer();
 
             layerList = rootVisualElement.Q<ListView>("LayerList");
-
+            //Data.OnChanged += (_) => OnCheckLayerRemoved?.Invoke(_.GetLayer());
             layerList.reorderable = false;
             layerList.makeItem += () => new LayerContextEntry();
             layerList.bindItem = (element, index) =>
@@ -326,11 +326,16 @@ namespace ISILab.LBS.VisualElements.Editor
                 if (layerContextVE == null) return;
 
                 layerContextVE.UpdateData(Data.ContextLayers[index]);
+                LBSLayer layer = layerContextVE.LayerReference;
+                Data.OnContextChanged += (layer) => 
+                {
+                    layerList.Rebuild();
+                };
                 layerContextVE.EvaluateOverlap(Data.ContextLayers);
                 layerContextVE.OnRemoveButtonClicked = null;
                 layerContextVE.OnRemoveButtonClicked += () =>
                 {
-                    ToggleLayerContext(layerContextVE.LayerReference);
+                    ToggleLayerContext(layer);
                     //Data.ContextLayers.RemoveAt(index);
                     //layerList.Remove(element);
                     //layerList.Rebuild();
@@ -873,8 +878,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if(Data.ContextLayers.Contains(layer))
             {
-                Data.ContextLayers.Remove(objectLayer);
-                objectLayer.OnContextRemoveInvoke();
+                Data.RemoveLayerFromContext(objectLayer);
             }
             else
             {

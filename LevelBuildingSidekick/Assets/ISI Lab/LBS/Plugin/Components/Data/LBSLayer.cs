@@ -152,8 +152,8 @@ namespace LBS.Components
         public event Action OnContextAdd;
         public event Action OnContextRemove;
 
-        public int OnContextAddCount { get => OnContextAdd.GetInvocationList().Length; }
-        public int OnContextRemoveCount { get => OnContextRemove.GetInvocationList().Length; }
+        //public int OnContextAddCount { get => OnContextAdd.GetInvocationList().Length; }
+        //public int OnContextRemoveCount { get => OnContextRemove.GetInvocationList().Length; }
         #endregion
 
         #region  CONSTRUCTORS
@@ -632,12 +632,12 @@ namespace LBS.Components
 
         public void OnContextAddInvoke()
         {
-            Debug.Log($"Layer {Name} OnContextAddInvoke.");
+            //Debug.Log($"Layer {Name} OnContextAddInvoke.");
             OnContextAdd?.Invoke();
         }
         public void OnContextRemoveInvoke()
         {
-            Debug.Log($"Layer {Name} OnContextRemoveInvoke.");
+            //Debug.Log($"Layer {Name} OnContextRemoveInvoke.");
             OnContextRemove?.Invoke();
         }
 
@@ -659,7 +659,6 @@ namespace LBS.Components
                         case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
                             break;
                         case ConnectedTileMapModule.ConnectedTileType.VertexBased:
-                            ;
                             OnContextAdd = VertexExteriorAdd;
                             OnContextRemove = VertexExteriorRemove;
                             break;
@@ -683,7 +682,7 @@ namespace LBS.Components
 
             void VertexExteriorAdd()
             {
-                Debug.Log("Vertex Exterior Context Add");
+                //Debug.Log("Vertex Exterior Context Add");
                 SectorizedTileMapModule sectorTM = new();
                 AddModule(sectorTM);
                 var zoneConnected = new List<LBSModule>() { connectedTM }.Clone()[0] as ConnectedTileMapModule;
@@ -694,7 +693,7 @@ namespace LBS.Components
 
             void VertexExteriorRemove()
             {
-                Debug.Log("Vertex Exterior Context Remove");
+                //Debug.Log("Vertex Exterior Context Remove");
                 RemoveModule(GetModule<SectorizedTileMapModule>());
                 RemoveModule(GetModule<ConnectedTileMapModule>("TempConnectedModule"));
             }
