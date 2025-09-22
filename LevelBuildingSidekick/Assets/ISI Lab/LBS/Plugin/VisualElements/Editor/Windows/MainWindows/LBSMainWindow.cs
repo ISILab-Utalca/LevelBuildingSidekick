@@ -309,7 +309,7 @@ namespace ISILab.LBS.Editor.Windows{
 
             #region TOOLBAR
 
-            var toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            ToolBarMain toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
             toolbar.OnNewLevel += data =>
             {
                 LBS.loadedLevel = data;

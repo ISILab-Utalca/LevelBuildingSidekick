@@ -17,6 +17,7 @@ namespace ISILab.LBS.VisualElements
         protected VisualElement contentPanel;
 
         public Action OnFocus;
+        public Action OnUnfocus;
         
         /// <summary>
         /// Gets the classes of editors per component, no avoid using reflection on each instance creation

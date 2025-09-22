@@ -48,6 +48,7 @@ namespace ISILab.LBS.Editor
         private VisualElement _actionIcon;
         #endregion
 
+        #region CONSTRUCTORS
         public GrammarAssistantEditor() { }
 
         public GrammarAssistantEditor(GrammarAssistant target) : base(target)
@@ -55,7 +56,9 @@ namespace ISILab.LBS.Editor
             CreateVisualElement();
             SetInfo(target);
         }
+        #endregion
 
+        #region METHODS
         public sealed override void SetInfo(object paramTarget)
         {
             target = paramTarget as GrammarAssistant;
@@ -133,6 +136,26 @@ namespace ISILab.LBS.Editor
         }
 
         #region Helpers
+        
+        public void SetTools(ToolKit toolkit) { }
+
+        private string GetActionToSet()
+        {
+            return _questGraph.GetNodeAsQuest()?.QuestAction;
+        }
+
+        private void SetBaseDataValues(BaseQuestNodeData data)
+        {
+            if (data == null) return;
+
+            var backgroundColor = data.Color;
+            backgroundColor.a = BackgroundOpacity;
+            _actionColor.SetBackgroundColor(backgroundColor);
+
+            _actionIcon.style.unityBackgroundImageTintColor = data.Color;
+            _actionColor.SetBorder(data.Color, ActionBorderThickness);
+        }
+        
         private void ResetPanels()
         {
             TogglePanel(_nextInvalidPanel, _nextSuggested, false);
@@ -286,26 +309,7 @@ namespace ISILab.LBS.Editor
             };
         }
         #endregion
-
-        #region Helpers
-        public void SetTools(ToolKit toolkit) { }
-
-        private string GetActionToSet()
-        {
-            return _questGraph.GetNodeAsQuest()?.QuestAction;
-        }
-
-        private void SetBaseDataValues(BaseQuestNodeData data)
-        {
-            if (data == null) return;
-
-            var backgroundColor = data.Color;
-            backgroundColor.a = BackgroundOpacity;
-            _actionColor.SetBackgroundColor(backgroundColor);
-
-            _actionIcon.style.unityBackgroundImageTintColor = data.Color;
-            _actionColor.SetBorder(data.Color, ActionBorderThickness);
-        }
+        
         #endregion
     }
 }

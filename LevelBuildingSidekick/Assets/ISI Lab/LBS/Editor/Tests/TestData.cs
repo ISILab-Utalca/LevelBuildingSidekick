@@ -1,17 +1,13 @@
 using LBS.Components;
 using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
 using ISILab.LBS.Settings;
 using System.Linq;
 using LBS.Components.TileMap;
-using System;
 using LBS.Bundles;
 using ISILab.Commons;
 using ISILab.JsonNet;
-using ISILab.LBS;
 using ISILab.LBS.Characteristics;
 using ISILab.LBS.Internal;
 using ISILab.LBS.Modules;
@@ -22,7 +18,7 @@ using ISILab.LBS.Template;
 namespace ISILab.LBS.Tests
 {
 
-
+    [TestFixture]
     public class Test_Simple_Module
     {
         // Test folder path
@@ -43,8 +39,9 @@ namespace ISILab.LBS.Tests
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
-            // Cheack if the new level and previously are equals
+            // Check if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
+            
         }
 
         [Test]
@@ -169,7 +166,7 @@ namespace ISILab.LBS.Tests
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
-            // Cheack if the new level and previously are equals
+            // Check if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
         }
 

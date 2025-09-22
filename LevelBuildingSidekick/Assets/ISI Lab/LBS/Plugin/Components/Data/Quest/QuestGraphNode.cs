@@ -116,7 +116,7 @@ namespace ISILab.LBS.Components
         {
             var clone = CreateCloneInstance();
 
-            // ✅ Ensure ID is copied for all nodes
+            // Ensure ID is copied for all nodes
             clone.ID = ID;
 
             clone.validGrammar = validGrammar;

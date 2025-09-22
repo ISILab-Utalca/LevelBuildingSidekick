@@ -28,7 +28,8 @@ namespace ISILab.LBS.Editor
         public virtual void Repaint() { }
 
         public virtual void OnFocus() { }
-
+        
+        public virtual void OnUnfocus() { }
 
         public abstract void SetInfo(object paramTarget);
 
