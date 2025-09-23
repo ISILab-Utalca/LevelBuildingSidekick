@@ -24,7 +24,8 @@ using Debug = UnityEngine.Debug;
 namespace ISILab.LBS.Assistants
 {
     [System.Serializable]
-    [RequieredModule(typeof(TileMapModule),
+    [RequieredModule(
+        typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
         typeof(SectorizedTileMapModule),
         typeof(ConnectedZonesModule),
@@ -78,6 +79,7 @@ namespace ISILab.LBS.Assistants
         {
             failedLog = null;
             var modules = (hillClimbing.Adam as OptimizableModules).Modules;
+            
             int edgeCount = modules.GetModule<ConnectedZonesModule>().Edges.Count;
             int zoneCount = modules.GetModule<SectorizedTileMapModule>().ZonesWithTiles.Count;
             if(zoneCount <= 0)

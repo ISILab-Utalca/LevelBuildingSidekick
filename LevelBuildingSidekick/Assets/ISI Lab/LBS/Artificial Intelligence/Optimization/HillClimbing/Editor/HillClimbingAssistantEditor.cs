@@ -185,7 +185,7 @@ namespace ISILab.LBS.VisualElements
         private void Execute()
         {
             // Save history version to revert if necessary
-            var x = LBSController.CurrentLevel;
+            LoadedLevel x = LBSController.CurrentLevel;
             Undo.RegisterCompleteObjectUndo(x, "Execute HillClimbing");
             EditorGUI.BeginChangeCheck();
 
