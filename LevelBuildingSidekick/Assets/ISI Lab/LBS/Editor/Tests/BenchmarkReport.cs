@@ -1,6 +1,7 @@
 using ISILab.AI.Optimization;
 using ISILab.JsonNet;
 using ISILab.LBS.Assistants;
+using LBS.Components;
 using NUnit.Framework;
 using Unity.PerformanceTesting;
 using UnityEngine;
@@ -17,7 +18,12 @@ namespace ISILab.LBS.Tests
         {
             Measure.Method(() =>
             {
-                
+                Debug.Log("Hill climbing");
+                LBSLevelData loaded = JSONDataManager.LoadDataByGUID<LBSLevelData>("01421564a101235499b4448d3801d494");
+                Assert.IsNotNull(loaded);
+                LBSLayer fistLayer = loaded.GetLayer(0);
+
+
             })
                 .WarmupCount(1)
                 .MeasurementCount(20)
