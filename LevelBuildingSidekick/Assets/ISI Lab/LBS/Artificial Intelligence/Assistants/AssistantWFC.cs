@@ -51,6 +51,8 @@ namespace ISILab.LBS.Assistants
 
         const int MAX_MEMORY = 3, MAX_RETRIES = 5;
         const int SAVE_STATE_INTERVAL = 10;
+        const int MAX_SIZE_X = 10;
+        const int MAX_SIZE_Y = 10;
 
         #endregion
 
@@ -165,9 +167,51 @@ namespace ISILab.LBS.Assistants
 
             if (safeMode)
             {
+                int xStart = Positions.OrderBy(p => p.x).First().x;
+                int yStart = Positions.OrderBy(p => p.y).First().y;
+                int xEnd = Positions.OrderBy(p => -p.x).First().x;
+                int yEnd = Positions.OrderBy(p => -p.y).First().y;
+                int width = xEnd - xStart + 1;
+                int height = yEnd - yStart + 1;
+                RectInt rect = new RectInt(new Vector2Int(xStart, yStart), new Vector2Int(width, height));
+                int xSectors = Mathf.CeilToInt((float)rect.width / (float)MAX_SIZE_X);
+                int ySectors = Mathf.CeilToInt((float)rect.height / (float)MAX_SIZE_Y);
+                int sectorSizeX = Mathf.CeilToInt((float)width / (float)xSectors);
+                int sectorSizeY = Mathf.CeilToInt((float)height / (float)ySectors);
+                Vector2Int sectorSize = new Vector2Int(sectorSizeX, sectorSizeY);
+                List<RectInt> sectors = new List<RectInt>();
+                for(int i = 0; i < xSectors; i++)
+                {
+                    for(int j = 0; j < ySectors; j++)
+                    {
+                        Vector2Int offset = new Vector2Int(sectorSizeX * i, sectorSizeY * j);
+                        RectInt sector = new RectInt(rect.position + offset, new Vector2Int(sectorSizeX, sectorSizeY));
+                        sectors.Add(sector);
+                    }
+                }
                 for (int i = 0; i < limit; i++)
                 {
-                    if (Execute())
+                    int sectorSuccessCount = 0;
+                    foreach(RectInt sector in sectors)
+                    {
+                        List<Vector2Int> positions = new List<Vector2Int>();
+                        for(int j = sector.position.x; j < sector.position.x + sector.width; j++)
+                        {
+                            for(int k = sector.position.y; k < sector.position.y + sector.height; k++)
+                            {
+                                positions.Add(new Vector2Int(j, k));
+                            }
+                        }
+                        Positions = positions;
+                        bool sectorSuccess = Execute();
+                        if (sectorSuccess)
+                        {
+                            sectorSuccessCount++;
+                        }
+                        else break;
+                        
+                    }
+                    if (sectorSuccessCount >= sectors.Count)
                     {
                         log = $"Safely generated after {i + 1} attempts. ({getSeconds()} s)";
                         return;
@@ -228,7 +272,7 @@ namespace ISILab.LBS.Assistants
 
                     whitelist.Add(neighbours[i].Position);
 
-                    if(overrideValues && isAreaNeighbour)
+                    if(isAreaNeighbour)
                     {
                         switch(GridType)
                         {
@@ -297,9 +341,6 @@ namespace ISILab.LBS.Assistants
                 }
 
                 stepSuccess = true;
-
-                if (current.Value.Count == 1)
-                    ;
 
                 Candidate selected = current.Value.RandomRullete(c => c.weigth);
                 List<string> connections = selected.bundle.GetConnection(selected.rotation).ToList();
