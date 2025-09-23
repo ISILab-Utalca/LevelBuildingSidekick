@@ -6,6 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System;
 using ISILab.Extensions;
+using UnityEditor;
 
 namespace ISILab.JsonNet
 {
@@ -180,6 +181,12 @@ namespace ISILab.JsonNet
             string dataPath = directoryPath + '/' + fileName + "." + format;
 
             return LoadData<T>(dataPath);
+        }
+
+        public static T LoadDataByGUID<T>(string _guid)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(_guid);
+            return LoadData<T>(path);
         }
 
         /// <summary>

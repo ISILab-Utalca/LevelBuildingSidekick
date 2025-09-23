@@ -292,7 +292,7 @@ namespace ISILab.LBS.Tests
             // Create a level
             var lvl = new LBSLevelData();
 
-            // Get interior presset
+            // Get interior preset
             var template = LBSAssetsStorage.Instance.Get<LayerTemplate>().First(t => t.name.Contains("Interior"));
 
             // Clone Interior presset
@@ -314,7 +314,7 @@ namespace ISILab.LBS.Tests
             // Check if loaded level is not null
             Assert.IsNotNull(loaded);
 
-            // Cheack if the new level and previously are equals
+            // Check if the new level and previously are equals
             Assert.AreEqual(lvl, loaded);
 
         }
