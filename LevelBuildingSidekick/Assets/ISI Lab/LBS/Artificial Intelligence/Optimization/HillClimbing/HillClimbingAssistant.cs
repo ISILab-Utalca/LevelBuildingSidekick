@@ -133,17 +133,19 @@ namespace ISILab.LBS.Assistants
 
         public void ExecuteOneStep()
         {
+            var clock = new Stopwatch();
+
             UnityEngine.Debug.Log("HillClimbing one step, start!");
+            OnStart?.Invoke();
+
+            clock.Start();
             hillClimbing.StartOne();
+            clock.Stop();
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
             var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
             schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
-            //foreach (var tile in OwnerLayer.GetModule<TileMapModule>().Tiles)
-            //{
-            //    RequestTileRemove(tile);
-            //}
             RecalculateWalls(modules);
 
             SetDoors(modules);
@@ -155,12 +157,14 @@ namespace ISILab.LBS.Assistants
             }
 
             OwnerLayer.Reload();
-            //foreach (var tile in OwnerLayer.GetModule<TileMapModule>().Tiles)
-            //{
-            //    RequestTilePaint(tile);
-            //}
+
             OnTermination?.Invoke();
+
             UnityEngine.Debug.Log("HillClimbing on step, finish!");
+            Debug.Log(
+                "Execute \n" +
+                "Time: " + clock.ElapsedMilliseconds / 1000f + " s. \n" +
+                "Ticks: " + clock.ElapsedTicks);
         }
 
         public void RecalculateWalls(List<LBSModule> layer)
