@@ -18,7 +18,7 @@ namespace ISILab.LBS.Tests
         {
             Measure.Method(() =>
                 {
-                    Assert.AreEqual(true, WFCassistant.ExecuteTest());
+                    Assert.AreEqual(true, WFCassistant.ExecuteTest(false));
                 })
                 .WarmupCount(1)
                 .MeasurementCount(100)
@@ -34,7 +34,7 @@ namespace ISILab.LBS.Tests
             SetupWFCTest("27e9e2296bf8411458f727b699a7c0fe");
             Measure.Method(() =>
                 {
-                    Assert.AreEqual(true, WFCassistant.ExecuteTest());
+                    Assert.AreEqual(true, WFCassistant.ExecuteTest(true));
                 })
                 .WarmupCount(1)
                 .MeasurementCount(100)

@@ -503,7 +503,7 @@
                         "a": 1.0
                     },
                     "name": "Assistant WFC",
-                    "overrideValues": false,
+                    "overrideValues": true,
                     "targetBundleRef": {
                         "instanceID": 44980
                     }
