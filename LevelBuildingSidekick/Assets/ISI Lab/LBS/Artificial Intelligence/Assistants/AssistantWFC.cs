@@ -135,7 +135,22 @@ namespace ISILab.LBS.Assistants
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
-        public void TryExecute(out string log, out LogType logType, int limit = 5)
+        public bool ExecuteTest(bool overrideValues)
+        {
+            Positions = new List<Vector2Int>();
+            this.overrideValues = overrideValues;
+            Rect bounds = OwnerLayer.GetModule<TileMapModule>().GetBounds();
+            for(int i = (int)bounds.x; i < (int)(bounds.x + bounds.width); i++)
+            {
+                for(int j = (int)bounds.y; j < (int)(bounds.y + bounds.height); j++)
+                {
+                    Positions.Add(new Vector2Int(i, j));
+                }
+            }
+            return TryExecute(out string log, out LogType type);
+        }
+
+        public bool TryExecute(out string log, out LogType logType, int limit = 5)
         {
             log = "";
             logType = LogType.Log;
@@ -147,14 +162,14 @@ namespace ISILab.LBS.Assistants
             {
                 log = "No bundle selected.";
                 logType = LogType.Warning;
-                return;
+                return false;
             }
 
             if(targetBundleRef.GetCharacteristics<LBSDirectionedGroup>().Count == 0)
             {
                 log = "Cannot generate. Invalid bundle.";
                 logType = LogType.Warning;
-                return;
+                return false;
             }
 
             var sw = System.Diagnostics.Stopwatch.StartNew();
@@ -214,17 +229,20 @@ namespace ISILab.LBS.Assistants
                     if (sectorSuccessCount >= sectors.Count)
                     {
                         log = $"Safely generated after {i + 1} attempts. ({getSeconds()} s)";
-                        return;
+                        return true;
                     }
                 }
 
                 log = $"Could not safely generate after {limit} attempts. ({getSeconds()} s)";
                 logType = LogType.Warning;
+
+                return false;
             }
             else
             {
                 Execute();
                 log = $"Generated. ({getSeconds()} s)";
+                return true;
             } 
         }
 

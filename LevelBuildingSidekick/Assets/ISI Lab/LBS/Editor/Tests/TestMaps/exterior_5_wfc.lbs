@@ -424,11 +424,11 @@
                     },
                     "name": "Exterior Behaviour",
                     "targetBundleRef": {
-                        "instanceID": 44972
+                        "instanceID": 44980
                     },
                     "bundleRefGui": "9d3dac0f9a486fd47866f815b4fefc29",
                     "identifierToSet": {
-                        "instanceID": 44308
+                        "instanceID": 44316
                     }
                 }
             },
@@ -503,9 +503,9 @@
                         "a": 1.0
                     },
                     "name": "Assistant WFC",
-                    "overrideValues": false,
+                    "overrideValues": true,
                     "targetBundleRef": {
-                        "instanceID": 44972
+                        "instanceID": 44980
                     }
                 }
             },

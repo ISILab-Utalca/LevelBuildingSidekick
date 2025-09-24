@@ -1,4 +1,3 @@
-
 using ISILab.JsonNet;
 using ISILab.LBS.Assistants;
 using LBS.Components;
@@ -101,7 +100,6 @@ namespace ISILab.LBS.Tests
                 HCassistant = null;
                 levelData = null;
             }
-            
         }
     }
 

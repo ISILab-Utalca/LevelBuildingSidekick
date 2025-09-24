@@ -110,6 +110,7 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"p: 4da2c1388b315494ab46c235d9727bbe"
 	"type: connected"
 	"type: connectedtile"
 	"type:"
@@ -129,7 +130,6 @@ recentSearches = [
 	"p:"
 	"type: Chara"
 	"type: DirectionCh"
-	"type: Direc"
 ]
 searchItemFavorites = [
 ]

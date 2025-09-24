@@ -70,12 +70,28 @@ MonoBehaviour:
       name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 8604885994831347737
+    - rid: 717084451016543439
+    - rid: 717084451016543440
   references:
     version: 2
     RefIds:
-    - rid: 8604885994831347737
-      type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+    - rid: 717084451016543439
+      type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
+            name: DEFAULT
+            rootParentName: Root_Parent
+          rules: []
+    - rid: 717084451016543440
+      type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:
