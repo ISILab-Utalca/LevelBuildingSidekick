@@ -37,7 +37,6 @@ namespace ISILab.LBS.Behaviours
         #endregion
 
         #region META-FIELDS
-        [JsonIgnore]
         public LBSTag identifierToSet;
         #endregion
 
