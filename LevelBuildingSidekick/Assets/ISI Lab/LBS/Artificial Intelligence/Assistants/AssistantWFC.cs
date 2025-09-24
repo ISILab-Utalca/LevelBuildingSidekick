@@ -137,7 +137,10 @@ namespace ISILab.LBS.Assistants
 
         public bool ExecuteTest()
         {
-            Positions.Clear();
+            //Debug.Log(Positions.Count);
+            Positions = new List<Vector2Int>();
+            //Positions.Clear();
+            
             overrideValues = false;
             Rect bounds = OwnerLayer.GetModule<TileMapModule>().GetBounds();
             for(int i = (int)bounds.x; i < (int)(bounds.x + bounds.width); i++)
@@ -147,7 +150,7 @@ namespace ISILab.LBS.Assistants
                     Positions.Add(new Vector2Int(i, j));
                 }
             }
-            return TryExecute(out _, out _);
+            return TryExecute(out string log, out LogType type);
         }
 
         public bool TryExecute(out string log, out LogType logType, int limit = 5)
