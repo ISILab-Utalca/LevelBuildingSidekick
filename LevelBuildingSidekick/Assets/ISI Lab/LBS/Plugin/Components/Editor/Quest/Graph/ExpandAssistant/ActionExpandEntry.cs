@@ -6,7 +6,6 @@ using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
-using TreeEditor;
 
 namespace ISILab.LBS.VisualElements.Editor
 {

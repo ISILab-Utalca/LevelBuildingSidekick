@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Template;
 using LBS.VisualElements;
+using ISILab.LBS.Assistants;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -73,10 +74,14 @@ namespace ISILab.LBS.VisualElements
             noContentPanel.SetDisplay(!target.Assistants.Any());
 
             OnFocus = null;
-            
+
+            LBSAssistant currentAssistant = null;
+
             // Add the tools into the toolkit and set the data of behaviour
-            foreach (var assistant in target.Assistants)
+            foreach (LBSAssistant assistant in target.Assistants)
             {
+                currentAssistant = assistant;
+
                 Type editorType = customEditor.GetValueOrDefault(assistant.GetType());
                 if(editorType == null) continue;
                 
@@ -90,14 +95,22 @@ namespace ISILab.LBS.VisualElements
                 
                 var content = new InspectorContentPanel(instance, assistant.Name, assistant.Icon, assistant.ColorTint);
                 contentPanel.Add(content);
-                assistant.OnTermination += () =>
-                {
-                    LBSInspectorPanel.Instance.SetTarget(assistant.OwnerLayer);
-                    Debug.Log("OnTermination");
-                };
+                currentAssistant.OnTermination += OnTerminationBaseCallback;
             }
-         
+
+            return; /// END OF METHOD
+
+            // Local functions
+
+            void OnTerminationBaseCallback()
+            {
+                if(currentAssistant is null) return;
+                currentAssistant.OnTermination -= OnTerminationBaseCallback;
+                LBSInspectorPanel.Instance.SetTarget(currentAssistant.OwnerLayer);
+                Debug.Log("OnTermination");
+            }
         }
+        
         
 
         public override void Repaint()

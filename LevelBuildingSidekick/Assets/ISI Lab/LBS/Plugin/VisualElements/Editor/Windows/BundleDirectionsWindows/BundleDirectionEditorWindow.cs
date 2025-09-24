@@ -9,17 +9,10 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ISILab.Extensions;
 using ISILab.LBS.Internal;
 using ISILab.LBS;
-using UnityEngine.Windows;
-using Mono.Cecil.Cil;
-using static UnityEditor.MaterialProperty;
-using static UnityEngine.Analytics.IAnalytic;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class BundleDirectionEditorWindow : EditorWindow
 {
@@ -57,12 +50,17 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     private List<LBSTag> allTags;
     private List<string> currentTagList;
+    private string currentTagGroup;
+
+    private List<LBSTagGroup> allTagGroups;
     private List<LBSTagGroup> tagBundles;
 
     public LBSDirection target;
 
     private VectorImage edgeFrame;
     private VectorImage vertexFrame;
+
+    private int currentType = 0;
 
     #region SQUARE PREVIEW ELEMENTS
 
@@ -82,14 +80,17 @@ public class BundleDirectionEditorWindow : EditorWindow
         var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("BundleDirectionEditorWindow");
         visualTree.CloneTree(rootVisualElement);
 
-        tagBundles = DirectoryTools.GetScriptables<LBSTagGroup>("TG");
-
-        foreach (LBSTagGroup bundle in tagBundles)
-        {
-            Debug.Log("Found bundle: " + bundle.name);
-        }
+        allTagGroups = DirectoryTools.GetScriptables<LBSTagGroup>();
+        tagBundles = allTagGroups.Where(bundle => !AssetDatabase.GetAssetPath(bundle).Contains("Deprecated")).ToList();
 
         tagGroupDropdown = rootVisualElement.Q<LBSCustomDropdown>("TagGroupDropdown");
+        tagGroupDropdown.RegisterValueChangedCallback(evt =>
+        {
+            if (evt.newValue != evt.previousValue)
+            {
+                ChangeTagsFromBundle();
+            }
+        });
 
         centreThumbnail = rootVisualElement.Q<VisualElement>("Thumbnail");
         centreFrame = rootVisualElement.Q<VisualElement>("Frame");
@@ -105,14 +106,15 @@ public class BundleDirectionEditorWindow : EditorWindow
         LLDirectionDropdown = rootVisualElement.Q<LBSCustomDropdown>("LLDirectionDropdown"); //Lower Left
 
         edgeFrame = LBSAssetMacro.LoadAssetByGuid<VectorImage>("533a887ccf1a0b444a147165d3fb6a6b");
-        vertexFrame = LBSAssetMacro.LoadAssetByGuid<VectorImage>("f0de0c827bb8a654e8cc48b71ca0b057"); 
+        vertexFrame = LBSAssetMacro.LoadAssetByGuid<VectorImage>("f0de0c827bb8a654e8cc48b71ca0b057");
 
         directionTypeEnum = rootVisualElement.Q<LBSCustomEnumField>("DirectionTypeEnum");
         directionTypeEnum.RegisterValueChangedCallback(evt =>
         {
             if (evt.newValue != evt.previousValue)
             {
-                SwitchVisibility((int)(object)evt.newValue);
+                currentType = (int)(object)evt.newValue;
+                SwitchVisibility(currentType);
             }
         });
 
@@ -136,8 +138,6 @@ public class BundleDirectionEditorWindow : EditorWindow
 
         #region Square Preview Setup
 
-        SetValuesFromBundle();
-
         renderTexture = new Texture2D(512, 512, TextureFormat.RGBA32, false);
 
         centreThumbnail.style.backgroundImage = new StyleBackground(renderTexture);
@@ -158,24 +158,91 @@ public class BundleDirectionEditorWindow : EditorWindow
 
     private void Init()
     {
-        SwitchVisibility((int)(object)directionTypeEnum.value);
+        currentType = (int)(object)directionTypeEnum.value;
+        SwitchVisibility(currentType);
 
         allTags = LBSAssetsStorage.Instance.Get<LBSTag>();
 
-        var allPossibleTags = GetPossibleTagsFromBundle(target.Owner.Parent(), allTags);
-        var tagLabels = allPossibleTags.Select(t => t.Label).ToList();
+        var tagLabels = tagBundles[0].Tags;
 
-        RightDirectionDropdown.choices = tagLabels;
-        UpDirectionDropdown.choices = tagLabels;
-        LeftDirectionDropdown.choices = tagLabels;
-        DownDirectionDropdown.choices = tagLabels;
+        tagGroupDropdown.choices = tagBundles.Select(bundle => bundle.name).ToList();
+        tagGroupDropdown.SetValueWithoutNotify(DetectTagGroupFromFirstTag(ConvertStringToLBSTag(RightDirectionDropdown.value)));
 
-        URDirectionDropdown.choices = tagLabels;
-        ULDirectionDropdown.choices = tagLabels;
-        LRDirectionDropdown.choices = tagLabels;
-        LLDirectionDropdown.choices = tagLabels;
+        currentTagGroup = tagGroupDropdown.value;
+
+        SetChoices(tagBundles.Find(bundle => bundle.name == tagGroupDropdown.value)?.Tags ?? tagLabels);
+        SetValuesFromBundle();
 
         fovScale = 1 + (zoomScaleInt.value * 0.1f);
+    }
+
+    private string DetectTagGroupFromFirstTag(LBSTag tag)
+    {
+        foreach (var bundle in tagBundles)
+        {
+            if (bundle.Tags.Contains(tag))
+                return bundle.name;
+        }
+        return tagGroupDropdown.choices[0];
+    }
+
+    private List<string> TagListToStringList(List<LBSTag> tags)
+    {
+        var list = new List<string>();
+        foreach (var tag in tags)
+        {
+            list.Add(tag.name);
+        }
+
+        return list;
+    }
+
+    private void ChangeTagsFromBundle()
+    {
+        var selectedBundle = tagBundles[tagGroupDropdown.index];
+        var tagLabels = selectedBundle.Tags;
+
+        AlternateTags(tagLabels);
+    }
+
+    private void SetChoices(List<LBSTag> tags)
+    {
+        RightDirectionDropdown.choices = TagListToStringList(tags);
+        UpDirectionDropdown.choices = TagListToStringList(tags);
+        LeftDirectionDropdown.choices = TagListToStringList(tags);
+        DownDirectionDropdown.choices = TagListToStringList(tags);
+
+        URDirectionDropdown.choices = TagListToStringList(tags);
+        ULDirectionDropdown.choices = TagListToStringList(tags);
+        LLDirectionDropdown.choices = TagListToStringList(tags);
+        LRDirectionDropdown.choices = TagListToStringList(tags);
+    }
+
+    private void AlternateTags(List<LBSTag> tags)
+    {
+        List<int> temp = new()
+        {
+            RightDirectionDropdown.index,
+            UpDirectionDropdown.index,
+            LeftDirectionDropdown.index,
+            DownDirectionDropdown.index,
+            URDirectionDropdown.index,
+            ULDirectionDropdown.index,
+            LLDirectionDropdown.index,
+            LRDirectionDropdown.index
+        };
+
+        SetChoices(tags);
+
+        RightDirectionDropdown.index = Mathf.Clamp(temp[0], 0, RightDirectionDropdown.choices.Count - 1);
+        UpDirectionDropdown.index = Mathf.Clamp(temp[1], 0, UpDirectionDropdown.choices.Count - 1);
+        LeftDirectionDropdown.index = Mathf.Clamp(temp[2], 0, LeftDirectionDropdown.choices.Count - 1);
+        DownDirectionDropdown.index = Mathf.Clamp(temp[3], 0, DownDirectionDropdown.choices.Count - 1);
+
+        URDirectionDropdown.index = Mathf.Clamp(temp[4], 0, URDirectionDropdown.choices.Count - 1);
+        ULDirectionDropdown.index = Mathf.Clamp(temp[5], 0, ULDirectionDropdown.choices.Count - 1);
+        LLDirectionDropdown.index = Mathf.Clamp(temp[6], 0, LLDirectionDropdown.choices.Count - 1);
+        LRDirectionDropdown.index = Mathf.Clamp(temp[7], 0, LRDirectionDropdown.choices.Count - 1);
     }
 
     private void SwitchVisibility(int type)
@@ -190,8 +257,8 @@ public class BundleDirectionEditorWindow : EditorWindow
                 RightDirectionDropdown.style.display = DisplayStyle.Flex;
                 URDirectionDropdown.style.display = DisplayStyle.None;
                 ULDirectionDropdown.style.display = DisplayStyle.None;
-                LRDirectionDropdown.style.display = DisplayStyle.None;
                 LLDirectionDropdown.style.display = DisplayStyle.None;
+                LRDirectionDropdown.style.display = DisplayStyle.None;
 
                 centreFrame.style.backgroundImage = new StyleBackground(vertexFrame);
                 break;
@@ -203,14 +270,18 @@ public class BundleDirectionEditorWindow : EditorWindow
                 RightDirectionDropdown.style.display = DisplayStyle.None;
                 URDirectionDropdown.style.display = DisplayStyle.Flex;
                 ULDirectionDropdown.style.display = DisplayStyle.Flex;
-                LRDirectionDropdown.style.display = DisplayStyle.Flex;
                 LLDirectionDropdown.style.display = DisplayStyle.Flex;
+                LRDirectionDropdown.style.display = DisplayStyle.Flex;
 
                 centreFrame.style.backgroundImage = new StyleBackground(edgeFrame);
                 break;
         }
+
+        SetValuesFromBundle();
     }
 
+    /* UNUSED METHODS
+     
     private List<LBSTag> GetPossibleTagsFromBundle(Bundle bundle, List<LBSTag> identifierTags)
     {
         var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
@@ -221,7 +292,7 @@ public class BundleDirectionEditorWindow : EditorWindow
         return idents;
     }
 
-    /*
+    
     private List<LBSTag> GetPossibleTagsFromTag(LBSTag tag, List<LBSTag> identifierTags)
     {
         var connections = tag.GetChildrenCharacteristics<LBSDirection>();
@@ -237,26 +308,30 @@ public class BundleDirectionEditorWindow : EditorWindow
         if (target == null)
             return;
 
-        RightDirectionDropdown.value = target.GetConnection()[0];
-        UpDirectionDropdown.value = target.GetConnection()[1];
-        LeftDirectionDropdown.value = target.GetConnection()[2];
-        DownDirectionDropdown.value = target.GetConnection()[3];
+        switch (currentType)
+        {
+            case 0:
+                RightDirectionDropdown.value = URDirectionDropdown.value ?? target.GetConnection()[0];
+                UpDirectionDropdown.value = ULDirectionDropdown.value ?? target.GetConnection()[1];
+                LeftDirectionDropdown.value = LLDirectionDropdown.value ?? target.GetConnection()[2];
+                DownDirectionDropdown.value = LRDirectionDropdown.value ?? target.GetConnection()[3];
+                break;
+            case 1:
+                URDirectionDropdown.value = RightDirectionDropdown.value ?? target.GetConnection()[0];
+                ULDirectionDropdown.value = UpDirectionDropdown.value ?? target.GetConnection()[1];
+                LLDirectionDropdown.value = LeftDirectionDropdown.value ?? target.GetConnection()[2];
+                LRDirectionDropdown.value = DownDirectionDropdown.value ?? target.GetConnection()[3];
+                break;
+        }
 
-        URDirectionDropdown.value = target.GetConnection()[0];
-        ULDirectionDropdown.value = target.GetConnection()[1];
-        LRDirectionDropdown.value = target.GetConnection()[2];
-        LLDirectionDropdown.value = target.GetConnection()[3];
+        currentTagList?.Clear();
 
         currentTagList = new List<string>()
         {
             RightDirectionDropdown.value,
             UpDirectionDropdown.value,
             LeftDirectionDropdown.value,
-            DownDirectionDropdown.value,
-            URDirectionDropdown.value,
-            ULDirectionDropdown.value,
-            LRDirectionDropdown.value,
-            LLDirectionDropdown.value
+            DownDirectionDropdown.value
         };
 
         prefab = target.Owner.Assets[0].obj;
@@ -291,15 +366,21 @@ public class BundleDirectionEditorWindow : EditorWindow
         if (target == null)
             return;
 
-        target.SetConnection(ConvertStringToLBSTag(RightDirectionDropdown.value), 0);
-        target.SetConnection(ConvertStringToLBSTag(UpDirectionDropdown.value), 1);
-        target.SetConnection(ConvertStringToLBSTag(LeftDirectionDropdown.value), 2);
-        target.SetConnection(ConvertStringToLBSTag(DownDirectionDropdown.value), 3);
-
-        target.SetConnection(ConvertStringToLBSTag(URDirectionDropdown.value), 0);
-        target.SetConnection(ConvertStringToLBSTag(ULDirectionDropdown.value), 1);
-        target.SetConnection(ConvertStringToLBSTag(LRDirectionDropdown.value), 2);
-        target.SetConnection(ConvertStringToLBSTag(LLDirectionDropdown.value), 3);
+        switch (currentType)
+        {
+            case 0:
+                target.SetConnection(ConvertStringToLBSTag(RightDirectionDropdown.value), 0);
+                target.SetConnection(ConvertStringToLBSTag(UpDirectionDropdown.value), 1);
+                target.SetConnection(ConvertStringToLBSTag(LeftDirectionDropdown.value), 2);
+                target.SetConnection(ConvertStringToLBSTag(DownDirectionDropdown.value), 3);
+                break;
+            case 1:
+                target.SetConnection(ConvertStringToLBSTag(URDirectionDropdown.value), 0);
+                target.SetConnection(ConvertStringToLBSTag(ULDirectionDropdown.value), 1);
+                target.SetConnection(ConvertStringToLBSTag(LLDirectionDropdown.value), 2);
+                target.SetConnection(ConvertStringToLBSTag(LRDirectionDropdown.value), 3);
+                break;
+        }
 
         UpdateWindow();
         EditorUtility.SetDirty(target.Owner);
@@ -315,8 +396,12 @@ public class BundleDirectionEditorWindow : EditorWindow
 
         URDirectionDropdown.value = currentTagList[0];
         ULDirectionDropdown.value = currentTagList[1];
-        LRDirectionDropdown.value = currentTagList[2];
-        LLDirectionDropdown.value = currentTagList[3];
+        LLDirectionDropdown.value = currentTagList[2];
+        LRDirectionDropdown.value = currentTagList[3];
+
+        tagGroupDropdown.SetValueWithoutNotify(currentTagGroup);
+
+        SetChoices(tagBundles.Find(bundle => bundle.name == tagGroupDropdown.value)?.Tags);
     }
 
     private void UpdateWindow()
@@ -337,7 +422,7 @@ public class BundleDirectionEditorWindow : EditorWindow
         if (string.IsNullOrEmpty(tagLabel))
             return null;
 
-        return allTags.FirstOrDefault(tag => tag.Label == tagLabel);
+        return allTags.Find(tag => tag.Label == tagLabel);
     }
 
     private string ConvertLBSTagToString(LBSTag tag)

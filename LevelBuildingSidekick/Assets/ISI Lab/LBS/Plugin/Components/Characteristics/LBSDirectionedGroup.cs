@@ -5,7 +5,7 @@ using System.Linq;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using UnityEngine;
-
+using static ISILab.LBS.Modules.ConnectedTileMapModule;
 
 namespace ISILab.LBS.Characteristics
 {
@@ -28,8 +28,8 @@ namespace ISILab.LBS.Characteristics
         [SerializeField]
         public List<WeightStruct> Weights = new List<WeightStruct>();
 
-        //[SerializeField]
-        //public bool VertexBased = false;
+        [SerializeField]
+        public ConnectedTileType currentType;
 
         [JsonIgnore]
         public Action OnAddOwnerChild;
@@ -38,7 +38,7 @@ namespace ISILab.LBS.Characteristics
 
         public LBSDirectionedGroup()
         {
-
+            
         }
 
         public override void OnEnable()

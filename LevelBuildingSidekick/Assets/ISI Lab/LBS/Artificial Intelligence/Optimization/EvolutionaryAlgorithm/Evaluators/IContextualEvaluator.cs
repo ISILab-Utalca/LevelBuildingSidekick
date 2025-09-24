@@ -1,5 +1,6 @@
 using Commons.Optimization.Evaluator;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using LBS.Components.TileMap;
@@ -12,7 +13,10 @@ public interface IContextualEvaluator : IEvaluator
 {
     public List<LBSLayer> ContextLayers { get; set; }
 
+    public LBSLayer CombinedLayer { get; set; }
+
     public LBSLayer CombinedInteriorLayer { get; set; }
+    public LBSLayer CombinedExteriorLayer { get; set; }
 
     public void InitializeDefaultWithContext(List<LBSLayer> contextLayers, Rect selection);
 
@@ -67,6 +71,45 @@ public interface IContextualEvaluator : IEvaluator
         return combinedLayer;
     }
 
+    public LBSLayer ExteriorLayers()
+    {
+        if (ContextLayers.Count == 0) return null;
+
+        List<LBSLayer> exteriorLayers = ContextLayers.FindAll(l => l.ID.Equals("Exterior"));
+        if (exteriorLayers.Count == 0) return null;
+
+        return exteriorLayers[0];
+
+        var combinedLayer = exteriorLayers[0].Clone() as LBSLayer;
+
+        var combinedSectorTM = combinedLayer.GetModule<SectorizedTileMapModule>();
+        var combinedConnectedTM = combinedLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
+
+        foreach(LBSLayer exteriorLayer in exteriorLayers)
+        {
+            if (exteriorLayer.Equals(combinedLayer)) continue;
+
+            var tempBehaviour = exteriorLayer.Behaviours.Find(b => b.GetType().Equals(typeof(ExteriorBehaviour))) as ExteriorBehaviour;
+            var currentSectorTM = exteriorLayer.GetModule<SectorizedTileMapModule>();
+            var combinedBehaviour = combinedLayer.Behaviours.Find(b => b.GetType().Equals(typeof(ExteriorBehaviour))) as ExteriorBehaviour;
+
+            
+
+            foreach(LBSTile tile in tempBehaviour.Tiles)
+            {
+                if (combinedBehaviour.GetTile(tile.Position) is not null) continue;
+                var zone = currentSectorTM.Zones.Find(z => z.Positions.Contains(tile.Position));
+                if(!combinedSectorTM.Zones.Contains(zone))
+                {
+                    combinedSectorTM.AddZone(zone);
+                }
+                combinedSectorTM.AddTile(tile, zone);
+            }
+        }
+
+        return combinedLayer;
+    }
+
     public LBSLayer PopulationLayers()
     {
         if (ContextLayers.Count == 0) return null;
@@ -108,5 +151,55 @@ public interface IContextualEvaluator : IEvaluator
         }
 
         return combinedLayer;
+    }
+
+    public LBSLayer MergeExteriorWithInterior(LBSLayer exteriorLayer, LBSLayer interiorLayer)
+    {
+        bool interiorExists = interiorLayer is not null && ContextLayers.Contains(interiorLayer);
+        bool exteriorExists = exteriorLayer is not null && ContextLayers.Contains(exteriorLayer);
+
+        if (!(interiorExists || exteriorExists)) return null;
+
+        if (!exteriorExists)
+        {
+            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            return interiorLayer;
+        }
+        if (!interiorExists)
+        {
+            exteriorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            return exteriorLayer;
+        }
+
+        var exteriorSectorTM = exteriorLayer.GetModule<SectorizedTileMapModule>();
+        var exteriorZonesConnectedTM = exteriorLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
+        if (exteriorSectorTM is null || exteriorZonesConnectedTM is null)
+        {
+            Debug.Log($"Exterior Layer '{exteriorLayer.Name}' not suitable for MAP Elites Context.");
+            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            return interiorLayer;
+        }
+
+        LBSLayer newLayer = interiorLayer.Clone() as LBSLayer;
+
+        var combinedSectorTM = newLayer.GetModule<SectorizedTileMapModule>();
+        var combinedConnectedTM = newLayer.GetModule<ConnectedTileMapModule>();
+
+        foreach(LBSTile tile in exteriorSectorTM.PairTiles.Select(t => t.Tile))
+        {
+            if (combinedSectorTM.PairTiles.Any(tzp => tzp.Tile.Equals(tile))) continue;
+
+            Zone zone = exteriorSectorTM.Zones.Find(z => z.Positions.Contains(tile.Position));
+            if(!combinedSectorTM.Zones.Contains(zone))
+            {
+                combinedSectorTM.AddZone(zone);
+            }
+            combinedSectorTM.AddTile(tile, zone);
+            combinedConnectedTM.AddPair(tile, exteriorZonesConnectedTM.GetConnections(tile), new List<bool>() { false, false, false, false });
+        }
+
+        combinedSectorTM.RecalculateZonesProximity();
+
+        return newLayer;
     }
 }

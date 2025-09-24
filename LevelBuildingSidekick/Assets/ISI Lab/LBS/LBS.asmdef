@@ -3,28 +3,10 @@
     "rootNamespace": "",
     "references": [
         "GUID:e60498a611515b34dad156cea5ecc4f6",
-        "Unity.AI.Navigation"
+        "GUID:8c4dd21966739024fbd72155091d199e"
     ],
     "includePlatforms": [
-        "Android",
-        "Editor",
-        "EmbeddedLinux",
-        "iOS",
-        "LinuxStandalone64",
-        "CloudRendering",
-        "macOSStandalone",
-        "Switch",
-        "PS4",
-        "PS5",
-        "QNX",
-        "tvOS",
-        "WSA",
-        "WebGL",
-        "WindowsStandalone32",
-        "WindowsStandalone64",
-        "GameCoreXboxOne",
-        "XboxOne",
-        "GameCoreScarlett"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

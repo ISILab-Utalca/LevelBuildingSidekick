@@ -24,7 +24,10 @@ namespace ISILab.AI.Categorization
 
         public List<LBSLayer> ContextLayers { get; set; } = new List<LBSLayer>();
 
+        public LBSLayer CombinedLayer { get; set; } = null;
+
         public LBSLayer CombinedInteriorLayer { get; set; } = null;
+        public LBSLayer CombinedExteriorLayer { get; set; } = null;
 
         public string Tooltip => "DC Resource Safety Evaluator\n\n" +
             "This evaluator aims to distribute chests, weapons and other resources in a way that most of them are in areas close to the players.\n\n" +
@@ -48,7 +51,7 @@ namespace ISILab.AI.Categorization
                 return 0.0f;
             }
 
-            LBSLayer layer = CombinedInteriorLayer;//ContextLayers.FirstOrDefault(l => l.ID.Equals("Interior"));
+            LBSLayer layer = CombinedLayer;
 
             float fitness = 0;
 
@@ -82,11 +85,18 @@ namespace ISILab.AI.Categorization
             int bestPossibleScore = (int)(1.25f * resourcesInd.Count);
             int worstPossibleScore = (int)(2.00f * resourcesInd.Count);
             int score = worstPossibleScore;
-            if (layer != null)
+            if (layer is not null)
             {
-                if (layer.ID.Equals("Interior"))
-                    score = ScoreResourceDistance(playersInd, resourcesInd, chrom, layer.GetModule<SectorizedTileMapModule>());
-                else score = ScoreManhattan(playersInd, resourcesInd, chrom);
+                switch (layer.ID)
+                {
+                    case "Interior":
+                    case "Exterior":
+                        score = ScoreResourceDistance(playersInd, resourcesInd, chrom, layer.GetModule<SectorizedTileMapModule>());
+                        break;
+                    default:
+                        score = ScoreManhattan(playersInd, resourcesInd, chrom);
+                        break;
+                }
             }
             else
             {
@@ -169,6 +179,8 @@ namespace ISILab.AI.Categorization
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
+            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
             InitializeDefault();
         }
 
@@ -189,7 +201,9 @@ namespace ISILab.AI.Categorization
             var clone = new DCResourceSafety();
 
             clone.ContextLayers = new List<LBSLayer>(ContextLayers);
+            clone.CombinedLayer = CombinedLayer;
             clone.CombinedInteriorLayer = CombinedInteriorLayer;
+            clone.CombinedExteriorLayer = CombinedExteriorLayer;
 
             clone.playerCharacteristic = playerCharacteristic;
             clone.resources = new List<LBSCharacteristic>(resources);

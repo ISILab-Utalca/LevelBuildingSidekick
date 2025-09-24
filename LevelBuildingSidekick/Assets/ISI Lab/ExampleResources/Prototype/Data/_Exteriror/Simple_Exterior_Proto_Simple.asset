@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fb3215f5e8c1242aa1598a18cd8a53, type: 3}
   m_Name: Simple_Exterior_Proto_Simple
   m_EditorClassIdentifier: 
+  bundleName: 
   layerContentFlags: 0
   type: 1
   anchorPosition: 0
@@ -59,3 +60,4 @@ MonoBehaviour:
           weight: 0.08
         - target: {fileID: 11400000, guid: 4429de8e76b1f30469dfbafcfb3a2367, type: 2}
           weight: 0
+        currentType: 0

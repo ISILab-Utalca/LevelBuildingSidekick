@@ -6,6 +6,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System;
 using ISILab.Extensions;
+using UnityEditor;
 
 namespace ISILab.JsonNet
 {
@@ -26,7 +27,7 @@ namespace ISILab.JsonNet
             {
                 PreserveReferencesHandling = PreserveReferencesHandling.All,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize, //Esto arregla un problema de serializaci�n de LBSCharacteristics, pero puede que cause problemas luego
-                TypeNameHandling = TypeNameHandling.All,
+                TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
             };
@@ -44,7 +45,7 @@ namespace ISILab.JsonNet
             // generate json string
             string jsonString = "ERROR";
             jsonString = JsonUtility.ToJson(
-                data
+                data, true
                 );
 
             // write json in a file
@@ -180,6 +181,12 @@ namespace ISILab.JsonNet
             string dataPath = directoryPath + '/' + fileName + "." + format;
 
             return LoadData<T>(dataPath);
+        }
+
+        public static T LoadDataByGUID<T>(string _guid)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(_guid);
+            return LoadData<T>(path);
         }
 
         /// <summary>

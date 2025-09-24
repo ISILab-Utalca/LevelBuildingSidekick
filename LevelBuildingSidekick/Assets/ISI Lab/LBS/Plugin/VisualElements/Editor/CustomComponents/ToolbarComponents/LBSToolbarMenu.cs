@@ -47,12 +47,22 @@ namespace ISILab.LBS.CustomComponents
                     if (toggleIcon != null)
                     {
                         _toggleIconElement.style.backgroundImage = new StyleBackground(toggleIcon);
-                        _arrowElement.style.display = DisplayStyle.Flex;
+                        _toggleIconElement.style.display = DisplayStyle.Flex;
                     }
-                    else
-                    {
-                        _toggleIconElement.style.display = DisplayStyle.None;
-                    }
+                }
+            }
+        }
+
+        [UxmlAttribute]
+        public Color IconColor
+        {
+            get => iconColor;
+            set
+            {
+                iconColor = value;
+                if (iconColor != Color.white && _toggleIconElement != null)
+                {
+                    _toggleIconElement.style.unityBackgroundImageTintColor = new StyleColor(iconColor);
                 }
             }
         }
@@ -60,10 +70,11 @@ namespace ISILab.LBS.CustomComponents
         #endregion
 
         private VisualElement _arrowElement;
-        VisualElement _toggleIconElement;
+        private VisualElement _toggleIconElement;
         
         private VectorImage arrowIcon;
         private VectorImage toggleIcon;
+        private Color iconColor = Color.white;
         
         public LBSToolbarMenu() : base()
         {
@@ -85,12 +96,22 @@ namespace ISILab.LBS.CustomComponents
             
             _toggleIconElement = new VisualElement();
             _toggleIconElement.AddToClassList("lbs-icon");
-            this.Add(_toggleIconElement);
+            if (toggleIcon != null)
+            {
+                _toggleIconElement.style.backgroundImage = new StyleBackground(toggleIcon);
+                _toggleIconElement.style.display = DisplayStyle.Flex; 
+            }
+            else
+            {
+                _toggleIconElement.style.backgroundImage = new StyleBackground(Macros.LBSAssetMacro.LoadPlaceholderTexture());
+            }
+            this.Add(_toggleIconElement);   
+            
             
             TextElement textElement = this.Q<TextElement>(classes: textUssClassName);
             if (textElement != null)
             {
-{            _toggleIconElement.PlaceBehind(textElement);}
+                _toggleIconElement.PlaceBehind(textElement);
             }
 
         }

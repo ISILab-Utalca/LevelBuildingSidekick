@@ -1,5 +1,6 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
+using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Editor;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
@@ -20,15 +21,17 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("HillClimbingAssistant", typeof(HillClimbingAssistant))]
     public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     {
-        private readonly UnityEngine.Color AssColor = LBSSettings.Instance.view.assistantColor;
+        private readonly UnityEngine.Color AssistantColor = LBSSettings.Instance.view.assistantColor;
 
         private HillClimbingAssistant hillClimbing;
 
         private Foldout foldout;
         private Button revert;
         private Button execute;
-        private Toggle toggle;
         private Button executeOne;
+        
+        private LBSCustomToggleField toggle;
+        private LBSCustomToggleField benchmarkToggle;
         private Toggle toggleTimer;
 
         private Button recalculate;
@@ -45,9 +48,9 @@ namespace ISILab.LBS.VisualElements
 
             CreateVisualElement();
 
-            var wnd = EditorWindow.GetWindow<LBSMainWindow>();
+            var window = EditorWindow.GetWindow<LBSMainWindow>();
 
-            hillClimbing.OnTermination += wnd.Repaint;
+            hillClimbing.OnTermination += window.Repaint;
         }
 
         public override void Repaint()
@@ -91,7 +94,7 @@ namespace ISILab.LBS.VisualElements
             var moduleConstr = hillClimbing.OwnerLayer.GetModule<ConstrainsZonesModule>();
 
             // Foldout
-            foldout = this.Q<Foldout>();
+            foldout = this.Q<LBSCustomFoldout>();
             foreach (var constraint in moduleConstr.Constraints)
             {
                 var view = new ConstraintView();
@@ -115,13 +118,15 @@ namespace ISILab.LBS.VisualElements
             executeOne.clicked += ExecuteOneStep;
 
             // Show Constraint
-            toggle = this.Q<Toggle>("ShowConstraintToggle");
+            toggle = this.Q<LBSCustomToggleField>("ShowConstraintToggle");
             toggle.value = hillClimbing.visibleConstraints;
             toggle.RegisterCallback<ChangeEvent<bool>>(x =>
             {
                 hillClimbing.visibleConstraints = x.newValue;
                 DrawManager.ReDraw();
             });
+            
+            benchmarkToggle = this.Q<LBSCustomToggleField>("UseBenchmark");
 
             recalculate = new Button();
             recalculate.text = "Recalculate Constraints";
@@ -180,7 +185,7 @@ namespace ISILab.LBS.VisualElements
         private void Execute()
         {
             // Save history version to revert if necessary
-            var x = LBSController.CurrentLevel;
+            LoadedLevel x = LBSController.CurrentLevel;
             Undo.RegisterCompleteObjectUndo(x, "Execute HillClimbing");
             EditorGUI.BeginChangeCheck();
 

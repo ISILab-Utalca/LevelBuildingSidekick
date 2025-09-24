@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Components;
+using ISILab.Commons.Attributes;
 using LBS.Bundles;
 using UnityEngine;
 

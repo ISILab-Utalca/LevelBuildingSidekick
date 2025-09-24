@@ -101,8 +101,6 @@ namespace ISILab.LBS.VisualElements.Editor
         private void SetupAddLayerButton()
         {
             var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
-            foreach (var ve in Enumerable.OfType<VisualElement>(addLayerButton.Children()).Take(addLayerButton.childCount - 1))
-                ve.style.display = DisplayStyle.None;
 
             for (int i = 0; i < _templates.Count; i++)
             {
@@ -172,6 +170,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void SelectionChanged(IEnumerable<object> objs)
         {
+            Debug.Log("LIST SELECTION CHANGED");
             var selected = objs.FirstOrDefault() as LBSLayer;
             LBSMainWindow.Instance._selectedLayer = selected;
             OnSelectLayer?.Invoke(GetSelectedLayer());
@@ -231,9 +230,9 @@ namespace ISILab.LBS.VisualElements.Editor
             layer.Name = GenerateUniqueLayerName(layer.Name);
 
             Data.AddLayer(layer);
-            _list.SetSelection(new List<int> { 0 });
+            _list.SetSelection(new List<int> { 0 }); // Aca se invoca OnSelectLayer
             OnAddLayer?.Invoke(layer);
-            SetSelectedLayer(layer);
+            SetSelectedLayer(layer); // Aca tambien se invoca OnSelectLayer, seria bueno unificarlo de alguna forma para que se llame solo una vez en los casos que corresponda
 
             LBSMainWindow.MessageNotify("New Data layer created");
             _list.Rebuild();
@@ -324,6 +323,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region SELECTION MANAGEMENT
         private void SetSelectedLayer(LBSLayer layer)
         {
+            Debug.Log("SET SELECTED LAYER");
             _selectedLayer = layer;
             OnSelectLayer?.Invoke(layer);
         }

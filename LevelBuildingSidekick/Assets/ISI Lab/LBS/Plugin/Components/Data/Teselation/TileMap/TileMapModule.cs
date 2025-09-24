@@ -121,7 +121,7 @@ namespace ISILab.LBS.Modules
             //_tileDic.TryGetValue(pos, out LBSTile tile);
             //return tile;
 
-            return tiles.FirstOrDefault(tile => tile.Position == pos);
+            return tiles.Find(tile => tile.Position == pos);
         }
 
         public LBSTile GetTileAt(int index)

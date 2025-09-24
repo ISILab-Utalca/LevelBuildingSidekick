@@ -120,6 +120,13 @@ namespace ISILab.LBS.Modules
             return p.Connections;
         }
 
+        public void RemoveTile(TileConnectionsPair pair)
+        {
+            pairs.Remove(pair);
+            OnChanged?.Invoke(this, new List<object>() { pair }, null);
+            OnRemovePair?.Invoke(this, pair);
+        }
+
         public void RemoveTile(LBSTile tile)
         {
             var pair = GetPair(tile);
@@ -340,5 +347,31 @@ namespace ISILab.LBS.Modules
             return s;
         }
         #endregion
+    }
+
+    public static class TileConnectionsPairExtensions
+    {
+        public static bool IsFloor(this TileConnectionsPair current, List<string> floorTags)
+        {
+            if (current == null) return false;
+
+            const int minFloorCount = 3;
+            int floorCount = 0;
+            foreach (string connection in current.Connections)
+            {
+                foreach (string floorTag in floorTags)
+                {
+                    if (connection.Equals(floorTag))
+                    {
+                        floorCount++;
+                        if (floorCount >= minFloorCount)
+                            return true;
+                        break;
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }
