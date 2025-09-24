@@ -60,3 +60,4 @@ MonoBehaviour:
           weight: 1
         - target: {fileID: 11400000, guid: 72c3f8001f21e4445b6e7abb011ed29a, type: 2}
           weight: 0.082
+        currentType: 0
