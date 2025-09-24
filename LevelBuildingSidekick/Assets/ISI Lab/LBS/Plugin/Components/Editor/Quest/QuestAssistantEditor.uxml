@@ -8,6 +8,8 @@
                 <ui:Button text="Generate Suggestions" name="GenerateSuggestions" style="background-color: rgb(88, 106, 55);" />
             </ui:VisualElement>
         </ui:VisualElement>
+        <ISILab.LBS.CustomComponents.LBSCustomUnsignedIntegerField name="SuggestionField" />
+        <ui:Button text="ConnectAll" name="ConnectAll" style="background-color: rgb(88, 106, 55);" />
         <ui:VisualElement name="Spacer" class="lbs-title-label-container" style="height: 4px; min-height: 4px; max-height: 4px; border-top-width: 1px; border-bottom-width: 0; border-left-color: rgb(128, 128, 128); border-right-color: rgb(128, 128, 128); border-top-color: rgb(128, 128, 128); border-bottom-color: rgb(128, 128, 128); padding-right: 0; padding-left: 0; margin-left: 8px; margin-right: 8px;" />
         <ui:VisualElement name="LayerContextContainer" style="flex-grow: 1; align-self: stretch; align-content: flex-start; align-items: stretch;">
             <ui:VisualElement name="LockedLayerContainer" style="flex-grow: 1;" />

@@ -16,7 +16,6 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.VolumeProfile
     items:
     - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
     - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
     - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
   - type: LBS.Bundles.Bundle

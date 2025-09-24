@@ -1,0 +1,499 @@
+{
+    "layers": [
+        {
+            "rid": 1000
+        }
+    ],
+    "quests": [],
+    "savedLayerMaps": [],
+    "contextLayers": [],
+    "references": {
+        "version": 2,
+        "RefIds": [
+            {
+                "rid": -2,
+                "type": {
+                    "class": "",
+                    "ns": "",
+                    "asm": ""
+                },
+                "data": {}
+            },
+            {
+                "rid": 1000,
+                "type": {
+                    "class": "LBSLayer",
+                    "ns": "LBS.Components",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "blocked": false,
+                    "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                    "id": "Quest",
+                    "name": "New Layer",
+                    "modules": [
+                        {
+                            "rid": 1001
+                        }
+                    ],
+                    "behaviours": [
+                        {
+                            "rid": 1002
+                        },
+                        {
+                            "rid": 1003
+                        }
+                    ],
+                    "assistants": [
+                        {
+                            "rid": 1004
+                        },
+                        {
+                            "rid": 1005
+                        }
+                    ],
+                    "generatorRules": [
+                        {
+                            "rid": 1006
+                        }
+                    ],
+                    "settings": {
+                        "useBundleSize": false,
+                        "lightVolume": false,
+                        "reflectionProbe": false,
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "resize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "replacePrevious": true,
+                        "name": "DEFAULT",
+                        "rootParentName": "Root_Parent"
+                    },
+                    "index": 0
+                }
+            },
+            {
+                "rid": 1001,
+                "type": {
+                    "class": "QuestGraph",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "id": "QuestGraph",
+                    "ownerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                        "id": "Quest",
+                        "name": "New Layer",
+                        "modules": [
+                            {
+                                "rid": 1001
+                            }
+                        ],
+                        "behaviours": [
+                            {
+                                "rid": 1002
+                            },
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "assistants": [
+                            {
+                                "rid": 1004
+                            },
+                            {
+                                "rid": 1005
+                            }
+                        ],
+                        "generatorRules": [
+                            {
+                                "rid": 1006
+                            }
+                        ],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "graphNodes": [],
+                    "graphEdges": [],
+                    "root": {
+                        "rid": -2
+                    },
+                    "suggestions": [],
+                    "displaySuggestions": false,
+                    "grammarGuid": "63ab688b53411154db5edd0ec7171c42"
+                }
+            },
+            {
+                "rid": 1002,
+                "type": {
+                    "class": "QuestNodeBehaviour",
+                    "ns": "ISILab.LBS.Behaviours",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "ownerLayerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                        "id": "Quest",
+                        "name": "New Layer",
+                        "modules": [
+                            {
+                                "rid": 1001
+                            }
+                        ],
+                        "behaviours": [
+                            {
+                                "rid": 1002
+                            },
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "assistants": [
+                            {
+                                "rid": 1004
+                            },
+                            {
+                                "rid": 1005
+                            }
+                        ],
+                        "generatorRules": [
+                            {
+                                "rid": 1006
+                            }
+                        ],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "icon": {
+                        "instanceID": 26200
+                    },
+                    "colorTint": {
+                        "r": 0.3019607961177826,
+                        "g": 0.3019607961177826,
+                        "b": 0.3019607961177826,
+                        "a": 1.0
+                    },
+                    "name": "Selected Action Config"
+                }
+            },
+            {
+                "rid": 1003,
+                "type": {
+                    "class": "QuestBehaviour",
+                    "ns": "ISILab.LBS.Behaviours",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "ownerLayerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                        "id": "Quest",
+                        "name": "New Layer",
+                        "modules": [
+                            {
+                                "rid": 1001
+                            }
+                        ],
+                        "behaviours": [
+                            {
+                                "rid": 1002
+                            },
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "assistants": [
+                            {
+                                "rid": 1004
+                            },
+                            {
+                                "rid": 1005
+                            }
+                        ],
+                        "generatorRules": [
+                            {
+                                "rid": 1006
+                            }
+                        ],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "icon": {
+                        "instanceID": 26078
+                    },
+                    "colorTint": {
+                        "r": 0.4705882668495178,
+                        "g": 1.0,
+                        "b": 0.8313726186752319,
+                        "a": 1.0
+                    },
+                    "name": "Quest Behaviour"
+                }
+            },
+            {
+                "rid": 1004,
+                "type": {
+                    "class": "QuestAssistant",
+                    "ns": "ISILab.LBS.Assistants",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "ownerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                        "id": "Quest",
+                        "name": "New Layer",
+                        "modules": [
+                            {
+                                "rid": 1001
+                            }
+                        ],
+                        "behaviours": [
+                            {
+                                "rid": 1002
+                            },
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "assistants": [
+                            {
+                                "rid": 1004
+                            },
+                            {
+                                "rid": 1005
+                            }
+                        ],
+                        "generatorRules": [
+                            {
+                                "rid": 1006
+                            }
+                        ],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "icon": {
+                        "instanceID": 26232
+                    },
+                    "colorTint": {
+                        "r": 0.4705882668495178,
+                        "g": 1.0,
+                        "b": 0.8313726186752319,
+                        "a": 1.0
+                    },
+                    "name": "Quest Assistant"
+                }
+            },
+            {
+                "rid": 1005,
+                "type": {
+                    "class": "GrammarAssistant",
+                    "ns": "ISILab.LBS.Assistants",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "ownerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "9fc8ac6f82a8b39458c73185d378ffbf",
+                        "id": "Quest",
+                        "name": "New Layer",
+                        "modules": [
+                            {
+                                "rid": 1001
+                            }
+                        ],
+                        "behaviours": [
+                            {
+                                "rid": 1002
+                            },
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "assistants": [
+                            {
+                                "rid": 1004
+                            },
+                            {
+                                "rid": 1005
+                            }
+                        ],
+                        "generatorRules": [
+                            {
+                                "rid": 1006
+                            }
+                        ],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "icon": {
+                        "instanceID": 26232
+                    },
+                    "colorTint": {
+                        "r": 0.4705882668495178,
+                        "g": 1.0,
+                        "b": 0.8313726186752319,
+                        "a": 1.0
+                    },
+                    "name": "Grammar Assistant"
+                }
+            },
+            {
+                "rid": 1006,
+                "type": {
+                    "class": "QuestRuleGenerator",
+                    "ns": "ISILab.LBS.Generators",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "generator3D": {
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "rules": []
+                    }
+                }
+            }
+        ]
+    }
+}

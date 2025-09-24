@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
@@ -9,6 +10,7 @@ using UnityEngine.UIElements;
 using ISILab.AI.Grammar;
 using ISILab.Extensions;
 using LBS.Components;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Assistants
 {
@@ -396,6 +398,41 @@ namespace ISILab.LBS.Assistants
             return grammar.GetNextTerminals(current, nextTerminals);
         }
         
+        public Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
+        {
+            return () =>
+            {
+                var stopwatch = Stopwatch.StartNew();
+
+                _questGraph.ExpandNode(expandAction, referenceNode);
+
+                stopwatch.Stop();
+                Debug.Log($"ExpandAction took {stopwatch.ElapsedMilliseconds} ms");
+            };
+        }
+
+        public Action InsertNextAction(string action, QuestNode referenceNode)
+        {
+            return () =>
+            {
+                _questGraph.InsertQuestNodeAfter(action, referenceNode);
+            };
+        }
+
+        public Action InsertPreviousAction(string action, QuestNode referenceNode)
+        {
+            return () =>
+            {
+                var stopwatch = Stopwatch.StartNew();
+
+                _questGraph.InsertQuestNodeBefore(action, referenceNode);
+                _questGraph.ValidateAllWithGrammar();
+
+                stopwatch.Stop();
+                Debug.Log($"InsertPreviousAction took {stopwatch.ElapsedMilliseconds} ms");
+            };
+        }
+        
         public override void OnAttachLayer(LBSLayer layer)
         {
             base.OnAttachLayer(layer);
@@ -404,5 +441,10 @@ namespace ISILab.LBS.Assistants
         public override void OnGUI() { }
 
 
+        public object ExecuteTest(bool b)
+        {
+            throw new NotImplementedException(); 
+            
+        }
     }
 }

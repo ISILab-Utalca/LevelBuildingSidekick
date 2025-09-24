@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
@@ -14,8 +15,8 @@ using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Editor
 {
@@ -213,13 +214,13 @@ namespace ISILab.LBS.Editor
         private void UpdateNextSuggestions(string[] nextArray, QuestNode currentQuest)
         {
             UpdateSuggestionList(nextArray, _nextInvalidPanel, _nextSuggested,
-                action => InsertNextAction(action, currentQuest));
+                action => _grammarAssistant.InsertNextAction(action, currentQuest));
         }
 
         private void UpdatePrevSuggestions(string[] prevArray, QuestNode currentQuest)
         {
             UpdateSuggestionList(prevArray, _prevInvalidPanel, _prevSuggested,
-                action => InsertPreviousAction(action, currentQuest));
+                action => _grammarAssistant.InsertPreviousAction(action, currentQuest));
         }
 
         private void UpdateExpandSuggestions(List<string>[] expandArray, QuestNode currentQuest)
@@ -246,7 +247,7 @@ namespace ISILab.LBS.Editor
 
                 // Header
                 var header = new ExpansionHeader();
-                header.ButtonConvert.SetAction(currentQuest.QuestAction, ExpandAction(actions, currentQuest));
+                header.ButtonConvert.SetAction(currentQuest.QuestAction, _grammarAssistant.ExpandAction(actions, currentQuest));
                 foldout.contentContainer.Add(header);
 
                 // Entries
@@ -289,25 +290,7 @@ namespace ISILab.LBS.Editor
 
             return foldout;
         }
-
-        private Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
-        {
-            return () => { _questGraph.ExpandNode(expandAction, referenceNode); };
-        }
-
-        private Action InsertNextAction(string action, QuestNode referenceNode)
-        {
-            return () => { _questGraph.InsertQuestNodeAfter(action, referenceNode); };
-        }
-
-        private Action InsertPreviousAction(string action, QuestNode referenceNode)
-        {
-            return () =>
-            {
-                _questGraph.InsertQuestNodeBefore(action, referenceNode);
-                _questGraph.ValidateAllWithGrammar();
-            };
-        }
+        
         #endregion
         
         #endregion
