@@ -135,10 +135,10 @@ namespace ISILab.LBS.Assistants
             return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
         }
 
-        public bool ExecuteTest()
+        public bool ExecuteTest(bool overrideValues)
         {
-            Positions.Clear();
-            overrideValues = false;
+            Positions = new List<Vector2Int>();
+            this.overrideValues = overrideValues;
             Rect bounds = OwnerLayer.GetModule<TileMapModule>().GetBounds();
             for(int i = (int)bounds.x; i < (int)(bounds.x + bounds.width); i++)
             {
