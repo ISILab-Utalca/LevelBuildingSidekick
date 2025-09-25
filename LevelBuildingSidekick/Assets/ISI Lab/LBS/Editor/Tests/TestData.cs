@@ -259,12 +259,15 @@ namespace ISILab.LBS.Tests
             // Get some bundle
             var bundle = LBSAssetsStorage.Instance.Get<Bundle>()[0];
             var dir = Directions.Bidimencional.All[0];
-
             // Add some data
             //var tile = new LBSTile(new Vector2(0, 0));
-            
+
             //Problems starts here
             bundleMap.CreateGroup(new Vector2Int(0, 0), new BundleData("data", "", new List<LBSCharacteristic>(bundle.Characteristics)), dir);
+            ///So any BundleData object should be generated like below and NOT like above, because the code has to run through some hoops to succesfully work with the
+            ///above code. however, I don't wanna modify it since the point of tests is find where we can stretch it and such.
+            //bundleMap.CreateGroup(new Vector2Int(0, 0), new BundleData(bundle), dir);
+
             // Save the level as JSON
             JSONDataManager.SaveData(path, "Layer_With_BundleTileMap.tst", lvl);
             // Load the level from JSON
