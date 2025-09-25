@@ -29,7 +29,7 @@ namespace ISILab.LBS.Characteristics
         public List<WeightStruct> Weights = new List<WeightStruct>();
 
         [SerializeField]
-        public ConnectedTileType currentType;
+        public ConnectedTileType currentType = ConnectedTileType.EdgeBased;
 
         [JsonIgnore]
         public Action OnAddOwnerChild;

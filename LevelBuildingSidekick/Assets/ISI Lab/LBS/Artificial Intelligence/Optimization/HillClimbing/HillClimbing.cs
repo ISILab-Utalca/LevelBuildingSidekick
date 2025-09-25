@@ -35,10 +35,13 @@ namespace ISILab.AI.Optimization
 
         public override void EvaluateFitness(IList<IOptimizable> optimizables)
         {
+            int c = 0;
             foreach(var o in optimizables)
             {
                 o.Fitness = Evaluator.Evaluate(o);
+                c++;
             }
+            //Debug.Log("Evaluate Fitness Count: " + c);
         }
 
         public override void RunOnce()
@@ -82,6 +85,8 @@ namespace ISILab.AI.Optimization
             _fitTimer = clock.ElapsedMilliseconds / 1000f;
 
             Elog = clock.ElapsedMilliseconds;
+
+            PrintClocks();
 
             Population.CreateNewGeneration(offsprings);
             Population.EndCurrentGeneration();

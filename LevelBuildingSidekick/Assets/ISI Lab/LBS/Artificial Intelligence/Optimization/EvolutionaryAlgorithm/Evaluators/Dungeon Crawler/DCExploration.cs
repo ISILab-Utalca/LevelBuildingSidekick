@@ -151,7 +151,9 @@ namespace ISILab.AI.Categorization
             }
 
             fitness = sum / (float)score.Count;
-            UnityEngine.Assertions.Assert.IsTrue(float.IsNormal(fitness));
+            //UnityEngine.Assertions.Assert.IsTrue(float.IsNormal(fitness));
+            if (!float.IsNormal(fitness))
+                Debug.LogError("Fitness was NaN: " + fitness);
             return fitness;
         }
 
@@ -258,7 +260,7 @@ namespace ISILab.AI.Categorization
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
             CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedLayer = CombinedInteriorLayer;// (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
             InitializeDefault();
         }
 

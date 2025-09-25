@@ -413,7 +413,7 @@ namespace ISILab.LBS.Assistants
 
         private List<IOptimizable> GetNeigPARALLEL(IOptimizable adam)
         {
-            var modules = (adam as OptimizableModules).Modules;
+            List<LBSModule> modules = (adam as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
 
             // Init empty neighbors group
@@ -426,48 +426,48 @@ namespace ISILab.LBS.Assistants
                 var zone = zones.ZonesWithTiles[i];
 
                 // Get Schema walls for zones
-                var vWalls = zones.GetVerticalWalls(zone);
-                var hWalls = zones.GetHorizontalWalls(zone);
-                var walls = vWalls.Concat(hWalls).ToList();
+                List<WallData> vWalls = zones.GetVerticalWalls(zone);
+                List<WallData> hWalls = zones.GetHorizontalWalls(zone);
+                List<WallData> walls = vWalls.Concat(hWalls).ToList();
 
                 // Create a new Optimizable for each wall
                 var temp = new IOptimizable[walls.Count];
                 Parallel.For(0, walls.Count, w =>
                 {
-                    var wall = walls[w];
-
+                    WallData wall = walls[w];
+                
                     temp[w] = GetNeightByAdditive(adam, zone.ID, wall.Tiles, wall.Dir);
-
+                
                 });
 
-                // Create a new Optimizable for each wall with negative DIR
-                var temp2 = new IOptimizable[walls.Count];
-                Parallel.For(0, walls.Count, w =>
-                {
-                    var wall = walls[w];
-
-                    temp2[w] = GetNeightByAdditive(adam, zone.ID, wall.Tiles, -wall.Dir);
-                });
+                //// Create a new Optimizable for each wall with negative DIR
+                //var temp2 = new IOptimizable[walls.Count];
+                //Parallel.For(0, walls.Count, w =>
+                //{
+                //    WallData wall = walls[w];
+                //
+                //    temp2[w] = GetNeightByAdditive(adam, zone.ID, wall.Tiles, -wall.Dir);
+                //});
 
                 // Create optimizable for each wall removing this wall
                 var temp3 = new IOptimizable[walls.Count];
                 Parallel.For(0, walls.Count, w =>
                 {
-                    var wall = walls[w];
-
-                    temp3[w] = GetNeightByExclusion(adam, wall);
+                    WallData wall = walls[w];
+                
+                    temp3[w] = GetNeightByExclusion(adam, wall, zones.GetBounds(zone));
                 });
 
                 // Create optimizable moving zones
                 var temp4 = new IOptimizable[Dirs.Count];
                 Parallel.For(0, Dirs.Count, d =>
                 {
-                    var dir = Dirs[d];
-
+                    Vector2Int dir = Dirs[d];
+                
                     temp4[d] = GetNeightByMove(adam, zone.ID, dir);
                 });
 
-                tempZ[i] = temp.Concat(temp2).Concat(temp3).Concat(temp4).ToList();
+                tempZ[i] = temp/*.Concat(temp2)*/.Concat(temp3).Concat(temp4).ToList();
             });
 
             neighbors = tempZ.SelectMany(x => x).ToList();
@@ -509,7 +509,7 @@ namespace ISILab.LBS.Assistants
                 // Create optimizable for each wall removing this wall
                 foreach (var wall in walls)
                 {
-                    var neigth = GetNeightByExclusion(adam, wall);
+                    var neigth = GetNeightByExclusion(adam, wall, zones.GetBounds(zone));
                     neighbours.Add(neigth);
                 }
 
@@ -539,16 +539,16 @@ namespace ISILab.LBS.Assistants
             // Generate clone
             var modules = (original as OptimizableModules).Modules.Clone();
 
-            // Get zone
-            var zone = modules.GetModule<SectorizedTileMapModule>().GetZone(zoneName);
-
             // Get relative modules
             var zonesMod = modules.GetModule<SectorizedTileMapModule>();
             var tilesMod = modules.GetModule<TileMapModule>();
             var connectMod = modules.GetModule<ConnectedTileMapModule>();
 
 
-            foreach (var pos in walls)
+            // Get zone
+            Zone zone = zonesMod.GetZone(zoneName);
+
+            foreach (Vector2Int pos in walls)
             {
                 // create new tile
                 var nTile = new LBSTile(pos + dir);
@@ -567,31 +567,36 @@ namespace ISILab.LBS.Assistants
         /// <param name="original"></param>
         /// <param name="walls"></param>
         /// <returns></returns>
-        private IOptimizable GetNeightByExclusion(IOptimizable original, WallData walls)
+        private IOptimizable GetNeightByExclusion(IOptimizable original, WallData walls, Rect bounds)
         {
+
+            Vector2Int dir = walls.Dir;
+
+
+            //Zone zone = zonesMod.GetZone(tiles[0]);
+
+            //Rect bounds = zonesMod.GetBounds(zone);
+            if (bounds.width <= 1 && (dir == Vector2.up || dir == Vector2.down))
+            {
+                return original;
+                //return new OptimizableModules(modules);
+            }
+            else if (bounds.height <= 1 && (dir == Vector2.right || dir == Vector2.left))
+            {
+                return original;
+                //return new OptimizableModules(modules);
+            }
+
+            List<Vector2Int> tiles = walls.Tiles;
             // Generate clone
             var modules = (original as OptimizableModules).Modules.Clone();
-
-            var tiles = walls.Tiles;
-            var dir = walls.Dir;
 
             // Get relative modules
             var zonesMod = modules.GetModule<SectorizedTileMapModule>();
             var tilesMod = modules.GetModule<TileMapModule>();
             var connectMod = modules.GetModule<ConnectedTileMapModule>();
 
-            var zone = zonesMod.GetZone(tiles.First());
-
-            if (zonesMod.GetBounds(zone).width <= 1 && (dir == Vector2.up || dir == Vector2.down))
-            {
-                return new OptimizableModules(modules);
-            }
-            else if (zonesMod.GetBounds(zone).height <= 1 && (dir == Vector2.right || dir == Vector2.left))
-            {
-                return new OptimizableModules(modules);
-            }
-
-            foreach (var pos in tiles)
+            foreach (Vector2Int pos in tiles)
             {
                 // Remove tile
                 var tile = tilesMod.GetTile(pos);
@@ -615,30 +620,30 @@ namespace ISILab.LBS.Assistants
             // Generate clone
             var modules = (original as OptimizableModules).Modules.Clone();
 
-            // Get zone
-            var zone = modules.GetModule<SectorizedTileMapModule>().GetZone(zoneName);
 
             // Get relative modules
             var zonesMod = modules.GetModule<SectorizedTileMapModule>();
             var tilesMod = modules.GetModule<TileMapModule>();
             var connectionMod = modules.GetModule<ConnectedTileMapModule>();
 
+            // Get zone
+            Zone zone = zonesMod.GetZone(zoneName);
 
             //make sure tiles don't overlap
             //
-            var tiles = zonesMod.GetTiles(zone);
+            List<LBSTile> tiles = zonesMod.GetTiles(zone);
 
-            var zones = zonesMod.Zones;
+            List<Zone> zones = zonesMod.Zones;
 
-            foreach (var z in zones)
+            foreach (Zone z in zones)
             {
                 if (z == zone)
                     continue;
-                var zTiles = zonesMod.GetTiles(z);
+                List<LBSTile> zTiles = zonesMod.GetTiles(z);
                 for (int i = 0; i < tiles.Count; i++)
                 {
-                    var pos = tiles[i].Position + dir;
-                    var t = zTiles.Find(t => t.Position == pos);
+                    Vector2Int pos = tiles[i].Position + dir;
+                    LBSTile t = zTiles.Find(t => t.Position == pos);
                     if (t != null)
                     {
                         if (zTiles.Count > 1)

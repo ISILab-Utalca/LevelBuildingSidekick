@@ -27,12 +27,12 @@ namespace ISILab.AI.Optimization
             var zones = modules.GetModule<SectorizedTileMapModule>();
             var constrs = modules.GetModule<ConstrainsZonesModule>();
 
-            var bound = zones.GetBounds(zone);
             var limit = constrs.GetLimits(zone);
-
-            if (bound.width == 0 || bound.height == 0)
-                return 0;
             if (limit == null)
+                return 0;
+
+            var bound = zones.GetBounds(zone);
+            if (bound.width == 0 || bound.height == 0)
                 return 0;
 
             var vw = 1f;
@@ -56,27 +56,30 @@ namespace ISILab.AI.Optimization
 
         public float Evaluate(IOptimizable evaluable)
         {
+            //Debug.Log(Tooltip);
+
             var modules = (evaluable as OptimizableModules).Modules;
 
             var zones = _original.GetModule<SectorizedTileMapModule>();
-            var connected = modules.GetModule<ConnectedZonesModule>();
+            //var connected = modules.GetModule<ConnectedZonesModule>();
 
-            var value = 0f;
+            float value = 0f;
 
+            List<Zone> zonesWithTiles = zones.ZonesWithTiles;
 
-            for (int i = 0; i < zones.ZonesWithTiles.Count; i++)
-            {
-                Zone zone = zones.ZonesWithTiles[i];
-
-                value += EvaluateBySize(modules, zone);
-            }
-
-            if (zones.ZonesWithTiles.Count <= 0)
+            if (zonesWithTiles.Count <= 0)
             {
                 return 0;
             }
 
-            return value / (zones.ZonesWithTiles.Count * 1f);
+            for (int i = 0; i < zonesWithTiles.Count; i++)
+            {
+                Zone zone = zonesWithTiles[i];
+
+                value += EvaluateBySize(modules, zone);
+            }
+
+            return value / (zonesWithTiles.Count * 1f);
         }
 
         public object Clone()

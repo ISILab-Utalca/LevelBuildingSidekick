@@ -167,6 +167,7 @@ namespace ISILab.AI.Optimization.Populations
         public virtual void EndCurrentGeneration()
         {
             CurrentGeneration.End(MaxSize);
+            Debug.Log(CurrentGeneration.Number);
         }
 
         public VisualElement CIGUI()

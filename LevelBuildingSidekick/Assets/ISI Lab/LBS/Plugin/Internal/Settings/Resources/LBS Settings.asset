@@ -67,15 +67,31 @@ MonoBehaviour:
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       replacePrevious: 1
-      name: Quest Layer
+      name: New Layer
       rootParentName: Root_Parent
     rules:
-    - rid: 675441572261397726
+    - rid: 717084451016543439
+    - rid: 717084451016543440
   references:
     version: 2
     RefIds:
-    - rid: 675441572261397726
-      type: {class: QuestRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+    - rid: 717084451016543439
+      type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
+            name: DEFAULT
+            rootParentName: Root_Parent
+          rules: []
+    - rid: 717084451016543440
+      type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:

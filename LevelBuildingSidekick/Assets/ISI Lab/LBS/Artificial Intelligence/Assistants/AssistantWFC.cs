@@ -598,6 +598,11 @@ namespace ISILab.LBS.Assistants
             return candidates;
         }
 
+        private List<Candidate> CalcCandidates()
+        {
+            return new List<Candidate>();
+        }
+
         public bool CaptureWeights(out string errMsg)
         {
             errMsg = null;
@@ -675,11 +680,9 @@ namespace ISILab.LBS.Assistants
             //Hacer un nuevo LBSCharacteristic que pueda implementar
             //las reglas del diccionario.
 
-            Dictionary<TileConnectionsPair, List<List<TileConnectionsPair>>> tileRules = new();
+            Dictionary<TileConnectionsPair, List<TileChance>> tileChances = new();
 
-
-            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().
-                Pairs.OrderBy(t => -t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+            List<TileConnectionsPair> pairs = OwnerLayer.GetModule<ConnectedTileMapModule>().Pairs;
 
             if (pairs.Count == 0)
             {
@@ -687,28 +690,50 @@ namespace ISILab.LBS.Assistants
                 return false;
             }
 
+            pairs = pairs.OrderBy(t => -t.Tile.Position.y).ThenBy(t => t.Tile.Position.x).ToList();
+
             foreach (var p in pairs)
             {
-                var adjacent = new List<List<TileConnectionsPair>>
-                {
-                    GetAdjacentFromCurrent(pairs, p)
-                };
+                bool newfound = false;
+                var adjacent = GetAdjacentFromCurrent(pairs, p);
+                List<TileChance> aux = new();
 
-                if (!tileRules.ContainsKey(p))
-                    tileRules.Add(p, adjacent);
-                else
+                foreach (TileConnectionsPair key in tileChances.Keys)
                 {
-                    tileRules[p].Add(GetAdjacentFromCurrent(pairs, p));
+                    // Check if each connection from key and p are equal
+                    if (key.Connections.SequenceEqual(p.Connections))
+                    {
+                        foreach (TileChance tca in adjacent)
+                        {
+                            // Busca si ya existe un TileChance igual en tileChances[key]
+                            var existing = tileChances[key].FirstOrDefault(tc => tc.Equals(tca));
+                            if (existing != null)
+                            {
+                                existing.count += tca.count;
+                            }
+                            else
+                            {
+                                tileChances[key].Add(new TileChance(tca.tile, tca.count, tca.direction));
+                            }
+                        }
+                        newfound = true;
+                        Debug.Log("hola");
+                    }
+                }
+
+                if (!newfound)
+                {
+                    tileChances.Add(p, adjacent);
                 }
             }
 
-            foreach (var rule in tileRules)
+            foreach (var rule in tileChances)
             {
                 Debug.Log(rule.Key);
 
                 foreach (var pair in rule.Value)
                 {
-                    Debug.Log($" - {string.Join(", ", pair)}");
+                    Debug.Log($" - {string.Join(", ", pair.tile + " " + pair.direction + " Count: " + pair.count)}");
                 }
 
             }
@@ -720,14 +745,15 @@ namespace ISILab.LBS.Assistants
             return true;
         }
 
+
         private void ArrangeListByPosition(List<TileConnectionsPair> tiles)
         {
             tiles = tiles.OrderBy(t => t.Tile.Position.x).ThenBy(t => t.Tile.Position.y).ToList();
         }
 
-        private List<TileConnectionsPair> GetAdjacentFromCurrent(List<TileConnectionsPair> tiles, TileConnectionsPair current)
+        private List<TileChance> GetAdjacentFromCurrent(List<TileConnectionsPair> tiles, TileConnectionsPair current)
         {
-            List<TileConnectionsPair> adjacent = new();
+            List<TileChance> adjacent = new();
 
             foreach (var tile in tiles)
             {
@@ -737,31 +763,23 @@ namespace ISILab.LBS.Assistants
                 Vector2Int currentPos = current.Tile.Position;
                 Vector2Int tilePos = tile.Tile.Position;
 
-                if (tilePos == currentPos + Vector2Int.right)
+                for (int i = 0; i < 4; i++)
                 {
-                    //Debug.Log($"Right: {tile.Tile}");
-                    adjacent.Add(tile);
-                    continue;
-                }
+                    if (tilePos == currentPos + Directions.Bidimencional.Edges[i])
+                    {
+                        //0 => "Right",
+                        //1 => "Up",
+                        //2 => "Left",
+                        //3 => "Down",
 
-                if (tilePos == currentPos + Vector2Int.left)
-                {
-                    //Debug.Log($"Left: {tile.Tile}");
-                    adjacent.Add(tile);
-                    continue;
-                }
+                        //Busca en la lista de adjacent si hay uno con el mismo tile y direccion
 
-                if (tilePos == currentPos + Vector2Int.up)
-                {
-                    //Debug.Log($"Up: {tile.Tile}");
-                    adjacent.Add(tile);
-                    continue;
-                }
+                        TileChance t = new(tile, i);
 
-                if (tilePos == currentPos + Vector2Int.down)
-                {
-                    //Debug.Log($"Down: {tile.Tile}");
-                    adjacent.Add(tile);
+                        adjacent.Add(t);
+                        continue;
+                    }
+                    
                 }
             }
 
@@ -1060,6 +1078,89 @@ namespace ISILab.LBS.Assistants
         //}
 
         #endregion
+    }
+
+    public class TileChance
+    {
+        public TileConnectionsPair tile;
+        public int count;
+
+        public int direction;
+        //0 => "Right",
+        //1 => "Up",
+        //2 => "Left",
+        //3 => "Down",
+
+        public TileChance(TileConnectionsPair tile, int count, int direction)
+        {
+            this.tile = tile;
+            this.count = count;
+            this.direction = direction;
+        }
+
+        public TileChance(TileConnectionsPair tile, int direction)
+        {
+            this.tile = tile;
+            this.direction = direction;
+            count = 1;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as TileChance;
+
+            if (other == null) return false;
+
+            if (!other.tile.Connections.SequenceEqual(tile.Connections)) return false;
+            if (other.direction != direction) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    public class TileConnections
+    {
+        public List<string> connections;
+
+        public TileConnections(List<string> strings)
+        {
+            connections = strings;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            if (obj is not TileConnections other)
+            {
+                return false;
+            }
+
+            if (connections.SequenceEqual(other.connections))
+            {
+                return true;
+            }
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return connections.GetEnumerator();
+        }
     }
 
     public class Candidate : ICloneable
