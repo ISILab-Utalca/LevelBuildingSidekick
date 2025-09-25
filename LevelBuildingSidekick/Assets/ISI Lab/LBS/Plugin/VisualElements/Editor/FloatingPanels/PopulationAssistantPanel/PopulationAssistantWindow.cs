@@ -532,10 +532,17 @@ namespace ISILab.LBS.VisualElements.Editor
             //This resets the algorithm all the time, so nothing to worry about regarding whether it's running or not. /// Not sure about that...
             assistant.LoadPresset(mapEliteBundle);
 
-            assistant.OnEndSetup(() => LBSMainWindow.MessageNotifyDelayed("MAP Elites finished.", LogType.Log, 5));
+            var sw = new System.Diagnostics.Stopwatch();
+            assistant.OnEndSetup(() => 
+            {
+                sw.Stop();
+                LBSMainWindow.MessageNotifyDelayed($"MAP Elites finished. ({sw.ElapsedMilliseconds} ms.)", LogType.Log, 5);
+                Debug.Log($"MAP Elites finished. ({sw.ElapsedMilliseconds} ms.)");
+            });
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
+            sw.Start();
             assistant.Execute();
 
             //TODO: Hay que pasarle el Optimizer a los Map Elites

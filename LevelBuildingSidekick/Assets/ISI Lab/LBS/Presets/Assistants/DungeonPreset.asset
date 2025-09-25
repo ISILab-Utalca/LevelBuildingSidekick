@@ -34,50 +34,50 @@ MonoBehaviour:
       type: {class: DCResourceSafety, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         playerCharacteristic:
-          rid: 2114098729798343602
+          rid: 5583321725863725823
     - rid: 1134171638846456691
       type: {class: DCSafeArea, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         playerCharacteristic:
-          rid: 2114098729798343603
+          rid: 5583321725863725824
         enemiesCharacteristic:
-          rid: 2114098729798343604
-    - rid: 1134171641485722137
+          rid: 5583321725863725825
+    - rid: 5583321725761771358
       type: {class: DCExploration, ns: ISILab.AI.Categorization, asm: LBS}
       data:
         playerCharacteristic:
-          rid: 2114098729798343605
+          rid: 5583321725863725826
         colliderCharacteristic:
-          rid: 2114098729798343606
-    - rid: 2114098729798343602
+          rid: 5583321725863725827
+    - rid: 5583321725863725823
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         tagName: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
         tagGUID: 975a57a1811d3f743838422b5c87c58a
-    - rid: 2114098729798343603
+    - rid: 5583321725863725824
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         tagName: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
         tagGUID: 975a57a1811d3f743838422b5c87c58a
-    - rid: 2114098729798343604
+    - rid: 5583321725863725825
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         tagName: Enemies
         value: {fileID: 11400000, guid: 1c34483075e8bb54d8aa70274f2eddfe, type: 2}
         tagGUID: 1c34483075e8bb54d8aa70274f2eddfe
-    - rid: 2114098729798343605
+    - rid: 5583321725863725826
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
         tagName: Player
         value: {fileID: 11400000, guid: 975a57a1811d3f743838422b5c87c58a, type: 2}
         tagGUID: 975a57a1811d3f743838422b5c87c58a
-    - rid: 2114098729798343606
+    - rid: 5583321725863725827
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
         owner: {fileID: 0}
@@ -90,7 +90,7 @@ MonoBehaviour:
         population:
           rid: 8454501502191403728
         evaluator:
-          rid: 1134171641485722137
+          rid: 5583321725761771358
         selection:
           rid: 8454501502191403729
         termination:
