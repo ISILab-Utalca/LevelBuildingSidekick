@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.AI.Wrappers;
 using ISILab.Extensions;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
 using UnityEditor;
@@ -32,12 +34,14 @@ namespace ISILab.AI.Optimization
             var layer = (evaluable as OptimizableModules).Modules;
             var zones = layer.GetModule<SectorizedTileMapModule>();
 
-            if (zones.ZonesWithTiles.Count <= 0)
+            List<Zone> zonesWithTiles = zones.ZonesWithTiles;
+
+            if (zonesWithTiles.Count <= 0)
             {
                 return 0;
             }
 
-            var avg = zones.ZonesWithTiles.Average((z) =>
+            float avg = zonesWithTiles.Average((z) =>
             {
                 var tiles = zones.GetTiles(z);
                 var rect = tiles.GetBounds();

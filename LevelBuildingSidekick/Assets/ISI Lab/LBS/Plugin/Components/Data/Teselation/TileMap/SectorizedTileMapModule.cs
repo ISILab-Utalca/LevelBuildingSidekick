@@ -84,23 +84,30 @@ namespace ISILab.LBS.Modules
 
             var old = new List<LBSTile>();
 
-            var poss = new List<Vector2Int>();
+            //var poss = new List<Vector2Int>();
             foreach (var t in tiles)
             {
                 old.Add(t.Clone() as LBSTile);
                 t.Position += new Vector2Int(dir.x, dir.y);
-                poss.Add(t.Position + dir);
+                //poss.Add(t.Position + dir);
             }
 
             OnChanged?.Invoke(this, old.Cast<object>().ToList(), tiles.Cast<object>().ToList());
 
-            RecalcPivotZone(zone);
+            RecalcPivotZone(zone, tiles);
         }
 
         private void RecalcPivotZone(Zone zone)
         {
             var tiles = GetTiles(zone);
 
+            var pos = tiles.GetBounds();
+
+            zone.Pivot = pos.center;
+        }
+
+        private void RecalcPivotZone(Zone zone, List<LBSTile> tiles)
+        {
             var pos = tiles.GetBounds();
 
             zone.Pivot = pos.center;
@@ -194,6 +201,28 @@ namespace ISILab.LBS.Modules
                 }
             }
             return tiles;
+        }
+
+        public Rect GetZoneBounds(Zone zone, out List<LBSTile> tiles)
+        {
+            tiles = GetTiles(zone);
+            return tiles.GetBounds();
+        }
+
+        public bool IsRectangular(Zone zone, Rect bounds, List<LBSTile> tiles)
+        {
+            List<LBSTile> rectTiles = new List<LBSTile>(tiles);
+            for(int i = (int)bounds.x; i < bounds.width + bounds.x; i++)
+            {
+                for(int j = (int)bounds.y; j < bounds.height + bounds.y; j++)
+                {
+                    if(!rectTiles.Remove(rectTiles.Find(t => t.x == i && t.y == j)))
+                        return false;
+                    //if(rectTiles.RemoveAll(t => t.x == i && t.y == j) < 1)
+                    //    return false;
+                }
+            }
+            return true;
         }
 
         public void RemovePair(LBSTile tile)
@@ -661,12 +690,12 @@ namespace ISILab.LBS.Modules
             return walls;
         }
 
-        public float GetRoomDistance(Zone r1, Zone r2) // O2 - manhattan
+        public float GetRoomDistance(Zone r1, Zone r2, List<LBSTile> tiles1, List<LBSTile> tiles2) // O2 - manhattan
         {
             var lessDist = float.MaxValue;
 
-            var tiles1 = GetTiles(r1);
-            var tiles2 = GetTiles(r2);
+            //var tiles1 = GetTiles(r1);
+            //var tiles2 = GetTiles(r2);
 
             //var tileWalls1 = room1.GetWalls().SelectMany(x => x.Tiles).ToList();
             //var tileWalls2 = room2.GetWalls().SelectMany(x => x.Tiles).ToList();
