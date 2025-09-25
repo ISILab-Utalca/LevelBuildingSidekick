@@ -88,9 +88,7 @@ namespace ISILab.LBS.Generators
           
             observer.Init(quest);
             GenerateTriggers(settings, quest, observer, pivot);
-
-
-
+            
             /* For LBS User:
              * ----------------------------------------------------------------
              * Replace with your own function to incorporate the created quests

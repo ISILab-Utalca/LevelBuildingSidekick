@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components;
+using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
 namespace ISILab.LBS.Assistants
@@ -175,25 +176,78 @@ namespace ISILab.LBS.Assistants
             // pick random group
             var chosenGroup = validGroups[Random.Range(0, validGroups.Count)];
             var chosenCombo = chosenGroup.Key;
+            // the tiles that will be pertinent to the generated action
             var chosenTiles = chosenGroup.Value;
 
-            // gather valid actions
-            var validActions = new HashSet<string>();
+            // gather valid actions to their corresponding tiles
+            Dictionary<TileBundleGroup, HashSet<string>> tilesToActions = new();
             foreach (var tile in chosenTiles)
             {
                 foreach (var action in GetValidActionsForTile(tile, chosenCombo))
                 {
-                    validActions.Add(action);
+                    if (!tilesToActions.ContainsKey(tile))
+                    {
+                        tilesToActions[tile] = new HashSet<string>();
+                    }
+                    
+                    tilesToActions[tile].Add(action);
                 }
             }
 
-            if (validActions.Count == 0) return false;
+            if (!tilesToActions.Any()) return false;
 
-            var chosenAction = validActions.ElementAt(Random.Range(0, validActions.Count));
-            Debug.Log($"Suggested Action: {chosenAction}");
+            var tilesToAction = GetActionByTileGroup(tilesToActions);
+            Debug.Log($"The tiles {tilesToAction.Key} have the suggested Action: {tilesToAction.Value}");
             return true;
         }
 
+        /// <summary>
+        /// Returns an action that is shared by many tiles in a tile-group, depending
+        /// on their LBSTags and distance (as per Max distance relation value)
+        /// </summary>
+        /// <param name="tilesToActions">dictionary of all the tilebundlegroups and their valid actions</param>
+        /// <returns></returns>
+        private KeyValuePair<List<TileBundleGroup>, string> GetActionByTileGroup(
+            Dictionary<TileBundleGroup, HashSet<string>> tilesToActions)
+        {
+            if (!tilesToActions.Any())
+            {
+                return new KeyValuePair<List<TileBundleGroup>, string>(
+                    new List<TileBundleGroup>(),
+                    string.Empty
+                );
+            }
+
+            // Take the first entry as a baseline
+            var first = tilesToActions.First();
+            var commonActions = new HashSet<string>(first.Value);
+
+            foreach (var kvp in tilesToActions)
+            {
+                if (Equals(kvp.Key, first.Key)) continue;
+                // find shared actions
+                commonActions.IntersectWith(kvp.Value);
+
+                if (!commonActions.Any())
+                    break;
+            }
+
+            if (commonActions.Any())
+            {
+                string chosenAction = commonActions.First();
+                var tiles = tilesToActions.Keys.ToList();
+                return new KeyValuePair<List<TileBundleGroup>, string>(tiles, chosenAction);
+            }
+
+            // If no consensus, return a random entry
+            var randomEntry = tilesToActions.ElementAt(UnityEngine.Random.Range(0, tilesToActions.Count));
+            return new KeyValuePair<List<TileBundleGroup>, string>(
+                new List<TileBundleGroup> { randomEntry.Key },
+                randomEntry.Value.FirstOrDefault() ?? string.Empty
+            );
+        }
+
+        
         /// <summary>
         /// Groups tiles by population type combinations defined in PopulationActions.
         /// </summary>
@@ -226,10 +280,18 @@ namespace ISILab.LBS.Assistants
             var validActionNames = new List<string>();
             foreach (var action in actions)
             {
-                bool hasAllTags = action.RequiredTags.All(tag => tile.BundleData.Bundle.GetHasTagCharacteristic(tag));
-                if (action.RequiredTags.Count == 0 || hasAllTags)
-                    validActionNames.Add(action.Name);
+                bool hasRequiredTags = true;
+
+                foreach (var tag in action.RequiredTags)
+                {
+                    if (tile.BundleData.Bundle.GetHasTagCharacteristic(tag)) continue;
+                    hasRequiredTags = false;
+                    break;
+                }
+
+                if (hasRequiredTags) validActionNames.Add(action.Name);
             }
+
 
             return validActionNames;
         }
