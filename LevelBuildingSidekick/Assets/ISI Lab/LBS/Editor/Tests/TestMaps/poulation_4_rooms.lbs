@@ -1416,7 +1416,32 @@
                         },
                         "index": 0
                     },
-                    "edges": []
+                    "edges": [
+                        {
+                            "rid": 1337
+                        },
+                        {
+                            "rid": 1338
+                        },
+                        {
+                            "rid": 1339
+                        },
+                        {
+                            "rid": 1340
+                        },
+                        {
+                            "rid": 1341
+                        },
+                        {
+                            "rid": 1342
+                        },
+                        {
+                            "rid": 1343
+                        },
+                        {
+                            "rid": 1344
+                        }
+                    ]
                 }
             },
             {
@@ -1494,31 +1519,31 @@
                     },
                     "pairs": [
                         {
-                            "rid": 1337
-                        },
-                        {
-                            "rid": 1338
-                        },
-                        {
-                            "rid": 1339
-                        },
-                        {
-                            "rid": 1340
-                        },
-                        {
-                            "rid": 1341
-                        },
-                        {
-                            "rid": 1342
-                        },
-                        {
-                            "rid": 1343
-                        },
-                        {
-                            "rid": 1344
-                        },
-                        {
                             "rid": 1345
+                        },
+                        {
+                            "rid": 1346
+                        },
+                        {
+                            "rid": 1347
+                        },
+                        {
+                            "rid": 1348
+                        },
+                        {
+                            "rid": 1349
+                        },
+                        {
+                            "rid": 1350
+                        },
+                        {
+                            "rid": 1351
+                        },
+                        {
+                            "rid": 1352
+                        },
+                        {
+                            "rid": 1353
                         }
                     ]
                 }
@@ -1608,7 +1633,7 @@
                     "name": "Schema behaviour",
                     "pressetInsideStyle": "Castle_Wooden",
                     "pressetOutsideStyle": "Castle_Brick",
-                    "conectionToSet": ""
+                    "conectionToSet": "Door"
                 }
             },
             {
@@ -1829,30 +1854,6 @@
                     },
                     "tiles": [
                         {
-                            "rid": 1346
-                        },
-                        {
-                            "rid": 1347
-                        },
-                        {
-                            "rid": 1348
-                        },
-                        {
-                            "rid": 1349
-                        },
-                        {
-                            "rid": 1350
-                        },
-                        {
-                            "rid": 1351
-                        },
-                        {
-                            "rid": 1352
-                        },
-                        {
-                            "rid": 1353
-                        },
-                        {
                             "rid": 1354
                         },
                         {
@@ -1872,6 +1873,30 @@
                         },
                         {
                             "rid": 1360
+                        },
+                        {
+                            "rid": 1361
+                        },
+                        {
+                            "rid": 1362
+                        },
+                        {
+                            "rid": 1363
+                        },
+                        {
+                            "rid": 1364
+                        },
+                        {
+                            "rid": 1365
+                        },
+                        {
+                            "rid": 1366
+                        },
+                        {
+                            "rid": 1367
+                        },
+                        {
+                            "rid": 1368
                         }
                     ]
                 }
@@ -1939,30 +1964,6 @@
                     },
                     "groups": [
                         {
-                            "rid": 1361
-                        },
-                        {
-                            "rid": 1362
-                        },
-                        {
-                            "rid": 1363
-                        },
-                        {
-                            "rid": 1364
-                        },
-                        {
-                            "rid": 1365
-                        },
-                        {
-                            "rid": 1366
-                        },
-                        {
-                            "rid": 1367
-                        },
-                        {
-                            "rid": 1368
-                        },
-                        {
                             "rid": 1369
                         },
                         {
@@ -1982,6 +1983,30 @@
                         },
                         {
                             "rid": 1375
+                        },
+                        {
+                            "rid": 1376
+                        },
+                        {
+                            "rid": 1377
+                        },
+                        {
+                            "rid": 1378
+                        },
+                        {
+                            "rid": 1379
+                        },
+                        {
+                            "rid": 1380
+                        },
+                        {
+                            "rid": 1381
+                        },
+                        {
+                            "rid": 1382
+                        },
+                        {
+                            "rid": 1383
                         }
                     ]
                 }
@@ -2113,30 +2138,6 @@
                         },
                         "tiles": [
                             {
-                                "rid": 1346
-                            },
-                            {
-                                "rid": 1347
-                            },
-                            {
-                                "rid": 1348
-                            },
-                            {
-                                "rid": 1349
-                            },
-                            {
-                                "rid": 1350
-                            },
-                            {
-                                "rid": 1351
-                            },
-                            {
-                                "rid": 1352
-                            },
-                            {
-                                "rid": 1353
-                            },
-                            {
                                 "rid": 1354
                             },
                             {
@@ -2156,6 +2157,30 @@
                             },
                             {
                                 "rid": 1360
+                            },
+                            {
+                                "rid": 1361
+                            },
+                            {
+                                "rid": 1362
+                            },
+                            {
+                                "rid": 1363
+                            },
+                            {
+                                "rid": 1364
+                            },
+                            {
+                                "rid": 1365
+                            },
+                            {
+                                "rid": 1366
+                            },
+                            {
+                                "rid": 1367
+                            },
+                            {
+                                "rid": 1368
                             }
                         ]
                     },
@@ -3788,13 +3813,13 @@
                         "rid": 1026
                     },
                     "connections": [
-                        "Wall",
+                        "Door",
                         "Empty",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
-                        true,
+                        false,
                         true,
                         true,
                         true
@@ -3965,13 +3990,13 @@
                     "connections": [
                         "Empty",
                         "Wall",
-                        "Wall",
+                        "Door",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
                         true,
-                        true,
+                        false,
                         true
                     ]
                 }
@@ -4063,13 +4088,13 @@
                         "rid": 1037
                     },
                     "connections": [
-                        "Wall",
+                        "Door",
                         "Wall",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
-                        true,
+                        false,
                         true,
                         true,
                         true
@@ -4140,13 +4165,13 @@
                     "connections": [
                         "Empty",
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
                         true,
-                        true,
+                        false,
                         true
                     ]
                 }
@@ -4291,13 +4316,13 @@
                         "Empty",
                         "Empty",
                         "Empty",
-                        "Wall"
+                        "Door"
                     ],
                     "editedByIA": [
                         true,
                         true,
                         true,
-                        true
+                        false
                     ]
                 }
             },
@@ -4364,13 +4389,13 @@
                     },
                     "connections": [
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
-                        true,
+                        false,
                         true,
                         true
                     ]
@@ -4413,13 +4438,13 @@
                         "rid": 1051
                     },
                     "connections": [
-                        "Wall",
+                        "Door",
                         "Empty",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
-                        true,
+                        false,
                         true,
                         true,
                         true
@@ -4490,13 +4515,13 @@
                     "connections": [
                         "Empty",
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Wall"
                     ],
                     "editedByIA": [
                         true,
                         true,
-                        true,
+                        false,
                         true
                     ]
                 }
@@ -4613,13 +4638,13 @@
                         "rid": 1059
                     },
                     "connections": [
-                        "Wall",
+                        "Door",
                         "Wall",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
-                        true,
+                        false,
                         true,
                         true,
                         true
@@ -4690,13 +4715,13 @@
                     "connections": [
                         "Empty",
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
                         true,
-                        true,
+                        false,
                         true
                     ]
                 }
@@ -5089,13 +5114,13 @@
                     },
                     "connections": [
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Wall",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
-                        true,
+                        false,
                         true,
                         true
                     ]
@@ -5116,13 +5141,13 @@
                         "Wall",
                         "Empty",
                         "Empty",
-                        "Wall"
+                        "Door"
                     ],
                     "editedByIA": [
                         true,
                         true,
                         true,
-                        true
+                        false
                     ]
                 }
             },
@@ -5266,13 +5291,13 @@
                         "Wall",
                         "Empty",
                         "Empty",
-                        "Wall"
+                        "Door"
                     ],
                     "editedByIA": [
                         true,
                         true,
                         true,
-                        true
+                        false
                     ]
                 }
             },
@@ -5314,13 +5339,13 @@
                     },
                     "connections": [
                         "Wall",
-                        "Wall",
+                        "Door",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
-                        true,
+                        false,
                         true,
                         true
                     ]
@@ -5539,13 +5564,13 @@
                     },
                     "connections": [
                         "Empty",
-                        "Wall",
+                        "Door",
                         "Empty",
                         "Empty"
                     ],
                     "editedByIA": [
                         true,
-                        true,
+                        false,
                         true,
                         true
                     ]
@@ -5841,13 +5866,13 @@
                         "Empty",
                         "Empty",
                         "Empty",
-                        "Wall"
+                        "Door"
                     ],
                     "editedByIA": [
                         true,
                         true,
                         true,
-                        true
+                        false
                     ]
                 }
             },
@@ -8045,128 +8070,128 @@
             {
                 "rid": 1337,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
+                    "first": {
                         "rid": 1224
                     },
-                    "constraint": {
-                        "rid": 1376
+                    "second": {
+                        "rid": 1225
                     }
                 }
             },
             {
                 "rid": 1338,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
+                    "first": {
                         "rid": 1225
                     },
-                    "constraint": {
-                        "rid": 1377
+                    "second": {
+                        "rid": 1226
                     }
                 }
             },
             {
                 "rid": 1339,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
+                    "first": {
                         "rid": 1226
                     },
-                    "constraint": {
-                        "rid": 1378
+                    "second": {
+                        "rid": 1229
                     }
                 }
             },
             {
                 "rid": 1340,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
-                        "rid": 1227
+                    "first": {
+                        "rid": 1229
                     },
-                    "constraint": {
-                        "rid": 1379
+                    "second": {
+                        "rid": 1232
                     }
                 }
             },
             {
                 "rid": 1341,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
-                        "rid": 1228
+                    "first": {
+                        "rid": 1226
                     },
-                    "constraint": {
-                        "rid": 1380
+                    "second": {
+                        "rid": 1227
                     }
                 }
             },
             {
                 "rid": 1342,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
-                        "rid": 1229
+                    "first": {
+                        "rid": 1227
                     },
-                    "constraint": {
-                        "rid": 1381
+                    "second": {
+                        "rid": 1228
                     }
                 }
             },
             {
                 "rid": 1343,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
-                        "rid": 1230
+                    "first": {
+                        "rid": 1226
                     },
-                    "constraint": {
-                        "rid": 1382
+                    "second": {
+                        "rid": 1230
                     }
                 }
             },
             {
                 "rid": 1344,
                 "type": {
-                    "class": "ConstraintPair",
-                    "ns": "ISILab.LBS.Modules",
+                    "class": "ZoneEdge",
+                    "ns": "ISILab.LBS.Components",
                     "asm": "LBS"
                 },
                 "data": {
-                    "zone": {
-                        "rid": 1231
+                    "first": {
+                        "rid": 1230
                     },
-                    "constraint": {
-                        "rid": 1383
+                    "second": {
+                        "rid": 1231
                     }
                 }
             },
@@ -8179,7 +8204,7 @@
                 },
                 "data": {
                     "zone": {
-                        "rid": 1232
+                        "rid": 1224
                     },
                     "constraint": {
                         "rid": 1384
@@ -8189,97 +8214,129 @@
             {
                 "rid": 1346,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 11,
-                    "y": 5
+                    "zone": {
+                        "rid": 1225
+                    },
+                    "constraint": {
+                        "rid": 1385
+                    }
                 }
             },
             {
                 "rid": 1347,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 11,
-                    "y": -3
+                    "zone": {
+                        "rid": 1226
+                    },
+                    "constraint": {
+                        "rid": 1386
+                    }
                 }
             },
             {
                 "rid": 1348,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 10,
-                    "y": -4
+                    "zone": {
+                        "rid": 1227
+                    },
+                    "constraint": {
+                        "rid": 1387
+                    }
                 }
             },
             {
                 "rid": 1349,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 4,
-                    "y": -2
+                    "zone": {
+                        "rid": 1228
+                    },
+                    "constraint": {
+                        "rid": 1388
+                    }
                 }
             },
             {
                 "rid": 1350,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 3,
-                    "y": -4
+                    "zone": {
+                        "rid": 1229
+                    },
+                    "constraint": {
+                        "rid": 1389
+                    }
                 }
             },
             {
                 "rid": 1351,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 4,
-                    "y": -5
+                    "zone": {
+                        "rid": 1230
+                    },
+                    "constraint": {
+                        "rid": 1390
+                    }
                 }
             },
             {
                 "rid": 1352,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 10,
-                    "y": -9
+                    "zone": {
+                        "rid": 1231
+                    },
+                    "constraint": {
+                        "rid": 1391
+                    }
                 }
             },
             {
                 "rid": 1353,
                 "type": {
-                    "class": "LBSTile",
-                    "ns": "LBS.Components.TileMap",
+                    "class": "ConstraintPair",
+                    "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "x": 9,
-                    "y": -12
+                    "zone": {
+                        "rid": 1232
+                    },
+                    "constraint": {
+                        "rid": 1392
+                    }
                 }
             },
             {
@@ -8291,11 +8348,107 @@
                 },
                 "data": {
                     "x": 11,
-                    "y": -11
+                    "y": 5
                 }
             },
             {
                 "rid": 1355,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 11,
+                    "y": -3
+                }
+            },
+            {
+                "rid": 1356,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 10,
+                    "y": -4
+                }
+            },
+            {
+                "rid": 1357,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 4,
+                    "y": -2
+                }
+            },
+            {
+                "rid": 1358,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 3,
+                    "y": -4
+                }
+            },
+            {
+                "rid": 1359,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 4,
+                    "y": -5
+                }
+            },
+            {
+                "rid": 1360,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 10,
+                    "y": -9
+                }
+            },
+            {
+                "rid": 1361,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 9,
+                    "y": -12
+                }
+            },
+            {
+                "rid": 1362,
+                "type": {
+                    "class": "LBSTile",
+                    "ns": "LBS.Components.TileMap",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "x": 11,
+                    "y": -11
+                }
+            },
+            {
+                "rid": 1363,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8307,7 +8460,7 @@
                 }
             },
             {
-                "rid": 1356,
+                "rid": 1364,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8319,7 +8472,7 @@
                 }
             },
             {
-                "rid": 1357,
+                "rid": 1365,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8331,7 +8484,7 @@
                 }
             },
             {
-                "rid": 1358,
+                "rid": 1366,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8343,7 +8496,7 @@
                 }
             },
             {
-                "rid": 1359,
+                "rid": 1367,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8355,7 +8508,7 @@
                 }
             },
             {
-                "rid": 1360,
+                "rid": 1368,
                 "type": {
                     "class": "LBSTile",
                     "ns": "LBS.Components.TileMap",
@@ -8367,7 +8520,7 @@
                 }
             },
             {
-                "rid": 1361,
+                "rid": 1369,
                 "type": {
                     "class": "TileBundleGroup",
                     "ns": "ISILab.LBS.Modules",
@@ -8383,290 +8536,13 @@
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1385
+                                "rid": 1393
                             }
                         ],
                         "guid": "",
                         "bundleName": "Chest",
                         "bundle": {
                             "instanceID": 44524
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1362,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 11,
-                            "y": -3
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1386
-                            },
-                            {
-                                "rid": 1387
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Enemy",
-                        "bundle": {
-                            "instanceID": 44802
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1363,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 10,
-                            "y": -4
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1386
-                            },
-                            {
-                                "rid": 1387
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Enemy",
-                        "bundle": {
-                            "instanceID": 44802
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1364,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 4,
-                            "y": -2
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1386
-                            },
-                            {
-                                "rid": 1387
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Enemy",
-                        "bundle": {
-                            "instanceID": 44802
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1365,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 3,
-                            "y": -4
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1388
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "DNGCrawlerPlayer",
-                        "bundle": {
-                            "instanceID": 45416
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1366,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 4,
-                            "y": -5
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1389
-                            },
-                            {
-                                "rid": 1390
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Proto_Coin_01_Bundle",
-                        "bundle": {
-                            "instanceID": 44528
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1367,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 10,
-                            "y": -9
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1389
-                            },
-                            {
-                                "rid": 1390
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Proto_Coin_01_Bundle",
-                        "bundle": {
-                            "instanceID": 44528
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1368,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 9,
-                            "y": -12
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1389
-                            },
-                            {
-                                "rid": 1390
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Proto_Coin_01_Bundle",
-                        "bundle": {
-                            "instanceID": 44528
-                        }
-                    },
-                    "rotation": {
-                        "x": 1.0,
-                        "y": 0.0
-                    }
-                }
-            },
-            {
-                "rid": 1369,
-                "type": {
-                    "class": "TileBundleGroup",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "tileGroup": [
-                        {
-                            "x": 11,
-                            "y": -11
-                        }
-                    ],
-                    "bData": {
-                        "characteristics": [
-                            {
-                                "rid": 1389
-                            },
-                            {
-                                "rid": 1390
-                            }
-                        ],
-                        "guid": "",
-                        "bundleName": "Proto_Coin_01_Bundle",
-                        "bundle": {
-                            "instanceID": 44528
                         }
                     },
                     "rotation": {
@@ -8685,20 +8561,23 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 17,
-                            "y": -2
+                            "x": 11,
+                            "y": -3
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1391
+                                "rid": 1394
+                            },
+                            {
+                                "rid": 1395
                             }
                         ],
                         "guid": "",
-                        "bundleName": "Spikes1mBundle",
+                        "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44848
+                            "instanceID": 44802
                         }
                     },
                     "rotation": {
@@ -8717,20 +8596,23 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 9,
-                            "y": 3
+                            "x": 10,
+                            "y": -4
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1391
+                                "rid": 1394
+                            },
+                            {
+                                "rid": 1395
                             }
                         ],
                         "guid": "",
-                        "bundleName": "Spikes1mBundle",
+                        "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44848
+                            "instanceID": 44802
                         }
                     },
                     "rotation": {
@@ -8749,17 +8631,17 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 11,
-                            "y": 3
+                            "x": 4,
+                            "y": -2
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1386
+                                "rid": 1394
                             },
                             {
-                                "rid": 1387
+                                "rid": 1395
                             }
                         ],
                         "guid": "",
@@ -8784,23 +8666,20 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 9,
-                            "y": -11
+                            "x": 3,
+                            "y": -4
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1386
-                            },
-                            {
-                                "rid": 1387
+                                "rid": 1396
                             }
                         ],
                         "guid": "",
-                        "bundleName": "Enemy",
+                        "bundleName": "DNGCrawlerPlayer",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 45416
                         }
                     },
                     "rotation": {
@@ -8819,17 +8698,17 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 2,
-                            "y": -3
+                            "x": 4,
+                            "y": -5
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1389
+                                "rid": 1397
                             },
                             {
-                                "rid": 1390
+                                "rid": 1398
                             }
                         ],
                         "guid": "",
@@ -8854,17 +8733,186 @@
                 "data": {
                     "tileGroup": [
                         {
-                            "x": 18,
-                            "y": -4
+                            "x": 10,
+                            "y": -9
                         }
                     ],
                     "bData": {
                         "characteristics": [
                             {
-                                "rid": 1386
+                                "rid": 1397
                             },
                             {
-                                "rid": 1387
+                                "rid": 1398
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Proto_Coin_01_Bundle",
+                        "bundle": {
+                            "instanceID": 44528
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1376,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 9,
+                            "y": -12
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1397
+                            },
+                            {
+                                "rid": 1398
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Proto_Coin_01_Bundle",
+                        "bundle": {
+                            "instanceID": 44528
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1377,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 11,
+                            "y": -11
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1397
+                            },
+                            {
+                                "rid": 1398
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Proto_Coin_01_Bundle",
+                        "bundle": {
+                            "instanceID": 44528
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1378,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 17,
+                            "y": -2
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1399
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Spikes1mBundle",
+                        "bundle": {
+                            "instanceID": 44848
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1379,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 9,
+                            "y": 3
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1399
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Spikes1mBundle",
+                        "bundle": {
+                            "instanceID": 44848
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
+                }
+            },
+            {
+                "rid": 1380,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 11,
+                            "y": 3
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1394
+                            },
+                            {
+                                "rid": 1395
                             }
                         ],
                         "guid": "",
@@ -8880,115 +8928,108 @@
                 }
             },
             {
-                "rid": 1376,
-                "type": {
-                    "class": "Constraint",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "minWidth": 2.0,
-                    "minHeight": 2.0,
-                    "maxWidth": 6.0,
-                    "maxHeight": 6.0
-                }
-            },
-            {
-                "rid": 1377,
-                "type": {
-                    "class": "Constraint",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "minWidth": 1.0,
-                    "minHeight": 1.0,
-                    "maxWidth": 5.0,
-                    "maxHeight": 4.0
-                }
-            },
-            {
-                "rid": 1378,
-                "type": {
-                    "class": "Constraint",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "minWidth": 2.0,
-                    "minHeight": 2.0,
-                    "maxWidth": 6.0,
-                    "maxHeight": 6.0
-                }
-            },
-            {
-                "rid": 1379,
-                "type": {
-                    "class": "Constraint",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "minWidth": 1.0,
-                    "minHeight": 1.0,
-                    "maxWidth": 5.0,
-                    "maxHeight": 4.0
-                }
-            },
-            {
-                "rid": 1380,
-                "type": {
-                    "class": "Constraint",
-                    "ns": "ISILab.LBS.Modules",
-                    "asm": "LBS"
-                },
-                "data": {
-                    "minWidth": 2.0,
-                    "minHeight": 2.0,
-                    "maxWidth": 6.0,
-                    "maxHeight": 6.0
-                }
-            },
-            {
                 "rid": 1381,
                 "type": {
-                    "class": "Constraint",
+                    "class": "TileBundleGroup",
                     "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "minWidth": 1.0,
-                    "minHeight": 1.0,
-                    "maxWidth": 4.0,
-                    "maxHeight": 5.0
+                    "tileGroup": [
+                        {
+                            "x": 9,
+                            "y": -11
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1394
+                            },
+                            {
+                                "rid": 1395
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Enemy",
+                        "bundle": {
+                            "instanceID": 44802
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
                 }
             },
             {
                 "rid": 1382,
                 "type": {
-                    "class": "Constraint",
+                    "class": "TileBundleGroup",
                     "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "minWidth": 1.0,
-                    "minHeight": 1.0,
-                    "maxWidth": 4.0,
-                    "maxHeight": 5.0
+                    "tileGroup": [
+                        {
+                            "x": 2,
+                            "y": -3
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1397
+                            },
+                            {
+                                "rid": 1398
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Proto_Coin_01_Bundle",
+                        "bundle": {
+                            "instanceID": 44528
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
                 }
             },
             {
                 "rid": 1383,
                 "type": {
-                    "class": "Constraint",
+                    "class": "TileBundleGroup",
                     "ns": "ISILab.LBS.Modules",
                     "asm": "LBS"
                 },
                 "data": {
-                    "minWidth": 2.0,
-                    "minHeight": 2.0,
-                    "maxWidth": 6.0,
-                    "maxHeight": 6.0
+                    "tileGroup": [
+                        {
+                            "x": 18,
+                            "y": -4
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1394
+                            },
+                            {
+                                "rid": 1395
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "Enemy",
+                        "bundle": {
+                            "instanceID": 44802
+                        }
+                    },
+                    "rotation": {
+                        "x": 1.0,
+                        "y": 0.0
+                    }
                 }
             },
             {
@@ -9008,6 +9049,118 @@
             {
                 "rid": 1385,
                 "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 1.0,
+                    "minHeight": 1.0,
+                    "maxWidth": 5.0,
+                    "maxHeight": 4.0
+                }
+            },
+            {
+                "rid": 1386,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 2.0,
+                    "minHeight": 2.0,
+                    "maxWidth": 6.0,
+                    "maxHeight": 6.0
+                }
+            },
+            {
+                "rid": 1387,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 1.0,
+                    "minHeight": 1.0,
+                    "maxWidth": 5.0,
+                    "maxHeight": 4.0
+                }
+            },
+            {
+                "rid": 1388,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 2.0,
+                    "minHeight": 2.0,
+                    "maxWidth": 6.0,
+                    "maxHeight": 6.0
+                }
+            },
+            {
+                "rid": 1389,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 1.0,
+                    "minHeight": 1.0,
+                    "maxWidth": 4.0,
+                    "maxHeight": 5.0
+                }
+            },
+            {
+                "rid": 1390,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 1.0,
+                    "minHeight": 1.0,
+                    "maxWidth": 4.0,
+                    "maxHeight": 5.0
+                }
+            },
+            {
+                "rid": 1391,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 2.0,
+                    "minHeight": 2.0,
+                    "maxWidth": 6.0,
+                    "maxHeight": 6.0
+                }
+            },
+            {
+                "rid": 1392,
+                "type": {
+                    "class": "Constraint",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "minWidth": 2.0,
+                    "minHeight": 2.0,
+                    "maxWidth": 6.0,
+                    "maxHeight": 6.0
+                }
+            },
+            {
+                "rid": 1393,
+                "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
                     "asm": "LBS"
@@ -9024,7 +9177,7 @@
                 }
             },
             {
-                "rid": 1386,
+                "rid": 1394,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
@@ -9042,7 +9195,7 @@
                 }
             },
             {
-                "rid": 1387,
+                "rid": 1395,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
@@ -9060,7 +9213,7 @@
                 }
             },
             {
-                "rid": 1388,
+                "rid": 1396,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
@@ -9078,7 +9231,7 @@
                 }
             },
             {
-                "rid": 1389,
+                "rid": 1397,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
@@ -9096,7 +9249,7 @@
                 }
             },
             {
-                "rid": 1390,
+                "rid": 1398,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
@@ -9114,7 +9267,7 @@
                 }
             },
             {
-                "rid": 1391,
+                "rid": 1399,
                 "type": {
                     "class": "LBSTagsCharacteristic",
                     "ns": "ISILab.LBS.Characteristics",
