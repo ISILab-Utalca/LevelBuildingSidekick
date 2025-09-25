@@ -1,8 +1,14 @@
 ﻿using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using ISILab.AI.Wrappers;
+using ISILab.Extensions;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Components;
+using LBS.Components.TileMap;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,11 +36,12 @@ namespace ISILab.AI.Optimization
 
         public float Evaluate(IOptimizable evaluable)
         {
-            var layer = (evaluable as OptimizableModules).Modules;
-            var connectedZones = layer.GetModule<ConnectedZonesModule>();
-            var zones = layer.GetModule<SectorizedTileMapModule>();
+            //Debug.Log(Tooltip);
 
-            var edgeCount = connectedZones.Edges.Count;
+            List<LBSModule> modules = (evaluable as OptimizableModules).Modules;
+            var connectedZones = modules.GetModule<ConnectedZonesModule>();
+
+            int edgeCount = connectedZones.Edges.Count;
             if (edgeCount <= 0)
             {
                 // LOGS MOVED TO HILL CLIMBING ASSISTANT EDITOR
@@ -42,6 +49,7 @@ namespace ISILab.AI.Optimization
                 return 1;
             }
 
+            var zones = modules.GetModule<SectorizedTileMapModule>();
             if (zones.ZonesWithTiles.Count <= 0)
             {
                 //Debug.Log("[ISI Lab]: the schema you are trying to evaluate does not have areas.");
@@ -51,15 +59,34 @@ namespace ISILab.AI.Optimization
             float distValue = 0f;
             for (int i = 0; i < edgeCount; i++)
             {
-                var edge = connectedZones.Edges[i];
+                ZoneEdge edge = connectedZones.Edges[i];
 
-                var r1 = zones.GetTiles(edge.First);
-                var r2 = zones.GetTiles(edge.Second);
+                List<LBSTile> r1 = zones.GetTiles(edge.First);
+                if (r1.Count < 1) continue;
+                List<LBSTile> r2 = zones.GetTiles(edge.Second);
+                if (r2.Count < 1) continue;
 
-                if (r1.Count < 1 || r2.Count < 1)
-                    continue;
+                //Rect bounds1 = r1.GetBounds();
+                //Rect bounds2 = r2.GetBounds();
 
-                float roomDist = zones.GetRoomDistance(edge.First, edge.Second); // TODO: Make it receive a distance calculation function.
+                float roomDist = float.MaxValue;
+                //if(zones.IsRectangular(edge.First, bounds1, r1) && zones.IsRectangular(edge.Second, bounds2, r2))
+                //{
+                //    float lessDist = float.MaxValue;
+                //    float dx = Mathf.Max(0, Mathf.Max(bounds1.xMin - bounds2.xMax, bounds2.xMin - bounds1.xMax));
+                //    float dy = Mathf.Max(0, Mathf.Max(bounds1.yMin - bounds2.yMax, bounds2.yMin - bounds1.yMax));
+                //    if (dx == 0 && dy == 0) lessDist = 0;
+                //    else if (dx == 0) lessDist = dy;
+                //    else if (dy == 0) lessDist = dx;
+                //    else lessDist = dx * dx + dy * dy;
+                //    roomDist = lessDist+1;
+                //    //Debug.Log("Bounds distance");
+                //}
+                //else
+                //{
+                //}
+                    roomDist = zones.GetRoomDistance(edge.First, edge.Second, r1, r2); // TODO: Make it receive a distance calculation function.
+                    //Debug.Log("Tile per tile distance");
 
                 distValue += 1 / roomDist;
             }
@@ -69,7 +96,7 @@ namespace ISILab.AI.Optimization
                 return 0;
             }
 
-            var tiles = layer.GetModule<TileMapModule>().Tiles;
+            //List<LBSTile> tiles = modules.GetModule<TileMapModule>().Tiles;
 
             return distValue / edgeCount;
         }
