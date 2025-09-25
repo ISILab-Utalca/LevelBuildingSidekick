@@ -852,7 +852,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
     - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
     - {fileID: 11400000, guid: 084592a572c010d4cad07d57c841a705, type: 2}
-    - {fileID: 11400000, guid: fd5823c961f0ebc449cc6a339dade6f5, type: 2}
   - type: UnityEngine.GUISkin
     items:
     - {fileID: 11400000, guid: fbf388608a14d7343a3125d82e6eeaa3, type: 2}
