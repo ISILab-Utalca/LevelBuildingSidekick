@@ -1,0 +1,10 @@
+{
+    "layers": [],
+    "quests": [],
+    "savedLayerMaps": [],
+    "contextLayers": [],
+    "references": {
+        "version": 2,
+        "RefIds": []
+    }
+}

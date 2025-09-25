@@ -2,6 +2,7 @@ using ISILab.LBS.Characteristics;
 using ISILab.LBS.Editor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -39,6 +40,25 @@ namespace ISILab.LBS.VisualElements
 
             content = new VisualElement();
             Add(content);
+
+            var tiletype = new DropdownField
+            {
+                label = "Tile Type",
+                choices = System.Enum.GetNames(typeof(ConnectedTileType)).ToList(),
+                value = target.currentType.ToString()
+            };
+
+            tiletype.RegisterValueChangedCallback(evt =>
+            {
+                if (System.Enum.TryParse<ConnectedTileType>(evt.newValue, out var result))
+                {
+                    target.currentType = result;
+                }
+            });
+
+            content.Add(tiletype);
+
+            content.Add(new VisualElement() { style = { height = 20 } });
 
             var weights = target.Weights;
 

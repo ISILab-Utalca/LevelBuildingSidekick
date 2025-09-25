@@ -101,8 +101,6 @@ namespace ISILab.LBS.VisualElements.Editor
         private void SetupAddLayerButton()
         {
             var addLayerButton = this.Q<ToolbarMenu>("AddLayerButtonMenu");
-            foreach (var ve in Enumerable.OfType<VisualElement>(addLayerButton.Children()).Take(addLayerButton.childCount - 1))
-                ve.style.display = DisplayStyle.None;
 
             for (int i = 0; i < _templates.Count; i++)
             {
