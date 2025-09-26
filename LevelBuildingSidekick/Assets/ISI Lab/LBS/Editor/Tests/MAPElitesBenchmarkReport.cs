@@ -20,8 +20,13 @@ namespace ISILab.LBS.Tests
         IRangedEvaluator og_xEvaluator;
         IRangedEvaluator og_yEvaluator;
 
+        const string level4Rooms = "d26957894fd4ddb43b3eba81012a128c";
+        const string level20Rooms = "ecb7a13f44837d845b00a5a19660369d";
+
+        const string dungeonPresetPath = "Assets/ISI Lab/LBS/Presets/Assistants/DungeonPreset.asset";
+
         [Test, Performance]
-        public void MeasureMAPElites_4_Rooms()
+        public void MeasureMAPElites_4_Rooms_Exploration()
         {
             Measure.Method(() =>
             {
@@ -30,9 +35,54 @@ namespace ISILab.LBS.Tests
                 .WarmupCount(0)
                 .MeasurementCount(10)
                 .IterationsPerMeasurement(1)
-                .SetUp(() => SetUpMAPElitesTest("d26957894fd4ddb43b3eba81012a128c", "Assets/ISI Lab/LBS/Presets/Assistants/DungeonPreset.asset", new DCExploration(), new DCResourceSafety(), new DCSafeArea()))
+                .SetUp(() => SetUpMAPElitesTest(level4Rooms, dungeonPresetPath, new DCExploration(), new DCResourceSafety(), new DCSafeArea()))
                 .CleanUp(CleanUpMAPElitesTest)
-                .Run(); 
+                .Run();
+        }
+
+        [Test, Performance]
+        public void MeasureMAPElites_4_Rooms_ResourceSafety()
+        {
+            Measure.Method(() =>
+            {
+                assistant.Execute(true);
+            })
+                .WarmupCount(0)
+                .MeasurementCount(10)
+                .IterationsPerMeasurement(1)
+                .SetUp(() => SetUpMAPElitesTest(level4Rooms, dungeonPresetPath, new DCResourceSafety(), new DCSafeArea(), new DCExploration()))
+                .CleanUp(CleanUpMAPElitesTest)
+                .Run();
+        }
+
+        [Test, Performance]
+        public void MeasureMAPElites_4_Rooms_SafeArea()
+        {
+            Measure.Method(() =>
+            {
+                assistant.Execute(true);
+            })
+                .WarmupCount(0)
+                .MeasurementCount(10)
+                .IterationsPerMeasurement(1)
+                .SetUp(() => SetUpMAPElitesTest(level4Rooms, dungeonPresetPath, new DCSafeArea(), new DCExploration(), new DCResourceSafety()))
+                .CleanUp(CleanUpMAPElitesTest)
+                .Run();
+        }
+
+        [Test, Performance]
+        public void MeasureMAPElites_20_Rooms_Exploration()
+        {
+            Measure.Method(() =>
+            {
+                assistant.Execute(true);
+            })
+                .WarmupCount(0)
+                .MeasurementCount(10)
+                .IterationsPerMeasurement(1)
+                .SetUp(() => SetUpMAPElitesTest(level20Rooms, dungeonPresetPath, new DCExploration(), new DCResourceSafety(), new DCSafeArea()))
+                .CleanUp(CleanUpMAPElitesTest)
+                .Run();
         }
 
         private void SetUpMAPElitesTest(string _guid, string presetPath, IRangedEvaluator optimizer, IRangedEvaluator xEvaluator, IRangedEvaluator yEvaluator)
