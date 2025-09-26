@@ -16,7 +16,6 @@ MonoBehaviour:
   - type: UnityEngine.Rendering.VolumeProfile
     items:
     - {fileID: 11400000, guid: e40941b8b2f83e641836f402b194775c, type: 2}
-    - {fileID: 11400000, guid: dc74bbb7a50b73b40af3e5c16fead5f8, type: 2}
     - {fileID: 11400000, guid: 103b0616690034ca1a309e958ed431fc, type: 2}
     - {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
   - type: LBS.Bundles.Bundle
@@ -186,6 +185,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: e6dd76e0eebe22a49825c8f693d65d09, type: 2}
     - {fileID: 11400000, guid: 5c8d8f28646aabb4d811be87265127a7, type: 2}
     - {fileID: 11400000, guid: f124e644c8305d740b7d7503cc6edb03, type: 2}
+    - {fileID: 11400000, guid: 7b98b66b20de4334ba68ede6ba8961d3, type: 2}
   - type: ISILab.LBS.Components.LBSTag
     items:
     - {fileID: 11400000, guid: ad4b6b7f3c074404d85bd37108f1bd69, type: 2}
@@ -852,7 +852,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: aa906d6d48e992141b714743bb35ff3a, type: 2}
     - {fileID: 11400000, guid: 42c5ebe03a0c91e4a8f437fd32980e99, type: 2}
     - {fileID: 11400000, guid: 084592a572c010d4cad07d57c841a705, type: 2}
-    - {fileID: 11400000, guid: fd5823c961f0ebc449cc6a339dade6f5, type: 2}
   - type: UnityEngine.GUISkin
     items:
     - {fileID: 11400000, guid: fbf388608a14d7343a3125d82e6eeaa3, type: 2}

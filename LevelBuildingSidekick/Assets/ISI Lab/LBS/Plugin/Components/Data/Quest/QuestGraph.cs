@@ -603,6 +603,10 @@ namespace ISILab.LBS.Modules
         #endregion
         
         #endregion
-        
+
+        public void AddSuggestionNode(QuestNode generatedQuestNode)
+        {
+            AddNodeToGraph(generatedQuestNode);
+        }
     }
 }

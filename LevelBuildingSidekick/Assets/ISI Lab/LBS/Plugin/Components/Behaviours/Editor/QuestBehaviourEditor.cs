@@ -99,7 +99,9 @@ namespace ISILab.LBS.VisualElements
             var scale = MainView.Instance.viewTransform.scale;
             var viewport = MainView.Instance.viewport.layout;
             
-            var xOffset = (viewport.width * 0.5f) / scale.x;
+            // the x offset depends on the size of the inspector window
+            // TODO get the difference between the main view and the inspector window to set the center correctly
+            var xOffset = (viewport.width * 0.35f) / scale.x; 
             var yOffset = (viewport.height * 0.5f) / scale.y;
             
             var x = nodePos.x - xOffset;

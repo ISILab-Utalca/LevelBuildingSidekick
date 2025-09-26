@@ -550,8 +550,12 @@ namespace ISILab.LBS.Editor.Windows{
                 _selectedLayer.OnChangeUpdate();
             }
             _selectedLayer = layer;
-            _selectedLayer.OnChange += NotifyChange;
-
+            
+            if (_selectedLayer is not null)
+            {
+                _selectedLayer.OnChange += NotifyChange;
+            }
+            
             toolkit.Clear();
             inspectorManager.SetTarget(layer);
             toolkit.SetActive(typeof(SelectManipulator));
