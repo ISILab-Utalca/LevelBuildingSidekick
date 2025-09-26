@@ -362,7 +362,7 @@ namespace ISILab.LBS.Modules
                 }
                 log += "]\n";
             }
-            Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
+            //Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
         }
 
         public void BuildFromExterior(ConnectedTileMapModule connectedTM, ConnectedTileMapModule zoneConnected)

@@ -9,7 +9,11 @@
     ],
     "quests": [],
     "savedLayerMaps": [],
-    "contextLayers": [],
+    "contextLayers": [
+        {
+            "rid": 1000
+        }
+    ],
     "references": {
         "version": 2,
         "RefIds": [
@@ -3398,7 +3402,7 @@
                         "instanceID": 44528
                     },
                     "bundleCollection": {
-                        "instanceID": 44894
+                        "instanceID": 28346
                     },
                     "allFilter": "All",
                     "selectedTypeFilter": "All"
@@ -16579,7 +16583,7 @@
                         "guid": "",
                         "bundleName": "Chest",
                         "bundle": {
-                            "instanceID": 44524
+                            "instanceID": 27488
                         }
                     },
                     "rotation": {
@@ -16614,7 +16618,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -16649,7 +16653,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -16684,7 +16688,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -16716,7 +16720,7 @@
                         "guid": "",
                         "bundleName": "DNGCrawlerPlayer",
                         "bundle": {
-                            "instanceID": 45416
+                            "instanceID": 27492
                         }
                     },
                     "rotation": {
@@ -16751,7 +16755,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -16786,7 +16790,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -16821,7 +16825,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -16856,7 +16860,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -16888,7 +16892,7 @@
                         "guid": "",
                         "bundleName": "Spikes1mBundle",
                         "bundle": {
-                            "instanceID": 44848
+                            "instanceID": 27516
                         }
                     },
                     "rotation": {
@@ -16920,7 +16924,7 @@
                         "guid": "",
                         "bundleName": "Spikes1mBundle",
                         "bundle": {
-                            "instanceID": 44848
+                            "instanceID": 27516
                         }
                     },
                     "rotation": {
@@ -16955,7 +16959,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -16990,7 +16994,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -17025,7 +17029,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17060,7 +17064,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 44802
+                            "instanceID": 27496
                         }
                     },
                     "rotation": {
@@ -17095,7 +17099,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17130,7 +17134,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17165,7 +17169,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17200,7 +17204,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17235,7 +17239,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17270,7 +17274,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17305,7 +17309,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17340,7 +17344,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17375,7 +17379,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 44528
+                            "instanceID": 27510
                         }
                     },
                     "rotation": {
@@ -17727,7 +17731,7 @@
                     },
                     "tagName": "Enemies",
                     "value": {
-                        "instanceID": 44244
+                        "instanceID": 0
                     },
                     "tagGUID": "1c34483075e8bb54d8aa70274f2eddfe"
                 }
@@ -17745,7 +17749,7 @@
                     },
                     "tagName": "Player",
                     "value": {
-                        "instanceID": 44658
+                        "instanceID": 0
                     },
                     "tagGUID": "975a57a1811d3f743838422b5c87c58a"
                 }
@@ -17763,7 +17767,7 @@
                     },
                     "tagName": "Chest",
                     "value": {
-                        "instanceID": 45520
+                        "instanceID": 0
                     },
                     "tagGUID": "08dd0ea3801e02447b5d7dd01339fa26"
                 }
@@ -17781,7 +17785,7 @@
                     },
                     "tagName": "NoBake",
                     "value": {
-                        "instanceID": 44262
+                        "instanceID": 0
                     },
                     "tagGUID": "7ee45b380fbc713488634d817baaaeb2"
                 }
@@ -17799,7 +17803,7 @@
                     },
                     "tagName": "Enemies",
                     "value": {
-                        "instanceID": 44244
+                        "instanceID": 0
                     },
                     "tagGUID": "1c34483075e8bb54d8aa70274f2eddfe"
                 }
@@ -17817,7 +17821,7 @@
                     },
                     "tagName": "Chest",
                     "value": {
-                        "instanceID": 45520
+                        "instanceID": 0
                     },
                     "tagGUID": "08dd0ea3801e02447b5d7dd01339fa26"
                 }
@@ -17835,7 +17839,7 @@
                     },
                     "tagName": "NoBake",
                     "value": {
-                        "instanceID": 44262
+                        "instanceID": 0
                     },
                     "tagGUID": "7ee45b380fbc713488634d817baaaeb2"
                 }
