@@ -109,7 +109,7 @@ namespace ISILab.LBS.Modules
         }
         #endregion
         
-    #region METHODS
+        #region METHODS
         
         #region Grammar
         public void LoadGrammar()
@@ -234,6 +234,12 @@ namespace ISILab.LBS.Modules
             var node = new QuestNode(id, pos, action, this);
             AddNodeToGraph(node);
             return node;
+        }
+        
+        public void AddSuggestionNode(QuestNode generatedQuestNode)
+        {
+            if(generatedQuestNode is null) return;
+           AddNodeToGraph(generatedQuestNode);
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
@@ -603,10 +609,6 @@ namespace ISILab.LBS.Modules
         #endregion
         
         #endregion
-
-        public void AddSuggestionNode(QuestNode generatedQuestNode)
-        {
-            AddNodeToGraph(generatedQuestNode);
-        }
+        
     }
 }
