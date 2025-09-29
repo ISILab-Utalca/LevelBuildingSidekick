@@ -298,7 +298,7 @@
                         "rid": 1023
                     },
                     "suggestions": [],
-                    "displaySuggestions": false,
+                    "displaySuggestions": true,
                     "grammarGuid": "63ab688b53411154db5edd0ec7171c42"
                 }
             },
@@ -2870,7 +2870,7 @@
                         "serializedVersion": "2",
                         "x": -416.0,
                         "y": 192.457275390625,
-                        "width": 174.66665649414063,
+                        "width": 173.99998474121095,
                         "height": 32.0
                     },
                     "nodeData": {
