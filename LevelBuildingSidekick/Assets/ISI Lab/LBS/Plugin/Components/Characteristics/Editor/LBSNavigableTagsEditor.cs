@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Linq;
+using UnityEditor;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -51,9 +52,12 @@ namespace ISILab.LBS.VisualElements
                 toggle.SetValueWithoutNotify(navTags[tag]);
                 toggle.RegisterValueChangedCallback(evt =>
                 {
-                    navTags[tag] = evt.newValue;
-                    navigableTags.Navigable[index] = evt.newValue;
-                    //Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
+                    if(evt.newValue != evt.previousValue)
+                    {
+                        navTags[tag] = evt.newValue;
+                        navigableTags.Navigable[index] = evt.newValue;
+                        //Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
+                    }
                 });
                 //Debug.Log(string.Join("\n", navigableTags.NavigableTagsRef.Select(kv => kv.Key.Label + "=" + kv.Value).ToArray()));
                 

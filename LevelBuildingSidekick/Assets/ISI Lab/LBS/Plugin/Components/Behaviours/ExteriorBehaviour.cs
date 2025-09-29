@@ -102,8 +102,10 @@ namespace ISILab.LBS.Behaviours
         
         #region CONSTRUCTORS
 
-        public ExteriorBehaviour(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
+        public ExteriorBehaviour(VectorImage icon, string name, Color colorTint, Bundle targetBundleRef = null) : base(icon, name, colorTint)
         {
+            if(targetBundleRef != null)
+                this.targetBundleRef = targetBundleRef;
             OnGUI();
         }
         
@@ -181,7 +183,7 @@ namespace ISILab.LBS.Behaviours
 
         public override object Clone()
         {
-            return new ExteriorBehaviour(this.Icon, this.Name, this.ColorTint);
+            return new ExteriorBehaviour(Icon, Name, ColorTint, targetBundleRef);
         }
 
         public override bool Equals(object obj)

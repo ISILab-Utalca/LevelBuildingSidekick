@@ -210,6 +210,8 @@ namespace ISILab.LBS.Modules
 
             if (other == null) return false;
 
+            if(other.ID != this.ID) return false;
+
             if (other.connectedDirections != this.connectedDirections) return false;
 
             if(other.gridType != this.gridType) return false;

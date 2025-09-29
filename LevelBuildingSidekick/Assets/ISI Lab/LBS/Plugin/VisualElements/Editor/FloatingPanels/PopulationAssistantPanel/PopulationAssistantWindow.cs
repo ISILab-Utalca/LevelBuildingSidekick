@@ -740,7 +740,7 @@ namespace ISILab.LBS.VisualElements.Editor
         //Change the texture of a specific button
         public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
-            var behaviours = assistant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var behaviours = assistant.OwnerLayer.Parent.ContextLayers.SelectMany(l => l.Behaviours);
             var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
   m_Name: Simulation Layer
   m_EditorClassIdentifier: 
-  templateName: Simulation Layer
+  templateName: Simulation Layer (Preview)
   order: 50
   layer:
     visible: 1
