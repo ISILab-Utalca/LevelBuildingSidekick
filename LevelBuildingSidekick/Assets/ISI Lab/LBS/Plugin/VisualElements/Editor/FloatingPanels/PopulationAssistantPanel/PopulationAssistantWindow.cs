@@ -12,6 +12,7 @@ using System.IO;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using System.Linq;
+
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
@@ -170,7 +171,6 @@ namespace ISILab.LBS.VisualElements.Editor
             xProgressBar = rootVisualElement.Q<ProgressBar>("XProgressBar");
             yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
-
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");

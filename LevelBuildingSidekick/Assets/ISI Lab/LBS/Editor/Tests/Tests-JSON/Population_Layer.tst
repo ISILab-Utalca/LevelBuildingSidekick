@@ -277,7 +277,7 @@
                         "index": 0
                     },
                     "icon": {
-                        "instanceID": 26486
+                        "instanceID": 26498
                     },
                     "colorTint": {
                         "r": 0.529411792755127,
@@ -428,7 +428,7 @@
                         "index": 0
                     },
                     "icon": {
-                        "instanceID": 25958
+                        "instanceID": 25970
                     },
                     "colorTint": {
                         "r": 0.760784387588501,
@@ -560,7 +560,7 @@
                         "guid": "",
                         "bundleName": "Goblin",
                         "bundle": {
-                            "instanceID": 45206
+                            "instanceID": 27630
                         }
                     },
                     "rotation": {
@@ -578,11 +578,11 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 45206
+                        "instanceID": 27630
                     },
                     "tagName": "Goblin",
                     "value": {
-                        "instanceID": 44744
+                        "instanceID": 27894
                     },
                     "tagGUID": "560e713e6c53d0b4f9ae9a9a5d8d18bf"
                 }
@@ -596,11 +596,11 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 45206
+                        "instanceID": 27630
                     },
                     "tagName": "NoBake",
                     "value": {
-                        "instanceID": 43924
+                        "instanceID": 29044
                     },
                     "tagGUID": "04212421bd21c0040972c027fe29563c"
                 }
