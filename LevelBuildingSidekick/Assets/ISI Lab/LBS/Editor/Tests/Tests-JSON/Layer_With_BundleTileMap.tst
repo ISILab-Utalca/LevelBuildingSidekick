@@ -1,116 +1,163 @@
 {
-  "$id": "1",
-  "$type": "ISILab.LBS.LBSLevelData, LBS",
-  "layers": {
-    "$id": "2",
-    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
-    "$values": [
-      {
-        "$id": "3",
-        "$type": "LBS.Components.LBSLayer, LBS",
-        "visible": true,
-        "blocked": false,
-        "iconPath": "Icon/Default",
-        "id": "LBSLayer",
-        "name": "Layer name",
-        "modules": {
-          "$id": "4",
-          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.LBSModule, LBS]], mscorlib",
-          "$values": [
+    "layers": [
+        {
+            "rid": 1000
+        }
+    ],
+    "quests": [],
+    "savedLayerMaps": [],
+    "contextLayers": [],
+    "references": {
+        "version": 2,
+        "RefIds": [
             {
-              "$id": "5",
-              "$type": "ISILab.LBS.Modules.BundleTileMap, LBS",
-              "tiles": {
-                "$id": "6",
-                "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Modules.TileBundlePair, LBS]], mscorlib",
-                "$values": [
-                  {
-                    "$id": "7",
-                    "$type": "ISILab.LBS.Modules.TileBundlePair, LBS",
-                    "tile": {
-                      "$id": "8",
-                      "$type": "LBS.Components.TileMap.LBSTile, LBS",
-                      "x": 0,
-                      "y": 0
+                "rid": 1000,
+                "type": {
+                    "class": "LBSLayer",
+                    "ns": "LBS.Components",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "visible": true,
+                    "blocked": false,
+                    "iconGuid": "Icon/Default",
+                    "id": "LBSLayer",
+                    "name": "Layer name",
+                    "modules": [
+                        {
+                            "rid": 1001
+                        }
+                    ],
+                    "behaviours": [],
+                    "assistants": [],
+                    "generatorRules": [],
+                    "settings": {
+                        "useBundleSize": false,
+                        "lightVolume": false,
+                        "reflectionProbe": false,
+                        "scale": {
+                            "x": 2.0,
+                            "y": 2.0
+                        },
+                        "resize": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "replacePrevious": true,
+                        "name": "DEFAULT",
+                        "rootParentName": "Root_Parent"
                     },
-                    "bData": {
-                      "$id": "9",
-                      "$type": "LBS.Components.TileMap.BundleData, LBS",
-                      "characteristics": {
-                        "$id": "10",
-                        "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Characteristics.LBSCharacteristic, LBS]], mscorlib",
-                        "$values": [
-                          {
-                            "$id": "11",
-                            "$type": "ISILab.LBS.Characteristics.LBSDirection, LBS",
-                            "connections": {
-                              "$id": "12",
-                              "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
-                              "$values": [
-                                "Road",
-                                "",
-                                "Road",
-                                "Road"
-                              ]
+                    "index": 0
+                }
+            },
+            {
+                "rid": 1001,
+                "type": {
+                    "class": "BundleTileMap",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "id": "BundleTileMap",
+                    "ownerLayer": {
+                        "visible": true,
+                        "blocked": false,
+                        "iconGuid": "Icon/Default",
+                        "id": "LBSLayer",
+                        "name": "Layer name",
+                        "modules": [
+                            {
+                                "rid": 1001
                             }
-                          }
-                        ]
-                      },
-                      "bundleName": "data"
+                        ],
+                        "behaviours": [],
+                        "assistants": [],
+                        "generatorRules": [],
+                        "settings": {
+                            "useBundleSize": false,
+                            "lightVolume": false,
+                            "reflectionProbe": false,
+                            "scale": {
+                                "x": 2.0,
+                                "y": 2.0
+                            },
+                            "resize": {
+                                "x": 0.0,
+                                "y": 0.0
+                            },
+                            "position": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "replacePrevious": true,
+                            "name": "DEFAULT",
+                            "rootParentName": "Root_Parent"
+                        },
+                        "index": 0
+                    },
+                    "groups": [
+                        {
+                            "rid": 1002
+                        }
+                    ]
+                }
+            },
+            {
+                "rid": 1002,
+                "type": {
+                    "class": "TileBundleGroup",
+                    "ns": "ISILab.LBS.Modules",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "tileGroup": [
+                        {
+                            "x": 0,
+                            "y": 0
+                        }
+                    ],
+                    "bData": {
+                        "characteristics": [
+                            {
+                                "rid": 1003
+                            }
+                        ],
+                        "guid": "",
+                        "bundleName": "data",
+                        "bundle": {
+                            "instanceID": 0
+                        }
                     },
                     "rotation": {
-                      "x": 1.0,
-                      "y": 0.0
+                        "x": 1.0,
+                        "y": 0.0
                     }
-                  }
-                ]
-              },
-              "id": "BundleTileMap",
-              "owner": {
-                "$ref": "3"
-              }
+                }
+            },
+            {
+                "rid": 1003,
+                "type": {
+                    "class": "LBSTagsCharacteristic",
+                    "ns": "ISILab.LBS.Characteristics",
+                    "asm": "LBS"
+                },
+                "data": {
+                    "owner": {
+                        "instanceID": 29006
+                    },
+                    "tagName": "Furniture",
+                    "value": {
+                        "instanceID": 28778
+                    },
+                    "tagGUID": "f34ea2bda3e03b44fad1047a0050c860"
+                }
             }
-          ]
-        },
-        "behaviours": {
-          "$id": "13",
-          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Behaviours.LBSBehaviour, LBS]], mscorlib",
-          "$values": []
-        },
-        "assistants": {
-          "$id": "14",
-          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Assistants.LBSAssistant, LBS]], mscorlib",
-          "$values": []
-        },
-        "generatorRules": {
-          "$id": "15",
-          "$type": "System.Collections.Generic.List`1[[ISILab.LBS.Generators.LBSGeneratorRule, LBS]], mscorlib",
-          "$values": []
-        },
-        "settings": {
-          "$id": "16",
-          "$type": "ISILab.LBS.Generators.Generator3D+Settings, LBS",
-          "scale": {
-            "x": 2.0,
-            "y": 2.0
-          },
-          "resize": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "position": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
-          },
-          "name": "DEFAULT"
-        }
-      }
-    ]
-  },
-  "quests": {
-    "$id": "17",
-    "$type": "System.Collections.Generic.List`1[[LBS.Components.LBSLayer, LBS]], mscorlib",
-    "$values": []
-  }
+        ]
+    }
 }
