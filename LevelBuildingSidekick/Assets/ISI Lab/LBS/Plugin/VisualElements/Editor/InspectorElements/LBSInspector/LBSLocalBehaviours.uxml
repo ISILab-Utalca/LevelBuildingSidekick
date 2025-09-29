@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
     <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSStyleVariables.uss?fileID=7433441132597879392&amp;guid=85a69280ec227ab48bb86c136d9591fe&amp;type=3#LBSStyleVariables" />
     <ui:VisualElement name="VisualElement" style="flex-grow: 1; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
-        <ISILab.LBS.CustomComponents.LBSCustomHeader icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Behavior.svg?fileID=7388822144124034973&amp;guid=e17eb0e02534666439fca8ea30b4d4e4&amp;type=3#Icon=Behavior" icon-color="#87D7F6FF" text="Palette" style="height: 32px;" />
+        <ISILab.LBS.CustomComponents.LBSCustomHeader icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Palette.svg?fileID=7388822144124034973&amp;guid=87f2bb6f2c78b184a8ea2b6a5b14f878&amp;type=3#Icon=Palette" icon-color="#87D7F6FF" text="Palette" style="height: 32px;" />
         <ui:VisualElement name="Content">
             <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0,1">
                 <ui:VisualElement name="ContentBehaviour" />
