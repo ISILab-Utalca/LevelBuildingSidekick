@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UIElements;
 using LBS.Components;
+using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
@@ -131,13 +132,33 @@ namespace ISILab.LBS.Assistants
 
         public void GenerateRandomNodes(int amount)
         {
-            for (int i = 0; i < amount; i++)
+            var grammarAssistant = _questGraph.OwnerLayer.GetAssistant<GrammarAssistant>();
+            Assert.IsNotNull(grammarAssistant, "GrammarAssistant should not be null.");
+
+            // Pick random root
+            var randomIndex = Random.Range(0, _questGraph.Grammar.TerminalActions.Count);
+            var randomAction = _questGraph.Grammar.TerminalActions[randomIndex];
+            var currentNode = _questGraph.AddNewQuestNode(randomAction, Vector2.zero);
+            _questGraph.SetRoot(currentNode);
+
+            // Sequentially add nodes from grammar
+            for (int i = 1; i < amount-1; i++)
             {
-                var randomIndex = Random.Range(0, _questGraph.Grammar.TerminalActions.Count);
-                var randomAction = _questGraph.Grammar.TerminalActions[randomIndex];
-                _questGraph.AddNewQuestNode(randomAction, Vector2.zero);
+                var nextActions = grammarAssistant.GetAllValidNextActionsInsert(currentNode.QuestAction, _questGraph);
+
+                if (nextActions.Any())
+                {
+                    var newAction = nextActions[Random.Range(0, nextActions.Count)];
+                    currentNode = _questGraph.AddNewQuestNode(newAction, Vector2.zero);
+                }
+                else
+                {
+                    // No valid continuation, stop early
+                    break;
+                }
             }
         }
+
 
         public void ConnectAllNodes()
         {
@@ -197,7 +218,12 @@ namespace ISILab.LBS.Assistants
             if (!tilesToActions.Any()) return false;
 
             var tilesToAction = GetActionByTileGroup(tilesToActions);
-            Debug.Log($"The tiles {tilesToAction.Key} have the suggested Action: {tilesToAction.Value}");
+            List<Vector2> tilePositions = new();
+            foreach (var tileBundleGroup in tilesToActions.Keys)
+            {
+                tilePositions.Add(tileBundleGroup.AreaRect.position);
+            }
+            Debug.Log($"The tiles {tilePositions} have the suggested Action: {tilesToAction.Value}");
             return true;
         }
 

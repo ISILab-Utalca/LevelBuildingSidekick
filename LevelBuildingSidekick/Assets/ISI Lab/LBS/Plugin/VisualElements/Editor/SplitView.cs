@@ -11,8 +11,8 @@ namespace ISILab.Commons.VisualElements.Editor
     [UxmlElement]
     public partial class SplitView : TwoPaneSplitView
     {
-       // public new class UxmlFactory : UxmlFactory<SplitView, UxmlElementAttribute> { }
-        public SplitView()
+        
+        public SplitView() : base()
         {
             VisualElement content = this.Q<VisualElement>("unity-content-container");
             content.pickingMode = PickingMode.Ignore;

@@ -35,7 +35,7 @@ namespace ISILab.LBS.Behaviours.Editor
         #endregion
 
         #region VIEW FIELDS
-        private VectorImage icon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Behavior");
+        private VectorImage icon = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Palette");
         private SimplePallete areaPallete;
         private SimplePallete connectionPallete;
         private string zoneIconGuid = "76bf813a38668ce439887addd209058c";

@@ -179,7 +179,16 @@ namespace ISILab.LBS.Components
 
             if (!pivot.Equals(other.pivot)) return false;
 
-            if (!positions.Equals(other.positions)) return false;
+            //if (!positions.Equals(other.positions)) return false;
+            var posCount = positions.Count;
+            if (posCount != other.positions.Count) return false;
+            for (int i = 0; i < posCount; i++)
+            {
+                var p1 = this.positions[i];
+                var p2 = other.positions[i];
+
+                if (p1 != p2) return false;
+            }
 
             return true;
         }

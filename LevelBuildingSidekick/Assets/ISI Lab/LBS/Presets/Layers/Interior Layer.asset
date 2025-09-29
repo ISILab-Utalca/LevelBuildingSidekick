@@ -250,9 +250,9 @@ MonoBehaviour:
             name: DEFAULT
             rootParentName: Root_Parent
           index: 0
-        icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
+        icon: {fileID: 7388822144124034973, guid: 87f2bb6f2c78b184a8ea2b6a5b14f878, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
-        name: Schema behaviour
+        name: Interior Layer's Palette
         pressetInsideStyle: Castle_Wooden
         pressetOutsideStyle: Castle_Brick
         conectionToSet: 
@@ -283,7 +283,7 @@ MonoBehaviour:
           index: 0
         icon: {fileID: 7388822144124034973, guid: cabe9f5bc61788d4989e79a2bbc7ec42, type: 3}
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
-        name: HillClimbing
+        name: Hill Climbing Algorithm
         visibleConstraints: 0
         printClocks: 0
     - rid: 6598277660977397767
