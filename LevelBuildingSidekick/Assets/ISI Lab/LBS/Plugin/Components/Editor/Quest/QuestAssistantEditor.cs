@@ -17,8 +17,6 @@ namespace ISILab.LBS.Editor
     {
         
         #region FIELDS
-        // Boolean to use editor for debugging purpuses
-        private const bool Debugging = false;
         private const uint DefaultSuggestionValue = 3;
         
         private static class UIElementNames
@@ -83,24 +81,12 @@ namespace ISILab.LBS.Editor
             _suggestionField.value = DefaultSuggestionValue;
             
             _addLayerButton.clicked += ShowAddLayerMenu;
-            if (Debugging)
+            _generateSuggestionsButton.clicked += ()=>
             {
-                _generateSuggestionsButton.clicked += () =>
-                {
-                    _questAssistant.GenerateRandomNodes((int)GetSuggestionCount());
-                };
-                _autoConnectButton.clicked += _questAssistant.ConnectAllNodes;
-                _autoConnectButton.style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                _generateSuggestionsButton.clicked += ()=>
-                {
-                    _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
-                    UpdateSuggestionsDisplay();
-                };
-                _autoConnectButton.style.display = DisplayStyle.None;
-            }
+                _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
+                UpdateSuggestionsDisplay();
+            };
+            _autoConnectButton.style.display = DisplayStyle.None;
             
             SetupLayerContextList();
             SetupSuggestionList();

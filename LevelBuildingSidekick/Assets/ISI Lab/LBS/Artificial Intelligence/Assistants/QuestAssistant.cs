@@ -90,7 +90,7 @@ namespace ISILab.LBS.Assistants
         [JsonIgnore]
         private QuestGraph QuestGraph => OwnerLayer.GetModule<QuestGraph>();
 
-        private LBSLevelData Data => QuestGraph.OwnerLayer.Parent;
+        public LBSLevelData Data => QuestGraph.OwnerLayer.Parent;
         #endregion
 
         #region CONSTRUCTORS
