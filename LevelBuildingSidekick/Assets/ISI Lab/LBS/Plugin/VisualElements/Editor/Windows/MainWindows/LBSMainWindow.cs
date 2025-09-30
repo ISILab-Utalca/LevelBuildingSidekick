@@ -207,12 +207,6 @@ namespace ISILab.LBS.Editor.Windows{
             rootVisualElement.Focus();
         }
 
-        private void OnKeyDown(KeyDownEvent evt)
-        {
-            
-        }
-        
-
         
         private void OnInspectorUpdate()
         {
