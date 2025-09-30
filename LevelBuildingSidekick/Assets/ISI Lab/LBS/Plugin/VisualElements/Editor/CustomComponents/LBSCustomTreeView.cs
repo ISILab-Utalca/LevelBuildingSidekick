@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using LBS.Bundles;
 using UnityEditor.IMGUI.Controls;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
@@ -32,7 +33,7 @@ namespace ISILab.LBS.CustomComponents
             {
                 if (treeData == value) return;
                 SetValueWithoutNotify(value);
-                this.NotifyPropertyChanged(valueProperty);
+                
                 if (value.Count > 0 )
                 {
                     treeDataRaw.Clear();
@@ -40,12 +41,15 @@ namespace ISILab.LBS.CustomComponents
                     
                     foreach (LBSTreeData treeData in value)
                     {
-                        //Cleanup: treeDataString.Add(treeData.AsTreeDataString());
-                        treeDataRaw.Add(treeData.AsTreeDataRaw());
+                        
+                        treeDataString.Add(treeData.AsTreeDataString());
+                        //treeDataRaw.Add(treeData.AsTreeDataRaw());
                     }
-                    //BuildTreeFromStringData(treeDataString);
-                    BuildTreeFromGenericData(treeDataRaw);
+                    BuildTreeFromStringData(treeDataString);
+                    
+                    //BuildTreeFromGenericData(treeDataRaw);
                 }
+                this.NotifyPropertyChanged(valueProperty);
             }
         }
 
@@ -54,7 +58,7 @@ namespace ISILab.LBS.CustomComponents
         {
             // Default load on attach
             //RegisterCallback<AttachToPanelEvent>(_ => LoadDefaultTree());
-            //RegisterCallback<AttachToPanelEvent>(_ => LoadDefaultTree());
+            
             
         }
 
@@ -102,6 +106,7 @@ namespace ISILab.LBS.CustomComponents
             SetRootItems(treeDataString);
             selectionType = SelectionType.Multiple;
             Rebuild();
+
 
             // Optional callbacks
             itemsChosen += selectedItems =>
@@ -159,7 +164,7 @@ namespace ISILab.LBS.CustomComponents
     [UxmlObject]
     public partial class LBSTreeData
     {
-
+        //Automatic create an object global unique id
         private Guid uniqueID;
         public LBSTreeData()
         {
@@ -172,12 +177,12 @@ namespace ISILab.LBS.CustomComponents
         
         public LBSTreeData(int _id): this(){
             Id = _id;
-            ItemName = $"Sample Tree Item: {Id}";
+            ItemName = this.ToString();
         }
         
-        [UxmlAttribute] public int Id;
+        [UxmlAttribute("id")] public int Id;
         
-        [UxmlAttribute] public string ItemName;
+        [UxmlAttribute ("item-name")] public string ItemName;
         
         [UxmlObjectReference]
         public List<LBSTreeData> Children;
@@ -218,6 +223,15 @@ namespace ISILab.LBS.CustomComponents
         {
             return $"{ItemName}::{Id}";
         }
-        
+
+        public LBSTreeData FromString(string _rawValue)
+        {
+            LBSTreeData data = new LBSTreeData();
+            string[] rawSplit = _rawValue.Split("::");
+            data.Id = int.Parse(rawSplit[0]);
+            data.ItemName = rawSplit[1];
+            
+            return data;
+        }
     }
 }

@@ -61,6 +61,14 @@
                         <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
                         <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple">
                             <TreeViewItems>
+                                <ISILab.LBS.CustomComponents.LBSTreeData>
+                                    <ISILab.LBS.CustomComponents.LBSTreeData item-name="Sample Tree Item" id="1662401840" />
+                                    <ISILab.LBS.CustomComponents.LBSTreeData id="288202882" item-name="New" />
+                                    <ISILab.LBS.CustomComponents.LBSTreeData />
+                                    <ISILab.LBS.CustomComponents.LBSTreeData />
+                                </ISILab.LBS.CustomComponents.LBSTreeData>
+                                <ISILab.LBS.CustomComponents.LBSTreeData />
+                                <ISILab.LBS.CustomComponents.LBSTreeData />
                                 <ISILab.LBS.CustomComponents.LBSTreeData />
                             </TreeViewItems>
                         </ISILab.LBS.CustomComponents.LBSCustomTreeView>
