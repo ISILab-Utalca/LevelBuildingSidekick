@@ -61,7 +61,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: fcc8832abb51a9f4484b33b450203ea7, type: 2}
         - {fileID: 11400000, guid: 1d5bb63e17b60b24fbcc07529b297294, type: 2}
         - {fileID: 11400000, guid: 82c988506a4389042b3f7c2c94f04ea5, type: 2}
-        navigable: 00000000
+        navigable: 00010000
     - rid: 8454501613873136375
       type: {class: LBSDirectionedGroup, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:

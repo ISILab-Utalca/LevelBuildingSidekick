@@ -87,9 +87,9 @@ namespace ISILab.AI.Categorization
 
             int size = POIs.Count;
 
-            if (size <= 0)
+            if (size <= 1)
             {
-                Debug.LogWarning("No Points of Interest were found. Try adding a player and some more resource elements. Check the DC Exploration evaluator description for more info.");
+                Debug.LogWarning("Not enough Points of Interest were found. Try adding a player and some more resource elements. Check the DC Exploration evaluator description for more info.");
                 return 0.0f;
             }
 
@@ -260,7 +260,7 @@ namespace ISILab.AI.Categorization
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
             CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = CombinedInteriorLayer;// (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
             InitializeDefault();
         }
 
