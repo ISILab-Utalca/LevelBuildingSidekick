@@ -470,6 +470,7 @@ namespace ISILab.LBS.Modules
 
                 List<Vector2Int> positions = tileGroup.originalTiles.Select(t => t.Position).ToList();
 
+                // (tile, direccion)
                 var annexed = new List<(LBSTile, int)>();
                 var paths = new List<(LBSTile, int)>();
                     
@@ -498,11 +499,7 @@ namespace ISILab.LBS.Modules
                                 //connectedTM.Pairs.Find(p => p.Tile.Position.Equals(neighPos)).Tile;
                             if(t is not null)
                             {
-                                List<string> conns = connectedTM.GetConnections(tile);
-                                (int, int) inds = (i == 0 ? 3 : i - 1, i);
-                                int count = 0;
-                                if (floorTags.Contains(conns[inds.Item1])) count++;
-                                if (floorTags.Contains(conns[inds.Item2])) count++;
+                                int count = CountConnectionFloorTags(tile, i);
                                 if (count == 0) toSet = "Wall";
                                 if (count == 1 && !annexed.Contains((t, i)) && !paths.Remove((t, i))) paths.Add((t, i)); // Un tile anexado nunca es camino  &&  Si hay dos sospechas de camino, es una esquina y no un camino.
                                 if (count == 2)
@@ -533,6 +530,7 @@ namespace ISILab.LBS.Modules
             }
             foreach (TileGroup tileGroup in tileGroups)
             {
+                // Agregar tiles anexados
                 foreach((LBSTile, int) annexedTile in tileGroup.annexedTiles)
                 {
                     AddPair(new TileZonePair(annexedTile.Item1, tileGroup.zone));
@@ -573,10 +571,42 @@ namespace ISILab.LBS.Modules
                         zoneConnected.SetConnection(neighbour, (i+2)%4, "Door", false);
                     }
                 }
+
+                // Comprobar caminos
+                List<(LBSTile, int)> pathTiles = tileGroup.pathTiles;
+                for(int i = 0; i < pathTiles.Count; i++)
+                {
+                    List<LBSTile> newPath = new List<LBSTile>();
+                    bool validPath = true;
+                    bool newZoneReached = false;
+                    LBSTile current = pathTiles[i].Item1;
+                    int direction = pathTiles[i].Item2;
+                    do
+                    {
+                        //if(CountConnectionFloorTags(current, direction) != 1)
+                        // TODO: comparar si los siguientes tiles tienen el mismo tipo de conexion.
+                        //      No basta solo contar los floor tags
+                    } while (validPath && !newZoneReached);
+                }
             }
 
             Print();
             zoneConnected.Print();
+
+            return; /// END OF METHOD
+
+            // Local functions
+
+            int CountConnectionFloorTags(LBSTile tile, int dir)
+            {
+                List<string> conns = connectedTM.GetConnections(tile);
+                (int, int) inds = (dir == 0 ? 3 : dir - 1, dir);
+                int count = 0;
+                if (floorTags.Contains(conns[inds.Item1])) count++;
+                if (floorTags.Contains(conns[inds.Item2])) count++;
+
+                return count;
+            }
         }
 
         class TileGroup
