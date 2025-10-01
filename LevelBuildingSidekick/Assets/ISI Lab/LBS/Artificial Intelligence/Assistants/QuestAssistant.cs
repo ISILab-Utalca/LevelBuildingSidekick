@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
+using ISILab.Macros;
 using LBS.Bundles;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -182,8 +183,10 @@ namespace ISILab.LBS.Assistants
             foreach (var suggestion in suggestionList)
             {
                 var middlePosition = CalculateMiddlePosition(suggestion.Key);
-                QuestGraph.AddSuggestion(suggestion.Value, middlePosition);
-                // TODO: Assign data type and reference via TileBundleGroup
+                var suggestionNode = QuestGraph.AddSuggestion(suggestion.Value, middlePosition);
+                var nodeData = suggestionNode.NodeData;
+                ListHelper.Shuffle(suggestion.Key);
+                nodeData.SetDataByTiles(Data.ContextLayers,suggestion.Key);
             }
         }
 

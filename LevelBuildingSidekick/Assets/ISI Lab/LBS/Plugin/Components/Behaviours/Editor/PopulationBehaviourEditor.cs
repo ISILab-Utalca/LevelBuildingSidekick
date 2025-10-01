@@ -53,14 +53,14 @@ namespace ISILab.LBS.VisualElements
             List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
             List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
             List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
-            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Area };
+            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Trigger };
             List<Bundle.PopulationTypeE> propList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Prop };
             List<Bundle.PopulationTypeE> miscList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Misc };
             List<Bundle.PopulationTypeE> allList = new List<Bundle.PopulationTypeE>
             {
                 Bundle.PopulationTypeE.Misc,
                 Bundle.PopulationTypeE.Prop,
-                Bundle.PopulationTypeE.Area,
+                Bundle.PopulationTypeE.Trigger,
                 Bundle.PopulationTypeE.Interactable,
                 Bundle.PopulationTypeE.Item,
                 Bundle.PopulationTypeE.Character
@@ -72,7 +72,7 @@ namespace ISILab.LBS.VisualElements
             displayChoices.Add(nameof(Bundle.PopulationTypeE.Character), characterList);
             displayChoices.Add(nameof(Bundle.PopulationTypeE.Item), itemList);
             displayChoices.Add(nameof(Bundle.PopulationTypeE.Interactable), interactableList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Area), areaList);
+            displayChoices.Add(nameof(Bundle.PopulationTypeE.Trigger), areaList);
             displayChoices.Add(nameof(Bundle.PopulationTypeE.Prop), propList);
             displayChoices.Add(nameof(Bundle.PopulationTypeE.Misc), miscList);
 

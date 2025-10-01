@@ -160,7 +160,7 @@ namespace ISILab.LBS.Generators
                     case Bundle.PopulationTypeE.Interactable:
                         obj.Key.transform.SetParent(parentInteractable.transform);
                         break;
-                    case Bundle.PopulationTypeE.Area:
+                    case Bundle.PopulationTypeE.Trigger:
                         obj.Key.transform.SetParent(parentArea.transform);
                         break;
                     case Bundle.PopulationTypeE.Prop:

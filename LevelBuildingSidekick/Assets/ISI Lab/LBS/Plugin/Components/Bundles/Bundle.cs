@@ -67,12 +67,19 @@ namespace LBS.Bundles
                      // Distinction, // (characteristics)Ej: Destroyed, Blooded, Dirty,
         }
         
-        public enum PopulationTypeE
+        [System.Flags]
+        public enum PopulationTypeFlags
         {
-            Character, // player, npc, enemies
-            Item, // collectable type
-            Interactable, // buttons, doors, levers
-            Area, // triggers 
+            None      = 0,
+            Character = 1 << 0, // player, npc, enemies
+            Enemy     = 1 << 1 | Character, 
+            Player    = 1 << 2 | Character,
+            Ally      = 1 << 3 | Character,
+            Item      = 1 << 4, // collectable type
+            Resource  = 1 << 5 | Item,
+            Equipment = 1 << 6 | Item,
+            Interactable = 1 << 7, // buttons, doors, levers
+            Trigger   = 1 << 8, // triggers 
             Prop, // static mesh
             Misc // non categorized
         }
@@ -108,7 +115,7 @@ namespace LBS.Bundles
         private List<LBSCharacteristic> characteristics = new List<LBSCharacteristic>();
 
         // only used if it's an element (population)
-        [FormerlySerializedAs("populationType")] [SerializeField,HideInInspector] 
+        [SerializeField,HideInInspector] 
         private PopulationTypeE populationType = PopulationTypeE.Character;
 
         // Used in generation 3d.
@@ -426,14 +433,86 @@ namespace LBS.Bundles
             return other;
         }
         
+        /// <summary>
+        /// true if the bundle has the label characteristic
+        /// </summary>
         public bool GetHasTagCharacteristic(string label)
         {
-            bool exists = Characteristics
-                .OfType<LBSTagsCharacteristic>()
-                .Any(c => c.Value != null && c.Value.Label == label);
+            foreach (var c in Characteristics)
+            {
+                var tag = c as LBSTagsCharacteristic;
+                if (tag != null && tag.Value != null && tag.Value.Label == label)
+                    return true;
+            }
+            return false;
+        }
 
-            //if (!exists)  Debug.Log($"Tag characteristic with label '{label}' was not found.");
-            return exists;
+        /// <summary>
+        /// true if the bundle has one of the labels
+        /// </summary>
+        public bool GetHasTagCharacteristic(List<string> labels)
+        {
+            if (labels == null || labels.Count == 0)
+                return false;
+
+            foreach (var c in Characteristics)
+            {
+                var tag = c as LBSTagsCharacteristic;
+                if (tag != null && tag.Value != null && labels.Contains(tag.Value.Label))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// true if the Bundle has all the labels
+        /// </summary>
+        public bool GetHasAllTagCharacteristics(List<string> labels)
+        {
+            if (labels == null || labels.Count == 0)
+                return false;
+
+            // collect all characteristic labels into a HashSet
+            HashSet<string> characteristicLabels = new HashSet<string>();
+            foreach (var c in Characteristics)
+            {
+                var tag = c as LBSTagsCharacteristic;
+                if (tag != null && tag.Value != null)
+                    characteristicLabels.Add(tag.Value.Label);
+            }
+
+            // check that every label is present
+            foreach (var label in labels)
+            {
+                if (!characteristicLabels.Contains(label))
+                    return false;
+            }
+
+            return true;
+        }
+        
+        public bool GetHasAnyTagCharacteristics(List<string> labels)
+        {
+            if (labels == null || labels.Count == 0)
+                return false;
+
+            // collect all characteristic labels into a HashSet
+            HashSet<string> characteristicLabels = new HashSet<string>();
+            foreach (var c in Characteristics)
+            {
+                var tag = c as LBSTagsCharacteristic;
+                if (tag != null && tag.Value != null)
+                    characteristicLabels.Add(tag.Value.Label);
+            }
+
+            // check that it has at least one
+            foreach (var label in labels)
+            {
+                if (characteristicLabels.Contains(label))
+                    return true;
+            }
+
+            return false;
         }
 
         public MicroGenTool GetMicroGenTool()

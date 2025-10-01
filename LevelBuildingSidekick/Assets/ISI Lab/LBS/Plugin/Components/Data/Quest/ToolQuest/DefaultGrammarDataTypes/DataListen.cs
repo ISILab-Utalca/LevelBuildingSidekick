@@ -1,0 +1,59 @@
+using System;
+using System.Collections.Generic;
+using ISILab.Extensions;
+using ISILab.LBS.Modules;
+using ISILab.LBS.Settings;
+using ISILab.Macros;
+using LBS.Components;
+using UnityEngine;
+
+namespace ISILab.LBS.Components
+{
+    [Serializable]
+    public class DataListen : BaseQuestNodeData
+    {
+        /// <summary>
+        /// Character or objects that gets listened to
+        /// </summary>
+        [SerializeField] public BundleGraph bundleListenTo;
+        private readonly HashSet<LBSETag.Type> validListenTo = new()
+        {
+            LBSETag.Type.Character,
+            LBSETag.Type.Ally
+        }; 
+        public DataListen(QuestNode ownerNode, string tag) : base(ownerNode, tag)
+        {
+            iconGuid = StarIcon;
+            bundleListenTo = new BundleGraph(this);
+            color = LBSSettings.Instance.view.colorListen;
+        }
+            
+        public override void Clone(BaseQuestNodeData data)
+        {
+            base.Clone(data);
+            if (data is not DataListen listenData) return;
+            bundleListenTo = listenData.bundleListenTo;
+        }
+            
+        public override List<string> ReferencedLayerNames()
+        {
+            List<string> list = new List<string> { bundleListenTo.GetLayerName() };
+            return list;
+        }
+            
+        public override void Resize()
+        {
+            if (bundleListenTo.Valid())area = bundleListenTo.Area;
+        }
+
+        public override bool IsValid()
+        {
+            return bundleListenTo.Valid();
+        }
+
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        {
+            TrySetBundleGraph(layers, suggestionKey, ref bundleListenTo, validListenTo);
+        }
+    }
+}
