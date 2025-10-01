@@ -47,7 +47,6 @@
                         </ui:TabView>
                     </ISILab.LBS.CustomComponents.LBSCustomFoldout>
                     <ISILab.LBS.CustomComponents.LBSCustomButton text="Button" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=Add_New_Layer.svg?fileID=7388822144124034973&amp;guid=28adcfa38ebab16439a79e6c4bd8976b&amp;type=3#Icon=Add_New_Layer" style="height: 40px;" />
-                    <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
                     <ISILab.LBS.CustomComponents.LBSCustomVector2Field label="A Custom Vector2" style="height: 35px;" />
                     <ISILab.LBS.CustomComponents.LBSCustomVector3Field label="A Custom Vector3" style="height: 38px;" />
                     <ISILab.LBS.CustomComponents.LBSCustomObjectField label="Custom Object Field" vector-icon="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AddQuestPapyrus.svg?fileID=7388822144124034973&amp;guid=aa4c8898bd338cb4b91b6516e6d4e0c9&amp;type=3#Icon=AddQuestPapyrus" icon-side="Right" />
@@ -57,7 +56,12 @@
                     <ISILab.LBS.VisualElements.Editor.LayerView focusable="true" />
                     <ui:Instance template="LayerView" name="TemplateContainer" style="flex-direction: row;" />
                 </ui:VisualElement>
-                <ui:VisualElement class="lbs-panel" style="flex-grow: 1;" />
+                <ui:VisualElement class="lbs-panel" style="flex-grow: 1;">
+                    <ISILab.LBS.CustomComponents.LBSCustomFoldout>
+                        <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
+                        <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple" />
+                    </ISILab.LBS.CustomComponents.LBSCustomFoldout>
+                </ui:VisualElement>
             </ISILab.Commons.VisualElements.Editor.SplitView>
         </ISILab.Commons.VisualElements.Editor.SplitView>
         <uie:Toolbar>
