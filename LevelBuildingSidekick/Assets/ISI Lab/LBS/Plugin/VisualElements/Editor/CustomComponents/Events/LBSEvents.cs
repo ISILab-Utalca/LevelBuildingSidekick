@@ -11,7 +11,6 @@ namespace ISILab.LBS.CustomComponents.Events
         
         public bool value;
 
-
         public LBSBoolEvent(IEventHandler _target, bool _value)
         {
             this.target = _target;
