@@ -135,7 +135,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: 87f2bb6f2c78b184a8ea2b6a5b14f878, type: 3}
         colorTint: {r: 0.5294118, g: 0.8431373, b: 0.96470594, a: 1}
         name: Exterior Layer's Palette
-        targetBundleRef: {fileID: 11400000, guid: 9d3dac0f9a486fd47866f815b4fefc29, type: 2}
+        targetBundleRef: {fileID: 11400000, guid: 38075b72e84101f499766c3c0a48cb25, type: 2}
         bundleRefGui: 9d3dac0f9a486fd47866f815b4fefc29
         identifierToSet: {fileID: 0}
     - rid: 6598277183820005786
@@ -167,7 +167,7 @@ MonoBehaviour:
         colorTint: {r: 0.7607844, g: 0.96470594, b: 0.4431373, a: 1}
         name: Wave Function Collapse Assistant
         overrideValues: 0
-        targetBundleRef: {fileID: 11400000, guid: 6eca44a9d25c6df4d8216614e323dd60, type: 2}
+        targetBundleRef: {fileID: 11400000, guid: 38075b72e84101f499766c3c0a48cb25, type: 2}
     - rid: 6598277183820005787
       type: {class: ExteriorRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
       data:
