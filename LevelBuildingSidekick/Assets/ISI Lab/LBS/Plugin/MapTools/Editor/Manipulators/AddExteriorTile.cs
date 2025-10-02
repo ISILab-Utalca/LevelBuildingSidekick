@@ -31,7 +31,7 @@ namespace ISILab.LBS.Manipulators
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
-            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding Tile with neighbour connections");
+            //if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding Tile with neighbour connections");
         }
         
         protected override void OnKeyUp(KeyUpEvent e)
@@ -54,7 +54,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add empty tiles");
 
-            var paintNeighbors = e.ctrlKey;
+            var paintNeighbors = !e.ctrlKey;
             
             var corners = _exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
@@ -86,14 +86,28 @@ namespace ISILab.LBS.Manipulators
             // Paint all connections
             for (int k = 0; k < Directions.Count; k++)
             {
+                var dir = Directions[k];
+                LBSTile neighbour = _exterior.GetTile(pos + dir);
+                if (neighbour != null && !paintNeighbors)
+                {
+                    // Conservar conexiones de los vecinos
+                    string conn = _exterior.GetConnections(neighbour)[(k + 2) % 4];
+                    if (conn.Equals(""))
+                    {
+                        _exterior.SetConnection(tile, k, _exterior.identifierToSet.Label, true);
+                    }
+                    else
+                    {
+                        _exterior.SetConnection(tile, k, conn, true);
+                    }
+                    continue;
+                }
+
                 _exterior.SetConnection(tile, k, _exterior.identifierToSet.Label, true);
 
-                if(!paintNeighbors) continue;
-                
-                var dir = Directions[k];
-                if (_exterior.GetTile(pos + dir) is { } neighbor)
+                if (neighbour is { })
                 {
-                    _exterior.SetConnection(neighbor, (k + 2) % 4, _exterior.identifierToSet.Label, true);
+                    _exterior.SetConnection(neighbour, (k + 2) % 4, _exterior.identifierToSet.Label, true);
                 }
             }
         }
