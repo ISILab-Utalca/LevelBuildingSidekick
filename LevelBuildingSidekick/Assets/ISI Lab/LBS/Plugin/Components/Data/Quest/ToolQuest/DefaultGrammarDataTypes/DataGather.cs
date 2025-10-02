@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ISILab.LBS.Components
 {
@@ -17,10 +19,9 @@ namespace ISILab.LBS.Components
         /// </summary>
         [SerializeField] public BundleType bundleGatherType;
         
-        private readonly HashSet<LBSETag.Type> validGatherType = new()
+        private readonly HashSet<Bundle.EElementFlag> validGatherType = new()
         {
-            LBSETag.Type.Item, 
-            LBSETag.Type.Resource
+            Bundle.EElementFlag.Item
         }; 
         
         [SerializeField, JsonRequired] public int gatherAmount;
@@ -41,9 +42,24 @@ namespace ISILab.LBS.Components
             return bundleGatherType is not null && bundleGatherType.Valid();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            TrySetBundleType(layers, suggestionKey,  ref bundleGatherType, validGatherType);
+            TrySetBundleType(layers, tiles,  ref bundleGatherType, validGatherType);
+            if(bundleGatherType is null) return;
+            
+            var BundleType = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGatherType.GetGuid());
+            if(BundleType is null) return;
+            
+            var maxCount = 0;
+            foreach (var tbg in tiles)
+            {
+                if (tbg.BundleData.Bundle == BundleType)
+                {
+                    maxCount++;
+                }
+            }
+            
+            gatherAmount = Random.Range(1, maxCount);
         }
     }
 }

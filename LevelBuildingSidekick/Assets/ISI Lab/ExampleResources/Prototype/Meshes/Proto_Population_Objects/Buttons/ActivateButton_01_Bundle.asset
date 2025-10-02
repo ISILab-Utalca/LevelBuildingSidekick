@@ -22,7 +22,7 @@ MonoBehaviour:
   - obj: {fileID: 77413969324000464, guid: 101051ab3a4931d47aa39585c5fd75a2, type: 3}
     probability: 0.5
   characteristics: []
-  populationType: 0
+  elementFlag: 128
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:

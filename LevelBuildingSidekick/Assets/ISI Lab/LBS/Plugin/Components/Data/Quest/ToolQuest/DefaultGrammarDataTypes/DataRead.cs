@@ -4,6 +4,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -14,9 +15,9 @@ namespace ISILab.LBS.Components
         {
             [SerializeField] public BundleGraph bundleToRead;
             
-            private readonly HashSet<LBSETag.Type> validToReadTags = new()
+            private readonly HashSet<Bundle.EElementFlag> validToReadTags = new()
             {
-                LBSETag.Type.Item
+                Bundle.EElementFlag.Item
             }; 
             
             public DataRead(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -49,9 +50,9 @@ namespace ISILab.LBS.Components
                 return bundleToRead.Valid();
             }
 
-            public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+            public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
             {
-                TrySetBundleGraph(layers, suggestionKey, ref bundleToRead, validToReadTags);
+                TrySetBundleGraph(layers, tiles, ref bundleToRead, validToReadTags);
             }
         }
 }

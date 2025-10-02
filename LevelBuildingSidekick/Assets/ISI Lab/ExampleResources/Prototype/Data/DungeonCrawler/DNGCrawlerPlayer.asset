@@ -23,7 +23,7 @@ MonoBehaviour:
     probability: 0
   characteristics:
   - rid: 4305865204711817730
-  populationType: 0
+  elementFlag: 5
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:

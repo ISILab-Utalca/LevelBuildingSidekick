@@ -4,6 +4,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -13,10 +14,9 @@ namespace ISILab.LBS.Components
     public class DataTake : BaseQuestNodeData
     {
        [SerializeField] public BundleGraph bundleToTake;
-       private readonly HashSet<LBSETag.Type> validToTakeTags = new()
+       private readonly HashSet<Bundle.EElementFlag> validToTakeTags = new()
        {
-           LBSETag.Type.Item,
-           LBSETag.Type.Resource
+           Bundle.EElementFlag.Item
        }; 
        public DataTake(QuestNode ownerNode, string tag) : base(ownerNode, tag)
        {
@@ -48,9 +48,9 @@ namespace ISILab.LBS.Components
            return bundleToTake.Valid();
        }
 
-       public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+       public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
        {
-           TrySetBundleGraph(layers, suggestionKey, ref bundleToTake, validToTakeTags);
+           TrySetBundleGraph(layers, tiles, ref bundleToTake, validToTakeTags);
        }
     }
 }

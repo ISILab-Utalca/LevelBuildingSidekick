@@ -5,6 +5,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -18,10 +19,9 @@ namespace ISILab.LBS.Components
             /// </summary>
             [SerializeField] public List<BundleGraph> bundlesToKill;
 
-            private readonly HashSet<LBSETag.Type> requiredKillTags = new()
+            private readonly HashSet<Bundle.EElementFlag> requiredKillTags = new()
             {
-                LBSETag.Type.Character,
-                LBSETag.Type.Enemy
+                Bundle.EElementFlag.Enemy
             }; 
             
             public DataKill(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -53,9 +53,9 @@ namespace ISILab.LBS.Components
                 return bundlesToKill.Any();
             }
 
-            public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+            public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
             {
-                TrySetBundleGraphList(layers,  suggestionKey, ref bundlesToKill, requiredKillTags);
+                TrySetBundleGraphList(layers,  tiles, ref bundlesToKill, requiredKillTags);
             }
         }
 }

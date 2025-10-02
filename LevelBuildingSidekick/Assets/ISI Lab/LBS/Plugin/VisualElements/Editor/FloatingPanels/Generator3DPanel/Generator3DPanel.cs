@@ -377,7 +377,7 @@ namespace ISILab.LBS.VisualElements.Editor
             var lbsGen = obj.GetComponent<LBSGenerated>();
             if (lbsGen != null)
             {
-                if (lbsGen.BundleRef.PopulationType == Bundle.PopulationTypeE.Character) return;
+                if (lbsGen.BundleRef.ElementFlag == Bundle.EElementFlag.Character) return;
                 if (lbsGen.HasLBSTag("NoBake")) return;
             }
             

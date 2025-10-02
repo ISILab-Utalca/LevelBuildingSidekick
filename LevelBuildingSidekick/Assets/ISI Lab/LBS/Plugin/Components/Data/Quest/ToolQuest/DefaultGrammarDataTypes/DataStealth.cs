@@ -5,6 +5,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -22,10 +23,9 @@ namespace ISILab.LBS.Components
         [SerializeField]
         public List<BundleGraph> bundlesObservers;
         
-        private readonly HashSet<LBSETag.Type> requiredObserverTags = new()
+        private readonly HashSet<Bundle.EElementFlag> requiredObserverTags = new()
         {
-            LBSETag.Type.Character,
-            LBSETag.Type.Enemy
+            Bundle.EElementFlag.Enemy
         }; 
         
         public DataStealth(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -58,11 +58,11 @@ namespace ISILab.LBS.Components
             return bundlesObservers.Any();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
             bundlesObservers.Clear();
             
-            TrySetBundleGraphList(layers, suggestionKey,  ref bundlesObservers, requiredObserverTags);
+            TrySetBundleGraphList(layers, tiles,  ref bundlesObservers, requiredObserverTags);
 
             if (bundlesObservers.Count == 0)
             {

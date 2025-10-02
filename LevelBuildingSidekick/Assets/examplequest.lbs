@@ -28,7 +28,7 @@
                     "blocked": false,
                     "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                     "id": "Population",
-                    "name": "New Layer",
+                    "name": "Population Layer",
                     "modules": [
                         {
                             "rid": 1003
@@ -225,7 +225,7 @@
                         "blocked": false,
                         "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                         "id": "Population",
-                        "name": "New Layer",
+                        "name": "Population Layer",
                         "modules": [
                             {
                                 "rid": 1003
@@ -323,7 +323,7 @@
                         "blocked": false,
                         "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                         "id": "Population",
-                        "name": "New Layer",
+                        "name": "Population Layer",
                         "modules": [
                             {
                                 "rid": 1003
@@ -421,7 +421,7 @@
                         "blocked": false,
                         "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                         "id": "Population",
-                        "name": "New Layer",
+                        "name": "Population Layer",
                         "modules": [
                             {
                                 "rid": 1003
@@ -485,7 +485,7 @@
                             "blocked": false,
                             "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                             "id": "Population",
-                            "name": "New Layer",
+                            "name": "Population Layer",
                             "modules": [
                                 {
                                     "rid": 1003
@@ -570,10 +570,10 @@
                     },
                     "bundleRefGui": "3e607c0f80297b849a6ea0d7f98c73a3",
                     "selectedToSet": {
-                        "instanceID": 27524
+                        "instanceID": 0
                     },
                     "bundleCollection": {
-                        "instanceID": 28396
+                        "instanceID": 44788
                     },
                     "allFilter": "All",
                     "selectedTypeFilter": "All"
@@ -593,7 +593,7 @@
                         "blocked": false,
                         "iconGuid": "48f2011efc0f7b2449db9f824c895d9d",
                         "id": "Population",
-                        "name": "New Layer",
+                        "name": "Population Layer",
                         "modules": [
                             {
                                 "rid": 1003
@@ -3022,7 +3022,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 27528
+                            "instanceID": 44694
                         }
                     },
                     "rotation": {
@@ -3057,7 +3057,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 27528
+                            "instanceID": 44694
                         }
                     },
                     "rotation": {
@@ -3092,7 +3092,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 27528
+                            "instanceID": 44694
                         }
                     },
                     "rotation": {
@@ -3127,7 +3127,7 @@
                         "guid": "",
                         "bundleName": "Enemy",
                         "bundle": {
-                            "instanceID": 27528
+                            "instanceID": 44694
                         }
                     },
                     "rotation": {
@@ -3162,7 +3162,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 27542
+                            "instanceID": 44418
                         }
                     },
                     "rotation": {
@@ -3197,7 +3197,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 27542
+                            "instanceID": 44418
                         }
                     },
                     "rotation": {
@@ -3232,7 +3232,7 @@
                         "guid": "",
                         "bundleName": "Proto_Coin_01_Bundle",
                         "bundle": {
-                            "instanceID": 27542
+                            "instanceID": 44418
                         }
                     },
                     "rotation": {
@@ -3264,7 +3264,7 @@
                         "guid": "",
                         "bundleName": "Hammer",
                         "bundle": {
-                            "instanceID": 27534
+                            "instanceID": 45206
                         }
                     },
                     "rotation": {
@@ -3296,7 +3296,7 @@
                         "guid": "",
                         "bundleName": "Hammer",
                         "bundle": {
-                            "instanceID": 27534
+                            "instanceID": 45206
                         }
                     },
                     "rotation": {
@@ -3328,7 +3328,7 @@
                         "guid": "",
                         "bundleName": "Hammer",
                         "bundle": {
-                            "instanceID": 27534
+                            "instanceID": 45206
                         }
                     },
                     "rotation": {
@@ -3360,7 +3360,7 @@
                         "guid": "",
                         "bundleName": "DNGCrawlerPlayer",
                         "bundle": {
-                            "instanceID": 27524
+                            "instanceID": 45312
                         }
                     },
                     "rotation": {
@@ -3389,7 +3389,7 @@
                         "serializedVersion": "2",
                         "x": 30.0,
                         "y": 559.0,
-                        "width": 192.0,
+                        "width": 193.0,
                         "height": 32.0
                     },
                     "nodeData": {
@@ -3451,7 +3451,7 @@
                         "serializedVersion": "2",
                         "x": 397.77130126953127,
                         "y": 185.42935180664063,
-                        "width": 204.0,
+                        "width": 205.0,
                         "height": 32.0
                     },
                     "nodeData": {
@@ -10129,7 +10129,7 @@
                     },
                     "tagName": "Enemies",
                     "value": {
-                        "instanceID": 27802
+                        "instanceID": 0
                     },
                     "tagGUID": "1c34483075e8bb54d8aa70274f2eddfe"
                 }
@@ -10143,7 +10143,7 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 27542
+                        "instanceID": 0
                     },
                     "tagName": "Chest",
                     "value": {
@@ -10161,7 +10161,7 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 27542
+                        "instanceID": 0
                     },
                     "tagName": "NoBake",
                     "value": {
@@ -10179,7 +10179,7 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 27534
+                        "instanceID": 0
                     },
                     "tagName": "Hammer",
                     "value": {
@@ -10197,11 +10197,11 @@
                 },
                 "data": {
                     "owner": {
-                        "instanceID": 27524
+                        "instanceID": 0
                     },
                     "tagName": "Player",
                     "value": {
-                        "instanceID": 27806
+                        "instanceID": 0
                     },
                     "tagGUID": "975a57a1811d3f743838422b5c87c58a"
                 }

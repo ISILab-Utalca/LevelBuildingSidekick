@@ -222,7 +222,7 @@ namespace ISILab.LBS.Modules
 
         public QuestNode AddSuggestion(string action, Vector2 pos)
         {
-            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
+            var id = "s" + GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
             var node = new QuestNode(id, pos, action, this);
             suggestions.Add(node);
             return node;
@@ -239,7 +239,8 @@ namespace ISILab.LBS.Modules
         public void AddSuggestionNode(QuestNode generatedQuestNode)
         {
             if(generatedQuestNode is null) return;
-           AddNodeToGraph(generatedQuestNode);
+            var newnode = AddNewQuestNode(generatedQuestNode.QuestAction, generatedQuestNode.Position);
+            newnode.NodeData = generatedQuestNode.NodeData;
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)

@@ -4,6 +4,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -17,10 +18,9 @@ namespace ISILab.LBS.Components
         /// </summary>
         [SerializeField] public BundleGraph bundleReportTo;
         
-        private readonly HashSet<LBSETag.Type> validToReportTags = new()
+        private readonly HashSet<Bundle.EElementFlag> validToReportTags = new()
         {
-            LBSETag.Type.Character,
-            LBSETag.Type.Ally
+            Bundle.EElementFlag.Ally
         }; 
         
         public DataReport(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -53,18 +53,9 @@ namespace ISILab.LBS.Components
             return bundleReportTo.Valid();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            foreach (var suggestionTile in suggestionKey)
-            {
-                var GraphData = LBSLayerHelper.GetBundleTileByMouse(suggestionTile.AreaRect.position.ToInt(), layers);
-                if (GraphData is null) continue;
-                var bundle = GraphData.Item2.BundleData.Bundle;
-                if (!bundle.GetHasAnyTagCharacteristics(LBSETag.GetTags(validToReportTags))) continue;
-
-                bundleReportTo = new BundleGraph(this, GraphData.Item1,  GraphData.Item2);
-                if (bundleReportTo is not null) break;
-            }
+            TrySetBundleGraph(layers,  tiles, ref bundleReportTo, validToReportTags);
         }
     }
 }

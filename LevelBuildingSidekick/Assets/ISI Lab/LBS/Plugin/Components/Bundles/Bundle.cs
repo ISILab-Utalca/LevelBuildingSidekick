@@ -68,7 +68,7 @@ namespace LBS.Bundles
         }
         
         [System.Flags]
-        public enum PopulationTypeFlags
+        public enum EElementFlag
         {
             None      = 0,
             Character = 1 << 0, // player, npc, enemies
@@ -80,8 +80,8 @@ namespace LBS.Bundles
             Equipment = 1 << 6 | Item,
             Interactable = 1 << 7, // buttons, doors, levers
             Trigger   = 1 << 8, // triggers 
-            Prop, // static mesh
-            Misc // non categorized
+            Prop = 1 << 9, // static mesh
+            Misc = 1 << 10 // non categorized
         }
 
         #region FIELDS
@@ -116,7 +116,7 @@ namespace LBS.Bundles
 
         // only used if it's an element (population)
         [SerializeField,HideInInspector] 
-        private PopulationTypeE populationType = PopulationTypeE.Character;
+        private EElementFlag elementFlag = EElementFlag.None;
 
         // Used in generation 3d.
         [SerializeField,HideInInspector] 
@@ -163,7 +163,7 @@ namespace LBS.Bundles
 
         public Vector2Int TileSize => tileSize;
         
-        public PopulationTypeE PopulationType => populationType;
+        public EElementFlag ElementFlag => elementFlag;
         public List<LBSCharacteristic> Characteristics => characteristics;
 
         public List<Bundle> ChildsBundles => new List<Bundle>(childsBundles);
@@ -490,6 +490,49 @@ namespace LBS.Bundles
 
             return true;
         }
+        
+        /// <summary>
+        /// Returns true if the bundle has only the given flag (and no others).
+        /// Example: if bundle is Enemy, query Enemy -> true.
+        ///          if bundle is Enemy | Item, query Enemy -> false.
+        /// </summary>
+        public bool HasOnlyFlag(EElementFlag queryFlag)
+        {
+            return ElementFlag == queryFlag;
+        }
+
+        
+        /// <summary>
+        /// Returns true if the bundle has all of the given flags.
+        /// Example: Enemy | Item returns true if queried with { Character, Item }.
+        /// </summary>
+        public bool HasAllFlags(HashSet<EElementFlag> queryFlags)
+        {
+            foreach (var flag in queryFlags)
+            {
+                if ((ElementFlag & flag) != flag)
+                    return false;
+            }
+            return true;
+        }
+
+        
+        /// <summary>
+        /// Returns true if the bundle has at least one of the given flags
+        /// or falls under its parent category.
+        /// Example: Enemy will return true if checked against { Character, Player } because Enemy includes Character.
+        /// </summary>
+        public bool HasAnyFlag(HashSet<EElementFlag> queryFlags)
+        {
+            foreach (var flag in queryFlags)
+            {
+                if ((ElementFlag & flag) == flag)
+                    return true;
+            }
+
+            return false;
+        }
+
         
         public bool GetHasAnyTagCharacteristics(List<string> labels)
         {

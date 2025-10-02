@@ -4,6 +4,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -14,11 +15,9 @@ namespace ISILab.LBS.Components
     {
         [SerializeField] public BundleGraph bundleToSpy;
         
-        private readonly HashSet<LBSETag.Type> validToSpyTags = new()
+        private readonly HashSet<Bundle.EElementFlag> validToSpyTags = new()
         {
-            LBSETag.Type.Character, 
-            LBSETag.Type.Ally,
-            LBSETag.Type.Enemy
+            Bundle.EElementFlag.Character
         }; 
         
         [SerializeField] public float spyTime = 5f;
@@ -55,9 +54,9 @@ namespace ISILab.LBS.Components
             return bundleToSpy.Valid();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            TrySetBundleGraph(layers, suggestionKey, ref bundleToSpy, validToSpyTags);
+            TrySetBundleGraph(layers, tiles, ref bundleToSpy, validToSpyTags);
         }
     }
 }

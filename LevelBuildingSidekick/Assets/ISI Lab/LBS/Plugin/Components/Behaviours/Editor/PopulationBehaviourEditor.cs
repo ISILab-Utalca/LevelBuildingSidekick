@@ -25,7 +25,7 @@ namespace ISILab.LBS.VisualElements
 
         private PopulationBehaviour behaviour;
 
-        private Dictionary<string, List<Bundle.PopulationTypeE>> displayChoices = new();
+        private Dictionary<string, List<Bundle.EElementFlag>> displayChoices = new();
         private BundleCollection _collection; 
         private DropdownField type;
 
@@ -50,31 +50,31 @@ namespace ISILab.LBS.VisualElements
             if (behaviour is null) return;
             //_collection = load default collection
             
-            List<Bundle.PopulationTypeE> characterList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Character };
-            List<Bundle.PopulationTypeE> itemList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Item };
-            List<Bundle.PopulationTypeE> interactableList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Interactable };
-            List<Bundle.PopulationTypeE> areaList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Trigger };
-            List<Bundle.PopulationTypeE> propList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Prop };
-            List<Bundle.PopulationTypeE> miscList = new List<Bundle.PopulationTypeE> { Bundle.PopulationTypeE.Misc };
-            List<Bundle.PopulationTypeE> allList = new List<Bundle.PopulationTypeE>
+            List<Bundle.EElementFlag> characterList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Character };
+            List<Bundle.EElementFlag> itemList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Item };
+            List<Bundle.EElementFlag> interactableList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Interactable };
+            List<Bundle.EElementFlag> areaList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Trigger };
+            List<Bundle.EElementFlag> propList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Prop };
+            List<Bundle.EElementFlag> miscList = new List<Bundle.EElementFlag> { Bundle.EElementFlag.Misc };
+            List<Bundle.EElementFlag> allList = new List<Bundle.EElementFlag>
             {
-                Bundle.PopulationTypeE.Misc,
-                Bundle.PopulationTypeE.Prop,
-                Bundle.PopulationTypeE.Trigger,
-                Bundle.PopulationTypeE.Interactable,
-                Bundle.PopulationTypeE.Item,
-                Bundle.PopulationTypeE.Character
+                Bundle.EElementFlag.Misc,
+                Bundle.EElementFlag.Prop,
+                Bundle.EElementFlag.Trigger,
+                Bundle.EElementFlag.Interactable,
+                Bundle.EElementFlag.Item,
+                Bundle.EElementFlag.Character
             };
             
             _collection = behaviour.BundleCollection;
             behaviour.SelectedFilter = behaviour.allFilter;
             displayChoices.Add(behaviour.allFilter, allList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Character), characterList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Item), itemList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Interactable), interactableList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Trigger), areaList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Prop), propList);
-            displayChoices.Add(nameof(Bundle.PopulationTypeE.Misc), miscList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Character), characterList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Item), itemList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Interactable), interactableList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Trigger), areaList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Prop), propList);
+            displayChoices.Add(nameof(Bundle.EElementFlag.Misc), miscList);
 
             SetInfo(behaviour);
             CreateVisualElement();
@@ -231,8 +231,10 @@ namespace ISILab.LBS.VisualElements
             }
             else
             {
+                Bundle.EElementFlag filter = displayChoices[type.value][0];
+                HashSet<Bundle.EElementFlag> tags = new HashSet<Bundle.EElementFlag>() { filter};
                 candidates = bundles
-                    .Where(b => b.Type == Bundle.TagType.Element && b.PopulationType == displayChoices[type.value][0]) // get the bundle type at the filter index
+                    .Where(b => b.Type == Bundle.TagType.Element && b.HasAnyFlag(tags)) // get the bundle type at the filter index
                     .ToList();
             }
             bundlePallete.ShowGroups = false;

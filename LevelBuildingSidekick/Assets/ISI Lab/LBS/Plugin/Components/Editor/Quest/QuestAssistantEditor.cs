@@ -183,6 +183,8 @@ namespace ISILab.LBS.Editor
             _suggestionList.Rebuild();
             _noSuggestionPanel.style.display = hasSuggestions ? DisplayStyle.None : DisplayStyle.Flex;
             _suggestionList.style.display = hasSuggestions ? DisplayStyle.Flex : DisplayStyle.None;
+            // redraw to display suggestions
+            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
             MarkDirtyRepaint();
         }
         

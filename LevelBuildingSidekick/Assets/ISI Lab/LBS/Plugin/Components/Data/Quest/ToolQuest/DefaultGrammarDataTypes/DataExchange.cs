@@ -22,10 +22,9 @@ namespace ISILab.LBS.Components
         [SerializeField] public BundleType bundleReceiveType;
         [SerializeField] public int receiveAmount = 1;
         
-        private readonly HashSet<LBSETag.Type> validExchangeTags = new()
+        private readonly HashSet<Bundle.EElementFlag> validExchangeTags = new()
         {
-            LBSETag.Type.Item,
-            LBSETag.Type.Resource
+            Bundle.EElementFlag.Item
         }; 
         
         public DataExchange(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -52,21 +51,21 @@ namespace ISILab.LBS.Components
             return   bundleGiveType.Valid() && bundleReceiveType.Valid();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            TrySetBundleType(layers, suggestionKey,  ref bundleReceiveType, validExchangeTags);
+            TrySetBundleType(layers, tiles,  ref bundleReceiveType, validExchangeTags);
             var bundleReceive = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleReceiveType.GetGuid());
             int recieveCounter = 0;
-            foreach (var tbg in suggestionKey)
+            foreach (var tbg in tiles)
             {
                 if(tbg.BundleData.Bundle == bundleReceive) recieveCounter++;
             }
             receiveAmount = recieveCounter;
             
-            TrySetBundleType(layers, suggestionKey,  ref bundleGiveType, validExchangeTags);
+            TrySetBundleType(layers, tiles,  ref bundleGiveType, validExchangeTags);
             var bundleGive = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGiveType.GetGuid());
             int giveCounter = 0;
-            foreach (var tbg in suggestionKey)
+            foreach (var tbg in tiles)
             {
                 if(tbg.BundleData.Bundle == bundleGive) giveCounter++;
             }

@@ -5,6 +5,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -12,35 +13,8 @@ using UnityEngine.UIElements;
 
 namespace ISILab.LBS.Components
 {
-    // Somehow maybe make it assignable in editor instead. as it's to check specific LBSTag labels
-    public static class LBSETag
-    {
-        public enum Type
-        {
-            Character,
-            Item,
-            Player,
-            Resource,
-            Ally,
-            Enemy
-        }
-
-        private static readonly Dictionary<Type, string> Tags = new()
-        {
-            {Type.Character, "Character"},
-            {Type.Item, "Item"},
-            {Type.Player, "Player"},
-            {Type.Resource, "Resource"},
-            {Type.Ally, "Ally"},
-            {Type.Enemy , "Enemies"}
-        };
-
-        public static List<string> GetTags(HashSet<Type> types)
-        {
-            return types.Select(type => Tags[type]).ToList();
-        }
-    }
-
+    
+    
     #region Targets
     [Serializable]
     public abstract class LayerTarget
@@ -271,15 +245,15 @@ namespace ISILab.LBS.Components
         /// Used in the quest assistant, assign data to the node by passing tiles
         /// </summary>
         /// <param name="layers"></param>
-        /// <param name="suggestionKey"></param>
-        public abstract void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey);
+        /// <param name="tiles"></param>
+        public abstract void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles);
         
         #region Helpers
 
         protected bool TrySetBundleGraphList(
             List<LBSLayer> layers, List<TileBundleGroup> suggestions,
             ref  List<BundleGraph> listVar,
-            HashSet<LBSETag.Type> validTags,
+            HashSet<Bundle.EElementFlag> flags,
             bool bRequireAllTags = false)
         {
             foreach (var suggestionTile in suggestions)
@@ -292,11 +266,13 @@ namespace ISILab.LBS.Components
                 bool bTagRequirement;
                 if (bRequireAllTags)
                 {
-                    bTagRequirement = bundle.GetHasAllTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAllFlags(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
                 }
                 else
                 {
-                    bTagRequirement = bundle.GetHasAnyTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAnyFlag(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
                 }
                 if(!bTagRequirement) continue;
                 
@@ -310,7 +286,7 @@ namespace ISILab.LBS.Components
         protected bool TrySetBundleGraph(
             List<LBSLayer> layers, List<TileBundleGroup> suggestions,
             ref BundleGraph graphVar,
-            HashSet<LBSETag.Type> validTags,
+            HashSet<Bundle.EElementFlag> flags,
             bool bRequireAllTags = false)
         {
             foreach (var suggestionTile in suggestions)
@@ -322,11 +298,13 @@ namespace ISILab.LBS.Components
                 bool bTagRequirement;
                 if (bRequireAllTags)
                 {
-                    bTagRequirement = bundle.GetHasAllTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAllFlags(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
                 }
                 else
                 {
-                    bTagRequirement = bundle.GetHasAnyTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAnyFlag(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
                 }
                 if(!bTagRequirement) continue;
                 
@@ -340,7 +318,7 @@ namespace ISILab.LBS.Components
         protected bool TrySetBundleType(
             List<LBSLayer> layers, List<TileBundleGroup> suggestions,
             ref BundleType typeVar,
-            HashSet<LBSETag.Type> validTags,
+            HashSet<Bundle.EElementFlag> flags,
             bool bRequireAllTags = false)
         {
             foreach (var suggestionTile in suggestions)
@@ -351,11 +329,13 @@ namespace ISILab.LBS.Components
                 bool bTagRequirement;
                 if (bRequireAllTags)
                 {
-                    bTagRequirement = bundle.GetHasAllTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAllFlags(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
                 }
                 else
                 {
-                    bTagRequirement = bundle.GetHasAnyTagCharacteristics(LBSETag.GetTags(validTags));
+                    bTagRequirement = bundle.HasAnyFlag(flags);
+                    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
                 }
                 if(!bTagRequirement) continue;
                 

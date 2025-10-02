@@ -4,6 +4,7 @@ using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
+using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
 
@@ -18,16 +19,14 @@ namespace ISILab.LBS.Components
         /// </summary>
         [SerializeField] public BundleGraph bundleGiveTo;
         
-        private readonly HashSet<LBSETag.Type> validGiveTags = new()
+        private readonly HashSet<Bundle.EElementFlag> validGiveTags = new()
         {
-            LBSETag.Type.Item, 
-            LBSETag.Type.Resource
+            Bundle.EElementFlag.Item
         }; 
         
-        private readonly HashSet<LBSETag.Type> validToGiveTags = new()
+        private readonly HashSet<Bundle.EElementFlag> validToGiveTags = new()
         {
-            LBSETag.Type.Character,
-            LBSETag.Type.Ally
+            Bundle.EElementFlag.Ally
         }; 
         
         public DataGive(QuestNode ownerNode, string tag) : base(ownerNode, tag)
@@ -62,11 +61,10 @@ namespace ISILab.LBS.Components
             return bundleGive.Valid() && bundleGiveTo.Valid();
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            TrySetBundleGraph(layers, suggestionKey, ref bundleGiveTo, validToGiveTags);
-            TrySetBundleType(layers, suggestionKey, ref bundleGive, validGiveTags);
-            
+            TrySetBundleGraph(layers, tiles, ref bundleGiveTo, validToGiveTags);
+            TrySetBundleType(layers, tiles, ref bundleGive, validGiveTags);
         }
     }
 }

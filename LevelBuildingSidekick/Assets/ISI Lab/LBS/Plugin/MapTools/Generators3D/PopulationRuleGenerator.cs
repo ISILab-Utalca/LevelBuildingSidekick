@@ -59,7 +59,7 @@ namespace ISILab.LBS.Generators
             var parentMisc = new GameObject("Misc");
 
             var groups = data.Groups;
-            var objects = new Dictionary<GameObject, Bundle.PopulationTypeE>();
+            var objects = new Dictionary<GameObject, Bundle.EElementFlag>();
 
             foreach (TileBundleGroup group in groups)
             {
@@ -133,7 +133,7 @@ namespace ISILab.LBS.Generators
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
                 generatedComponent.LayerName = layer.Name;
-                objects.Add(go, current.PopulationType);
+                objects.Add(go, current.ElementFlag);
             }
             
             if(objects.Count == 0)
@@ -148,25 +148,24 @@ namespace ISILab.LBS.Generators
             
             foreach (var obj in objects)
             {
-                
                 switch(obj.Value)
                 {
-                    case Bundle.PopulationTypeE.Character: 
+                    case Bundle.EElementFlag.Character: 
                         obj.Key.transform.SetParent(parentEntity.transform);
                         break;
-                    case Bundle.PopulationTypeE.Item:
+                    case Bundle.EElementFlag.Item:
                         obj.Key.transform.SetParent(parentObject.transform);
                         break;
-                    case Bundle.PopulationTypeE.Interactable:
+                    case Bundle.EElementFlag.Interactable:
                         obj.Key.transform.SetParent(parentInteractable.transform);
                         break;
-                    case Bundle.PopulationTypeE.Trigger:
+                    case Bundle.EElementFlag.Trigger:
                         obj.Key.transform.SetParent(parentArea.transform);
                         break;
-                    case Bundle.PopulationTypeE.Prop:
+                    case Bundle.EElementFlag.Prop:
                         obj.Key.transform.SetParent(parentProp.transform);
                         break;
-                    case Bundle.PopulationTypeE.Misc:
+                    case Bundle.EElementFlag.Misc:
                         obj.Key.transform.SetParent(parentMisc.transform);
                         break;
                     default:

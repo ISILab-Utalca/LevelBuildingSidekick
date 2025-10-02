@@ -17,7 +17,7 @@ namespace ISILab.LBS.Components
             return true;
         }
 
-        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> suggestionKey)
+        public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
             // stub
         }
