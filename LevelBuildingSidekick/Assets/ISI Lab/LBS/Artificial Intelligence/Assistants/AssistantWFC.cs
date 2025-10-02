@@ -115,8 +115,10 @@ namespace ISILab.LBS.Assistants
 
         #region CONSTRUCTORS
 
-        public AssistantWFC(VectorImage icon, string name, Color colorTint) : base(icon, name, colorTint)
+        public AssistantWFC(VectorImage icon, string name, Color colorTint, Bundle targetBundleRef = null) : base(icon, name, colorTint)
         {
+            if(targetBundleRef != null)
+                this.targetBundleRef = targetBundleRef;
             SafeMode = true;
             OnGUI(); 
         }
@@ -132,7 +134,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new AssistantWFC(this.Icon, this.Name, this.ColorTint);
+            return new AssistantWFC(Icon, Name, ColorTint, targetBundleRef);
         }
 
         public bool ExecuteTest(bool overrideValues)

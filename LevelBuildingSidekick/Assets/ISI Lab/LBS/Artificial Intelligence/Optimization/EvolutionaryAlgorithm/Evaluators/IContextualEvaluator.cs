@@ -153,10 +153,11 @@ public interface IContextualEvaluator : IEvaluator
         return combinedLayer;
     }
 
+
     public LBSLayer MergeExteriorWithInterior(LBSLayer exteriorLayer, LBSLayer interiorLayer)
     {
-        bool interiorExists = interiorLayer is not null && ContextLayers.Contains(interiorLayer);
-        bool exteriorExists = exteriorLayer is not null && ContextLayers.Contains(exteriorLayer);
+        bool interiorExists = interiorLayer is not null;// && ContextLayers.Contains(interiorLayer);
+        bool exteriorExists = exteriorLayer is not null;// && ContextLayers.Contains(exteriorLayer);
 
         if (!(interiorExists || exteriorExists)) return null;
 

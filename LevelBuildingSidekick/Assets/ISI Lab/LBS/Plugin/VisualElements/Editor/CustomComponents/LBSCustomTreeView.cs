@@ -1,21 +1,65 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using LBS.Bundles;
+using UnityEditor.IMGUI.Controls;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
+using TreeView = UnityEngine.UIElements.TreeView;
 
 namespace ISILab.LBS.CustomComponents
 {
     [UxmlElement]
-    public partial class LBSCustomTreeView : TreeView
+    public partial class LBSCustomTreeView : TreeView, INotifyValueChanged<List<LBSTreeData>>
     {
+        
+        internal static readonly BindingId valueProperty = (BindingId) nameof (value);
+        
         // Store the current TreeView data as strings
-        private List<TreeViewItemData<string>> treeData = new();
+        private List<TreeViewItemData<string>> treeDataString = new();
+        private List<TreeViewItemData<LBSTreeData>> treeDataRaw = new();
+        private List<LBSTreeData> treeData;
+
+        [UxmlObjectReference("TreeViewItems")]
+        public List<LBSTreeData> value
+        {
+            get => treeData;
+            set
+            {
+                if (treeData == value) return;
+                SetValueWithoutNotify(value);
+                
+                if (value.Count > 0 )
+                {
+                    treeDataRaw.Clear();
+                    treeDataString.Clear();
+                    
+                    foreach (LBSTreeData treeData in value)
+                    {
+                        
+                        treeDataString.Add(treeData.AsTreeDataString());
+                        //treeDataRaw.Add(treeData.AsTreeDataRaw());
+                    }
+                    BuildTreeFromStringData(treeDataString);
+                    
+                    //BuildTreeFromGenericData(treeDataRaw);
+                }
+                this.NotifyPropertyChanged(valueProperty);
+            }
+        }
+
 
         public LBSCustomTreeView()
         {
             // Default load on attach
-            RegisterCallback<AttachToPanelEvent>(_ => LoadDefaultTree());
+            //RegisterCallback<AttachToPanelEvent>(_ => LoadDefaultTree());
+            
+            
         }
 
         #region Default Tree
@@ -23,22 +67,22 @@ namespace ISILab.LBS.CustomComponents
         private void LoadDefaultTree()
         {
             // Clear previous data
-            treeData.Clear();
+            treeDataString.Clear();
 
             // Create some default demo data
             for (int i = 0; i < 10; i++)
             {
                 int itemIndex = i * 10 + i;
-
+            
                 var subItems = new List<TreeViewItemData<string>>(10);
                 for (int j = 0; j < 10; j++)
                     subItems.Add(new TreeViewItemData<string>(itemIndex + j + 1, $"Data {i + 1}-{j + 1}"));
-
+            
                 var item = new TreeViewItemData<string>(itemIndex, $"Data {i + 1}", subItems);
-                treeData.Add(item);
+                treeDataString.Add(item);
             }
 
-            BuildTreeFromStringData(treeData);
+            BuildTreeFromStringData(treeDataString);
         }
 
         #endregion
@@ -49,19 +93,20 @@ namespace ISILab.LBS.CustomComponents
         {
             if (items == null || items.Count == 0) return;
 
-            treeData = items;
+            treeDataString = items;
 
             makeItem = () => new Label();
             bindItem = (e, i) =>
             {
                 var itemData = GetItemDataForIndex<string>(i);
                 var id = GetIdForIndex(i);
-                ((Label)e).text = $"ID {id} - {itemData}";
+                ((Label)e).text = $"ID::{id}::{itemData}";
             };
 
-            SetRootItems(treeData);
+            SetRootItems(treeDataString);
             selectionType = SelectionType.Multiple;
             Rebuild();
+
 
             // Optional callbacks
             itemsChosen += selectedItems =>
@@ -108,5 +153,85 @@ namespace ISILab.LBS.CustomComponents
         }
 
         #endregion
+
+        public void SetValueWithoutNotify(List<LBSTreeData> newValue)
+        {
+            treeData = newValue;
+        }
+    }
+    
+    
+    [UxmlObject]
+    public partial class LBSTreeData
+    {
+        //Automatic create an object global unique id
+        private Guid uniqueID;
+        public LBSTreeData()
+        {
+            uniqueID = Guid.NewGuid();
+            Debug.Log(uniqueID.ToString());
+            Debug.Log(uniqueID.GetHashCode());
+            ItemName = "Sample Tree Item";
+            Id = uniqueID.GetHashCode();
+        }
+        
+        public LBSTreeData(int _id): this(){
+            Id = _id;
+            ItemName = this.ToString();
+        }
+        
+        [UxmlAttribute("id")] public int Id;
+        
+        [UxmlAttribute ("item-name")] public string ItemName;
+        
+        [UxmlObjectReference]
+        public List<LBSTreeData> Children;
+
+        public virtual TreeViewItemData<string> AsTreeDataString()
+        {
+            List<TreeViewItemData<string>> childData  = new();
+            if (Children == null)
+            {
+                return new TreeViewItemData<string>(Id, ItemName);
+            } else {
+                
+                foreach (LBSTreeData child in Children)
+                {
+                    childData.Add(child.AsTreeDataString()); // Recursive hell
+                }
+                return new TreeViewItemData<string>(Id, ItemName, childData);
+            }
+        }
+
+        public virtual TreeViewItemData<LBSTreeData> AsTreeDataRaw()
+        {
+            List<TreeViewItemData<LBSTreeData>> childData = new();
+            if (Children == null)
+            {
+                return new TreeViewItemData<LBSTreeData>(Id, this);
+            } else {
+                
+                foreach (LBSTreeData child in Children)
+                {
+                    childData.Add(new TreeViewItemData<LBSTreeData>(child.Id, child)); // Recursive hell
+                }
+                return new TreeViewItemData<LBSTreeData>(Id, this, childData);
+            }
+        }
+        
+        public override string ToString()
+        {
+            return $"{ItemName}::{Id}";
+        }
+
+        public LBSTreeData FromString(string _rawValue)
+        {
+            LBSTreeData data = new LBSTreeData();
+            string[] rawSplit = _rawValue.Split("::");
+            data.Id = int.Parse(rawSplit[0]);
+            data.ItemName = rawSplit[1];
+            
+            return data;
+        }
     }
 }

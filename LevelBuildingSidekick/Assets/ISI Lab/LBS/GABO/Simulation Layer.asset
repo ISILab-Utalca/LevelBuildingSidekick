@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c744a98d20f087843ac0884b895e0b43, type: 3}
   m_Name: Simulation Layer
   m_EditorClassIdentifier: 
-  templateName: Simulation Layer
+  templateName: Simulation Layer (Preview)
   order: 50
   layer:
     visible: 1
@@ -101,9 +101,9 @@ MonoBehaviour:
             name: Testing
             rootParentName: Root_Parent
           index: 0
-        icon: {fileID: 7388822144124034973, guid: e17eb0e02534666439fca8ea30b4d4e4, type: 3}
+        icon: {fileID: 7388822144124034973, guid: 87f2bb6f2c78b184a8ea2b6a5b14f878, type: 3}
         colorTint: {r: 0.5294118, g: 0.84313726, b: 0.9647059, a: 1}
-        name: Simulation Behaviour
+        name: Simulation Layer's Palette
         module:
           rid: 1134172181454913763
         selectedToSet: {fileID: 0}

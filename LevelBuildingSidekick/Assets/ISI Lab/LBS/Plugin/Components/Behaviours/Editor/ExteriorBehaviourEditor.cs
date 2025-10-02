@@ -40,7 +40,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region VIEW FIELDS
-        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("e17eb0e02534666439fca8ea30b4d4e4");
+        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("87f2bb6f2c78b184a8ea2b6a5b14f878");
         private SimplePallete connectionPallete;
         private ObjectField bundleField;
         private WarningPanel warningPanel;

@@ -237,7 +237,7 @@ namespace ISILab.LBS.AI.Categorization
         /// "OnGenerationRan" and "OnTerminationReached" events of the "Optimizer" property. 
         /// Also creates a new thread with the "Start" method of the "Optimizer" property as its argument and starts the thread.
         /// </summary>
-        public void Run()
+        public void Run(bool synchronous = false)
         {
             if (Optimizer.State != Op_State.NotStarted)
             {
@@ -251,6 +251,7 @@ namespace ISILab.LBS.AI.Categorization
 
             thread = new Thread(Optimizer.Start);
             TryStartThread();
+            if(synchronous) thread.Join();
         }
 
         public void Restart()

@@ -12,6 +12,7 @@ using System.IO;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using System.Linq;
+
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
@@ -129,7 +130,7 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         protected PopulationBehaviour LayerPopulation
         {
-            get => assistant.OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+            get => assistant.LayerPopulation;
         }
         protected LBSLevelData Data
         {
@@ -170,7 +171,6 @@ namespace ISILab.LBS.VisualElements.Editor
             xProgressBar = rootVisualElement.Q<ProgressBar>("XProgressBar");
             yProgressBar = rootVisualElement.Q<ProgressBar>("YProgressBar");
             zProgressBar = rootVisualElement.Q<ProgressBar>("ZProgressBar");
-
             //Set parameters. Make everyone a ranged evaluator, make the value a default, add the listener to change the chosen elite bundle and then disable it.
             //I set everything false so they can't be manipulated if there's no preset present.
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
@@ -249,18 +249,8 @@ namespace ISILab.LBS.VisualElements.Editor
             autoSelectButton = rootVisualElement.Q<Button>("AutoSelectButton");
             autoSelectButton.clicked += () =>
             {
-                var rect = GetDefaultLayerArea();
-
-                //Is any() better than count > 0? Yes. Thank me later.
-                if (Data.ContextLayers.Any())
-                {
-                    var subRect = GetLayerContextArea();
-
-                    rect.GetCombinedArea(subRect);
-                }
-
-                assistant.RawToolRect = rect;
-
+                assistant.AutoSelectArea(out List<string> logs);
+                logs.ForEach(log => LBSMainWindow.MessageNotify(log, LogType.Warning, 5));
                 DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
             };
 
@@ -363,6 +353,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             //Directory making
             var info = new DirectoryInfo(presetPath);
+            Debug.Log(presetPath);
             var fileInfo = info.GetFiles();
 
             //Find all presets in the directory
@@ -426,6 +417,7 @@ namespace ISILab.LBS.VisualElements.Editor
             InitializeAllCurrentEvaluators();
         }
 
+        [Obsolete("Method was moved to AssistantMAPElite class.")]
         private Rect GetLayerContextArea()
         {
             //Grabs an area that encloses all context layers
@@ -458,6 +450,7 @@ namespace ISILab.LBS.VisualElements.Editor
             return combinedRect;
         }
 
+        [Obsolete("Method was moved to AssistantMAPElite class.")]
         private Rect GetDefaultLayerArea()
         {
             //Grabs the owner layer area
@@ -492,14 +485,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void InitializeEvaluator(IEvaluator evaluator)
         {
-            if(evaluator != null)
-            {
-                var contextualChoice = evaluator as IContextualEvaluator;
-                if (contextualChoice != null)
-                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers, assistant.RawToolRect);
-                else
-                    evaluator.InitializeDefault();
-            }
+            assistant.InitializeEvaluator(evaluator);
 
             UpdateTooltips();
         }
@@ -542,8 +528,6 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //SetBackgroundTexture(square, assistant.RawToolRect);
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
-            sw.Start();
-            assistant.Execute();
 
             //TODO: Hay que pasarle el Optimizer a los Map Elites
             LBSMainWindow.OnWindowRepaint += RepaintContent;
@@ -552,6 +536,9 @@ namespace ISILab.LBS.VisualElements.Editor
             recalculate.text = "Recalculate";
             
             LBSMainWindow.MessageNotify("Calculating.");
+
+            sw.Start();
+            assistant.Execute();
         }
 
         //Apply the suggestion in the world
@@ -753,7 +740,7 @@ namespace ISILab.LBS.VisualElements.Editor
         //Change the texture of a specific button
         public void SetBackgroundTexture(PopulationAssistantButtonResult gridSquare, Rect rect)
         {
-            var behaviours = assistant.OwnerLayer.Parent.Layers.SelectMany(l => l.Behaviours);
+            var behaviours = assistant.OwnerLayer.Parent.ContextLayers.SelectMany(l => l.Behaviours);
             var bh = assistant.OwnerLayer.Behaviours.Find(b => b is PopulationBehaviour);
 
             var size = 16;

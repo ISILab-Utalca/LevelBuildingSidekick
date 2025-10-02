@@ -31,6 +31,20 @@ namespace ISILab.LBS.Assistants
 
         #region PROPERTIES
         [JsonIgnore]
+        public PopulationBehaviour LayerPopulation
+        {
+            get => OwnerLayer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+        }
+        [JsonIgnore]
+        public LBSLevelData Data
+        {
+            get => LayerPopulation.OwnerLayer.Parent;
+        }
+
+        [JsonIgnore]
+        public bool Testing { get; set; } = false;
+
+        [JsonIgnore]
         public Rect RawToolRect { get; set; }
 
         [JsonIgnore]
@@ -89,16 +103,20 @@ namespace ISILab.LBS.Assistants
         {
         }
 
-        public void Execute()
+        public void Execute(bool synchronous = false)
         {
             toUpdate.Clear();
-            mapElites.OnSampleUpdated += (v) => {
-                if (!toUpdate.Contains(v))
-                {
-                    //Debug.Log("adding vector " + v);
-                    toUpdate.Add(v);
-                }
-            };
+            if (!Testing)
+            {
+                mapElites.OnSampleUpdated += (v) => {
+                    if (!toUpdate.Contains(v))
+                    {
+                        //Debug.Log("adding vector " + v);
+                        toUpdate.Add(v);
+                    }
+                };
+            }
+            
             //Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
             if (mapElites.Running)
             {
@@ -107,14 +125,14 @@ namespace ISILab.LBS.Assistants
             }
             else 
             {
-                mapElites.Run();
+                mapElites.Run(synchronous);
             }
                 
             
             
         }
 
-        public void RequestOptimizerStop() => mapElites.Optimizer.RequestStop();
+        public void RequestOptimizerStop() => mapElites?.Optimizer?.RequestStop();
 
         public void OnEndSetup(Action endAction)
         {
@@ -125,6 +143,74 @@ namespace ISILab.LBS.Assistants
         public void Continue()
         {
             throw new NotImplementedException(); // TODO: Implement Continue method for AssistantMapElite class
+        }
+
+        public void InitializeEvaluator(IEvaluator evaluator)
+        {
+            if (evaluator != null)
+            {
+                var contextualChoice = evaluator as IContextualEvaluator;
+                if (contextualChoice != null)
+                    contextualChoice.InitializeDefaultWithContext(Data.ContextLayers, RawToolRect);
+                else evaluator.InitializeDefault();
+            }
+        }
+
+        public void AutoSelectArea(out List<string> logs)
+        {
+            var rect = GetDefaultLayerArea();
+
+            logs = new List<string>();
+
+            //Is any() better than count > 0? Yes. Thank me later.
+            if (Data.ContextLayers.Any())
+            {
+                var subRect = GetLayerContextArea(out logs);
+
+                rect.GetCombinedArea(subRect);
+            }
+
+            RawToolRect = rect;
+        }
+
+        private Rect GetDefaultLayerArea()
+        {
+            //Grabs the owner layer area
+            return OwnerLayer.GetModule<BundleTileMap>().GetBounds();
+        }
+
+        private Rect GetLayerContextArea(out List<string> logs)
+        {
+            //Grabs an area that encloses all context layers
+            Rect combinedRect = new();
+            List<LBSLayer> filteredLayers = new List<LBSLayer>();
+
+            logs = new List<string>();
+
+            foreach (LBSLayer layer in Data.ContextLayers)
+            {
+                if (layer.ID != "Interior" && layer.ID != "Exterior")
+                {
+                    logs.Add("Context layers must be of type 'Interior' or 'Exterior'. " +
+                        "Layer '" + layer.Name + "' ignored.");
+                    continue;
+                }
+
+                filteredLayers.Add(layer);
+            }
+
+            for (int i = 0; i < filteredLayers.Count; i++)
+            {
+                LBSLayer layer = filteredLayers[i];
+                string moduleID = layer.ID.Equals("Exterior") ? "TempConnectedModule" : "";
+
+                if (i == 0) combinedRect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
+
+                Rect rect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
+                combinedRect.GetCombinedArea(rect);
+            }
+
+            return combinedRect;
         }
 
         public void ApplySuggestion(object data)

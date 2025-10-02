@@ -180,7 +180,7 @@ namespace ISILab.AI.Categorization
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
             CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = CombinedInteriorLayer;//(this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
             InitializeDefault();
         }
 

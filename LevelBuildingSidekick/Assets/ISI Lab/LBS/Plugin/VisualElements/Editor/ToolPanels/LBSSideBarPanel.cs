@@ -1,6 +1,7 @@
 using ISILab.Commons.Utility.Editor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ISILab.LBS.CustomComponents.Events;
 
 namespace ISILab.LBS.VisualElements
 {
@@ -19,6 +20,13 @@ namespace ISILab.LBS.VisualElements
         private Toggle bundleWindowButton;
         
         
+        #region EVENTS
+
+        public LBSBoolEvent toggleEvent;
+        
+        #endregion
+        
+        
         public LBSSideBarPanel(): base()
         {
             VisualTreeAsset visualTreeAsset = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSSideBarPanel");
@@ -34,7 +42,13 @@ namespace ISILab.LBS.VisualElements
             
             tagWindowButton = this.Q<Toggle>("TagButton");
             bundleWindowButton = this.Q<Toggle>("BundlesButton");
-            
+
+            gen3DToggle.RegisterValueChangedCallback<bool>( _evt =>
+            {
+                toggleEvent = new LBSBoolEvent(_evt.target, _evt.newValue);
+                this.SendEvent(toggleEvent);
+                _evt.StopPropagation();
+            });
             
         }
     }
