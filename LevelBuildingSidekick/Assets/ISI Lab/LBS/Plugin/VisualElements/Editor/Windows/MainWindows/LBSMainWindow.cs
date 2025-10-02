@@ -37,6 +37,7 @@ namespace ISILab.LBS.Editor.Windows{
         }
 
         private LBSLevelData backUpData;
+        static private LBSSideBarPanel sideBarPanel;
 
         #endregion
 
@@ -95,10 +96,10 @@ namespace ISILab.LBS.Editor.Windows{
 
         #region PANELS & UI SECTIONS
 
-        private LayersPanel layerPanel;
-        private Generator3DPanel gen3DPanel;
-        private VisualElement inspectorPanel;
-        private VisualElement extraPanel;
+        public LayersPanel layerPanel;
+        public Generator3DPanel gen3DPanel;
+        public VisualElement inspectorPanel;
+        public VisualElement extraPanel;
 
         #endregion
 
@@ -109,14 +110,6 @@ namespace ISILab.LBS.Editor.Windows{
 
         [UxmlAttribute]
         private LayerInspector layerInspector;
-
-        #endregion
-
-        #region TOGGLES
-
-        private static Toggle layerDataButton;
-        private static Toggle behaviourButton;
-        private static Toggle assistantButton;
 
         #endregion
 
@@ -200,9 +193,6 @@ namespace ISILab.LBS.Editor.Windows{
         public virtual void CreateGUI()
         {
             Init();
-
-            //KeyDownEvent
-            //rootVisualElement.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
             rootVisualElement.focusable = true;
             rootVisualElement.Focus();
         }
@@ -382,32 +372,13 @@ namespace ISILab.LBS.Editor.Windows{
 
             #endregion
 
-            #region EXTRA TOOLBAR TOGGLES
+            #region SIDE TOOLBAR TOGGLES
 
-            var layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
-            layerToggleButton.SetValueWithoutNotify(true);
-            layerToggleButton.RegisterCallback<ChangeEvent<bool>>(_ =>
-            {
-                layerPanel.style.display = layerToggleButton.value ? DisplayStyle.Flex : DisplayStyle.None;
-            });
-        
-            var toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggle");
-            toggleButton3D.RegisterCallback<ChangeEvent<bool>>(_ =>
-            {
-                gen3DPanel.Init(_selectedLayer);
-                gen3DPanel.style.display = toggleButton3D.value ? DisplayStyle.Flex : DisplayStyle.None;
-            });
+            sideBarPanel = rootVisualElement.Q<LBSSideBarPanel>("LBSSideBarPanel");
+            sideBarPanel?.Setup(this);
 
             toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
-
-            layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
-            behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
-            assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
-
-            layerDataButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(layerDataButton));
-            behaviourButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(behaviourButton));
-            assistantButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(assistantButton));
-
+            
             var tagsButton = rootVisualElement.Q<Toggle>("TagsButton");
             tagsButton.RegisterCallback<ClickEvent>(_ =>
             {
@@ -476,13 +447,13 @@ namespace ISILab.LBS.Editor.Windows{
         /// Called when changing tabs from the toggle buttons in this class
         /// </summary>
         /// <param name="toggleVe"></param>
-        private void ChangeInspectorPanelTab(Toggle toggleVe)
+        public void ChangeInspectorPanelTab(Toggle toggleVe)
         {
             OnToggleButtonClick();
             toggleVe.SetValueWithoutNotify(true);
-            if(toggleVe == layerDataButton) LBSInspectorPanel.ActivateDataTab();
-            if(toggleVe == behaviourButton) LBSInspectorPanel.ActivateBehaviourTab();
-            if(toggleVe == assistantButton) LBSInspectorPanel.ActivateAssistantTab();
+            if(toggleVe == sideBarPanel.layerDataTab) LBSInspectorPanel.ActivateDataTab();
+            if(toggleVe == sideBarPanel.behaviorTab) LBSInspectorPanel.ActivateBehaviourTab();
+            if(toggleVe == sideBarPanel.assistantTab) LBSInspectorPanel.ActivateAssistantTab();
         }
 
         /// <summary>
@@ -492,9 +463,9 @@ namespace ISILab.LBS.Editor.Windows{
         public static void InspectorToggleButtonChange(string panel)
         {
             Toggle toggleVe = null;
-            if(panel == LBSInspectorPanel.DataTab) toggleVe = layerDataButton; 
-            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = behaviourButton; 
-            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = assistantButton;
+            if(panel == LBSInspectorPanel.DataTab) toggleVe = sideBarPanel.layerDataTab; 
+            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = sideBarPanel.behaviorTab; 
+            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = sideBarPanel.assistantTab;
             if (toggleVe is null) return;
             
             OnToggleButtonClick();
@@ -637,10 +608,6 @@ namespace ISILab.LBS.Editor.Windows{
                     break;
             }
         }
-        
-        
-        
-        
         #endregion
         
     }

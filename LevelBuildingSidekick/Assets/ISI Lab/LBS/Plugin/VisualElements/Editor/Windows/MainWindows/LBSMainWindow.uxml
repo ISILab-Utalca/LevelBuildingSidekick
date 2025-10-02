@@ -54,41 +54,6 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="ExtraToolsBar" class="lbs-background-panel" style="overflow: visible; position: relative; height: auto; width: 32px; top: auto; left: auto; display: flex; visibility: visible; flex-grow: 0; flex-shrink: 0; flex-basis: auto; max-width: 48px; min-width: 48px; align-items: stretch; flex-direction: column; justify-content: flex-start; margin-left: 1px; margin-top: -1px;">
-                <ui:VisualElement style="flex-grow: 0; border-bottom-width: 1px; height: 8px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35);" />
-                <ui:Button tabindex="-1" text="AI" display-tooltip-when-elided="true" name="AIButton" tooltip="Display available assistant window for the layer type" style="border-left-color: rgba(0, 0, 0, 0.6); border-right-color: rgba(0, 0, 0, 0.6); border-top-color: rgba(0, 0, 0, 0.6); border-bottom-color: rgba(0, 0, 0, 0.6); border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 1px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; height: 30px; background-image: url(&quot;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade%201.png?fileID=2800000&amp;guid=c86acac07209fcc41a17cab77404a8b9&amp;type=3#Fade 1&quot;); -unity-background-image-tint-color: rgba(0, 0, 0, 0.2); align-items: center; justify-content: space-around; -unity-font-style: bold; font-size: 18px; color: rgb(195, 196, 195); display: none;" />
-                <ui:Toggle value="false" focusable="true" name="LayerToggle" tooltip="Layers Panel" class="lbs-tool-button-toggle" style="flex-direction: row-reverse; color: rgb(58, 58, 58); height: 40px; width: auto;">
-                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                </ui:Toggle>
-                <ui:Toggle value="false" focusable="true" name="Gen3DToggle" tooltip="3D Generator Panel " class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
-                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                </ui:Toggle>
-                <ui:Toggle value="false" focusable="true" name="QuestToggle" tooltip="Quest Panel" picking-mode="Ignore" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
-                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Quest_Script_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                </ui:Toggle>
-                <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
-                    <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                </ui:Toggle>
-                <ui:VisualElement name="Separator" style="flex-grow: 0; border-bottom-width: 1px; height: 2px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35); margin-top: 2px; margin-bottom: 2px;" />
-                <ui:VisualElement name="ToggleButtonContainer" style="flex-grow: 1; flex-direction: column-reverse; justify-content: flex-end;">
-                    <ui:Toggle value="false" focusable="true" name="LayerDataButton" tooltip="Layer Data" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
-                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=LayerData&apos;);" />
-                    </ui:Toggle>
-                    <ui:Toggle value="false" focusable="true" name="AssistantButton" tooltip="AI Assistant" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
-                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=AI_Assistant&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                    </ui:Toggle>
-                    <ui:Toggle value="false" focusable="true" name="BehaviourButton" tooltip="Palette" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
-                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Palette&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); height: 22px; -unity-text-align: middle-center;" />
-                    </ui:Toggle>
-                    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); height: 10%; max-height: 40px; display: none;" />
-                    <ui:Toggle value="false" focusable="true" name="TagsButton" tooltip="Tags" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: none;">
-                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=TagOutline&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                    </ui:Toggle>
-                    <ui:Toggle value="false" focusable="true" name="BundlesButton" tooltip="Bundles" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: none;">
-                        <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=BundleIcon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
-                    </ui:Toggle>
-                </ui:VisualElement>
-            </ui:VisualElement>
             <ISILab.LBS.VisualElements.LBSSideBarPanel />
             <ui:VisualElement name="Shadow" style="width: 5px; max-width: 5px; min-width: 5px; background-image: url(&quot;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade.png?fileID=2800000&amp;guid=a49e354fa998c454e9115ce30c3cba6d&amp;type=3#Fade&quot;); -unity-background-image-tint-color: rgba(2, 2, 2, 0.2); background-color: rgba(0, 0, 0, 0); display: none;" />
         </ui:VisualElement>
