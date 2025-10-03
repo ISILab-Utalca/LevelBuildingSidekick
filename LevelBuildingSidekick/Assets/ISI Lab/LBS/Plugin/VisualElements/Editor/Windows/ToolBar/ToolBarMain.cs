@@ -58,15 +58,12 @@ namespace ISILab.LBS.VisualElements.Editor
             if(LBS.loadedLevel?.FileInfo!=null) { label.text = LBS.loadedLevel.FileInfo.Name; }
             else { label.text = defaultLabel; }
 
-                LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
+            LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
             ThemeSelector.RegisterValueChangedCallback(_evt =>
             {
-                //Debug.Log(_evt.currentTarget);
-                
                 OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
-                
             });
-
+            
             OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
             OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
         }
@@ -75,7 +72,23 @@ namespace ISILab.LBS.VisualElements.Editor
         public void Bind(LBSMainWindow _mainWindow)
         {
             MainWindow = _mainWindow;
-            keyMapToggle.RegisterCallback<ClickEvent>(_ => MainWindow.DisplayHelp());
+            keyMapToggle.RegisterCallback<ClickEvent>(evt =>
+            {
+                Debug.Log("[Display Help]: Toggle KeyMap]");
+                MainWindow.DisplayHelp();
+            });
+            
+            OnNewLevel += (_loadedLevel) =>
+            {
+                LBS.loadedLevel = _loadedLevel;
+                MainWindow.RefreshWindow();
+            };
+        }
+        
+        
+        public void UnBind(LBSMainWindow _mainWindow)
+        {
+            
         }
 
         public void NewLevel(DropdownMenuAction dma)

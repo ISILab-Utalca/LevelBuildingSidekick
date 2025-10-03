@@ -63,7 +63,6 @@ namespace ISILab.LBS.Editor.Windows{
         // Warning notification
         private static VisualElement warningNotification;
         private static Label warningLabel;
-
         private static NotifierViewer notifier;
 
         #endregion
@@ -129,6 +128,8 @@ namespace ISILab.LBS.Editor.Windows{
                 return _instance;
             }
         }
+        
+        #endregion
 
         public LBSMainWindow(): base()
         {
@@ -266,17 +267,14 @@ namespace ISILab.LBS.Editor.Windows{
 
             #region TOP TOOLBAR
             TopToolBar.Bind(this);
-            TopToolBar.OnNewLevel += data =>
-            {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-            };
+            
             TopToolBar.OnLoadLevel += data =>
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
                 drawManager.RedrawLevel(levelData);
             };
+            
             TopToolBar.OnThemeChanged += data => ChangeTheme(data);
             OnLayerChange += TopToolBar.LevelChange;
 
@@ -370,17 +368,15 @@ namespace ISILab.LBS.Editor.Windows{
             OnLevelDataChange(levelData);
             levelData.OnChanged += OnLevelDataChange;
 
-        drawManager = new DrawManager();
-        inspectorManager.CreateContainers(levelData, mainView);
-        drawManager.RedrawLevel(levelData);
+            drawManager = new DrawManager();
+            inspectorManager.CreateContainers(levelData, mainView);
+            drawManager.RedrawLevel(levelData);
 
             #endregion
             
             
             #region THEME SET
-            
             ChangeTheme(LBSSettings.Instance.view.LBSTheme);
-            
             #endregion
         }
 
@@ -430,7 +426,7 @@ namespace ISILab.LBS.Editor.Windows{
         /// <summary>
         /// Refresh the window.
         /// </summary>
-        private void RefreshWindow()
+        public void RefreshWindow()
         {
             mainView.Clear();
             this.rootVisualElement.Clear();
@@ -582,7 +578,6 @@ namespace ISILab.LBS.Editor.Windows{
                     break;
             }
         }
-        #endregion
         
     }
 
