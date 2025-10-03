@@ -25,7 +25,10 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LoadedLevel> OnSaveLevel;
         public event Action<LoadedLevel> OnLevelChange;
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
-        
+
+        #region  Visual Elements
+            private LBSToolbarToggle keyMapToggle;
+        #endregion
         
         public ToolBarMain()
         {
@@ -47,8 +50,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
             // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
             
-            LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
-            keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
+            keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             
             LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
@@ -69,6 +71,13 @@ namespace ISILab.LBS.VisualElements.Editor
 
             OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
             OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
+        }
+
+
+        public void Bind(LBSMainWindow _mainWindow)
+        {
+            MainWindow = _mainWindow;
+            keyMapToggle.RegisterCallback<ClickEvent>(_ => MainWindow.DisplayHelp());
         }
 
         public void NewLevel(DropdownMenuAction dma)

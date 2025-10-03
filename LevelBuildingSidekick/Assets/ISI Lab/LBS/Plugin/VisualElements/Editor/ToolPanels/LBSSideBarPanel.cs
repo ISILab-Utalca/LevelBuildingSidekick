@@ -23,6 +23,7 @@ namespace ISILab.LBS.VisualElements
         private Toggle tagWindowButton;
         private Toggle bundleWindowButton;
         
+        private VisualElement toggleButtonsGroup;
         
         #region EVENTS
         public LBSBoolEvent toggleEvent; //Experimental!
@@ -36,6 +37,7 @@ namespace ISILab.LBS.VisualElements
         
         public LBSSideBarPanel(): base()
         {
+            
             VisualTreeAsset visualTreeAsset = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSSideBarPanel");
             visualTreeAsset.CloneTree(this);
             this.name = "LBSSideBarPanel";
@@ -48,24 +50,27 @@ namespace ISILab.LBS.VisualElements
             layerDataTab = this.Q<Toggle>("LayerDataButton");
             assistantTab = this.Q<Toggle>("AssistantButton");
             behaviorTab = this.Q<Toggle>("BehaviorButton");
+            inspectorToggleTabs.Clear();
             inspectorToggleTabs.Add(layerDataTab);
             inspectorToggleTabs.Add(assistantTab);
             inspectorToggleTabs.Add(behaviorTab);
             
             tagWindowButton = this.Q<Toggle>("TagButton");
             bundleWindowButton = this.Q<Toggle>("BundlesButton");
+            
+            toggleButtonsGroup = this.Q<VisualElement>("ToggleButtonContainer");
 
-            gen3DToggle.RegisterValueChangedCallback<bool>( _evt =>
-            {
-                //toggleEvent = new LBSBoolEvent(_evt.target, _evt.newValue);
-                //this.SendEvent(toggleEvent);
-                OnTogglePressed?.Invoke(_evt);
-                _evt.StopPropagation();
-            });
+            // gen3DToggle.RegisterValueChangedCallback<bool>( _evt =>
+            // {
+            //     //toggleEvent = new LBSBoolEvent(_evt.target, _evt.newValue);
+            //     //this.SendEvent(toggleEvent);
+            //     OnTogglePressed?.Invoke(_evt);
+            //     _evt.StopPropagation();
+            // });
             
         }
 
-        public void Setup(LBSMainWindow _mainWindow){
+        public void Bind(LBSMainWindow _mainWindow){
             if (_mainWindow != null)
             {
                 layerToggle?.SetValueWithoutNotify(true);
@@ -85,12 +90,24 @@ namespace ISILab.LBS.VisualElements
                 assistantTab.RegisterCallback<ClickEvent>(_ => _mainWindow.ChangeInspectorPanelTab(assistantTab));
                 behaviorTab.RegisterCallback<ClickEvent>(_ => _mainWindow.ChangeInspectorPanelTab(behaviorTab));
 
+                tagWindowButton?.RegisterCallback<ClickEvent>(_ =>
+                {
+                    OnToggleButtonClick();
+                    tagWindowButton.SetValueWithoutNotify(true);
+                });
+                
+                bundleWindowButton.RegisterCallback<ClickEvent>(_ =>
+                {
+                    OnToggleButtonClick();
+                    bundleWindowButton.SetValueWithoutNotify(true);
+                });
+                
             }
         }
         
         
         //TODO: Change this behavior for tabs system.
-        private static void OnToggleButtonClick()
+        public void OnToggleButtonClick()
         {
             foreach (var toggleTab in inspectorToggleTabs)
             {
