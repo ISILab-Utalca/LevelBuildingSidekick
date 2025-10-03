@@ -132,6 +132,7 @@ namespace ISILab.LBS.Editor.Windows{
 
         public LBSMainWindow(): base()
         {
+            // can't be constructed because inherit from a scriptable object!
             Debug.Log("[Main Window] - Constructor");
         }
         
@@ -194,7 +195,6 @@ namespace ISILab.LBS.Editor.Windows{
             rootVisualElement.focusable = true;
             rootVisualElement.Focus();
         }
-
         
         private void OnInspectorUpdate()
         {
@@ -434,7 +434,10 @@ namespace ISILab.LBS.Editor.Windows{
         {
             mainView.Clear();
             this.rootVisualElement.Clear();
-            Init();
+            
+            OnDisable();
+            OnEnable();
+            CreateGUI();
         }
 
         /// <summary>

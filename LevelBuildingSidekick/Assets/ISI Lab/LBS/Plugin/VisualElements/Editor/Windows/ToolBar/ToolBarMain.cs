@@ -3,12 +3,10 @@ using System;
 using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
 using ISILab.LBS.CustomComponents;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Settings;
 using UnityEngine;
-using static UnityEngine.Analytics.IAnalytic;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
