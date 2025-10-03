@@ -33,7 +33,7 @@ namespace ISILab.LBS.Manipulators
         protected override void OnKeyDown(KeyDownEvent e)
         {
             base.OnKeyDown(e);
-            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Adding Tile with neighbour connections");
+            if (e.ctrlKey) LBSMainWindow.WarningManipulator("(CTRL) Preserving neighbour connections");
         }
 
         protected override void OnKeyUp(KeyUpEvent e)
@@ -56,7 +56,7 @@ namespace ISILab.LBS.Manipulators
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Add empty tiles");
 
-            var paintNeighbors = e.ctrlKey;
+            var paintNeighbors = !e.ctrlKey;
 
             var corners = _exterior.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
@@ -88,20 +88,33 @@ namespace ISILab.LBS.Manipulators
             // Paint all connections
             for (int i = 0; i < 4; i++)
             {
-                _exterior.SetConnection(tile, i, _exterior.identifierToSet.Label, true);
-
-                if (!paintNeighbors) continue;
-
                 Vector2Int edgeNeighbour = NeighbourDirections[i * 2];
                 Vector2Int vertexNeighbour = NeighbourDirections[i * 2 + 1];
-                //var dir = Directions[i];
-                foreach(Vector2Int neighbourDir in new[] { edgeNeighbour, vertexNeighbour})
+                LBSTile neighbour = _exterior.GetTile(pos + edgeNeighbour);
+                if (neighbour != null && !paintNeighbors)
                 {
-                    if (_exterior.GetTile(pos + neighbourDir) is { } neighbour)
+                    // Conservar conexiones de los vecinos
+                    string conn = _exterior.GetConnections(neighbour)[(i + 1) % 4];
+                    if (conn.Equals(""))
+                    {
+                        _exterior.SetConnection(tile, i, _exterior.identifierToSet.Label, true);
+                    }
+                    else
+                    {
+                        _exterior.SetConnection(tile, i, conn, true);
+                    }
+                    continue;
+                }
+
+                _exterior.SetConnection(tile, i, _exterior.identifierToSet.Label, true);
+
+                foreach (Vector2Int neighbourDir in new[] { edgeNeighbour, vertexNeighbour })
+                {
+                    neighbour = _exterior.GetTile(pos + neighbourDir);
+                    if (neighbour is { })
                     {
                         List<int> indices = neighbourDir.GetVertices();
-                        indices.ForEach(i => _exterior.SetConnection(neighbour, i, _exterior.identifierToSet.Label, true));
-                        //_exterior.SetConnection(neighbour, (i + 2) % 4, _exterior.identifierToSet.Label, true);
+                        indices.ForEach(ind => _exterior.SetConnection(neighbour, ind, _exterior.identifierToSet.Label, true));
                     }
                 }
             }
