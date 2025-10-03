@@ -24,7 +24,6 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LoadedLevel> OnNewLevel;
         public event Action<LoadedLevel> OnSaveLevel;
         public event Action<LoadedLevel> OnLevelChange;
-        
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
         
         

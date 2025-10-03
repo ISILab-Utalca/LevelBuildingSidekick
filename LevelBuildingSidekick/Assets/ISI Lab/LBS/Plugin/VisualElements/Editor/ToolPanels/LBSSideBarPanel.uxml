@@ -3,14 +3,14 @@
     <ui:VisualElement name="ExtraToolsBar" class="lbs-background-panel" style="overflow: visible; position: relative; height: auto; width: 32px; top: auto; left: auto; display: flex; visibility: visible; flex-shrink: 0; max-width: 48px; min-width: 48px; align-items: stretch; flex-direction: column; justify-content: flex-start; margin-left: 1px; margin-top: -1px; flex-grow: 1;">
         <ui:VisualElement name="Separator" style="flex-grow: 0; border-bottom-width: 1px; height: 8px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35);" />
         <ui:VisualElement name="FloatingPanelButtonContainer" style="flex-grow: 0; flex-direction: column-reverse; justify-content: flex-end;">
-            <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
-                <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:Toggle value="false" focusable="true" name="Gen3DToggle" tooltip="3D Generator Panel " class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
+                <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:Toggle>
             <ui:Toggle value="false" focusable="true" name="LayerToggle" tooltip="Layers Panel" class="lbs-tool-button-toggle" style="flex-direction: row-reverse; color: rgb(58, 58, 58); height: 40px; width: auto;">
                 <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Layer_Panel_Icon&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:Toggle>
-            <ui:Toggle value="false" focusable="true" name="Gen3DToggle" tooltip="3D Generator Panel " class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px;">
-                <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/3D_Icon_Vector&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
+            <ui:Toggle value="false" focusable="true" name="PlusToggle" class="lbs-tool-button-toggle" style="flex-direction: row; height: 40px; display: none;">
+                <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; width: 32px; height: 32px; background-image: resource(&apos;Icons/Vectorial/Icon=Add&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:Toggle>
         </ui:VisualElement>
         <ui:VisualElement name="Separator" style="flex-grow: 0; border-bottom-width: 1px; height: 5px; background-color: rgb(72, 72, 72); border-bottom-color: rgb(35, 35, 35); margin-top: 0; margin-bottom: 0;" />
@@ -21,7 +21,7 @@
             <ui:Toggle value="false" focusable="true" name="AssistantButton" tooltip="AI Assistant" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
                 <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=AI_Assistant&apos;); -unity-background-image-tint-color: rgb(255, 255, 255);" />
             </ui:Toggle>
-            <ui:Toggle value="false" focusable="true" name="BehaviourButton" tooltip="Behaviours" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
+            <ui:Toggle value="false" focusable="true" name="BehaviorButton" tooltip="Behaviours" class="lbs-tool-button-toggle lbs-tab-button" style="flex-direction: row; height: 40px; display: flex; border-right-width: 0;">
                 <ui:VisualElement name="Icon" class="lbs-default-icon" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); align-self: center; align-items: auto; background-image: resource(&apos;Icons/Vectorial/Icon=Palette&apos;); -unity-background-image-tint-color: rgb(255, 255, 255); height: 22px; -unity-text-align: middle-center;" />
             </ui:Toggle>
         </ui:VisualElement>

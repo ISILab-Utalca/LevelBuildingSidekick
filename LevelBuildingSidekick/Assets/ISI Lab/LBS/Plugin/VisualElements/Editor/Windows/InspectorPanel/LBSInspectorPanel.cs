@@ -56,6 +56,7 @@ namespace ISILab.LBS.VisualElements
             tabsGroup = this.Q<ButtonGroup>("SubTabs");
             content = this.Q<VisualElement>("InspectorContent");
         }
+        
         #endregion
 
         #region METHODS
