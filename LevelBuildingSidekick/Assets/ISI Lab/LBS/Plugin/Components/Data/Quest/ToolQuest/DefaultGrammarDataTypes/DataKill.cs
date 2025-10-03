@@ -48,6 +48,27 @@ namespace ISILab.LBS.Components
                 ResizeToFitBundles(bundlesToKill);
             }
 
+            public override bool Equals(BaseQuestNodeData other)
+            {
+                var killOther = other as DataKill;
+                if(killOther == null) return false;
+                
+                HashSet<BundleGraph> killHash = new HashSet<BundleGraph>();
+                foreach (var observer in bundlesToKill)
+                {
+                    killHash.Add(observer);
+                }
+                HashSet<BundleGraph> otherKillHash = new HashSet<BundleGraph>();
+                foreach (var observer in killOther.bundlesToKill)
+                {
+                    otherKillHash.Add(observer);
+                }
+            
+                if (killHash.Count != otherKillHash.Count) return false;
+            
+                return killHash.SetEquals(otherKillHash);
+            }
+
             public override bool IsValid()
             {
                 return bundlesToKill.Any();

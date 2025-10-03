@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using ISILab.Macros;
@@ -40,6 +39,15 @@ namespace ISILab.LBS.Components
             requiredAmount = exchangeData.requiredAmount;
             bundleReceiveType = exchangeData.bundleReceiveType;
             receiveAmount = exchangeData.receiveAmount;
+        }
+
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var exchangeOther = other as DataExchange;
+            if(exchangeOther == null) return false;
+            
+            return exchangeOther.bundleGiveType == bundleGiveType && 
+                   exchangeOther.bundleReceiveType == bundleReceiveType;
         }
 
         public override bool IsValid()

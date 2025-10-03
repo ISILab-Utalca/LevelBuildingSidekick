@@ -102,25 +102,28 @@ namespace ISILab.LBS.Drawers.Editor
             
             foreach (var suggestNode in questGraph.Suggestions)
             {
-                _suggestionViews.TryGetValue(suggestNode, out var suggestView);
+                if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
+                {
+                    _suggestionViews.TryGetValue(suggestNode, out var suggestView);
               
-                // if not successfully created
-                if(suggestView is null)
-                {
-                    // make a quest action visual element
-                    suggestView = CreateSuggestionView(suggestNode);
-                    _suggestionViews.Add(suggestNode, suggestView);
-                }
+                    // if not successfully created
+                    if(suggestView is null)
+                    {
+                        // make a quest action visual element
+                        suggestView = CreateSuggestionView(suggestNode);
+                        _suggestionViews.Add(suggestNode, suggestView);
+                    }
                 
-                if (questGraph.displaySuggestions)
-                {
-                    suggestView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                    if (questGraph.displaySuggestions)
+                    {
+                        suggestView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                    }
+                    else
+                    {
+                        suggestView.style.display = DisplayStyle.None;
+                    }
+                    behaviour.Keys.Add(suggestNode);
                 }
-                else
-                {
-                    suggestView.style.display = DisplayStyle.None;
-                }
-                behaviour.Keys.Add(suggestNode);
             }
             
             foreach (var edge in questGraph.GraphEdges)
@@ -216,6 +219,7 @@ namespace ISILab.LBS.Drawers.Editor
         private SuggestionElementArea CreateSuggestionView(QuestNode node)
         {
             var nodeView = new SuggestionElementArea(node,node.NodeData.Area);
+            
             return nodeView;
         }
     }

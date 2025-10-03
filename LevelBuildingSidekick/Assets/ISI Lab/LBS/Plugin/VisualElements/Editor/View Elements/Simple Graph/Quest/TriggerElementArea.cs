@@ -111,13 +111,13 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseEnter(MouseEnterEvent evt)
         {
-            if(!focusable) return;
+            if(pickingMode == PickingMode.Ignore) return;
             ShelfManipulator();
         }
 
         private void OnMouseLeave(MouseLeaveEvent evt)
         {
-            if(!focusable) return;
+            if(pickingMode == PickingMode.Ignore) return;
             RestoreManipulator();
         }
 

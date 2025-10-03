@@ -233,7 +233,8 @@ namespace ISILab.LBS.Components
             area = new Rect(minX, maxY, Mathf.Abs(width), Mathf.Abs(height));
         }
 
-
+        public abstract bool Equals(BaseQuestNodeData other);
+        
         public abstract bool IsValid();
 
         public VectorImage GetIcon()

@@ -48,6 +48,14 @@ namespace ISILab.LBS.Components
             if (bundleReportTo.Valid()) area = bundleReportTo.Area;
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var reportOther = other as DataReport;
+            if(reportOther == null) return false;
+            
+            return bundleReportTo == reportOther.bundleReportTo;
+        }
+
         public override bool IsValid()
         {
             return bundleReportTo.Valid();

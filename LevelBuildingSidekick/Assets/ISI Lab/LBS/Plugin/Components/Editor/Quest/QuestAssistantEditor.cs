@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
@@ -193,14 +194,18 @@ namespace ISILab.LBS.Editor
             if (element is not QuestNodeSuggestion suggestionEntry) return;
 
             suggestionEntry.UpdateData(_questGraph.Suggestions[index]);
-            suggestionEntry.OnDiscard = null;
-            suggestionEntry.OnDiscard += () =>
+            _questGraph.OnRemoveSuggestion += (suggestionToRemove) =>
             {
-                _questGraph.Suggestions.RemoveAt(index);
-                UpdateSuggestionsDisplay();
+                _questGraph.Suggestions.Remove(suggestionToRemove);
             };
+            _questGraph.OnRemoveSuggestion -= HandleRemoveSuggestion;
+            _questGraph.OnRemoveSuggestion += HandleRemoveSuggestion;
         }
         
+        private void HandleRemoveSuggestion(QuestNode node)
+        {
+            UpdateSuggestionsDisplay();
+        }
         #endregion
         
         public override void OnFocus()

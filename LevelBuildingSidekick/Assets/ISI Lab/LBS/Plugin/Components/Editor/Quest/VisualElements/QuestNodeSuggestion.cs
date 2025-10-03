@@ -3,6 +3,7 @@ using UnityEngine.UIElements;
 using System;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.Modules;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -26,9 +27,8 @@ namespace ISILab.LBS.VisualElements.Editor
         private QuestNode _generatedQuestNode;
         
         #endregion
-
-        public Action OnDiscard;
-
+        
+   
         public QuestNodeSuggestion() {
             
             var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestNodeSuggestion");
@@ -38,8 +38,12 @@ namespace ISILab.LBS.VisualElements.Editor
             _goToButton = this.Q<Button>("GoToButton");
             _applyButton = this.Q<Button>("ApplyButton");
             _discardButton = this.Q<Button>("DiscardButton");
-            _discardButton.clicked += () => OnDiscard.Invoke();
-            _applyButton.clicked += () => _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
+            _discardButton.clicked += () => _generatedQuestNode.Graph.OnRemoveSuggestion?.Invoke(_generatedQuestNode);
+            _applyButton.clicked += () =>
+            {
+                _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
+                _generatedQuestNode.Graph.OnRemoveSuggestion?.Invoke(_generatedQuestNode);
+            };
             _goToButton.clicked += () => _generatedQuestNode.Graph.GoToNode(_generatedQuestNode);
 
         }

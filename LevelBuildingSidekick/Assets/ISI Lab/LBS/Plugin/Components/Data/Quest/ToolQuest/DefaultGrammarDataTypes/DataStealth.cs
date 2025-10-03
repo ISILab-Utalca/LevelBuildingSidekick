@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
-using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
@@ -51,6 +49,27 @@ namespace ISILab.LBS.Components
         public override void Resize()
         {
             ResizeToFitBundles(bundlesObservers);
+        }
+
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var stealthOther = other as DataStealth;
+            if(stealthOther == null) return false;
+
+            HashSet<BundleGraph> observersHash = new HashSet<BundleGraph>();
+            foreach (var observer in bundlesObservers)
+            {
+                observersHash.Add(observer);
+            }
+            HashSet<BundleGraph> otherObserversHash = new HashSet<BundleGraph>();
+            foreach (var observer in stealthOther.bundlesObservers)
+            {
+                otherObserversHash.Add(observer);
+            }
+            
+            if (observersHash.Count != otherObserversHash.Count) return false;
+            
+            return observersHash.SetEquals(otherObserversHash);
         }
 
         public override bool IsValid()

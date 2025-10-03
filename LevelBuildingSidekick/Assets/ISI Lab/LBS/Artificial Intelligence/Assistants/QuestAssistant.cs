@@ -125,7 +125,7 @@ namespace ISILab.LBS.Assistants
                 }
             },
             {
-                new ElementFlagToAction(new[] { Bundle.EElementFlag.Character, Bundle.EElementFlag.Item }),
+                new ElementFlagToAction(new[] { Bundle.EElementFlag.Ally, Bundle.EElementFlag.Item }),
                 new List<ActionInfo>
                 {
                     new("give"), 
@@ -145,6 +145,7 @@ namespace ISILab.LBS.Assistants
         private QuestGraph QuestGraph => OwnerLayer.GetModule<QuestGraph>();
 
         public LBSLevelData Data => QuestGraph.OwnerLayer.Parent;
+
         #endregion
 
         #region CONSTRUCTORS
@@ -245,7 +246,9 @@ namespace ISILab.LBS.Assistants
                 bool exists = false;
                 foreach (var sn in QuestGraph.Suggestions)
                 {
-                    exists = newSuggestion.NodeData == sn.NodeData;
+                    if(sn == newSuggestion) continue; // dismiss new suggestion
+
+                    exists = newSuggestion.NodeData.Equals(sn.NodeData); // compare new suggestion with others
                     if (exists) break;
                 }
                 if (exists) QuestGraph.Suggestions.Remove(newSuggestion);

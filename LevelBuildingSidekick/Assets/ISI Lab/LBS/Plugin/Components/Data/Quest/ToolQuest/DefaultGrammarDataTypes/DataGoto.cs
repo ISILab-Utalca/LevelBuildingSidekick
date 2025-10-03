@@ -12,6 +12,11 @@ namespace ISILab.LBS.Components
         {
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            return Area == other.Area;
+        }
+
         public override bool IsValid()
         {
             return true;
@@ -21,5 +26,7 @@ namespace ISILab.LBS.Components
         {
             // stub
         }
+        
+        
     }
 }

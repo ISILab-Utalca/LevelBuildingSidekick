@@ -46,6 +46,14 @@ namespace ISILab.LBS.Components
             if (bundleListenTo.Valid())area = bundleListenTo.Area;
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var listenOther = other as DataListen;
+            if(listenOther == null) return false;
+            
+            return listenOther.bundleListenTo == bundleListenTo;
+        }
+
         public override bool IsValid()
         {
             return bundleListenTo.Valid();

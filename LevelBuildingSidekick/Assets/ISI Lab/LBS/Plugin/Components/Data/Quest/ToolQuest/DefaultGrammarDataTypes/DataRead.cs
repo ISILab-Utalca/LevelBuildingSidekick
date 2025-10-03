@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
-using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
@@ -43,6 +41,14 @@ namespace ISILab.LBS.Components
             public override void Resize()
             {
                 if (bundleToRead.Valid())area = bundleToRead.Area;
+            }
+
+            public override bool Equals(BaseQuestNodeData other)
+            {
+                var readOther = other as DataRead;
+                if(readOther == null) return false;
+                
+                return bundleToRead.Equals(readOther.bundleToRead);
             }
 
             public override bool IsValid()

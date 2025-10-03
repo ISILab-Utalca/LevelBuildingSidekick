@@ -43,6 +43,14 @@ namespace ISILab.LBS.Components
            if (bundleToTake.Valid()) area = bundleToTake.Area;
        }
 
+       public override bool Equals(BaseQuestNodeData other)
+       {
+           var takeOther =  other as DataTake;
+           if (takeOther is null) return false;
+           
+           return takeOther.bundleToTake == bundleToTake;
+       }
+
        public override bool IsValid()
        {
            return bundleToTake.Valid();

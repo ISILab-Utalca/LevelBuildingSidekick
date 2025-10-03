@@ -25,6 +25,14 @@ namespace ISILab.LBS.Components
             resetTimeOnExit = captureData.resetTimeOnExit;
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var captureOther = other as DataCapture;
+            if(captureOther == null) return false;
+
+            return Mathf.Approximately(captureOther.captureTime, captureTime);
+        }
+
         public override bool IsValid()
         {
             return true;

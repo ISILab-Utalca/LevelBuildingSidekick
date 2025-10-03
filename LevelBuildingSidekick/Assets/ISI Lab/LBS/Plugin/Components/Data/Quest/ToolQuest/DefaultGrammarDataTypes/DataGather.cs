@@ -37,6 +37,14 @@ namespace ISILab.LBS.Components
             gatherAmount = gatherData.gatherAmount;
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var gatherOther = other as DataGather;
+            if(gatherOther == null) return false;
+            
+            return gatherOther.bundleGatherType == bundleGatherType;
+        }
+
         public override bool IsValid()
         {
             return bundleGatherType is not null && bundleGatherType.Valid();

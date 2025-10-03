@@ -1,5 +1,6 @@
 using System;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Editor.Windows;
@@ -34,10 +35,6 @@ namespace ISILab.LBS.VisualElements
         private TriggerElementArea _suggestionArea;
         #endregion
 
-        #region Events
-        public Action OnDiscard;
-        #endregion
-
         #region Constructor
         public SuggestionElementArea(QuestNode suggestion, Rect area)
         {
@@ -54,11 +51,14 @@ namespace ISILab.LBS.VisualElements
             CapsuleSetUp();
 
             SetSelected(false);
+        
         }
 
         private void AreaSetUp(Rect area)
         {
             // Calculate visual position
+            if(LBSMainWindow.Instance is null) return;
+            if(LBSMainWindow.Instance._selectedLayer is null) return;
             var position = LBSMainWindow.Instance._selectedLayer.FixedToPosition(
                 new Vector2Int((int)area.x, (int)area.y), true);
 
@@ -69,6 +69,8 @@ namespace ISILab.LBS.VisualElements
 
             // Main gizmo
             _triggerElementGizmo = this.Q<VisualElement>("TriggerElementSelector");
+            _triggerElementGizmo.focusable = false;
+            _triggerElementGizmo.pickingMode = PickingMode.Ignore;
             _triggerBackground = _triggerElementGizmo.style.backgroundImage;
             
             ApplyStyling();
@@ -102,20 +104,29 @@ namespace ISILab.LBS.VisualElements
             _applyButton = this.Q<Button>("ApplyButton");
             _discardButton = this.Q<Button>("DiscardButton");
             _visibleToggle= this.Q<LBSToolbarToggle>("VisibiliityToggle");
-            _discardButton.clicked += () => OnDiscard?.Invoke();
-            _applyButton.clicked += () => _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
+            _discardButton.clicked += () =>_generatedQuestNode.Graph.OnRemoveSuggestion?.Invoke(_generatedQuestNode);
+            _applyButton.clicked += () =>
+            {
+                _generatedQuestNode.Graph.OnRemoveSuggestion?.Invoke(_generatedQuestNode);
+                _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
+            };
             _visibleToggle.RegisterCallback<ChangeEvent<bool>>(x =>
             {
                 DisplayTriggerArea(x.newValue);
             });
             
-            _triggerElementGizmo.focusable = false;
+           
             _applyButton.focusable = true;
             _discardButton.focusable = true;
             _visibleToggle.focusable = true;
-
-            _triggerElementGizmo.pickingMode = PickingMode.Ignore;
             _visibleToggle.value = true;
+
+            _generatedQuestNode.NodeViewPosition = new Rect(GetPosition().position, new Vector2(
+                
+                capsule.resolvedStyle.width ,
+                capsule.resolvedStyle.height));
+
+            _generatedQuestNode.Position = GetPosition().position.ToInt();
         }
 
         private void DisplayTriggerArea(bool display)

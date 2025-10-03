@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using ISILab.Extensions;
 using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
-using ISILab.Macros;
 using LBS.Bundles;
 using LBS.Components;
 using UnityEngine;
@@ -47,6 +45,14 @@ namespace ISILab.LBS.Components
         public override void Resize()
         {
             if (bundleToSpy.Valid())area = bundleToSpy.Area;
+        }
+
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var spyOther =  other as DataSpy;
+            if (spyOther is null) return false;
+           
+            return spyOther.bundleToSpy == bundleToSpy;
         }
 
         public override bool IsValid()

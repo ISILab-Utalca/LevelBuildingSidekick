@@ -28,6 +28,15 @@ namespace ISILab.LBS.Components
             findRandomPosition = exploreData.findRandomPosition;
         }
 
+        public override bool Equals(BaseQuestNodeData other)
+        {
+            var exploreOther = other as DataExplore;
+            if(exploreOther == null) return false;
+            
+            return exploreOther.subdivisions == subdivisions && 
+                   exploreOther.findRandomPosition ==  findRandomPosition;
+        }
+
         public override bool IsValid()
         {
             return true;
