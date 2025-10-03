@@ -26,7 +26,7 @@ MonoBehaviour:
   characteristics:
   - rid: 279245815319625883
   - rid: 6953538112726761621
-  populationType: 1
+  elementFlag: 80
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:

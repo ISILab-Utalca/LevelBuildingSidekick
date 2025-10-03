@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using ISILab.Extensions;
 using ISILab.LBS.Components;
+using ISILab.LBS.Manipulators;
+using LBS.VisualElements;
 using UnityEditor.UIElements;
 
 namespace ISILab.LBS.VisualElements
@@ -28,6 +30,7 @@ namespace ISILab.LBS.VisualElements
         
         private readonly ToolbarMenu _toolbar;
         private readonly Label _label;
+    
         #endregion
         
         #endregion
@@ -63,9 +66,10 @@ namespace ISILab.LBS.VisualElements
             _iconGrammarInvalid.style.unityBackgroundImageTintColor = InvalidGrammarColor;
             
             Update();
-            
         }
 
+      
+        
         #region Setup
         private void SetupToolbar()
         {
@@ -101,6 +105,8 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+            RegisterCallback<MouseUpEvent>(OnMouseUp);
             RegisterCallback<GeometryChangedEvent>(_ => Update());
         }
         #endregion

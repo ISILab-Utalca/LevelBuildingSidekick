@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
@@ -14,6 +15,7 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
+using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
@@ -120,21 +122,28 @@ namespace ISILab.LBS.Editor
             _nodeIDLabel.text = currentQuest.ID;
             SetBaseDataValues(_questGraph.GetNodeData());
 
-            // Fetch grammar data
-            string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                 ?? Array.Empty<string>();
-            string[] prevArray = _grammarAssistant.GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                 ?? Array.Empty<string>();
-            List<string>[] expandArray = _grammarAssistant.GetAllExpansions(selectedAction)
-                                           ?.Select(l => l?.ToList() ?? new List<string>())
-                                           .ToArray()
-                                           ?? Array.Empty<List<string>>();
+            // Run the grammar-heavy stuff in a background thread
+            Task.Run(() =>
+            {
+                string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
+                                     ?? Array.Empty<string>();
+                string[] prevArray = _grammarAssistant.GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
+                                     ?? Array.Empty<string>();
+                List<string>[] expandArray = _grammarAssistant.GetAllExpansions(selectedAction)
+                                                 ?.Select(l => l?.ToList() ?? new List<string>())
+                                                 .ToArray()
+                                             ?? Array.Empty<List<string>>();
 
-            // Update panels
-            UpdateNextSuggestions(nextArray, currentQuest);
-            UpdatePrevSuggestions(prevArray, currentQuest);
-            UpdateExpandSuggestions(expandArray, currentQuest);
+                // Switch back to Unity main thread for UI updates
+                EditorApplication.delayCall += () =>
+                {
+                    UpdateNextSuggestions(nextArray, currentQuest);
+                    UpdatePrevSuggestions(prevArray, currentQuest);
+                    UpdateExpandSuggestions(expandArray, currentQuest);
+                };
+            });
         }
+
 
         #region Helpers
         

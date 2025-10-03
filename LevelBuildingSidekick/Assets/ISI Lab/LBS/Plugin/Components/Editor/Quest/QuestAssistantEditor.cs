@@ -4,6 +4,7 @@ using UnityEngine.UIElements;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.VisualElements.Editor;
 using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
@@ -17,8 +18,6 @@ namespace ISILab.LBS.Editor
     {
         
         #region FIELDS
-        // Boolean to use editor for debugging purpuses
-        private const bool Debugging = false;
         private const uint DefaultSuggestionValue = 3;
         
         private static class UIElementNames
@@ -83,24 +82,12 @@ namespace ISILab.LBS.Editor
             _suggestionField.value = DefaultSuggestionValue;
             
             _addLayerButton.clicked += ShowAddLayerMenu;
-            if (Debugging)
+            _generateSuggestionsButton.clicked += ()=>
             {
-                _generateSuggestionsButton.clicked += () =>
-                {
-                    _questAssistant.GenerateRandomNodes((int)GetSuggestionCount());
-                };
-                _autoConnectButton.clicked += _questAssistant.ConnectAllNodes;
-                _autoConnectButton.style.display = DisplayStyle.Flex;
-            }
-            else
-            {
-                _generateSuggestionsButton.clicked += ()=>
-                {
-                    _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
-                    UpdateSuggestionsDisplay();
-                };
-                _autoConnectButton.style.display = DisplayStyle.None;
-            }
+                _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
+                UpdateSuggestionsDisplay();
+            };
+            _autoConnectButton.style.display = DisplayStyle.None;
             
             SetupLayerContextList();
             SetupSuggestionList();
@@ -197,6 +184,8 @@ namespace ISILab.LBS.Editor
             _suggestionList.Rebuild();
             _noSuggestionPanel.style.display = hasSuggestions ? DisplayStyle.None : DisplayStyle.Flex;
             _suggestionList.style.display = hasSuggestions ? DisplayStyle.Flex : DisplayStyle.None;
+            // redraw to display suggestions
+            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
             MarkDirtyRepaint();
         }
         
@@ -205,14 +194,18 @@ namespace ISILab.LBS.Editor
             if (element is not QuestNodeSuggestion suggestionEntry) return;
 
             suggestionEntry.UpdateData(_questGraph.Suggestions[index]);
-            suggestionEntry.OnDiscard = null;
-            suggestionEntry.OnDiscard += () =>
+            _questGraph.OnRemoveSuggestion += (suggestionToRemove) =>
             {
-                _questGraph.Suggestions.RemoveAt(index);
-                UpdateSuggestionsDisplay();
+                _questGraph.Suggestions.Remove(suggestionToRemove);
             };
+            _questGraph.OnRemoveSuggestion -= HandleRemoveSuggestion;
+            _questGraph.OnRemoveSuggestion += HandleRemoveSuggestion;
         }
         
+        private void HandleRemoveSuggestion(QuestNode node)
+        {
+            UpdateSuggestionsDisplay();
+        }
         #endregion
         
         public override void OnFocus()

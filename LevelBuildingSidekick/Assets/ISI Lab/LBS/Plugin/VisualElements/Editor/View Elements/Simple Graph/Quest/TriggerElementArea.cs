@@ -105,25 +105,26 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseEnterEvent>(OnMouseEnter);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
             
-            
-            
             generateVisualContent -= OnGenerateVisualContent;
             generateVisualContent += OnGenerateVisualContent;
         }
 
         private void OnMouseEnter(MouseEnterEvent evt)
         {
+            if(pickingMode == PickingMode.Ignore) return;
             ShelfManipulator();
         }
 
         private void OnMouseLeave(MouseLeaveEvent evt)
         {
+            if(pickingMode == PickingMode.Ignore) return;
             RestoreManipulator();
         }
 
 
         void SetupResizeHandle(string handleName, string handleCode, bool isCenter)
         {
+            if(!focusable) return;
             var handle = this.Q<VisualElement>(handleName);
             handle.style.display = isCenter ? DisplayStyle.Flex : DisplayStyle.None;
             var handleArea = handle.Q<VisualElement>("handleArea");
@@ -134,6 +135,7 @@ namespace ISILab.LBS.VisualElements
             
             handle.RegisterCallback<MouseLeaveEvent>(_ =>
             {
+                if(!focusable) return;
                 _resizing = false;
                 _activeHandle = null;
                 handleArea.style.display = DisplayStyle.None;
@@ -142,6 +144,7 @@ namespace ISILab.LBS.VisualElements
             
             handle.RegisterCallback<MouseEnterEvent>(_ =>
             {
+                if(!focusable) return;
                 // only one resizer at a time
                 if (_resizing) return;
                 
@@ -155,6 +158,7 @@ namespace ISILab.LBS.VisualElements
 
             handle.RegisterCallback<MouseUpEvent>(_ =>
             {
+                if(!focusable) return;
                 _resizing = false;
                 handleArea.style.display = DisplayStyle.None;
 
@@ -232,6 +236,7 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseDown(MouseDownEvent e)
         {
+            if(!focusable) return;
             // If resizing do NOT MOVE
             if(_resizing) return;
             
@@ -248,6 +253,7 @@ namespace ISILab.LBS.VisualElements
 
         private void ShelfManipulator()
         {
+            if(ToolKit.Instance.GetActiveManipulatorInstance() is null) return;
             Type ActiveManipulator = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
             bool usingAddNode = ActiveManipulator == typeof(AddGraphNode);
             bool usingRemoveNode = ActiveManipulator == typeof(RemoveGraphNode);
@@ -267,6 +273,7 @@ namespace ISILab.LBS.VisualElements
 
         private void OnMouseMove(MouseMoveEvent e)
         {
+            if(!focusable) return;
             // If resizing do NOT MOVE
             if(_resizing) return;
             
@@ -305,6 +312,7 @@ namespace ISILab.LBS.VisualElements
 
         void OnHandleRectMove(MouseMoveEvent e)
         {
+            if(!focusable) return;
             if (!_resizing || string.IsNullOrEmpty(_activeHandle)) return;
             if (e.pressedButtons != 1 || e.button != 0) return;
 

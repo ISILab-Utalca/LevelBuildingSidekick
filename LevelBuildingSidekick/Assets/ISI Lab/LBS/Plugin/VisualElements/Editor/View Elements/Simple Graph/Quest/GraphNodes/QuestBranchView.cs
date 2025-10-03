@@ -55,6 +55,9 @@ namespace ISILab.LBS.VisualElements
             RegisterCallback<MouseDownEvent>(OnMouseDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
             RegisterCallback<MouseLeaveEvent>(OnMouseLeave);
+            RegisterCallback<MouseEnterEvent>(OnMouseEnter);
+            RegisterCallback<MouseUpEvent>(OnMouseUp);
+            
             RegisterCallback<GeometryChangedEvent>(_ => Update());
 
             OnMoving += rect => Node.NodeViewPosition = rect;

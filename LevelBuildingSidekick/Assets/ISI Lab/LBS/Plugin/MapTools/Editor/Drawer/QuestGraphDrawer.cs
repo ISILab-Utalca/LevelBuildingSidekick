@@ -16,7 +16,7 @@ namespace ISILab.LBS.Drawers.Editor
     {
         // for actions, and ors,
         private readonly Dictionary<GraphNode, QuestGraphNodeView> _actionViews = new();
-        private readonly Dictionary<QuestNode, QuestGraphNodeView> _suggestionViews = new();
+        private readonly Dictionary<QuestNode, SuggestionElementArea> _suggestionViews = new();
         public override void Draw(object target, MainView view, Vector2 teselationSize)
         {
             if (target is not QuestBehaviour behaviour) return;
@@ -30,6 +30,7 @@ namespace ISILab.LBS.Drawers.Editor
                 // Reset layer input when changing to another layer
                 graph.SelectedGraphNode = null;
                 behaviour.ActionToSet = string.Empty;
+                _suggestionViews.Clear();
                 QuestGraphNodeView.Deselect();
 
             };
@@ -101,25 +102,28 @@ namespace ISILab.LBS.Drawers.Editor
             
             foreach (var suggestNode in questGraph.Suggestions)
             {
-                _suggestionViews.TryGetValue(suggestNode, out var suggestView);
+                if (Equals(LBSMainWindow.Instance._selectedLayer, behaviour.OwnerLayer))
+                {
+                    _suggestionViews.TryGetValue(suggestNode, out var suggestView);
               
-                // if not successfully created
-                if(suggestView is null)
-                {
-                    // make a quest action visual element
-                    suggestView = CreateActionView(suggestNode);
-                    _suggestionViews.Add(suggestNode, suggestView);
-                }
+                    // if not successfully created
+                    if(suggestView is null)
+                    {
+                        // make a quest action visual element
+                        suggestView = CreateSuggestionView(suggestNode);
+                        _suggestionViews.Add(suggestNode, suggestView);
+                    }
                 
-                if (questGraph.displaySuggestions)
-                {
-                    suggestView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                    if (questGraph.displaySuggestions)
+                    {
+                        suggestView.style.display = (DisplayStyle)(behaviour.OwnerLayer.IsVisible ? 0 : 1);
+                    }
+                    else
+                    {
+                        suggestView.style.display = DisplayStyle.None;
+                    }
+                    behaviour.Keys.Add(suggestNode);
                 }
-                else
-                {
-                    suggestView.style.display = DisplayStyle.None;
-                }
-                behaviour.Keys.Add(suggestNode);
             }
             
             foreach (var edge in questGraph.GraphEdges)
@@ -209,6 +213,13 @@ namespace ISILab.LBS.Drawers.Editor
         private QuestBranchView CreateBranchView(GraphNode node)
         {
             var nodeView = new QuestBranchView(node);
+            return nodeView;
+        }
+        
+        private SuggestionElementArea CreateSuggestionView(QuestNode node)
+        {
+            var nodeView = new SuggestionElementArea(node,node.NodeData.Area);
+            
             return nodeView;
         }
     }

@@ -46,7 +46,7 @@ namespace ISILab.LBS.Bundles.Editor
             // Element option
             if (bundle != null && bundle.Type == Bundle.TagType.Element)
             {
-                SerializedProperty populationTypeProp = serializedObject.FindProperty("populationType");
+                SerializedProperty populationTypeProp = serializedObject.FindProperty("elementFlag");
                 if (populationTypeProp != null)
                 {
                     PropertyField populationField = new PropertyField(populationTypeProp);

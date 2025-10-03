@@ -1,10 +1,17 @@
+using System;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.LBS;
+using ISILab.LBS.Behaviours;
+using ISILab.LBS.Modules;
+using LBS.Components;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
+using Random = System.Random;
 
 namespace ISILab.Macros
 {
@@ -111,9 +118,64 @@ namespace ISILab.Macros
             return null;
         }
 
-        
+        public static Tuple<LBSLayer, TileBundleGroup> GetBundleTileByPosition(Vector2Int TilePosition, List<LBSLayer> Layers)
+        {
+            foreach (var layer in Layers)
+            {
+                // Only check layers with a PopulationBehaviour
+                var population = layer.GetBehaviour<PopulationBehaviour>();
+                if (population == null)
+                    continue;
+
+                var tileGroup = population.GetTileGroup(TilePosition);
+                if (tileGroup != null)
+                {
+                    return Tuple.Create(layer, tileGroup);
+                }
+            }
+
+            return null; // nothing found
+        }
+
+        public static Tuple<LBSLayer, TileBundleGroup> GetBundleTileByMouse(Vector2Int mousePosition, List<LBSLayer> Layers)
+        {
+            foreach (var layer in Layers)
+            {
+                // Only check layers with a PopulationBehaviour
+                var population = layer.GetBehaviour<PopulationBehaviour>();
+                if (population == null)
+                    continue;
+
+                var tileGroup = population.GetTileGroup(population.OwnerLayer.ToFixedPosition(mousePosition));
+                if (tileGroup != null)
+                {
+                    return Tuple.Create(layer, tileGroup);
+                }
+            }
+
+            return null; // nothing found
+        }
+
     }
 
+    public class ListHelper
+    {
+        /// <summary>
+        /// Shuffles a list in-place using Fisher-Yates algorithm.
+        /// </summary>
+        public static void Shuffle<T>(List<T> list)
+        {
+            Random rng = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+        }
+    }
+    
     public class LBSVisualElementHelper
     {
                 
