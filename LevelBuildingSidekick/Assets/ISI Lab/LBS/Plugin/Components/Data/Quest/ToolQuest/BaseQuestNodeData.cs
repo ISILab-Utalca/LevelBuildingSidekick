@@ -30,6 +30,12 @@ namespace ISILab.LBS.Components
 
         public abstract string GetGuid();
         public abstract bool Valid();
+        
+        public override bool Equals(object obj)
+        {
+            var other =  obj as LayerTarget;
+            return other?.GetGuid() == GetGuid();
+        }
 
     }
     
@@ -76,6 +82,7 @@ namespace ISILab.LBS.Components
             if(tileBundle?.BundleData?.Bundle is null) return string.Empty;
             return LBSAssetMacro.GetGuidFromAsset(tileBundle.BundleData.Bundle);
         }
+        
     }
     
     
@@ -105,6 +112,7 @@ namespace ISILab.LBS.Components
         {
             return GetGuid()!= string.Empty;
         }
+        
     }
     
     #endregion

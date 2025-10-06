@@ -19,8 +19,6 @@ namespace ISILab.LBS.Editor
     {
         
         #region FIELDS
-        private const uint DefaultSuggestionValue = 3;
-        
         private static class UIElementNames
         {
             public const string VisualTree = "QuestAssistantEditor";
@@ -84,7 +82,12 @@ namespace ISILab.LBS.Editor
             _autoConnectButton = this.Q<Button>(UIElementNames.ConnectAll);
             _noSuggestionPanel = this.Q<LBSPanelTextIcon>(UIElementNames.NoSuggestionPanel);
             _suggestionField = this.Q<LBSCustomUnsignedIntegerField>(UIElementNames.SuggestionField);
-            _suggestionField.value = DefaultSuggestionValue;
+            _suggestionField.value = _questAssistant.SuggestionAmount;
+            
+            _suggestionField.RegisterValueChangedCallback(evt =>
+            {
+                _questAssistant.SuggestionAmount = evt.newValue; 
+            });
             
             _addLayerButton.clicked += ShowAddLayerMenu;
             _generateSuggestionsButton.clicked += ()=>

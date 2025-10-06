@@ -235,7 +235,7 @@ namespace ISILab.LBS.Modules
             return node;
         }
 
-        public QuestNode AddSuggestion(string action, Vector2 pos)
+        public QuestNode AddSuggestion(string action, Vector2 pos = default)
         {
             var uniqueSuggestionId = "s" + GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
             var node = new QuestNode(uniqueSuggestionId, pos, action, this);
@@ -466,7 +466,6 @@ namespace ISILab.LBS.Modules
 
            
         #endregion
-
         
         #region AssistantCalls
         

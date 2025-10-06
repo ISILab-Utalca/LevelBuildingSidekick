@@ -47,6 +47,8 @@ namespace ISILab.LBS.VisualElements
             VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("SuggestionElementArea");
             visualTree.CloneTree(this);
 
+            pickingMode = PickingMode.Ignore;
+            
             AreaSetUp(area);
             CapsuleSetUp();
 
@@ -91,6 +93,17 @@ namespace ISILab.LBS.VisualElements
             var capsule = this.Q<VisualElement>("Capsule");
             capsule.RegisterCallback<MouseEnterEvent>(_ => SetSelected(true));
             capsule.RegisterCallback<MouseLeaveEvent>(_ => SetSelected(false));
+            capsule.RegisterCallback<GeometryChangedEvent>(evt =>
+            {
+                var root = capsule.panel.visualTree;
+                var graphContainer = root.Q<GraphView>();
+                if (graphContainer != null)
+                {
+                    var graphPos =_generatedQuestNode.Graph.OwnerLayer.FixedToPosition(capsule.worldBound.position.ToInt(), false);
+                    _generatedQuestNode.NodeViewPosition = new Rect(graphPos, capsule.worldBound.size);
+                }
+
+            });
 
             // Action label
             var actionLabel = this.Q<Label>("ActionLabel");
@@ -120,13 +133,17 @@ namespace ISILab.LBS.VisualElements
             _discardButton.focusable = true;
             _visibleToggle.focusable = true;
             _visibleToggle.value = true;
-
+                
             _generatedQuestNode.NodeViewPosition = new Rect(GetPosition().position, new Vector2(
                 
                 capsule.resolvedStyle.width ,
                 capsule.resolvedStyle.height));
+            
+            // Capsule move -> Position has the offset of the suggestion
+            capsule.style.left = capsule.resolvedStyle.left + _generatedQuestNode.Position.x;
+            capsule.style.top = capsule.resolvedStyle.top + _generatedQuestNode.Position.y;
 
-            _generatedQuestNode.Position = GetPosition().position.ToInt();
+
         }
 
         private void DisplayTriggerArea(bool display)
@@ -139,16 +156,10 @@ namespace ISILab.LBS.VisualElements
         #region Private Methods
         private void ApplyStyling()
         {
-            Color color = _data.Color;
             Color backgroundColor = _data.Color;
             backgroundColor.a = 0.2f;
             _triggerElementGizmo.style.backgroundColor = backgroundColor;
             _triggerElementGizmo.style.unityBackgroundImageTintColor = backgroundColor;
-
-            _triggerElementGizmo.style.borderBottomColor = color;
-            _triggerElementGizmo.style.borderTopColor = color;
-            _triggerElementGizmo.style.borderRightColor = color;
-            _triggerElementGizmo.style.borderLeftColor = color;
 
             const float borderWidth = 4f;
             _triggerElementGizmo.style.borderBottomWidth = borderWidth;
@@ -165,6 +176,13 @@ namespace ISILab.LBS.VisualElements
             backgroundColor.a = isSelected ? 0.2f : 0f;
             _triggerElementGizmo.style.backgroundColor = backgroundColor;
             _triggerElementGizmo.style.unityBackgroundImageTintColor = backgroundColor;
+            
+            Color color = _data.Color;
+            color.a = isSelected ? 1f : 0f;
+            _triggerElementGizmo.style.borderBottomColor = color;
+            _triggerElementGizmo.style.borderTopColor = color;
+            _triggerElementGizmo.style.borderRightColor = color;
+            _triggerElementGizmo.style.borderLeftColor = color;
         }
         #endregion
     }

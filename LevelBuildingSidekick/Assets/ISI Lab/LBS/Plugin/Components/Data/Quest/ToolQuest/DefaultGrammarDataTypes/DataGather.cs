@@ -42,7 +42,7 @@ namespace ISILab.LBS.Components
             var gatherOther = other as DataGather;
             if(gatherOther == null) return false;
             
-            return gatherOther.bundleGatherType == bundleGatherType;
+            return Equals(gatherOther.bundleGatherType, bundleGatherType);
         }
 
         public override bool IsValid()
