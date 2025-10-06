@@ -505,7 +505,18 @@ namespace ISILab.LBS.Modules
                                 var path = new TileGroup.PathTile(extra);
                                 int count = CountConnectionFloorTags(extra);
                                 if (count == 0) toSet = "Wall";
-                                if (count == 1 && !annexed.Contains(anx) && !paths.Remove(path)) paths.Add(path); // Un tile anexado nunca es camino  &&  Si hay dos sospechas de camino, es una esquina y no un camino.
+                                if (count == 1 && !annexed.Contains(anx))
+                                {
+                                    int? d = paths.Find(p => p.Equals(path))?.direction;
+                                    if (!paths.Remove(path))
+                                        paths.Add(path); // Un tile anexado nunca es camino  &&  Si hay dos sospechas de camino, es una esquina y no un camino.
+                                    else
+                                    {
+                                        toSet = "Wall";
+                                        LBSTile other = tilemap.GetTileNeighbor(t, dirs[(d.Value + 2) % 4]);
+                                        zoneConnected.SetConnection(other, d.Value, "Wall", false);
+                                    }
+                                }
                                 if (count == 2)
                                 {
                                     annexed.Add(anx);
@@ -568,7 +579,11 @@ namespace ISILab.LBS.Modules
                             continue;
                         }
                         // Si el tile vecino es de la zona de origen, dejar vacio
-                        if (tileGroup.ExtendedTiles.Contains(neighbour)) continue;
+                        if (tileGroup.ExtendedTiles.Contains(neighbour))
+                        {
+                            zoneConnected.SetConnection(neighbour, (i + 2) % 4, "Empty", false);
+                            continue;
+                        }
                         // Revisar si el tile vecino corresponde a un tile no anexado de otra zona (Creo que a este punto es la unica posibilidad)
                         zoneConnected.SetConnection(annexedTile.tile, i, "Door", false);
                         zoneConnected.SetConnection(neighbour, (i+2)%4, "Door", false);
@@ -622,7 +637,8 @@ namespace ISILab.LBS.Modules
                                 TileConnectionsPair origin = zoneConnected.GetPair(newPath[i].Position - dirs[direction]);
                                 origin.SetConnection(direction, "Door", false);
                             }
-                            zoneConns[floorTags.Contains(conns[direction]) ? 3 : 1] = "Wall";
+                            //zoneConns[floorTags.Contains(conns[direction]) ? 3 : 1] = "Wall";
+                            zoneConns[1] = zoneConns[3] = "Wall";
                             zoneConnected.AddPair(newPath[i], zoneConns.Rotate(direction), new List<bool>() { false, false, false, false, });
                         }
                     }
@@ -702,10 +718,7 @@ namespace ISILab.LBS.Modules
                     return Equals(tile, other.tile);
                 }
 
-                public override int GetHashCode()
-                {
-                    return tile.GetHashCode();
-                }
+                public override int GetHashCode() => tile.GetHashCode();
             }
 
             public class AnnexedTile : ExtraTile
@@ -713,17 +726,6 @@ namespace ISILab.LBS.Modules
                 public AnnexedTile(LBSTile tile, int direction, List<string> connections) : base(tile, direction, connections) { }
 
                 public AnnexedTile(ExtraTile original) : base(original) { }
-
-                //public override bool Equals(object obj)
-                //{
-                //    if (obj is not AnnexedTile other) return false;
-                //    return Equals(tile, other.tile);
-                //}
-                //
-                //public override int GetHashCode()
-                //{
-                //    return tile.GetHashCode();
-                //}
             }
 
             public class PathTile : ExtraTile
@@ -732,27 +734,13 @@ namespace ISILab.LBS.Modules
 
                 public PathTile(LBSTile tile, int direction, List<string> connections) : base (tile, direction, connections)
                 {
-                    //tags = (direction == 0 ? connections[3] : connections[direction - 1], connections[direction]);
-                    tags = (connections[(direction + 1) % 4], connections[(direction + 2) % 4]);
-
+                    tags = (connections[(direction + 1) % 4], connections[(direction + 2) % 4]); 
                 }
 
                 public PathTile(ExtraTile original) : base(original)
                 {
-                    //tags = (original.direction == 0 ? original.connections[3] : original.connections[original.direction - 1], original.connections[direction]);
                     tags = (original.connections[(original.direction + 1) % 4], original.connections[(original.direction + 2) % 4]);
                 }
-
-                //public override bool Equals(object obj)
-                //{
-                //    if (obj is not PathTile other) return false;
-                //    return Equals(tile, other.tile);
-                //}
-                //
-                //public override int GetHashCode()
-                //{
-                //    return tile.GetHashCode();
-                //}
             }
 
             public List<LBSTile> originalTiles = new();
@@ -781,10 +769,7 @@ namespace ISILab.LBS.Modules
                 return Equals(zone, other.zone);
             }
 
-            public override int GetHashCode()
-            {
-                return zone.GetHashCode();
-            }
+            public override int GetHashCode() => zone.GetHashCode();
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
