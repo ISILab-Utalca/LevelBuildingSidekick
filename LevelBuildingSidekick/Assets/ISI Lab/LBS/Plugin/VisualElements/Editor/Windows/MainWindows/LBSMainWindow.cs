@@ -133,8 +133,8 @@ namespace ISILab.LBS.Editor.Windows{
 
         public LBSMainWindow(): base()
         {
-            // can't be constructed because inherit from a scriptable object!
-            Debug.Log("[Main Window] - Constructor");
+            // UI can't be referenced here because inherit from a scriptable object!
+            //Debug.Log("[Main Window] - Constructor");
         }
         
         private void OnEnable()
