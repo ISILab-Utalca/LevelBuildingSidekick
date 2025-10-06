@@ -121,8 +121,8 @@ namespace ISILab.LBS.Editor
             _paramActionLabel.text = currentQuest.QuestAction;
             _nodeIDLabel.text = currentQuest.ID;
             SetBaseDataValues(_questGraph.GetNodeData());
-
-            // Run the grammar-heavy stuff in a background thread
+            
+            // TODO hook with the assistant progress bar
             Task.Run(() =>
             {
                 string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()

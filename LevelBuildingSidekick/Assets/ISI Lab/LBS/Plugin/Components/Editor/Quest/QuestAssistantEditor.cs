@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -31,6 +32,7 @@ namespace ISILab.LBS.Editor
             public const string ConnectAll = "ConnectAll";
             public const string SuggestionField = "SuggestionField";
             public const string NoSuggestionPanel = "NoSuggestionPanel";
+            public const string RemoveAllSuggestions = "RemoveSuggestions";
         }
 
         private QuestAssistant _questAssistant;
@@ -40,10 +42,12 @@ namespace ISILab.LBS.Editor
         private Button _addLayerButton;
         private Button _autoConnectButton;
         private Button _generateSuggestionsButton;
+        private Button _removeSuggestionsButton;
         private VisualElement _lockedContextEntryContainer;
         private LBSPanelTextIcon _noSuggestionPanel;
         private LBSCustomUnsignedIntegerField _suggestionField;
-        
+ 
+
         #endregion
 
         #region CONSTRUCTORS
@@ -76,6 +80,7 @@ namespace ISILab.LBS.Editor
             _suggestionList = this.Q<ListView>(UIElementNames.SuggestionList);
             _addLayerButton = this.Q<Button>(UIElementNames.AddLayerButton);
             _generateSuggestionsButton = this.Q<Button>(UIElementNames.GenerateSuggestionsButton);
+            _removeSuggestionsButton = this.Q<Button>(UIElementNames.RemoveAllSuggestions);
             _autoConnectButton = this.Q<Button>(UIElementNames.ConnectAll);
             _noSuggestionPanel = this.Q<LBSPanelTextIcon>(UIElementNames.NoSuggestionPanel);
             _suggestionField = this.Q<LBSCustomUnsignedIntegerField>(UIElementNames.SuggestionField);
@@ -86,6 +91,18 @@ namespace ISILab.LBS.Editor
             {
                 _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
                 UpdateSuggestionsDisplay();
+                
+                // TODO hook with the assistant progress bar
+                Task.Run(() =>
+                {
+                    //
+                });
+            };
+
+            _removeSuggestionsButton.clicked += () =>
+            {
+                _questGraph.Suggestions.Clear();
+                UpdateSuggestionsDisplay();
             };
             _autoConnectButton.style.display = DisplayStyle.None;
             
@@ -94,8 +111,8 @@ namespace ISILab.LBS.Editor
             AddLockedLayer();
             return this;
         }
-        
-        public uint GetSuggestionCount()
+
+        private uint GetSuggestionCount()
         {
             return _suggestionField.value;
         }
