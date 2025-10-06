@@ -65,13 +65,13 @@ namespace ISILab.LBS.Modules
         #region METHODS
         public virtual void OnAttach(LBSLayer layer)
         {
-            Debug.Log("OnAttach: " + ID);
+            //Debug.Log("OnAttach: " + ID);
             OwnerLayer = layer;
         }
 
         public virtual void OnDetach(LBSLayer layer)
         {
-            Debug.Log("OnDetach: " + ID);
+            //Debug.Log("OnDetach: " + ID);
             layer.ClearEvents();
             OwnerLayer = null;
         }

@@ -162,7 +162,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
             
-            inspectorPanelContainer = rootVisualElement.Q<VisualElement>("InspectorContainer");
+            inspectorPanelContainer = rootVisualElement.Q<VisualElement>("Inspector");
             inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InspectorPanel");
             sideBarPanel = rootVisualElement.Q<LBSSideBarPanel>("LBSSideBarPanel");
             
