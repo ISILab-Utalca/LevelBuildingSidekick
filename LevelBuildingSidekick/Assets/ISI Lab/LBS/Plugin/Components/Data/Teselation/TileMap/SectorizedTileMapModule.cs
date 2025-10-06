@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
@@ -10,6 +6,11 @@ using ISILab.LBS.Components;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -470,9 +471,9 @@ namespace ISILab.LBS.Modules
 
                 List<Vector2Int> positions = tileGroup.originalTiles.Select(t => t.Position).ToList();
 
-                // (tile, direccion)
-                var annexed = new List<(LBSTile, int)>();
-                var paths = new List<(LBSTile, int)>();
+                // (tile, direccion, conexiones)
+                var annexed = new List<TileGroup.AnnexedTile>();
+                var paths = new List<TileGroup.PathTile>();
                     
                 // Por cada tile
                 foreach (LBSTile tile in tileGroup.originalTiles)
@@ -496,15 +497,18 @@ namespace ISILab.LBS.Modules
                         {
                             // Revisar si se extiende el tile
                             LBSTile t = tilemap.GetTile(neighPos);
-                                //connectedTM.Pairs.Find(p => p.Tile.Position.Equals(neighPos)).Tile;
                             if(t is not null)
                             {
-                                int count = CountConnectionFloorTags(tile, i);
+                                List<string> connections = connectedTM.GetConnections(t);
+                                var extra = new TileGroup.ExtraTile(t, i, connections);
+                                var anx = new TileGroup.AnnexedTile(extra);
+                                var path = new TileGroup.PathTile(extra);
+                                int count = CountConnectionFloorTags(extra);
                                 if (count == 0) toSet = "Wall";
-                                if (count == 1 && !annexed.Contains((t, i)) && !paths.Remove((t, i))) paths.Add((t, i)); // Un tile anexado nunca es camino  &&  Si hay dos sospechas de camino, es una esquina y no un camino.
+                                if (count == 1 && !annexed.Contains(anx) && !paths.Remove(path)) paths.Add(path); // Un tile anexado nunca es camino  &&  Si hay dos sospechas de camino, es una esquina y no un camino.
                                 if (count == 2)
                                 {
-                                    annexed.Add((t, i));
+                                    annexed.Add(anx);
                                     zoneConnected.AddPair(t, new List<string>() { "Empty", "Empty", "Empty", "Empty", }, new List<bool>(){ false, false, false, false, });
                                 }
                             }
@@ -519,109 +523,249 @@ namespace ISILab.LBS.Modules
                 }
                 tileGroup.annexedTiles.AddRange(annexed);
                 
-                paths.RemoveAll(t_d => annexed.Select(anx => anx.Item1).Contains(t_d.Item1));
+                var annexedTiles = annexed.Select(anx => anx.tile);
+                paths.RemoveAll(path =>
+                {
+                    TileConnectionsPair origin = zoneConnected.GetPair(path.tile.Position - dirs[path.direction]);
+                    origin.SetConnection(path.direction, "Wall", false);
+                    return annexedTiles.Contains(path.tile);
+                });
                 tileGroup.pathTiles.AddRange(paths);
                 string log = "Sospechas de caminos:\n";
                 foreach(var path in paths)
                 {
-                    log += $"Tile: {path.Item1} | Direccion: {path.Item2}\n";
+                    log += $"Tile: {path.tile} | Direccion: {path.direction}\n";
                 }
                 Debug.Log(log);
             }
+
+
+            List<LBSTile> duplicatedPaths = new();
             foreach (TileGroup tileGroup in tileGroups)
             {
                 // Agregar tiles anexados
-                foreach((LBSTile, int) annexedTile in tileGroup.annexedTiles)
+                foreach(TileGroup.AnnexedTile annexedTile in tileGroup.annexedTiles)
                 {
-                    AddPair(new TileZonePair(annexedTile.Item1, tileGroup.zone));
+                    AddPair(new TileZonePair(annexedTile.tile, tileGroup.zone));
                     for(int i = 0; i < dirs.Count; i++)
                     {
                         // Siempre habra muro hacia adelante desde el origen del tile anexado
-                        if(i == annexedTile.Item2)
+                        if(i == annexedTile.direction)
                         {
-                            zoneConnected.SetConnection(annexedTile.Item1, i, "Wall", false);
+                            zoneConnected.SetConnection(annexedTile.tile, i, "Wall", false);
                             continue;
                         }
                         // Siempre dejar vacio en la direccion de origen
-                        if (i == annexedTile.Item2) continue;
+                        if ((i+2)%4 == annexedTile.direction) continue;
 
                         // Lo demas es para comprobar los costados
 
                         // Si el tile vecino no existe en zoneConnected, es que no pertenece a ninguna zona. Colocar muro
-                        LBSTile neighbour = zoneConnected.GetPair(tilemap.GetTileNeighbor(annexedTile.Item1, dirs[i]))?.Tile;
+                        LBSTile neighbour = zoneConnected.GetPair(tilemap.GetTileNeighbor(annexedTile.tile, dirs[i]))?.Tile;
                         if (neighbour == null)
                         {
-                            zoneConnected.SetConnection(annexedTile.Item1, i, "Wall", false);
+                            zoneConnected.SetConnection(annexedTile.tile, i, "Wall", false);
                             continue;
                         }
                         // Si el tile vecino es de la zona de origen, dejar vacio
                         if (tileGroup.ExtendedTiles.Contains(neighbour)) continue;
                         // Revisar si el tile vecino corresponde a un tile no anexado de otra zona (Creo que a este punto es la unica posibilidad)
-                        //foreach(TileGroup otherGroup in tileGroups)
-                        //{
-                        //    if (otherGroup.Equals(tileGroup)) continue;
-                        //    if (otherGroup.originalTiles.Contains(neighbour))
-                        //    {
-                        //        zoneConnected.SetConnection(annexedTile.Item1, i, "Door", false);
-                        //        zoneConnected.SetConnection(neighbour, (i+2)%4, "Door", false);
-                        //        break;
-                        //    }
-                        //}
-                        zoneConnected.SetConnection(annexedTile.Item1, i, "Door", false);
+                        zoneConnected.SetConnection(annexedTile.tile, i, "Door", false);
                         zoneConnected.SetConnection(neighbour, (i+2)%4, "Door", false);
                     }
                 }
 
                 // Comprobar caminos
-                List<(LBSTile, int)> pathTiles = tileGroup.pathTiles;
-                for(int i = 0; i < pathTiles.Count; i++)
+                List<TileGroup.PathTile> pathTiles = tileGroup.pathTiles;
+                //for(int i = 0; i < pathTiles.Count; i++)
+                foreach(TileGroup.PathTile pathTile in tileGroup.pathTiles)
                 {
-                    List<LBSTile> newPath = new List<LBSTile>();
-                    bool validPath = true;
+                    if (duplicatedPaths.Contains(pathTile.tile)) continue;
+
+                    (string, string) tags = pathTile.tags;
+                    List<LBSTile> newPath = new List<LBSTile>();// { pathTiles[i].tile };
+
+                    LBSTile current = pathTile.tile;
+                    int direction = pathTile.direction;
                     bool newZoneReached = false;
-                    LBSTile current = pathTiles[i].Item1;
-                    int direction = pathTiles[i].Item2;
-                    do
+                    bool validPath = !IsDoubleCorner(current, out List<string> conns);
+                    while (validPath && !newZoneReached)
                     {
-                        //if(CountConnectionFloorTags(current, direction) != 1)
-                        // TODO: comparar si los siguientes tiles tienen el mismo tipo de conexion.
-                        //      No basta solo contar los floor tags
-                    } while (validPath && !newZoneReached);
+                        newPath.Add(current);
+                        current = tilemap.GetTileNeighbor(current, dirs[direction]);
+                        TileConnectionsPair existentTile = zoneConnected.GetPair(current);
+                        if(existentTile is not null && !tileGroup.ExtendedTiles.Contains(existentTile.Tile))
+                        {
+                            newZoneReached = true;
+                        }
+                        validPath = tags.Equals(GetOriginTags(current, direction));
+                    }
+
+                    if (validPath)
+                    {
+                        Zone newZone = new Zone("", new Color().RandomColorHSV());
+                        AddZone(newZone);
+                        for(int i = 0; i < newPath.Count; i++)
+                        {
+                            AddPair(new TileZonePair(newPath[i], newZone));
+
+                            List<string> zoneConns = new() { "Empty", "Empty", "Empty", "Empty", };
+                            if (i == newPath.Count - 1)
+                            {
+                                duplicatedPaths.Add(newPath[i]); // The path won't be checked again from the other end.
+                                zoneConns[0] = "Door";
+                                zoneConnected.SetConnection(current, (direction + 2) % 4, "Door", false);
+                            }
+                            if (i == 0)
+                            {
+                                zoneConns[2] = "Door";
+                                TileConnectionsPair origin = zoneConnected.GetPair(newPath[i].Position - dirs[direction]);
+                                origin.SetConnection(direction, "Door", false);
+                            }
+                            zoneConns[floorTags.Contains(conns[direction]) ? 3 : 1] = "Wall";
+                            zoneConnected.AddPair(newPath[i], zoneConns.Rotate(direction), new List<bool>() { false, false, false, false, });
+                        }
+                    }
+                    else
+                    {
+                        // Clean up. Colocar muros 
+                        TileConnectionsPair origin = zoneConnected.GetPair(pathTile.tile.Position - dirs[direction]);
+                        origin.SetConnection(direction, "Wall", false);
+                    }
                 }
             }
 
             Print();
             zoneConnected.Print();
 
-            return; /// END OF METHOD
+            return; /// END OF METHOD ///
 
             // Local functions
 
-            int CountConnectionFloorTags(LBSTile tile, int dir)
+            int CountConnectionFloorTags(TileGroup.ExtraTile extraTile)
             {
-                List<string> conns = connectedTM.GetConnections(tile);
-                (int, int) inds = (dir == 0 ? 3 : dir - 1, dir);
+                List<string> conns = connectedTM.GetConnections(extraTile.tile);
+                int dir = extraTile.direction;
+                //(int, int) inds = (dir == 0 ? 3 : dir - 1, dir);
+                (int, int) inds = ((dir+1)%4, (dir+2)%4);
                 int count = 0;
                 if (floorTags.Contains(conns[inds.Item1])) count++;
                 if (floorTags.Contains(conns[inds.Item2])) count++;
 
                 return count;
             }
+
+            //(string, string) GetOriginTags(TileGroup.ExtraTile extraTile = null)
+            //{
+            //    int dir = extraTile.direction;
+            //    //(int, int) inds = (dir == 0 ? 3 : dir - 1, dir);
+            //    (int, int) inds = ((dir+1)%4, (dir+2)%4);
+            //    return (extraTile.connections[inds.Item1], extraTile.connections[inds.Item2]);
+            //}
+
+            (string, string) GetOriginTags(LBSTile tile, int dir, List<string> conns = null)
+            {
+                conns ??= connectedTM.GetConnections(tile);
+                (int, int) inds = ((dir + 1) % 4, (dir + 2) % 4);
+                return (conns[inds.Item1], conns[inds.Item2]);
+            }
+
+            bool IsDoubleCorner(LBSTile tile, out List<string> conns)
+            {
+                conns = connectedTM.GetConnections(tile);
+                bool firstIsFloor = floorTags.Contains(conns[0]);
+                bool secondIsFloor = floorTags.Contains(conns[1]);
+                return (firstIsFloor != secondIsFloor) && conns[0].Equals(conns[2]) && conns[1].Equals(conns[3]);
+            }
         }
 
         class TileGroup
         {
+            public class ExtraTile
+            {
+                public LBSTile tile;
+                public int direction;
+                public List<string> connections;
+
+                public ExtraTile(LBSTile tile, int direction, List<string> connections)
+                {
+                    this.tile = tile;
+                    this.direction = direction;
+                    this.connections = connections;
+                }
+
+                public ExtraTile(ExtraTile original) : this(original.tile, original.direction, original.connections) { }
+
+                public override bool Equals(object obj)
+                {
+                    if (obj is not ExtraTile other) return false;
+                    return Equals(tile, other.tile);
+                }
+
+                public override int GetHashCode()
+                {
+                    return tile.GetHashCode();
+                }
+            }
+
+            public class AnnexedTile : ExtraTile
+            {
+                public AnnexedTile(LBSTile tile, int direction, List<string> connections) : base(tile, direction, connections) { }
+
+                public AnnexedTile(ExtraTile original) : base(original) { }
+
+                //public override bool Equals(object obj)
+                //{
+                //    if (obj is not AnnexedTile other) return false;
+                //    return Equals(tile, other.tile);
+                //}
+                //
+                //public override int GetHashCode()
+                //{
+                //    return tile.GetHashCode();
+                //}
+            }
+
+            public class PathTile : ExtraTile
+            {
+                public (string, string) tags;
+
+                public PathTile(LBSTile tile, int direction, List<string> connections) : base (tile, direction, connections)
+                {
+                    //tags = (direction == 0 ? connections[3] : connections[direction - 1], connections[direction]);
+                    tags = (connections[(direction + 1) % 4], connections[(direction + 2) % 4]);
+
+                }
+
+                public PathTile(ExtraTile original) : base(original)
+                {
+                    //tags = (original.direction == 0 ? original.connections[3] : original.connections[original.direction - 1], original.connections[direction]);
+                    tags = (original.connections[(original.direction + 1) % 4], original.connections[(original.direction + 2) % 4]);
+                }
+
+                //public override bool Equals(object obj)
+                //{
+                //    if (obj is not PathTile other) return false;
+                //    return Equals(tile, other.tile);
+                //}
+                //
+                //public override int GetHashCode()
+                //{
+                //    return tile.GetHashCode();
+                //}
+            }
+
             public List<LBSTile> originalTiles = new();
             public Zone zone;
-            public List<(LBSTile, int)> annexedTiles = new();
-            public List<(LBSTile, int)> pathTiles = new();
+            public List<AnnexedTile> annexedTiles = new();
+            public List<PathTile> pathTiles = new();
 
             public List<LBSTile> ExtendedTiles
             {
                 get
                 {
                     var ret = new List<LBSTile>(originalTiles);
-                    ret.AddRange(new List<LBSTile>(annexedTiles.Select(t => t.Item1)));
+                    ret.AddRange(new List<LBSTile>(annexedTiles.Select(t => t.tile)));
                     return ret;
                 }
             } 

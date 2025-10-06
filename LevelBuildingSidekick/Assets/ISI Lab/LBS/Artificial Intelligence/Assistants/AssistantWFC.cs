@@ -149,7 +149,8 @@ namespace ISILab.LBS.Assistants
                     Positions.Add(new Vector2Int(i, j));
                 }
             }
-            return TryExecute(out string log, out LogType type);
+
+            return TryExecute(out _, out _);
         }
 
         public bool TryExecute(out string log, out LogType logType, int limit = 5)
