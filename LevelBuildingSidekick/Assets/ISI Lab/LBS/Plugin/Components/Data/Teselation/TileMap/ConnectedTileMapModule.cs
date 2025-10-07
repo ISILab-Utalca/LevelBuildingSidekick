@@ -197,7 +197,7 @@ namespace ISILab.LBS.Modules
                 msg += pair.Tile.Position + " - ";
                 foreach (var connect in pair.Connections)
                 {
-                    msg += connect + "| ";
+                    msg += connect + " | ";
                 }
                 msg += "\n";
             }
