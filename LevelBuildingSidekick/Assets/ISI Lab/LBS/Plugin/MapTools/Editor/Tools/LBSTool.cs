@@ -74,7 +74,7 @@ namespace LBS
             {
                 canvas.RemoveManipulator(this.Manipulator);
                 OnDeselect?.Invoke();
-                LBSMainWindow.MessageManipulator("-");
+                LBSMainWindow.Instance.MessageManipulator("-");
             };
         }
         

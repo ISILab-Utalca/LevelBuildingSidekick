@@ -4,6 +4,7 @@ using ISILab.LBS.Editor.Windows;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using UnityEditor.VersionControl;
 
 
 namespace ISILab.LBS.VisualElements.Editor
@@ -15,7 +16,10 @@ namespace ISILab.LBS.VisualElements.Editor
         
         private LBSToolbarButton clearNotificationButton;
         private LBSToolbarButton disableNotificationButton;
-        private VisualElement toolInformation; 
+        
+        private VisualElement toolInformation;
+        private Label toolLabel;
+        
         private Label selectedLabel;
         
         private TemplateContainer notificationContainer;
@@ -40,7 +44,10 @@ namespace ISILab.LBS.VisualElements.Editor
 
             clearNotificationButton = this.Q<LBSToolbarButton>("CleanNotificationsButton");
             disableNotificationButton = this.Q<LBSToolbarButton>("DisableNotificationsButton");
+            
             toolInformation = this.Q<VisualElement>("ToolInformation");
+            toolLabel  = this.Q<Label>("ToolText");
+            
             selectedLabel = this.Q<Label>("SelectedLabel");
             
             notificationContainer = this.Q<TemplateContainer>("NotifierViewer");
@@ -57,10 +64,16 @@ namespace ISILab.LBS.VisualElements.Editor
 
 
         public void Bind(LBSMainWindow _mainWindow)
-        {
-            
+        { 
+            LBSMainWindow.notifier.SetButtons(clearNotificationButton, disableNotificationButton);
+            warningNotification.visible = false;
         }
-        
+
+        public void SmallMessage(string _description)
+        {
+            if (toolLabel == null) return;
+            toolLabel.text = _description;
+        }
     }
 }
 

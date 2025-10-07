@@ -63,7 +63,7 @@ namespace ISILab.LBS.Editor.Windows{
         // Warning notification
         private static VisualElement warningNotification;
         private static Label warningLabel;
-        private static NotifierViewer notifier;
+        public static NotifierViewer notifier;
 
         #endregion
 
@@ -98,6 +98,7 @@ namespace ISILab.LBS.Editor.Windows{
 
         private VisualElement helpOverlayAnchor;
         private ToolBarMain TopToolBar;
+        private InfoToolbar infoToolBar;
 
         private ScrollView subPanelScrollView;
         
@@ -105,6 +106,7 @@ namespace ISILab.LBS.Editor.Windows{
         private SplitView splitView;
         [UxmlAttribute]
         private LayerInspector layerInspector;
+
 
         #endregion
 
@@ -153,6 +155,7 @@ namespace ISILab.LBS.Editor.Windows{
             helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
             
             TopToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            infoToolBar =  rootVisualElement.Q<InfoToolbar>("InfoToolbar");
             
             mainView = rootVisualElement.Q<MainView>("MainView");
             
@@ -234,23 +237,12 @@ namespace ISILab.LBS.Editor.Windows{
 
             #endregion
 
-            #region NOTIFIER
+            #region NOTIFIER TOOLBAR
 
-
-            var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
-            var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
-            notifier.SetButtons(cleanButton, disableNotificationButton);
+            infoToolBar.Bind(this);
 
             #endregion
-
-            #region TOOL & WARNING INFO
-
-            toolLabel = rootVisualElement.Q<VisualElement>("ToolInformation").Q<Label>("ToolText");
-            warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
-            warningLabel = rootVisualElement.Q<Label>("WarningText");
-            warningNotification.visible = false;
-
-            #endregion
+            
 
             #region MAIN VIEW
             
@@ -265,7 +257,7 @@ namespace ISILab.LBS.Editor.Windows{
 
             #endregion
 
-            #region TOP TOOLBAR
+            #region TOOLBARS
             TopToolBar.Bind(this);
             
             TopToolBar.OnLoadLevel += data =>
@@ -531,10 +523,13 @@ namespace ISILab.LBS.Editor.Windows{
             notifier.SendNotification(message, logType, duration);
         }
         
-        public static void MessageManipulator(string description)
-        {       
-            if (toolLabel == null) return;
-            toolLabel.text = description;
+        public void MessageManipulator(string description)
+        {
+            if (infoToolBar != null)
+            {
+                infoToolBar.SmallMessage(description);
+            }
+
         }
         
         public static void GridPosition(Vector2 pos)
