@@ -40,7 +40,7 @@ namespace ISILab.LBS.Generators
         {
             return base.GetHashCode();
         }
-        
+
         public override Tuple<GameObject, string> Generate(LBSLayer layer, Generator3D.Settings settings)
         {
             //Get references
@@ -71,7 +71,7 @@ namespace ISILab.LBS.Generators
                     // get interpolated center
                     positions!.Add(tile.Position);
                 }
- 
+
                 int sumX = 0;
                 int sumY = 0;
 
@@ -81,7 +81,7 @@ namespace ISILab.LBS.Generators
                     sumY += pos.y;
                 }
                 centerposition = new Vector2(sumX / (float)positions.Count, sumY / (float)positions.Count);
-                
+
                 //Get bundle
                 Bundle current = null;
                 foreach (var b in bundles)
@@ -92,7 +92,7 @@ namespace ISILab.LBS.Generators
                         current = b;
                 }
                 if (current == null) continue;
-                
+
                 //Get asset from bundle
                 var pref = current.Assets[Random.Range(0, current.Assets.Count)];
                 if (pref == null)
@@ -100,7 +100,7 @@ namespace ISILab.LBS.Generators
                     Debug.LogError("Null reference in asset: " + current.Name);
                     continue;
                 }
-                
+
                 //Instantiate prefab
 #if UNITY_EDITOR
                 var go = PrefabUtility.InstantiatePrefab(pref.obj) as GameObject;
@@ -112,70 +112,51 @@ namespace ISILab.LBS.Generators
                     Debug.LogError("Could not find prefab for: " + current.Name);
                     continue;
                 }
-                
-                if(current.GetHasTagCharacteristic("Player")) go.tag = "Player"; // TODO this is hardcoded - shouldnt be
-                
+
+                if (current.GetHasTagCharacteristic("Player")) go.tag = "Player"; // TODO this is hardcoded - shouldnt be
+
                 //Set rotation
                 var r = Directions.Bidimencional.Edges.FindIndex(v => v == group.Rotation);
                 go.transform.rotation = Quaternion.Euler(0, 90 * (r + 1), 0);
-                
+
                 // Set General position
                 go.transform.position =
                     settings.position +
                     new Vector3(centerposition.x * scale.x, 0, centerposition.y * scale.y) +
                     -(new Vector3(scale.x, 0, scale.y) / 2f);
-                
+
                 //Micro population tool
                 go.transform.position += current.GetMicroGenTool().MicroPosVector(go.transform, scale, r);
-                
-                
-               //Add components
+
+
+                //Add components
                 LBSGenerated generatedComponent = go.AddComponent<LBSGenerated>();
                 generatedComponent.BundleRef = current;
                 generatedComponent.LayerName = layer.Name;
                 objects.Add(go, current.ElementFlag);
             }
-            
-            if(objects.Count == 0)
+
+            if (objects.Count == 0)
             {
                 return Tuple.Create(parent, "No population objects were created. Assign a valid bundle type");
             }
-            
-            
+
+
             var x = objects.Keys.Average(o => o.transform.position.x);
             var y = objects.Keys.Min(o => o.transform.position.y);
             var z = objects.Keys.Average(o => o.transform.position.z);
-            
+
             foreach (var obj in objects)
             {
-                switch(obj.Value)
-                {
-                    case Bundle.EElementFlag.Character: 
-                        obj.Key.transform.SetParent(parentEntity.transform);
-                        break;
-                    case Bundle.EElementFlag.Item:
-                        obj.Key.transform.SetParent(parentObject.transform);
-                        break;
-                    case Bundle.EElementFlag.Interactable:
-                        obj.Key.transform.SetParent(parentInteractable.transform);
-                        break;
-                    case Bundle.EElementFlag.Trigger:
-                        obj.Key.transform.SetParent(parentArea.transform);
-                        break;
-                    case Bundle.EElementFlag.Prop:
-                        obj.Key.transform.SetParent(parentProp.transform);
-                        break;
-                    case Bundle.EElementFlag.Misc:
-                        obj.Key.transform.SetParent(parentMisc.transform);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                var go = obj.Key;
+                var flag = obj.Value;
 
-                obj.Key.AddComponent<DestroyNotifier>();
-                
-                parent.transform.position = new Vector3 (x, y, z);
-                
+                var parentTransform = GetParentForFlag(flag);
+                go.transform.SetParent(parentTransform);
+
+                // continue your existing logic
+                go.AddComponent<DestroyNotifier>();
+                parent.transform.position = new Vector3(x, y, z);
             }
 
             parentEntity.transform.SetParent(parent.transform);
@@ -183,12 +164,25 @@ namespace ISILab.LBS.Generators
             parentInteractable.transform.SetParent(parent.transform);
             parentArea.transform.SetParent(parent.transform);
             parentProp.transform.SetParent(parent.transform);
-            
+
             parentMisc.transform.SetParent(parent.transform);
             parent.transform.position += settings.position;
-            
-            return Tuple.Create<GameObject,string>(parent, null);
+
+            return Tuple.Create<GameObject, string>(parent, null);
+
+            Transform GetParentForFlag(Bundle.EElementFlag flag)
+            {
+                // reads by flag
+                if ((flag & Bundle.EElementFlag.Character) != 0) return parentEntity.transform;
+                if ((flag & Bundle.EElementFlag.Item) != 0) return parentObject.transform;
+                if ((flag & Bundle.EElementFlag.Interactable) != 0) return parentInteractable.transform;
+                if ((flag & Bundle.EElementFlag.Trigger) != 0) return parentArea.transform;
+                if ((flag & Bundle.EElementFlag.Prop) != 0) return parentProp.transform;
+                if ((flag & Bundle.EElementFlag.Misc) != 0) return parentMisc.transform;
+
+                // in theory it shoudln enter here
+                return parent.transform;
+            }
         }
     }
-
 }
