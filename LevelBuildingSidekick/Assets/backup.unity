@@ -2982,6 +2982,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
+        _suggestionAmount: 3
     - rid: 675441572658807235
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -8271,6 +8272,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
+        _suggestionAmount: 3
     - rid: 675441572658807268
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -31325,6 +31327,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
+        _suggestionAmount: 3
     - rid: 675441572658807317
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -38743,6 +38746,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
+        _suggestionAmount: 3
     - rid: 675441572658807348
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:

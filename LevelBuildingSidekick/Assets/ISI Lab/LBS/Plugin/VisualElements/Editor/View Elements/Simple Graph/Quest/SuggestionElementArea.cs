@@ -33,6 +33,7 @@ namespace ISILab.LBS.VisualElements
 
         private bool _resizing;
         private TriggerElementArea _suggestionArea;
+        
         #endregion
 
         #region Constructor
@@ -93,18 +94,7 @@ namespace ISILab.LBS.VisualElements
             var capsule = this.Q<VisualElement>("Capsule");
             capsule.RegisterCallback<MouseEnterEvent>(_ => SetSelected(true));
             capsule.RegisterCallback<MouseLeaveEvent>(_ => SetSelected(false));
-            capsule.RegisterCallback<GeometryChangedEvent>(evt =>
-            {
-                var root = capsule.panel.visualTree;
-                var graphContainer = root.Q<GraphView>();
-                if (graphContainer != null)
-                {
-                    var graphPos =_generatedQuestNode.Graph.OwnerLayer.FixedToPosition(capsule.worldBound.position.ToInt(), false);
-                    _generatedQuestNode.NodeViewPosition = new Rect(graphPos, capsule.worldBound.size);
-                }
-
-            });
-
+     
             // Action label
             var actionLabel = this.Q<Label>("ActionLabel");
             if (!string.IsNullOrEmpty(_generatedQuestNode.QuestAction))
@@ -134,15 +124,28 @@ namespace ISILab.LBS.VisualElements
             _visibleToggle.focusable = true;
             _visibleToggle.value = true;
                 
-            _generatedQuestNode.NodeViewPosition = new Rect(GetPosition().position, new Vector2(
-                
-                capsule.resolvedStyle.width ,
-                capsule.resolvedStyle.height));
-            
-            // Capsule move -> Position has the offset of the suggestion
-            capsule.style.left = capsule.resolvedStyle.left + _generatedQuestNode.Position.x;
-            capsule.style.top = capsule.resolvedStyle.top + _generatedQuestNode.Position.y;
+            // Subscribe to geometry change (fires once layout finishes)
+            EventCallback<GeometryChangedEvent> onGeometryReady = null;
+            onGeometryReady = (evt) =>
+            {
+                // Ensure we only run once
+                capsule.UnregisterCallback(onGeometryReady);
 
+                if (_generatedQuestNode.NodeViewPosition == Rect.zero)
+                {
+                    capsule.style.left = capsule.resolvedStyle.left + _generatedQuestNode.Position.x;
+                    capsule.style.top = capsule.resolvedStyle.top + _generatedQuestNode.Position.y;
+
+                    var graphPos = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(GetPosition().position);
+                    _generatedQuestNode.NodeViewPosition = new Rect(
+                        graphPos,
+                        new Vector2(capsule.resolvedStyle.width, capsule.resolvedStyle.height)
+                    );
+                }
+            };
+
+            // Register the callback
+            capsule.RegisterCallback(onGeometryReady);
 
         }
 
