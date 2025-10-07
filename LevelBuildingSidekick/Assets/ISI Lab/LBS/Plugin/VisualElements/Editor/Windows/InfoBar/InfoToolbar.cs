@@ -33,6 +33,10 @@ namespace ISILab.LBS.VisualElements.Editor
         {
             VisualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("InfoToolbar");
             VisualTree.CloneTree(this);
+            
+            this.name = "InfoToolbar";
+            this.AddToClassList("lbs-toolbar");
+            this.AddToClassList("horizontal");
 
             clearNotificationButton = this.Q<LBSToolbarButton>("CleanNotificationsButton");
             disableNotificationButton = this.Q<LBSToolbarButton>("DisableNotificationsButton");
@@ -48,7 +52,6 @@ namespace ISILab.LBS.VisualElements.Editor
             warningNotification = this.Q<VisualElement>("WarningNotification");
             warningText = this.Q<Label>("WarningText");
             
-
             
         }
 

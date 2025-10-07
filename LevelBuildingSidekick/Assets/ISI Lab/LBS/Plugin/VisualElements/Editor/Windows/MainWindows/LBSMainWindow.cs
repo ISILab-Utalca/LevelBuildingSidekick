@@ -223,7 +223,7 @@ namespace ISILab.LBS.Editor.Windows{
             }
             levelData!.OnReload += () => layerPanel.ResetSelection();
             #endregion
-            #region LOAD SCRIPTABLES
+            #region LOAD SCRIPTABLES TEMPLATE
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
             layerTemplates.Sort((a, b) => a.order.CompareTo(b.order));
             #endregion
