@@ -26,6 +26,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region  Visual Elements
             private LBSToolbarToggle keyMapToggle;
+            private VisualElement taskInfo;
+            private LBSCustomProgressBar taskProgressBar;
+            private LBSToolbarButton taskStopButton;
         #endregion
         
         public ToolBarMain()
@@ -66,6 +69,14 @@ namespace ISILab.LBS.VisualElements.Editor
             
             OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
             OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
+            
+            
+            taskInfo = this.Q<VisualElement>("TaskInfo");
+            taskProgressBar = this.Q<LBSCustomProgressBar>("TaskProgressBar");
+            taskStopButton = this.Q<LBSToolbarButton>("TaskStop");
+            
+            taskInfo.style.display = DisplayStyle.None;
+            
         }
 
 
