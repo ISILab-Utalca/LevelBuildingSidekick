@@ -613,7 +613,7 @@ namespace ISILab.LBS.Modules
                         {
                             newZoneReached = true;
                         }
-                        validPath = tags.Equals(GetOriginTags(current, direction));
+                        validPath = current is not null && tags.Equals(GetOriginTags(current, direction));
                     }
 
                     if (validPath)

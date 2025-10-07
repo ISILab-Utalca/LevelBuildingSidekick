@@ -166,8 +166,8 @@ namespace ISILab.LBS.Assistants
             if (Data.ContextLayers.Any())
             {
                 var subRect = GetLayerContextArea(out logs);
-
-                rect.GetCombinedArea(subRect);
+                if (!rect.HasArea()) rect = subRect;
+                else if (subRect.HasArea()) rect.GetCombinedArea(subRect);
             }
 
             RawToolRect = rect;
@@ -199,14 +199,22 @@ namespace ISILab.LBS.Assistants
                 filteredLayers.Add(layer);
             }
 
+            int firstValid = 0;
             for (int i = 0; i < filteredLayers.Count; i++)
             {
                 LBSLayer layer = filteredLayers[i];
                 string moduleID = layer.ID.Equals("Exterior") ? "TempConnectedModule" : "";
 
-                if (i == 0) combinedRect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
+                if (i == firstValid) combinedRect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
+
+                if (!combinedRect.HasArea())
+                {
+                    firstValid++;
+                    continue;
+                }
 
                 Rect rect = layer.GetModule<ConnectedTileMapModule>(moduleID).GetBounds();
+                if (!rect.HasArea()) continue;
                 combinedRect.GetCombinedArea(rect);
             }
 
