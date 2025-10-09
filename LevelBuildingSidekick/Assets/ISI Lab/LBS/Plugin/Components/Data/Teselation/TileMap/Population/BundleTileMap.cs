@@ -501,6 +501,7 @@ namespace ISILab.LBS.Modules
             return true;
         }
 
+
         public override int GetHashCode()
         {
             return base.GetHashCode();

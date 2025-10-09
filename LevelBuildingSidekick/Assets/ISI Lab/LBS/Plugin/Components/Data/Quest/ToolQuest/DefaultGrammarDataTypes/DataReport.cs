@@ -53,7 +53,7 @@ namespace ISILab.LBS.Components
             var reportOther = other as DataReport;
             if(reportOther == null) return false;
             
-            return bundleReportTo == reportOther.bundleReportTo;
+            return Equals(bundleReportTo, reportOther.bundleReportTo);
         }
 
         public override bool IsValid()

@@ -51,7 +51,7 @@ namespace ISILab.LBS.Components
             var listenOther = other as DataListen;
             if(listenOther == null) return false;
             
-            return listenOther.bundleListenTo == bundleListenTo;
+            return Equals(listenOther.bundleListenTo, bundleListenTo);
         }
 
         public override bool IsValid()

@@ -2,6 +2,7 @@ using UnityEngine.UIElements;
 
 using System;
 using ISILab.Commons.Utility.Editor;
+using ISILab.Extensions;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 
@@ -44,7 +45,11 @@ namespace ISILab.LBS.VisualElements.Editor
                 _generatedQuestNode.Graph.AddSuggestionNode(_generatedQuestNode);
                 _generatedQuestNode.Graph.OnRemoveSuggestion?.Invoke(_generatedQuestNode);
             };
-            _goToButton.clicked += () => _generatedQuestNode.Graph.GoToNode(_generatedQuestNode);
+            _goToButton.clicked += () =>
+            {
+                var graphPos =_generatedQuestNode.Graph.OwnerLayer.FixedToPosition(_generatedQuestNode.NodeViewPosition.position.ToInt(), true);
+                _generatedQuestNode.Graph.GoToNodeInGraph(graphPos.ToInt());
+            };
 
         }
 
