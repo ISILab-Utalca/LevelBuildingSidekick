@@ -691,7 +691,8 @@ namespace LBS.Components
                 Assert.IsTrue(AddModule(sectorTM));
                 var zoneConnected = new List<LBSModule>() { connectedTM }.Clone()[0] as ConnectedTileMapModule;
                 zoneConnected.ID = "TempConnectedModule";
-                sectorTM.BuildFromExterior(connectedTM, zoneConnected);
+                List<string> floorTags = GetBehaviour<ExteriorBehaviour>()?.NavigableTags;
+                sectorTM.BuildFromExterior(connectedTM, zoneConnected, floorTags);
                 Assert.IsTrue(AddModule(zoneConnected));
             }
 

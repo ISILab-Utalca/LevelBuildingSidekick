@@ -190,7 +190,13 @@ public interface IContextualEvaluator : IEvaluator
 
         foreach(LBSTile tile in interiorSectorTM.PairTiles.Select(t => t.Tile))
         {
-            if (exteriorSectorTM.PairTiles.Any(tzp => tzp.Tile.Equals(tile))) continue;
+            if (exteriorSectorTM.PairTiles.Any(tzp => tzp.Tile.Equals(tile)))
+            {
+                exteriorSectorTM.RemovePair(tile);
+                exteriorZonesConnectedTM.RemoveTile(tile);
+                exteriorTilemap.RemoveTile(tile);
+                //continue;
+            }
 
             Zone zone = interiorSectorTM.PairTiles.Find(tzp => tzp.Tile.Position.Equals(tile.Position)).Zone;
             if (!exteriorSectorTM.Zones.Contains(zone))
@@ -210,7 +216,7 @@ public interface IContextualEvaluator : IEvaluator
             }
         }
 
-        exteriorSectorTM.RecalculateZonesProximity(selection, exteriorZonesConnectedTM); // Este intercambio estara causando el problema?
+        exteriorSectorTM.RecalculateZonesProximity(selection, exteriorZonesConnectedTM);
         
         return newLayer;
     }
