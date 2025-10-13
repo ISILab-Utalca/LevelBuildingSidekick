@@ -108,9 +108,26 @@ namespace ISILab.LBS.Modules
                 return null;
             return pairs.Find(t => t.Tile.Equals(tile));
         }
+
         public TileConnectionsPair GetPair(Vector2Int pos)
         {
             return pairs.Find(t => t.Tile.Position == pos);
+        }
+
+        public List<Tuple<TileConnectionsPair, int>> GetAllPairsWithConnections(params string[] connections)
+        {
+            var ret = new List<Tuple<TileConnectionsPair, int>>();
+            foreach(TileConnectionsPair pair in pairs)
+            {
+                for(int i = 0; i < 4; i++)
+                {
+                    if (connections.Contains(pair.Connections[i]))
+                    {
+                        ret.Add(new Tuple<TileConnectionsPair, int>(pair, i));
+                    }
+                }
+            }
+            return ret;
         }
 
         public List<string> GetConnections(LBSTile tile)
@@ -353,6 +370,18 @@ namespace ISILab.LBS.Modules
 
     public static class TileConnectionsPairExtensions
     {
+        public static List<int> HasConnections(this TileConnectionsPair pair, params string[] connections)
+        {
+            var ret = new List<int>();
+            if (pair is null) return ret;
+            for (int i = 0; i < 4; i++)
+            {
+                if (connections.Contains(pair.Connections[i]))
+                    ret.Add(i);
+            }
+            return ret;
+        }
+
         public static bool IsFloor(this TileConnectionsPair current, List<string> floorTags)
         {
             if (current == null) return false;

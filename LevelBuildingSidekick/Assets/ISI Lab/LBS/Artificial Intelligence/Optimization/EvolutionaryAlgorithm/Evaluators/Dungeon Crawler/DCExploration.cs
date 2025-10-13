@@ -32,7 +32,9 @@ namespace ISILab.AI.Categorization
 
         public string Tooltip => "DC Exploration Evaluator\n\n" +
             "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
-            "This evaluator currently only supports Interior Layers as Context.";
+            "This evaluator currently supports as Context the combination of any of the following layer types:\n" +
+            "- Any type of Interior Layer.\n" +
+            "- A single Vertex-Based Exterior Layer.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -260,8 +262,8 @@ namespace ISILab.AI.Categorization
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
-            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers(selection);
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer, selection);
             InitializeDefault();
         }
 
