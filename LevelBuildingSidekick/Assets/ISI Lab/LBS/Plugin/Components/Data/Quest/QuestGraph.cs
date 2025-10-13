@@ -254,10 +254,11 @@ namespace ISILab.LBS.Modules
         public void AddSuggestionNode(QuestNode generatedQuestNode)
         {
             if(generatedQuestNode is null) return;
-            var graphPos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var pos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var graphPos = OwnerLayer.FixedToPosition(pos, true);
             var node = AddNewQuestNode(generatedQuestNode.QuestAction, graphPos);
-            node.NodeData = generatedQuestNode.NodeData;
-            node.NodeViewPosition = generatedQuestNode.NodeViewPosition;
+             node.NodeData = generatedQuestNode.NodeData;
+             node.NodeViewPosition = new Rect(graphPos, generatedQuestNode.NodeViewPosition.size);
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
