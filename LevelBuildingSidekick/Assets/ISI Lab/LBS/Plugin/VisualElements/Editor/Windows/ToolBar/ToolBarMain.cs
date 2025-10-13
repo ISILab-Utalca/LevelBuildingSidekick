@@ -23,9 +23,15 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LoadedLevel> OnSaveLevel;
         public event Action<LoadedLevel> OnLevelChange;
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
+        
+        public event Action OnProgressCompleted;
 
         #region  Visual Elements
             private LBSToolbarToggle keyMapToggle;
+            private VisualElement taskInfo;
+            private LBSCustomProgressBar taskProgressBar;
+            private LBSToolbarButton taskStopButton;
+            private LBSToolbarButton settingMenu;
         #endregion
         
         public ToolBarMain()
@@ -41,13 +47,7 @@ namespace ISILab.LBS.VisualElements.Editor
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            LBSToolbarButton settingMenu = this.Q<LBSToolbarButton>("OptionButton");
-            //settingMenu.clicked += () => OpenConfiguration();
-            settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
-
-            // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
-            // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
-            
+            settingMenu = this.Q<LBSToolbarButton>("OptionButton");
             keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             
             LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
@@ -66,6 +66,14 @@ namespace ISILab.LBS.VisualElements.Editor
             
             OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
             OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
+            
+            
+            taskInfo = this.Q<VisualElement>("TaskInfo");
+            taskProgressBar = this.Q<LBSCustomProgressBar>("TaskProgressBar");
+            taskStopButton = this.Q<LBSToolbarButton>("TaskStop");
+            
+            taskInfo.style.display = DisplayStyle.None;
+            
         }
 
 
@@ -83,6 +91,8 @@ namespace ISILab.LBS.VisualElements.Editor
                 LBS.loadedLevel = _loadedLevel;
                 MainWindow.RefreshWindow();
             };
+            
+            settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
         }
         
         
@@ -129,7 +139,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public void SaveAsLevel(DropdownMenuAction dma)
         {
             if (LBSController.SaveFileAs()) { 
-            OnSaveLevel?.Invoke(LBS.loadedLevel);
+                OnSaveLevel?.Invoke(LBS.loadedLevel);
             }
             AssetDatabase.Refresh();
         }
@@ -139,31 +149,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // Open the Project Settings window
             SettingsService.OpenProjectSettings("LBS");
         }
-
-
-        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
-        {
-            if (MainWindow == null) return;
-            
-            
-            switch (_newTheme)
-            {
-               case  LBSSettings.Interface.InterfaceTheme.Light:
-                   this.ClearClassList();
-                   this.AddToClassList("light");
-                   break;
-               case  LBSSettings.Interface.InterfaceTheme.Dark:
-                   this.ClearClassList();
-                   this.AddToClassList("dark");
-                   break;
-               case LBSSettings.Interface.InterfaceTheme.Alt:
-                   this.ClearClassList();
-                   this.AddToClassList("alt");
-                   break;
-               default:
-                   break;
-            }
-        }
-
+        
+        
     }
 }
