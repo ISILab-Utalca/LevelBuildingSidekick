@@ -12,17 +12,21 @@ namespace ISILab.LBS.VisualElements
     {
    //     public new class UxmlFactory : UxmlFactory<ClassDropDown, UxmlTraits> {}
 
-       private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Label", defaultValue = "Class DropDown" };
-
-       public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
-       {
-           Init(ve, bag, cc);
-
-           ClassDropDown field = (ClassDropDown)ve;
-           field.label = m_Label.GetValueFromBag(bag, cc);
-       }
+        private readonly UxmlStringAttributeDescription m_Label = new UxmlStringAttributeDescription { name = "Label", defaultValue = "Class DropDown" };
+        
+        //public void Init(VisualElement ve, IUxmlAttributes bag, CreationContext cc)
+        //{
+        //    UnityEngine.Debug.Log("Class Dropdown Init");
+        //    //Init(ve, bag, cc); // QUE?
+        //
+        //    ClassDropDown field = (ClassDropDown)ve;
+        //    field.Label = m_Label.GetValueFromBag(bag, cc);
+        //    
+        //}
 
         #region FIELDS
+        //Label label;
+
         Type type;
 
         bool filterAbstract;
@@ -39,6 +43,17 @@ namespace ISILab.LBS.VisualElements
                     this.value = value;
             }
         }
+
+        //public string Label
+        //{
+        //    get => label?.text;
+        //    set 
+        //    {
+        //        var notify = (INotifyValueChanged<string>)label;
+        //        UnityEngine.Assertions.Assert.IsNotNull(notify, "Cast fallo");
+        //        notify.SetValueWithoutNotify(value);
+        //    }
+        //}
 
         public Type TypeValue => types[choices.IndexOf(value)];
 
@@ -64,6 +79,15 @@ namespace ISILab.LBS.VisualElements
 
         public ClassDropDown()
         {
+            
+        }
+
+        public void Init()
+        {
+            //label = this.Q<Label>();
+            //UnityEngine.Assertions.Assert.IsNotNull(label, "No se encontro el visual element");
+            //Label = "Class DropDown";
+
             label = "Class DropDown";
             this.SetValueWithoutNotify("");
         }

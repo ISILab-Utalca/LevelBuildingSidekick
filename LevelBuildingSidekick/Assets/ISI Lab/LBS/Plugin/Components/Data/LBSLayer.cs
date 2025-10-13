@@ -214,7 +214,7 @@ namespace LBS.Components
 
         public void Reload()
         {
-            Debug.Log("RELOAD LAYER " + Name);
+            //Debug.Log("RELOAD LAYER " + Name);
             foreach (var module in modules)
             {
                 module.OnAttach(this);

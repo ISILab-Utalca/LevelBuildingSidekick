@@ -46,6 +46,7 @@ namespace ISILab.LBS.VisualElements
             // Initialize UI elements
             icon = new VisualElement() { name = "Icon" };
             dropdown = new ClassDropDown() { name = "ClassDropDown" };
+            dropdown.Init();
             content = new VisualElement() { name = "Content" };
 
             content.style.flexGrow = 1;

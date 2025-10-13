@@ -268,13 +268,13 @@ namespace ISILab.LBS.Modules
 
         public void RecalculateZonesProximity() => RecalculateZonesProximity(GetBounds());
 
-        public void RecalculateZonesProximity(Rect selection)
+        public void RecalculateZonesProximity(Rect selection, ConnectedTileMapModule connectedTM = null)
         {
             if(OwnerLayer == null) return;
 
             var tilemap = OwnerLayer.GetModule<TileMapModule>();
             if (tilemap == null) return;
-            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            connectedTM ??= OwnerLayer.GetModule<ConnectedTileMapModule>();
             if(connectedTM == null) return;
 
             var zonesToCalc = new List<Zone>(ZonesWithTiles);
@@ -303,7 +303,11 @@ namespace ISILab.LBS.Modules
             Dictionary<Zone, List<LBSTile>> zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
             for(int i = 0; i < size; i++)
             {
-                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                //zoneTiles[zonesToCalc[i]].ForEach(t => { if (connectedTM.GetPair(t) is null)
+                //        ;
+                //});
+                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => connectedTM.GetPair(t).HasConnections("Door").Count > 0);
+                    //t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
                 foreach(LBSTile t in tilesWithDoors)
                 {
                     foreach(Vector2Int dir in Dirs)
@@ -363,7 +367,7 @@ namespace ISILab.LBS.Modules
                 }
                 log += "]\n";
             }
-            //Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
+            Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
         }
 
         public void BuildFromExterior(ConnectedTileMapModule connectedTM, ConnectedTileMapModule zoneConnected)
@@ -460,6 +464,9 @@ namespace ISILab.LBS.Modules
             foreach(TileConnectionsPair tile in toRemove)
                 zoneConnected.RemoveTile(tile);
 
+            var allAnnexed = new List<TileGroup.AnnexedTile>();
+            var allPaths = new List<TileGroup.PathTile>();
+
             // Por cada grupo
             foreach (TileGroup tileGroup in tileGroups)
             {
@@ -505,7 +512,7 @@ namespace ISILab.LBS.Modules
                                 var path = new TileGroup.PathTile(extra);
                                 int count = CountConnectionFloorTags(extra);
                                 if (count == 0) toSet = "Wall";
-                                if (count == 1 && !annexed.Contains(anx))
+                                if (count == 1 && !allAnnexed.Contains(anx))
                                 {
                                     int? d = paths.Find(p => p.Equals(path))?.direction;
                                     if (!paths.Remove(path))
@@ -520,6 +527,7 @@ namespace ISILab.LBS.Modules
                                 if (count == 2)
                                 {
                                     annexed.Add(anx);
+                                    paths.RemoveAll(p => p.Equals(anx));
                                     zoneConnected.AddPair(t, new List<string>() { "Empty", "Empty", "Empty", "Empty", }, new List<bool>(){ false, false, false, false, });
                                 }
                             }
@@ -527,12 +535,12 @@ namespace ISILab.LBS.Modules
                             {
                                 toSet = "Wall";
                             }
-                            
                         }
                         zoneConnected.SetConnection(tile, i, toSet, false);
                     }
                 }
                 tileGroup.annexedTiles.AddRange(annexed);
+                allAnnexed.AddRange(annexed);
                 
                 var annexedTiles = annexed.Select(anx => anx.tile);
                 paths.RemoveAll(path =>
@@ -542,6 +550,7 @@ namespace ISILab.LBS.Modules
                     return annexedTiles.Contains(path.tile);
                 });
                 tileGroup.pathTiles.AddRange(paths);
+                allPaths.AddRange(paths);
                 string log = "Sospechas de caminos:\n";
                 foreach(var path in paths)
                 {
@@ -549,7 +558,6 @@ namespace ISILab.LBS.Modules
                 }
                 Debug.Log(log);
             }
-
 
             List<LBSTile> duplicatedPaths = new();
             foreach (TileGroup tileGroup in tileGroups)
@@ -719,6 +727,8 @@ namespace ISILab.LBS.Modules
                 }
 
                 public override int GetHashCode() => tile.GetHashCode();
+
+                public override string ToString() => $"{tile} | Direction: {direction} | {connections}";
             }
 
             public class AnnexedTile : ExtraTile
