@@ -423,6 +423,7 @@ namespace ISILab.LBS.Editor.Windows{
             mainView.Clear();
             this.rootVisualElement.Clear();
             
+            //Repaint();
             OnDisable();
             OnEnable();
             CreateGUI();
