@@ -11,25 +11,37 @@ namespace LBS.Bundles.Tools
        
         [Header("Scatter Settings")]
         public int iterations = 10;
-        public float radius = 2.4f;
+        private float radius = 2.4f;
+        
+        
+        public float Radius
+        {
+            get => radius;
+            set {
+                radius = value;
+                if (baseCollider is SphereCollider)
+                {
+                    SphereCollider collider = baseCollider as SphereCollider;
+                    collider.radius = radius;
+                }
+            }
+        }
 
-        
-        
         public override void RunCommand()
         {
-            
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             
             base.RunCommand();
             if (baseCollider)
             {
-                RaycastJobSchedule(iterations, radius);
+                RaycastJobSchedule(iterations, Radius);
             }
             
             stopwatch.Stop();
             UnityEngine.Debug.Log($"Scatter Tool Execution Time: {stopwatch.ElapsedMilliseconds} ms");
         }
+        
 
         public override Vector3 GenerateDirection()
         {

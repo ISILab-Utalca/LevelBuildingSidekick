@@ -10,10 +10,12 @@ using Unity.Jobs;
 using Unity.Burst;
 using Unity.Collections;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering;
 
 
 namespace LBS.Bundles.Tools
 {
+    [ExecuteAlways]
     public class ScatterAreaBase : MonoBehaviour
     {
         public enum GenerationMode{Instances, SingleCachedMesh, GpuBach}
@@ -24,7 +26,6 @@ namespace LBS.Bundles.Tools
         [Header("Mesh")]
         public Mesh meshToInstance;
         public Material materialToInstance;
-        public bool saveGeneratedMesh = false;
         public bool clearPrevious = false;
         
         [Header("MeshTransforms")]
@@ -40,8 +41,9 @@ namespace LBS.Bundles.Tools
         NativeArray<Quaternion> rotations;
         NativeArray<Vector3> scales;
         NativeArray<Matrix4x4> matrices;
-        
-        
+        private RenderParams renderParams = new RenderParams();
+
+
         public virtual void RunCommand()
         {
             print("RunCommand");
@@ -51,7 +53,17 @@ namespace LBS.Bundles.Tools
                 ClearAllSubMesh();
             }
         }
-
+        
+        
+        public void Update()
+        {
+            if (generationMode == GenerationMode.GpuBach && matrices.Length > 0)
+            {
+                Debug.Log("rendering");
+                //Graphics.RenderMeshInstanced(renderParams, meshToInstance, 0, matrices );
+                Graphics.DrawMeshInstanced(meshToInstance, 0, materialToInstance, matrices.ToArray());
+            }
+        }
 
         public void RaycastJobSchedule(int _iterations , float _maxDistance = float.MaxValue)
         {
@@ -75,50 +87,73 @@ namespace LBS.Bundles.Tools
                 default(JobHandle));
                 
             jobSchedule.Complete();
-            
-            if (resultsBuffer.Length > 0)
+
+            if (resultsBuffer.Length <= 0)
             {
-                int meshCount = 0 ;
-                List<Vector3> points =  new List<Vector3>();
-                List<Vector3> normals =  new List<Vector3>();
-                foreach (RaycastHit hit in resultsBuffer)
+                resultsBuffer.Dispose();
+                commandsBuffer.Dispose();
+                return;
+            }
+            
+            int meshCount = 0 ;
+            List<Vector3> points =  new List<Vector3>();
+            List<Vector3> normals =  new List<Vector3>();
+            foreach (RaycastHit hit in resultsBuffer)
+            {
+                if (hit.collider != null)
                 {
-                    if (hit.collider != null)
-                    {
-                        meshCount++;
-                        points.Add(hit.point);
-                        normals.Add(hit.normal);
-                    }
-                }
-                
-                switch (generationMode)
-                {
-                    case GenerationMode.Instances:
-                    {
-                        for (int i = 0; i < points.Count; i++)
-                        {
-                            InstanceMeshOnPoint(points[i], normals[i]);
-                        }
-                        break;
-                    }
-                    case GenerationMode.SingleCachedMesh:
-                    {
-                        throw new NotImplementedException();
-                        break;
-                    }
-                    case GenerationMode.GpuBach:
-                    {
-                        BatchMesh(meshCount, points, normals);
-                        break;
-                    }
+                    meshCount++;
+                    points.Add(hit.point);
+                    normals.Add(hit.normal);
                 }
             }
             
+            switch (generationMode)
+            {
+                case GenerationMode.Instances:
+                {
+                    TryDisposeMatrix();
+                    for (int i = 0; i < points.Count; i++)
+                    {
+                        InstanceMeshOnPoint(points[i], normals[i]);
+                    }
+                    break;
+                }
+                case GenerationMode.SingleCachedMesh:
+                {
+                    resultsBuffer.Dispose();
+                    commandsBuffer.Dispose();
+                    TryDisposeMatrix();
+                    throw new NotImplementedException();
+                    
+                    
+                    
+                    
+                    break;
+                }
+                case GenerationMode.GpuBach:
+                {
+                    BatchMesh(meshCount, points, normals);
+                    break;
+                }
+                default:
+                    break;
+            }
+            
+            //Debug.Log($"meshCount: {meshCount}");
             resultsBuffer.Dispose();
             commandsBuffer.Dispose();
                 
         }
-        
+
+        private void TryDisposeMatrix()
+        {
+            if (matrices.IsCreated)
+            {
+                matrices.Dispose();
+            }
+        }
+
         public virtual Vector3 GenerateDirection()
         {
             return Vector3.down;
@@ -151,11 +186,8 @@ namespace LBS.Bundles.Tools
             NativeArray<Vector3> normals =  NatArrayFromList<Vector3>(_normals);
             rotations = new NativeArray<Quaternion>(_meshCount, Allocator.TempJob);
             scales = new NativeArray<Vector3>(_meshCount, Allocator.TempJob);
-
-            if (matrices.IsCreated)
-            {
-                matrices.Dispose();
-            }
+            
+            TryDisposeMatrix();
             matrices = new NativeArray<Matrix4x4>(_meshCount, Allocator.Persistent);
             
             
@@ -165,21 +197,26 @@ namespace LBS.Bundles.Tools
             
             handle.Complete();
             
-            //Matrix4x4[] matrix =  matrices.ToArray();
+            matrices = job.Matrices;
+            Matrix4x4[] matrix =  matrices.ToArray();
             
-            RenderParams rParams = new RenderParams();
+            renderParams = new RenderParams
+            {
+                material = materialToInstance,
+                shadowCastingMode = ShadowCastingMode.On,
+                receiveShadows = true,
+                lightProbeUsage = LightProbeUsage.Off
+            };
             
-            Graphics.RenderMeshInstanced(rParams, meshToInstance, 0, matrices);
-            //Graphics.DrawMeshInstanced(meshToInstance, 0, materialToInstance, matrix);
             
-            Debug.Log("draw");
+            //Graphics.RenderMeshInstanced(renderParams, meshToInstance, 0, matrices);
+            Graphics.DrawMeshInstanced(meshToInstance, 0, materialToInstance, matrix);
             
             
             positions.Dispose();
             rotations.Dispose();
             scales.Dispose();
             normals.Dispose();
-            
             //matrices.Dispose();
         }
 
@@ -270,4 +307,12 @@ namespace LBS.Bundles.Tools
         }
         
     }
+    
+    [BurstCompile]
+    public struct MyInstanceData
+    {
+        Matrix4x4 objectToWorld; // We must specify object-to-world transformation for each instance
+        uint renderingLayerMask; // In addition we also like to specify rendering layer mask per instance.
+    };
+    
 }

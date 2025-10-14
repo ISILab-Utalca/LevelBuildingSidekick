@@ -136,7 +136,7 @@ Material:
     - _Surface: 0
     - _UVSec: 0
     - _UseVertexColor: 1
-    - _VertexBlend: 0.333
+    - _VertexBlend: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
