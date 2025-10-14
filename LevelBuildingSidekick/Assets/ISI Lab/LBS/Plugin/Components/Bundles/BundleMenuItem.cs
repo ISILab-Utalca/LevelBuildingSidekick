@@ -27,6 +27,7 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             //ProjectWindowUtil.CreateAsset(obj, "New Bundle.asset");
         }
         
+        [MenuItem("Assets/Create/ISILab/LBS/Bundle (Multiple) &b")]
         private static void CreateMultipleBundles()
         {
             GameObject[] list = Selection.gameObjects;
@@ -64,6 +65,7 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             CreateBundleAsset(obj, name + ".asset"); // New function. Test require for this case.
             //ProjectWindowUtil.CreateAsset(obj, name + ".asset");
         }
+        
         private static void CreateBundleFromSinglePrefab(GameObject prefab)
         {
             string name = null;
