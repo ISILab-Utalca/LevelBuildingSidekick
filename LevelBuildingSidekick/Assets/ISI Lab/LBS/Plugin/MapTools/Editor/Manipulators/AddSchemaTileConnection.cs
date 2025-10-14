@@ -1,10 +1,12 @@
-using System;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
-using System.Collections.Generic;
-using ISILab.LBS.Editor.Windows;
 using LBS.Components.TileMap;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,7 +16,9 @@ namespace ISILab.LBS.Manipulators
     public class AddSchemaTileConnection : LBSManipulator
     {
         private SchemaBehaviour _schema;
+        private List<SchemaBehaviour> _others;
         private Vector2Int _first;
+        private List<Vector2Int> Dirs => ISILab.Commons.Directions.Bidimencional.Edges;
 
         protected override string IconGuid => "b06c784e5d88d1547a40d4fc2f54b485";
         
@@ -35,11 +39,23 @@ namespace ISILab.LBS.Manipulators
 
         public override void Init(LBSLayer layer, object provider = null)
         {
+            //Debug.Log("Tile connection Init");
             base.Init(layer, provider);
             
             _schema = provider as SchemaBehaviour;
+            if(_schema.MultiLayerConnections) 
+                MultiLayerSetup();
+
             Feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
+        }
+
+        public void MultiLayerSetup()
+        {
+            _others = LBSController.CurrentLevel.data.Layers
+                .Select(l => l.GetBehaviour<SchemaBehaviour>())
+                .Where(b => b is not null && b != _schema)
+                .ToList();
         }
 
         protected override void OnMouseDown(VisualElement element, Vector2Int position, MouseDownEvent e)
@@ -58,32 +74,32 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            if (ToSet == null)
+            if (ToSet is null)
             {
                 LBSMainWindow.MessageNotify("Select a connection type in the LBS-inspector panel",LogType.Warning,4);
                 return;
             }
 
-            var level = LBSController.CurrentLevel;
+            LoadedLevel level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(level, "Add Connection between tile");
-            
+
             // Get second fixed position
             Vector2Int lastPos = _schema.OwnerLayer.ToFixedPosition(position);
 
             // Get vector direction
-            int dx =  _first.x - lastPos.x;
+            int dx = _first.x - lastPos.x;
             int dy = _first.y - lastPos.y;
-            
-            
-            // Get index of directions
-            int frontDirIndex;
-            int backDirIndex;
             
             float dLength = Mathf.Sqrt(dx * dx  +  dy * dy);
 
             if (dLength < 1)
                 return;
+
+            // Get index of directions
+            int frontDirIndex = Dirs.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            if (frontDirIndex < 0 || frontDirIndex >= Dirs.Count) return;
+            int backDirIndex = Dirs.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
 
             // Multi-connection mode
             bool requiresWall = dLength > 1;
@@ -94,13 +110,8 @@ namespace ISILab.LBS.Manipulators
             for (int i = 0; i <= totalConnections; i++)
             {
                 //Get the next tile 
-                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
+                selectedTiles.Add(GetTileInLine(_schema, i));
             }
-
-            frontDirIndex = _schema.Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-            backDirIndex = _schema.Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-            if (frontDirIndex < 0 || frontDirIndex >= _schema.Directions.Count)
-                return;
 
             for (int i = 1; i < selectedTiles.Count; i++)
             {
@@ -108,28 +119,56 @@ namespace ISILab.LBS.Manipulators
                 LBSTile tile2 = selectedTiles[i];
 
                 bool setDoorOrWindow = ToSet.Equals("Door") || ToSet.Equals("Window");
-                if (requiresWall && setDoorOrWindow)
-                {
-                    bool tile1Exists = tile1 != null;
-                    bool tile2Exists = tile2 != null;
-                    string conn1 = tile1Exists ? _schema.GetConnections(tile1)[frontDirIndex] : "Empty";
-                    string conn2 = tile2Exists ? _schema.GetConnections(tile2)[backDirIndex] : "Empty";
-                    bool firstHasWall = !conn1.Equals("Empty");
-                    bool secondHasWall = !conn2.Equals("Empty");
-                    if (!((firstHasWall || secondHasWall) && (tile1Exists || secondHasWall) && (tile2Exists || firstHasWall)))
-                        continue;
-                }
+                if (requiresWall && setDoorOrWindow && !ValidWallReplace(_schema, tile1, tile2)) continue;
 
-                TrySetSingleConnection(tile1, tile2, frontDirIndex, backDirIndex);
+                TrySetSingleConnection(_schema, tile1, tile2, frontDirIndex, backDirIndex);
+                
+                if (_schema.MultiLayerConnections && setDoorOrWindow)
+                {
+                    foreach (SchemaBehaviour other in _others)
+                    {
+                        LBSTile t1 = GetTileInLine(other, i - 1);
+                        LBSTile t2 = GetTileInLine(other, i);
+                        if (ValidWallReplace(other, t1, t2))
+                        {
+                            TrySetSingleConnection(other, t1, t2, frontDirIndex, backDirIndex);
+                            Action redrawCallback = null;
+                            redrawCallback = () =>
+                            {
+                                DrawManager.Instance.RedrawLayer(other.OwnerLayer);
+                                OnManipulationEnd -= redrawCallback;
+                            };
+                            OnManipulationEnd += redrawCallback;
+                            break; // The multilayer connections feature was planned for adjacent rooms of two different layers. It is not expected to set the same connection in more than 2 layers.
+                        }
+                    }
+                }
             }
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(level);
             }
+
+            /// END OF METHOD ///
+
+            // Local functions
+            LBSTile GetTileInLine(SchemaBehaviour schema, int i) => schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i));
+
+            bool ValidWallReplace(SchemaBehaviour schema, LBSTile tile1, LBSTile tile2)
+            {
+                bool tile1Exists = tile1 is not null;
+                bool tile2Exists = tile2 is not null;
+                string conn1 = tile1Exists ? schema.GetConnections(tile1)[frontDirIndex] : "Empty";
+                string conn2 = tile2Exists ? schema.GetConnections(tile2)[backDirIndex] : "Empty";
+                bool firstHasWall = !conn1.Equals("Empty");
+                bool secondHasWall = !conn2.Equals("Empty");
+                return (firstHasWall || secondHasWall) && (tile1Exists || secondHasWall) && (tile2Exists || firstHasWall);
+            }
         }
 
         private void TrySetSingleConnection(
+            SchemaBehaviour schema,
             LBSTile firstTile,
             LBSTile secondTile,
             int frontDirIndex,
@@ -137,11 +176,11 @@ namespace ISILab.LBS.Manipulators
             )
         {
             
-            if (firstTile == null)
+            if (firstTile is null)
             {
-                if (secondTile != null)
+                if (secondTile is not null)
                 {
-                    _schema.SetConnection(secondTile, backDirIndex, ToSet, false);
+                    schema.SetConnection(secondTile, backDirIndex, ToSet, false);
                     return;
                 }
             }
@@ -154,19 +193,19 @@ namespace ISILab.LBS.Manipulators
                 }
             }
             
-            if (secondTile == null)
+            if (secondTile is null)
             {
-                if (firstTile == null)
+                if (firstTile is null)
                 {
                     return;
                 }
-                _schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
+                schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
                 return;
             }
-            
+
             // set both connections
-            _schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
-            _schema.SetConnection(secondTile, backDirIndex, ToSet, false);
+            schema.SetConnection(firstTile, frontDirIndex, ToSet, false);
+            schema.SetConnection(secondTile, backDirIndex, ToSet, false);
         }
     }
 }

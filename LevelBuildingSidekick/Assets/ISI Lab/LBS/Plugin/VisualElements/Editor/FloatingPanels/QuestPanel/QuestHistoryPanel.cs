@@ -76,7 +76,7 @@ namespace ISILab.LBS.VisualElements.Editor
                     // No direct Refresh(); UpdateFlow will trigger it.
                 };
 
-               // questEntryVe.GoToNode = () => GoToNode(quest);
+               // questEntryVe.GoToNodeInGraph = () => GoToNodeInGraph(quest);
             };
 
             _questList.itemsRemoved += (_) =>
@@ -105,7 +105,7 @@ namespace ISILab.LBS.VisualElements.Editor
         private void GoToNode(QuestNode node)
         {
             if (node == null) return;
-            QuestGraphs?.GoToNode?.Invoke(node);
+            QuestGraphs?.GoToNodeInGraph?.Invoke(node.Position);
         }
 
         private void UpdateVeQuestEntries()

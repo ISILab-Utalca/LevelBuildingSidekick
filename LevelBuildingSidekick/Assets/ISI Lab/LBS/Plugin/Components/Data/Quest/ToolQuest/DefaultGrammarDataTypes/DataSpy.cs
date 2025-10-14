@@ -52,7 +52,7 @@ namespace ISILab.LBS.Components
             var spyOther =  other as DataSpy;
             if (spyOther is null) return false;
            
-            return spyOther.bundleToSpy == bundleToSpy;
+            return Equals(spyOther.bundleToSpy, bundleToSpy);
         }
 
         public override bool IsValid()

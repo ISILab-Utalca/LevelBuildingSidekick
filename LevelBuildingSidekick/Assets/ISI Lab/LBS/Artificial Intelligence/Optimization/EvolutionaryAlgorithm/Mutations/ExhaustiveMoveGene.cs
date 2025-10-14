@@ -64,8 +64,9 @@ namespace ISILab.AI.Categorization
                     var d = r.GetDouble();
                     if (d < probability)
                     {
-                        var pos = new Vector2Int(r.GetInt(-range, range), r.GetInt(-range, range));
-                        var j = i + chr.ToIndex(pos);
+                        var pos = new Vector2Int(r.GetInt(-range, range + 1), r.GetInt(-range, range + 1));
+                        //j = i + chr.ToIndex(pos);
+                        var j = chr.ToIndex(chr.ToMatrixPosition(i) + pos);
                         if (j < chr.Length && j >= 0)
                         {
                             if (chr.IsImmutable(j) || chr.IsInvalid(j))
