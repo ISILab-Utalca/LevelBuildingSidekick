@@ -1,9 +1,7 @@
-using System;
-using ISILab.Extensions;
 using UnityEngine;
-using Unity.Jobs;
-using Unity.Collections;
 using Random = UnityEngine.Random;
+using System.Diagnostics;
+
 
 namespace LBS.Bundles.Tools
 {
@@ -19,11 +17,18 @@ namespace LBS.Bundles.Tools
         
         public override void RunCommand()
         {
+            
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
             base.RunCommand();
             if (baseCollider)
             {
                 RaycastJobSchedule(iterations, radius);
             }
+            
+            stopwatch.Stop();
+            UnityEngine.Debug.Log($"Scatter Tool Execution Time: {stopwatch.ElapsedMilliseconds} ms");
         }
 
         public override Vector3 GenerateDirection()
@@ -35,7 +40,8 @@ namespace LBS.Bundles.Tools
             direction.Normalize();
             return direction;
         }
+        
+        
     }
-    
     
 }
