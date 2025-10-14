@@ -10,8 +10,8 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
     public static class BundleMenuItem
     {
         #region UNITY MENU RELATED METHODS
-        [MenuItem("Assets/Create/ISILab/LBS/Bundle &b")]
-        private static void CreateBundle()
+        [MenuItem("Assets/Create/ISILab/LBS/Bundle (Single) &#b")]
+        private static void CreateSingleBundle()
         {
             GameObject[] list = Selection.gameObjects;
             if (list is { Length: > 0 })    // Selection not empty
@@ -27,6 +27,25 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
             //ProjectWindowUtil.CreateAsset(obj, "New Bundle.asset");
         }
         
+        private static void CreateMultipleBundles()
+        {
+            GameObject[] list = Selection.gameObjects;
+            if (list is { Length: > 0 })    // Selection not empty
+            {
+                IEnumerable<GameObject> validPrefabs = list.Where(go => IsPrefab(go));
+                foreach (GameObject prefab in validPrefabs)
+                {
+                    CreateBundleFromSinglePrefab(prefab);
+                }
+                return;
+            }
+            
+            // Create empty bundle
+            Bundle obj = ScriptableObject.CreateInstance<Bundle>();
+            CreateBundleAsset(obj, "New Bundle.asset");
+            //ProjectWindowUtil.CreateAsset(obj, "New Bundle.asset");
+        }
+
         private static void CreateBundleFromPrefab(IEnumerable<GameObject> prefabs)
         {
             string name = null;
@@ -38,6 +57,23 @@ namespace ISI_Lab.LBS.Plugin.Components.Bundles
                 name ??= prefab.name;
                 obj.AddAsset(new Asset(prefab, 0.5f));
             }
+
+            name ??= "New Bundle";
+            name = name.Replace("prefab", "bundle");
+            var endAction = ScriptableObject.CreateInstance<EndBundleNameEditAction>();
+            CreateBundleAsset(obj, name + ".asset"); // New function. Test require for this case.
+            //ProjectWindowUtil.CreateAsset(obj, name + ".asset");
+        }
+        private static void CreateBundleFromSinglePrefab(GameObject prefab)
+        {
+            string name = null;
+            Bundle obj = ScriptableObject.CreateInstance<Bundle>();
+            
+                if (prefab == null) return;
+                
+                name ??= prefab.name;
+                obj.AddAsset(new Asset(prefab, 0.5f));
+            
 
             name ??= "New Bundle";
             name = name.Replace("prefab", "bundle");
