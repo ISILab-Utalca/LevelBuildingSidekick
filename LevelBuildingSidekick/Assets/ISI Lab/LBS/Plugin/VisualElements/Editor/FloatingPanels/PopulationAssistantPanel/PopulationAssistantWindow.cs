@@ -237,7 +237,12 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Preset manipulation buttons
             openPresetButton = rootVisualElement.Q<Button>("OpenPresetButton");
-            openPresetButton.clicked += () => { UnityEditor.Selection.activeObject = presetFieldRef.value; };
+            openPresetButton.clicked += () => 
+            {
+                if (presetField.value is not null)
+                    UnityEditor.Selection.activeObject = presetFieldRef.value;
+                else LBSMainWindow.MessageNotify("No preset selected.", LogType.Warning);
+            };
 
             resetPresetButton = rootVisualElement.Q<Button>("ResetPresetButton");
             resetPresetButton.clicked += () =>

@@ -72,6 +72,8 @@ namespace ISILab.LBS
                 case 0: // Save
                     SaveFile();
                     path = EditorUtility.OpenFilePanel("Load level data", "", "lbs");
+                    if (path == "")
+                        return null;
                     fileInfo = new System.IO.FileInfo(path);
                     data = JSONDataManager.LoadData<LBSLevelData>(fileInfo.DirectoryName, fileInfo.Name);
                     CurrentLevel = LoadedLevel.CreateInstance(data, fileInfo.FullName);

@@ -1,6 +1,8 @@
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
 using ISILab.LBS.Editor;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Settings;
 using ISILab.LBS.VisualElements;
@@ -107,10 +109,6 @@ namespace ISILab.LBS.Behaviours.Editor
             areaPallete = this.Q<SimplePallete>("ZonePallete");
             SetAreaPallete();
 
-            // Connection Pallete
-            connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
-            SetConnectionPallete();
-
             // Inside Field
             var insideField = this.Q<ObjectField>("InsideField");
             insideField.value = behaviour.PressetInsideStyle;
@@ -126,6 +124,24 @@ namespace ISILab.LBS.Behaviours.Editor
             {
                 behaviour.PressetOutsideStyle = evt.newValue as Bundle;
             });
+
+            // Connection Pallete
+            connectionPallete = this.Q<SimplePallete>("ConnectionPallete");
+            SetConnectionPallete();
+
+            // Multi-layer connection toggle
+            var multiLayerConnectionsToggle = this.Q<LBSCustomToggleField>("MultilayerConnections");
+            multiLayerConnectionsToggle.RegisterValueChangedCallback(evt =>
+            {
+                behaviour.MultiLayerConnections = evt.newValue;
+                if (evt.newValue)
+                {
+                    addTileConnection.MultiLayerSetup();
+                    LBSMainWindow.MessageNotify("On.");
+                }
+                else LBSMainWindow.MessageNotify("Off.");
+            });
+            multiLayerConnectionsToggle.SetValueWithoutNotify(behaviour.MultiLayerConnections);
 
             return this;
         }

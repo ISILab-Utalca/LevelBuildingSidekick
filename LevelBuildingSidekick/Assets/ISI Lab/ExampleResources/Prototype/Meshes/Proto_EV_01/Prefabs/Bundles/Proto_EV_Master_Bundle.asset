@@ -22,7 +22,7 @@ MonoBehaviour:
   characteristics:
   - rid: 8604886014353211479
   - rid: 5583321814063906821
-  populationType: 0
+  elementFlag: 0
   tileSize: {x: 1, y: 1}
   childsBundles:
   - {fileID: 11400000, guid: 6ce7819921257684ea4d4ad637aca9d9, type: 2}
@@ -61,9 +61,9 @@ MonoBehaviour:
         owner: {fileID: 11400000}
         Weights:
         - target: {fileID: 11400000, guid: 6ce7819921257684ea4d4ad637aca9d9, type: 2}
-          weight: 0.5
+          weight: 1
         - target: {fileID: 11400000, guid: 47425ddd064f3c5438b7f97e28322eb4, type: 2}
-          weight: 0.5
+          weight: 1
         - target: {fileID: 11400000, guid: 452799d9db88f3c49915e6d718f9750f, type: 2}
           weight: 0.5
         - target: {fileID: 11400000, guid: c6746ecb7072c31458a256f79dcda348, type: 2}

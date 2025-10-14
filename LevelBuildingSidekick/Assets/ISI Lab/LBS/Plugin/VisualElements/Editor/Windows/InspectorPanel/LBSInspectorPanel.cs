@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Editor.Windows;
-using ISILab.LBS.Manipulators;
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
@@ -19,7 +18,11 @@ namespace ISILab.LBS.VisualElements
 
         #region SINGLETON
         private static LBSInspectorPanel instance;
-        public static LBSInspectorPanel Instance => instance;
+
+        public static LBSInspectorPanel Instance
+        {
+            get => instance ?? ( instance = new LBSInspectorPanel());
+        }
 
         #endregion
 
@@ -43,6 +46,7 @@ namespace ISILab.LBS.VisualElements
         private static string recentTab;
         
         private Dictionary<string, LBSInspector> VEs = new();
+        
         #endregion
 
         #region CONSTRUCTORS
@@ -56,6 +60,7 @@ namespace ISILab.LBS.VisualElements
             tabsGroup = this.Q<ButtonGroup>("SubTabs");
             content = this.Q<VisualElement>("InspectorContent");
         }
+        
         #endregion
 
         #region METHODS
@@ -173,12 +178,12 @@ namespace ISILab.LBS.VisualElements
             // Avoid reopening the same tab constantly
             ve.style.display = DisplayStyle.Flex;
             panel.tabsGroup.ChangeActive(tab);
-            LBSMainWindow.InspectorToggleButtonChange(tab);
+            LBSMainWindow.Instance.InspectorToggleButtonChange(tab);
         }
 
         public static void ActivateBehaviourTab() { ShowInspector(BehavioursTab); }
-        public static void ActivateAssistantTab() { ShowInspector(AssistantsTab); }
-        public static void ActivateDataTab() { ShowInspector(DataTab); }
+        public  static void ActivateAssistantTab() { ShowInspector(AssistantsTab); }
+        public  static void ActivateDataTab() { ShowInspector(DataTab); }
         public static void ReDraw()
         {
             Instance.Repaint();

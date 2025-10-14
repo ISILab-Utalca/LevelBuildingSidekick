@@ -31,7 +31,9 @@ namespace ISILab.AI.Categorization
 
         public string Tooltip => "DC Safe Area Evaluator\n\n" +
             "This evaluator aims to distribute enemies and other dangers in a way that most of them are in areas far from the players.\n\n" +
-            "This evaluator currently only supports Interior Layers as Context.";
+            "This evaluator currently supports as Context the combination of any of the following layer types:\n" +
+            "- Any type of Interior Layer.\n" +
+            "- A single Vertex-Based Exterior Layer.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -175,8 +177,8 @@ namespace ISILab.AI.Categorization
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
-            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers(selection);
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer, selection);
             InitializeDefault();
         }
 

@@ -33,7 +33,13 @@ namespace ISILab.LBS.VisualElements
         public string Label
         {
             get => dropdown.label;
-            set => dropdown.label = value;
+            set 
+            {
+                // Changing label 
+                dropdown.UnregisterValueChangedCallback(ApplyChoice);
+                dropdown.label = value;
+                dropdown.RegisterValueChangedCallback(ApplyChoice);
+            }
         }
 
         public Action OnChoiceSelection;

@@ -17,16 +17,19 @@ namespace ISILab.LBS.CustomComponents
         private const string STYLE_CLASS_NAME = "lbs-custom-progress-bar";
         
         private Color progressThemeColor = Color.blue;
+        private VectorImage iconImage;
+        private string progressTextLabel = "";
 
         
         #endregion
         
         #region VisualElements
         private VisualElement barVisualElement;
-        private VectorImage iconImage;
         
         private VisualElement icon;
         private Label progressLabel;
+        
+        
 
         #endregion
         
@@ -52,6 +55,21 @@ namespace ISILab.LBS.CustomComponents
                 if (iconImage != null)
                 {
                     icon.style.backgroundImage = new StyleBackground(iconImage);
+                    
+                }
+            }
+        }
+
+        [UxmlAttribute]
+        public string ProgressTextLabel
+        {
+            get => progressTextLabel;
+            set
+            {
+                progressTextLabel = value;
+                if (progressLabel != null)
+                {
+                    progressLabel.text = progressTextLabel;
                 }
             }
         }
@@ -72,6 +90,7 @@ namespace ISILab.LBS.CustomComponents
             VisualElement container = this.Query<VisualElement>(className: containerUssClassName);
             container.AddToClassList(STYLE_CLASS_NAME + "__container");
             topPanel.PlaceBehind(container);
+            container.RemoveFromClassList(containerUssClassName);
 
             VisualElement progressbarBackground = this.Query<VisualElement>(classes: backgroundUssClassName);
             progressbarBackground.AddToClassList(STYLE_CLASS_NAME + "__background");

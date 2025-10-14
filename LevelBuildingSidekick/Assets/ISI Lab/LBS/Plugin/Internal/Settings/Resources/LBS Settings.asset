@@ -33,7 +33,7 @@ MonoBehaviour:
     tileSize: {x: 50, y: 50}
     baseLayerName: New Layer
   view:
-    LBSTheme: 0
+    LBSTheme: 2
     toolkitNormal: {r: 0.28, g: 0.28, b: 0.28, a: 1}
     toolkitNormalDark: {r: 0.16, g: 0.16, b: 0.16, a: 1}
     newToolkitSelected: {r: 0, g: 0, b: 0, a: 1}
@@ -67,15 +67,31 @@ MonoBehaviour:
       resize: {x: 0, y: 0}
       position: {x: 0, y: 0, z: 0}
       replacePrevious: 1
-      name: Population Layer
+      name: New Layer 2
       rootParentName: Root_Parent
     rules:
-    - rid: 1463204958942528336
+    - rid: 2069232682419880624
+    - rid: 2069232682419880625
   references:
     version: 2
     RefIds:
-    - rid: 1463204958942528336
-      type: {class: PopulationRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+    - rid: 2069232682419880624
+      type: {class: SchemaRuleGenerator, ns: ISILab.LBS.Generators, asm: LBS}
+      data:
+        generator3D:
+          settings:
+            useBundleSize: 0
+            lightVolume: 0
+            reflectionProbe: 0
+            scale: {x: 2, y: 2}
+            resize: {x: 0, y: 0}
+            position: {x: 0, y: 0, z: 0}
+            replacePrevious: 1
+            name: DEFAULT
+            rootParentName: Root_Parent
+          rules: []
+    - rid: 2069232682419880625
+      type: {class: SchemaRuleGeneratorExterior, ns: ISILab.LBS.Generators, asm: LBS}
       data:
         generator3D:
           settings:

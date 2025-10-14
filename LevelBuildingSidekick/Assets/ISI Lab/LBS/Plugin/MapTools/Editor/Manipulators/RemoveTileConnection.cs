@@ -4,6 +4,7 @@ using LBS.Components;
 using LBS.Components.TileMap;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,6 +16,7 @@ namespace ISILab.LBS.Manipulators
         private static List<Vector2Int> Directions => Commons.Directions.Bidimencional.Edges;
 
         private SchemaBehaviour _schema;
+        private List<SchemaBehaviour> _others;
         private Vector2Int _first;
 
         protected override string IconGuid => "0ce694377e9e05a478862c63a2ca952d";
@@ -33,6 +35,12 @@ namespace ISILab.LBS.Manipulators
             base.Init(layer, behaviour);
             
             _schema = behaviour as SchemaBehaviour;
+            if (_schema.MultiLayerConnections)
+                _others = LBSController.CurrentLevel.data.Layers
+                    .Select(l => l.GetBehaviour<SchemaBehaviour>())
+                    .Where(b => b is not null && b != _schema)
+                    .ToList();
+
             Feedback.TeselationSize = layer.TileSize;
             layer.OnTileSizeChange += (val) => Feedback.TeselationSize = val;
            
@@ -54,14 +62,20 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            var x = LBSController.CurrentLevel;
+            LoadedLevel x = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(x, "Remove Connection between tile");
 
-            var pos = _schema.OwnerLayer.ToFixedPosition(position);
+            Vector2Int pos = _schema.OwnerLayer.ToFixedPosition(position);
 
-            var dx = _first.x - pos.x;
-            var dy = _first.y - pos.y;
+            int dx = _first.x - pos.x;
+            int dy = _first.y - pos.y;
+
+            int dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+            int dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
+
+            if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
+                return;
 
             float dLength = Mathf.Sqrt(dx * dx + dy * dy);
 
@@ -71,31 +85,20 @@ namespace ISILab.LBS.Manipulators
             for (int i = 0; i <= totalConnections; i++)
             {
                 //Get the next tile 
-                selectedTiles.Add(_schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i)));
+                selectedTiles.Add(GetTileInLine(_schema, i));
             }
-
-            var dir1 = Directions.FindIndex(d => d.Equals(-new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-            var dir2 = Directions.FindIndex(d => d.Equals(new Vector2Int(Math.Sign(dx), Math.Sign(dy))));
-
-            if (dir1 < 0 || dir1 >= Directions.Count || dir2 < 0 || dir2 >= Directions.Count)
-                return;
 
             for (int i = 1; i < selectedTiles.Count; i++) 
             {
                 LBSTile tile1 = selectedTiles[i - 1];
                 LBSTile tile2 = selectedTiles[i];
 
-                bool t1Exists = tile1 != null;
-                bool t2Exists = tile2 != null;
+                TryRemoveSingleConnection(_schema, tile1, tile2, dir1, dir2 );
 
-                if (!(t1Exists || t2Exists))
-                    continue;
-
-                if (Equals(tile1, tile2))
-                    continue;
-
-                if (t1Exists) _schema.SetConnection(tile1, dir1, "", true);
-                if (t2Exists) _schema.SetConnection(tile2, dir2, "", true);
+                if (_schema.MultiLayerConnections)
+                {
+                    //TODO: Multi-layer remove
+                }
             }
             
             _schema.RecalculateWalls();
@@ -104,6 +107,26 @@ namespace ISILab.LBS.Manipulators
             {
                 EditorUtility.SetDirty(x);
             }
+
+            /// END OF METHOD ///
+
+            // Local functions
+            LBSTile GetTileInLine(SchemaBehaviour schema, int i) => schema.GetTile(_first - new Vector2Int(Math.Sign(dx) * i, Math.Sign(dy) * i));
+        }
+
+        private void TryRemoveSingleConnection(SchemaBehaviour schema, LBSTile tile1, LBSTile tile2, int dir1, int dir2)
+        {
+            bool t1Exists = tile1 is not null;
+            bool t2Exists = tile2 is not null;
+
+            if (!(t1Exists || t2Exists))
+                return;
+
+            if (Equals(tile1, tile2))
+                return;
+
+            if (t1Exists) _schema.SetConnection(tile1, dir1, "", true);
+            if (t2Exists) _schema.SetConnection(tile2, dir2, "", true);
         }
     }
 }

@@ -1,7 +1,6 @@
 using ISILab.Commons.Utility;
 using ISILab.Commons.Utility.Editor;
 
-
 using ISILab.LBS.Template;
 using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
@@ -21,7 +20,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Debug = UnityEngine.Debug;
-using UnityEditor.UIElements;
 
 namespace ISILab.LBS.Editor.Windows{
 
@@ -44,7 +42,6 @@ namespace ISILab.LBS.Editor.Windows{
 
         // Selected
         public LBSLayer _selectedLayer;
-
         // Templates
         public List<LayerTemplate> layerTemplates;
 
@@ -66,8 +63,7 @@ namespace ISILab.LBS.Editor.Windows{
         // Warning notification
         private static VisualElement warningNotification;
         private static Label warningLabel;
-
-        private static NotifierViewer notifier;
+        public static NotifierViewer notifier;
 
         #endregion
 
@@ -78,8 +74,8 @@ namespace ISILab.LBS.Editor.Windows{
 
         // Help overlays
         private static VisualElement helpOverlay;
-        private static VisualElement toggleButtons;
         private VisualElement noLayerSign;
+        private LBSSideBarPanel sideBarPanel;
 
 // Grid position
         public static Vector2Int _gridPosition;
@@ -93,30 +89,24 @@ namespace ISILab.LBS.Editor.Windows{
 
         #endregion
 
-        #region PANELS & UI SECTIONS
+        #region PANELS & UI SECTIONS VISUALELEMENTS
 
-        private LayersPanel layerPanel;
-        private Generator3DPanel gen3DPanel;
-        private VisualElement inspectorPanel;
-        private VisualElement extraPanel;
+        public LayersPanel layerPanel;
+        public Generator3DPanel gen3DPanel;
+        public VisualElement extraPanel;
+        public VisualElement inspectorPanelContainer;
 
-        #endregion
+        private VisualElement helpOverlayAnchor;
+        private ToolBarMain TopToolBar;
+        private InfoToolbar infoToolBar;
 
-        #region INSPECTORS
-
+        private ScrollView subPanelScrollView;
+        
         [UxmlAttribute]
         private SplitView splitView;
-
         [UxmlAttribute]
         private LayerInspector layerInspector;
 
-        #endregion
-
-        #region TOGGLES
-
-        private static Toggle layerDataButton;
-        private static Toggle behaviourButton;
-        private static Toggle assistantButton;
 
         #endregion
 
@@ -141,9 +131,48 @@ namespace ISILab.LBS.Editor.Windows{
             }
         }
         
+        #endregion
+
+        public LBSMainWindow(): base()
+        {
+            // UI can't be referenced here because inherit from a scriptable object!
+            //Debug.Log("[Main Window] - Constructor");
+        }
+        
         private void OnEnable()
         {
+            Debug.Log("[Main Window] - OnEnable");
             _instance = this;
+            
+            #region LOAD UI TREE
+            //MainWindows UXML 
+            VisualTreeAsset visualTree = LBSAssetMacro.LoadAssetByGuid<VisualTreeAsset>("352a58bb499307540a1e69ea48063f29");
+            visualTree.CloneTree(rootVisualElement);
+            #endregion
+            
+            splitView = rootVisualElement.Q<SplitView>("SplitView");
+            
+            helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
+            
+            TopToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            infoToolBar =  rootVisualElement.Q<InfoToolbar>("InfoToolbar");
+            
+            mainView = rootVisualElement.Q<MainView>("MainView");
+            
+            noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
+            selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
+            positionLabel = rootVisualElement.Q<Label>("PositionLabel");
+            
+            notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
+            
+            inspectorPanelContainer = rootVisualElement.Q<VisualElement>("Inspector");
+            inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InspectorPanel");
+            sideBarPanel = rootVisualElement.Q<LBSSideBarPanel>("LBSSideBarPanel");
+            
+            subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
+            
+            extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
+            
         }
         
         private void OnDisable()
@@ -151,8 +180,6 @@ namespace ISILab.LBS.Editor.Windows{
             if (_instance == this)
                 _instance = null;
         }
-
-
         
         [MenuItem("Window/ISILab/Level Building Sidekick", priority = 0)]
         private static void ShowWindow()
@@ -162,51 +189,16 @@ namespace ISILab.LBS.Editor.Windows{
             window.titleContent = new GUIContent("Level Builder", icon);
             window.minSize = new Vector2(800, 400);
         }
-
-        // Allows to send notifications from threads other than main. Seems to work, although I'm not completely sure it's safe.
-        public static void MessageNotifyDelayed(string message, LogType logType = LogType.Log, int duration = 3)
-        {
-            EditorApplication.delayCall += () => MessageNotify(message, logType, duration);
-        }
         
-        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
-        }
         
-        public static void MessageManipulator(string description)
-        {       
-            if (toolLabel == null) return;
-            toolLabel.text = description;
-        }
-        
-        public static void GridPosition(Vector2 pos)
-        {
-            _gridPosition = pos.ToInt();
-            if (positionLabel == null) return;
-            string text = "Grid Position: " + pos.ToInt();
-            positionLabel.text = text;
-        }
-
-        public static void DisplayHelp()
-        {
-            if(helpOverlay == null) return;
-            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
-        }
-        #endregion
-
         #region METHODS
         public virtual void CreateGUI()
         {
+            Debug.Log("[Main Window] - CreateGUI");
             Init();
-
-            //KeyDownEvent
-            //rootVisualElement.RegisterCallback<KeyDownEvent>(OnKeyDown, TrickleDown.TrickleDown);
             rootVisualElement.focusable = true;
             rootVisualElement.Focus();
         }
-
         
         private void OnInspectorUpdate()
         {
@@ -219,7 +211,6 @@ namespace ISILab.LBS.Editor.Windows{
         private void Init()
         {
             #region LOAD & BACKUP LEVEL DATA
-
             if (LBS.loadedLevel == null)
             {
                 if (levelData == null)
@@ -233,63 +224,28 @@ namespace ISILab.LBS.Editor.Windows{
                     levelData = backUpData;
                 }
             }
-
             levelData!.OnReload += () => layerPanel.ResetSelection();
-
             #endregion
-
-            #region LOAD UI TREE
-
-            VisualTreeAsset visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("LBSMainWindow");
-            visualTree.CloneTree(rootVisualElement);
-
-            #endregion
-
-            #region LOAD SCRIPTABLES
-
+            #region LOAD SCRIPTABLES TEMPLATE
             layerTemplates = DirectoryTools.GetScriptablesByType<LayerTemplate>();
             layerTemplates.Sort((a, b) => a.order.CompareTo(b.order));
-
-            #endregion
-
-            #region SPLIT VIEW SETUP
-
-            splitView = rootVisualElement.Q<SplitView>("SplitView");
-            if (splitView == null) Debug.LogError("Cannot find SplitView");
-
             #endregion
 
             #region HELP OVERLAY
 
-            var helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
-            helpOverlay = new HintsController();
-            helpOverlay.style.position = Position.Absolute;
-            helpOverlayAnchor.Add(helpOverlay);
             DisplayHelp();
 
             #endregion
 
-            #region NOTIFIER
+            #region NOTIFIER TOOLBAR
 
-            notifier = rootVisualElement.Q<NotifierViewer>("NotifierViewer");
-            var cleanButton = rootVisualElement.Q<VisualElement>("CleanNotificationsButton");
-            var disableNotificationButton = rootVisualElement.Q<VisualElement>("DisableNotificationsButton");
-            notifier.SetButtons(cleanButton, disableNotificationButton);
+            infoToolBar.Bind(this);
 
             #endregion
-
-            #region TOOL & WARNING INFO
-
-            toolLabel = rootVisualElement.Q<VisualElement>("ToolInformation").Q<Label>("ToolText");
-            warningNotification = rootVisualElement.Q<VisualElement>("WarningNotification");
-            warningLabel = rootVisualElement.Q<Label>("WarningText");
-            warningNotification.visible = false;
-
-            #endregion
+            
 
             #region MAIN VIEW
-
-            mainView = rootVisualElement.Q<MainView>("MainView");
+            
             mainView.OnClearSelection += () =>
             {
                 if (_selectedLayer != null)
@@ -301,55 +257,40 @@ namespace ISILab.LBS.Editor.Windows{
 
             #endregion
 
-            #region TOOLBAR
-
-            ToolBarMain toolbar = rootVisualElement.Q<ToolBarMain>("ToolBar");
-            toolbar.OnNewLevel += data =>
-            {
-                LBS.loadedLevel = data;
-                RefreshWindow();
-            };
-            toolbar.OnLoadLevel += data =>
+            #region TOOLBARS
+            TopToolBar.Bind(this);
+            
+            TopToolBar.OnLoadLevel += data =>
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
                 drawManager.RedrawLevel(levelData);
             };
-            toolbar.OnThemeChanged += data => ChangeTheme(data);
-            OnLayerChange += toolbar.LevelChange;
+            
+            TopToolBar.OnThemeChanged += data => ChangeTheme(data);
+            OnLayerChange += TopToolBar.LevelChange;
 
             rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.S)
                 {
-                    toolbar.SaveLevel();
+                    TopToolBar.SaveLevel();
                     evt.StopPropagation();
                 }    
             }, TrickleDown.TrickleDown);
 
             #endregion
 
-            #region LABELS & MISC UI
-
-            noLayerSign = rootVisualElement.Q<VisualElement>("NoLayerSign");
-            selectedLabel = rootVisualElement.Q<Label>("SelectedLabel");
-            positionLabel = rootVisualElement.Q<Label>("PositionLabel");
-
             
-            #endregion
-
             #region PANELS - INSPECTOR, EXTRA, LAYERS, GENERATOR
 
-            inspectorManager = rootVisualElement.Q<LBSInspectorPanel>("InpectorPanel");
+            
             inspectorManager.InitTabs(ref layerTemplates);
-        
-            var subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
+            
             subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
             subPanelScrollView.Q<VisualElement>("unity-content-viewport").pickingMode = PickingMode.Ignore;
             subPanelScrollView.Q<VisualElement>("unity-content-container").pickingMode = PickingMode.Ignore;
-
-            extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-
+            
             layerPanel = new LayersPanel(levelData, ref layerTemplates);
             extraPanel.Add(layerPanel);
             layerPanel.style.display = DisplayStyle.Flex;
@@ -382,62 +323,24 @@ namespace ISILab.LBS.Editor.Windows{
 
             #endregion
 
-            #region EXTRA TOOLBAR TOGGLES
-
-            var layerToggleButton = rootVisualElement.Q<Toggle>("LayerToggle");
-            layerToggleButton.SetValueWithoutNotify(true);
-            layerToggleButton.RegisterCallback<ChangeEvent<bool>>(_ =>
-            {
-                layerPanel.style.display = layerToggleButton.value ? DisplayStyle.Flex : DisplayStyle.None;
-            });
-        
-            var toggleButton3D = rootVisualElement.Q<Toggle>("Gen3DToggle");
-            toggleButton3D.RegisterCallback<ChangeEvent<bool>>(_ =>
-            {
-                gen3DPanel.Init(_selectedLayer);
-                gen3DPanel.style.display = toggleButton3D.value ? DisplayStyle.Flex : DisplayStyle.None;
-            });
-
-            toggleButtons = rootVisualElement.Q<VisualElement>("ToggleButtonContainer");
-
-            layerDataButton = rootVisualElement.Q<Toggle>("LayerDataButton");
-            behaviourButton = rootVisualElement.Q<Toggle>("BehaviourButton");
-            assistantButton = rootVisualElement.Q<Toggle>("AssistantButton");
-
-            layerDataButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(layerDataButton));
-            behaviourButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(behaviourButton));
-            assistantButton.RegisterCallback<ClickEvent>(_ => ChangeInspectorPanelTab(assistantButton));
-
-            var tagsButton = rootVisualElement.Q<Toggle>("TagsButton");
-            tagsButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                OnToggleButtonClick();
-                tagsButton.SetValueWithoutNotify(true);
-            });
-
-            var bundlesButton = rootVisualElement.Q<Toggle>("BundlesButton");
-            bundlesButton.RegisterCallback<ClickEvent>(_ =>
-            {
-                OnToggleButtonClick();
-                bundlesButton.SetValueWithoutNotify(true);
-            });
-
+            #region SIDE TOOLBAR TOGGLES
+            sideBarPanel?.Bind(this);
             #endregion
 
             #region INSPECTOR TOGGLE BUTTON
 
-            inspectorPanel = rootVisualElement.Q<VisualElement>("Inspector");
+            
             var buttonHideInspector = rootVisualElement.Q<Button>("ButtonDisplayInspector");
             buttonHideInspector.RegisterCallback<ClickEvent>(_ =>
             {
-                if (inspectorPanel.ClassListContains("lbs_inspectorhide"))
+                if (inspectorPanelContainer.ClassListContains("lbs_inspectorhide"))
                 {
-                    inspectorPanel.RemoveFromClassList("lbs_inspectorhide");
+                    inspectorPanelContainer.RemoveFromClassList("lbs_inspectorhide");
                     splitView.fixedPaneInitialDimension = 400f;
                 }
                 else
                 {
-                    inspectorPanel.AddToClassList("lbs_inspectorhide");
+                    inspectorPanelContainer.AddToClassList("lbs_inspectorhide");
                     splitView.fixedPaneInitialDimension = 80f;
                 }
                 splitView.MarkDirtyRepaint();
@@ -457,17 +360,15 @@ namespace ISILab.LBS.Editor.Windows{
             OnLevelDataChange(levelData);
             levelData.OnChanged += OnLevelDataChange;
 
-        drawManager = new DrawManager();
-        inspectorManager.CreateContainers(levelData, mainView);
-        drawManager.RedrawLevel(levelData);
+            drawManager = new DrawManager();
+            inspectorManager.CreateContainers(levelData, mainView);
+            drawManager.RedrawLevel(levelData);
 
             #endregion
             
             
             #region THEME SET
-            
             ChangeTheme(LBSSettings.Instance.view.LBSTheme);
-            
             #endregion
         }
 
@@ -476,28 +377,32 @@ namespace ISILab.LBS.Editor.Windows{
         /// Called when changing tabs from the toggle buttons in this class
         /// </summary>
         /// <param name="toggleVe"></param>
-        private void ChangeInspectorPanelTab(Toggle toggleVe)
+        public void ChangeInspectorPanelTab(Toggle toggleVe)
         {
-            OnToggleButtonClick();
+            sideBarPanel.OnToggleButtonClick();
             toggleVe.SetValueWithoutNotify(true);
-            if(toggleVe == layerDataButton) LBSInspectorPanel.ActivateDataTab();
-            if(toggleVe == behaviourButton) LBSInspectorPanel.ActivateBehaviourTab();
-            if(toggleVe == assistantButton) LBSInspectorPanel.ActivateAssistantTab();
+            if(toggleVe == sideBarPanel.layerDataTab) LBSInspectorPanel.ActivateDataTab();
+            if(toggleVe == sideBarPanel.behaviorTab) LBSInspectorPanel.ActivateBehaviourTab();
+            if(toggleVe == sideBarPanel.assistantTab) LBSInspectorPanel.ActivateAssistantTab();
         }
 
         /// <summary>
         /// Activates visually the corresponding toggle button, only call this from inspector panel
         /// </summary>
         /// <param name="panel"></param>
-        public static void InspectorToggleButtonChange(string panel)
+        public void InspectorToggleButtonChange(string panel)
         {
+            if (sideBarPanel == null)
+            {
+                sideBarPanel = rootVisualElement.Q<LBSSideBarPanel>("SideBarPanel");
+            }
             Toggle toggleVe = null;
-            if(panel == LBSInspectorPanel.DataTab) toggleVe = layerDataButton; 
-            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = behaviourButton; 
-            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = assistantButton;
+            if(panel == LBSInspectorPanel.DataTab) toggleVe = sideBarPanel.layerDataTab; 
+            if(panel == LBSInspectorPanel.BehavioursTab) toggleVe = sideBarPanel.behaviorTab; 
+            if(panel == LBSInspectorPanel.AssistantsTab) toggleVe = sideBarPanel.assistantTab;
             if (toggleVe is null) return;
             
-            OnToggleButtonClick();
+            sideBarPanel.OnToggleButtonClick();
             toggleVe.SetValueWithoutNotify(true);
         }
 
@@ -513,11 +418,15 @@ namespace ISILab.LBS.Editor.Windows{
         /// <summary>
         /// Refresh the window.
         /// </summary>
-        private void RefreshWindow()
+        public void RefreshWindow()
         {
             mainView.Clear();
             this.rootVisualElement.Clear();
-            Init();
+            
+            //Repaint();
+            OnDisable();
+            OnEnable();
+            CreateGUI();
         }
 
         /// <summary>
@@ -579,17 +488,6 @@ namespace ISILab.LBS.Editor.Windows{
             if(layerPanel == null || layerPanel.Data == null) return layers;
             return layerPanel.Data.Layers;
         }
-
-        private static void OnToggleButtonClick()
-        {
-            foreach (var child in toggleButtons.Children())
-            {
-                if (child is Toggle toggle)
-                {
-                    toggle.SetValueWithoutNotify(false); // Deselect
-                }
-            }
-        }
         
         private void OnFocus()
         {
@@ -614,6 +512,45 @@ namespace ISILab.LBS.Editor.Windows{
             LBSInspectorPanel.ReDraw();
         }
         
+        // Allows to send notifications from threads other than main. Seems to work, although I'm not completely sure it's safe.
+        public static void MessageNotifyDelayed(string message, LogType logType = LogType.Log, int duration = 3)
+        {
+            EditorApplication.delayCall += () => MessageNotify(message, logType, duration);
+        }
+        
+        public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
+        {       
+            if (notifier == null) return; 
+            notifier.SendNotification(message, logType, duration);
+        }
+        
+        public void MessageManipulator(string description)
+        {
+            if (infoToolBar != null)
+            {
+                infoToolBar.SmallMessage(description);
+            }
+
+        }
+        
+        public static void GridPosition(Vector2 pos)
+        {
+            _gridPosition = pos.ToInt();
+            if (positionLabel == null) return;
+            string text = "Grid Position: " + pos.ToInt();
+            positionLabel.text = text;
+        }
+
+        public void DisplayHelp()
+        {
+            helpOverlay = new HintsController();
+            helpOverlay.style.position = Position.Absolute;
+            helpOverlayAnchor.Add(helpOverlay);
+            if(helpOverlay == null) return;
+            helpOverlay.style.display = helpOverlay.style.display == DisplayStyle.None ?  DisplayStyle.Flex : DisplayStyle.None;
+        }
+        #endregion
+        
         public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
         {
             switch (_newTheme)
@@ -637,11 +574,6 @@ namespace ISILab.LBS.Editor.Windows{
                     break;
             }
         }
-        
-        
-        
-        
-        #endregion
         
     }
 

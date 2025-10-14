@@ -29,5 +29,12 @@ namespace ISILab.Extensions
             rect.yMin = Mathf.Min(rect.yMin, b.yMin);
             rect.yMax = Mathf.Max(rect.yMax, b.yMax);
         }
+
+        /// <summary>
+        /// Indicates whether the evaluated rectangle has a non-zero equivalent area or not.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public static bool HasArea(this Rect rect) => rect.width > 0 && rect.height > 0;
     }
 }

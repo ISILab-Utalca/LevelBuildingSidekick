@@ -61,7 +61,7 @@ namespace ISILab.LBS.VisualElements.Editor
             removeButton = this.Q<Button>("RemoveButton");
             removeButton.clicked += () => OnRemoveButtonClicked?.Invoke();
 
-            entryWarning.tooltip = "This layer's information overlaps with another layer of the same type. Remove or modify one of them or the evaluation may not yield the desired results.";
+            entryWarning.tooltip = "This layer's information overlaps with another layer. Remove or modify one of them or the evaluation may not yield the desired results.";
             entryWarning.visible = false;
         }
 
@@ -89,58 +89,74 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 if (layerReference.Equals(layer)) continue;
                 //...But only if they coincide with the ID
-                if(layer.ID == layerReference.ID)
+                //if(layer.ID == layerReference.ID)
+                bool sameType = layer.ID == layerReference.ID;
+                //Then take action depending on the ID
+                switch (layerReference.ID)
                 {
-                    //Then take action depending on the ID
-                    switch (layerReference.ID)
-                    {
-                        case "Population":
-                            var populationBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
-                            var referenceBehaviorPop = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
-                            if (populationBehavior == null) continue;
-                            if (referenceBehaviorPop == null) continue;
+                    case "Population" when sameType:
+                        var populationBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+                        var referenceBehaviorPop = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(PopulationBehaviour))) as PopulationBehaviour;
+                        if (populationBehavior == null) continue;
+                        if (referenceBehaviorPop == null) continue;
 
-                            //Every group in the reference behavior is checked. If there's a population asset in any location that belongs to the reference behavior, it'll enable the warning.
-                            foreach (TileBundleGroup group in referenceBehaviorPop.Tilemap)
+                        //Every group in the reference behavior is checked. If there's a population asset in any location that belongs to the reference behavior, it'll enable the warning.
+                        foreach (TileBundleGroup group in referenceBehaviorPop.Tilemap)
+                        {
+                            var groupBounds = group.GetBounds();
+                            for(int i= (int)groupBounds.x; i< (int)groupBounds.x+(int)groupBounds.width; i++)
                             {
-                                var groupBounds = group.GetBounds();
-                                for(int i= (int)groupBounds.x; i< (int)groupBounds.x+(int)groupBounds.width; i++)
+                                for (int j = (int)groupBounds.y; j < (int)groupBounds.y+(int)groupBounds.height; j++)
                                 {
-                                    for (int j = (int)groupBounds.y; j < (int)groupBounds.y+(int)groupBounds.height; j++)
+                                    if (populationBehavior.GetTileGroup(new Vector2Int(i, j)) !=null)
                                     {
-                                        if (populationBehavior.GetTileGroup(new Vector2Int(i, j)) !=null)
-                                        {
-                                            //Enable warning.
-                                            entryWarning.visible = true;
-                                            return;
-                                        }
+                                        //Enable warning.
+                                        entryWarning.visible = true;
+                                        return;
                                     }
                                 }
                             }
-                            break;
-                        case "Exterior":
-                            //No real way to find discrepancies here for now. There will probably be at some point, though.
-                            break;
-                        case "Interior":
-                            var interiorBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
-                            var referenceBehaviorInt = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
-                            if (interiorBehavior == null) continue;
-                            if (referenceBehaviorInt == null) continue;
+                        }
+                        break;
+                    case "Exterior" when sameType:
+                        //No real way to find discrepancies here for now. There will probably be at some point, though.
+                        break;
+                    case "Interior" when sameType:
+                        var interiorBehavior = layer.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
+                        var referenceBehaviorInt = layerReference.Behaviours.Find(b => b.GetType().Equals(typeof(SchemaBehaviour))) as SchemaBehaviour;
+                        if (interiorBehavior == null) continue;
+                        if (referenceBehaviorInt == null) continue;
 
-                            foreach(LBSTile tile in referenceBehaviorInt.Tiles)
+                        foreach(LBSTile tile in referenceBehaviorInt.Tiles)
+                        {
+                            if (interiorBehavior.GetTile(tile.Position) != null)
                             {
-                                if (interiorBehavior.GetTile(tile.Position) != null)
-                                {
-                                    //Enable warning.
-                                    entryWarning.visible = true;
-                                    return;
-                                }
+                                //Enable warning.
+                                entryWarning.visible = true;
+                                return;
                             }
-                            break;
-                        case "Quest":
-                            //Nothing to see here lol
-                            break;
-                    }
+                        }
+                        break;
+                    case "Exterior" when layer.ID.Equals("Interior"):
+                    case "Interior" when layer.ID.Equals("Exterior"):
+                        var sectorTM = layer.GetModule<SectorizedTileMapModule>();
+                        var refSectorTM = layerReference.GetModule<SectorizedTileMapModule>();
+                        if(sectorTM is null || refSectorTM is null) continue;
+
+                        foreach(TileZonePair tile in refSectorTM.PairTiles)
+                        {
+                            if(sectorTM.GetPairTile(tile.Tile) is not null)
+                            {
+                                //Enable warning.
+                                entryWarning.visible = true;
+                                return;
+                            }
+                        }
+                        break;
+
+                    case "Quest" when sameType:
+                        //Nothing to see here lol
+                        break;
                 }
             }
             //If it survived the entire switch, it's because there's nothing to worry about and the warning can be disabled.
