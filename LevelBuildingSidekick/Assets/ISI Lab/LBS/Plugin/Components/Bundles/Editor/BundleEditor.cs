@@ -355,12 +355,12 @@ namespace ISILab.LBS.Bundles.Editor
 
         private void OnDisable()
         {
-            EditorUtility.SetDirty(target);
+            if (target != null) EditorUtility.SetDirty(target);
         }
 
         private void OnDestroy()
         {
-            EditorUtility.SetDirty(target);
+            if (target != null) EditorUtility.SetDirty(target);
         }
 
     }
