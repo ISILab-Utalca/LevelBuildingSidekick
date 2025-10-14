@@ -20,6 +20,7 @@ namespace ISILab.LBS.VisualElements
         private readonly TextField _labelLayer;
         private readonly VisualElement _warning;
         private readonly VisualElement _layerDisplay;
+        private readonly VisualElement _positionDisplay;
         private readonly Vector2IntField _position;
         
         public Action OnClicked;
@@ -73,7 +74,7 @@ namespace ISILab.LBS.VisualElements
             _labelLayer = this.Q<TextField>("Layer");
             _layerDisplay = this.Q<VisualElement>("LayerDisplay");
             _position = this.Q<Vector2IntField>("Position");
-            
+            _positionDisplay = this.Q<VisualElement>("HorizontalPosition");
             
             DefaultValues();
         }
@@ -110,6 +111,7 @@ namespace ISILab.LBS.VisualElements
             _objectFieldBundle.SetEnabled(!graphOnly);
             
             _layerDisplay.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
+            _positionDisplay.style.display = graphOnly ? DisplayStyle.Flex : DisplayStyle.None;
             
             tooltip = paramTooltip;
         }

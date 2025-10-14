@@ -142,7 +142,7 @@ namespace ISILab.LBS.VisualElements
                     capsulePos.y += capsule.resolvedStyle.height * 0.5f;
 
                     var capsuleOffset = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(capsulePos);
-                    var graphPos = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(capsulePos);
+                    var graphPos = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(GetPosition().position);
                     _generatedQuestNode.NodeViewPosition = new Rect(
                         graphPos,
                         new Vector2(capsule.resolvedStyle.width, capsule.resolvedStyle.height)
