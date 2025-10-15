@@ -159,11 +159,12 @@ namespace ISILab.LBS.AI.Assistants.Editor
 
         private void CaptureWeights()
         {
-            if(assistant.CaptureWeights(out string errMsg))
-                LBSMainWindow.MessageNotify("Current map weights captured.");
-            else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
+            //if(assistant.CaptureWeights(out string errMsg))
+            //    LBSMainWindow.MessageNotify("Current map weights captured.");
+            //else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
 
-            assistant.CaptureRules();
+            if (assistant.CaptureRules())
+                LBSMainWindow.MessageNotify("Current map weights captured.");
         }
 
         private void SaveWeights()

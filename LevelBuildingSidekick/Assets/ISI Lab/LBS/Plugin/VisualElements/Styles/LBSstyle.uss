@@ -1869,8 +1869,18 @@ Toggle > .lbs-default-icon {
     opacity: 0.15;
 }
 
-.action {
+.lbs-tree-view{
+    flex-grow: 1;
+    height: 18px;
+    overflow: shown;
+    padding: 10px;
 }
 
-.aciton {
+.lbs-tree-view-item{
+    flex-grow: 1;
+    height: 18px;
+    overflow: shown;
+    padding: 10px;
 }
+
+
