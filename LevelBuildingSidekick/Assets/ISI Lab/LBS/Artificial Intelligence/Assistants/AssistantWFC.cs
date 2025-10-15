@@ -230,7 +230,7 @@ namespace ISILab.LBS.Assistants
                             }
                         }
                         Positions = positions;
-                        bool sectorSuccess = ExecuteChance();
+                        bool sectorSuccess = Execute();//ExecuteChance();
                         if (sectorSuccess)
                         {
                             sectorSuccessCount++;
@@ -255,7 +255,7 @@ namespace ISILab.LBS.Assistants
             }
             else
             {
-                ExecuteChance();
+                Execute();//ExecuteChance();
                 log = $"Generated. ({getSeconds()} s)";
                 RequestRepaint();
                 return true;
