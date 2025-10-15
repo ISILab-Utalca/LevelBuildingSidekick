@@ -36,6 +36,12 @@ namespace ISILab.LBS.Editor.Windows{
 
         private LBSLevelData backUpData;
 
+        public ToolBarMain TopToolBar
+        {
+            get => topToolBar;
+            set => topToolBar = value;
+        }
+
         #endregion
 
         #region DATA & STATE
@@ -97,7 +103,7 @@ namespace ISILab.LBS.Editor.Windows{
         public VisualElement inspectorPanelContainer;
 
         private VisualElement helpOverlayAnchor;
-        private ToolBarMain TopToolBar;
+        private ToolBarMain topToolBar;
         private InfoToolbar infoToolBar;
 
         private ScrollView subPanelScrollView;
@@ -154,7 +160,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
             
-            TopToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            topToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
             infoToolBar =  rootVisualElement.Q<InfoToolbar>("InfoToolbar");
             
             mainView = rootVisualElement.Q<MainView>("MainView");
@@ -258,23 +264,23 @@ namespace ISILab.LBS.Editor.Windows{
             #endregion
 
             #region TOOLBARS
-            TopToolBar.Bind(this);
+            topToolBar.Bind(this);
             
-            TopToolBar.OnLoadLevel += data =>
+            topToolBar.OnLoadLevel += data =>
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
                 drawManager.RedrawLevel(levelData);
             };
             
-            TopToolBar.OnThemeChanged += data => ChangeTheme(data);
-            OnLayerChange += TopToolBar.LevelChange;
+            topToolBar.OnThemeChanged += data => ChangeTheme(data);
+            OnLayerChange += topToolBar.LevelChange;
 
             rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.S)
                 {
-                    TopToolBar.SaveLevel();
+                    topToolBar.SaveLevel();
                     evt.StopPropagation();
                 }    
             }, TrickleDown.TrickleDown);

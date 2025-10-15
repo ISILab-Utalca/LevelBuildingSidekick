@@ -25,7 +25,8 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
         
         public event Action OnProgressCompleted;
-
+        public event Action OnProgressCancelled;
+        
         #region  Visual Elements
             private LBSToolbarToggle keyMapToggle;
             private VisualElement taskInfo;
@@ -72,11 +73,26 @@ namespace ISILab.LBS.VisualElements.Editor
             taskProgressBar = this.Q<LBSCustomProgressBar>("TaskProgressBar");
             taskStopButton = this.Q<LBSToolbarButton>("TaskStop");
             
+            taskStopButton.clicked += () =>
+            {
+                EnableProcess(false);
+                OnProgressCancelled?.Invoke();
+            };
+            
             taskInfo.style.display = DisplayStyle.None;
             
         }
 
-
+        public void EnableProcess(bool enable)
+        {
+            taskProgressBar.value = enable ? 0 : 1;
+            taskInfo.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+        public void SetProgressPercent(float percent)
+        {
+            taskProgressBar.value = percent;    
+        }
+        
         public void Bind(LBSMainWindow _mainWindow)
         {
             MainWindow = _mainWindow;
