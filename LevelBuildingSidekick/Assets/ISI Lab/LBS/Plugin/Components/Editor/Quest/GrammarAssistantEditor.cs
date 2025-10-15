@@ -150,35 +150,49 @@ namespace ISILab.LBS.Editor
             ResetPanels();
             Task.Run(() =>
             {
-                // process has to be on the main thread because UI is not thread-safe
                 EditorApplication.delayCall += () => taskbar.EnableProcess(true);
+
                 try
                 {
-                    string[] nextArray = _grammarAssistant
-                                             .GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                         ?? Array.Empty<string>();
-        
-                    EditorApplication.delayCall += () => taskbar.SetProgressPercent(0.3f);
-              //      EditorApplication.QueuePlayerLoopUpdate();
-                    
-                    string[] prevArray = _grammarAssistant
-                                             .GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                         ?? Array.Empty<string>();
-        
-                    EditorApplication.delayCall += () => taskbar.SetProgressPercent(0.6f);
-                  //  EditorApplication.QueuePlayerLoopUpdate();
-                    
-                    List<string>[] expandArray = _grammarAssistant
-                                                     .GetAllExpansions(selectedAction)
-                                                     ?.Select(l => l?.ToList() ?? new List<string>())
-                                                     .ToArray()
-                                                 ?? Array.Empty<List<string>>();
+                    void ReportProgress(float normalized)
+                    {
+                        // Use update so progress applies immediately
+                        EditorApplication.update += UpdateOnce;
+                        void UpdateOnce()
+                        {
+                            taskbar.SetProgressPercent(normalized);
+                            EditorApplication.update -= UpdateOnce;
+                        }
+                    }
 
-                    EditorApplication.delayCall += () => taskbar.SetProgressPercent(1f);
-                  //  EditorApplication.QueuePlayerLoopUpdate();
-                    Thread.Sleep(10); // fake wait ready
-        
-                    // back to main thread to update UI
+                    string[] nextArray = _grammarAssistant
+                        .GetAllValidNextActionsInsert(selectedAction, _questGraph, progress =>
+                        {
+                            // progress from 0 → 0.33
+                            ReportProgress(0.33f * progress);
+                        })
+                        ?.ToArray() ?? Array.Empty<string>();
+
+
+                    string[] prevArray = _grammarAssistant
+                        .GetAllValidPrevActionsInsert(selectedAction, _questGraph, progress =>
+                        {
+                            // progress from 0.33 → 0.66
+                            ReportProgress(0.33f + 0.33f * progress);
+                        })
+                        ?.ToArray() ?? Array.Empty<string>();
+
+
+                    List<string>[] expandArray = _grammarAssistant
+                        .GetAllExpansions(selectedAction, progress =>
+                        {
+                            // progress from 0.67 → 1.0
+                            ReportProgress(0.67f + 0.33f * progress);
+                        })
+                        ?.Select(l => l?.ToList() ?? new List<string>())
+                        .ToArray() ?? Array.Empty<List<string>>();
+
+                    // Once done, update UI safely
                     EditorApplication.delayCall += () =>
                     {
                         UpdateNextSuggestions(nextArray, currentQuest);
@@ -194,6 +208,7 @@ namespace ISILab.LBS.Editor
                 }
 
             }, token);
+
 
 
         }
