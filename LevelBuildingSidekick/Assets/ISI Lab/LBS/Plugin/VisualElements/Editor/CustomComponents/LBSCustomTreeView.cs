@@ -59,8 +59,8 @@ namespace ISILab.LBS.CustomComponents
             ClearClassList();
             AddToClassList("lbs-tree-view");
 
-            // Default load on attach
-            RegisterCallback<AttachToPanelEvent>(_ => BuildTreeFromStringData(treeData));
+            // // Default load on attach
+            // RegisterCallback<AttachToPanelEvent>(_ => BuildTreeFromStringData(treeData));
         }
 
         #region Default Tree
