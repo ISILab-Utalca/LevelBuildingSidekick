@@ -1868,3 +1868,19 @@ Toggle > .lbs-default-icon {
     position: absolute;
     opacity: 0.15;
 }
+
+.lbs-tree-view{
+    flex-grow: 1;
+    height: 18px;
+    overflow: shown;
+    padding: 10px;
+}
+
+.lbs-tree-view-item{
+    flex-grow: 1;
+    height: 18px;
+    overflow: shown;
+    padding: 10px;
+}
+
+
