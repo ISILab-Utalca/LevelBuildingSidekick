@@ -55,12 +55,19 @@
                     <ISILab.LBS.VisualElements.Editor.LayerView focusable="true" selectable="true" />
                     <ISILab.LBS.VisualElements.Editor.LayerView focusable="true" />
                     <ui:Instance template="LayerView" name="TemplateContainer" style="flex-direction: row;" />
+                    <ISILab.LBS.CustomComponents.LBSCustomTreeView>
+                        <TreeViewItems>
+                            <ISILab.LBS.CustomComponents.LBSTreeData />
+                            <ISILab.LBS.CustomComponents.LBSTreeData />
+                        </TreeViewItems>
+                    </ISILab.LBS.CustomComponents.LBSCustomTreeView>
                 </ui:VisualElement>
                 <ui:VisualElement class="lbs-panel" style="flex-grow: 1;">
                     <ISILab.LBS.CustomComponents.LBSCustomFoldout>
                         <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
                         <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple" />
                     </ISILab.LBS.CustomComponents.LBSCustomFoldout>
+                    <ISILab.LBS.Editor.Windows.LBSWaitTaskOverlay step="3.06" delay="21" style="flex-grow: 1;" />
                 </ui:VisualElement>
             </ISILab.Commons.VisualElements.Editor.SplitView>
         </ISILab.Commons.VisualElements.Editor.SplitView>

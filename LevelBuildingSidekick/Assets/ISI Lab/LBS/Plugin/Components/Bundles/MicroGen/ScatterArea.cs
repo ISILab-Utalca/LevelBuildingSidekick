@@ -16,7 +16,9 @@ namespace LBS.Bundles.Tools
         
         public float Radius
         {
-            get => radius;
+            get {
+                return radius;
+            }
             set {
                 radius = value;
                 if (baseCollider is SphereCollider)

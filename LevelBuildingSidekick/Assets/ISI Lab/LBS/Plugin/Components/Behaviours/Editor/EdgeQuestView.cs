@@ -40,9 +40,9 @@ namespace ISILab.LBS.VisualElements
             generateVisualContent += OnGenerateVisualContent;
         }
 
-        void OnGenerateVisualContent(MeshGenerationContext mgc)
+        void OnGenerateVisualContent(MeshGenerationContext mgctx)
         {
-            var painter = mgc.painter2D;
+            var painter = mgctx.painter2D;
             
             painter.DrawDottedLine(
                 Vector2.zero,

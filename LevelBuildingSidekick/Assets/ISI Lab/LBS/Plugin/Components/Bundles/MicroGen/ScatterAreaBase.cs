@@ -40,6 +40,8 @@ namespace LBS.Bundles.Tools
         NativeArray<Vector3> positions;
         NativeArray<Quaternion> rotations;
         NativeArray<Vector3> scales;
+        
+        
         NativeArray<Matrix4x4> matrices;
         private RenderParams renderParams = new RenderParams();
 
@@ -59,7 +61,6 @@ namespace LBS.Bundles.Tools
         {
             if (generationMode == GenerationMode.GpuBach && matrices.Length > 0)
             {
-                Debug.Log("rendering");
                 //Graphics.RenderMeshInstanced(renderParams, meshToInstance, 0, matrices );
                 Graphics.DrawMeshInstanced(meshToInstance, 0, materialToInstance, matrices.ToArray());
             }
@@ -108,6 +109,7 @@ namespace LBS.Bundles.Tools
                 }
             }
             
+            
             switch (generationMode)
             {
                 case GenerationMode.Instances:
@@ -125,10 +127,6 @@ namespace LBS.Bundles.Tools
                     commandsBuffer.Dispose();
                     TryDisposeMatrix();
                     throw new NotImplementedException();
-                    
-                    
-                    
-                    
                     break;
                 }
                 case GenerationMode.GpuBach:
