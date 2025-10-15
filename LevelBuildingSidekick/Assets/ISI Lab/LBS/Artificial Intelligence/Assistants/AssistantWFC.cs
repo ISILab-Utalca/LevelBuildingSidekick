@@ -183,6 +183,8 @@ namespace ISILab.LBS.Assistants
                 return (double)ticks / System.Diagnostics.Stopwatch.Frequency;
             };
 
+            var originalPositions = new List<Vector2Int>(Positions);
+
             if (safeMode)
             {
                 int xStart = Positions.OrderBy(p => p.x).First().x;
@@ -232,6 +234,8 @@ namespace ISILab.LBS.Assistants
                     if (sectorSuccessCount >= sectors.Count)
                     {
                         log = $"Safely generated after {i + 1} attempts. ({getSeconds()} s)";
+
+                        RequestRepaint();
                         return true;
                     }
                 }
@@ -239,14 +243,43 @@ namespace ISILab.LBS.Assistants
                 log = $"Could not safely generate after {limit} attempts. ({getSeconds()} s)";
                 logType = LogType.Warning;
 
+                //RequestRepaint();
                 return false;
             }
             else
             {
                 Execute();
                 log = $"Generated. ({getSeconds()} s)";
+                RequestRepaint();
                 return true;
-            } 
+            }
+
+            void RequestRepaint()
+            {
+                var connected = OwnerLayer.GetModule<ConnectedTileMapModule>();
+                ExteriorBehaviour exterior = OwnerLayer.GetBehaviour<ExteriorBehaviour>();
+                var ogPairs = originalPositions.Select(pos => connected.GetPair(pos)).ToList().RemoveEmpties();
+                exterior.RequestTilesRepaint(ogPairs.Select(p => p.Tile));
+                var others = new List<Vector2Int>();
+                int minX = originalPositions.Min(pos => pos.x) - 1;
+                int maxX = originalPositions.Max(pos => pos.x) + 1;
+                int minY = originalPositions.Min(pos => pos.y) - 1;
+                int maxY = originalPositions.Max(pos => pos.y) + 1;
+                for(int x = minX; x <= maxX; x++)
+                {
+                    for (int y = minY; y <= maxY; y++)
+                    {
+                        if(x == minX || x == maxX || y == minY || y == maxY)
+                        {
+                            others.Add(new Vector2Int(x, y));
+                        }
+                    }
+                }
+                ;
+                var pairs = others.Select(pos => connected.GetPair(pos)).ToList().RemoveEmpties();
+                exterior.RequestTilesRepaint(pairs.Select(p => p.Tile));
+                //originalPositions.ForEach(pos => RequestTilePaint(connected.GetPair(pos).Tile));
+            }
         }
 
         /// <summary>
@@ -436,7 +469,7 @@ namespace ISILab.LBS.Assistants
 
                 if(safeMode)
                 {
-                    Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
+                    //Debug.Log($"TRY: {tryCount}\tSTEP {step}\tMAX STEP {maxStep}\tRETRY COUNT {retryCount}");
                     if(step % SAVE_STATE_INTERVAL == 0)
                     {
                         // Save state

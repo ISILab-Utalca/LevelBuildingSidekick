@@ -195,7 +195,7 @@ namespace ISILab.LBS.Modules
                 {
                     log += $"Tile: {path.tile} | Direccion: {path.direction}\n";
                 }
-                Debug.Log(log);
+                //Debug.Log(log);
             }
 
             List<LBSTile> duplicatedPaths = new();
@@ -298,8 +298,8 @@ namespace ISILab.LBS.Modules
                 }
             }
 
-            sectorTM.Print();
-            zoneConnected.Print();
+            //sectorTM.Print();
+            //zoneConnected.Print();
 
             return; /// END OF METHOD ///
 

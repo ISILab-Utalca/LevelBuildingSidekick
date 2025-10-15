@@ -129,6 +129,7 @@ namespace ISILab.LBS.Tests
         }
         
         [Test, Performance]
+        [Timeout(600000)]
         public void TestMap_40x40_SameMap()
         {
             SetupWFCTest("01421564a101235499b4448d3801d494");

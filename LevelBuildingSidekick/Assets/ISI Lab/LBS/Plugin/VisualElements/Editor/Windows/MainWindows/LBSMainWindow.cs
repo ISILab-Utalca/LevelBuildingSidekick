@@ -264,7 +264,7 @@ namespace ISILab.LBS.Editor.Windows{
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
-                drawManager.RedrawLevel(levelData);
+                //drawManager.RedrawLevel(levelData);
             };
             
             TopToolBar.OnThemeChanged += data => ChangeTheme(data);
