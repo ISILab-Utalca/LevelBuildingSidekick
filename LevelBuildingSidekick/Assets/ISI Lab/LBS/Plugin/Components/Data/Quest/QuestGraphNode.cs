@@ -129,6 +129,17 @@ namespace ISILab.LBS.Components
             return clone;
         }
 
+        public override bool Equals(object obj)
+        {
+            if(obj is not GraphNode ode) return false;
+            return ID == ode.ID;
+        }
+        
+        public override int GetHashCode()
+        {
+            return ID?.GetHashCode() ?? 0;
+        }
+
         protected abstract GraphNode CreateCloneInstance();
 
         public abstract override string ToString();

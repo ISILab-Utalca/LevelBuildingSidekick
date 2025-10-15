@@ -23,6 +23,8 @@ namespace ISILab.LBS.VisualElements
         protected GraphNode Node;
         protected VisualElement InvalidConnectionIcon;
 
+        private static Type _prevManipulatorType;
+
         private static QuestGraphNodeView _selectedGraph;
 
         private const float Alpha = 0.33f;
@@ -73,10 +75,49 @@ namespace ISILab.LBS.VisualElements
             SetPosition(newPos);
         }
 
-        protected void OnMouseLeave(MouseLeaveEvent e)
+        protected void OnMouseLeave(MouseLeaveEvent e) 
         {
             if (Node == null) return;
+            RestoreManipulator();
             OnMouseMove(MouseMoveEvent.GetPooled(e.mousePosition, e.button, e.clickCount, e.mouseDelta));
+        }
+        
+        protected void OnMouseUp(MouseUpEvent evt)
+        {
+            RestoreManipulator();
+        }
+
+        protected void OnMouseEnter(MouseEnterEvent evt)
+        {
+            ShelfManipulator();
+        }
+        
+        private void ShelfManipulator()
+        {
+            if(ToolKit.Instance.GetActiveManipulatorInstance() is null) return;
+            Type ActiveManipulator = ToolKit.Instance.GetActiveManipulatorInstance().GetType();
+            bool usingAddNode = ActiveManipulator == typeof(AddGraphNode);
+            
+            // only set select if using addnode or remove node
+            if (usingAddNode)
+            {
+                if (_prevManipulatorType is null)
+                {
+                    _prevManipulatorType = ActiveManipulator;
+                }
+                
+                ToolKit.Instance.SetActive(typeof(SelectManipulator));
+            }
+            
+        }
+        
+        private void RestoreManipulator()
+        {
+            if (_prevManipulatorType is not null)
+            {
+                ToolKit.Instance.SetActive(_prevManipulatorType);
+                _prevManipulatorType = null;
+            }
         }
         #endregion
 

@@ -12,6 +12,7 @@ using ISILab.LBS.Modules;
 using ISILab.LBS.Settings;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Serialization;
 
 namespace LBS.Components
@@ -213,6 +214,7 @@ namespace LBS.Components
 
         public void Reload()
         {
+            //Debug.Log("RELOAD LAYER " + Name);
             foreach (var module in modules)
             {
                 module.OnAttach(this);
@@ -232,6 +234,8 @@ namespace LBS.Components
             {
                 behaviour.OnAttachLayer(this);
             }
+
+            InitializeContextEvents();
         }
 
         public void AddBehaviour(LBSBehaviour behaviour)
@@ -684,18 +688,19 @@ namespace LBS.Components
             {
                 //Debug.Log("Vertex Exterior Context Add");
                 SectorizedTileMapModule sectorTM = new();
-                AddModule(sectorTM);
+                Assert.IsTrue(AddModule(sectorTM));
                 var zoneConnected = new List<LBSModule>() { connectedTM }.Clone()[0] as ConnectedTileMapModule;
                 zoneConnected.ID = "TempConnectedModule";
-                sectorTM.BuildFromExterior(connectedTM, zoneConnected);
-                AddModule(zoneConnected);
+                List<string> floorTags = GetBehaviour<ExteriorBehaviour>()?.NavigableTags;
+                sectorTM.BuildFromExterior(connectedTM, zoneConnected, floorTags);
+                Assert.IsTrue(AddModule(zoneConnected));
             }
 
             void VertexExteriorRemove()
             {
                 //Debug.Log("Vertex Exterior Context Remove");
-                RemoveModule(GetModule<SectorizedTileMapModule>());
-                RemoveModule(GetModule<ConnectedTileMapModule>("TempConnectedModule"));
+                Assert.IsTrue(RemoveModule(GetModule<SectorizedTileMapModule>()));
+                Assert.IsTrue(RemoveModule(GetModule<ConnectedTileMapModule>("TempConnectedModule")));
             }
         }
     }

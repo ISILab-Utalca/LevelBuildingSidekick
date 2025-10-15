@@ -23,7 +23,6 @@ public partial class LBSStartedSign: VisualElement
 
     private void onHyperlinkClicked(PointerUpEvent _evt)
     {
-        Debug.Log("Hyperlink clicked");
         Application.OpenURL(URL);
     }
     

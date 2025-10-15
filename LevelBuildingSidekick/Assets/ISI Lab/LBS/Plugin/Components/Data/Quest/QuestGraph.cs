@@ -6,7 +6,6 @@ using ISILab.Extensions;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
-using ISILab.LBS.Settings;
 using ISILab.Macros;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -91,12 +90,11 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region EVENTS
-        [JsonIgnore] public Action<GraphNode> GoToNode;
-        [JsonIgnore] public Action<GraphNode> OnAddNode;
-        [JsonIgnore] public Action<GraphNode> OnRemoveNode;
+        [JsonIgnore] public Action<Vector2Int> GoToNodeInGraph;
         [JsonIgnore] public Action<QuestEdge> OnAddEdge;
         [JsonIgnore] public Action<QuestEdge> OnRemoveEdge;
-       
+        [JsonIgnore] public Action<QuestNode> OnAddSuggestion;
+        [JsonIgnore] public Action<QuestNode> OnRemoveSuggestion;
 
         #endregion
 
@@ -104,12 +102,12 @@ namespace ISILab.LBS.Modules
         public QuestGraph()
         {
             // changing one edge can change the values of all the graph so we recheck all the graph for
-            OnAddEdge += edge =>  ValidateGraph();
-            OnRemoveEdge += edge =>  ValidateGraph();
+            OnAddEdge += _ =>  ValidateGraph();
+            OnRemoveEdge += _ =>  ValidateGraph();
         }
         #endregion
         
-    #region METHODS
+        #region METHODS
         
         #region Grammar
         public void LoadGrammar()
@@ -129,7 +127,7 @@ namespace ISILab.LBS.Modules
             _onUpdateGraph?.Invoke();
         }
         
-        private void ValidateEdgeConnection(QuestEdge newEdge)
+        private void ValidateEdgeConnection()
         {
             //  Update quest node types (Goal or Middle) by their connections
             foreach (var innerEdge in GraphEdges)
@@ -141,42 +139,59 @@ namespace ISILab.LBS.Modules
                         : QuestNode.ENodeType.Goal;
                 }
             }
-
-            // reset all connections validations
-            foreach (var node in GraphNodes)
-            {
-                node.ValidConnections = false;
-            }
-
             // we must revalidate all edges connections
             foreach (var edge in GraphEdges)
             {
                 // destination node validation
                 var dest = edge.To;
-                dest.ValidConnections = GetRoots(dest).Any();
+                int destRoots = GetRoots(dest).Count;
+                int destBranches = GetBranches(dest).Count;
+
+                Debug.Log($"[DEST] Node {dest.ID} | Roots: {destRoots} | Branches: {destBranches}");
+
+                dest.ValidConnections = destRoots > 0 && destBranches > 0;
 
                 // source nodes validation
                 foreach (var node in edge.From)
                 {
-                    node.ValidConnections = GetRoots(node).Any();
+                    int roots = GetRoots(node).Count;
+                    int branches = GetBranches(node).Count;
+
+                    Debug.Log($"[FROM] Node {node.ID} | Roots: {roots} | Branches: {branches}");
+
+                    node.ValidConnections = roots > 0  && branches > 0;
                 }
-            
+
                 if (dest is QuestNode { NodeType: QuestNode.ENodeType.Goal } goalNode)
                 {
+                    bool hasBranches = GetBranches(goalNode).Any();
+                    bool hasRoots = GetRoots(goalNode).Any();
+
+                    Debug.Log($"[GOAL CHECK] Node {goalNode.ID} | Roots: {hasRoots} | Branches: {hasBranches}");
+
                     // the goal must not have branches!
-                    goalNode.ValidConnections = !GetBranches(goalNode).Any();
+                    goalNode.ValidConnections = !hasBranches && hasRoots;
                 }
             }
+
             
             RootValidation();
+            _onUpdateGraph?.Invoke();
         }
 
         void ValidateGraph()
         {
-            // first validate that the connections are valid
-            foreach (var edge in GraphEdges)
+            // reset all connections validations
+            foreach (var node in GraphNodes)
             {
-                ValidateEdgeConnection(edge);
+                node.ValidConnections = false;
+                node.ValidGrammar = false;
+            }
+            
+            // first validate that the connections are valid
+            foreach (var unused in GraphEdges)
+            {
+                ValidateEdgeConnection();
             }
             
             // validate grammar
@@ -220,39 +235,48 @@ namespace ISILab.LBS.Modules
             return node;
         }
 
-        public QuestNode AddSuggestion(string action, Vector2 pos)
+        public QuestNode AddSuggestion(string action, Vector2 pos = default)
         {
-            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
-            var node = new QuestNode(id, pos, action, this);
+            var uniqueSuggestionId = "s" + GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
+            var node = new QuestNode(uniqueSuggestionId, pos, action, this);
             suggestions.Add(node);
             return node;
         }
         
         public QuestNode AddNewQuestNode(string action, Vector2 pos)
         {
-            var id = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
-            var node = new QuestNode(id, pos, action, this);
+            var uniqueId = GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
+            var node = new QuestNode(uniqueId, pos, action, this);
             AddNodeToGraph(node);
             return node;
+        }
+        
+        public void AddSuggestionNode(QuestNode generatedQuestNode)
+        {
+            if(generatedQuestNode is null) return;
+            var graphPos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var node = AddNewQuestNode(generatedQuestNode.QuestAction, graphPos);
+            node.NodeData = generatedQuestNode.NodeData;
+            node.NodeViewPosition = generatedQuestNode.NodeViewPosition;
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
         {
-            if (!existingIds.Contains(baseName))
+            var enumerable = existingIds.ToList();
+            if (!enumerable.Contains(baseName))
                 return baseName;
 
             int suffix = 1;
-            string id;
-            do { id = $"{baseName} ({suffix++})"; }
-            while (existingIds.Contains(id));
-            return id;
+            string uniqueId;
+            do { uniqueId = $"{baseName} ({suffix++})"; }
+            while (enumerable.Contains(uniqueId));
+            return uniqueId;
         }
 
 
         public void AddNodeToGraph(GraphNode node)
         {
             graphNodes.Add(node);
-            OnAddNode?.Invoke(node);
 
             if (node is QuestNode qn)
             {
@@ -264,14 +288,16 @@ namespace ISILab.LBS.Modules
 
         public void RemoveQuestNode(GraphNode node)
         {
-            foreach (var e in GetEdgesWithNode(node))
-                RemoveEdge(e);
-
             graphNodes.Remove(node);
-            OnRemoveNode?.Invoke(node);
-
-            if (node == root) root = null;
-            if (node == _selectedNode) _selectedNode = null;
+            
+            foreach (var e in GetEdgesWithNode(node))
+            {
+                RemoveEdge(e); 
+            }
+            
+         
+            if (Equals(node, root)) root = null;
+            if (Equals(node, _selectedNode)) _selectedNode = null;
 
             NodeDataChanged(_selectedNode as QuestNode);
         }
@@ -283,11 +309,11 @@ namespace ISILab.LBS.Modules
             if (to == null || from == null)
                 return Tuple.Create("A connection requires two nodes.", LogType.Error);
 
-            if (from == to)
+            if (Equals(from, to))
                 return Tuple.Create("A node cannot connect to itself.", LogType.Error);
 
             // prevent duplicates
-            if (graphEdges.Any(e => e.From.Contains(from) && e.To == to))
+            if (graphEdges.Any(e => e.From.Contains(from) && Equals(e.To, to)))
                 return Tuple.Create("This connection already exists.", LogType.Error);
 
             // check for looping connections
@@ -298,7 +324,7 @@ namespace ISILab.LBS.Modules
             // only branching nodes can be a To on multiple edges
             if (to is QuestNode && from is QuestNode)
             {
-                bool alreadyTarget = graphEdges.Any(e => e.To == to);
+                bool alreadyTarget = graphEdges.Any(e => Equals(e.To, to));
                 if (alreadyTarget)
                     return Tuple.Create("Action Nodes can only be the destination of one edge. For multiple use Branching nodes", LogType.Error);
             }
@@ -312,7 +338,7 @@ namespace ISILab.LBS.Modules
 
         private bool IsLooped(GraphNode origin, GraphNode current, HashSet<GraphNode> visited)
         {
-            if (origin == current)
+            if (Equals(origin, current))
                 return true;
 
             if (!visited.Add(current))
@@ -362,7 +388,6 @@ namespace ISILab.LBS.Modules
 
         private QuestEdge GetEdge(Vector2 pos, float delta)
         {
-            var size = OwnerLayer.TileSize * LBSSettings.Instance.general.TileSize;
             foreach (var e in graphEdges)
             {
                 foreach (var from in e.From)
@@ -387,17 +412,61 @@ namespace ISILab.LBS.Modules
 
         public List<QuestEdge> GetBranches(GraphNode node)
         {
-            var list = new List<QuestEdge>();
+            List<QuestEdge> list = new List<QuestEdge>();
+            
+            if (!graphNodes.Contains(node)) return list;
+            
             foreach (var edge in graphEdges)
-                if (edge.From.Contains(node))
-                    list.Add(edge);
+            {
+                // Check that the edge target is valid
+                if (!graphNodes.Contains(edge.To)) continue;
+                
+                // Check if at least one From exists in the graph
+                bool found = false;
+                foreach (var from in edge.From)
+                {
+                    if (Equals(from, node) && graphNodes.Contains(from))
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) list.Add(edge);
+            }
+
             return list;
         }
 
-        public List<QuestEdge> GetRoots(GraphNode node) =>
-            graphEdges.Where(e => e.To == node).ToList();
-        #endregion
 
+        public List<QuestEdge> GetRoots(GraphNode node)
+        {
+            List<QuestEdge> valid = new List<QuestEdge>();
+
+            foreach (var edge in graphEdges)
+            {
+                if (!Equals(edge.To, node)) continue;
+                
+                // Check if To exists in the graph
+                if (!graphNodes.Contains(edge.To)) continue;
+                
+                // Check if at least one From exists in the graph
+                bool validFrom = false;
+                foreach (var from in edge.From)
+                {
+                    if (!graphNodes.Contains(from)) continue;
+                    validFrom = true;
+                    break; 
+                }
+
+                if (validFrom) valid.Add(edge);
+            }
+
+            return valid;
+        }
+
+           
+        #endregion
         
         #region AssistantCalls
         
@@ -483,12 +552,11 @@ namespace ISILab.LBS.Modules
         public void ExpandNode(List<string> expandActions, QuestNode referenceNode)
         {
             if(!expandActions.Any()) return;
-            
-            List<QuestNode> newNodes = new List<QuestNode>();
+
             QuestNode iterationNode = referenceNode;
             
             // cant' redo connections with a root already in use
-            if(referenceNode == Root) SetRoot(null);
+            if(Equals(referenceNode, Root)) SetRoot(null);
             
             // add from the previous index position to add the new ones
             foreach (var action in expandActions)
@@ -516,15 +584,12 @@ namespace ISILab.LBS.Modules
             if (root == null) return;
             
             root.NodeType = QuestNode.ENodeType.Start;
-            
-            RootValidation();
-            
-            ValidateAllWithGrammar();
+            ValidateGraph();
         }
 
         private void RootValidation()
         {
-            root.ValidConnections = !GetRoots(root).Any() && GetBranches(root).Any();
+           if(root is not null) root.ValidConnections = !GetRoots(root).Any() && GetBranches(root).Any();
         }
 
         #endregion
@@ -554,10 +619,14 @@ namespace ISILab.LBS.Modules
             {
                 if(n is QuestNode qn)
                 {
-                    if (Root.ID == qn.ID)
+                    if (Root is not null)
                     {
-                        clone.root = qn;
+                        if (Root.ID == qn.ID)
+                        {
+                            clone.root = qn;
+                        }
                     }
+                   
                 }
                 clone.graphNodes.Add(n);
                 n.Graph = clone;

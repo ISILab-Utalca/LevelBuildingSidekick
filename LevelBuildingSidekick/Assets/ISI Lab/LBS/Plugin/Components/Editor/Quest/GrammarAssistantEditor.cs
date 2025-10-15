@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
 using ISILab.LBS.Assistants;
@@ -13,9 +15,10 @@ using ISILab.LBS.VisualElements;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.VisualElements;
 using ISILab.Macros;
+using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Editor
 {
@@ -118,22 +121,29 @@ namespace ISILab.LBS.Editor
             _paramActionLabel.text = currentQuest.QuestAction;
             _nodeIDLabel.text = currentQuest.ID;
             SetBaseDataValues(_questGraph.GetNodeData());
+            
+            // TODO hook with the assistant progress bar
+            Task.Run(() =>
+            {
+                string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
+                                     ?? Array.Empty<string>();
+                string[] prevArray = _grammarAssistant.GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
+                                     ?? Array.Empty<string>();
+                List<string>[] expandArray = _grammarAssistant.GetAllExpansions(selectedAction)
+                                                 ?.Select(l => l?.ToList() ?? new List<string>())
+                                                 .ToArray()
+                                             ?? Array.Empty<List<string>>();
 
-            // Fetch grammar data
-            string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                 ?? Array.Empty<string>();
-            string[] prevArray = _grammarAssistant.GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                 ?? Array.Empty<string>();
-            List<string>[] expandArray = _grammarAssistant.GetAllExpansions(selectedAction)
-                                           ?.Select(l => l?.ToList() ?? new List<string>())
-                                           .ToArray()
-                                           ?? Array.Empty<List<string>>();
-
-            // Update panels
-            UpdateNextSuggestions(nextArray, currentQuest);
-            UpdatePrevSuggestions(prevArray, currentQuest);
-            UpdateExpandSuggestions(expandArray, currentQuest);
+                // Switch back to Unity main thread for UI updates
+                EditorApplication.delayCall += () =>
+                {
+                    UpdateNextSuggestions(nextArray, currentQuest);
+                    UpdatePrevSuggestions(prevArray, currentQuest);
+                    UpdateExpandSuggestions(expandArray, currentQuest);
+                };
+            });
         }
+
 
         #region Helpers
         
@@ -213,13 +223,13 @@ namespace ISILab.LBS.Editor
         private void UpdateNextSuggestions(string[] nextArray, QuestNode currentQuest)
         {
             UpdateSuggestionList(nextArray, _nextInvalidPanel, _nextSuggested,
-                action => InsertNextAction(action, currentQuest));
+                action => _grammarAssistant.InsertNextAction(action, currentQuest));
         }
 
         private void UpdatePrevSuggestions(string[] prevArray, QuestNode currentQuest)
         {
             UpdateSuggestionList(prevArray, _prevInvalidPanel, _prevSuggested,
-                action => InsertPreviousAction(action, currentQuest));
+                action => _grammarAssistant.InsertPreviousAction(action, currentQuest));
         }
 
         private void UpdateExpandSuggestions(List<string>[] expandArray, QuestNode currentQuest)
@@ -246,7 +256,7 @@ namespace ISILab.LBS.Editor
 
                 // Header
                 var header = new ExpansionHeader();
-                header.ButtonConvert.SetAction(currentQuest.QuestAction, ExpandAction(actions, currentQuest));
+                header.ButtonConvert.SetAction(currentQuest.QuestAction, _grammarAssistant.ExpandAction(actions, currentQuest));
                 foldout.contentContainer.Add(header);
 
                 // Entries
@@ -289,25 +299,7 @@ namespace ISILab.LBS.Editor
 
             return foldout;
         }
-
-        private Action ExpandAction(List<string> expandAction, QuestNode referenceNode)
-        {
-            return () => { _questGraph.ExpandNode(expandAction, referenceNode); };
-        }
-
-        private Action InsertNextAction(string action, QuestNode referenceNode)
-        {
-            return () => { _questGraph.InsertQuestNodeAfter(action, referenceNode); };
-        }
-
-        private Action InsertPreviousAction(string action, QuestNode referenceNode)
-        {
-            return () =>
-            {
-                _questGraph.InsertQuestNodeBefore(action, referenceNode);
-                _questGraph.ValidateAllWithGrammar();
-            };
-        }
+        
         #endregion
         
         #endregion

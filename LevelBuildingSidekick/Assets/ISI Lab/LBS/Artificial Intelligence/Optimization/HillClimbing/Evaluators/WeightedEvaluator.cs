@@ -63,13 +63,14 @@ namespace ISILab.AI.Optimization
             Task[] tasks = new Task[evaluators.Count()];
             float[] results = new float[evaluators.Count()];
 
+            int c = 0;
             Parallel.For(0, evaluators.Count(), i =>
             {
                 var eva = evaluators[i];
-
+                c++;
                 results[i] = eva.Item1.Evaluate(evaluable) * eva.Item2;
             });
-
+            //UnityEngine.Debug.Log("ParallelEVA Count: " + c);
             fitness = results.Sum();
 
             return fitness / totalWeight;

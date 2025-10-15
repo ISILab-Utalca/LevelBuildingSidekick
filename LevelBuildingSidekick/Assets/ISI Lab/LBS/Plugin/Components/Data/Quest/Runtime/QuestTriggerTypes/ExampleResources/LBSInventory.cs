@@ -55,7 +55,7 @@ public class LBSInventory : MonoBehaviour
         if (lbsGen == null || lbsGen.BundleRef == null) return;
 
         // Can only equip items
-        if (lbsGen.BundleRef.PopulationType == Bundle.PopulationTypeE.Item)
+        if (lbsGen.BundleRef.ElementFlag == Bundle.EElementFlag.Item)
         {
             string guid = LBSAssetMacro.GetGuidFromAsset(lbsGen.BundleRef);
 

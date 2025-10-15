@@ -1,41 +1,51 @@
-using System.Collections.Generic;
-using System.Linq;
-using ISILab.Commons.Utility.Editor;
-using ISILab.Extensions;
-using ISILab.LBS.Assistants;
-using ISILab.LBS.Behaviours;
-using ISILab.LBS.Components;
-using ISILab.LBS.Manipulators;
-using ISILab.LBS.Modules;
-using ISILab.LBS.VisualElements;
-using ISILab.LBS.VisualElements.Editor;
-using LBS.VisualElements;
-using LBS.Components;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Vector2 = UnityEngine.Vector2;
+using ISILab.LBS.Assistants;
+using ISILab.LBS.VisualElements.Editor;
+using ISILab.Commons.Utility.Editor;
+using ISILab.LBS.Components;
+using ISILab.LBS.CustomComponents;
+using ISILab.LBS.Manipulators;
+using ISILab.LBS.Modules;
+using LBS.Components;
+using LBS.VisualElements;
 
 namespace ISILab.LBS.Editor
 {
     [LBSCustomEditor("QuestAssistant", typeof(QuestAssistant))]
     public class QuestAssistantEditor : LBSCustomEditor, IToolProvider
     {
+        
         #region FIELDS
+        private static class UIElementNames
+        {
+            public const string VisualTree = "QuestAssistantEditor";
+            public const string LockedLayerContainer = "LockedLayerContainer";
+            public const string LayerList = "LayerList";
+            public const string SuggestionList = "SuggestionList";
+            public const string AddLayerButton = "AddLayerButton";
+            public const string GenerateSuggestionsButton = "GenerateSuggestions";
+            public const string ConnectAll = "ConnectAll";
+            public const string SuggestionField = "SuggestionField";
+            public const string NoSuggestionPanel = "NoSuggestionPanel";
+            public const string RemoveAllSuggestions = "RemoveSuggestions";
+        }
+
         private QuestAssistant _questAssistant;
-        private QuestBehaviour _questBehaviour;
-        
         private QuestGraph _questGraph;
-        
         private ListView _layerList;
         private ListView _suggestionList;
         private Button _addLayerButton;
-        private Button _genSuggestionButton;
+        private Button _autoConnectButton;
+        private Button _generateSuggestionsButton;
+        private Button _removeSuggestionsButton;
         private VisualElement _lockedContextEntryContainer;
-        #endregion
+        private LBSPanelTextIcon _noSuggestionPanel;
+        private LBSCustomUnsignedIntegerField _suggestionField;
+ 
 
-        #region PROPERTIES
-        private LBSLevelData Data => _questGraph.OwnerLayer.Parent;
         #endregion
 
         #region CONSTRUCTORS
@@ -47,163 +57,190 @@ namespace ISILab.LBS.Editor
         #endregion
 
         #region METHODS
-        public sealed override void SetInfo(object paramTarget)
+        public sealed override void SetInfo(object target)
         {
-            target = paramTarget as QuestAssistant;
+            this.target = target as QuestAssistant;
             _questAssistant = target as QuestAssistant;
             _questGraph = _questAssistant?.OwnerLayer.GetModule<QuestGraph>();
         }
 
+        /// <summary>
+        /// Creates and configures the visual elements for the editor.
+        /// </summary>
         protected sealed override VisualElement CreateVisualElement()
         {
             Clear();
-            InitializeUIElements();
-            SetupLayerList();
+            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>(UIElementNames.VisualTree);
+            visualTree.CloneTree(this);
+
+            _lockedContextEntryContainer = this.Q<VisualElement>(UIElementNames.LockedLayerContainer);
+            _layerList = this.Q<ListView>(UIElementNames.LayerList);
+            _suggestionList = this.Q<ListView>(UIElementNames.SuggestionList);
+            _addLayerButton = this.Q<Button>(UIElementNames.AddLayerButton);
+            _generateSuggestionsButton = this.Q<Button>(UIElementNames.GenerateSuggestionsButton);
+            _removeSuggestionsButton = this.Q<Button>(UIElementNames.RemoveAllSuggestions);
+            _autoConnectButton = this.Q<Button>(UIElementNames.ConnectAll);
+            _noSuggestionPanel = this.Q<LBSPanelTextIcon>(UIElementNames.NoSuggestionPanel);
+            _suggestionField = this.Q<LBSCustomUnsignedIntegerField>(UIElementNames.SuggestionField);
+            _suggestionField.value = _questAssistant.SuggestionAmount;
+            
+            _suggestionField.RegisterValueChangedCallback(evt =>
+            {
+                _questAssistant.SuggestionAmount = evt.newValue; 
+            });
+            
+            _addLayerButton.clicked += ShowAddLayerMenu;
+            _generateSuggestionsButton.clicked += ()=>
+            {
+                _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
+                UpdateSuggestionsDisplay();
+                
+                // TODO hook with the assistant progress bar
+                Task.Run(() =>
+                {
+                    //
+                });
+            };
+
+            _removeSuggestionsButton.clicked += () =>
+            {
+                _questGraph.Suggestions.Clear();
+                UpdateSuggestionsDisplay();
+            };
+            _autoConnectButton.style.display = DisplayStyle.None;
+            
+            SetupLayerContextList();
             SetupSuggestionList();
-            SetupButtons();
             AddLockedLayer();
             return this;
         }
 
-        public override void OnFocus()
+        private uint GetSuggestionCount()
         {
-            _questGraph.displaySuggestions = true;
-            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
+            return _suggestionField.value;
         }
 
-        public override void OnUnfocus()
-        {
-            _questGraph.displaySuggestions = false;
-            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
-        }
-
-        private void InitializeUIElements()
-        {
-            var visualTree = DirectoryTools.GetAssetByName<VisualTreeAsset>("QuestAssistantEditor");
-            visualTree.CloneTree(this);
-            
-            _lockedContextEntryContainer = this.Q<VisualElement>("LockedLayerContainer");
-            _layerList = this.Q<ListView>("LayerList");
-            _suggestionList = this.Q<ListView>("SuggestionList");
-            _addLayerButton = this.Q<Button>("AddLayerButton");
-            _genSuggestionButton = this.Q<Button>("GenerateSuggestions");
-        }
-
-        private void SetupLayerList()
+        #region LAYERS
+        private void SetupLayerContextList()
         {
             _layerList.reorderable = false;
-            _layerList.makeItem = CreateLayerContextEntry;
+            _layerList.makeItem = () => new LayerContextEntry();
             _layerList.bindItem = BindLayerContextEntry;
+            _layerList.itemsSource = _questAssistant.Data.ContextLayers;
+            UpdateContextDisplay();
         }
-
-        private VisualElement CreateLayerContextEntry()
+        
+        private void UpdateContextDisplay()
         {
-            return new LayerContextEntry();
+            _layerList.Rebuild();
+            _layerList.style.display = _questAssistant.Data.ContextLayers.Count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
         }
-
+        
         private void BindLayerContextEntry(VisualElement element, int index)
         {
-            if (element is not LayerContextEntry layerContextVe) return;
+            if (element is not LayerContextEntry layerContextEntry) return;
 
-            layerContextVe.UpdateData(Data.ContextLayers[index]);
-            layerContextVe.EvaluateOverlap(Data.ContextLayers);
-            layerContextVe.OnRemoveButtonClicked = null;
-            layerContextVe.OnRemoveButtonClicked += () =>
+            layerContextEntry.UpdateData(_questAssistant.Data.ContextLayers[index]);
+            layerContextEntry.EvaluateOverlap(_questAssistant.Data.ContextLayers);
+            layerContextEntry.OnRemoveButtonClicked = null;
+            layerContextEntry.OnRemoveButtonClicked += () =>
             {
-                Data.ContextLayers.RemoveAt(index);
-                _layerList.Remove(element);
-                _layerList.Rebuild();
+                _questAssistant.Data.ContextLayers.RemoveAt(index);
+                UpdateContextDisplay();
             };
         }
-
-        private void SetupSuggestionList()
-        {
-            _suggestionList.reorderable = false;
-            _suggestionList.makeItem = CreateQuestNodeSuggestion;
-            _suggestionList.bindItem = BindQuestNodeSuggestion;
-            _suggestionList.itemsSource = _questGraph.Suggestions;
-        }
-
-        private VisualElement CreateQuestNodeSuggestion()
-        {
-            return new QuestNodeSuggestion();
-        }
-
-        private void BindQuestNodeSuggestion(VisualElement element, int index)
-        {
-            if (element is not QuestNodeSuggestion suggestionVe) return;
-
-            suggestionVe.UpdateData(_questGraph.Suggestions[index]);
-            suggestionVe.OnDiscard = null;
-            suggestionVe.OnDiscard += () =>
-            {
-                _questGraph.Suggestions.RemoveAt(index);
-                _suggestionList.Remove(element);
-                _suggestionList.Rebuild();
-            };
-        }
-
-        private void SetupButtons()
-        {
-            _addLayerButton.clicked += AddLayerMenu;
-            _genSuggestionButton.clicked += GenerateSuggestions;
-        }
-
-        private void GenerateSuggestions()
-        {
-            for (int i = 0; i < 3; i++)
-            {
-                var newNode = _questGraph.AddSuggestion(_questGraph.Grammar.TerminalActions.Random(), Vector2.zero);
-                _questGraph.Suggestions.Add(newNode);
-            }
-        }
-
-        #region LAYER CONTEXT METHODS
-        public void AddLockedLayer()
+        
+        private void AddLockedLayer()
         {
             var lockedLayer = new LayerContextEntry();
             lockedLayer.UpdateData(_questGraph.OwnerLayer);
             lockedLayer.SetEnabled(false);
             _lockedContextEntryContainer.Add(lockedLayer);
         }
-
-        private void AddLayerMenu()
+        
+        private void ShowAddLayerMenu()
         {
             var menu = new GenericMenu();
-            foreach (var layer in Data.Layers)
+            foreach (var layer in _questAssistant.Data.Layers)
             {
                 if (!_questGraph.OwnerLayer.Equals(layer))
                 {
-                    menu.AddItem(new GUIContent(layer.Name), Data.ContextLayers.Contains(layer), ToggleLayerContext, layer);
+                    menu.AddItem(new GUIContent(layer.Name), _questAssistant.Data.ContextLayers.Contains(layer), ToggleLayerContext, layer);
                 }
             }
             menu.ShowAsContext();
         }
-
+        
         private void ToggleLayerContext(object layer)
         {
-            if (layer is not LBSLayer objectLayer)
+            if (layer is not LBSLayer lbsLayer)
             {
-                Debug.LogError("Object Layer was null.");
+                Debug.LogError("Invalid layer object.");
                 return;
             }
 
-            if (Data.ContextLayers.Contains(objectLayer))
-            {
-                Data.ContextLayers.Remove(objectLayer);
-            }
+            if (_questAssistant.Data.ContextLayers.Contains(lbsLayer))
+                _questAssistant.Data.ContextLayers.Remove(lbsLayer);
             else
-            {
-                Data.ContextLayers.Add(objectLayer);
-            }
-            _layerList.Rebuild();
+                _questAssistant.Data.ContextLayers.Add(lbsLayer);
+
+            UpdateContextDisplay();
         }
         #endregion
 
-        public void SetTools(ToolKit toolkit)
+        #region SUGGESTIONS
+        private void SetupSuggestionList()
         {
-            // stub
+            _suggestionList.reorderable = false;
+            _suggestionList.makeItem = () => new QuestNodeSuggestion();
+            _suggestionList.bindItem = BindQuestNodeSuggestion;
+            _suggestionList.itemsSource = _questGraph.Suggestions;
+            UpdateSuggestionsDisplay();
         }
+        
+        private void UpdateSuggestionsDisplay()
+        {
+            bool hasSuggestions = _suggestionList.itemsSource.Count > 0;
+            _suggestionList.Rebuild();
+            _noSuggestionPanel.style.display = hasSuggestions ? DisplayStyle.None : DisplayStyle.Flex;
+            _suggestionList.style.display = hasSuggestions ? DisplayStyle.Flex : DisplayStyle.None;
+            // redraw to display suggestions
+            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
+            MarkDirtyRepaint();
+        }
+        
+        private void BindQuestNodeSuggestion(VisualElement element, int index)
+        {
+            if (element is not QuestNodeSuggestion suggestionEntry) return;
+
+            suggestionEntry.UpdateData(_questGraph.Suggestions[index]);
+            _questGraph.OnRemoveSuggestion += (suggestionToRemove) =>
+            {
+                _questGraph.Suggestions.Remove(suggestionToRemove);
+            };
+            _questGraph.OnRemoveSuggestion -= HandleRemoveSuggestion;
+            _questGraph.OnRemoveSuggestion += HandleRemoveSuggestion;
+        }
+        
+        private void HandleRemoveSuggestion(QuestNode node)
+        {
+            UpdateSuggestionsDisplay();
+        }
+        #endregion
+        
+        public override void OnFocus()
+        {
+            _questGraph.displaySuggestions = true;
+            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
+        }
+        
+        public override void OnUnfocus()
+        {
+            _questGraph.displaySuggestions = false;
+            DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
+        }
+        
+        public void SetTools(ToolKit toolkit) { }
         #endregion
     }
 }

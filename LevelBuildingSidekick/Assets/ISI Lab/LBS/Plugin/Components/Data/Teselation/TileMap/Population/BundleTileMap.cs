@@ -418,6 +418,15 @@ namespace ISILab.LBS.Modules
         //Returns bundle size
         public Vector2Int GetBundleSize()
         {
+            if(bData.Bundle==null)
+            {
+                if (bData.Characteristics[0]?.Owner==null)
+                {
+                    //Default option
+                    return new Vector2Int(1, 1);
+                }
+                return bData.Characteristics[0].Owner.TileSize;
+            }
             return bData.Bundle.TileSize;
         }
 
@@ -491,6 +500,7 @@ namespace ISILab.LBS.Modules
 
             return true;
         }
+
 
         public override int GetHashCode()
         {

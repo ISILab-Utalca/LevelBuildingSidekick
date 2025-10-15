@@ -40,7 +40,7 @@ namespace ISILab.LBS.VisualElements
         #endregion
 
         #region VIEW FIELDS
-        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("e17eb0e02534666439fca8ea30b4d4e4");
+        private VectorImage icon =LBSAssetMacro.LoadAssetByGuid<VectorImage>("87f2bb6f2c78b184a8ea2b6a5b14f878");
         private SimplePallete connectionPallete;
         private ObjectField bundleField;
         private WarningPanel warningPanel;
@@ -251,7 +251,8 @@ namespace ISILab.LBS.VisualElements
         {
             var connections = bundle.GetChildrenCharacteristics<LBSDirection>();
             var tags = connections.SelectMany(c => c.Connections).ToList().RemoveDuplicates();
-            if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
+            //if (tags.Remove("Empty"))  tags.Insert(0, "Empty");
+            tags.Remove("Empty"); tags.Insert(0, "Empty");
             var idents = tags.Select(s => identifierTags.Find(i => s == i.Label)).ToList().RemoveEmpties();
             
             // Set Options

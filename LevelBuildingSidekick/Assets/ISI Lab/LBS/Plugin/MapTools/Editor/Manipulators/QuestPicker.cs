@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Macros;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -65,31 +66,13 @@ namespace ISILab.LBS.Manipulators
             }
             else
             {
-                #region Picking Bundle Graph Target
-                List<LBSLayer> populationLayers = LBS.loadedLevel.data.Layers
-                    .Where(l => l.Behaviours.Any(bh => bh is PopulationBehaviour))
-                    .ToList();
-
-                var match = populationLayers
-                    .Select(layer => new
-                    {
-                        Layer = layer,
-                        Population = layer.GetBehaviour<PopulationBehaviour>(),
-                    })
-                    .Select(entry => new
-                    {
-                        entry.Layer,
-                        BundleTile = entry.Population.GetTileGroup(entry.Population.OwnerLayer.ToFixedPosition(endPosition))
-                    })
-                    .FirstOrDefault(x => x.BundleTile != null);
-
-                if (match != null && match.Layer != null && match.BundleTile != null)
+                Tuple<LBSLayer, TileBundleGroup> foundTile = LBSLayerHelper.GetBundleTileByMouse(endPosition, LBS.loadedLevel.data.Layers);
+                if (foundTile is not null)
                 {
-                    OnBundlePicked?.Invoke(match.Layer, match.BundleTile);
+                    OnBundlePicked?.Invoke(foundTile.Item1, foundTile.Item2);
                     // If a new bundle is added try to resize (only implement if using bundleGraph field)
                     ActiveData.Resize();
                 }
-                #endregion
             }
             
             _behaviour.Graph.NodeDataChanged(node);

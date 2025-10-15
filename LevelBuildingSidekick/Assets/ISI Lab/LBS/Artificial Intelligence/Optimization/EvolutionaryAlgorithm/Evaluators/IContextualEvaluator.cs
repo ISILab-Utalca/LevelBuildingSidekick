@@ -1,4 +1,5 @@
 using Commons.Optimization.Evaluator;
+using ISILab.Commons;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
@@ -66,12 +67,12 @@ public interface IContextualEvaluator : IEvaluator
             }
         }
 
-        combinedSectorizedTM.RecalculateZonesProximity(selection);
+        //combinedSectorizedTM.RecalculateZonesProximity(selection);
        
         return combinedLayer;
     }
 
-    public LBSLayer ExteriorLayers()
+    public LBSLayer ExteriorLayers(Rect selection)
     {
         if (ContextLayers.Count == 0) return null;
 
@@ -153,53 +154,70 @@ public interface IContextualEvaluator : IEvaluator
         return combinedLayer;
     }
 
-    public LBSLayer MergeExteriorWithInterior(LBSLayer exteriorLayer, LBSLayer interiorLayer)
+    // TODO: Handle overlap
+    public LBSLayer MergeExteriorWithInterior(LBSLayer exteriorLayer, LBSLayer interiorLayer, Rect selection)
     {
-        bool interiorExists = interiorLayer is not null && ContextLayers.Contains(interiorLayer);
-        bool exteriorExists = exteriorLayer is not null && ContextLayers.Contains(exteriorLayer);
+        bool interiorExists = interiorLayer is not null;
+        bool exteriorExists = exteriorLayer is not null;
 
         if (!(interiorExists || exteriorExists)) return null;
 
         if (!exteriorExists)
         {
-            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity(selection);
             return interiorLayer;
         }
         if (!interiorExists)
         {
-            exteriorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            exteriorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity(selection, exteriorLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule"));
             return exteriorLayer;
         }
 
-        var exteriorSectorTM = exteriorLayer.GetModule<SectorizedTileMapModule>();
-        var exteriorZonesConnectedTM = exteriorLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
-        if (exteriorSectorTM is null || exteriorZonesConnectedTM is null)
+        LBSLayer newLayer = exteriorLayer.Clone() as LBSLayer;
+
+        var exteriorSectorTM = newLayer.GetModule<SectorizedTileMapModule>();
+        var exteriorZonesConnectedTM = newLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
+        var exteriorTilemap = newLayer.GetModule<TileMapModule>();
+        if (exteriorSectorTM is null || exteriorZonesConnectedTM is null || exteriorTilemap is null)
         {
             Debug.Log($"Exterior Layer '{exteriorLayer.Name}' not suitable for MAP Elites Context.");
-            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity();
+            interiorLayer.GetModule<SectorizedTileMapModule>().RecalculateZonesProximity(selection);
             return interiorLayer;
         }
 
-        LBSLayer newLayer = interiorLayer.Clone() as LBSLayer;
+        var interiorSectorTM = interiorLayer.GetModule<SectorizedTileMapModule>();
+        var interiorConnectedTM = interiorLayer.GetModule<ConnectedTileMapModule>();
 
-        var combinedSectorTM = newLayer.GetModule<SectorizedTileMapModule>();
-        var combinedConnectedTM = newLayer.GetModule<ConnectedTileMapModule>();
-
-        foreach(LBSTile tile in exteriorSectorTM.PairTiles.Select(t => t.Tile))
+        foreach(LBSTile tile in interiorSectorTM.PairTiles.Select(t => t.Tile))
         {
-            if (combinedSectorTM.PairTiles.Any(tzp => tzp.Tile.Equals(tile))) continue;
-
-            Zone zone = exteriorSectorTM.Zones.Find(z => z.Positions.Contains(tile.Position));
-            if(!combinedSectorTM.Zones.Contains(zone))
+            if (exteriorSectorTM.PairTiles.Any(tzp => tzp.Tile.Equals(tile)))
             {
-                combinedSectorTM.AddZone(zone);
+                exteriorSectorTM.RemovePair(tile);
+                exteriorZonesConnectedTM.RemoveTile(tile);
+                exteriorTilemap.RemoveTile(tile);
+                //continue;
             }
-            combinedSectorTM.AddTile(tile, zone);
-            combinedConnectedTM.AddPair(tile, exteriorZonesConnectedTM.GetConnections(tile), new List<bool>() { false, false, false, false });
+
+            Zone zone = interiorSectorTM.PairTiles.Find(tzp => tzp.Tile.Position.Equals(tile.Position)).Zone;
+            if (!exteriorSectorTM.Zones.Contains(zone))
+            {
+                exteriorSectorTM.AddZone(zone);
+            }
+            
+            exteriorTilemap.AddTile(tile);
+            exteriorSectorTM.AddTile(tile, zone);
+            exteriorZonesConnectedTM.AddPair(tile, interiorConnectedTM.GetConnections(tile), new List<bool>() { false, false, false, false });
+            
+            foreach(var dir in interiorConnectedTM.GetPair(tile).HasConnections("Door"))
+            {
+                TileConnectionsPair other = exteriorZonesConnectedTM.GetPair(tile.Position + Directions.Bidimencional.Edges[dir]);
+                if(other is null) continue;
+                other.SetConnection((dir + 2) % 4, "Door", false);
+            }
         }
 
-        combinedSectorTM.RecalculateZonesProximity();
-
+        exteriorSectorTM.RecalculateZonesProximity(selection, exteriorZonesConnectedTM);
+        
         return newLayer;
     }
 }

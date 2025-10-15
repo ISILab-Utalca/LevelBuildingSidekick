@@ -3,12 +3,10 @@ using System;
 using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
 using ISILab.LBS.CustomComponents;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Settings;
 using UnityEngine;
-using static UnityEngine.Analytics.IAnalytic;
 
 namespace ISILab.LBS.VisualElements.Editor
 {
@@ -24,9 +22,17 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LoadedLevel> OnNewLevel;
         public event Action<LoadedLevel> OnSaveLevel;
         public event Action<LoadedLevel> OnLevelChange;
-        
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
         
+        public event Action OnProgressCompleted;
+
+        #region  Visual Elements
+            private LBSToolbarToggle keyMapToggle;
+            private VisualElement taskInfo;
+            private LBSCustomProgressBar taskProgressBar;
+            private LBSToolbarButton taskStopButton;
+            private LBSToolbarButton settingMenu;
+        #endregion
         
         public ToolBarMain()
         {
@@ -41,15 +47,8 @@ namespace ISILab.LBS.VisualElements.Editor
             fileMenu.menu.AppendAction("Save as", SaveAsLevel);
 
             //Button
-            LBSToolbarButton settingMenu = this.Q<LBSToolbarButton>("OptionButton");
-            //settingMenu.clicked += () => OpenConfiguration();
-            settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
-
-            // var keyMapBtn = this.Q<ToolbarButton>("KeyMapBtn");
-            // keyMapBtn.clicked += () =>  LBSMainWindow.DisplayHelp();// { KeyMapWindow.ShowWindow(); };
-            
-            LBSToolbarToggle keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
-            keyMapToggle.RegisterCallback<ClickEvent>(_ => LBSMainWindow.DisplayHelp()); //Such a awful Hack
+            settingMenu = this.Q<LBSToolbarButton>("OptionButton");
+            keyMapToggle = this.Q<LBSToolbarToggle>("KeyMapToggle");
             
             LBSToolbarButton bundManBtn = this.Q<LBSToolbarButton>("BundleManagerButton");
             bundManBtn.clickable.clicked += BundleManagerWindow.ShowWindow;
@@ -59,17 +58,47 @@ namespace ISILab.LBS.VisualElements.Editor
             if(LBS.loadedLevel?.FileInfo!=null) { label.text = LBS.loadedLevel.FileInfo.Name; }
             else { label.text = defaultLabel; }
 
-                LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
+            LBSCustomEnumField ThemeSelector = this.Q<LBSCustomEnumField>("ThemeSelector");
             ThemeSelector.RegisterValueChangedCallback(_evt =>
             {
-                //Debug.Log(_evt.currentTarget);
-                
                 OnThemeChanged?.Invoke((LBSSettings.Interface.InterfaceTheme)_evt.newValue);
-                
             });
-
+            
             OnSaveLevel += (level) => { label.text = LBS.loadedLevel?.FileInfo?.Name; };
             OnLevelChange += (level) => { label.text = LBS.loadedLevel?.FileInfo != null ? LBS.loadedLevel.FileInfo.Name +" *" : defaultLabel; };
+            
+            
+            taskInfo = this.Q<VisualElement>("TaskInfo");
+            taskProgressBar = this.Q<LBSCustomProgressBar>("TaskProgressBar");
+            taskStopButton = this.Q<LBSToolbarButton>("TaskStop");
+            
+            taskInfo.style.display = DisplayStyle.None;
+            
+        }
+
+
+        public void Bind(LBSMainWindow _mainWindow)
+        {
+            MainWindow = _mainWindow;
+            keyMapToggle.RegisterCallback<ClickEvent>(evt =>
+            {
+                Debug.Log("[Display Help]: Toggle KeyMap]");
+                MainWindow.DisplayHelp();
+            });
+            
+            OnNewLevel += (_loadedLevel) =>
+            {
+                LBS.loadedLevel = _loadedLevel;
+                MainWindow.RefreshWindow();
+            };
+            
+            settingMenu.RegisterCallback<ClickEvent>(OpenConfiguration);
+        }
+        
+        
+        public void UnBind(LBSMainWindow _mainWindow)
+        {
+            
         }
 
         public void NewLevel(DropdownMenuAction dma)
@@ -110,7 +139,7 @@ namespace ISILab.LBS.VisualElements.Editor
         public void SaveAsLevel(DropdownMenuAction dma)
         {
             if (LBSController.SaveFileAs()) { 
-            OnSaveLevel?.Invoke(LBS.loadedLevel);
+                OnSaveLevel?.Invoke(LBS.loadedLevel);
             }
             AssetDatabase.Refresh();
         }
@@ -120,31 +149,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // Open the Project Settings window
             SettingsService.OpenProjectSettings("LBS");
         }
-
-
-        public void ChangeTheme(LBSSettings.Interface.InterfaceTheme _newTheme)
-        {
-            if (MainWindow == null) return;
-            
-            
-            switch (_newTheme)
-            {
-               case  LBSSettings.Interface.InterfaceTheme.Light:
-                   this.ClearClassList();
-                   this.AddToClassList("light");
-                   break;
-               case  LBSSettings.Interface.InterfaceTheme.Dark:
-                   this.ClearClassList();
-                   this.AddToClassList("dark");
-                   break;
-               case LBSSettings.Interface.InterfaceTheme.Alt:
-                   this.ClearClassList();
-                   this.AddToClassList("alt");
-                   break;
-               default:
-                   break;
-            }
-        }
-
+        
+        
     }
 }

@@ -14,6 +14,24 @@ namespace ISILab.LBS.Tests
         LBSLevelData levelData ;
         HillClimbingAssistant HCassistant;
         
+        
+        [Test, Performance]
+        [Timeout(3600000)]
+        public void MeasureHillClimbing_25_Rooms()
+        {
+            Measure.Method(() =>
+                {
+                    Assert.AreEqual(HCassistant.TryExecute(out string failedLog), true);
+                })
+                .WarmupCount(0)
+                .MeasurementCount(10)
+                .IterationsPerMeasurement(1)
+                .SetUp(() => SetupHillClimbTest("f97f322d306c1af43a8eaff23a17d2bd"))
+                .CleanUp(CleanUpHillClimbTest)
+                .Run();
+        }
+        
+        
         [Test, Performance]
         [Timeout(3600000)]
         public void MeasureHillClimbing_16_Rooms()

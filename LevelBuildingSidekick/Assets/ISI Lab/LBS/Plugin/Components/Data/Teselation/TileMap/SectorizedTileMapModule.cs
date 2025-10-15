@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using ISILab.Commons;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
@@ -10,6 +6,11 @@ using ISILab.LBS.Components;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -84,23 +85,30 @@ namespace ISILab.LBS.Modules
 
             var old = new List<LBSTile>();
 
-            var poss = new List<Vector2Int>();
+            //var poss = new List<Vector2Int>();
             foreach (var t in tiles)
             {
                 old.Add(t.Clone() as LBSTile);
                 t.Position += new Vector2Int(dir.x, dir.y);
-                poss.Add(t.Position + dir);
+                //poss.Add(t.Position + dir);
             }
 
             OnChanged?.Invoke(this, old.Cast<object>().ToList(), tiles.Cast<object>().ToList());
 
-            RecalcPivotZone(zone);
+            RecalcPivotZone(zone, tiles);
         }
 
         private void RecalcPivotZone(Zone zone)
         {
             var tiles = GetTiles(zone);
 
+            var pos = tiles.GetBounds();
+
+            zone.Pivot = pos.center;
+        }
+
+        private void RecalcPivotZone(Zone zone, List<LBSTile> tiles)
+        {
             var pos = tiles.GetBounds();
 
             zone.Pivot = pos.center;
@@ -196,6 +204,28 @@ namespace ISILab.LBS.Modules
             return tiles;
         }
 
+        public Rect GetZoneBounds(Zone zone, out List<LBSTile> tiles)
+        {
+            tiles = GetTiles(zone);
+            return tiles.GetBounds();
+        }
+
+        public bool IsRectangular(Zone zone, Rect bounds, List<LBSTile> tiles)
+        {
+            List<LBSTile> rectTiles = new List<LBSTile>(tiles);
+            for(int i = (int)bounds.x; i < bounds.width + bounds.x; i++)
+            {
+                for(int j = (int)bounds.y; j < bounds.height + bounds.y; j++)
+                {
+                    if(!rectTiles.Remove(rectTiles.Find(t => t.x == i && t.y == j)))
+                        return false;
+                    //if(rectTiles.RemoveAll(t => t.x == i && t.y == j) < 1)
+                    //    return false;
+                }
+            }
+            return true;
+        }
+
         public void RemovePair(LBSTile tile)
         {
             var t = GetPairTile(tile);
@@ -238,13 +268,13 @@ namespace ISILab.LBS.Modules
 
         public void RecalculateZonesProximity() => RecalculateZonesProximity(GetBounds());
 
-        public void RecalculateZonesProximity(Rect selection)
+        public void RecalculateZonesProximity(Rect selection, ConnectedTileMapModule connectedTM = null)
         {
             if(OwnerLayer == null) return;
 
             var tilemap = OwnerLayer.GetModule<TileMapModule>();
             if (tilemap == null) return;
-            var connectedTM = OwnerLayer.GetModule<ConnectedTileMapModule>();
+            connectedTM ??= OwnerLayer.GetModule<ConnectedTileMapModule>();
             if(connectedTM == null) return;
 
             var zonesToCalc = new List<Zone>(ZonesWithTiles);
@@ -273,7 +303,11 @@ namespace ISILab.LBS.Modules
             Dictionary<Zone, List<LBSTile>> zoneTiles = zonesToCalc.Select(z => KeyValuePair.Create(z, GetTiles(z))).ToDictionary(x => x.Key, x => x.Value);
             for(int i = 0; i < size; i++)
             {
-                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
+                //zoneTiles[zonesToCalc[i]].ForEach(t => { if (connectedTM.GetPair(t) is null)
+                //        ;
+                //});
+                List<LBSTile> tilesWithDoors = zoneTiles[zonesToCalc[i]].FindAll(t => connectedTM.GetPair(t).HasConnections("Door").Count > 0);
+                    //t => selection.Contains(t.Position) && connectedTM.GetConnections(t).Any(c => c.Equals("Door")));
                 foreach(LBSTile t in tilesWithDoors)
                 {
                     foreach(Vector2Int dir in Dirs)
@@ -334,112 +368,6 @@ namespace ISILab.LBS.Modules
                 log += "]\n";
             }
             Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
-        }
-
-        public void BuildFromExterior(ConnectedTileMapModule connectedTM, ConnectedTileMapModule zoneConnected)
-        {
-            if (connectedTM == null)
-            {
-                Debug.LogError("Could not interpret zones. Connected Tile Map was null.");
-                return;
-            }
-
-            List<string> floorTags = OwnerLayer.GetBehaviour<ExteriorBehaviour>().NavigableTags;
-
-            if (floorTags == null || floorTags.Count == 0)
-            {
-                Debug.LogError("Cannot build zones. Floor tags were null or empty.");
-                return;
-            }
-
-            switch (connectedTM.GridType)
-            {
-                case ConnectedTileMapModule.ConnectedTileType.EdgeBased:
-                    BuildFromEdgeBasedExterior(connectedTM, floorTags);
-                    break;
-                case ConnectedTileMapModule.ConnectedTileType.VertexBased:
-                    BuildFromVertexBasedExterior(connectedTM, floorTags, zoneConnected);
-                    break;
-            }
-        }
-
-        private void BuildFromEdgeBasedExterior(ConnectedTileMapModule connectedTM, List<string> floorTags)
-        {
-            throw new NotImplementedException("It's currently not possible to interpret zones from Edge-based Exterior Layers");
-        }
-
-        private void BuildFromVertexBasedExterior(ConnectedTileMapModule connectedTM, List<string> floorTags, ConnectedTileMapModule zoneConnected)
-        {
-            Clear();
-
-            List<TileConnectionsPair> tiles = connectedTM.Pairs;
-            List<List<LBSTile>> tileGroups = new();
-
-            List<Vector2Int> dirs = Directions.Bidimencional.Edges;
-
-            HashSet<TileConnectionsPair> toRemove = new();
-
-            while (tiles.Count > 0)
-            {
-                TileConnectionsPair current = tiles[0];
-                tiles.Remove(current);
-
-                if (!current.IsFloor(floorTags))
-                {
-                    toRemove.Add(current);
-                    continue;
-                }
-
-                tileGroups.Insert(0, new List<LBSTile>() { current.Tile });
-
-                List<TileConnectionsPair> found = new List<TileConnectionsPair>() { current };
-
-                while (found.Count > 0)
-                {
-                    current = found[0];
-                    found.Remove(current);
-                    Vector2Int currentPos = current.Tile.Position;
-
-                    foreach (Vector2Int dir in dirs)
-                    {
-                        TileConnectionsPair neighbourTile = connectedTM.Pairs.FirstOrDefault(p => p.Tile.Position == currentPos + dir);
-                        if (!tiles.Remove(neighbourTile)) continue;
-                        if (!neighbourTile.IsFloor(floorTags))
-                        {
-                            toRemove.Add(neighbourTile);
-                            continue;
-                        }
-                        found.Add(neighbourTile);
-                        tileGroups[0].Add(neighbourTile.Tile);
-                    }
-                }
-            }
-
-            foreach(TileConnectionsPair tile in toRemove)
-                zoneConnected.RemoveTile(tile);
-
-            foreach (List<LBSTile> tileGroup in tileGroups)
-            {
-                Color zoneColor = new Color().RandomColorHSV();
-                Zone zone = new Zone(zoneColor.ToString(), zoneColor);
-                AddZone(zone);
-
-                foreach (LBSTile tile in tileGroup)
-                {
-                    AddPair(new TileZonePair(tile, zone));
-
-                    List<Vector2Int> positions = tileGroup.Select(t => t.Position).ToList();
-                    for(int i = 0; i < dirs.Count; i++)
-                    {
-                        Vector2Int neighPos = tile.Position + dirs[i];
-                        string toSet = positions.Contains(neighPos) ? "Empty" : "Wall";
-                        zoneConnected.SetConnection(tile, i, toSet, false);
-                    }
-                }
-            }
-
-            Print();
-            zoneConnected.Print();
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
@@ -661,12 +589,12 @@ namespace ISILab.LBS.Modules
             return walls;
         }
 
-        public float GetRoomDistance(Zone r1, Zone r2) // O2 - manhattan
+        public float GetRoomDistance(Zone r1, Zone r2, List<LBSTile> tiles1, List<LBSTile> tiles2) // O2 - manhattan
         {
             var lessDist = float.MaxValue;
 
-            var tiles1 = GetTiles(r1);
-            var tiles2 = GetTiles(r2);
+            //var tiles1 = GetTiles(r1);
+            //var tiles2 = GetTiles(r2);
 
             //var tileWalls1 = room1.GetWalls().SelectMany(x => x.Tiles).ToList();
             //var tileWalls2 = room2.GetWalls().SelectMany(x => x.Tiles).ToList();

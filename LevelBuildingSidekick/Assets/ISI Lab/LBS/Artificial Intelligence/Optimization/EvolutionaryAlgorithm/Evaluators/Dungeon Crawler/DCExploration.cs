@@ -32,7 +32,9 @@ namespace ISILab.AI.Categorization
 
         public string Tooltip => "DC Exploration Evaluator\n\n" +
             "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
-            "This evaluator currently only supports Interior Layers as Context.";
+            "This evaluator currently supports as Context the combination of any of the following layer types:\n" +
+            "- Any type of Interior Layer.\n" +
+            "- A single Vertex-Based Exterior Layer.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;
@@ -46,7 +48,7 @@ namespace ISILab.AI.Categorization
         {
             var chrom = evaluable as BundleTilemapChromosome;
 
-            if (chrom == null)
+            if (chrom is null)
             {
                 throw new Exception("Wrong Chromosome Type");
             }
@@ -67,7 +69,7 @@ namespace ISILab.AI.Categorization
             {
                 if (chrom.IsInvalid(i))
                     continue;
-                if (genes[i] != null)
+                if (genes[i] is not null)
                 {
                     if (genes[i].Characteristics.Contains(playerCharacteristic))
                     {
@@ -87,9 +89,9 @@ namespace ISILab.AI.Categorization
 
             int size = POIs.Count;
 
-            if (size <= 0)
+            if (size <= 1)
             {
-                Debug.LogWarning("No Points of Interest were found. Try adding a player and some more resource elements. Check the DC Exploration evaluator description for more info.");
+                Debug.LogWarning("Not enough Points of Interest were found. Try adding a player and some more resource elements. Check the DC Exploration evaluator description for more info.");
                 return 0.0f;
             }
 
@@ -151,11 +153,13 @@ namespace ISILab.AI.Categorization
             }
 
             fitness = sum / (float)score.Count;
-            UnityEngine.Assertions.Assert.IsTrue(float.IsNormal(fitness));
+            //UnityEngine.Assertions.Assert.IsTrue(float.IsNormal(fitness));
+            if (!float.IsNormal(fitness))
+                Debug.LogError("Fitness was NaN: " + fitness);
             return fitness;
         }
 
-        public void FloodFill(int startPos, List<int> others, int from, ref int[,] distances, BundleTilemapChromosome chrom, SectorizedTileMapModule tileMap, ConnectedTileMapModule connectedTM)
+        public void FloodFill(int startPos, List<int> others, int from, ref int[,] distances, BundleTilemapChromosome chrom, SectorizedTileMapModule sectorizedTM, ConnectedTileMapModule connectedTM)
         {
             //maxDistance = 0;
             if (from >= others.Count)
@@ -168,7 +172,7 @@ namespace ISILab.AI.Categorization
             //var distFromStart = new Dictionary<int, int>();
             var remaining = new List<int>();
             var closed = new List<int>();
-            foreach (var tile in tileMap.PairTiles.Select(tzp => tzp.Tile))
+            foreach (var tile in sectorizedTM.PairTiles.Select(tzp => tzp.Tile))
             {
                 int index = chrom.ToIndex(tile.Position - chrom.Rect.position);
                 //distFromStart.Add(index, int.MaxValue);
@@ -189,7 +193,7 @@ namespace ISILab.AI.Categorization
                 {
                     int current = remainingStep.Dequeue();
                     Vector2Int currentPos = chrom.ToMatrixPosition(current) + Vector2Int.RoundToInt(chrom.Rect.position);
-                    Zone currentZone = tileMap.GetZone(currentPos);
+                    Zone currentZone = sectorizedTM.GetZone(currentPos);
                     //distFromStart[current] = i;
                     remaining.Remove(current);
                     closed.Add(current);
@@ -197,7 +201,7 @@ namespace ISILab.AI.Categorization
                     List<Vector2Int> dirs = Directions.Bidimencional.Edges;
                     foreach (Vector2Int dir in dirs)
                     {
-                        LBSTile currentTile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == currentPos).Tile;
+                        LBSTile currentTile = sectorizedTM.PairTiles.First(tzp => tzp.Tile.Position == currentPos).Tile;
                         string currentConnection = connectedTM.GetConnections(currentTile)[dirs.FindIndex(d => d.Equals(dir))];
                         if (!(currentConnection.Equals("Door") || currentConnection.Equals("Empty")))
                             continue;
@@ -207,12 +211,13 @@ namespace ISILab.AI.Categorization
                         int index = chrom.ToIndex(newPos - chrom.Rect.position);
 
                         //if (tileMap.Contains(pos)) // Esto esta mal. Esto es todo el mapa, no solo la seccion seleccionada
-                        if (index < 0 || nextStep.Contains(index) || closed.Contains(index) || chrom.IsInvalid(index))
+                        if (index < 0 || nextStep.Contains(index) || closed.Contains(index))// || chrom.IsInvalid(index))
                             continue;
 
-                        Zone otherZone = tileMap.GetZone(newPos);
+                        Zone otherZone = sectorizedTM.GetZone(newPos);
+                        if (otherZone is null) continue;
 
-                        LBSTile newTile = tileMap.PairTiles.First(tzp => tzp.Tile.Position == newPos).Tile;
+                        LBSTile newTile = sectorizedTM.PairTiles.First(tzp => tzp.Tile.Position == newPos).Tile;
                         string connection = connectedTM.GetConnections(newTile)[dirs.FindIndex(d => d.Equals(-dir))];
                         if (!(connection.Equals("Door") || connection.Equals("Empty")))
                             continue;
@@ -257,8 +262,8 @@ namespace ISILab.AI.Categorization
         {
             ContextLayers = new List<LBSLayer>(contextLayers);
             CombinedInteriorLayer = (this as IContextualEvaluator).InteriorLayers(selection);
-            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers();
-            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer);
+            CombinedExteriorLayer = (this as IContextualEvaluator).ExteriorLayers(selection);
+            CombinedLayer = (this as IContextualEvaluator).MergeExteriorWithInterior(CombinedExteriorLayer, CombinedInteriorLayer, selection);
             InitializeDefault();
         }
 

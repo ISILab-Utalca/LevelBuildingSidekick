@@ -176,7 +176,7 @@ namespace LBS.VisualElements
             // Notify
             manipulator.OnManipulationNotification += () =>
             {
-                LBSMainWindow.MessageManipulator(manipulator.Description);
+                LBSMainWindow.Instance.MessageManipulator(manipulator.Description);
             };
             manipulator.OnManipulationNotification?.Invoke();
             }
