@@ -89,13 +89,12 @@ namespace ISILab.LBS.VisualElements
             _removeConnection.OnManipulationEnd += RefreshHistoryPanel;
 
             _behaviour ??= _behaviour; // if null, assign
-            _behaviour!.Graph.GoToNode = null;
-            _behaviour!.Graph.GoToNode += GoToQuestNode;
+            _behaviour!.Graph.GoToNodeInGraph = null;
+            _behaviour!.Graph.GoToNodeInGraph += GoToQuestNode;
         }
 
-        private static void GoToQuestNode(GraphNode node)
+        private static void GoToQuestNode(Vector2Int nodePos)
         {
-            var nodePos = node.Position;
             var scale = MainView.Instance.viewTransform.scale;
             var viewport = MainView.Instance.viewport.layout;
             

@@ -56,10 +56,11 @@ namespace ISILab.LBS.CustomComponents
 
         public LBSCustomTreeView()
         {
-            // Default load on attach
-            //RegisterCallback<AttachToPanelEvent>(_ => LoadDefaultTree());
-            
-            
+            ClearClassList();
+            AddToClassList("lbs-tree-view");
+
+            // // Default load on attach
+            // RegisterCallback<AttachToPanelEvent>(_ => BuildTreeFromStringData(treeData));
         }
 
         #region Default Tree
@@ -95,9 +96,16 @@ namespace ISILab.LBS.CustomComponents
 
             treeDataString = items;
 
-            makeItem = () => new Label();
+            makeItem = () =>
+            {
+                var l = new Label();
+                l.AddToClassList("lbs-tree-view");
+                return l;
+            };
             bindItem = (e, i) =>
             {
+                e.AddToClassList("lbs-tree-view-item");
+
                 var itemData = GetItemDataForIndex<string>(i);
                 var id = GetIdForIndex(i);
                 ((Label)e).text = $"ID::{id}::{itemData}";

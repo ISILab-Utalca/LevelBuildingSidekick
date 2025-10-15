@@ -48,7 +48,7 @@ namespace ISILab.LBS.Components
            var takeOther =  other as DataTake;
            if (takeOther is null) return false;
            
-           return takeOther.bundleToTake == bundleToTake;
+           return Equals(takeOther.bundleToTake, bundleToTake);
        }
 
        public override bool IsValid()

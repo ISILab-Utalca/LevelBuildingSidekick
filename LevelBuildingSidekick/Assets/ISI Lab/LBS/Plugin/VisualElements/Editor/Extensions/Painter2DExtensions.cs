@@ -342,7 +342,5 @@ namespace ISILab.Extensions
             vector.y = (sin * tx) + (cos * ty);
             return vector;
         }
-        
-        
     }
 }

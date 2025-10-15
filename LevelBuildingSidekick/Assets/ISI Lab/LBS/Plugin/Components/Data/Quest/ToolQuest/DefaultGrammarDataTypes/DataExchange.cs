@@ -46,8 +46,8 @@ namespace ISILab.LBS.Components
             var exchangeOther = other as DataExchange;
             if(exchangeOther == null) return false;
             
-            return exchangeOther.bundleGiveType == bundleGiveType && 
-                   exchangeOther.bundleReceiveType == bundleReceiveType;
+            return Equals(exchangeOther.bundleGiveType, bundleGiveType) && 
+                   Equals(exchangeOther.bundleReceiveType, bundleReceiveType);
         }
 
         public override bool IsValid()
