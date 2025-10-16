@@ -131,8 +131,9 @@ namespace ISILab.LBS.Editor
 
         void CancelCurrentTask()
         {
-            if (!_currentTaskCts.IsCancellationRequested)
-                _currentTaskCts.Cancel();
+            if(_currentTaskCts == null) return;
+            if(_currentTaskCts.IsCancellationRequested) return;
+            _currentTaskCts.Cancel();
         }
         
         void RunTask(QuestNode currentQuest, string selectedAction)
@@ -150,7 +151,7 @@ namespace ISILab.LBS.Editor
             ResetPanels();
             Task.Run(() =>
             {
-                EditorApplication.delayCall += () => taskbar.EnableProcess(true);
+                EditorApplication.delayCall += () => taskbar.EnableProcess(true, _grammarAssistant.Name);
 
                 try
                 {
@@ -172,6 +173,12 @@ namespace ISILab.LBS.Editor
                             ReportProgress(0.33f * progress);
                         })
                         ?.ToArray() ?? Array.Empty<string>();
+                    
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
 
 
                     string[] prevArray = _grammarAssistant
@@ -182,7 +189,13 @@ namespace ISILab.LBS.Editor
                         })
                         ?.ToArray() ?? Array.Empty<string>();
 
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
 
+                    
                     List<string>[] expandArray = _grammarAssistant
                         .GetAllExpansions(selectedAction, progress =>
                         {
@@ -192,6 +205,13 @@ namespace ISILab.LBS.Editor
                         ?.Select(l => l?.ToList() ?? new List<string>())
                         .ToArray() ?? Array.Empty<List<string>>();
 
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+
+                    
                     // Once done, update UI safely
                     EditorApplication.delayCall += () =>
                     {
@@ -369,7 +389,12 @@ namespace ISILab.LBS.Editor
         }
         
         #endregion
-        
+
+        public override void OnUnfocus()
+        {
+            LBSMainWindow.Instance.TopToolBar.CancelProgress();
+        }
+
         #endregion
     }
 }

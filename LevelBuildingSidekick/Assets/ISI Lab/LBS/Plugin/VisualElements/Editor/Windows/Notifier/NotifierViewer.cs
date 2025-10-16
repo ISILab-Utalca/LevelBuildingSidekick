@@ -35,6 +35,8 @@ namespace LBS.VisualElements
             
             iconNotificationsOn = Resources.Load<VectorImage>("Icons/Vectorial/Icon=Notification");
             iconNotificationsOff = Resources.Load<VectorImage>("Icons/Vectorial/Icon=MuteNotification");
+            
+            pickingMode = PickingMode.Ignore;
         }
         
         private void SetContainer()
@@ -52,6 +54,7 @@ namespace LBS.VisualElements
             // disable as a clickable 
             messageContainer.pickingMode = PickingMode.Ignore;
             scrollView.contentViewport.pickingMode = PickingMode.Ignore;
+            scrollView.contentContainer.pickingMode = PickingMode.Ignore;
             scrollView.pickingMode = PickingMode.Ignore;
             
             scrollView.contentViewport.style.justifyContent = Justify.FlexStart;
@@ -63,7 +66,6 @@ namespace LBS.VisualElements
             scrollView.horizontalScrollerVisibility = ScrollerVisibility.Hidden;
 
             scrollView.contentViewport.style.flexDirection = FlexDirection.Row;
-
             scrollView.contentContainer.style.flexDirection = FlexDirection.Column;
             
         }
@@ -82,14 +84,17 @@ namespace LBS.VisualElements
         
         public void SendNotification(string message, LogType logType, int duration)
         {
-            
             SetContainer();
             var newMessage = new NotificationMessage();
+            
             newMessage.SetData(message, logType);
             scrollView.Add(newMessage);
             
+            newMessage.pickingMode = PickingMode.Ignore;
+            // ignore the Toolkit auto parent generated VisualElement container
+            if(newMessage.parent is not null) newMessage.parent.pickingMode = PickingMode.Ignore;
+            
             Lifetime(newMessage, duration);
-
         }
         
         private async void Lifetime(NotificationMessage element, float duration)

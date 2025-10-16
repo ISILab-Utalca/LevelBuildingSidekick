@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
@@ -7,6 +10,7 @@ using ISILab.LBS.VisualElements.Editor;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using LBS.Components;
@@ -45,6 +49,7 @@ namespace ISILab.LBS.Editor
         private LBSPanelTextIcon _noSuggestionPanel;
         private LBSCustomUnsignedIntegerField _suggestionField;
  
+        private CancellationTokenSource _currentTaskCts;
 
         #endregion
 
@@ -90,17 +95,7 @@ namespace ISILab.LBS.Editor
             });
             
             _addLayerButton.clicked += ShowAddLayerMenu;
-            _generateSuggestionsButton.clicked += ()=>
-            {
-                _questAssistant.GenerateSuggestions((int)GetSuggestionCount());
-                UpdateSuggestionsDisplay();
-                
-                // TODO hook with the assistant progress bar
-                Task.Run(() =>
-                {
-                    //
-                });
-            };
+            _generateSuggestionsButton.clicked += RunTask;
 
             _removeSuggestionsButton.clicked += () =>
             {
@@ -113,6 +108,88 @@ namespace ISILab.LBS.Editor
             SetupSuggestionList();
             AddLockedLayer();
             return this;
+        }
+
+        void CancelCurrentTask()
+        {
+            if(_currentTaskCts == null) return;
+            if(_currentTaskCts.IsCancellationRequested) return;
+            _currentTaskCts.Cancel();
+        }
+        
+        private void RunTask()
+        {
+            _currentTaskCts?.Cancel();
+
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar = LBSMainWindow.Instance.TopToolBar;
+            
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+            
+            void ReportProgress(float normalized)
+            {
+                // Use update so progress applies immediately
+                EditorApplication.update += UpdateOnce;
+                void UpdateOnce()
+                {
+                    taskbar.SetProgressPercent(normalized);
+                    RemoveUpdate();
+                }
+
+                void RemoveUpdate()
+                {
+                    EditorApplication.update -= UpdateOnce;
+                }
+            }
+            
+            Task.Run(() =>
+            {
+                EditorApplication.delayCall += () => taskbar.EnableProcess(true, _questAssistant.Name);
+
+                try
+                {
+                    var bundleToActions = _questAssistant.GenerateSuggestions((int)GetSuggestionCount(), progress =>
+                    {
+                        // progress from 0 to 0.5
+                        ReportProgress(0.05f * progress);
+                    }, token);
+
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    var suggestions = _questAssistant.CreateNewSuggestions(bundleToActions, progress =>
+                    {
+                        // progress from 0 to 95
+                        ReportProgress(0.05f + 0.95f * progress);
+                    }, token);
+                    
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    // Once done, update UI safely
+                    EditorApplication.delayCall += () =>
+                    {
+                        _questGraph.Suggestions.AddRange(suggestions);
+                        UpdateSuggestionsDisplay();
+                        taskbar.EnableProcess(false);
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[QuestAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () => taskbar.EnableProcess(false);
+                }
+
+            }, token);
         }
 
         private uint GetSuggestionCount()
@@ -236,6 +313,7 @@ namespace ISILab.LBS.Editor
         
         public override void OnUnfocus()
         {
+            LBSMainWindow.Instance.TopToolBar.CancelProgress();
             _questGraph.displaySuggestions = false;
             DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
         }

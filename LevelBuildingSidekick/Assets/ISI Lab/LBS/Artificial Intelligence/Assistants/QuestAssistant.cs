@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
+using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using LBS.Bundles;
 using Newtonsoft.Json;
@@ -216,10 +218,9 @@ namespace ISILab.LBS.Assistants
         /// <summary>
         /// Generates suggestion nodes based on population data from context layers.
         /// </summary>
-        public void GenerateSuggestions(int suggestionsCount)
+        public  List<TileBundleToAction> GenerateSuggestions(int suggestionsCount, Action<float> onProgress = null, CancellationToken token = default)
         {
-            var suggestionList = GenerateSuggestionList(suggestionsCount);
-            CreateNewSuggestions(suggestionList);
+            return GenerateSuggestionList(suggestionsCount, onProgress, token);
         }
         #endregion
 
@@ -227,17 +228,20 @@ namespace ISILab.LBS.Assistants
         /// <summary>
         /// Generates a list of suggestions from population layers.
         /// </summary>
-        private List<TileBundleToAction> GenerateSuggestionList(int suggestionsCount)
+        private List<TileBundleToAction> GenerateSuggestionList(int suggestionsCount,  Action<float> onProgress,  CancellationToken token = default)
         {
             HashSet<TileBundleToAction> suggestionList = new HashSet<TileBundleToAction>();
             foreach (var contextLayer in Data.ContextLayers)
             {
+                if (token.IsCancellationRequested) return suggestionList.ToList();
                 var populationLayer = contextLayer.GetBehaviour<PopulationBehaviour>();
                 if (populationLayer == null) continue;
-                for (int i = 0; i < suggestionsCount; i++)
+                for (int index = 0; index < suggestionsCount; index++)
                 {
+                    if (token.IsCancellationRequested) return suggestionList.ToList();
                     var newSuggestion = SuggestActionFromPopulation(populationLayer);
                     suggestionList.Add(newSuggestion);
+                    onProgress?.Invoke((float)index/suggestionList.Count);
                 }
      
             }
@@ -248,14 +252,19 @@ namespace ISILab.LBS.Assistants
         /// <summary>
         /// Creates suggestion nodes in the quest graph using the suggestion list.
         /// </summary>
-        private void CreateNewSuggestions(List<TileBundleToAction> suggestions)
+        public  List<QuestNode> CreateNewSuggestions(List<TileBundleToAction> suggestions, Action<float> onProgress = null, CancellationToken token = default)
         {
+            List<QuestNode> Suggestions = new List<QuestNode>();
             QuestGraph.Suggestions.Clear();
-
+            if(!suggestions.Any()) return Suggestions;
+            
             List<Vector2> existingPositions = new();
-            foreach (var entry in suggestions.Distinct())
+            suggestions = suggestions.Distinct().ToList();
+            for (var index = 0; index < suggestions.Count; index++)
             {
-                var newNode = QuestGraph.AddSuggestion(entry.Action);
+                if(token.IsCancellationRequested) return Suggestions;
+                var entry = suggestions[index];
+                var newNode = QuestGraph.CreateSuggestionNode(entry.Action, Suggestions);
                 var nodeData = newNode.NodeData;
 
                 entry.Tiles.Shuffle();
@@ -266,41 +275,27 @@ namespace ISILab.LBS.Assistants
                 var triggerPos = nodeData.Area.position;
                 // to move the capsule within the suggestion element area
                 Vector2Int offsetPosition = Vector2Int.zero;
-                
+
                 while (existingPositions.Contains(triggerPos))
                 {
                     triggerPos += _positionOverlapOffset;
                     offsetPosition += _positionOverlapOffset;
                 }
+
                 existingPositions.Add(triggerPos);
                 newNode.Position = offsetPosition;
+                Suggestions.Add(newNode);
+                
+                onProgress?.Invoke((float)index/suggestions.Count);
             }
+            
+            return Suggestions;
         }
 
         private List<KeyValuePair<ElementFlagToAction, HashSet<TileBundleGroup>>> GetValidGroups(PopulationBehaviour populationLayer)
         {
             var groups = GroupTilesByPopulationType(populationLayer);
             return groups.Where(g => g.Value.Any()).ToList();
-        }
-        /// <summary>
-        /// Suggests a single action based on population layer data.
-        /// </summary>
-        private TileBundleToAction SuggestActionFromPopulation(PopulationBehaviour populationLayer)
-        {
-            var validGroups = GetValidGroups(populationLayer);
-            if (!validGroups.Any())
-                return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
-
-            // Pick a random group
-            var chosenGroup = validGroups[Random.Range(0, validGroups.Count)];
-            var chosenTiles = chosenGroup.Value;
-
-            // Map tiles to valid actions
-            var tilesToActions = MapTilesToActions(chosenTiles, chosenGroup.Key);
-            if (!tilesToActions.Any())
-                return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
-
-            return GetActionByTileGroup(tilesToActions);
         }
 
         /// <summary>
@@ -359,17 +354,35 @@ namespace ISILab.LBS.Assistants
             return validActionNames;
         }
 
-        /// <summary>
-        /// Selects a common action for a group of tiles or a random action if no common action exists.
-        /// </summary>
-        private TileBundleToAction GetActionByTileGroup(Dictionary<TileBundleGroup, HashSet<string>> tilesToActions)
+        private TileBundleToAction SuggestActionFromPopulation(PopulationBehaviour populationLayer)
+        {
+            var validGroups = GetValidGroups(populationLayer);
+            if (!validGroups.Any())
+                return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
+
+            var rnd = new System.Random();
+
+            // Pick a random index safely in background thread
+            var chosenGroup = validGroups[rnd.Next(0, validGroups.Count)];
+            var chosenTiles = chosenGroup.Value;
+
+            // Map tiles to valid actions
+            var tilesToActions = MapTilesToActions(chosenTiles, chosenGroup.Key);
+            if (!tilesToActions.Any())
+                return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
+
+            return GetActionByTileGroup(tilesToActions, rnd);
+}
+
+        private TileBundleToAction GetActionByTileGroup(Dictionary<TileBundleGroup, HashSet<string>> tilesToActions, System.Random rnd)
         {
             if (!tilesToActions.Any())
                 return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
 
             // Shuffle dictionary keys to avoid consistent order
-            var shuffledKeys = tilesToActions.Keys.OrderBy(_ => Random.value).ToList();
-            var commonActions = new HashSet<string>(tilesToActions[shuffledKeys.Random()]);
+            var shuffledKeys = tilesToActions.Keys.OrderBy(_ => rnd.Next()).ToList();
+
+            var commonActions = new HashSet<string>(tilesToActions[shuffledKeys[rnd.Next(shuffledKeys.Count)]]);
             foreach (var key in shuffledKeys.Skip(1))
             {
                 commonActions.IntersectWith(tilesToActions[key]);
@@ -379,22 +392,23 @@ namespace ISILab.LBS.Assistants
 
             if (commonActions.Any())
             {
-                // Shuffle commonActions to avoid consistent order
-                var shuffledActions = commonActions.OrderBy(_ => Random.value).ToList();
-                return new TileBundleToAction(
-                    tilesToActions.Keys.ToList(),
-                    shuffledActions.Random()
-                );
+                // Shuffle commonActions
+                var shuffledActions = commonActions.OrderBy(_ => rnd.Next()).ToList();
+                var action = shuffledActions[rnd.Next(shuffledActions.Count)];
+                return new TileBundleToAction(tilesToActions.Keys.ToList(), action);
             }
 
             // Fallback to a random tile and action
-            var randomEntry = tilesToActions.ElementAt(Random.Range(0, tilesToActions.Count));
-            var shuffledEntryActions = randomEntry.Value.OrderBy(_ => Random.value).ToList();
+            var randomEntry = tilesToActions.ElementAt(rnd.Next(0, tilesToActions.Count));
+            var shuffledEntryActions = randomEntry.Value.OrderBy(_ => rnd.Next()).ToList();
+            var fallbackAction = shuffledEntryActions.Count > 0 ? shuffledEntryActions[rnd.Next(shuffledEntryActions.Count)] : string.Empty;
+
             return new TileBundleToAction(
                 new List<TileBundleGroup> { randomEntry.Key },
-                shuffledEntryActions.Random() ?? string.Empty
+                fallbackAction
             );
         }
+
         #endregion
     }
 }

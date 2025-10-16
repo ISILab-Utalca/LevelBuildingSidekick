@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ISILab.Extensions;
+using ISILab.Macros;
 using LBS.Components;
 using LBS.Components.TileMap;
 using Newtonsoft.Json;
@@ -326,8 +327,6 @@ namespace ISILab.LBS.Modules
             return base.GetHashCode();
         }
         #endregion
-
-   
     }
 
     /// <summary>
@@ -343,6 +342,8 @@ namespace ISILab.LBS.Modules
         BundleData bData;
         [SerializeField, JsonRequired]
         Vector2 rotation;
+        [SerializeField, JsonRequired] 
+        string guid;
 
         #region PROPERTIES
         [JsonIgnore]
@@ -387,13 +388,14 @@ namespace ISILab.LBS.Modules
         }
         public TileBundleGroup(List<LBSTile> tiles, BundleData bData, Vector2 rotation)
         {
-            this.tileGroup = tiles;
+            tileGroup = tiles;
             this.bData = bData;
+            guid = LBSAssetMacro.GetGuidFromAsset(bData.Bundle);
             this.rotation = rotation;
         }
         public TileBundleGroup(Vector2 position, Vector2 size, BundleData bData, Vector2 rotation)
         {
-            this.tileGroup = new List<LBSTile>();
+            tileGroup = new List<LBSTile>();
             for(int i=0; i<size.x;i++)
             {
                 for (int j = 0; j < size.y; j++)
@@ -404,6 +406,7 @@ namespace ISILab.LBS.Modules
             }
             
             this.bData = bData;
+            guid = LBSAssetMacro.GetGuidFromAsset(bData.Bundle);
             this.rotation = rotation;
         }
         #endregion
@@ -507,6 +510,10 @@ namespace ISILab.LBS.Modules
             return base.GetHashCode();
         }
         
+        public string GetGuid()
+        {
+            return guid;
+        }
         /// <summary>
         /// Meant to notify any Quest Node Data that references this tilemap, in order for it to be
         /// Garbage Collected Correctly
@@ -517,7 +524,8 @@ namespace ISILab.LBS.Modules
         }
         #endregion
 
-    
+
+     
     }
 }
 

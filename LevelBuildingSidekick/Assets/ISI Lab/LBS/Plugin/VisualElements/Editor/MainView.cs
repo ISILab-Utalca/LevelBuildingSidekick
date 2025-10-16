@@ -338,6 +338,7 @@ namespace ISILab.LBS.VisualElements.Editor
         /// </summary>
         public void ClearLayerContainer(LBSLayer layer, bool deepClean = false)
         {
+            if(layer is null) return;
             if (!_layers.TryGetValue(layer, out var container)) return;
             
             // Remove all elements

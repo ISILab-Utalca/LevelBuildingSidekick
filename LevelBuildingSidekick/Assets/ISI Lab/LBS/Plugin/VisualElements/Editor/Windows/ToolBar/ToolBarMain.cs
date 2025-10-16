@@ -83,13 +83,15 @@ namespace ISILab.LBS.VisualElements.Editor
             
         }
 
-        public void EnableProcess(bool enable)
+        public void EnableProcess(bool enable, string assistantName = "Assistant")
         {
+            taskProgressBar.ProgressTextLabel = assistantName;
             taskProgressBar.value = enable ? 0 : 1;
             taskInfo.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
         }
         public void SetProgressPercent(float percent)
         {
+            taskProgressBar.title = $"{Mathf.RoundToInt(percent * 100)}%";
             taskProgressBar.value = percent;    
         }
         
@@ -166,6 +168,11 @@ namespace ISILab.LBS.VisualElements.Editor
             SettingsService.OpenProjectSettings("LBS");
         }
         
-        
+        public void CancelProgress()
+        {
+            OnProgressCancelled?.Invoke();
+            OnProgressCancelled = null;
+            EnableProcess(false);
+        }
     }
 }

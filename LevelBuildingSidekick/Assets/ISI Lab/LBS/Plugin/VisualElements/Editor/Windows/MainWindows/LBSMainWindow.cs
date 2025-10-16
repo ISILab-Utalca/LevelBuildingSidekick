@@ -525,17 +525,13 @@ namespace ISILab.LBS.Editor.Windows{
         }
         
         public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
+        {
+            notifier?.SendNotification(message, logType, duration);
         }
         
         public void MessageManipulator(string description)
         {
-            if (infoToolBar != null)
-            {
-                infoToolBar.SmallMessage(description);
-            }
+            infoToolBar?.SmallMessage(description);
 
         }
         

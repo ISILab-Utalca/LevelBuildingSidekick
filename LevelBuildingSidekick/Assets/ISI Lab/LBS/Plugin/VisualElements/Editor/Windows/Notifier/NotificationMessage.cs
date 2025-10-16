@@ -20,7 +20,10 @@ namespace LBS.VisualElements
             visualTree.CloneTree(this);
             message = this.Q<Label>("MessageVe");
             icon = this.Q<VisualElement>("IconVe");
+           
             pickingMode = PickingMode.Ignore;
+            message.pickingMode = PickingMode.Ignore;
+            icon.pickingMode = PickingMode.Ignore;
             
             style.flexDirection = FlexDirection.Row;
             style.flexGrow = 1;
