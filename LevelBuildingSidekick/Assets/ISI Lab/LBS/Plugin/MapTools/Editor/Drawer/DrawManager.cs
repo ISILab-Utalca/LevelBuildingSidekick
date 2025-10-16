@@ -125,13 +125,15 @@ namespace ISILab.LBS
 
         public void RedrawLayer(LBSLayer layer)
         {
+            //UnityEngine.Debug.Log("Redraw Layer");
             _view.ClearLayerContainer(layer);
             DrawLayer(layer);
         }
 
         public void RedrawLevel(LBSLevelData level, bool deepClean = false)
         {
-            UnityEngine.Debug.Log("Redraw Level");
+            //UnityEngine.Debug.Log("Redraw Level");
+            var newDrawers = GetNewDrawers();
             foreach (var layer in level.Layers)
             {
                 bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
@@ -141,7 +143,7 @@ namespace ISILab.LBS
                 .ForEach(drawer => { drawer.FullRedrawRequested = preVisible && layer.IsVisible;
                     if (layer.IsVisible)
                     {
-                        if (drawer is not ExteriorDrawer) // Temporary condition while working on other drawers
+                        if (!newDrawers.Contains(drawer.GetType())) // Temporary condition while working on other drawers
                         {
                             _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
                         }
@@ -154,6 +156,8 @@ namespace ISILab.LBS
                 //_view.ClearLayerContainer(layer, deepClean);
             }
             DrawLevel(level);
+
+            List<Type> GetNewDrawers() => new List<Type>() { typeof(ExteriorDrawer), typeof(SchemaDrawer) };
         }
 
         private void DrawLevel(LBSLevelData level)

@@ -10,6 +10,8 @@ using ISILab.Macros;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
+using LBS.Components.TileMap;
+using System.Linq;
 
 namespace ISILab.LBS.Manipulators
 {
@@ -64,7 +66,7 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
 
-            var level = LBSController.CurrentLevel;
+            LoadedLevel level = LBSController.CurrentLevel;
             Undo.RegisterCompleteObjectUndo(level, "Add Zone");
             EditorGUI.BeginChangeCheck();
 
@@ -81,22 +83,26 @@ namespace ISILab.LBS.Manipulators
                 return;
             }
             
-            var corners = _schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
+            (Vector2Int, Vector2Int) corners = _schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
+            var tilesToRecalculate = new HashSet<LBSTile>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
-                    var tile = _schema.AddTile(new Vector2Int(i, j), ToSet);
-                    if(tile == null) continue;
+                    LBSTile tile = _schema.AddTile(new Vector2Int(i, j), ToSet);
+                    if (tile == null) continue;
                     _schema.AddConnections(
                         tile,
                         new List<string>() { "", "", "", "" },
                         new List<bool> { true, true, true, true }
                         );
+                    tilesToRecalculate.Add(tile);
+                    var neighs = _schema.GetTileNeighbors(tile, _schema.Directions);
+                    neighs.ForEach(n => { if (n is not null) tilesToRecalculate.Add(n); });
                 }
             }
-            _schema.RecalculateWalls();
+            _schema.RecalculateWalls(tilesToRecalculate.ToList());
 
             
             // Try to calculate constraints

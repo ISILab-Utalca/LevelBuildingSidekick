@@ -101,7 +101,7 @@ namespace ISILab.LBS.Manipulators
                 }
             }
             
-            _schema.RecalculateWalls();
+            _schema.RecalculateWalls(selectedTiles.Where(t => t is not null).ToList());
 
             if (EditorGUI.EndChangeCheck())
             {

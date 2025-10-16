@@ -1,6 +1,9 @@
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.VisualElements;
 using LBS.Components;
+using LBS.Components.TileMap;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -48,19 +51,31 @@ namespace ISILab.LBS.Manipulators
 
             var corners = _schema.OwnerLayer.ToFixedPosition(StartPosition, EndPosition);
 
+            var tilesToRecalculate = new HashSet<LBSTile>();
             for (int i = corners.Item1.x; i <= corners.Item2.x; i++)
             {
                 for (int j = corners.Item1.y; j <= corners.Item2.y; j++)
                 {
+                    if (i == corners.Item1.x) AddNeighbourToRecalculate(i, j, 2);
+                    if (i == corners.Item2.x) AddNeighbourToRecalculate(i, j, 0);
+                    if (j == corners.Item1.y) AddNeighbourToRecalculate(i, j, 3);
+                    if (j == corners.Item2.y) AddNeighbourToRecalculate(i, j, 1);
                     _schema.RemoveTile(new Vector2Int(i, j));
                 }
             }
 
-            _schema.RecalculateWalls();
+            _schema.RecalculateWalls(tilesToRecalculate.ToList());
 
             if (EditorGUI.EndChangeCheck())
             {
                 EditorUtility.SetDirty(x);
+            }
+
+
+            void AddNeighbourToRecalculate(int x, int y, int dir)
+            {
+                LBSTile t = _schema.GetTile(new Vector2Int(x, y) + _schema.Directions[dir]);
+                if(t is not null) tilesToRecalculate.Add(t);
             }
         }
     }
