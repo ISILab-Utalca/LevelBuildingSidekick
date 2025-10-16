@@ -31,6 +31,8 @@ namespace ISILab.LBS.Manipulators
             _current = provider as LBSLocalCurrent;
         }
 
+        protected override void UpdateView() { } // Do not redraw level
+
         protected override void OnMouseUp(VisualElement element, Vector2Int position, MouseUpEvent e)
         {
             _current = LBSInspectorPanel.Instance.data;

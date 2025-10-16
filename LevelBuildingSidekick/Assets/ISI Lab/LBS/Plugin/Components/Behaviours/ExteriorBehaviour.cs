@@ -172,6 +172,7 @@ namespace ISILab.LBS.Behaviours
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool canEditedByAI)
         {
+            RequestTilePaint(tile);
             var t = OwnerLayer.GetModule<ConnectedTileMapModule>().GetPair(tile);
             t.SetConnection(direction, connection, canEditedByAI);
         }
@@ -179,6 +180,12 @@ namespace ISILab.LBS.Behaviours
         public List<string> GetConnections(LBSTile tile)
         {
             return Connections.GetConnections(tile);
+        }
+
+        public void RequestTilesRepaint(IEnumerable<LBSTile> tiles)
+        {
+            foreach (LBSTile tile in tiles)
+                RequestTilePaint(tile);
         }
 
         public override object Clone()

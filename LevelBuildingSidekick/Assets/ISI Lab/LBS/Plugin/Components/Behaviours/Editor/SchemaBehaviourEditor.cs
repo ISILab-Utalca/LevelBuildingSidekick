@@ -137,9 +137,9 @@ namespace ISILab.LBS.Behaviours.Editor
                 if (evt.newValue)
                 {
                     addTileConnection.MultiLayerSetup();
-                    LBSMainWindow.MessageNotify("On.");
+                    LBSMainWindow.MessageNotify("Multi-layer connection painting enabled.");
                 }
-                else LBSMainWindow.MessageNotify("Off.");
+                else LBSMainWindow.MessageNotify("Multi-layer connection painting disabled.");
             });
             multiLayerConnectionsToggle.SetValueWithoutNotify(behaviour.MultiLayerConnections);
 

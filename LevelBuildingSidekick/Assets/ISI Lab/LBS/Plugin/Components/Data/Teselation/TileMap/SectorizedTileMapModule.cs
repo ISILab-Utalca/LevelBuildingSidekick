@@ -367,7 +367,7 @@ namespace ISILab.LBS.Modules
                 }
                 log += "]\n";
             }
-            Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
+            //Debug.Log("ZONES PROXIMITY RECALCULATED\n"+log);
         }
 
         private List<bool> CheckNeighborhood(Vector2Int position, List<Vector2> directions)
