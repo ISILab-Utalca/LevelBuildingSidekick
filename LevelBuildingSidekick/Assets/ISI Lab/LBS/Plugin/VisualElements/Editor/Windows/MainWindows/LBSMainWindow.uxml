@@ -21,7 +21,7 @@
                     </ui:ScrollView>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ISILab.LBS.Editor.Windows.LBSWaitTaskOverlay name="WaitOverlay" step="3" show-rect="false" style="position: absolute; flex-grow: 1; width: 100%; height: 100%; overflow: hidden; visibility: visible;" />
+            <ISILab.LBS.Editor.Windows.LBSWaitTaskOverlay name="WaitOverlay" step="3" show-rect="false" style="position: absolute; flex-grow: 1; width: 100%; height: 100%; overflow: hidden;" />
         </ui:VisualElement>
         <ui:VisualElement picking-mode="Ignore" name="InspectorNExtrabar" style="width: auto; height: auto; overflow: hidden; position: relative; flex-direction: row-reverse; flex-wrap: nowrap; flex-shrink: 1; align-items: stretch; justify-content: flex-start; flex-grow: 0; visibility: visible; align-self: stretch; max-width: none; right: auto; left: 0; min-width: 50px;">
             <ui:VisualElement name="Inspector" class="lbs_inspectorshow" style="transition-timing-function: linear; transition-duration: 0.12s;">
