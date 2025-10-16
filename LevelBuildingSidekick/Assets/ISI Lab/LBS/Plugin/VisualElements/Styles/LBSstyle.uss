@@ -42,7 +42,7 @@ Label {
 }
 
 .lbs-icon {
-    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    -unity-background-image-tint-color: var(--lbs-icon-color, var(--lbs-default-icon-color));
     min-height: 16px;
     min-width: 16px;
     max-width: 16px;
@@ -317,7 +317,7 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-button > TextElement {
-    color: var(--lbs-default-icon-color);
+    color: var(--lbs-icon-color, var(--lbs-default-icon-color));
 }
 
 .lbs-tab-button {
@@ -1426,7 +1426,7 @@ Toggle > .lbs-default-icon {
 }
 
 .lbs-base-panel {
-    background-color: var(--lbs-base-solid-gray-color);
+    background-color: var(--lbs-base-solid-gray-color, var(--lbs-default-base-solid-gray-color));
     border-bottom-color: var(--lbs-dark-overlay-color);
     border-top-color: var(--lbs-dark-overlay-color);
     border-left-color: var(--lbs-dark-overlay-color);
@@ -1751,7 +1751,7 @@ Toggle > .lbs-default-icon {
     flex-grow: 1;
     -unity-background-scale-mode: scale-to-fit;
     background-position-x: right 0;
-    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    -unity-background-image-tint-color: var(--lbs-icon-color, var(--lbs-default-icon-color));
     height: 16px;
     width: 16px;
 }

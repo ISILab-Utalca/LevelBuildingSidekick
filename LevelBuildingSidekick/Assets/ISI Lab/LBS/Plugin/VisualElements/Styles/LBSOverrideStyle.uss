@@ -35,11 +35,11 @@
 }
 
 .unity-button__image {
-    -unity-background-image-tint-color:var(--lbs-default-icon-color);
+    -unity-background-image-tint-color:var(--lbs-icon-color, var(--lbs-default-icon-color));
 }
 
 .unity-image {
-    -unity-background-image-tint-color: var(--lbs-default-icon-color);
+    -unity-background-image-tint-color: var(--lbs-icon-color, var(--lbs-default-icon-color));
 }
 
 ObjectFieldDisplay {

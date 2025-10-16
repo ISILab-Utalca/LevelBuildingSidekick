@@ -69,6 +69,7 @@
                         <ISILab.LBS.CustomComponents.LBSCustomHeader icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AI_Assistant.svg?fileID=7388822144124034973&amp;guid=2cf0d2907db06024190d079005239a75&amp;type=3#Icon=AI_Assistant" style="height: 40px;" />
                     </ISILab.LBS.CustomComponents.LBSCustomFoldout>
                     <ISILab.LBS.Editor.Windows.LBSWaitTaskOverlay step="3" delay="21" style="flex-grow: 1;" />
+                    <ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager.BundleManagerListGroup title-text="Some Title" style="height: 170px;" />
                 </ui:VisualElement>
             </ISILab.Commons.VisualElements.Editor.SplitView>
         </ISILab.Commons.VisualElements.Editor.SplitView>

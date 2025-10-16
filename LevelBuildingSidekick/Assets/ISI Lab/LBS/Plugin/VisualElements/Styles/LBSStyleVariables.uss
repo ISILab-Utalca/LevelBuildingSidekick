@@ -14,8 +14,11 @@
     
     --lbs-light-purple-color: rgb(163, 160, 251);
 
+    --lbs-default-icon-color: rgb(210,210,210);
+    --lbs-default-text-color: rgb(220,220,220);
+    
     --lbs-default-base-solid-gray-color: rgb(60, 60, 60);
-    --lbs-defaultfield-solid-bg-gray-color: rgb(40,40,40);
+    --lbs-default-field-solid-bg-gray-color: rgb(40,40,40);
     --lbs-default-darker-solid-gray-color: rgb(33, 33, 33);
     --lbs-default-unity-6-black-color: rgb(20,20,20);
     
@@ -34,8 +37,8 @@
 
 
 .dark {
-    --lbs-default-icon-color: rgb(210,210,210);
-    --lbs-default-text-color: rgb(220,220,220);
+    --lbs-icon-color: rgb(210,210,210);
+    --lbs-text-color: rgb(220,220,220);
     
     --lbs-base-solid-gray-color: rgb(60, 60, 60);
     --lbs-field-solid-bg-gray-color: rgb(40,40,40);
@@ -58,8 +61,8 @@
 }
 
 .alt {
-    --lbs-default-icon-color: rgb(173,185,215);
-    --lbs-default-text-color: rgb(220,220,220);
+    --lbs-icon-color: rgb(173,185,215);
+    --lbs-text-color: rgb(220,220,220);
     
     --lbs-base-solid-gray-color: rgb(40,44,52);
     --lbs-field-solid-bg-gray-color: rgb(22,26,30);
@@ -81,8 +84,8 @@
 }
 
 .light {
-    --lbs-default-icon-color: rgb(40,40,40);
-    --lbs-default-text-color: rgb(20,20,20);
+    --lbs-icon-color: rgb(40,40,40);
+    --lbs-text-color: rgb(20,20,20);
     
     --lbs-base-solid-gray-color: rgb(217, 217, 217);
     --lbs-field-solid-bg-gray-color: rgb(174,174,174);
