@@ -99,6 +99,7 @@ namespace ISILab.LBS.Editor.Windows{
         private VisualElement helpOverlayAnchor;
         private ToolBarMain TopToolBar;
         private InfoToolbar infoToolBar;
+        private LBSWaitTaskOverlay taskOverlay;
 
         private ScrollView subPanelScrollView;
         
@@ -172,7 +173,7 @@ namespace ISILab.LBS.Editor.Windows{
             subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
             
             extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-            
+            taskOverlay = rootVisualElement.Q<LBSWaitTaskOverlay>("TaskOverlay");
         }
         
         private void OnDisable()

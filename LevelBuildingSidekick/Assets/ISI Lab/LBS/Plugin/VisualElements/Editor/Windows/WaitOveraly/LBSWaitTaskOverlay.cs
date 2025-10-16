@@ -50,6 +50,7 @@ namespace ISILab.LBS.Editor.Windows
         {
             VisualTreeAsset vta = DirectoryTools.GetAssetByName<VisualTreeAsset>(nameof(LBSWaitTaskOverlay));
             vta?.CloneTree(this);
+            this.AddToClassList("TaskOverlay");
             
             taskIcon = this.Q<VisualElement>("CenterIcon");
             
