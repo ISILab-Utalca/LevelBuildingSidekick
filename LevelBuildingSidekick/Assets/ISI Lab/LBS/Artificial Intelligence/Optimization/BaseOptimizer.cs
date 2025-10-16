@@ -194,7 +194,7 @@ namespace ISILab.AI.Optimization
             Run(onProgress, token);
         }
 
-        public virtual void StartOne()
+        public virtual void StartOne(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock1 = new Stopwatch();
             clock1.Start();
@@ -221,7 +221,7 @@ namespace ISILab.AI.Optimization
             var clock2 = new Stopwatch();
             clock2.Start();
 
-            RunOnce();
+            RunOnce(onProgress, token);
 
             clock2.Stop();
             //UnityEngine.Debug.Log("RunOnce: " + clock2.ElapsedMilliseconds/1000f + "s."); 

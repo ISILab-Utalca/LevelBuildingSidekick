@@ -57,7 +57,8 @@ namespace ISILab.LBS.VisualElements
 
             var window = EditorWindow.GetWindow<LBSMainWindow>();
 
-            hillClimbing.OnTermination += window.Repaint;
+            // NO longer redrawing the whole window we aint psychopaths!
+          //  hillClimbing.OnTermination += window.Repaint;
         }
 
         public override void Repaint()
@@ -233,15 +234,58 @@ namespace ISILab.LBS.VisualElements
             Undo.RegisterCompleteObjectUndo(x, "Execute One Step");
             EditorGUI.BeginChangeCheck();
 
-            // Execute hill climbing one step
-            hillClimbing.ExecuteOneStep();
-            LBSMainWindow.MessageNotify("Hill Climbing One Step executed.");
+            _currentTaskCts?.Cancel();
 
-            // Mark as dirty
-            if (EditorGUI.EndChangeCheck())
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar = LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();
+            ;
+
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+
+            void ReportProgress(float normalized)
             {
-                EditorUtility.SetDirty(x);
+                // Use update so progress applies immediately
+                EditorApplication.update += UpdateOnce;
+
+                void UpdateOnce()
+                {
+                    taskbar.SetProgressPercent(normalized);
+                    EditorApplication.update -= UpdateOnce;
+                }
             }
+
+            taskbar.EnableProcess(true, hillClimbing.Name);
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Execute hill climbing one step
+                    hillClimbing.ExecuteOneStep(ReportProgress, token);
+                    
+                    EditorApplication.delayCall += () =>
+                    {
+                        hillClimbing.ExecutionEnded();
+                        LBSMainWindow.MessageNotify("Hill Climbing One Step executed.");
+                        
+                        // Mark as dirty
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            EditorUtility.SetDirty(x);
+                        }
+                        DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+                        Paint();
+                        taskbar.EnableProcess(false);
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[HillClimbingAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () => taskbar.EnableProcess(false);
+                }
+            }, token);
         }
 
         private void Execute()
@@ -261,7 +305,6 @@ namespace ISILab.LBS.VisualElements
             taskbar.OnProgressCancelled -= CancelCurrentTask;
             taskbar.OnProgressCancelled += CancelCurrentTask;
             
-              
             void ReportProgress(float normalized)
             {
                 // Use update so progress applies immediately
@@ -284,21 +327,20 @@ namespace ISILab.LBS.VisualElements
                         {
                             hillClimbing.ExecutionEnded();
                             LBSMainWindow.MessageNotify("Hill Climbing executed.");
-
-                            // Mark as dirty
-                            if (EditorGUI.EndChangeCheck())
-                            {
-                                EditorUtility.SetDirty(x);
-                            }
-                            
-                            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
-                            Paint();
                         }
                         else
                         {
                             LBSMainWindow.MessageNotify(failedLog, LogType.Warning, 5);
                         }
                         
+                        // Mark as dirty
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            EditorUtility.SetDirty(x);
+                        }
+                        
+                        DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+                        Paint();
                         taskbar.EnableProcess(false);
                     };
 

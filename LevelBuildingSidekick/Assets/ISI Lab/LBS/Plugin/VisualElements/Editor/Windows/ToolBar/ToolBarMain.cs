@@ -89,7 +89,8 @@ namespace ISILab.LBS.VisualElements.Editor
             taskOverlay.ShowRect = enable;
             
             taskProgressBar.ProgressTextLabel = assistantName;
-            taskProgressBar.value = enable ? 0 : 1;
+            var percent = enable ? 0 : 1;
+            SetProgressPercent(percent);
             taskInfo.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
         }
         public void SetProgressPercent(float percent)

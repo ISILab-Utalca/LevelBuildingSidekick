@@ -134,11 +134,12 @@ namespace ISILab.LBS.Assistants
 
         public void ExecutionEnded()
         {
-            OwnerLayer.Reload();
+            // not sure reloading all the modulies is neccesary idk!
+           // OwnerLayer.Reload();
             OnTermination?.Invoke();
         }
 
-        public void ExecuteOneStep()
+        public void ExecuteOneStep(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock = new Stopwatch();
 
@@ -146,7 +147,7 @@ namespace ISILab.LBS.Assistants
             OnStart?.Invoke();
 
             clock.Start();
-            hillClimbing.StartOne();
+            hillClimbing.StartOne(onProgress, token);
             clock.Stop();
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
@@ -162,10 +163,6 @@ namespace ISILab.LBS.Assistants
                 var old = OwnerLayer.GetModule(module.ID);
                 OwnerLayer.ReplaceModule(old, module);
             }
-
-            OwnerLayer.Reload();
-
-            OnTermination?.Invoke();
 
             Debug.Log("HillClimbing on step, finish!");
             Debug.Log(
