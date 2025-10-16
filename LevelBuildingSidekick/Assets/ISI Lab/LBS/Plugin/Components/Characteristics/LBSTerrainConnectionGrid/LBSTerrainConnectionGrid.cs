@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LBS.Bundles;
 using System.Linq;
+using System.Drawing;
 
 namespace ISILab.LBS.Characteristics
 {
@@ -10,12 +11,20 @@ namespace ISILab.LBS.Characteristics
     [LBSCharacteristic("Connection Grid", "")]
     public class LBSTerrainConnectionGrid : LBSCharacteristic, ICloneable
     {
-        public Dictionary<Asset, AssetConnectionGrid> gridList;
+        Dictionary<Asset, AssetConnectionGrid> gridList;
+        Dictionary<int, UnityEngine.Color> flagColorPalette; 
+
         #region PROPERTIES
         public List<Asset> Assets
         {
             get => Owner.Assets;
         }
+        public Dictionary<Asset, AssetConnectionGrid> GridList
+        {
+            get => gridList;
+            set => gridList = value;
+        }
+
         #endregion
 
         #region CONSTRUCTOR
@@ -54,6 +63,19 @@ namespace ISILab.LBS.Characteristics
         public int[] TerrainFlag
         {
             get => terrainFlag;
+        }
+
+        public AssetConnectionGrid(int[] terrainFlag)
+        {
+            this.terrainFlag = terrainFlag;
+        }
+        public AssetConnectionGrid(int q)
+        {
+            terrainFlag = new int[q];
+            for(int i=0; i<q; i++)
+            {
+                terrainFlag[i] = 0;
+            }
         }
 
         public int VectorToIntConversion(Vector2 vector)

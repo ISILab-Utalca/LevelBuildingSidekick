@@ -173,11 +173,21 @@ namespace ISILab.LBS
         /// <returns></returns>
         public static LoadedLevel CreateNewLevel(string levelName = "new file")
         {
-            var data = new LBSLevelData();
-            var loaded = LoadedLevel.CreateInstance(data, null);
-            CurrentLevel = loaded;
-            CurrentLevel.data.Reload();
-            return CurrentLevel;
+            var answer = EditorUtility.DisplayDialog(
+                   "Current File Not Saved",
+                   "Progress in the current level will be lost. Proceed?",
+                   "confirm",
+                   "cancel");
+            switch (answer)
+            { case true:
+                    var data = new LBSLevelData();
+                    var loaded = LoadedLevel.CreateInstance(data, null);
+                    CurrentLevel = loaded;
+                    CurrentLevel.data.Reload();
+                    return CurrentLevel;
+                case false: 
+                    return null;
+            }
             
         }
     }
