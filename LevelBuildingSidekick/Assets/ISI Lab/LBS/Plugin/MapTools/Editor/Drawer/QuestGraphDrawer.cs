@@ -218,7 +218,7 @@ namespace ISILab.LBS.Drawers.Editor
         
         private SuggestionElementArea CreateSuggestionView(QuestNode node)
         {
-            var nodeView = new SuggestionElementArea(node,node.NodeData.Area);
+            var nodeView = new SuggestionElementArea(node, node.NodeData.Area);
             
             return nodeView;
         }

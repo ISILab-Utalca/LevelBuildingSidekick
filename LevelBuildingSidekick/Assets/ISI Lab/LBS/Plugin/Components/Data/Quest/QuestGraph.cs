@@ -90,7 +90,7 @@ namespace ISILab.LBS.Modules
         #endregion
 
         #region EVENTS
-        [JsonIgnore] public Action<GraphNode> GoToNode;
+        [JsonIgnore] public Action<Vector2Int> GoToNodeInGraph;
         [JsonIgnore] public Action<QuestEdge> OnAddEdge;
         [JsonIgnore] public Action<QuestEdge> OnRemoveEdge;
         [JsonIgnore] public Action<QuestNode> OnAddSuggestion;
@@ -235,7 +235,7 @@ namespace ISILab.LBS.Modules
             return node;
         }
 
-        public QuestNode AddSuggestion(string action, Vector2 pos)
+        public QuestNode AddSuggestion(string action, Vector2 pos = default)
         {
             var uniqueSuggestionId = "s" + GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
             var node = new QuestNode(uniqueSuggestionId, pos, action, this);
@@ -254,9 +254,10 @@ namespace ISILab.LBS.Modules
         public void AddSuggestionNode(QuestNode generatedQuestNode)
         {
             if(generatedQuestNode is null) return;
-            var newnode = AddNewQuestNode(generatedQuestNode.QuestAction, generatedQuestNode.NodeViewPosition.position.ToInt());
-            newnode.NodeData = generatedQuestNode.NodeData;
-            newnode.NodeViewPosition = generatedQuestNode.NodeViewPosition;
+            var graphPos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var node = AddNewQuestNode(generatedQuestNode.QuestAction, graphPos);
+            node.NodeData = generatedQuestNode.NodeData;
+            node.NodeViewPosition = generatedQuestNode.NodeViewPosition;
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)
@@ -466,7 +467,6 @@ namespace ISILab.LBS.Modules
 
            
         #endregion
-
         
         #region AssistantCalls
         

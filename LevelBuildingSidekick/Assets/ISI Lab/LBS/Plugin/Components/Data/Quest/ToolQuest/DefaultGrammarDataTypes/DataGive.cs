@@ -59,8 +59,8 @@ namespace ISILab.LBS.Components
             var giveOther = other as DataGive;
             if(giveOther == null) return false;
             
-            return bundleGive == giveOther.bundleGive && 
-                   bundleGiveTo == giveOther.bundleGiveTo;
+            return Equals(bundleGive, giveOther.bundleGive) && 
+                   Equals(bundleGiveTo, giveOther.bundleGiveTo);
         }
 
         public override bool IsValid()

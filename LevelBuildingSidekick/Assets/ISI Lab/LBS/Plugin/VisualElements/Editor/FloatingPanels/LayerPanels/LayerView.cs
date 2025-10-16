@@ -138,8 +138,11 @@ namespace ISILab.LBS.VisualElements.Editor
             _showButton.style.display = value ? DisplayStyle.None : DisplayStyle.Flex;
             _hideButton.style.display = value ? DisplayStyle.Flex : DisplayStyle.None;
 
-            _target.IsVisible = value;
-            _onVisibilityChange?.Invoke();
+            if(_target.IsVisible != value)
+            {
+                _target.IsVisible = value;
+                _onVisibilityChange?.Invoke();
+            }
         }
         #endregion
 

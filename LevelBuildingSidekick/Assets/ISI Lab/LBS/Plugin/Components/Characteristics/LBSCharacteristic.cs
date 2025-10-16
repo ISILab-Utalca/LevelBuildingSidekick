@@ -54,8 +54,11 @@ namespace ISILab.LBS.Characteristics
         {
             return base.GetHashCode();
         }
-        
-        public abstract List<string> Validate();
+
+        public virtual List<string> Validate()
+        {
+            return  new List<string>();
+        }
         #endregion
 
     }

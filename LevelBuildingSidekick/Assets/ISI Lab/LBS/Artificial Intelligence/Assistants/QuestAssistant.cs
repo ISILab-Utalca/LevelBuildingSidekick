@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Modules;
 using ISILab.Macros;
@@ -28,7 +29,11 @@ namespace ISILab.LBS.Assistants
 
         public bool Equals(TileBundleToAction other)
         {
-            return Equals(tiles, other.tiles) && action == other.action;
+            if (action != other.action) return false;
+            if (tiles == null && other.tiles == null) return true;
+            if (tiles == null || other.tiles == null) return false;
+            if (tiles.Count != other.tiles.Count) return false;
+            return tiles.All(t => other.tiles.Contains(t));
         }
 
         public override bool Equals(object obj)
@@ -140,9 +145,22 @@ namespace ISILab.LBS.Assistants
     [RequieredModule(typeof(QuestGraph))]
     public class QuestAssistant : LBSAssistant
     {
+        #region FIELDS
+        
+        [SerializeField]
+        private uint _suggestionAmount = 3;
+        private Vector2Int _positionOverlapOffset = new(25, 50);
+        #endregion
+        
         #region PROPERTIES
         [JsonIgnore]
         private QuestGraph QuestGraph => OwnerLayer.GetModule<QuestGraph>();
+
+        [JsonIgnore] public uint SuggestionAmount
+        {
+            get => _suggestionAmount;
+            set => _suggestionAmount = value;
+        }
 
         public LBSLevelData Data => QuestGraph.OwnerLayer.Parent;
 
@@ -205,7 +223,7 @@ namespace ISILab.LBS.Assistants
         public void GenerateSuggestions(int suggestionsCount)
         {
             var suggestionList = GenerateSuggestionList(suggestionsCount);
-            CreateSuggestionNodes(suggestionList);
+            CreateNewSuggestions(suggestionList);
         }
         #endregion
 
@@ -215,69 +233,76 @@ namespace ISILab.LBS.Assistants
         /// </summary>
         private List<TileBundleToAction> GenerateSuggestionList(int suggestionsCount)
         {
-            List<TileBundleToAction> suggestionList = new List<TileBundleToAction>();
+            HashSet<TileBundleToAction> suggestionList = new HashSet<TileBundleToAction>();
             foreach (var contextLayer in Data.ContextLayers)
             {
                 var populationLayer = contextLayer.GetBehaviour<PopulationBehaviour>();
                 if (populationLayer == null) continue;
 
-                for (int i = 0; i < suggestionsCount; i++)
+                int maxSuggestions = Mathf.Min(suggestionsCount, GetValidGroups(populationLayer).Count);
+                for (int i = 0; i < maxSuggestions; i++)
                 {
-                    suggestionList.Add(SuggestActionFromPopulation(populationLayer));
+                    bool exists = false;
+                    var newSuggestion = SuggestActionFromPopulation(populationLayer);
+                    foreach (var entry in suggestionList)
+                    {
+                        if (entry.Equals(newSuggestion))
+                        {
+                            i--;
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if(!exists)suggestionList.Add(newSuggestion);
                 }
             }
-            return suggestionList;
+            
+            return suggestionList.ToList();
         }
 
         /// <summary>
         /// Creates suggestion nodes in the quest graph using the suggestion list.
         /// </summary>
-        private void CreateSuggestionNodes(List<TileBundleToAction> suggestionList)
+        private void CreateNewSuggestions(List<TileBundleToAction> suggestions)
         {
-            foreach (TileBundleToAction suggestion in suggestionList)
+            QuestGraph.Suggestions.Clear();
+
+            List<Vector2> ExistingPositions = new();
+            foreach (var entry in suggestions.Distinct())
             {
-                var middlePosition = CalculateMiddlePosition(suggestion.tiles);
-                var newSuggestion = QuestGraph.AddSuggestion(suggestion.action, middlePosition);
-                var nodeData = newSuggestion.NodeData;
-                ListHelper.Shuffle(suggestion.tiles);
-                nodeData.SetDataByTiles(Data.ContextLayers,suggestion.tiles);
+                var newNode = QuestGraph.AddSuggestion(entry.action);
+                var nodeData = newNode.NodeData;
+
+                entry.tiles.Shuffle();
+                nodeData.SetDataByTiles(Data.ContextLayers, entry.tiles);
                 nodeData.Resize();
 
-                bool exists = false;
-                foreach (var sn in QuestGraph.Suggestions)
+                // trigger position is used to draw the suggestion element area
+                var triggerPos = nodeData.Area.position;
+                // to move the capsule within the suggestion element area
+                Vector2Int offsetPosition = Vector2Int.zero;
+                
+                while (ExistingPositions.Contains(triggerPos))
                 {
-                    if(sn == newSuggestion) continue; // dismiss new suggestion
-
-                    exists = newSuggestion.NodeData.Equals(sn.NodeData); // compare new suggestion with others
-                    if (exists) break;
+                    triggerPos += _positionOverlapOffset;
+                    offsetPosition += _positionOverlapOffset;
                 }
-                if (exists) QuestGraph.Suggestions.Remove(newSuggestion);
+                ExistingPositions.Add(triggerPos);
+                newNode.Position = offsetPosition;
             }
         }
 
-        /// <summary>
-        /// Calculates the average position of a list of TileBundleGroups.
-        /// </summary>
-        private Vector2 CalculateMiddlePosition(List<TileBundleGroup> tileBundleGroups)
+        private List<KeyValuePair<ElementFlagToAction, HashSet<TileBundleGroup>>> GetValidGroups(PopulationBehaviour populationLayer)
         {
-            if (tileBundleGroups == null || tileBundleGroups.Count == 0)
-                return Vector2.zero;
-
-            Vector2 middlePosition = Vector2.zero;
-            foreach (var tileBundleGroup in tileBundleGroups)
-            {
-                middlePosition += tileBundleGroup.AreaRect.center;
-            }
-            return middlePosition / tileBundleGroups.Count;
+            var groups = GroupTilesByPopulationType(populationLayer);
+            return groups.Where(g => g.Value.Any()).ToList();
         }
-
         /// <summary>
         /// Suggests a single action based on population layer data.
         /// </summary>
         private TileBundleToAction SuggestActionFromPopulation(PopulationBehaviour populationLayer)
         {
-            var groups = GroupTilesByPopulationType(populationLayer);
-            var validGroups = groups.Where(g => g.Value.Any()).ToList();
+            var validGroups = GetValidGroups(populationLayer);
             if (!validGroups.Any())
                 return new TileBundleToAction(new List<TileBundleGroup>(), string.Empty);
 

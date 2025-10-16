@@ -17,6 +17,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
+using ISILab.LBS.CustomComponents;
 
 namespace ISILab.LBS.AI.Assistants.Editor
 {
@@ -139,17 +140,16 @@ namespace ISILab.LBS.AI.Assistants.Editor
             loadWeightsButton.clicked += LoadWeights;
             currentPreset = this.Q<ObjectField>("CurrentPreset");
             currentPreset.value = null;
-
             // Safe Generation Mode
-            var safeModeCheckbox = this.Q<Toggle>("SafeMode");
-            safeModeCheckbox.RegisterValueChangedCallback(evt => 
-            { 
-                assistant.SafeMode = safeModeCheckbox.value;
-                if (safeModeCheckbox.value)
+            var safeModeToggle = this.Q<LBSCustomToggleField>("SafeMode");
+            safeModeToggle.RegisterValueChangedCallback(evt =>
+            {
+                assistant.SafeMode = evt.newValue;
+                if (evt.newValue)
                     LBSMainWindow.MessageNotify("Safe Generation enabled.");
                 else LBSMainWindow.MessageNotify("Safe generation disabled. Some tiles may not be generated. Ensure you have enough variety of bundles for exteriors.", LogType.Warning, 7);
             });
-            safeModeCheckbox.SetValueWithoutNotify(assistant.SafeMode);
+            safeModeToggle.SetValueWithoutNotify(assistant.SafeMode);
 
             presetsList = this.Q<ListView>("PresetsList");
             UpdatePresetsList();
@@ -163,7 +163,8 @@ namespace ISILab.LBS.AI.Assistants.Editor
                 LBSMainWindow.MessageNotify("Current map weights captured.");
             else LBSMainWindow.MessageNotify(errMsg, LogType.Warning);
 
-            assistant.CaptureRules();
+            //if (assistant.CaptureRules())
+            //    LBSMainWindow.MessageNotify("Current map weights captured.");
         }
 
         private void SaveWeights()

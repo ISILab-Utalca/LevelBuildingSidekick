@@ -47,6 +47,9 @@ namespace ISILab.LBS.Behaviours
         private string pressetInsideStyle = "Castle_Wooden";
         [SerializeField]
         private string pressetOutsideStyle = "Castle_Brick";
+
+        [SerializeField]
+        private bool multiLayerConnections = true;
         
         #endregion
 
@@ -76,6 +79,9 @@ namespace ISILab.LBS.Behaviours
             get => LBSAssetsStorage.Instance.Get<Bundle>().Find(b => b.Name == pressetOutsideStyle);
             set => pressetOutsideStyle = value.Name;
         }
+
+        [JsonIgnore]
+        public bool MultiLayerConnections { get => multiLayerConnections; set => multiLayerConnections = value; }
 
         [JsonIgnore]
         public bool ValidArea => OwnerLayer.GetModule<SectorizedTileMapModule>() is null;
@@ -218,7 +224,7 @@ namespace ISILab.LBS.Behaviours
         public List<string> GetConnections(LBSTile tile)
         {
             var pair = tileConnections.GetPair(tile);
-            return pair.Connections;
+            return pair?.Connections;
         }
 
         public Zone GetZone(LBSTile tile)
@@ -250,6 +256,8 @@ namespace ISILab.LBS.Behaviours
                 var currZone = GetZone(tile);
 
                 var currConnects = GetConnections(tile);
+                UnityEngine.Assertions.Assert.IsNotNull(currConnects);
+
                 var neigs = GetTileNeighbors(tile, Directions);
 
                 var edt = tileConnections.GetPair(tile).EditedByIA;
@@ -271,8 +279,6 @@ namespace ISILab.LBS.Behaviours
                     var otherZone = GetZone(neigs[i]);
                     if (otherZone.Equals(currZone))
                     {
-
-
                         SetConnection(tile, i, "Empty", true);
                     }
                     else

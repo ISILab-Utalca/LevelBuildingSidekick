@@ -5,7 +5,7 @@ using ISILab.LBS.Drawers;
 using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.VisualElements.Editor;
 using LBS.Components;
-using UnityEngine.UIElements;
+
 
 namespace ISILab.LBS
 {
@@ -131,16 +131,27 @@ namespace ISILab.LBS
 
         public void RedrawLevel(LBSLevelData level, bool deepClean = false)
         {
+            UnityEngine.Debug.Log("Redraw Level");
             foreach (var layer in level.Layers)
             {
                 bool preVisible = _preVisibility.ContainsKey(layer) ? _preVisibility[layer] : layer.IsVisible;
                 //if(deepClean)
 
                 GetLayerDrawers(layer)
-                .ForEach(drawer => drawer.FullRedrawRequested = preVisible && layer.IsVisible);
+                .ForEach(drawer => { drawer.FullRedrawRequested = preVisible && layer.IsVisible;
+                    if (layer.IsVisible)
+                    {
+                        if (drawer is not ExteriorDrawer) // Temporary condition while working on other drawers
+                        {
+                            _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
+                        }
+                        else
+                            _view.ClearLayerContainer(layer, deepClean);
+                    }
+                });
 
-                if (!layer.IsVisible) continue;
-                _view.ClearLayerContainer(layer, deepClean || (preVisible && layer.IsVisible));
+                //if (!layer.IsVisible) continue;
+                //_view.ClearLayerContainer(layer, deepClean);
             }
             DrawLevel(level);
         }

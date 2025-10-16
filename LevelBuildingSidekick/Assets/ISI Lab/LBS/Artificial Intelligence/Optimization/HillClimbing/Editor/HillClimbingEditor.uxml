@@ -7,7 +7,6 @@
         <ISILab.LBS.CustomComponents.LBSCustomButton text="Execute One Step" name="ExecuteOneStep" style="height: 22px;" />
         <ui:VisualElement class="lbs-group-box" style="flex-grow: 1;">
             <ISILab.LBS.CustomComponents.LBSCustomToggleField name="ShowConstraintToggle" label="Show Constraints" style="height: 32px;" />
-            <ISILab.LBS.CustomComponents.LBSCustomToggleField name="UseBenchmark" label="Benchmark Execution" value="true" style="height: 32px;" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ISILab.LBS.CustomComponents.LBSCustomFoldout text="Constraints" />

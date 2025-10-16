@@ -345,6 +345,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 foreach (var element in container.Clear())
                 {
+                    //element.style.display = DisplayStyle.None;
                     RemoveElement(element);
                 }
             }
@@ -352,6 +353,7 @@ namespace ISILab.LBS.VisualElements.Editor
             // Remove expired tiles in behaviours
             foreach (var tile in layer.Behaviours.SelectMany(behaviour => behaviour.RetrieveExpiredTiles()))
             {
+                //GetElementsFromLayerContainer(layer, tile).ForEach(e => e.style.display = DisplayStyle.None);
                 ClearElementFromLayerContainer(tile, container);
             }
             // Remove expired tiles in assistants
@@ -359,6 +361,7 @@ namespace ISILab.LBS.VisualElements.Editor
             {
                 foreach (var tile in assistant.RetrieveExpiredTiles())
                 {
+                    //GetElementsFromLayerContainer(layer, tile).ForEach(e => e.style.display = DisplayStyle.None);
                     ClearElementFromLayerContainer(tile, container);
                 }
             }

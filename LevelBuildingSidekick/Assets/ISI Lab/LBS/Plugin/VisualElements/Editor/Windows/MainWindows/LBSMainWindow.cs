@@ -99,6 +99,7 @@ namespace ISILab.LBS.Editor.Windows{
         private VisualElement helpOverlayAnchor;
         private ToolBarMain TopToolBar;
         private InfoToolbar infoToolBar;
+        private LBSWaitTaskOverlay taskOverlay;
 
         private ScrollView subPanelScrollView;
         
@@ -172,7 +173,7 @@ namespace ISILab.LBS.Editor.Windows{
             subPanelScrollView = rootVisualElement.Q<ScrollView>("SubPanelScrollView");
             
             extraPanel = rootVisualElement.Q<VisualElement>("ExtraPanel");
-            
+            taskOverlay = rootVisualElement.Q<LBSWaitTaskOverlay>("TaskOverlay");
         }
         
         private void OnDisable()
@@ -264,7 +265,7 @@ namespace ISILab.LBS.Editor.Windows{
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
-                drawManager.RedrawLevel(levelData);
+                //drawManager.RedrawLevel(levelData);
             };
             
             TopToolBar.OnThemeChanged += data => ChangeTheme(data);
@@ -441,6 +442,7 @@ namespace ISILab.LBS.Editor.Windows{
             mainView.Clear();
             this.rootVisualElement.Clear();
             
+            //Repaint();
             OnDisable();
             OnEnable();
             CreateGUI();

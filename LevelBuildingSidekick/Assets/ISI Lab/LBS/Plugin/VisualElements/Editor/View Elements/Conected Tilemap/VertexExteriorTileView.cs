@@ -10,8 +10,10 @@ using ISILab.LBS.Components;
 
 namespace ISILab.LBS.VisualElements
 {
-    public class VertexExteriorTileView : GraphElement
+    public class VertexExteriorTileView : ExteriorTileView
     {
+        private static VisualTreeAsset view;
+
         private VisualElement upperRightFill;
         private VisualElement upperLeftFill;
         private VisualElement lowerLeftFill;
@@ -20,27 +22,17 @@ namespace ISILab.LBS.VisualElements
         //private VisualElement fill, center;
         private VisualElement center;
 
-        private static VisualTreeAsset view;
-
-        private static float scaleFactor = 1f;
-        private static Color fillColor = Color.grey;
-        private static float colorBrightenner = 0.1f;
-        public VertexExteriorTileView(List<string> connections)
+        public VertexExteriorTileView(List<string> connections = null) : base(connections, "ConnectedVertexBasedTile")
         {
+            connections ??= new List<string>() { "", "", "", "" };
+
             if (view == null)
             {
                 view = DirectoryTools.GetAssetByName<VisualTreeAsset>("ConnectedVertexBasedTile");
             }
             view.CloneTree(this);
 
-            this.SetMargins(0);
-            this.SetPaddings(0);
-            
-            this.SetBackgroundColor(fillColor);
-            this.SetBorderRadius(0);
-            this.transform.scale = Vector3.one * scaleFactor;
-
-            upperRightFill  = this.Q<VisualElement>("UpperRight");
+            upperRightFill = this.Q<VisualElement>("UpperRight");
             upperLeftFill   = this.Q<VisualElement>("UpperLeft");
             lowerLeftFill   = this.Q<VisualElement>("LowerLeft");
             lowerRightFill  = this.Q<VisualElement>("LowerRight");
@@ -50,35 +42,11 @@ namespace ISILab.LBS.VisualElements
             SetConnections(connections.ToArray());
         }
 
-        private static void SetBackgroundColor(VisualElement ve, Color color)
-        {
-            if (ve == null) return;
-            ve.style.backgroundColor = color;
-            ve.style.display = DisplayStyle.Flex; //DEBUG
-        }
-
-        private static void SetImageTint(VisualElement ve, Color color)
-        {
-            if (ve == null) return;
-            if (ve.style.backgroundImage == null) return;
-            ve.style.unityBackgroundImageTintColor = color;
-
-        }
-
-        private static void SetBorderColor(VisualElement ve, Color color)
-        {
-            if (ve == null) return;
-            ve.style.borderBottomColor = color;
-            ve.style.borderLeftColor = color;
-            ve.style.borderTopColor = color;
-            ve.style.borderRightColor = color;
-
-        }
-
-        public void SetConnections(string[] tags)
+        public override void SetConnections(string[] tags)
         {
             var tts = LBSAssetsStorage.Instance.Get<LBSTag>();
-            Color color = Color.magenta; // invalid color
+            Color invalidColor = Color.white;
+            Color color = invalidColor;
             Dictionary<Color, int> ConnectionColors = new Dictionary<Color, int>();
             if (!string.IsNullOrEmpty(tags[0]))
             {
@@ -89,7 +57,7 @@ namespace ISILab.LBS.VisualElements
             }
             else
             {
-                
+                SetBackgroundColor(upperRightFill, invalidColor);
             }
 
             if (!string.IsNullOrEmpty(tags[1]))
@@ -101,7 +69,7 @@ namespace ISILab.LBS.VisualElements
             }
             else
             {
-                
+                SetBackgroundColor(upperLeftFill, invalidColor);
             }
 
             if (!string.IsNullOrEmpty(tags[2]))
@@ -113,7 +81,7 @@ namespace ISILab.LBS.VisualElements
             }
             else
             {
-
+                SetBackgroundColor(lowerLeftFill, invalidColor);
             }
 
             if (!string.IsNullOrEmpty(tags[3]))
@@ -125,7 +93,7 @@ namespace ISILab.LBS.VisualElements
             }
             else
             {
-
+                SetBackgroundColor(lowerRightFill, invalidColor);
             }
 
             // paints center if there are connections and to the most connections
@@ -136,10 +104,13 @@ namespace ISILab.LBS.VisualElements
                     .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
                 SetBackgroundColor(center, orderedConnectionColors.First().Key);
             }
-
+            else
+            {
+                SetBackgroundColor(center, invalidColor);
+            }
         }
 
-        //public void SetTileCenter(LBSTag identifier)
+        //public override void SetTileCenter(LBSTag identifier)
         //{
         //    var color = identifier.Color;
         //    SetBackgroundColor(center, color);
@@ -148,13 +119,5 @@ namespace ISILab.LBS.VisualElements
         //    SetImageTint(leftSide, BrightenColor(color));
         //    SetImageTint(rightSide, BrightenColor(color));
         //}
-
-        private static Color BrightenColor(Color color)
-        {
-            color.r += colorBrightenner;
-            color.b += colorBrightenner;
-            color.g += colorBrightenner;
-            return color;
-        }
     }
 }

@@ -341,8 +341,9 @@ namespace ISILab.LBS.Manipulators
         {
             if (@event.button != 0 && @event.button != 1 || _hasProcessedMouseUp)
             {
+                //Debug.Log("Mouse Up (not 0 nor 1)");
                 @event.StopImmediatePropagation();
-                DrawManager.Instance.RedrawLayer(LBSLayer);
+                //UpdateView();
                 return;
             }
 
@@ -355,7 +356,7 @@ namespace ISILab.LBS.Manipulators
             if(!_started)
             {
                 @event.StopImmediatePropagation();
-                DrawManager.Instance.RedrawLayer(LBSLayer);
+                UpdateView();
                 return;
             }
 
@@ -376,7 +377,7 @@ namespace ISILab.LBS.Manipulators
                 OnManipulationRightClick?.Invoke();
                 Remover.OnManipulationNotification?.Invoke();
                 @event.StopImmediatePropagation();
-                DrawManager.Instance.RedrawLayer(LBSLayer);
+                UpdateView();
                 return;
             }
             
@@ -398,7 +399,7 @@ namespace ISILab.LBS.Manipulators
             
             OnManipulationEnd?.Invoke();
             @event.StopImmediatePropagation();
-            DrawManager.Instance.RedrawLayer(LBSLayer);
+            UpdateView();
         }
         
         #endregion
@@ -409,7 +410,9 @@ namespace ISILab.LBS.Manipulators
             LBSLayer = layer;
             _objectType = provider == null ? typeof(Manipulator) : provider.GetType().BaseType;
         }
-        
+
+        protected virtual void UpdateView() => DrawManager.Instance.RedrawLayer(LBSLayer);
+
         protected virtual void OnMouseDown(VisualElement element, Vector2Int startPosition, MouseDownEvent e) { }
         
         protected virtual void OnMouseLeave(VisualElement element, MouseLeaveEvent e) { }

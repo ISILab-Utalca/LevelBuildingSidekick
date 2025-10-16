@@ -69,11 +69,10 @@ namespace ISILab.LBS.VisualElements.Editor
         #region INITIALIZATION
         private void RegisterEvents()
         {
-            OnAddLayer += HandleLayerChangeEvent;
-            OnRemoveLayer += HandleLayerChangeEvent;
-            OnSelectLayer += HandleLayerChangeEvent;
-            OnLayerOrderChange += HandleLayerChangeEvent;
-            
+            OnAddLayer          += HandleLayerChangeEvent;
+            OnRemoveLayer       += HandleLayerChangeEvent;
+            OnSelectLayer       += HandleSelectLayerEvent;
+            OnLayerOrderChange  += HandleLayerChangeEvent;
             RegisterCallback<KeyDownEvent>(OnKeyDown);
         }
 
@@ -125,6 +124,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region LISTVIEW HANDLERS
         private void BindListItem(VisualElement item, int index)
         {
+            Debug.Log("Bind List Item [Layers Panel]");
             if (index >= Data.LayerCount)
             {
                 _dragAffected.Remove(index);
@@ -133,13 +133,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
             if (item is not LayerView view) return;
 
+            bool last = index == Data.LayerCount - 1;
+
             var layer = Data.GetLayer(index);
             _layerViews.Add(view);
             layer.index = _list.childCount - index;
 
             if (_dragAffected.Count == 0)
             {
-                ResetLayerViewEvents(view, layer);
+                ResetLayerViewEvents(view, layer, last);
             }
             else
             {
@@ -154,7 +156,7 @@ namespace ISILab.LBS.VisualElements.Editor
             CheckOpacity();
         }
 
-        private void ResetLayerViewEvents(LayerView view, LBSLayer layer)
+        private void ResetLayerViewEvents(LayerView view, LBSLayer layer, bool last)
         {
             if (view.OnLayerVisibilityChangeAction != null)
                 view.OnVisibilityChange -= view.OnLayerVisibilityChangeAction;
@@ -170,7 +172,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void SelectionChanged(IEnumerable<object> objs)
         {
-            Debug.Log("LIST SELECTION CHANGED");
+            //Debug.Log("LIST SELECTION CHANGED");
             var selected = objs.FirstOrDefault() as LBSLayer;
             LBSMainWindow.Instance._selectedLayer = selected;
             OnSelectLayer?.Invoke(GetSelectedLayer());
@@ -185,7 +187,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
         private void OnItemDrag(int oldIndex, int newIndex)
         {
-       
+            Debug.Log("On Item Drag");
             int count = Mathf.Abs(newIndex - oldIndex) + 1;
             int step = (int)Mathf.Sign(newIndex - oldIndex);
             for (int i = 0; i < count; i++)
@@ -323,7 +325,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region SELECTION MANAGEMENT
         private void SetSelectedLayer(LBSLayer layer)
         {
-            Debug.Log("SET SELECTED LAYER");
+            //Debug.Log("SET SELECTED LAYER");
             _selectedLayer = layer;
             OnSelectLayer?.Invoke(layer);
         }
@@ -355,6 +357,15 @@ namespace ISILab.LBS.VisualElements.Editor
 
         #region UI UPDATES
         private void HandleLayerChangeEvent(LBSLayer _) => RefreshUI();
+
+        private void HandleSelectLayerEvent(LBSLayer layer)
+        {
+            foreach (var layerView in _layerViews)
+            {
+                layerView.UpdateSelect(layer, IsFocusToggleOn());
+            }
+            CheckOpacity();
+        }
 
         private void RefreshUI()
         {

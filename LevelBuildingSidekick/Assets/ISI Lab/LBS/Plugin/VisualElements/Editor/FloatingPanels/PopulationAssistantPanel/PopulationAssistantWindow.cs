@@ -358,7 +358,7 @@ namespace ISILab.LBS.VisualElements.Editor
             
             //Directory making
             var info = new DirectoryInfo(presetPath);
-            Debug.Log(presetPath);
+            //Debug.Log(presetPath);
             var fileInfo = info.GetFiles();
 
             //Find all presets in the directory
