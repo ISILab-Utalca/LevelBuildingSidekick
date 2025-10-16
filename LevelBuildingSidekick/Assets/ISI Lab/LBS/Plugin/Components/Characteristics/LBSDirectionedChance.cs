@@ -2,13 +2,12 @@ using LBS.Bundles;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static ISILab.LBS.Characteristics.LBSDirectionedGroup;
 using static ISILab.LBS.Modules.ConnectedTileMapModule;
 
 namespace ISILab.LBS.Characteristics
 {
-    [System.Serializable]
-    [LBSCharacteristicAttribute("Directioned Chance", "Define chances based on direction")]
+    [Serializable]
+    [LBSCharacteristic("Directioned Chance", "Define chances based on direction")]
 
     public class LBSDirectionedChance : LBSCharacteristic, ICloneable
     {
@@ -101,7 +100,8 @@ namespace ISILab.LBS.Characteristics
 
         public override List<string> Validate()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return base.Validate();
         }
 
         public override int GetHashCode()

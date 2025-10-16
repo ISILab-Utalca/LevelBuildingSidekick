@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager;
 using ISILab.Commons.Utility.Editor;
 using UnityEngine.UIElements;
 using ISILab.LBS.CustomComponents.Events;
@@ -99,6 +100,7 @@ namespace ISILab.LBS.VisualElements
                 bundleWindowButton.RegisterCallback<ClickEvent>(_ =>
                 {
                     OnToggleButtonClick();
+                    BundleManagerWindow.ShowWindow();
                     bundleWindowButton.SetValueWithoutNotify(true);
                 });
                 
