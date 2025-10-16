@@ -143,6 +143,11 @@ namespace ISILab.LBS.VisualElements
                 // Update the inspector with the new layer data
                 var inspector = ve.Value;
                 inspector.SetTarget(layer);
+             
+                // Focus updates
+                ActiveInspector?.OnUnfocus?.Invoke();
+                ActiveInspector = inspector;
+                ActiveInspector?.OnFocus?.Invoke();
             }
         }
 

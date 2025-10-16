@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Progress;
+using Random = System.Random;
 using uRandom = UnityEngine.Random;
 
 namespace ISILab.Extensions
@@ -78,7 +79,7 @@ namespace ISILab.Extensions
                 return default(T);
             }
 
-            return list[UnityEngine.Random.Range(0, list.Count - 1)];
+            return list[new Random().Next(0, list.Count - 1)];
         }
 
         public static List<T> Rotate<T>(this List<T> list, int count)
@@ -132,11 +133,12 @@ namespace ISILab.Extensions
 
         public static void Shuffle<T>(this IList<T> list)
         {
+            var rnd = new System.Random();
             int n = list.Count;
             while (n > 1)
             {
                 n--;
-                int k = uRandom.Range(0, n + 1); 
+                int k = rnd.Next(0, n + 1); 
                 (list[k], list[n]) = (list[n], list[k]);
             }
         }

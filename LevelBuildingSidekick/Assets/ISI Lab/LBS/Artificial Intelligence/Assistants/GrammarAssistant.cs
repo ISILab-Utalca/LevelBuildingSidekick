@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using ISILab.LBS.Components;
 using ISILab.LBS.Modules;
 using Newtonsoft.Json;
@@ -192,31 +193,37 @@ namespace ISILab.LBS.Assistants
             return nextValidTerminals.ToList();
         }
         
-        public List<string> GetAllValidNextActionsInsert(string currentAction, QuestGraph questGraph)
+        public List<string> GetAllValidNextActionsInsert(string currentAction, QuestGraph questGraph, Action<float> onProgress = null, CancellationToken token = default)
         {
             // get valid actions out of context
             var nextValidTerminals = GetAllValidNextActions(currentAction);
             
             // Simulate to only get if its valid in the new context for insert
             HashSet<string> nextValidInsert = new HashSet<string>();
-            foreach (var nextValidTerminal in nextValidTerminals)
+            for (var index = 0; index < nextValidTerminals.Count; index++)
             {
+                if(token.IsCancellationRequested) return nextValidTerminals.ToList();
+                
+                var nextValidTerminal = nextValidTerminals[index];
                 CloneRefs.Start();
                 var clone = questGraph.Clone() as QuestGraph;
                 CloneRefs.End();
-             
+
+                onProgress?.Invoke((float)index/nextValidTerminals.Count);
+
                 if (clone is null) break;
-                
+
+                if(token.IsCancellationRequested) return nextValidTerminals.ToList();
                 clone.OwnerLayer = questGraph.OwnerLayer;
                 var newNode = clone.InsertQuestNodeAfter(nextValidTerminal, clone.GetNodeAsQuest());
                 if (newNode.ValidGrammar)
                 {
                     nextValidInsert.Add(nextValidTerminal);
                 }
-                
+
                 clone.OwnerLayer = null;
             }
-            
+
             return nextValidInsert.ToList();
         }
         
@@ -262,21 +269,27 @@ namespace ISILab.LBS.Assistants
             return prevValidTerminals.ToList();
         }
 
-        public List<string> GetAllValidPrevActionsInsert(string currentAction, QuestGraph questGraph)
+        public List<string> GetAllValidPrevActionsInsert(string currentAction, QuestGraph questGraph,  Action<float> onProgress = null, CancellationToken token = default)
         {
             // Get all non context prev actions   
             var prevValidTerminals = GetAllValidPrevActions(currentAction);
-
             // Simulate to only get if its valid in the new context for insert
             HashSet<string> prevValidInsert = new HashSet<string>();
-            foreach (var nextValidTerminal in prevValidTerminals)
+            for (var index = 0; index < prevValidTerminals.Count; index++)
             {
+                if(token.IsCancellationRequested) return prevValidTerminals.ToList();
+                
+                var nextValidTerminal = prevValidTerminals[index];
                 CloneRefs.Start();
                 var clone = questGraph.Clone() as QuestGraph;
                 CloneRefs.End();
 
+                onProgress?.Invoke((float)index/prevValidTerminals.Count);
+                
                 if (clone is null) break;
                 clone.OwnerLayer = questGraph.OwnerLayer;
+
+                if(token.IsCancellationRequested) return prevValidTerminals.ToList();
                 
                 var newNode = clone.InsertQuestNodeBefore(nextValidTerminal, clone.GetNodeAsQuest());
                 if (newNode.ValidGrammar)
@@ -286,11 +299,11 @@ namespace ISILab.LBS.Assistants
 
                 clone.OwnerLayer = null;
             }
-            
+
             return prevValidInsert.ToList();
         }
         
-        public List<List<string>> GetAllExpansions(string currentAction)
+        public List<List<string>> GetAllExpansions(string currentAction,Action<float> onProgress = null, CancellationToken token = default)
         {
             HashSet<List<string>> allExpansions = new HashSet<List<string>>();
             var grammar = _questGraph.Grammar;
@@ -300,12 +313,16 @@ namespace ISILab.LBS.Assistants
             // Get all the rules that contain the terminal
             foreach (var rule in GetOwningRules(currentAction))
             {
+                if(token.IsCancellationRequested) return allExpansions.ToList();
                 foreach (var ruleEntry in grammar.RuleEntries)
                 {
+                    if(token.IsCancellationRequested) return allExpansions.ToList();
                     if (ruleEntry.ruleID.Equals(rule))
                     {
+                        if(token.IsCancellationRequested) return allExpansions.ToList();
                         foreach (var wrapper in ruleEntry.expansions)
                         {
+                            if(token.IsCancellationRequested) return allExpansions.ToList();
                             expansions.Add(wrapper.items);
                         }
                     }
@@ -318,12 +335,17 @@ namespace ISILab.LBS.Assistants
             HashSet<string> seenSequences = new HashSet<string>();
 
             // Get terminals from the quests
-            foreach (var expansion in expansions)
+            for (var index = 0; index < expansions.Count; index++)
             {
+                if(token.IsCancellationRequested) return allExpansions.ToList();
+                
+                var expansion = expansions[index];
                 List<string> sequence = new List<string>();
 
                 foreach (var symbol in expansion)
                 {
+                    if(token.IsCancellationRequested) return allExpansions.ToList();
+                    
                     if (grammar.IsTerminal(symbol))
                     {
                         sequence.Add(symbol);
@@ -333,10 +355,12 @@ namespace ISILab.LBS.Assistants
                         sequence.Add(GetFirstTerminals(symbol, grammar).First());
                     }
                 }
-                
+
                 // do not add sequences that return the same action only
-                if(sequence.Count == 1 && sequence[0] == currentAction) continue;
+                if (sequence.Count == 1 && sequence[0] == currentAction) continue;
                 allExpansions.Add(sequence);
+                
+                onProgress?.Invoke((float)index/expansions.Count);
             }
 
             return allExpansions.ToList();

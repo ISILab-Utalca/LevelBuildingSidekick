@@ -128,14 +128,20 @@ namespace ISILab.LBS.VisualElements
             EventCallback<GeometryChangedEvent> onGeometryReady = null;
             onGeometryReady = (evt) =>
             {
-                // Ensure we only run once
                 capsule.UnregisterCallback(onGeometryReady);
 
                 if (_generatedQuestNode.NodeViewPosition == Rect.zero)
                 {
+                    // add offset to capsule (previously set in the assistant generation function 
                     capsule.style.left = capsule.resolvedStyle.left + _generatedQuestNode.Position.x;
-                    capsule.style.top = capsule.resolvedStyle.top + _generatedQuestNode.Position.y;
+                    capsule.style.top = capsule.resolvedStyle.top - _generatedQuestNode.Position.y;
 
+                    // offset by capsule size
+                    var capsulePos = capsule.worldBound.position; 
+                    capsulePos.x += capsule.resolvedStyle.width * 0.5f;
+                    capsulePos.y += capsule.resolvedStyle.height * 0.5f;
+
+                    var capsuleOffset = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(capsulePos);
                     var graphPos = _generatedQuestNode.Graph.OwnerLayer.ToFixedPosition(GetPosition().position);
                     _generatedQuestNode.NodeViewPosition = new Rect(
                         graphPos,

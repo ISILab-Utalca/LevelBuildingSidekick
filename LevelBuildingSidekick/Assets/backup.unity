@@ -2449,18 +2449,22 @@ MonoBehaviour:
             rid: 675441572658807218
           tileBundle:
             rid: 675441572658807219
+          guid: 
         - layer:
             rid: 675441572658807218
           tileBundle:
             rid: 675441572658807220
+          guid: 
         - layer:
             rid: 675441572658807218
           tileBundle:
             rid: 675441572658807221
+          guid: 
         - layer:
             rid: 675441572658807218
           tileBundle:
             rid: 675441572658807222
+          guid: 
     - rid: 675441572658807215
       type: {class: DataGather, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2564,6 +2568,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807220
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -2578,6 +2583,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807221
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -2592,6 +2598,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807222
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -2606,6 +2613,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807223
       type: {class: QuestNode, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -2982,7 +2990,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
-        _suggestionAmount: 3
+        suggestionAmount: 3
     - rid: 675441572658807235
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -3089,6 +3097,7 @@ MonoBehaviour:
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807246
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -3102,6 +3111,7 @@ MonoBehaviour:
           bundleName: Hammer
           bundle: {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807247
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
@@ -8272,7 +8282,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
-        _suggestionAmount: 3
+        suggestionAmount: 3
     - rid: 675441572658807268
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -8421,6 +8431,7 @@ MonoBehaviour:
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807281
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -8435,6 +8446,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807282
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -8449,6 +8461,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807283
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -8463,6 +8476,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807284
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -8477,6 +8491,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807285
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -8490,6 +8505,7 @@ MonoBehaviour:
           bundleName: Hammer
           bundle: {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807286
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -8523,18 +8539,22 @@ MonoBehaviour:
             rid: 675441572658807252
           tileBundle:
             rid: 675441572658807281
+          guid: 
         - layer:
             rid: 675441572658807252
           tileBundle:
             rid: 675441572658807283
+          guid: 
         - layer:
             rid: 675441572658807252
           tileBundle:
             rid: 675441572658807282
+          guid: 
         - layer:
             rid: 675441572658807252
           tileBundle:
             rid: 675441572658807284
+          guid: 
     - rid: 675441572658807288
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:
@@ -30697,18 +30717,22 @@ MonoBehaviour:
         rid: 675441572658807295
       tileBundle:
         rid: 675441572658807296
+      guid: 
     - layer:
         rid: 675441572658807295
       tileBundle:
         rid: 675441572658807297
+      guid: 
     - layer:
         rid: 675441572658807295
       tileBundle:
         rid: 675441572658807298
+      guid: 
     - layer:
         rid: 675441572658807295
       tileBundle:
         rid: 675441572658807299
+      guid: 
   objectsToKill:
   - {fileID: 228046179}
   - {fileID: 228046179}
@@ -30806,6 +30830,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807297
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -30820,6 +30845,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807298
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -30834,6 +30860,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807299
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -30848,6 +30875,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807300
       type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -30904,18 +30932,22 @@ MonoBehaviour:
             rid: 675441572658807295
           tileBundle:
             rid: 675441572658807296
+          guid: 
         - layer:
             rid: 675441572658807295
           tileBundle:
             rid: 675441572658807297
+          guid: 
         - layer:
             rid: 675441572658807295
           tileBundle:
             rid: 675441572658807298
+          guid: 
         - layer:
             rid: 675441572658807295
           tileBundle:
             rid: 675441572658807299
+          guid: 
     - rid: 675441572658807302
       type: {class: QuestGraph, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -31327,7 +31359,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
-        _suggestionAmount: 3
+        suggestionAmount: 3
     - rid: 675441572658807317
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -31476,6 +31508,7 @@ MonoBehaviour:
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807330
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -31489,6 +31522,7 @@ MonoBehaviour:
           bundleName: Hammer
           bundle: {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807331
       type: {class: DataGoto, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -38746,7 +38780,7 @@ MonoBehaviour:
         icon: {fileID: 7388822144124034973, guid: d0baea4f8bdb0c948887aed23edd4cad, type: 3}
         colorTint: {r: 0.47058827, g: 1, b: 0.8313726, a: 1}
         name: Quest Assistant
-        _suggestionAmount: 3
+        suggestionAmount: 3
     - rid: 675441572658807348
       type: {class: GrammarAssistant, ns: ISILab.LBS.Assistants, asm: LBS}
       data:
@@ -38871,18 +38905,22 @@ MonoBehaviour:
             rid: 675441572658807356
           tileBundle:
             rid: 675441572658807357
+          guid: 
         - layer:
             rid: 675441572658807356
           tileBundle:
             rid: 675441572658807358
+          guid: 
         - layer:
             rid: 675441572658807356
           tileBundle:
             rid: 675441572658807359
+          guid: 
         - layer:
             rid: 675441572658807356
           tileBundle:
             rid: 675441572658807360
+          guid: 
     - rid: 675441572658807355
       type: {class: DataGather, ns: ISILab.LBS.Components, asm: LBS}
       data:
@@ -38944,6 +38982,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807358
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -38958,6 +38997,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807359
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -38972,6 +39012,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807360
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -38986,6 +39027,7 @@ MonoBehaviour:
           bundleName: Enemy
           bundle: {fileID: 11400000, guid: 3c4b0aadeb41e954fa49de2f6b96cc80, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807361
       type: {class: TileMapModule, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -39239,6 +39281,7 @@ MonoBehaviour:
           bundleName: DNGCrawlerPlayer
           bundle: {fileID: 11400000, guid: 50238b964364050418416fa48f290579, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807375
       type: {class: TileBundleGroup, ns: ISILab.LBS.Modules, asm: LBS}
       data:
@@ -39252,6 +39295,7 @@ MonoBehaviour:
           bundleName: Hammer
           bundle: {fileID: 11400000, guid: c7e887d7f43ceb8418ebfffef01a17b6, type: 2}
         rotation: {x: 1, y: 0}
+        guid: 
     - rid: 675441572658807376
       type: {class: LBSTagsCharacteristic, ns: ISILab.LBS.Characteristics, asm: LBS}
       data:

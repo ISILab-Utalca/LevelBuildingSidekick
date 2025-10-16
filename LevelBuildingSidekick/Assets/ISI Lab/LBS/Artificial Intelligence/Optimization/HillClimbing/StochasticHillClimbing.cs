@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization;
 using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain.Randomizations;
@@ -28,7 +29,7 @@ namespace ISILab.AI.Optimization
             GetNeighbors = getNeighbors;
         }
 
-        public override void EvaluateFitness(IList<IOptimizable> optimizables)
+        public override void EvaluateFitness(IList<IOptimizable> optimizables, Action<float> onProgress = null, CancellationToken token = default)
         {
             foreach (var o in optimizables)
             {
@@ -36,7 +37,7 @@ namespace ISILab.AI.Optimization
             }
         }
 
-        public override void RunOnce()
+        public override void RunOnce(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock = new Stopwatch();
 

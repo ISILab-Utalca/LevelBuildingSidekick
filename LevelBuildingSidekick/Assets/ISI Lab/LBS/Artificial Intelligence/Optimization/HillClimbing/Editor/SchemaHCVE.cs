@@ -23,9 +23,10 @@ namespace ISILab.LBS.VisualElements
 
             var label = new Label(agent.GetType().Name);
 
-
-            var button = new Button(this.agent.Execute);
-            button.text = "Run";
+            var button = new Button(() => this.agent.Execute())
+            {
+                text = "Run"
+            };
 
             Add(label);
             Add(button);

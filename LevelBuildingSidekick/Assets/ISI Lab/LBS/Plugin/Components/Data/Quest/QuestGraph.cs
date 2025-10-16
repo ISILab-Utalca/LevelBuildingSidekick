@@ -235,11 +235,10 @@ namespace ISILab.LBS.Modules
             return node;
         }
 
-        public QuestNode AddSuggestion(string action, Vector2 pos = default)
+        public QuestNode CreateSuggestionNode(string action,  List<QuestNode> tempSuggestions, Vector2 pos = default)
         {
-            var uniqueSuggestionId = "s" + GenerateUniqueId(action, GetQuestNodes().Select(n => n.ID));
+            var uniqueSuggestionId = "s" + GenerateUniqueId(action, tempSuggestions.Select(n => n.ID));
             var node = new QuestNode(uniqueSuggestionId, pos, action, this);
-            suggestions.Add(node);
             return node;
         }
         
@@ -254,10 +253,11 @@ namespace ISILab.LBS.Modules
         public void AddSuggestionNode(QuestNode generatedQuestNode)
         {
             if(generatedQuestNode is null) return;
-            var graphPos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var pos = generatedQuestNode.NodeViewPosition.position.ToInt();
+            var graphPos = OwnerLayer.FixedToPosition(pos, true);
             var node = AddNewQuestNode(generatedQuestNode.QuestAction, graphPos);
-            node.NodeData = generatedQuestNode.NodeData;
-            node.NodeViewPosition = generatedQuestNode.NodeViewPosition;
+             node.NodeData = generatedQuestNode.NodeData;
+             node.NodeViewPosition = new Rect(graphPos, generatedQuestNode.NodeViewPosition.size);
         }
 
         private string GenerateUniqueId(string baseName, IEnumerable<string> existingIds)

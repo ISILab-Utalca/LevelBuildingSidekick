@@ -61,21 +61,22 @@ namespace ISILab.LBS.Components
 
         public override void SetDataByTiles(List<LBSLayer> layers, List<TileBundleGroup> tiles)
         {
-            TrySetBundleType(layers, tiles,  ref bundleReceiveType, validExchangeTags);
-            var bundleReceive = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleReceiveType.GetGuid());
+            TrySetBundleType(layers, tiles, ref bundleReceiveType, validExchangeTags);
+            var bundleReceive = bundleReceiveType.GetGuid();
+
             int recieveCounter = 0;
             foreach (var tbg in tiles)
             {
-                if(tbg.BundleData.Bundle == bundleReceive) recieveCounter++;
+                if(tbg.GetGuid() == bundleReceive) recieveCounter++;
             }
             receiveAmount = recieveCounter;
             
             TrySetBundleType(layers, tiles,  ref bundleGiveType, validExchangeTags);
-            var bundleGive = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGiveType.GetGuid());
+            var bundleGive = bundleGiveType.GetGuid();
             int giveCounter = 0;
             foreach (var tbg in tiles)
             {
-                if(tbg.BundleData.Bundle == bundleGive) giveCounter++;
+                if(tbg.GetGuid() == bundleGive) giveCounter++;
             }
             receiveAmount = giveCounter;
         }

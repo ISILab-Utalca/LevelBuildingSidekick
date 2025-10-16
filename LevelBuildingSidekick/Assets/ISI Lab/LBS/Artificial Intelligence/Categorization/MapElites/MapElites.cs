@@ -249,7 +249,8 @@ namespace ISILab.LBS.AI.Categorization
             Clear();
             SetupCallbacks();
 
-            thread = new Thread(Optimizer.Start);
+            thread = new Thread(() => Optimizer.Start());
+            
             TryStartThread();
             if(synchronous) thread.Join();
         }
