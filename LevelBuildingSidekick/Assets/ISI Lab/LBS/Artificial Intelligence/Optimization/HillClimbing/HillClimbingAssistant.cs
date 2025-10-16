@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
@@ -50,6 +51,7 @@ namespace ISILab.LBS.Assistants
 
         private List<Zone> _prevZones;
         private Dictionary<Zone, ConstraintPair> _pairRefs = new();
+        
         #endregion
 
         #region PROPERTIES
@@ -297,15 +299,35 @@ namespace ISILab.LBS.Assistants
             return AreasMod.GetTiles(zone);
         }
 
-        public void RecalculateConstraint()
+        public void RecalculateConstraint(Action<float> onProgress = null, CancellationToken token = default)
         {
             var zoneModule = OwnerLayer.GetModule<SectorizedTileMapModule>();
             var zones = zoneModule.Zones;
 
+            var PreviousConstraints = ConstrainsZonesMod.Constraints;
             ConstrainsZonesMod.Clear();
 
-            foreach (var zone in zones)
+            for (var index = 0; index < zones.Count; index++)
             {
+                if (token.IsCancellationRequested)
+                {
+                    ConstrainsZonesMod.Clear();
+                    foreach (var constraintPair in PreviousConstraints)
+                    {
+                        var prevMin = new Vector2(
+                            constraintPair.Constraint.minWidth,
+                            constraintPair.Constraint.minHeight);
+
+                        var prevMax = new Vector2(
+                            constraintPair.Constraint.maxWidth,
+                            constraintPair.Constraint.maxHeight);
+                        
+                        ConstrainsZonesMod.AddPair(constraintPair.Zone, prevMin, prevMax);
+                    }
+                    return;
+                }
+                
+                var zone = zones[index];
                 var bounds = zoneModule.GetBounds(zone);
 
                 var min = new Vector2(bounds.width - 2, bounds.height - 2);
@@ -316,9 +338,11 @@ namespace ISILab.LBS.Assistants
                     min.y = 1;
 
                 var max = new Vector2(bounds.width + 2, bounds.height + 2);
-
+                
                 ConstrainsZonesMod.AddPair(zone, min, max);
-
+                
+                onProgress?.Invoke((float)index/zones.Count);
+                Thread.Sleep(1); // to draw
             }
         }
 

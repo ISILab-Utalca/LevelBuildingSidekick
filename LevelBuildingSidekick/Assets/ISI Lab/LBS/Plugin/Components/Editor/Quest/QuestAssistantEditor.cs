@@ -124,7 +124,7 @@ namespace ISILab.LBS.Editor
             _currentTaskCts = new CancellationTokenSource();
             var token = _currentTaskCts.Token;
 
-            var taskbar = LBSMainWindow.Instance.TopToolBar;
+            var taskbar =LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();;
             
             taskbar.OnProgressCancelled -= CancelCurrentTask;
             taskbar.OnProgressCancelled += CancelCurrentTask;
@@ -136,19 +136,13 @@ namespace ISILab.LBS.Editor
                 void UpdateOnce()
                 {
                     taskbar.SetProgressPercent(normalized);
-                    RemoveUpdate();
-                }
-
-                void RemoveUpdate()
-                {
                     EditorApplication.update -= UpdateOnce;
                 }
             }
             
+            taskbar.EnableProcess(true, _questAssistant.Name);
             Task.Run(() =>
             {
-                EditorApplication.delayCall += () => taskbar.EnableProcess(true, _questAssistant.Name);
-
                 try
                 {
                     var bundleToActions = _questAssistant.GenerateSuggestions((int)GetSuggestionCount(), progress =>
@@ -174,6 +168,7 @@ namespace ISILab.LBS.Editor
                         ReportProgress(0);
                         return;
                     }
+                    
                     
                     // Once done, update UI safely
                     EditorApplication.delayCall += () =>
@@ -313,7 +308,7 @@ namespace ISILab.LBS.Editor
         
         public override void OnUnfocus()
         {
-            LBSMainWindow.Instance.TopToolBar.CancelProgress();
+            LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>().CancelProgress();
             _questGraph.displaySuggestions = false;
             DrawManager.Instance.RedrawLayer(_questGraph.OwnerLayer);
         }

@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.CustomComponents;
@@ -21,6 +24,7 @@ namespace ISILab.LBS.VisualElements
     [LBSCustomEditor("HillClimbingAssistant", typeof(HillClimbingAssistant))]
     public class HillClimbingAssistantEditor : LBSCustomEditor, IToolProvider
     {
+        #region FIELDS
         private readonly UnityEngine.Color AssistantColor = LBSSettings.Instance.view.assistantColor;
 
         private HillClimbingAssistant hillClimbing;
@@ -42,6 +46,9 @@ namespace ISILab.LBS.VisualElements
         private SetZoneConnection setZoneConnection;
         private RemoveZoneConnection removeZoneConnection;
 
+        private CancellationTokenSource _currentTaskCts;
+        #endregion
+        
         public HillClimbingAssistantEditor(object target) : base(target)
         {
             hillClimbing = target as HillClimbingAssistant;
@@ -128,15 +135,24 @@ namespace ISILab.LBS.VisualElements
             
             benchmarkToggle = this.Q<LBSCustomToggleField>("UseBenchmark");
 
-            recalculate = new Button();
-            recalculate.text = "Recalculate Constraints";
-            recalculate.clicked += () => { ClickedRecalculate(); };
+            recalculate = new Button
+            {
+                text = "Recalculate Constraints"
+            };
+            recalculate.clicked += ClickedRecalculate;
 
             Add(recalculate);
 
             return this;
         }
 
+        void CancelCurrentTask()
+        {
+            if(_currentTaskCts == null) return;
+            if(_currentTaskCts.IsCancellationRequested) return;
+            _currentTaskCts.Cancel();
+        }
+        
         private void ClickedRecalculate()
         {
             // Save history version to revert if necessary
@@ -145,17 +161,63 @@ namespace ISILab.LBS.VisualElements
             EditorGUI.BeginChangeCheck();
 
             // Recalculate constraints
-            hillClimbing.RecalculateConstraint();
-            LBSMainWindow.MessageNotify("Zones constraints recalculated.");
+            RunRecalculateTask(x);
+        }
 
-            // Mark as dirty
-            if (EditorGUI.EndChangeCheck())
+        private void RunRecalculateTask(LoadedLevel level)
+        {
+            _currentTaskCts?.Cancel();
+
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar = LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();
+            
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+
+            void ReportProgress(float normalized)
             {
-                EditorUtility.SetDirty(x);
-            }
+                // Use update so progress applies immediately
+                EditorApplication.update += UpdateOnce;
 
-            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
-            Paint();
+                void UpdateOnce()
+                {
+                    taskbar.SetProgressPercent(normalized);
+                    EditorApplication.update -= UpdateOnce;
+                }
+            }
+            
+            taskbar.EnableProcess(true, hillClimbing.Name);
+            Task.Run(() =>
+            {
+                try
+                {
+                    hillClimbing.RecalculateConstraint(ReportProgress, token);
+
+                    EditorApplication.delayCall += () =>
+                    {
+                        LBSMainWindow.MessageNotify("Zones constraints recalculated.");
+
+                        // Mark as dirty
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            EditorUtility.SetDirty(level);
+                        }
+
+                        DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+                        Paint();
+                        
+                        taskbar.EnableProcess(false);
+                    };
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[GrammarAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () => taskbar.EnableProcess(false);
+                }
+            }, token);
         }
 
         private void Paint()

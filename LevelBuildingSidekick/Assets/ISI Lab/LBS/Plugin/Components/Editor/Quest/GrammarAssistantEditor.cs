@@ -143,16 +143,16 @@ namespace ISILab.LBS.Editor
             _currentTaskCts = new CancellationTokenSource();
             var token = _currentTaskCts.Token;
 
-            var taskbar = LBSMainWindow.Instance.TopToolBar;
+            var taskbar = LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();
             
             taskbar.OnProgressCancelled -= CancelCurrentTask;
             taskbar.OnProgressCancelled += CancelCurrentTask;
             
             ResetPanels();
+            
+            taskbar.EnableProcess(true, _grammarAssistant.Name);
             Task.Run(() =>
             {
-                EditorApplication.delayCall += () => taskbar.EnableProcess(true, _grammarAssistant.Name);
-
                 try
                 {
                     void ReportProgress(float normalized)
@@ -171,7 +171,21 @@ namespace ISILab.LBS.Editor
                         {
                             // progress from 0 → 0.33
                             ReportProgress(0.33f * progress);
-                        })
+                        }, token)
+                        ?.ToArray() ?? Array.Empty<string>();
+
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    string[] prevArray = _grammarAssistant
+                        .GetAllValidPrevActionsInsert(selectedAction, _questGraph, progress =>
+                        {
+                            // progress from 0.33 → 0.66
+                            ReportProgress(0.33f + 0.33f * progress);
+                        }, token)
                         ?.ToArray() ?? Array.Empty<string>();
                     
                     if (token.IsCancellationRequested)
@@ -179,38 +193,21 @@ namespace ISILab.LBS.Editor
                         ReportProgress(0);
                         return;
                     }
-
-
-                    string[] prevArray = _grammarAssistant
-                        .GetAllValidPrevActionsInsert(selectedAction, _questGraph, progress =>
-                        {
-                            // progress from 0.33 → 0.66
-                            ReportProgress(0.33f + 0.33f * progress);
-                        })
-                        ?.ToArray() ?? Array.Empty<string>();
-
-                    if (token.IsCancellationRequested)
-                    {
-                        ReportProgress(0);
-                        return;
-                    }
-
                     
                     List<string>[] expandArray = _grammarAssistant
                         .GetAllExpansions(selectedAction, progress =>
                         {
                             // progress from 0.67 → 1.0
                             ReportProgress(0.67f + 0.33f * progress);
-                        })
+                        }, token)
                         ?.Select(l => l?.ToList() ?? new List<string>())
                         .ToArray() ?? Array.Empty<List<string>>();
-
+                    
                     if (token.IsCancellationRequested)
                     {
                         ReportProgress(0);
                         return;
                     }
-
                     
                     // Once done, update UI safely
                     EditorApplication.delayCall += () =>
@@ -392,7 +389,7 @@ namespace ISILab.LBS.Editor
 
         public override void OnUnfocus()
         {
-            LBSMainWindow.Instance.TopToolBar.CancelProgress();
+            LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>().CancelProgress();
         }
 
         #endregion

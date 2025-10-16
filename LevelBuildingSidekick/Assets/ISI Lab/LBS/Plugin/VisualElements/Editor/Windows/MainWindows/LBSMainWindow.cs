@@ -36,12 +36,6 @@ namespace ISILab.LBS.Editor.Windows{
 
         private LBSLevelData backUpData;
 
-        public ToolBarMain TopToolBar
-        {
-            get => topToolBar;
-            set => topToolBar = value;
-        }
-
         #endregion
 
         #region DATA & STATE

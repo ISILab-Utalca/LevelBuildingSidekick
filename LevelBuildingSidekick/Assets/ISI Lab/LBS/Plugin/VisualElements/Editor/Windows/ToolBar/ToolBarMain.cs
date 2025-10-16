@@ -85,6 +85,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void EnableProcess(bool enable, string assistantName = "Assistant")
         {
+            var taskOverlay = MainWindow.rootVisualElement.Q<LBSWaitTaskOverlay>();
+            taskOverlay.ShowRect = enable;
+            
             taskProgressBar.ProgressTextLabel = assistantName;
             taskProgressBar.value = enable ? 0 : 1;
             taskInfo.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
