@@ -12,8 +12,6 @@ namespace LBS.Bundles.Tools
         [Header("Scatter Settings")]
         public int iterations = 10;
         public float  deep = 2.4f;
-        public bool clearPrevious = false;
-
 
         public override void RunCommand()
         {
@@ -33,5 +31,10 @@ namespace LBS.Bundles.Tools
         }
 
     }
+    
+    
+
+    
+    
 }
 

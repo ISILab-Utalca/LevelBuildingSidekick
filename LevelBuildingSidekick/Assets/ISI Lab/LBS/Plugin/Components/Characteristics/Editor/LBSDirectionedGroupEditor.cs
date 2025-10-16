@@ -12,16 +12,16 @@ using static ISILab.LBS.Modules.ConnectedTileMapModule;
 namespace ISILab.LBS.VisualElements
 {
     [LBSCustomEditor("Connections group", typeof(LBSDirectionedGroup))]
-    public class LBSDirectionGroupEditor : LBSCustomEditor
+    public class LBSDirectionedGroupEditor : LBSCustomEditor
     {
         public VisualElement content;
 
-        public LBSDirectionGroupEditor()
+        public LBSDirectionedGroupEditor()
         {
 
         }
 
-        public LBSDirectionGroupEditor(object target) : base(target)
+        public LBSDirectionedGroupEditor(object target) : base(target)
         {
             CreateVisualElement();
             SetInfo(target);
