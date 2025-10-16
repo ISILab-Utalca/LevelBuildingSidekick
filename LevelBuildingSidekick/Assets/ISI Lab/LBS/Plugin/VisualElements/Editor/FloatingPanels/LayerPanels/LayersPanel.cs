@@ -124,7 +124,7 @@ namespace ISILab.LBS.VisualElements.Editor
         #region LISTVIEW HANDLERS
         private void BindListItem(VisualElement item, int index)
         {
-            Debug.Log("Bind List Item [Layers Panel]");
+            //Debug.Log("Bind List Item [Layers Panel]");
             if (index >= Data.LayerCount)
             {
                 _dragAffected.Remove(index);

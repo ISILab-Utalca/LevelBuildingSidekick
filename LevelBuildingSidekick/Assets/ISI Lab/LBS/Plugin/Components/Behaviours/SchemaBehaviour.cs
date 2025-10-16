@@ -197,8 +197,9 @@ namespace ISILab.LBS.Behaviours
 
         public void SetConnection(LBSTile tile, int direction, string connection, bool editedByIA)
         {
-            var t = tileConnections.GetPair(tile);
+            TileConnectionsPair t = tileConnections.GetPair(tile);
             t.SetConnection(direction, connection, editedByIA);
+            RequestTilePaint(tile);
         }
 
         public void AddConnections(LBSTile tile, List<string> connections, List<bool> editedByIA)
@@ -249,43 +250,47 @@ namespace ISILab.LBS.Behaviours
             return tor;
         }
 
-        public void RecalculateWalls()
+        public void RecalculateWalls(List<LBSTile> tiles = null)
         {
-            foreach (var tile in Tiles)
-            {
-                var currZone = GetZone(tile);
+            tiles ??= Tiles;
+            tiles.ForEach(t => RequestTilePaint(t));
 
-                var currConnects = GetConnections(tile);
+            //foreach (var tile in Tiles)
+            for(int i = 0; i < tiles.Count; i++)
+            {
+                var currZone = GetZone(tiles[i]);
+
+                var currConnects = GetConnections(tiles[i]);
                 UnityEngine.Assertions.Assert.IsNotNull(currConnects);
 
-                var neigs = GetTileNeighbors(tile, Directions);
+                var neigs = GetTileNeighbors(tiles[i], Directions);
 
-                var edt = tileConnections.GetPair(tile).EditedByIA;
+                var edt = tileConnections.GetPair(tiles[i]).EditedByIA;
 
-                for (int i = 0; i < Directions.Count; i++)
+                for (int j = 0; j < Directions.Count; j++)
                 {
-                    if (!edt[i])
+                    if (!edt[j])
                         continue;
 
-                    if (neigs[i] == null)
+                    if (neigs[j] == null)
                     {
-                        if (currConnects[i] != "Door")
+                        if (currConnects[j] != "Door")
                         {
-                            SetConnection(tile, i, "Wall", true);
+                            SetConnection(tiles[i], j, "Wall", true);
                         }
                         continue;
                     }
 
-                    var otherZone = GetZone(neigs[i]);
+                    var otherZone = GetZone(neigs[j]);
                     if (otherZone.Equals(currZone))
                     {
-                        SetConnection(tile, i, "Empty", true);
+                        SetConnection(tiles[i], j, "Empty", true);
                     }
                     else
                     {
-                        if (currConnects[i] != "Door")
+                        if (currConnects[j] != "Door")
                         {
-                            SetConnection(tile, i, "Wall", true);
+                            SetConnection(tiles[i], j, "Wall", true);
                         }
                     }
                 }
