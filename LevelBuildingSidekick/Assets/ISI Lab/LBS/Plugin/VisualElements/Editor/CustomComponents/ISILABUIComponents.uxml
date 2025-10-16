@@ -10,7 +10,7 @@
             <uie:ToolbarMenu />
             <uie:ToolbarPopupSearchField />
         </uie:Toolbar>
-        <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView" class="alt">
+        <ISILab.Commons.VisualElements.Editor.SplitView fixed-pane-initial-dimension="320" name="SplitView">
             <ui:VisualElement class="lbs-panel">
                 <ISILab.LBS.CustomComponents.LBSCustomEnumField label="CustomEnumField" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=EnumField.svg?fileID=7388822144124034973&amp;guid=ea38db42f43233b4894243942b78f176&amp;type=3#Icon=EnumField" icon-color="#FFFFFFFF" type="UnityEngine.Rendering.RenderGraphModule.AccessFlags, Unity.RenderPipelines.Core.Runtime" icon-position="Left" style="height: 47px;" />
                 <ISILab.LBS.CustomComponents.LBSCustomDropdown choices="Item 1,Item 2,Item 3" label="Custom Dropdown" index="0" icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=EnumField.svg?fileID=7388822144124034973&amp;guid=ea38db42f43233b4894243942b78f176&amp;type=3#Icon=EnumField" style="height: 37px;" />
@@ -66,6 +66,7 @@
                     <ISILab.LBS.CustomComponents.LBSCustomFoldout>
                         <ISILab.LBS.CustomComponents.LBSCustomListView show-add-remove-footer="true" data-source-path="List&lt;float&gt;" />
                         <ISILab.LBS.CustomComponents.LBSCustomTreeView selection-type="Multiple" />
+                        <ISILab.LBS.CustomComponents.LBSCustomHeader icon-image="project://database/Assets/ISI%20Lab/Commons/Assets2D/Resources/Icons/Vectorial/Icon=AI_Assistant.svg?fileID=7388822144124034973&amp;guid=2cf0d2907db06024190d079005239a75&amp;type=3#Icon=AI_Assistant" style="height: 40px;" />
                     </ISILab.LBS.CustomComponents.LBSCustomFoldout>
                     <ISILab.LBS.Editor.Windows.LBSWaitTaskOverlay step="3" delay="21" style="flex-grow: 1;" />
                 </ui:VisualElement>

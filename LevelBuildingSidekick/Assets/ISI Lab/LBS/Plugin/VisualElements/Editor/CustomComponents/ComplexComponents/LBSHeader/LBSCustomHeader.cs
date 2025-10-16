@@ -68,7 +68,6 @@ namespace ISILab.LBS.CustomComponents
 
         #endregion
         
-        
         private string text = "";
         private VectorImage iconImage;
         
@@ -85,6 +84,7 @@ namespace ISILab.LBS.CustomComponents
 
         public LBSCustomHeader(string _text = "Placeholder")
         {
+            this.AddToClassList("lbs-header");
             VisualTreeAsset visualTree = Macros.LBSAssetMacro.LoadAssetByGuid<VisualTreeAsset>("4b6c101d1038601419b07d23e8a28d3b"); 
             visualTree.CloneTree(this);
             //this.styleSheets =    
