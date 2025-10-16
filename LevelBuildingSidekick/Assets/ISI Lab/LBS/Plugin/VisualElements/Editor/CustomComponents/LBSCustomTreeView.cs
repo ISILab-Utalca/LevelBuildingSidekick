@@ -177,8 +177,8 @@ namespace ISILab.LBS.CustomComponents
         public LBSTreeData()
         {
             uniqueID = Guid.NewGuid();
-            Debug.Log(uniqueID.ToString());
-            Debug.Log(uniqueID.GetHashCode());
+            //Debug.Log(uniqueID.ToString());
+            //Debug.Log(uniqueID.GetHashCode());
             ItemName = "Sample Tree Item";
             Id = uniqueID.GetHashCode();
         }

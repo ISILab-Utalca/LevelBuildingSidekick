@@ -24,10 +24,27 @@ namespace ISILab.LBS.Editor.Windows
         }
 
 
+        [UxmlAttribute]
+        public bool ShowRect
+        {
+            get => showRect;
+            set
+            {
+                showRect = value;
+                this.style.display = showRect ? DisplayStyle.Flex : DisplayStyle.None;
+                
+                if (showRect) {rotationSchedule?.Resume();}
+                else { rotationSchedule?.Pause();}
+            }
+        }
+
         VisualElement taskIcon;
+        private IVisualElementScheduledItem rotationSchedule;
+        
         private float step = 1.0f;
         private int delay = 0;
         private float rotationDegres = 0f;
+        private bool showRect = true;
 
         public LBSWaitTaskOverlay() : base()
         {
@@ -35,17 +52,17 @@ namespace ISILab.LBS.Editor.Windows
             vta?.CloneTree(this);
             
             taskIcon = this.Q<VisualElement>("CenterIcon");
-
-
-            this.schedule.Execute(() =>
+            
+            rotationSchedule = this.schedule.Execute(() =>
             {
+                rotationDegres += step;
+                rotationDegres %= 360; 
                 taskIcon.style.rotate =  new Rotate(rotationDegres);
-            }).Every(32);
-
+                taskIcon.MarkDirtyRepaint();
+            }).Every(64L).StartingIn(0L);
+            rotationSchedule.Resume();
+            
         }
-        
-        
-        
     }
     
 }

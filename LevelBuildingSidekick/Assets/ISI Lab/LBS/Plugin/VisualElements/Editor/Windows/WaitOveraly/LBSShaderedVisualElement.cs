@@ -22,11 +22,6 @@ namespace ISILab.LBS.CustomComponents
 
         void OnGenerateVisualContent(MeshGenerationContext ctx)
         {
-            Painter2D painter = ctx.painter2D;
-            // Custom 2D drawing — or use ctx.DrawMesh for 3D-style rendering
-            
-            Rect rect = contentRect;
-            // Use a mesh with a material that uses your shader
         }
     }
 }
