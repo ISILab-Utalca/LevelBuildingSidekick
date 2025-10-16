@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization.Populations;
@@ -171,7 +172,7 @@ namespace ISILab.AI.Optimization
             OnStopped?.Invoke();
         }
 
-        public virtual void Start()
+        public virtual void Start(Action<float> onProgress = null, CancellationToken token = default)
         {
             OnStarted?.Invoke();
             lock (m_lock)
@@ -190,7 +191,7 @@ namespace ISILab.AI.Optimization
                 clock.Stop();
             }
 
-            Run();
+            Run(onProgress, token);
         }
 
         public virtual void StartOne()
@@ -248,14 +249,14 @@ namespace ISILab.AI.Optimization
             Run();
         }
 
-        public abstract void RunOnce ();
+        public abstract void RunOnce (Action<float> onProgress = null, CancellationToken token = default);
 
-        public abstract void EvaluateFitness(IList<IOptimizable> optimizables);
+        public abstract void EvaluateFitness(IList<IOptimizable> optimizables, Action<float> onProgress = null, CancellationToken token = default);
 
         //Made so it doesn't just reset all the time
         public abstract void InitializeDefault();
 
-        public void Run()
+        public void Run(Action<float> onProgress = null, CancellationToken token = default)
         {
             while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
             {
@@ -271,7 +272,7 @@ namespace ISILab.AI.Optimization
                 }
 
                 clock.Restart();
-                RunOnce();
+                RunOnce(onProgress, token);
                 clock.Stop();
                 OnGenerationRan?.Invoke();
                 State = Op_State.Running;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
@@ -123,7 +124,7 @@ namespace ISILab.AI.Optimization
             Termination = new GenerationNumberTermination(20);
         }
 
-        public override void RunOnce()
+        public override void RunOnce(Action<float> onProgress = null, CancellationToken token = default)
         {
             var parents = SelectParents();
             var p = parents.Select(p => p as ChromosomeBase).ToList();
@@ -208,7 +209,7 @@ namespace ISILab.AI.Optimization
         /// <summary>
         /// Evaluates the fitness.
         /// </summary>
-        public override void EvaluateFitness(IList<IOptimizable> optimizables)
+        public override void EvaluateFitness(IList<IOptimizable> optimizables, Action<float> onProgress = null, CancellationToken token = default)
         {
             try
             {

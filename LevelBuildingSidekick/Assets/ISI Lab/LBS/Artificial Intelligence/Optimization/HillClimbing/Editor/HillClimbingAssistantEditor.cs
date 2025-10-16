@@ -214,7 +214,7 @@ namespace ISILab.LBS.VisualElements
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[GrammarAssistant] Task failed: {ex}");
+                    Debug.LogError($"[HillClimbingAssistant] Task failed: {ex}");
                     EditorApplication.delayCall += () => taskbar.EnableProcess(false);
                 }
             }, token);
@@ -251,18 +251,64 @@ namespace ISILab.LBS.VisualElements
             Undo.RegisterCompleteObjectUndo(x, "Execute HillClimbing");
             EditorGUI.BeginChangeCheck();
 
-            // Execute hill climbing
-            //hillClimbing.Execute();
-            if(hillClimbing.TryExecute(out string failedLog))
-                LBSMainWindow.MessageNotify("Hill Climbing executed.");
-            else
-                LBSMainWindow.MessageNotify(failedLog, LogType.Warning, 5);
+            _currentTaskCts?.Cancel();
 
-            // Mark as dirty
-            if (EditorGUI.EndChangeCheck())
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar =LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();;
+            
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+            
+              
+            void ReportProgress(float normalized)
             {
-                EditorUtility.SetDirty(x);
+                // Use update so progress applies immediately
+                EditorApplication.update += UpdateOnce;
+                void UpdateOnce()
+                {
+                    taskbar.SetProgressPercent(normalized);
+                    EditorApplication.update -= UpdateOnce;
+                }
             }
+            taskbar.EnableProcess(true, hillClimbing.Name);
+            Task.Run(() =>
+            {
+                try
+                {
+                    bool valid = hillClimbing.TryExecute(out string failedLog, ReportProgress, token);
+                    EditorApplication.delayCall += () =>
+                    {
+                        if (valid)
+                        {
+                            hillClimbing.ExecutionEnded();
+                            LBSMainWindow.MessageNotify("Hill Climbing executed.");
+
+                            // Mark as dirty
+                            if (EditorGUI.EndChangeCheck())
+                            {
+                                EditorUtility.SetDirty(x);
+                            }
+                            
+                            DrawManager.Instance.RedrawLayer(hillClimbing.OwnerLayer);
+                            Paint();
+                        }
+                        else
+                        {
+                            LBSMainWindow.MessageNotify(failedLog, LogType.Warning, 5);
+                        }
+                        
+                        taskbar.EnableProcess(false);
+                    };
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[HillClimbingAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () => taskbar.EnableProcess(false);
+                }
+            }, token);
         }
     }
 }
