@@ -86,7 +86,7 @@ namespace ISILab.AI.Optimization
 
             Elog = clock.ElapsedMilliseconds;
 
-            PrintClocks();
+            //PrintClocks();
 
             Population.CreateNewGeneration(offsprings);
             Population.EndCurrentGeneration();

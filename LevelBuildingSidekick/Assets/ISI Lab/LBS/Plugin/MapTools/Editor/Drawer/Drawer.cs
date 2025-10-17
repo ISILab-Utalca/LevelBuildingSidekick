@@ -22,6 +22,7 @@ namespace ISILab.LBS.Drawers
         public Drawer() { }
 
         public abstract void Draw(object target, MainView view, Vector2 teselationSize);
+        public virtual void Update(object target, MainView view, Vector2 teselationSize) { Draw(target, view, teselationSize); }
 
         #region RECOMMENDED METHODS
         // To optimally handle the visual elements, it is recommended that a drawer's Draw method contains the next steps.

@@ -43,11 +43,33 @@ namespace ISILab.LBS
         {
             // Validation
             if (layer == null) return;
+
+            UpdateVisibility(layer);
+            
+            // Draw behaviours and assistants (if both share same drawer system)
+            DrawVisibleComponents(layer.Behaviours, layer);
+            DrawVisibleComponents(layer.Assistants, layer);
+        }
+
+        public void UpdateLayer(LBSLayer layer)
+        {
+            // Validation
+            if (layer == null) return;
+
+            _view.ClearLayerContainer(layer);
+            UpdateVisibility(layer);
+
+            UpdateVisibleComponents(layer.Behaviours, layer);
+            UpdateVisibleComponents(layer.Assistants, layer);
+        }
+
+        private void UpdateVisibility(LBSLayer layer)
+        {
             if (!_preVisibility.ContainsKey(layer))
             {
                 _preVisibility.Add(layer, layer.IsVisible);
             }
-            
+
             // Change visibility of layer
             else
             {
@@ -64,10 +86,6 @@ namespace ISILab.LBS
                 }
             }
             _preVisibility[layer] = layer.IsVisible;
-            
-            // Draw behaviours and assistants (if both share same drawer system)
-            DrawVisibleComponents(layer.Behaviours, layer);
-            DrawVisibleComponents(layer.Assistants, layer);
         }
 
         private void DrawVisibleComponents<T>(List<T> components, LBSLayer layer)
@@ -77,10 +95,18 @@ namespace ISILab.LBS
                 if (component == null)continue;
                 var drawer = GetOrCreateDrawer(component.GetType(), layer);
                 if(drawer == null) continue;
-                //if (!layer.IsVisible) drawer.FullRedrawRequested = false;
-                drawer.Draw(component, MainView.Instance,layer.TileSize);
-                //if (!layer.IsVisible) drawer.FullRedrawRequested = true;
-                //Debug.Log("drawing call");
+                drawer.Draw(component, MainView.Instance, layer.TileSize);
+            }
+        }
+
+        private void UpdateVisibleComponents<T>(List<T> components, LBSLayer layer)
+        {
+            foreach (var component in components)
+            {
+                if (component == null) continue;
+                var drawer = GetOrCreateDrawer(component.GetType(), layer);
+                if (drawer == null) continue;
+                drawer.Update(component, MainView.Instance, layer.TileSize);
             }
         }
 
@@ -125,14 +151,14 @@ namespace ISILab.LBS
 
         public void RedrawLayer(LBSLayer layer)
         {
-            //UnityEngine.Debug.Log("Redraw Layer");
+            UnityEngine.Debug.Log("Redraw Layer");
             _view.ClearLayerContainer(layer);
             DrawLayer(layer);
         }
 
         public void RedrawLevel(LBSLevelData level, bool deepClean = false)
         {
-            //UnityEngine.Debug.Log("Redraw Level");
+            UnityEngine.Debug.Log("Redraw Level");
             var newDrawers = GetNewDrawers();
             foreach (var layer in level.Layers)
             {
