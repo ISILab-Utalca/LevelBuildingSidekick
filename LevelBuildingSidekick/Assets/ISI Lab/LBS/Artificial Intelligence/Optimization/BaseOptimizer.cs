@@ -185,7 +185,7 @@ namespace ISILab.AI.Optimization
                 //Adam.Fitness = Evaluator.Evaluate(Adam);
                 Population.Adam = Adam;
                 Population.CreateInitialGeneration();
-                EvaluateFitness(Population.CurrentGeneration.Evaluables);
+                EvaluateFitness(Population.CurrentGeneration.Evaluables, onProgress, token);
                 Population.EndCurrentGeneration();
                 OnGenerationRan?.Invoke();
                 clock.Stop();
@@ -227,12 +227,11 @@ namespace ISILab.AI.Optimization
             //UnityEngine.Debug.Log("RunOnce: " + clock2.ElapsedMilliseconds/1000f + "s."); 
         }
 
-        public virtual void Restart()
+        public virtual void Restart(Action<float> onProgress = null, CancellationToken token = default)
         {
             OnStarted?.Invoke();
             lock (m_lock)
             {
-
                 stopRequested = false;
                 pauseRequested = false;
                 State = Op_State.Started;
@@ -246,7 +245,7 @@ namespace ISILab.AI.Optimization
                 clock.Stop();
             }
 
-            Run();
+            Run(onProgress, token);
         }
 
         public abstract void RunOnce (Action<float> onProgress = null, CancellationToken token = default);
@@ -260,7 +259,7 @@ namespace ISILab.AI.Optimization
         {
             while(!TerminationReached() && !(State == Op_State.Paused || State == Op_State.Stopped))
             {
-                if (stopRequested)
+                if (stopRequested || token.IsCancellationRequested)
                 {
                     Stop();
                     break;

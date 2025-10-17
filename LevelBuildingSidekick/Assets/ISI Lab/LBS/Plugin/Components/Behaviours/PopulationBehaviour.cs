@@ -45,8 +45,8 @@ namespace ISILab.LBS.Behaviours
 
         #region PROPERTIES
         [JsonIgnore]
-        public List<TileBundleGroup> Tilemap => _bundleTileMap.Groups;
-        
+        public List<TileBundleGroup> Tilemap => _bundleTileMap is not null ? _bundleTileMap.Groups : new List<TileBundleGroup>();
+
         [JsonIgnore]
         public BundleTileMap BundleTilemap => _bundleTileMap;
         

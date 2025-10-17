@@ -110,7 +110,7 @@ namespace ISILab.LBS.Assistants
             clock.Stop();
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules)?.Modules;
-            var zones = modules.GetModule<SectorizedTileMapModule>();
+           // var zones = modules.GetModule<SectorizedTileMapModule>();
             var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
             schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
             RecalculateWalls(modules);
@@ -134,8 +134,7 @@ namespace ISILab.LBS.Assistants
 
         public void ExecutionEnded()
         {
-            // not sure reloading all the modulies is neccesary idk!
-           // OwnerLayer.Reload();
+            OwnerLayer.Reload();
             OnTermination?.Invoke();
         }
 
@@ -153,11 +152,17 @@ namespace ISILab.LBS.Assistants
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
             var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
+            
+            if(token.IsCancellationRequested) return;
             schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
+           
+            if(token.IsCancellationRequested) return;
             RecalculateWalls(modules);
-
             SetDoors(modules);
 
+            // last cancel attempt before the modules are replaced
+            if(token.IsCancellationRequested) return;
+            
             foreach (var module in modules)
             {
                 var old = OwnerLayer.GetModule(module.ID);

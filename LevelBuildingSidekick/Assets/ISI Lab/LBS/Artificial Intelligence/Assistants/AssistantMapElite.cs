@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Categorization;
 using ISILab.AI.Optimization;
@@ -103,7 +104,7 @@ namespace ISILab.LBS.Assistants
         {
         }
 
-        public void Execute(bool synchronous = false)
+        public void Execute(bool synchronous = false, Action<float> onProgress = null, CancellationToken token = default)
         {
             toUpdate.Clear();
             if (!Testing)
@@ -117,19 +118,12 @@ namespace ISILab.LBS.Assistants
                 };
             }
             
-            //Debug.Log("Map Elites Algorithm state: " + mapElites.Optimizer.State);
             if (mapElites.Running)
             {
-                Debug.Log("Algorithm is already running; Restarting.");
-                mapElites.Restart();
+                mapElites.Stop();
             }
-            else 
-            {
-                mapElites.Run(synchronous);
-            }
-                
-            
-            
+        
+            mapElites.Run(synchronous, onProgress, token);
         }
 
         public void RequestOptimizerStop() => mapElites?.Optimizer?.RequestStop();
