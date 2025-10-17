@@ -103,12 +103,38 @@ namespace ISILab.LBS.VisualElements.Editor
 
         public void NewLevel(DropdownMenuAction dma)
         {
-            var data = LBSController.CreateNewLevel("new file");
-            OnNewLevel?.Invoke(data);
-            LBSMainWindow.MessageNotify("New level created.");
+            NewLevel();
+        }
+        public void NewLevel()
+        {
+            var answer = EditorUtility.DisplayDialog(
+                   "Current File Not Saved",
+                   "Progress in the current level will be lost. Proceed?",
+                   "confirm",
+                   "cancel");
+            switch (answer)
+            {
+                case true:
+                    var data = LBSController.CreateNewLevel("new file");
+                    if (data != null)
+                    {
+                        OnNewLevel?.Invoke(data);
+                     
+                        LBSMainWindow.MessageNotify("New level created.");
+                    }
+                    return;
+                case false:
+                    return;
+            }
+
+            
         }
 
         public void LoadLevel(DropdownMenuAction dma)
+        {
+            LoadLevel();
+        }
+        public void LoadLevel()
         {
             var data = LBSController.LoadFile();
             if (data != null)
@@ -116,9 +142,9 @@ namespace ISILab.LBS.VisualElements.Editor
                 OnLoadLevel?.Invoke(data);
                 LBSMainWindow.MessageNotify("The level has been loaded successfully.");
             }
-                
+
         }
-        
+
         public void LevelChange()
         {
             OnLevelChange?.Invoke(LBS.loadedLevel);
@@ -130,7 +156,6 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         public void SaveLevel()
         {
-            Debug.Log("saving");
             LBSController.SaveFile();
             OnSaveLevel?.Invoke(LBS.loadedLevel);
             AssetDatabase.Refresh();

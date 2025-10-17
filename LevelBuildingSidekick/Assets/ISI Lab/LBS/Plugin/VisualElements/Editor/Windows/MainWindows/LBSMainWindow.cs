@@ -271,6 +271,7 @@ namespace ISILab.LBS.Editor.Windows{
             TopToolBar.OnThemeChanged += data => ChangeTheme(data);
             OnLayerChange += TopToolBar.LevelChange;
 
+            //S = SAVE = Save level
             rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.S)
@@ -279,13 +280,30 @@ namespace ISILab.LBS.Editor.Windows{
                     evt.StopPropagation();
                 }    
             }, TrickleDown.TrickleDown);
-
+            //O = OPEN = Load level
+            rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.ctrlKey && evt.keyCode == KeyCode.O)
+                {
+                    TopToolBar.LoadLevel();
+                    evt.StopPropagation();
+                }
+            }, TrickleDown.TrickleDown);
+            //N = NEW = New level
+            rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
+            {
+                if (evt.ctrlKey && evt.keyCode == KeyCode.N)
+                {
+                    TopToolBar.NewLevel();
+                    evt.StopPropagation();
+                }
+            }, TrickleDown.TrickleDown);
             #endregion
 
-            
+
             #region PANELS - INSPECTOR, EXTRA, LAYERS, GENERATOR
 
-            
+
             inspectorManager.InitTabs(ref layerTemplates);
             
             subPanelScrollView.Q<VisualElement>("unity-content-and-vertical-scroll-container").pickingMode = PickingMode.Ignore;
