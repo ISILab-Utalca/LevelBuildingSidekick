@@ -180,7 +180,6 @@ namespace ISILab.LBS
             CurrentLevel = loaded;
             CurrentLevel.data.Reload();
             return CurrentLevel;
-            
         }
     }
 }
