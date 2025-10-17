@@ -107,12 +107,27 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         public void NewLevel()
         {
-            var data = LBSController.CreateNewLevel("new file");
-            if(data!=null)
+            var answer = EditorUtility.DisplayDialog(
+                   "Current File Not Saved",
+                   "Progress in the current level will be lost. Proceed?",
+                   "confirm",
+                   "cancel");
+            switch (answer)
             {
-                OnNewLevel?.Invoke(data);
-                LBSMainWindow.MessageNotify("New level created.");
+                case true:
+                    var data = LBSController.CreateNewLevel("new file");
+                    if (data != null)
+                    {
+                        OnNewLevel?.Invoke(data);
+                     
+                        LBSMainWindow.MessageNotify("New level created.");
+                    }
+                    return;
+                case false:
+                    return;
             }
+
+            
         }
 
         public void LoadLevel(DropdownMenuAction dma)

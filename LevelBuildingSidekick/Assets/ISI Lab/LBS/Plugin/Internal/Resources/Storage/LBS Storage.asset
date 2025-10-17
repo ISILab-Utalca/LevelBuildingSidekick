@@ -180,6 +180,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: d57f8c64951f0934cb667ba5deedda8b, type: 2}
     - {fileID: 11400000, guid: ad79e30bed81d84479f35f9d1afc4ae4, type: 2}
     - {fileID: 11400000, guid: a8b90b100a4b48444aff37071ea4a507, type: 2}
+    - {fileID: 11400000, guid: 821622608c004054196e4735196b04a8, type: 2}
   - type: ISILab.LBS.LBSTagGroup
     items:
     - {fileID: 11400000, guid: 024b2b5cb9df3564fbc1a98774dec352, type: 2}
