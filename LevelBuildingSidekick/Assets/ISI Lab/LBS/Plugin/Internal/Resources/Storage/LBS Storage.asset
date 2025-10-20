@@ -626,7 +626,6 @@ MonoBehaviour:
   - type: UnityEngine.UIElements.VisualTreeAsset
     items:
     - {fileID: 9197481963319205126, guid: a438fd54162461e469fa4f9dd25400eb, type: 3}
-    - {fileID: 9197481963319205126, guid: 8d1b9963625c57c4682dd557f88c2e15, type: 3}
     - {fileID: 9197481963319205126, guid: a0573d1ee775943adb00717b348bf967, type: 3}
     - {fileID: 11400000, guid: 46c8e0bde8bfa5a4eadb9b33d3543bcd, type: 3}
     - {fileID: 11400000, guid: 1b45e34b5d565204db1307b88755e76d, type: 3}

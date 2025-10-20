@@ -285,7 +285,7 @@ namespace ISILab.LBS.Editor.Windows{
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.O)
                 {
-                    TopToolBar.LoadLevel();
+                    topToolBar.LoadLevel();
                     evt.StopPropagation();
                 }
             }, TrickleDown.TrickleDown);
@@ -294,7 +294,7 @@ namespace ISILab.LBS.Editor.Windows{
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.N)
                 {
-                    TopToolBar.NewLevel();
+                    topToolBar.NewLevel();
                     evt.StopPropagation();
                 }
             }, TrickleDown.TrickleDown);
