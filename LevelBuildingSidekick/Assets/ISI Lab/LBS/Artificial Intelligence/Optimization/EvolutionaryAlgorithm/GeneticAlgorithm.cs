@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization.Evaluator;
 using GeneticSharp.Domain;
 using GeneticSharp.Domain.Chromosomes;
@@ -123,18 +124,43 @@ namespace ISILab.AI.Optimization
             Termination = new GenerationNumberTermination(20);
         }
 
-        public override void RunOnce()
+        public override void RunOnce(Action<float> onProgress = null, CancellationToken token = default)
         {
             var parents = SelectParents();
-            var p = parents.Select(p => p as ChromosomeBase).ToList();
-            var offspring = Cross(p);
+
+            // Get parents as chromosome base
+            var parentsChromosomes = new List<ChromosomeBase>(parents.Count);
+            foreach (var parent in parents)
+            {
+                parentsChromosomes.Add(parent as ChromosomeBase);
+            }
+
+            // Crossover
+            var offspring = Cross(parentsChromosomes);
+            
+            // exit
+            if(token.IsCancellationRequested) return;
+            
             Mutate(offspring);
-            var children = offspring.Select(p => p as IOptimizable).ToList();
-            EvaluateFitness(children);
+
+            // Convert offspring to IOptimizable
+            var children = new List<IOptimizable>(offspring.Count);
+            foreach (var child in offspring)
+            {
+                children.Add(child);
+            }
+
+            // Evaluate and rebuild next generation
+            EvaluateFitness(children, onProgress, token);
+            
+            // exit
+            if(token.IsCancellationRequested) return;
+            
             var newGenerationChromosomes = Reinsert(children, parents);
             Population.CreateNewGeneration(newGenerationChromosomes);
             EndCurrentGeneration();
         }
+
 
         /// <summary>
         /// Reinsert the specified offspring and parents.
@@ -208,18 +234,24 @@ namespace ISILab.AI.Optimization
         /// <summary>
         /// Evaluates the fitness.
         /// </summary>
-        public override void EvaluateFitness(IList<IOptimizable> optimizables)
+        public override void EvaluateFitness(IList<IOptimizable> optimizables, Action<float> onProgress = null, CancellationToken token = default)
         {
             try
             {
-                for (int i = 0; i < optimizables.Count; i++)
+                for (int index = 0; index < optimizables.Count; index++)
                 {
-                    var c = optimizables[i];
-
+                    var c = optimizables[index];
+                    
+                    // exit
+                    if(token.IsCancellationRequested) return;
+                    
                     TaskExecutor.Add(() =>
                     {
                         RunEvaluateFitness(c);
                     });
+                    onProgress?.Invoke((float)index/optimizables.Count);
+                    Thread.Sleep(1);
+                   
                 }
 
                 if (!TaskExecutor.Start())

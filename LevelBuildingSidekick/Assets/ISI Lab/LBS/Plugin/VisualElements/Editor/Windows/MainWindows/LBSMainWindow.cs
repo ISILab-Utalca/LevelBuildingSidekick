@@ -97,7 +97,7 @@ namespace ISILab.LBS.Editor.Windows{
         public VisualElement inspectorPanelContainer;
 
         private VisualElement helpOverlayAnchor;
-        private ToolBarMain TopToolBar;
+        private ToolBarMain topToolBar;
         private InfoToolbar infoToolBar;
         private LBSWaitTaskOverlay taskOverlay;
 
@@ -155,7 +155,7 @@ namespace ISILab.LBS.Editor.Windows{
             
             helpOverlayAnchor = rootVisualElement.Q<VisualElement>("HelpOverlayAnchor");
             
-            TopToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
+            topToolBar = rootVisualElement.Q<ToolBarMain>("ToolBar");
             infoToolBar =  rootVisualElement.Q<InfoToolbar>("InfoToolbar");
             
             mainView = rootVisualElement.Q<MainView>("MainView");
@@ -259,24 +259,24 @@ namespace ISILab.LBS.Editor.Windows{
             #endregion
 
             #region TOOLBARS
-            TopToolBar.Bind(this);
+            topToolBar.Bind(this);
             
-            TopToolBar.OnLoadLevel += data =>
+            topToolBar.OnLoadLevel += data =>
             {
                 LBS.loadedLevel = data;
                 RefreshWindow();
                 //drawManager.RedrawLevel(levelData);
             };
             
-            TopToolBar.OnThemeChanged += data => ChangeTheme(data);
-            OnLayerChange += TopToolBar.LevelChange;
+            topToolBar.OnThemeChanged += data => ChangeTheme(data);
+            OnLayerChange += topToolBar.LevelChange;
 
             //S = SAVE = Save level
             rootVisualElement.RegisterCallback<KeyDownEvent>(evt =>
             {
                 if (evt.ctrlKey && evt.keyCode == KeyCode.S)
                 {
-                    TopToolBar.SaveLevel();
+                    topToolBar.SaveLevel();
                     evt.StopPropagation();
                 }    
             }, TrickleDown.TrickleDown);
@@ -538,17 +538,13 @@ namespace ISILab.LBS.Editor.Windows{
         }
         
         public static void MessageNotify(string message, LogType logType = LogType.Log, int duration = 3)
-        {       
-            if (notifier == null) return; 
-            notifier.SendNotification(message, logType, duration);
+        {
+            notifier?.SendNotification(message, logType, duration);
         }
         
         public void MessageManipulator(string description)
         {
-            if (infoToolBar != null)
-            {
-                infoToolBar.SmallMessage(description);
-            }
+            infoToolBar?.SmallMessage(description);
 
         }
         

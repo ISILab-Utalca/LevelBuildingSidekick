@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Commons.Optimization;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization.Populations;
@@ -33,18 +34,18 @@ namespace ISILab.AI.Optimization
             GetNeighbors = getNeighbors;
         }
 
-        public override void EvaluateFitness(IList<IOptimizable> optimizables)
+        public override void EvaluateFitness(IList<IOptimizable> optimizables, Action<float> onProgress = null, CancellationToken token = default)
         {
-            int c = 0;
-            foreach(var o in optimizables)
+            for (var index = 0; index < optimizables.Count; index++)
             {
+                var o = optimizables[index];
                 o.Fitness = Evaluator.Evaluate(o);
-                c++;
+                // Update progress
+                onProgress?.Invoke(0.5f + 0.5f * (float)index / optimizables.Count);
             }
-            //Debug.Log("Evaluate Fitness Count: " + c);
         }
 
-        public override void RunOnce()
+        public override void RunOnce(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock = new Stopwatch();
 
@@ -65,7 +66,25 @@ namespace ISILab.AI.Optimization
                 throw new NullReferenceException();
 
             clock.Restart();
-            var offsprings = GetNeighbors.Invoke(best);
+         
+            List<IOptimizable> offsprings = new List<IOptimizable>();
+            var invocations = GetNeighbors.GetInvocationList();
+
+            for (var index = 0; index < invocations.Length; index++)
+            {
+                var del = (Func<IOptimizable, List<IOptimizable>>)invocations[index];
+
+                // Update progress
+                onProgress?.Invoke( 0.5f *  (float)index / invocations.Length);
+
+                // Invoke and flatten
+                var result = del(best);
+                if (result != null)  offsprings.AddRange(result);
+            }
+            
+            // this is the old version
+           // List<IOptimizable> offsprings = GetNeighbors.Invoke(best);
+            
             clock.Stop();
             _nbrsTimer = clock.ElapsedMilliseconds / 1000f;
 
@@ -80,7 +99,7 @@ namespace ISILab.AI.Optimization
             }
             
             clock.Restart();
-            EvaluateFitness(offsprings);
+            EvaluateFitness(offsprings, onProgress, token);
             clock.Stop();
             _fitTimer = clock.ElapsedMilliseconds / 1000f;
 

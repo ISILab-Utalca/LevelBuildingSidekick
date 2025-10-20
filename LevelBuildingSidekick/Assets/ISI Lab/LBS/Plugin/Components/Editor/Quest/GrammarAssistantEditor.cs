@@ -1,7 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ISILab.Commons.Utility.Editor;
 using ISILab.Extensions;
@@ -9,6 +10,7 @@ using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.CustomComponents;
+using ISILab.LBS.Editor.Windows;
 using ISILab.LBS.Manipulators;
 using ISILab.LBS.Modules;
 using ISILab.LBS.VisualElements;
@@ -32,6 +34,8 @@ namespace ISILab.LBS.Editor
 
         private const float ActionBorderThickness = 1f;
         private const float BackgroundOpacity = 0.25f;
+        
+        private CancellationTokenSource _currentTaskCts;
         #endregion
 
         #region VIEW
@@ -117,33 +121,114 @@ namespace ISILab.LBS.Editor
                 return;
             }
 
-            var currentQuest = _questGraph.GetNodeAsQuest();
+            QuestNode currentQuest = _questGraph.GetNodeAsQuest();
             _paramActionLabel.text = currentQuest.QuestAction;
             _nodeIDLabel.text = currentQuest.ID;
             SetBaseDataValues(_questGraph.GetNodeData());
             
-            // TODO hook with the assistant progress bar
-            Task.Run(() =>
-            {
-                string[] nextArray = _grammarAssistant.GetAllValidNextActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                     ?? Array.Empty<string>();
-                string[] prevArray = _grammarAssistant.GetAllValidPrevActionsInsert(selectedAction, _questGraph)?.ToArray()
-                                     ?? Array.Empty<string>();
-                List<string>[] expandArray = _grammarAssistant.GetAllExpansions(selectedAction)
-                                                 ?.Select(l => l?.ToList() ?? new List<string>())
-                                                 .ToArray()
-                                             ?? Array.Empty<List<string>>();
-
-                // Switch back to Unity main thread for UI updates
-                EditorApplication.delayCall += () =>
-                {
-                    UpdateNextSuggestions(nextArray, currentQuest);
-                    UpdatePrevSuggestions(prevArray, currentQuest);
-                    UpdateExpandSuggestions(expandArray, currentQuest);
-                };
-            });
+            RunTask(currentQuest, selectedAction);
         }
 
+        void CancelCurrentTask()
+        {
+            if(_currentTaskCts == null) return;
+            if(_currentTaskCts.IsCancellationRequested) return;
+            _currentTaskCts.Cancel();
+        }
+        
+        void RunTask(QuestNode currentQuest, string selectedAction)
+        {
+            _currentTaskCts?.Cancel();
+
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar = LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();
+            
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+            
+            ResetPanels();
+            
+            taskbar.EnableProcess(true, _grammarAssistant.Name);
+            Task.Run(() =>
+            {
+                try
+                {
+                    void ReportProgress(float normalized)
+                    {
+                        // Use update so progress applies immediately
+                        EditorApplication.update += UpdateOnce;
+                        void UpdateOnce()
+                        {
+                            taskbar.SetProgressPercent(normalized);
+                            EditorApplication.update -= UpdateOnce;
+                        }
+                    }
+
+                    string[] nextArray = _grammarAssistant
+                        .GetAllValidNextActionsInsert(selectedAction, _questGraph, progress =>
+                        {
+                            // progress from 0 → 0.33
+                            ReportProgress(0.33f * progress);
+                        }, token)
+                        ?.ToArray() ?? Array.Empty<string>();
+
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    string[] prevArray = _grammarAssistant
+                        .GetAllValidPrevActionsInsert(selectedAction, _questGraph, progress =>
+                        {
+                            // progress from 0.33 → 0.66
+                            ReportProgress(0.33f + 0.33f * progress);
+                        }, token)
+                        ?.ToArray() ?? Array.Empty<string>();
+                    
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    List<string>[] expandArray = _grammarAssistant
+                        .GetAllExpansions(selectedAction, progress =>
+                        {
+                            // progress from 0.67 → 1.0
+                            ReportProgress(0.67f + 0.33f * progress);
+                        }, token)
+                        ?.Select(l => l?.ToList() ?? new List<string>())
+                        .ToArray() ?? Array.Empty<List<string>>();
+                    
+                    if (token.IsCancellationRequested)
+                    {
+                        ReportProgress(0);
+                        return;
+                    }
+                    
+                    // Once done, update UI safely
+                    EditorApplication.delayCall += () =>
+                    {
+                        UpdateNextSuggestions(nextArray, currentQuest);
+                        UpdatePrevSuggestions(prevArray, currentQuest);
+                        UpdateExpandSuggestions(expandArray, currentQuest);
+                        taskbar.EnableProcess(false);
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[GrammarAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () => taskbar.EnableProcess(false);
+                }
+
+            }, token);
+
+
+
+        }
 
         #region Helpers
         
@@ -301,7 +386,12 @@ namespace ISILab.LBS.Editor
         }
         
         #endregion
-        
+
+        public override void OnUnfocus()
+        {
+            LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>().CancelProgress();
+        }
+
         #endregion
     }
 }

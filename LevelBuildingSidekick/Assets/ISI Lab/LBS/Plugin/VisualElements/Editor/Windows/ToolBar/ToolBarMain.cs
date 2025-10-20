@@ -25,7 +25,8 @@ namespace ISILab.LBS.VisualElements.Editor
         public event Action<LBSSettings.Interface.InterfaceTheme> OnThemeChanged;
         
         public event Action OnProgressCompleted;
-
+        public event Action OnProgressCancelled;
+        
         #region  Visual Elements
             private LBSToolbarToggle keyMapToggle;
             private VisualElement taskInfo;
@@ -72,11 +73,32 @@ namespace ISILab.LBS.VisualElements.Editor
             taskProgressBar = this.Q<LBSCustomProgressBar>("TaskProgressBar");
             taskStopButton = this.Q<LBSToolbarButton>("TaskStop");
             
+            taskStopButton.clicked += () =>
+            {
+                EnableProcess(false);
+                OnProgressCancelled?.Invoke();
+            };
+            
             taskInfo.style.display = DisplayStyle.None;
             
         }
 
-
+        public void EnableProcess(bool enable, string assistantName = "Assistant")
+        {
+            var taskOverlay = MainWindow.rootVisualElement.Q<LBSWaitTaskOverlay>();
+            taskOverlay.ShowRect = enable;
+            
+            taskProgressBar.ProgressTextLabel = assistantName;
+            var percent = enable ? 0 : 1;
+            SetProgressPercent(percent);
+            taskInfo.style.display = enable ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+        public void SetProgressPercent(float percent)
+        {
+            taskProgressBar.title = $"{Mathf.RoundToInt(percent * 100)}%";
+            taskProgressBar.value = percent;    
+        }
+        
         public void Bind(LBSMainWindow _mainWindow)
         {
             MainWindow = _mainWindow;
@@ -175,6 +197,11 @@ namespace ISILab.LBS.VisualElements.Editor
             SettingsService.OpenProjectSettings("LBS");
         }
         
-        
+        public void CancelProgress()
+        {
+            OnProgressCancelled?.Invoke();
+            OnProgressCancelled = null;
+            EnableProcess(false);
+        }
     }
 }

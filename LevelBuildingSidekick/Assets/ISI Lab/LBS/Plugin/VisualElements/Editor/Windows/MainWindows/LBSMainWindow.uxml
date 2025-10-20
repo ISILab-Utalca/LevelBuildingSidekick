@@ -6,14 +6,14 @@
             <ui:VisualElement name="HelpOverlayAnchor" style="flex-grow: 1; position: absolute; height: 26px; width: 30px; top: 32px; left: 72px;" />
         </ISILab.LBS.VisualElements.Editor.MainView>
     </ui:VisualElement>
-    <ISILab.LBS.VisualElements.Editor.ToolBarMain name="ToolBar" style="height: 24px; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit;" />
+    <ISILab.LBS.VisualElements.Editor.ToolBarMain name="ToolBar" style="height: 24px; border-bottom-color: rgb(36, 36, 36); border-bottom-width: 1px; max-height: 24px; min-height: 24px; -unity-background-scale-mode: scale-to-fit; flex-shrink: 0;" />
     <ISILab.Commons.VisualElements.Editor.SplitView picking-mode="Ignore" fixed-pane-index="1" fixed-pane-initial-dimension="400" name="SplitView" style="justify-content: space-around; align-self: stretch; flex-direction: row-reverse; flex-wrap: wrap; align-items: flex-end;">
         <ui:VisualElement picking-mode="Ignore" name="Workspace" style="flex-grow: 1; display: flex; flex-shrink: 1; align-self: stretch; justify-content: space-around; align-items: stretch; flex-wrap: nowrap;">
             <LBS.VisualElements.LayerInspector name="LayerInspector" style="background-color: rgba(60, 60, 60, 0.39); max-height: 18px; min-height: 18px; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.59); display: none; flex-direction: row;" />
             <LBSStartedSign name="NoLayerSign" style="position: absolute; right: 0; bottom: 0; top: 0; left: 0; align-items: center; justify-content: center;" />
             <ui:VisualElement picking-mode="Ignore" name="WorspaceOverlay" style="width: auto; min-width: auto; min-height: auto; flex-direction: row; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; flex-grow: 1;">
                 <ui:VisualElement picking-mode="Ignore" style="flex-grow: 1; flex-direction: row; width: 406px; align-items: flex-start; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
-                    <LBS.VisualElements.ToolKit name="Toolkit" style="flex-grow: 0; min-width: auto;" />
+                    <LBS.VisualElements.ToolKit name="Toolkit" style="flex-grow: 0; min-width: auto; flex-shrink: 1;" />
                 </ui:VisualElement>
                 <ui:VisualElement picking-mode="Ignore" name="FloatingPanelContent" style="flex-grow: 1; width: 350px; max-width: 350px; min-width: 350px; flex-shrink: 0; align-self: stretch; flex-direction: row-reverse; justify-content: flex-end;">
                     <ui:ScrollView scroll-deceleration-rate="0,135" elasticity="0.2" vertical-scroller-visibility="Hidden" horizontal-scroller-visibility="Hidden" name="SubPanelScrollView" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); width: 350px; max-width: 350px; min-width: 350px; flex-shrink: 0;">
@@ -26,7 +26,7 @@
         <ui:VisualElement picking-mode="Ignore" name="InspectorNExtrabar" style="width: auto; height: auto; overflow: hidden; position: relative; flex-direction: row-reverse; flex-wrap: nowrap; flex-shrink: 1; align-items: stretch; justify-content: flex-start; flex-grow: 0; visibility: visible; align-self: stretch; max-width: none; right: auto; left: 0; min-width: 50px;">
             <ui:VisualElement name="Inspector" class="lbs_inspectorshow" style="transition-timing-function: linear; transition-duration: 0.12s;">
                 <ISILab.LBS.VisualElements.LBSInspectorPanel name="InspectorPanel" />
-                <ui:VisualElement name="HideBar" style="flex-wrap: wrap; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.2); border-right-width: 1px; border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-left-color: rgba(0, 0, 0, 0.2); justify-content: flex-end; min-height: auto; height: auto; flex-direction: row; width: 34px; align-self: flex-start;">
+                <ui:VisualElement name="HideBar" style="flex-wrap: wrap; border-bottom-width: 1px; border-bottom-color: rgba(0, 0, 0, 0.2); border-right-width: 1px; border-right-color: rgba(0, 0, 0, 0.2); border-top-color: rgba(0, 0, 0, 0.2); border-left-color: rgba(0, 0, 0, 0.2); justify-content: flex-end; min-height: auto; height: auto; flex-direction: row; width: 34px; align-self: flex-start; flex-shrink: 0;">
                     <ui:VisualElement style="align-self: flex-start; justify-content: flex-start; align-items: stretch; -unity-background-scale-mode: scale-to-fit;">
                         <ui:Button display-tooltip-when-elided="true" name="ButtonDisplayInspector" style="border-left-color: rgba(255, 255, 255, 0); border-right-color: rgba(255, 255, 255, 0); border-top-color: rgba(255, 255, 255, 0); border-bottom-color: rgba(255, 255, 255, 0); border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; background-image: resource(&apos;Icons/Vectorial/Icon=InspectorArrowRight&apos;); max-width: 32px; min-width: 24px; min-height: 24px; background-color: rgba(88, 88, 88, 0); scale: 0.75 0.75; -unity-background-scale-mode: scale-to-fit;" />
                     </ui:VisualElement>
@@ -58,5 +58,5 @@
             <ui:VisualElement name="Shadow" style="width: 5px; max-width: 5px; min-width: 5px; background-image: url(&quot;project://database/Assets/ISI%20Lab/Commons/Assets2D/Fade.png?fileID=2800000&amp;guid=a49e354fa998c454e9115ce30c3cba6d&amp;type=3#Fade&quot;); -unity-background-image-tint-color: rgba(2, 2, 2, 0.2); background-color: rgba(0, 0, 0, 0); display: none;" />
         </ui:VisualElement>
     </ISILab.Commons.VisualElements.Editor.SplitView>
-    <ISILab.LBS.VisualElements.Editor.InfoToolbar name="InfoToolbar" />
+    <ISILab.LBS.VisualElements.Editor.InfoToolbar name="InfoToolbar" style="flex-shrink: 0;" />
 </ui:UXML>

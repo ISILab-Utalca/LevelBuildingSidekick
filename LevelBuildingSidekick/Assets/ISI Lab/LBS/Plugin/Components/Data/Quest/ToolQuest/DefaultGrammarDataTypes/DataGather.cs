@@ -55,19 +55,19 @@ namespace ISILab.LBS.Components
             TrySetBundleType(layers, tiles,  ref bundleGatherType, validGatherType);
             if(bundleGatherType is null) return;
             
-            var BundleType = LBSAssetMacro.LoadAssetByGuid<Bundle>(bundleGatherType.GetGuid());
+            var BundleType = bundleGatherType.GetGuid();
             if(BundleType is null) return;
             
             var maxCount = 0;
             foreach (var tbg in tiles)
             {
-                if (tbg.BundleData.Bundle == BundleType)
+                if (tbg.GetGuid() == BundleType)
                 {
                     maxCount++;
                 }
             }
-            
-            gatherAmount = Random.Range(1, maxCount);
+            var rnd = new System.Random();
+            gatherAmount = rnd.Next(1, maxCount);
         }
     }
 }

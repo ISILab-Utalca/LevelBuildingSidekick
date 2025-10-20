@@ -12,7 +12,8 @@ using System.IO;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
 using System.Linq;
-
+using System.Threading;
+using System.Threading.Tasks;
 using ISILab.LBS.Assistants;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Drawers;
@@ -92,12 +93,16 @@ namespace ISILab.LBS.VisualElements.Editor
         #endregion
 
         #region FIELDS
+        
+        private CancellationTokenSource _currentTaskCts;
+        
         MAPElitesPreset MapEliteBundle
         {
             get => mapEliteBundle;
             set => mapEliteBundle = value;
         }
-        protected IRangedEvaluator currentXField
+
+        private IRangedEvaluator currentXField
         {
             get => mapEliteBundle?.XEvaluator;
             set
@@ -176,7 +181,7 @@ namespace ISILab.LBS.VisualElements.Editor
             param1Field = rootVisualElement.Q<ClassDropDown>("XParamDropdown");
             param1Field.Type = typeof(IRangedEvaluator);
             param1Field.value = defaultSelectText;
-            param1Field.RegisterValueChangedCallback(evt =>
+            param1Field.RegisterValueChangedCallback(_ =>
             {
                 //Failsafe stuff
                 if (param1Field.value == null) return;
@@ -195,7 +200,7 @@ namespace ISILab.LBS.VisualElements.Editor
             param2Field = rootVisualElement.Q<ClassDropDown>("YParamDropdown");
             param2Field.Type = typeof(IRangedEvaluator);
             param2Field.value = defaultSelectText;
-            param2Field.RegisterValueChangedCallback(evt =>
+            param2Field.RegisterValueChangedCallback(_ =>
             {
                 //Failsafe stuff
                 if (param2Field.value == null) return;
@@ -214,7 +219,7 @@ namespace ISILab.LBS.VisualElements.Editor
             optimizerField = rootVisualElement.Q<ClassDropDown>("ZParamDropdown");
             optimizerField.Type = typeof(IRangedEvaluator);
             optimizerField.value = defaultSelectText;
-            optimizerField.RegisterValueChangedCallback(evt =>
+            optimizerField.RegisterValueChangedCallback(_ =>
             {
                 if (optimizerField.value == null) return;
                 if (optimizerField.value == currentOptimizer?.Evaluator?.GetType().Name) return;
@@ -240,7 +245,7 @@ namespace ISILab.LBS.VisualElements.Editor
             openPresetButton.clicked += () => 
             {
                 if (presetField.value is not null)
-                    UnityEditor.Selection.activeObject = presetFieldRef.value;
+                    Selection.activeObject = presetFieldRef.value;
                 else LBSMainWindow.MessageNotify("No preset selected.", LogType.Warning);
             };
 
@@ -264,9 +269,9 @@ namespace ISILab.LBS.VisualElements.Editor
 
             //Grid
             rows = rootVisualElement.Q<SliderInt>("RowsSlideInt");
-            rows.RegisterValueChangedCallback(evt => UpdateGrid());
+            rows.RegisterValueChangedCallback(_ => UpdateGrid());
             columns = rootVisualElement.Q<SliderInt>("ColumnsSlideInt");
-            columns.RegisterValueChangedCallback(evt => UpdateGrid());
+            columns.RegisterValueChangedCallback(_ => UpdateGrid());
 
             gridContent = rootVisualElement.Q<VisualElement>("GridContent");
             UpdateGrid();
@@ -322,7 +327,7 @@ namespace ISILab.LBS.VisualElements.Editor
 
                 layerContextVE.UpdateData(Data.ContextLayers[index]);
                 LBSLayer layer = layerContextVE.LayerReference;
-                Data.OnContextChanged += (layer) => 
+                Data.OnContextChanged += (_) => 
                 {
                     layerList.Rebuild();
                 };
@@ -535,7 +540,7 @@ namespace ISILab.LBS.VisualElements.Editor
             assistant.SetAdam(assistant.RawToolRect, Data.ContextLayers);
 
             //TODO: Hay que pasarle el Optimizer a los Map Elites
-            LBSMainWindow.OnWindowRepaint += RepaintContent;
+         //   LBSMainWindow.OnWindowRepaint += RepaintContent;
 
             //Update button
             recalculate.text = "Recalculate";
@@ -543,7 +548,64 @@ namespace ISILab.LBS.VisualElements.Editor
             LBSMainWindow.MessageNotify("Calculating.");
 
             sw.Start();
-            assistant.Execute();
+
+            RunExecuteTask();
+        }
+
+        void CancelCurrentTask()
+        {
+            if(_currentTaskCts == null) return;
+            if(_currentTaskCts.IsCancellationRequested) return;
+            _currentTaskCts.Cancel();
+        }
+
+        private void RunExecuteTask()
+        {
+            _currentTaskCts?.Cancel();
+
+            _currentTaskCts = new CancellationTokenSource();
+            var token = _currentTaskCts.Token;
+
+            var taskbar = LBSMainWindow.Instance.rootVisualElement.Q<ToolBarMain>();
+
+            taskbar.OnProgressCancelled -= CancelCurrentTask;
+            taskbar.OnProgressCancelled += CancelCurrentTask;
+
+            void ReportProgress(float normalized)
+            {
+                // Use update so progress applies immediately
+                EditorApplication.delayCall += UpdateOnce;
+
+                void UpdateOnce()
+                {
+                    taskbar.SetProgressPercent(normalized);
+                    EditorApplication.delayCall -= UpdateOnce;
+                }
+            }
+
+            taskbar.EnableProcess(true, assistant.Name);
+            Task.Run(() =>
+            {
+                try
+                {
+                    assistant.Execute(false, ReportProgress, token);
+                    EditorApplication.delayCall += () =>
+                    {
+                        taskbar.EnableProcess(false);
+                        UpdateContent();
+                        Repaint();
+                    };
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"[MapElitesAssistant] Task failed: {ex}");
+                    EditorApplication.delayCall += () =>
+                    {
+                        taskbar.EnableProcess(false);
+                        UpdateContent();
+                    };
+                }
+            }, token);
         }
 
         //Apply the suggestion in the world
@@ -556,24 +618,35 @@ namespace ISILab.LBS.VisualElements.Editor
             var chrom = obj as BundleTilemapChromosome;
             if (chrom == null)
             {
-                if (selectedMap.Data == null) throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
+                if (selectedMap.Data == null)
+                {
+                    if (selectedMap.Data != null)
+                    {
+                        throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name +
+                                            " is not LBSChromosome!");
+                    }
+                }
             }
 
             var level = LBSController.CurrentLevel;
             EditorGUI.BeginChangeCheck();
             Undo.RegisterCompleteObjectUndo(level, "Add Element population");
 
-            var rect = chrom.Rect;
-
-            for (int i = 0; i < chrom.Length; i++)
+            if (chrom != null)
             {
-                var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
-                LayerPopulation.RemoveTileGroup(pos);
-                var gene = chrom.GetGene(i);
-                if (gene == null)
-                    continue;
-                LayerPopulation.AddTileGroup(pos, gene as BundleData);
+                var rect = chrom.Rect;
+
+                for (int i = 0; i < chrom.Length; i++)
+                {
+                    var pos = chrom.ToMatrixPosition(i) + rect.position.ToInt();
+                    LayerPopulation.RemoveTileGroup(pos);
+                    var gene = chrom.GetGene(i);
+                    if (gene == null)
+                        continue;
+                    LayerPopulation.AddTileGroup(pos, gene as BundleData);
+                }
             }
+
             DrawManager.Instance.RedrawLayer(assistant.OwnerLayer);
 
             if (EditorGUI.EndChangeCheck())
@@ -590,43 +663,46 @@ namespace ISILab.LBS.VisualElements.Editor
         private void PinSuggestion(object obj)
         {
             //Get chromosome
-            var objVE = obj as PopulationAssistantButtonResult;
-            var suggestionData = objVE.Data as BundleTilemapChromosome;
-            if (suggestionData == null)
+            if (obj is PopulationAssistantButtonResult objVE)
             {
-                throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
-            }
-
-            //Create bundle tile map
-            var newTileMap = new BundleTileMap();
-            for (int i = 0; i < suggestionData.GetGenes().Length; i++)
-            {
-                if (suggestionData.GetGenes()[i] != null)
+                var suggestionData = objVE.Data as BundleTilemapChromosome;
+                if (suggestionData == null)
                 {
-                    var geneData = suggestionData.GetGenes()[i] as BundleData;
-                    newTileMap.AddGroup(new TileBundleGroup(suggestionData.ToMatrixPosition(i), geneData.Bundle.TileSize, geneData, Vector2.right));
+                    throw new Exception("[ISI Lab] Data " + selectedMap.Data.GetType().Name + " is not LBSChromosome!");
                 }
-            }
 
-            //Get level data and layer
-            var layer = LayerPopulation.OwnerLayer;
-            var levelData = LayerPopulation.OwnerLayer.Parent;
-            var savedMapList = levelData.GetSavedMaps(layer);
-            if(savedMapList!=null)
-            {
-                //Check for duplicates
-                foreach (SavedMap storedMap in savedMapList.Maps)
+                //Create bundle tile map
+                var newTileMap = new BundleTileMap();
+                for (int i = 0; i < suggestionData.GetGenes().Length; i++)
                 {
-                    if (suggestionData.Equals(storedMap.Map))
+                    if (suggestionData.GetGenes()[i] != null)
                     {
-                        LBSMainWindow.MessageNotify("An equal suggestion already exists.", LogType.Warning);
-                        return;
+                        var geneData = suggestionData.GetGenes()[i] as BundleData;
+                        newTileMap.AddGroup(new TileBundleGroup(suggestionData.ToMatrixPosition(i), geneData.Bundle.TileSize, geneData, Vector2.right));
                     }
                 }
+
+                //Get level data and layer
+                var layer = LayerPopulation.OwnerLayer;
+                var levelData = LayerPopulation.OwnerLayer.Parent;
+                var savedMapList = levelData.GetSavedMaps(layer);
+                if(savedMapList!=null)
+                {
+                    //Check for duplicates
+                    foreach (SavedMap storedMap in savedMapList.Maps)
+                    {
+                        if (suggestionData.Equals(storedMap.Map))
+                        {
+                            LBSMainWindow.MessageNotify("An equal suggestion already exists.", LogType.Warning);
+                            return;
+                        }
+                    }
+                }
+                var newSavedMap = new SavedMap(suggestionData, "", (float)suggestionData.Fitness);
+                newSavedMap.Image = objVE.GetTexture();
+                levelData.SaveMapInLayer(newSavedMap, layer);
             }
-            var newSavedMap = new SavedMap(suggestionData, "", (float)suggestionData.Fitness);
-            newSavedMap.Image = objVE.GetTexture();
-            levelData.SaveMapInLayer(newSavedMap, layer);
+
             LBSMainWindow.MessageNotify("Suggestion pinned.");
             UpdatePins?.Invoke();
 
@@ -675,7 +751,7 @@ namespace ISILab.LBS.VisualElements.Editor
         }
         
         //Update all squares in the grid
-        public void UpdateContent()
+        private void UpdateContent()
         {
             var veChildren = GetButtonResults(new List<PopulationAssistantButtonResult>(), gridContent);
             for (int i = 0; i < assistant.toUpdate.Count &&

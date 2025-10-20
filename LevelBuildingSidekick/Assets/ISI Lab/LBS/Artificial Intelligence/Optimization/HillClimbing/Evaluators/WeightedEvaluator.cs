@@ -31,8 +31,7 @@ namespace ISILab.AI.Optimization
 
         public float Evaluate(IOptimizable evaluable)
         {
-            var r = UnityEngine.Random.Range(0f, 1f);
-
+            var r = new Random().NextDouble();
             var clock = new Stopwatch();
             clock.Restart();
             var fitness2 = ParallelEVA(evaluable);

@@ -47,16 +47,20 @@ namespace ISILab.LBS.Components
     public class BundleGraph : LayerTarget
     {
         [SerializeReference] [SerializeField] private TileBundleGroup tileBundle;
+        [SerializeField] private string guid;
         [SerializeField] private BaseQuestNodeData _nodeData;
         // must be assigned on all bundleGraphs to the Resize Function
         
         public BundleGraph(BaseQuestNodeData nodeData, LBSLayer layer = null, TileBundleGroup tileBundle = null)
         {
             this.layer = layer;
+            
             this.tileBundle = tileBundle;
             _nodeData = nodeData;
             
             if(this.tileBundle is null) return;
+            guid = this.tileBundle.GetGuid();
+            
             if(_nodeData is null) return;
             this.tileBundle!.OnRemoved += ClearTileBundle;
         }
@@ -79,8 +83,7 @@ namespace ISILab.LBS.Components
         public override bool Valid() => GetGuid() != string.Empty;
         public override string GetGuid()
         {
-            if(tileBundle?.BundleData?.Bundle is null) return string.Empty;
-            return LBSAssetMacro.GetGuidFromAsset(tileBundle.BundleData.Bundle);
+            return guid;
         }
         
     }
@@ -100,7 +103,7 @@ namespace ISILab.LBS.Components
             TileBundleGroup tileBundle = null)
         {
             this.layer = layer;
-            if (tileBundle != null) guid = LBSAssetMacro.GetGuidFromAsset(tileBundle.BundleData.Bundle);
+            if (tileBundle != null) guid = tileBundle.GetGuid();
         }
 
         public override string GetGuid()
@@ -308,12 +311,12 @@ namespace ISILab.LBS.Components
                 if (bRequireAllTags)
                 {
                     bTagRequirement = bundle.HasAllFlags(flags);
-                    if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
+                  //  if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
                 }
                 else
                 {
                     bTagRequirement = bundle.HasAnyFlag(flags);
-                    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
+                //    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
                 }
                 if(!bTagRequirement) continue;
                 
@@ -339,12 +342,12 @@ namespace ISILab.LBS.Components
                 if (bRequireAllTags)
                 {
                     bTagRequirement = bundle.HasAllFlags(flags);
-                    if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
+                 //   if(!bTagRequirement)Debug.Log($"{bundle}: missing a flag ({flags}). Can't assign as bundle graph");
                 }
                 else
                 {
                     bTagRequirement = bundle.HasAnyFlag(flags);
-                    if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
+                  //  if(!bTagRequirement)Debug.Log($"{bundle}: missing does not contain any of ({flags}). Can't assign as bundle graph");
                 }
                 if(!bTagRequirement) continue;
                 

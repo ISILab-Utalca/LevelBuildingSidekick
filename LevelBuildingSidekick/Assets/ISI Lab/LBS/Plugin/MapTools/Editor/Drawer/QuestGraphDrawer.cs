@@ -98,7 +98,6 @@ namespace ISILab.LBS.Drawers.Editor
                // view.AddElementToLayerContainer(questGraph.OwnerLayer, node, nodeView);
                 behaviour.Keys.Add(node);
             }
-
             
             foreach (var suggestNode in questGraph.Suggestions)
             {

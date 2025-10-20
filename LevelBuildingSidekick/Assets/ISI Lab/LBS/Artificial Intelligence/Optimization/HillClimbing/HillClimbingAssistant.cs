@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Commons.Optimization.Evaluator;
 using ISILab.AI.Optimization;
@@ -23,7 +24,7 @@ using Debug = UnityEngine.Debug;
 
 namespace ISILab.LBS.Assistants
 {
-    [System.Serializable]
+    [Serializable]
     [RequieredModule(
         typeof(TileMapModule),
         typeof(ConnectedTileMapModule),
@@ -50,6 +51,7 @@ namespace ISILab.LBS.Assistants
 
         private List<Zone> _prevZones;
         private Dictionary<Zone, ConstraintPair> _pairRefs = new();
+        
         #endregion
 
         #region PROPERTIES
@@ -75,10 +77,10 @@ namespace ISILab.LBS.Assistants
         {
         }
 
-        public bool TryExecute(out string failedLog)
+        public bool TryExecute(out string failedLog, Action<float> onProgress = null, CancellationToken token = default)
         {
             failedLog = null;
-            var modules = (hillClimbing.Adam as OptimizableModules).Modules;
+            var modules = (hillClimbing.Adam as OptimizableModules)?.Modules;
             
             int edgeCount = modules.GetModule<ConnectedZonesModule>().Edges.Count;
             int zoneCount = modules.GetModule<SectorizedTileMapModule>().ZonesWithTiles.Count;
@@ -92,77 +94,82 @@ namespace ISILab.LBS.Assistants
                 failedLog = "Cannot calculate the adjacency of a map if their nodes are not connected.";
                 return false;
             }
-            Execute();
+            Execute(onProgress, token);
             return true;
         }
 
-        public void Execute()
+        public void Execute(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock = new Stopwatch();
 
-            UnityEngine.Debug.Log("HillClimbing start!");
+            Debug.Log("HillClimbing start!");
             OnStart?.Invoke();
 
             clock.Start();
-            hillClimbing.Start();
+            hillClimbing.Start(onProgress, token);
             clock.Stop();
 
-            var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
-            var zones = modules.GetModule<SectorizedTileMapModule>();
+            var modules = (hillClimbing.BestCandidate as OptimizableModules)?.Modules;
+           // var zones = modules.GetModule<SectorizedTileMapModule>();
             var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
             schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
             RecalculateWalls(modules);
 
             SetDoors(modules);
 
+            System.Diagnostics.Debug.Assert(modules != null, nameof(modules) + " != null");
             foreach (var module in modules)
             {
-                var old = this.OwnerLayer.GetModule(module.ID);
-                this.OwnerLayer.ReplaceModule(old, module);
+                var old = OwnerLayer.GetModule(module.ID);
+                OwnerLayer.ReplaceModule(old, module);
             }
 
-            OwnerLayer.Reload();
-
-            OnTermination?.Invoke();
-
-            UnityEngine.Debug.Log("HillClimbing finish!");
+            Debug.Log("HillClimbing finish!");
             Debug.Log(
                 "Execute \n" +
                 "Time: " + clock.ElapsedMilliseconds / 1000f + " s. \n" +
                 "Ticks: " + clock.ElapsedTicks);
-
+            
         }
 
-        public void ExecuteOneStep()
+        public void ExecutionEnded()
+        {
+            OwnerLayer.Reload();
+            OnTermination?.Invoke();
+        }
+
+        public void ExecuteOneStep(Action<float> onProgress = null, CancellationToken token = default)
         {
             var clock = new Stopwatch();
 
-            UnityEngine.Debug.Log("HillClimbing one step, start!");
+            Debug.Log("HillClimbing one step, start!");
             OnStart?.Invoke();
 
             clock.Start();
-            hillClimbing.StartOne();
+            hillClimbing.StartOne(onProgress, token);
             clock.Stop();
 
             var modules = (hillClimbing.BestCandidate as OptimizableModules).Modules;
             var zones = modules.GetModule<SectorizedTileMapModule>();
             var schema = OwnerLayer.GetBehaviour<Behaviours.SchemaBehaviour>();
+            
+            if(token.IsCancellationRequested) return;
             schema.RequestFullRepaint(TileMapMod.Tiles, modules.GetModule<TileMapModule>().Tiles);
+           
+            if(token.IsCancellationRequested) return;
             RecalculateWalls(modules);
-
             SetDoors(modules);
 
+            // last cancel attempt before the modules are replaced
+            if(token.IsCancellationRequested) return;
+            
             foreach (var module in modules)
             {
-                var old = this.OwnerLayer.GetModule(module.ID);
-                this.OwnerLayer.ReplaceModule(old, module);
+                var old = OwnerLayer.GetModule(module.ID);
+                OwnerLayer.ReplaceModule(old, module);
             }
 
-            OwnerLayer.Reload();
-
-            OnTermination?.Invoke();
-
-            UnityEngine.Debug.Log("HillClimbing on step, finish!");
+            Debug.Log("HillClimbing on step, finish!");
             Debug.Log(
                 "Execute \n" +
                 "Time: " + clock.ElapsedMilliseconds / 1000f + " s. \n" +
@@ -297,15 +304,35 @@ namespace ISILab.LBS.Assistants
             return AreasMod.GetTiles(zone);
         }
 
-        public void RecalculateConstraint()
+        public void RecalculateConstraint(Action<float> onProgress = null, CancellationToken token = default)
         {
             var zoneModule = OwnerLayer.GetModule<SectorizedTileMapModule>();
             var zones = zoneModule.Zones;
 
+            var PreviousConstraints = ConstrainsZonesMod.Constraints;
             ConstrainsZonesMod.Clear();
 
-            foreach (var zone in zones)
+            for (var index = 0; index < zones.Count; index++)
             {
+                if (token.IsCancellationRequested)
+                {
+                    ConstrainsZonesMod.Clear();
+                    foreach (var constraintPair in PreviousConstraints)
+                    {
+                        var prevMin = new Vector2(
+                            constraintPair.Constraint.minWidth,
+                            constraintPair.Constraint.minHeight);
+
+                        var prevMax = new Vector2(
+                            constraintPair.Constraint.maxWidth,
+                            constraintPair.Constraint.maxHeight);
+                        
+                        ConstrainsZonesMod.AddPair(constraintPair.Zone, prevMin, prevMax);
+                    }
+                    return;
+                }
+                
+                var zone = zones[index];
                 var bounds = zoneModule.GetBounds(zone);
 
                 var min = new Vector2(bounds.width - 2, bounds.height - 2);
@@ -316,9 +343,11 @@ namespace ISILab.LBS.Assistants
                     min.y = 1;
 
                 var max = new Vector2(bounds.width + 2, bounds.height + 2);
-
+                
                 ConstrainsZonesMod.AddPair(zone, min, max);
-
+                
+                onProgress?.Invoke((float)index/zones.Count);
+                Thread.Sleep(1); // to draw
             }
         }
 
@@ -364,11 +393,11 @@ namespace ISILab.LBS.Assistants
 
             var selection = new EliteSelection();
             var termination = new FitnessStagnationTermination(1);
-            var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[]
+            var evaluator = new WeightedEvaluator(new Tuple<IEvaluator, float>[]
             {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
+            new Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 4f),
+            new Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
+            new Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
                 //new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
                 //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
             });
@@ -387,12 +416,12 @@ namespace ISILab.LBS.Assistants
 
             var selection = new EliteSelection();
             var termination = new FitnessStagnationTermination(1);
-            var evaluator = new WeightedEvaluator(new System.Tuple<IEvaluator, float>[]
+            var evaluator = new WeightedEvaluator(new Tuple<IEvaluator, float>[]
             {
-            new System.Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
-            new System.Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
-            new System.Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
-            new System.Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
+            new Tuple<IEvaluator, float> (new AdjacenciesEvaluator(layer), 0.4f),
+            new Tuple<IEvaluator, float> (new AreasEvaluator(layer), 0.15f),
+            new Tuple<IEvaluator, float> (new EmptySpaceEvaluator(layer), 0.35f),
+            new Tuple<IEvaluator, float> (new RoomCutEvaluator(layer), 1f),
                 //new System.Tuple<IEvaluator, float> (new StretchEvaluator(), 0.1f),
             });
             var population = new Population(1, 100, adam); // agregar parametros
@@ -763,7 +792,7 @@ namespace ISILab.LBS.Assistants
 
         public override object Clone()
         {
-            return new HillClimbingAssistant(this.Icon, this.Name, this.ColorTint);
+            return new HillClimbingAssistant(Icon, Name, ColorTint);
         }
 
         public override bool Equals(object obj)
@@ -772,7 +801,7 @@ namespace ISILab.LBS.Assistants
 
             if (other == null) return false;
 
-            if (!this.Name.Equals(other.Name)) return false;
+            if (!Name.Equals(other.Name)) return false;
 
             return true;
         }
