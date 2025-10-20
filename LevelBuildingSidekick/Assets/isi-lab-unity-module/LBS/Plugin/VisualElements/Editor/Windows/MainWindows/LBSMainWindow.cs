@@ -439,6 +439,8 @@ namespace ISILab.LBS.Editor.Windows{
         /// </summary>
         public void RefreshWindow()
         {
+            
+            
             mainView.Clear();
             this.rootVisualElement.Clear();
             
