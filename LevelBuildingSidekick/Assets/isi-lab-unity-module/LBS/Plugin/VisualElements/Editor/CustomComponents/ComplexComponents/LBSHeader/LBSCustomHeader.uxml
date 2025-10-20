@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/ISI%20Lab/LBS/Plugin/VisualElements/Styles/LBSstyle.uss?fileID=7433441132597879392&amp;guid=9614f5340894b3546b59d43b5f2be029&amp;type=3#LBSstyle" />
-    <ui:VisualElement name="Header" class="lbs-header-card" style="flex-grow: 1;">
-        <ui:VisualElement name="IconContainer" style="flex-grow: 0.1; min-height: auto; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.24); max-width: 64px;">
-            <ISILab.LBS.CustomComponents.LBSCustomImage name="HeaderIcon" l-b-s-image="project://database/Assets/ISI%20Lab/Macros/PlaceholderUIVector.svg?fileID=7388822144124034973&amp;guid=5aa5737462342b24c866198641cdaf08&amp;type=3#PlaceholderUIVector" class="lbs-icon" />
-        </ui:VisualElement>
-        <ui:Label tabindex="-1" text="LBS Header " display-tooltip-when-elided="true" name="HeaderLabel" style="padding-left: 5px; -unity-text-align: middle-left; flex-grow: 1;" />
-    </ui:VisualElement>
-</ui:UXML>
