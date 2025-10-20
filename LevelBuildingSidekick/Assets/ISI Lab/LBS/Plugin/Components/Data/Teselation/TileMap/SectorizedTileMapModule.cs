@@ -316,7 +316,7 @@ namespace ISILab.LBS.Modules
                             continue;
 
                         LBSTile neigh = tilemap.GetTileNeighbor(t, dir);
-                        if (neigh == null || !selection.Contains(neigh.Position) || !connectedTM.GetConnections(neigh)[Dirs.IndexOf(-dir)].Equals("Door"))
+                        if (neigh is null || !selection.Contains(neigh.Position) || connectedTM.GetPair(neigh) is null || !connectedTM.GetConnections(neigh)[Dirs.IndexOf(-dir)].Equals("Door"))
                             continue;
 
                         Zone otherZone = GetZone(neigh);

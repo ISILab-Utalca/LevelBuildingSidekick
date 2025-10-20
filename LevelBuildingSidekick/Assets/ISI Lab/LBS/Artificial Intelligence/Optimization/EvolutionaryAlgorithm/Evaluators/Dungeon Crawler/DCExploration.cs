@@ -34,7 +34,7 @@ namespace ISILab.AI.Categorization
             "This evaluator aims to balance the distances between every player and every \"point of interest\" such as chests, weapons and other resources, in order to maximize the explorable space.\n\n" +
             "This evaluator currently supports as Context the combination of any of the following layer types:\n" +
             "- Any type of Interior Layer.\n" +
-            "- A single Vertex-Based Exterior Layer.";
+            "- Vertex-Based Exterior Layers.";
 
         [SerializeField, SerializeReference]
         public LBSCharacteristic playerCharacteristic;

@@ -30,7 +30,9 @@ public interface IContextualEvaluator : IEvaluator
         if (interiorLayers.Count == 0) return null;
         
         //Clone first
-        var combinedLayer = interiorLayers.First().Clone() as LBSLayer;
+        var combinedLayer = interiorLayers[0].Clone() as LBSLayer;
+
+        if(interiorLayers.Count == 1) return combinedLayer;
 
         // Get important modules
         var combinedSectorizedTM = combinedLayer.GetModule<SectorizedTileMapModule>();
@@ -79,9 +81,11 @@ public interface IContextualEvaluator : IEvaluator
         List<LBSLayer> exteriorLayers = ContextLayers.FindAll(l => l.ID.Equals("Exterior"));
         if (exteriorLayers.Count == 0) return null;
 
-        return exteriorLayers[0];
+        //return exteriorLayers[0];
 
         var combinedLayer = exteriorLayers[0].Clone() as LBSLayer;
+
+        if (exteriorLayers.Count == 1) return combinedLayer;
 
         var combinedSectorTM = combinedLayer.GetModule<SectorizedTileMapModule>();
         var combinedConnectedTM = combinedLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
@@ -90,24 +94,29 @@ public interface IContextualEvaluator : IEvaluator
         {
             if (exteriorLayer.Equals(combinedLayer)) continue;
 
-            var tempBehaviour = exteriorLayer.Behaviours.Find(b => b.GetType().Equals(typeof(ExteriorBehaviour))) as ExteriorBehaviour;
-            var currentSectorTM = exteriorLayer.GetModule<SectorizedTileMapModule>();
+            //var tempBehaviour = exteriorLayer.Behaviours.Find(b => b.GetType().Equals(typeof(ExteriorBehaviour))) as ExteriorBehaviour;
             var combinedBehaviour = combinedLayer.Behaviours.Find(b => b.GetType().Equals(typeof(ExteriorBehaviour))) as ExteriorBehaviour;
 
-            
+            var currentSectorTM = exteriorLayer.GetModule<SectorizedTileMapModule>();
+            var currentConnectedTM = exteriorLayer.GetModule<ConnectedTileMapModule>("TempConnectedModule");
 
-            foreach(LBSTile tile in tempBehaviour.Tiles)
+            foreach(TileZonePair pair in currentSectorTM.PairTiles)
             {
-                if (combinedBehaviour.GetTile(tile.Position) is not null) continue;
-                var zone = currentSectorTM.Zones.Find(z => z.Positions.Contains(tile.Position));
+                LBSTile tile = pair.Tile;
+                //if (combinedBehaviour.GetTile(tile.Position) is not null) continue;
+                if (combinedSectorTM.GetPairTile(tile) is not null) continue;
+                var zone = currentSectorTM.PairTiles.Find(tzp => tzp.Tile.Equals(tile)).Zone;
+                    //.Zones.Find(z => z.Positions.Contains(tile.Position));
                 if(!combinedSectorTM.Zones.Contains(zone))
                 {
                     combinedSectorTM.AddZone(zone);
                 }
                 combinedSectorTM.AddTile(tile, zone);
+                combinedConnectedTM.AddPair(tile, currentConnectedTM.GetConnections(tile), currentConnectedTM.GetPair(tile).EditedByIA);
+                combinedLayer.GetModule<TileMapModule>().AddTile(tile);
             }
         }
-
+        
         return combinedLayer;
     }
 
