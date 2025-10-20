@@ -24,9 +24,9 @@
   "documentationUrl": "https://isilab-utalca.github.io/isilab-website/documentation/",
   "samples": [
     {
-      "displayName": "LBS",
-      "description": "Tool",
-      "path": ""
+      "displayName": "LBS Assets",
+      "description": "LBS Sample Assets",
+      "path": "/ExampleResources"
     }
   ]
 }
