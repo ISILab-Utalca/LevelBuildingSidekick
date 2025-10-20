@@ -1,0 +1,32 @@
+﻿{
+  "name": "com.isilab.lbs",
+  "version": "0.5.1",
+  "displayName": "Level Building Sidekick",
+  "description": "Plugin for LBS Toolkit Unity projects.",
+  "category":"Utility",
+  "unity": "6000.0",
+  "author": {
+    "name": "ISI LAB",
+    "url": "https://github.com/ISILab-Utalca/LevelBuildingSidekick.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.modules.imgui": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.vectorgraphics": "2.0.0-preview.25",
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "keywords": [
+    "Tools",
+    "AI"
+  ],
+  "documentationUrl": "https://isilab-utalca.github.io/isilab-website/documentation/",
+  "samples": [
+    {
+      "displayName": "LBS",
+      "description": "Tool",
+      "path": ""
+    }
+  ]
+}

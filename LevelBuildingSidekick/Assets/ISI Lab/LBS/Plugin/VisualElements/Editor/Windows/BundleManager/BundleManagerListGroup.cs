@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using ISILab.Commons.Utility.Editor;
 using ISILab.LBS.CustomComponents;
+using LBS.Bundles;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -44,12 +46,13 @@ namespace ISI_Lab.LBS.Plugin.VisualElements.Editor.Windows.BundleManager
             titleLabel = this.Q<Label>("TitleLabel");
             listView = this.Q<LBSCustomListView>("List");
             
-            
-            
-            
-            
-            
         }
+
+        public BundleManagerListGroup(ListView listView) : this()
+        {
+            //TODO: Implement this constuctor            
+        }
+        
     }
     
 }
