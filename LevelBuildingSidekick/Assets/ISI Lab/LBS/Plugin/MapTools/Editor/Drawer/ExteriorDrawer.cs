@@ -1,4 +1,5 @@
 using ISILab.Commons;
+using ISILab.Extensions;
 using ISILab.LBS.Behaviours;
 using ISILab.LBS.Components;
 using ISILab.LBS.Internal;
@@ -9,6 +10,7 @@ using LBS.Components.TileMap;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static ISILab.LBS.Modules.ConnectedTileMapModule;
@@ -40,6 +42,15 @@ namespace ISILab.LBS.Drawers
             }
         }
 
+        public override void Update(object target, MainView view, Vector2 teselationSize)
+        {
+            if (target is not ExteriorBehaviour exterior) return;
+            var connectMod = exterior.OwnerLayer.GetModule<ConnectedTileMapModule>();
+
+            PaintNewTiles(exterior, connectMod, teselationSize, view);
+            UpdateLoadedTiles(exterior, connectMod, teselationSize, view);
+        }
+
         private void PaintNewTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
         {
             int replaceCount = 0, createCount = 0;
@@ -58,7 +69,7 @@ namespace ISILab.LBS.Drawers
                     tView = previousElement[0] as ExteriorTileView;
                     tView.SetConnections(connections.ToArray());
                 }
-                else 
+                else
                 {
                     createCount++;
                     tView = GetTileView(newTile, connections, teselationSize, exterior.GridType);
@@ -68,7 +79,7 @@ namespace ISILab.LBS.Drawers
                         
                 tView.style.display = (DisplayStyle)(exterior.OwnerLayer.IsVisible ? 0 : 1);
 
-                UpdateTileView(ref tView, newTile, connections, teselationSize, exterior.GridType, exterior.OwnerLayer.index);
+                UpdateTileView(ref tView, newTile, teselationSize, exterior.GridType, exterior.OwnerLayer.index);
             }
             //Debug.Log($"Replaced: {replaceCount} | Created: {createCount}");
             //Debug.Log(view.graphElements.Count());
@@ -107,26 +118,31 @@ namespace ISILab.LBS.Drawers
                 }
             }
         }
-        //private void UpdateTileView(ref ExteriorTileView tView, LBSTile tile, List<string> connections, Vector2 teselationSize, int layerIndex)
+        
         private void UpdateTileView(ref ExteriorTileView tView, LBSTile tile, List<string> connections, Vector2 teselationSize, ConnectedTileType gridType, int layerIndex)
         {
-            //switch(gridType)
-            //{
-            //    case ConnectedTileType.EdgeBased:
-            //        (tView as EdgeExteriorTileView).SetConnections(connections.ToArray());
-            //        break;
-            //    case ConnectedTileType.VertexBased:
-            //        (tView as VertexExteriorTileView).SetConnections(connections.ToArray());
-            //        break;
-            //}
-            //tView.SetConnections(connections.ToArray());
+            switch(gridType)
+            {
+                case ConnectedTileType.EdgeBased:
+                    (tView as EdgeExteriorTileView).SetConnections(connections.ToArray());
+                    break;
+                case ConnectedTileType.VertexBased:
+                    (tView as VertexExteriorTileView).SetConnections(connections.ToArray());
+                    break;
+            }
+            UpdateTileView(ref tView, tile, teselationSize, gridType, layerIndex);
+        }
+
+        private void UpdateTileView(ref ExteriorTileView tView, LBSTile tile, Vector2 teselationSize, ConnectedTileType gridType, int layerIndex)
+        {
             var pos = new Vector2(tile.Position.x, -tile.Position.y);
 
             Vector2 size = DefalutSize * teselationSize;
             tView.SetPosition(new Rect(pos * size, size));
-            
+
             tView.layer = layerIndex;
         }
+
         private void LoadAllTiles(ExteriorBehaviour exterior, ConnectedTileMapModule connectMod, Vector2 teselationSize, MainView view)
         {
                 int replaceCount = 0, createCount = 0;

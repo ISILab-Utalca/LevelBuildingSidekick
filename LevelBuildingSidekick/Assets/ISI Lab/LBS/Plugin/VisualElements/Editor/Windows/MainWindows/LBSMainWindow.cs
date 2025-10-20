@@ -524,7 +524,7 @@ namespace ISILab.LBS.Editor.Windows{
             if (_selectedLayer is not null)
             {
                 _selectedLayer.OnChangeUpdate();
-                DrawManager.Instance.RedrawLayer(_selectedLayer);
+                DrawManager.Instance.UpdateLayer(_selectedLayer);
             }
             else DrawManager.ReDraw();
             

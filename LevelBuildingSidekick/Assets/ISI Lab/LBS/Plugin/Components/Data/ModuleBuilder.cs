@@ -172,7 +172,7 @@ namespace ISILab.LBS.Modules
                             }
                             else
                             {
-                                toSet = "Wall";
+                                toSet = "Door";
                             }
                         }
                         zoneConnected.SetConnection(tile, i, toSet, false);
