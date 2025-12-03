@@ -1,3 +1,3 @@
-[submodule "LevelBuildingSidekick/Assets/isi-lab-unity-module"]
-	path = LevelBuildingSidekick/Assets/isi-lab-unity-module
-	url = https://github.com/ISILab-Utalca/isi-lab-unity-module.git
+[submodule "LevelBuildingSidekick/Assets/ISILab"]
+	path = LevelBuildingSidekick/Assets/ISILab
+	url = https://github.com/ISILab-Utalca/ISILab.git
