@@ -2,6 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Assets/isi-lab-unity-module" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Assets/ISILab" vcs="Git" />
   </component>
 </project>
