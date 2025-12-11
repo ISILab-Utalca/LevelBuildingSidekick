@@ -1,3 +1,6 @@
 [submodule "LevelBuildingSidekick/Assets/ISILab"]
 	path = LevelBuildingSidekick/Assets/ISILab
 	url = https://github.com/ISILab-Utalca/ISILab.git
+[submodule "LevelBuildingSidekick/Assets/CharacterBrainBooster"]
+	path = LevelBuildingSidekick/Assets/CharacterBrainBooster
+	url = https://github.com/ISILab-Utalca/CharacterBrainBooster.git
