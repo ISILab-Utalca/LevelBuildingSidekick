@@ -17,6 +17,7 @@ MonoBehaviour:
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
+  iconGuid: 
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 5010330683904878901, guid: 380bdf4a85defb247b2e162dfbfc8a6b, type: 3}
@@ -29,7 +30,7 @@ MonoBehaviour:
     probability: 0.441
   characteristics:
   - rid: 5018258193639015164
-  populationType: 0
+  elementFlag: 0
   tileSize: {x: 1, y: 1}
   childsBundles: []
   microGenTool:
@@ -42,6 +43,8 @@ MonoBehaviour:
     mesh: {fileID: 0}
     material: {fileID: 0}
   guid: 
+  entityType: 0
+  admissibleTypes: 
   references:
     version: 2
     RefIds:
