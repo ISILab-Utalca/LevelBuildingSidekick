@@ -17,10 +17,12 @@ MonoBehaviour:
   type: 0
   anchorPosition: 0
   color: {r: 0, g: 0, b: 0, a: 0}
+  iconGuid: 
   icon: {fileID: 0}
   assets:
   - obj: {fileID: 919132149155446097, guid: 4a904ef4b68a8e64b95c9cc982daf571, type: 3}
     probability: 0
+    id: 
   characteristics:
   - rid: 1303960516350706405
   elementFlag: 0
@@ -36,6 +38,8 @@ MonoBehaviour:
     mesh: {fileID: 0}
     material: {fileID: 0}
   guid: 8496942e57574694b854cea8b3e2fa18
+  entityType: 0
+  admissibleTypes: 
   references:
     version: 2
     RefIds:
