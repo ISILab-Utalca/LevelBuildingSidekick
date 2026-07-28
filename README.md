@@ -6,6 +6,7 @@ LBS is an extension designed for Unity Engine, which facilitates developers in c
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Documentation](#documentation)
 - [License](#license)
 - [Other Projects](#other-projects)
 
@@ -20,8 +21,8 @@ The architecture of this tool is oriented towards element composition, allowing 
 
 ## Installation
 LBS, an extension for Unity Engine, follows a standard installation process similar to other Unity extensions. Below are the necessary steps for installation:
-* **System Requirements:** This extension is developed to be compatible with Unity versions 2022.3.3f1 or higher.
-* **Download the asset package:** To start the installation, it is required to download the asset package [LBS.package](https://www.google.com/). Once downloaded, simply have Unity Engine open and double-click on the downloaded file. The engine will recognize the package and open a window that will facilitate its import.
+* **System Requirements:** This extension is developed to be compatible with Unity versions 6000.0.80f1 or higher.
+* **Download the asset package:** To start the installation, it is required to download the asset package LBS.package. Once downloaded, simply have Unity Engine open and double-click on the downloaded file. The engine will recognize the package and open a window that will facilitate its import.
 * **Additional dependencies:** It is important to note that this tool has dependencies with [Newtonsoft Json](https://docs.unity3d.com/2019.4/Documentation/Manual/com.unity.nuget.newtonsoft-json.html). If this is not installed previously, the project may present multiple errors. To solve this, make sure to install it from Unity's Package Manager.
 
 ## Usage
@@ -31,9 +32,13 @@ In the main window, you will find a large working area visualized with a tiling 
 
 In addition to this, we can find in the vertical bar between these two aforementioned elements 3 general buttons, which will allow showing and hiding 3 main panels to organize the work. The first corresponds to a panel to organize the content of the level by layers, the second corresponds to a panel to work by layers the quests that are created on these levels, and the third corresponds to the panel that will allow us to pass these levels to structures directly usable in unity.
 
-For detailed information on the different layers that can be created, how the assistants work, and how to interact with the tool more specifically, it is recommended to review the "user manual" available [here](https://isilab-utalca.github.io/isilab-website/documentation/tutorials/lbs/overview/)
-## License
+## Documentation
+The extended documentation for this project is available [here](https://isilab-utalca.github.io/ISILab/index.html).
+
+## License 
 The license for this project is available in the LICENSE file in this repository. For more details on the license terms and conditions, please see [here](LICENSE).
+
+To use LBS in commercial projects, you can purchase a commercial license directly from the Unity Asset Store [here](https://assetstore.unity.com/packages/tools/level-design/level-building-sidekick-308621).
 
 ## Other Projects
 Thank you for reviewing this project! To discover more interesting projects, we invite you to visit our website [ISILab.cl](https://isilab.utalca.cl/) and explore everything we have to offer.
