@@ -26,7 +26,7 @@ LBS, an extension for Unity Engine, follows a standard installation process simi
 * **Additional dependencies:** It is important to note that this tool has dependencies with [Newtonsoft Json](https://docs.unity3d.com/2019.4/Documentation/Manual/com.unity.nuget.newtonsoft-json.html). If this is not installed previously, the project may present multiple errors. To solve this, make sure to install it from Unity's Package Manager.
 
 ### Recommended Installation
-We have an alternative repository so LBS can be installed through the "Install package from git URL" option. In this case please copy the following link https://github.com/ISILab-Utalca/ISILab then go to Window>Package Manager and click + > "Install package from git". In order to do this you need to have git installed in your machine.
+We have an alternative repository so LBS can be installed through the "Install package from git URL" option. In this case please copy the following link https://github.com/ISILab-Utalca/ISILab.git then go to Window>Package Manager and click + > "Install package from git". In order to do this you need to have git installed in your machine.
 
 <img width="1241" height="874" alt="lbs_test_installation (2)-01" src="https://github.com/user-attachments/assets/072a21ab-9c44-4b46-ba59-68feac40ba15" />
 
