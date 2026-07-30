@@ -25,6 +25,11 @@ LBS, an extension for Unity Engine, follows a standard installation process simi
 * **Download the asset package:** To start the installation, it is required to download the asset package LBS.package. Once downloaded, simply have Unity Engine open and double-click on the downloaded file. The engine will recognize the package and open a window that will facilitate its import.
 * **Additional dependencies:** It is important to note that this tool has dependencies with [Newtonsoft Json](https://docs.unity3d.com/2019.4/Documentation/Manual/com.unity.nuget.newtonsoft-json.html). If this is not installed previously, the project may present multiple errors. To solve this, make sure to install it from Unity's Package Manager.
 
+### Recommended Alternative Installation
+We have an alternative repository so LBS can be installed through the "Install package from git URL" option. In this case please go [here](https://github.com/ISILab-Utalca/LevelBuildingSidekick).
+
+<img width="1241" height="875" alt="lbs_test_installation" src="https://github.com/user-attachments/assets/0cdeed5b-9ca9-4aba-b401-a0670443c1e3" />
+
 ## Usage
 To start working, select the ISILab window in Window>ISILab>LevelBuildingSidekick, this will open the main window of the tool with which you can start working. Next, we will provide a series of general descriptions that you can follow to manage the tool:
 
