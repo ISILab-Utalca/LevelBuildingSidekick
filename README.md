@@ -28,7 +28,7 @@ LBS, an extension for Unity Engine, follows a standard installation process simi
 ### Recommended Alternative Installation
 We have an alternative repository so LBS can be installed through the "Install package from git URL" option. In this case please go [here](https://github.com/ISILab-Utalca/LevelBuildingSidekick).
 
-<img width="1241" height="875" alt="lbs_test_installation" src="https://github.com/user-attachments/assets/0cdeed5b-9ca9-4aba-b401-a0670443c1e3" />
+<img width="1241" height="874" alt="lbs_test_installation (2)-01" src="https://github.com/user-attachments/assets/072a21ab-9c44-4b46-ba59-68feac40ba15" />
 
 ## Usage
 To start working, select the ISILab window in Window>ISILab>LevelBuildingSidekick, this will open the main window of the tool with which you can start working. Next, we will provide a series of general descriptions that you can follow to manage the tool:
