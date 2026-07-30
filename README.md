@@ -25,7 +25,7 @@ LBS, an extension for Unity Engine, follows a standard installation process simi
 * **Download the asset package:** To start the installation, it is required to download the asset package LBS.package. Once downloaded, simply have Unity Engine open and double-click on the downloaded file. The engine will recognize the package and open a window that will facilitate its import.
 * **Additional dependencies:** It is important to note that this tool has dependencies with [Newtonsoft Json](https://docs.unity3d.com/2019.4/Documentation/Manual/com.unity.nuget.newtonsoft-json.html). If this is not installed previously, the project may present multiple errors. To solve this, make sure to install it from Unity's Package Manager.
 
-### Recommended Alternative Installation
+### Recommended Installation
 We have an alternative repository so LBS can be installed through the "Install package from git URL" option. In this case please go [here](https://github.com/ISILab-Utalca/LevelBuildingSidekick).
 
 <img width="1241" height="874" alt="lbs_test_installation (2)-01" src="https://github.com/user-attachments/assets/072a21ab-9c44-4b46-ba59-68feac40ba15" />
