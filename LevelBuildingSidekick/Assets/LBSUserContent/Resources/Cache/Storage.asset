@@ -840,3 +840,11 @@ MonoBehaviour:
   - type: UnityEngine.UIElements.PanelSettings
     items:
     - {fileID: 11400000, guid: da6adae693698d3409943a20661e2031, type: 2}
+  - type: ISILab.LBS.Plugin.MapTools.Editor.Templates.LayerTemplate
+    items:
+    - {fileID: 11400000, guid: 253f372750fae784d9a42445a8e08fcc, type: 2}
+    - {fileID: 11400000, guid: 531e915267477db4e886c2e6401c4372, type: 2}
+    - {fileID: 11400000, guid: c625e6e7ed3da0a47ab3d495ddcc5a2f, type: 2}
+  - type: ISILab.LBS.Plugin.Components.Bundles.Bundle
+    items:
+    - {fileID: 11400000, guid: a8b90b100a4b48444aff37071ea4a507, type: 2}

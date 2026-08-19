@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "com.malee.reorderablelist": "https://github.com/cfoulston/Unity-Reorderable-List.git",
     "com.unity.ai.navigation": "2.0.13",
+    "com.unity.asset-manager-for-unity": "1.11.0",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.feature.development": "1.0.2",
     "com.unity.formats.fbx": "5.1.6",
